@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="620" viewBox="0 0 1080 620" role="img" aria-labelledby="title desc">
+  <title id="title">AO Foundry portfolio loop</title>
+  <desc id="desc">Shows Foundry coordinating repository registry, task queue, readiness ledger, delegated Forge runs, CI evidence, and release handoff.</desc>
+  <defs><marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M2,2 L10,6 L2,10 Z" fill="#334155"/></marker></defs>
+  <rect width="1080" height="620" fill="#fffaf0"/>
+  <text x="52" y="58" font-family="Arial" font-size="30" font-weight="700" fill="#2c1c05">AO Foundry: portfolio operations factory</text>
+  <rect x="394" y="242" width="292" height="120" rx="16" fill="#fff1d6" stroke="#c9811d" stroke-width="3"/>
+  <text x="458" y="292" font-family="Arial" font-size="25" font-weight="700" fill="#2c1c05">AO Foundry</text>
+  <text x="430" y="322" font-family="Arial" font-size="15" fill="#475569">registry, readiness, release trains, loops</text>
+  <g font-family="Arial" font-size="16" font-weight="700">
+    <rect x="88" y="144" width="210" height="74" rx="12" fill="#ffffff" stroke="#c9811d" stroke-width="2"/>
+    <text x="135" y="188">Repo registry</text>
+    <rect x="88" y="394" width="210" height="74" rx="12" fill="#ffffff" stroke="#c9811d" stroke-width="2"/>
+    <text x="137" y="438">Task queue</text>
+    <rect x="782" y="144" width="210" height="74" rx="12" fill="#e8ecff" stroke="#5967c9" stroke-width="2"/>
+    <text x="826" y="188">Forge run</text>
+    <rect x="782" y="394" width="210" height="74" rx="12" fill="#e7f6ee" stroke="#4d8d52" stroke-width="2"/>
+    <text x="824" y="438">CI evidence</text>
+    <rect x="394" y="492" width="292" height="74" rx="12" fill="#ffffff" stroke="#c9811d" stroke-width="2"/>
+    <text x="460" y="536">Release handoff</text>
+  </g>
+  <g stroke="#334155" stroke-width="2.4" fill="none" marker-end="url(#arrow)">
+    <path d="M298 181 C360 200 375 236 394 278"/>
+    <path d="M298 431 C360 410 375 368 394 326"/>
+    <path d="M686 278 C724 238 748 206 782 181"/>
+    <path d="M887 218 L887 394"/>
+    <path d="M782 431 C720 448 690 492 686 529"/>
+    <path d="M394 529 C318 508 258 470 298 431"/>
+  </g>
+  <text x="74" y="588" font-family="Arial" font-size="15" fill="#334155">Foundry decides which repo or release train is ready for delegated work; Forge still owns each governed run.</text>
+</svg>

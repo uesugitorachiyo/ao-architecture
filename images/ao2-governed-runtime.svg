@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="620" viewBox="0 0 1080 620" role="img" aria-labelledby="title desc">
+  <title id="title">AO2 governed runtime</title>
+  <desc id="desc">Shows AO2 workflow compile, role execution, policy gateway, adapter sandbox, artifact store, reviewer concern, evaluator closure, and evidence export.</desc>
+  <defs><marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M2,2 L10,6 L2,10 Z" fill="#334155"/></marker></defs>
+  <rect width="1080" height="620" fill="#f3f9ff"/>
+  <text x="52" y="58" font-family="Arial" font-size="30" font-weight="700" fill="#102338">AO2: governed execution runtime</text>
+  <g font-family="Arial">
+    <rect x="70" y="132" width="180" height="80" rx="12" fill="#ffffff" stroke="#2678bd" stroke-width="2"/>
+    <text x="112" y="166" font-size="17" font-weight="700">Workflow</text>
+    <text x="105" y="190" font-size="13" fill="#475569">compile run context</text>
+    <rect x="300" y="132" width="180" height="80" rx="12" fill="#fff6df" stroke="#c9811d" stroke-width="2"/>
+    <text x="344" y="166" font-size="17" font-weight="700">Policy gate</text>
+    <text x="327" y="190" font-size="13" fill="#475569">exact-digest approval</text>
+    <rect x="530" y="132" width="180" height="80" rx="12" fill="#ffffff" stroke="#2678bd" stroke-width="2"/>
+    <text x="575" y="166" font-size="17" font-weight="700">Adapter</text>
+    <text x="555" y="190" font-size="13" fill="#475569">scripted, Codex, Claude</text>
+    <rect x="760" y="132" width="180" height="80" rx="12" fill="#ffffff" stroke="#2678bd" stroke-width="2"/>
+    <text x="805" y="166" font-size="17" font-weight="700">Artifacts</text>
+    <text x="800" y="190" font-size="13" fill="#475569">digests + lineage</text>
+    <rect x="300" y="360" width="180" height="80" rx="12" fill="#ffffff" stroke="#2678bd" stroke-width="2"/>
+    <text x="342" y="394" font-size="17" font-weight="700">Reviewer</text>
+    <text x="323" y="418" font-size="13" fill="#475569">concerns + evidence</text>
+    <rect x="530" y="360" width="180" height="80" rx="12" fill="#e7f6ee" stroke="#4d8d52" stroke-width="2"/>
+    <text x="566" y="394" font-size="17" font-weight="700">Evaluator</text>
+    <text x="553" y="418" font-size="13" fill="#475569">accepts or rejects</text>
+    <rect x="760" y="360" width="180" height="80" rx="12" fill="#e7f6ee" stroke="#4d8d52" stroke-width="2"/>
+    <text x="800" y="394" font-size="17" font-weight="700">Evidence</text>
+    <text x="797" y="418" font-size="13" fill="#475569">pack, report, export</text>
+  </g>
+  <g stroke="#334155" stroke-width="2.4" fill="none" marker-end="url(#arrow)">
+    <path d="M250 172 L300 172"/>
+    <path d="M480 172 L530 172"/>
+    <path d="M710 172 L760 172"/>
+    <path d="M850 212 C820 300 748 350 710 390"/>
+    <path d="M530 400 L480 400"/>
+    <path d="M710 400 L760 400"/>
+    <path d="M390 360 C355 292 335 238 390 212"/>
+  </g>
+  <text x="70" y="538" font-family="Arial" font-size="15" fill="#334155">Key trust rule: adapters are replaceable clients; AO2 owns run state, policy gates, artifacts, replay, closure, and evidence export.</text>
+</svg>

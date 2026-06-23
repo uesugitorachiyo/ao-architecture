@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="620" viewBox="0 0 1280 620" role="img" aria-labelledby="title desc">
+  <title id="title">Evidence-first factory flow</title>
+  <desc id="desc">Shows the lifecycle from objective to operator summary, emphasizing policy decisions, governed execution, evidence export, control-plane ingest, and factory readiness.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .bg { fill: #fbfcfe; }
+      .title { font: 700 32px Arial, sans-serif; fill: #172033; }
+      .step { fill: #ffffff; stroke: #60708a; stroke-width: 2; rx: 12; }
+      .gate { fill: #fff6df; stroke: #c98216; stroke-width: 2; rx: 12; }
+      .evidence { fill: #eaf7ed; stroke: #4d8d52; stroke-width: 2; rx: 12; }
+      .text { font: 700 16px Arial, sans-serif; fill: #172033; }
+      .small { font: 400 13px Arial, sans-serif; fill: #475569; }
+      .arrow { stroke: #334155; stroke-width: 2.2; fill: none; marker-end: url(#arrow); }
+      .lane { font: 700 14px Arial, sans-serif; fill: #334155; }
+    </style>
+  </defs>
+  <rect class="bg" width="1280" height="620"/>
+  <text class="title" x="56" y="58">Evidence-first orchestration workflow</text>
+
+  <rect class="step" x="56" y="126" width="178" height="92"/>
+  <text class="text" x="91" y="164">Objective</text>
+  <text class="small" x="82" y="190">operator intent</text>
+
+  <rect class="step" x="282" y="126" width="178" height="92"/>
+  <text class="text" x="325" y="164">Foundry</text>
+  <text class="small" x="312" y="190">portfolio queue</text>
+
+  <rect class="step" x="508" y="126" width="178" height="92"/>
+  <text class="text" x="552" y="164">Forge</text>
+  <text class="small" x="532" y="190">GoalRun + plan</text>
+
+  <rect class="gate" x="734" y="126" width="178" height="92"/>
+  <text class="text" x="772" y="164">Covenant</text>
+  <text class="small" x="756" y="190">policy decision</text>
+
+  <rect class="step" x="960" y="126" width="178" height="92"/>
+  <text class="text" x="1030" y="164">AO2</text>
+  <text class="small" x="1002" y="190">governed run</text>
+
+  <path class="arrow" d="M234 172 L282 172"/>
+  <path class="arrow" d="M460 172 L508 172"/>
+  <path class="arrow" d="M686 172 L734 172"/>
+  <path class="arrow" d="M912 172 L960 172"/>
+
+  <rect class="evidence" x="182" y="334" width="206" height="98"/>
+  <text class="text" x="225" y="371">Run evidence</text>
+  <text class="small" x="213" y="398">events, artifacts, logs</text>
+
+  <rect class="evidence" x="438" y="334" width="206" height="98"/>
+  <text class="text" x="474" y="371">Evidence pack</text>
+  <text class="small" x="474" y="398">closure + digests</text>
+
+  <rect class="evidence" x="694" y="334" width="206" height="98"/>
+  <text class="text" x="727" y="371">Control-plane</text>
+  <text class="small" x="726" y="398">signed ingest + readback</text>
+
+  <rect class="evidence" x="950" y="334" width="206" height="98"/>
+  <text class="text" x="1000" y="371">Operator</text>
+  <text class="small" x="987" y="398">packet, status, next action</text>
+
+  <path class="arrow" d="M1049 218 C1049 286 984 330 900 365"/>
+  <path class="arrow" d="M694 383 L644 383"/>
+  <path class="arrow" d="M438 383 L388 383"/>
+  <path class="arrow" d="M388 383 C300 294 596 252 597 218"/>
+  <path class="arrow" d="M900 383 L950 383"/>
+
+  <text class="lane" x="56" y="285">Execution lane: plan and gate before side effects</text>
+  <text class="lane" x="56" y="488">Evidence lane: every transition leaves a durable, schema-backed record</text>
+</svg>

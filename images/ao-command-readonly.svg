@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="560" viewBox="0 0 1080 560" role="img" aria-labelledby="title desc">
+  <title id="title">AO Command read-only command center</title>
+  <desc id="desc">AO Command reads evidence from Forge, Foundry, Covenant, AO2, and the control plane without mutating provider or release state.</desc>
+  <defs><marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M2,2 L10,6 L2,10 Z" fill="#334155"/></marker></defs>
+  <rect width="1080" height="560" fill="#f7fbfb"/>
+  <text x="52" y="58" font-family="Arial" font-size="30" font-weight="700" fill="#12212b">AO Command: read-only operator command center</text>
+  <rect x="408" y="204" width="264" height="118" rx="14" fill="#dff4f0" stroke="#1b7f79" stroke-width="2"/>
+  <text x="456" y="252" font-family="Arial" font-size="24" font-weight="700" fill="#102027">AO Command</text>
+  <text x="455" y="282" font-family="Arial" font-size="15" fill="#2b4653">status, stack, next, goals, evidence</text>
+  <g font-family="Arial" font-size="16" font-weight="700" fill="#111827">
+    <rect x="70" y="130" width="210" height="72" rx="12" fill="#e8ecff" stroke="#5967c9"/>
+    <text x="132" y="174">AO Forge</text>
+    <rect x="70" y="316" width="210" height="72" rx="12" fill="#fff1d6" stroke="#c9811d"/>
+    <text x="125" y="360">AO Foundry</text>
+    <rect x="800" y="130" width="210" height="72" rx="12" fill="#f2e8ff" stroke="#8557c5"/>
+    <text x="846" y="174">Covenant</text>
+    <rect x="800" y="316" width="210" height="72" rx="12" fill="#e8f7df" stroke="#5a923c"/>
+    <text x="830" y="360">Control plane</text>
+    <rect x="435" y="420" width="210" height="72" rx="12" fill="#e1f0ff" stroke="#2678bd"/>
+    <text x="522" y="464">AO2</text>
+  </g>
+  <g stroke="#334155" stroke-width="2.3" fill="none" marker-end="url(#arrow)">
+    <path d="M280 166 C338 178 360 205 408 236"/>
+    <path d="M280 352 C340 340 368 310 408 286"/>
+    <path d="M800 166 C740 180 704 206 672 236"/>
+    <path d="M800 352 C740 337 704 307 672 286"/>
+    <path d="M540 420 L540 322"/>
+  </g>
+  <text x="70" y="500" font-family="Arial" font-size="16" fill="#334155">Design intent: give humans one daily command center while preserving AO Forge, AO Covenant, AO2, and control-plane ownership boundaries.</text>
+</svg>

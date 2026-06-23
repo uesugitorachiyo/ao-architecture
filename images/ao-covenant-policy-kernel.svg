@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="600" viewBox="0 0 1080 600" role="img" aria-labelledby="title desc">
+  <title id="title">AO Covenant policy kernel</title>
+  <desc id="desc">Shows brief compilation, contract validation, policy decision, approval, execution adapter, closure matrix, and evidence pack.</desc>
+  <defs><marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M2,2 L10,6 L2,10 Z" fill="#334155"/></marker></defs>
+  <rect width="1080" height="600" fill="#fbf8ff"/>
+  <text x="52" y="58" font-family="Arial" font-size="30" font-weight="700" fill="#20172f">AO Covenant: contract-bound trust kernel</text>
+  <g font-family="Arial">
+    <rect x="60" y="132" width="170" height="82" rx="12" fill="#ffffff" stroke="#8557c5" stroke-width="2"/>
+    <text x="103" y="167" font-size="18" font-weight="700">Brief</text>
+    <text x="88" y="190" font-size="13" fill="#475569">human intent</text>
+    <rect x="278" y="132" width="170" height="82" rx="12" fill="#ffffff" stroke="#8557c5" stroke-width="2"/>
+    <text x="316" y="167" font-size="18" font-weight="700">Contract</text>
+    <text x="306" y="190" font-size="13" fill="#475569">schema + digest</text>
+    <rect x="496" y="132" width="170" height="82" rx="12" fill="#fff6df" stroke="#c9811d" stroke-width="2"/>
+    <text x="540" y="167" font-size="18" font-weight="700">Policy</text>
+    <text x="525" y="190" font-size="13" fill="#475569">allow, deny, require approval</text>
+    <rect x="714" y="132" width="170" height="82" rx="12" fill="#fff6df" stroke="#c9811d" stroke-width="2"/>
+    <text x="748" y="167" font-size="18" font-weight="700">Approval</text>
+    <text x="741" y="190" font-size="13" fill="#475569">exact action digest</text>
+    <rect x="496" y="330" width="170" height="82" rx="12" fill="#e7f6ee" stroke="#4d8d52" stroke-width="2"/>
+    <text x="531" y="365" font-size="18" font-weight="700">Closure</text>
+    <text x="524" y="388" font-size="13" fill="#475569">obligation matrix</text>
+    <rect x="714" y="330" width="170" height="82" rx="12" fill="#e7f6ee" stroke="#4d8d52" stroke-width="2"/>
+    <text x="748" y="365" font-size="18" font-weight="700">Evidence</text>
+    <text x="742" y="388" font-size="13" fill="#475569">pack + bundle</text>
+    <rect x="278" y="330" width="170" height="82" rx="12" fill="#e1f0ff" stroke="#2678bd" stroke-width="2"/>
+    <text x="318" y="365" font-size="18" font-weight="700">Adapter</text>
+    <text x="307" y="388" font-size="13" fill="#475569">declared side effects</text>
+  </g>
+  <g stroke="#334155" stroke-width="2.3" fill="none" marker-end="url(#arrow)">
+    <path d="M230 173 L278 173"/>
+    <path d="M448 173 L496 173"/>
+    <path d="M666 173 L714 173"/>
+    <path d="M799 214 C798 275 720 338 666 365"/>
+    <path d="M496 371 L448 371"/>
+    <path d="M666 371 L714 371"/>
+    <path d="M581 214 L581 330"/>
+    <path d="M363 330 C363 280 363 240 363 214"/>
+  </g>
+  <text x="60" y="510" font-family="Arial" font-size="16" fill="#334155">Rule: side effects are declared and policy-checked before execution; closure is accepted only when obligations map to durable evidence.</text>
+</svg>

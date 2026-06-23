@@ -1,0 +1,136 @@
+# AO Command Architecture
+
+![AO Command read-only command center](../images/ao-command-readonly.svg)
+
+AO Command is the read-only operator command surface for the AO stack. It gives colleagues one daily command center for stack status, next actions, GoalRun inspection, evidence validation, and release rehearsal summaries.
+
+It does not publish releases, promote production, mutate provider state, execute agents, or replace AO Forge policy decisions. Its value is visibility without authority drift.
+
+## Source Context
+
+Source repository: `../../ao-command`
+
+High-signal source docs:
+
+- `../../ao-command/README.md`
+- `../../ao-command/docs/design/AO-COMMAND-V0.1.md`
+- `../../ao-command/docs/design/AO-COMMAND-FOUNDRY.md`
+- `../../ao-command/docs/design/FOUNDRY-REGISTRY-V0.1.md`
+- `../../ao-command/docs/operations/PRODUCTION-READINESS.md`
+
+## Role In The Stack
+
+AO Command answers:
+
+- What is the current production-readiness status?
+- What is the next recommended action?
+- Which GoalRun or readiness evidence explains that recommendation?
+- Did release preview, install verify, or release governance evidence validate?
+- Is the active stack still in read-only operator mode?
+
+It reads from AO Forge, AO Foundry, AO Covenant, AO2, and ao2-control-plane evidence surfaces. The command surface is intentionally narrow so operators get clarity without moving trust, execution, or storage authority into the CLI.
+
+## Architecture
+
+AO Command is a small Go CLI:
+
+- `cmd/ao-command/main.go` is the executable entrypoint.
+- `internal/cli` contains command parsing, evidence reading, and output formatting.
+- `docs/contracts` defines structured audit contracts for production-readiness, release-preview, install-verify, and release-governance evidence.
+- `scripts` contains smoke tests, dry-run release rehearsal, install verification, and branch-protection checks.
+
+The architecture is pull-based. AO Command reads existing files and command outputs owned by other repositories. It can emit human text or machine-readable JSON, but it should not be the system of record for factory state.
+
+## Main Commands
+
+| Command | Purpose |
+| --- | --- |
+| `status` | Reads AO Forge readiness and reports gate counts, required next actions, production-ready decision, and release governance state. |
+| `stack` | Reads AO Foundry active-stack readiness ledgers and reports repository and release-handoff state. |
+| `next` | Presents the next operator action derived from Forge evidence. |
+| `goals` | Inspects GoalRun evidence and loop state. |
+| `evidence` | Validates a document against a schema-backed contract. |
+| `rehearse` | Runs read-only release-preview rehearsal evidence through Forge-owned paths. |
+
+## Workflows
+
+### Daily Status Workflow
+
+1. Run AO Command from the operator checkout.
+2. Read stack readiness from AO Foundry or Forge evidence.
+3. Inspect the next action and underlying GoalRun or release gate.
+4. Drill into the owning repo only when the status requires action.
+
+### Release Rehearsal Workflow
+
+1. Use an AO Forge checkout at the release tag or candidate commit.
+2. Run AO Command rehearsal.
+3. Validate release-preview, install-verify, and release-governance audit JSON.
+4. Preserve the output as operator evidence.
+
+### Evidence Validation Workflow
+
+1. Select the schema in `docs/contracts`.
+2. Select the document emitted by Forge or another owner.
+3. Run `ao-command evidence`.
+4. Treat validation failure as an operator blocker, not as a reason for AO Command to mutate the source evidence.
+
+## Agent Roles And Skills
+
+AO Command does not run autonomous agents. It supports the operator role:
+
+- inspect stack state;
+- compare readiness evidence across repositories;
+- rehearse release evidence;
+- validate structured contracts;
+- summarize next actions without changing the run.
+
+The relevant "skills" are operational: status inspection, schema validation, release rehearsal, and evidence triage.
+
+## Contracts And Evidence
+
+AO Command consumes and validates:
+
+- production-readiness audit JSON;
+- release-preview audit JSON;
+- install-verify audit JSON;
+- release-governance audit JSON;
+- public provenance manifests;
+- branch-protection evidence;
+- retained-evidence records.
+
+The CLI should prefer schema-backed JSON evidence over terminal-only summaries. Terminal text is useful for humans; JSON contracts are the durable interface.
+
+## Interactions With Other Repositories
+
+![AO stack overview](../images/ao-stack-overview.svg)
+
+| Repository | AO Command interaction |
+| --- | --- |
+| AO Forge | Primary source for readiness, GoalRun truth, release preview, retained evidence, and governance state. |
+| AO Foundry | Source for active-stack readiness ledgers and portfolio status. |
+| AO Covenant | Source for policy, approval, allow, deny, and block evidence. |
+| AO2 | Source for governed execution evidence summaries. |
+| ao2-control-plane | Source for published observer readback when evidence has been ingested. |
+
+## Production-Readiness Notes
+
+- Keep AO Command read-only by default.
+- Keep dangerous writes out of v0.1 command paths.
+- Prefer schema validation over informal parsing.
+- Keep CI focused on Go tests, vet, build, smoke, release rehearsal, install verify, and branch protection.
+- Do not use AO Command as the source of truth for GoalRun, policy, execution, or observer storage.
+
+## Quick Verification
+
+Use the source repository for live verification:
+
+```sh
+cd ../../ao-command
+go test ./...
+go vet ./...
+go build -o bin/ao-command ./cmd/ao-command
+scripts/ao-command-smoke.sh --forge ../ao-forge --out tmp/ao-command-smoke
+scripts/verify-branch-protection.sh
+```
+

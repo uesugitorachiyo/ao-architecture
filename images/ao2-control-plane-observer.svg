@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="600" viewBox="0 0 1080 600" role="img" aria-labelledby="title desc">
+  <title id="title">ao2-control-plane observer architecture</title>
+  <desc id="desc">Shows signed evidence ingest, verification, content-addressed storage, authenticated API, dashboards, backup, restore, and retention.</desc>
+  <defs><marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M2,2 L10,6 L2,10 Z" fill="#334155"/></marker></defs>
+  <rect width="1080" height="600" fill="#f5fbf1"/>
+  <text x="52" y="58" font-family="Arial" font-size="30" font-weight="700" fill="#18330f">ao2-control-plane: read-only evidence observer</text>
+  <g font-family="Arial">
+    <rect x="70" y="138" width="188" height="84" rx="12" fill="#e1f0ff" stroke="#2678bd" stroke-width="2"/>
+    <text x="121" y="173" font-size="17" font-weight="700">AO2 CLI</text>
+    <text x="99" y="196" font-size="13" fill="#475569">signed evidence bundles</text>
+    <rect x="310" y="138" width="188" height="84" rx="12" fill="#ffffff" stroke="#5a923c" stroke-width="2"/>
+    <text x="350" y="173" font-size="17" font-weight="700">Ingest API</text>
+    <text x="341" y="196" font-size="13" fill="#475569">token + signature checks</text>
+    <rect x="550" y="138" width="188" height="84" rx="12" fill="#ffffff" stroke="#5a923c" stroke-width="2"/>
+    <text x="584" y="173" font-size="17" font-weight="700">Storage</text>
+    <text x="578" y="196" font-size="13" fill="#475569">content-addressed files</text>
+    <rect x="790" y="138" width="188" height="84" rx="12" fill="#ffffff" stroke="#5a923c" stroke-width="2"/>
+    <text x="837" y="173" font-size="17" font-weight="700">Read APIs</text>
+    <text x="823" y="196" font-size="13" fill="#475569">authenticated observer views</text>
+    <rect x="310" y="348" width="188" height="84" rx="12" fill="#e7f6ee" stroke="#5a923c" stroke-width="2"/>
+    <text x="352" y="383" font-size="17" font-weight="700">Dashboards</text>
+    <text x="347" y="406" font-size="13" fill="#475569">operator readback</text>
+    <rect x="550" y="348" width="188" height="84" rx="12" fill="#e7f6ee" stroke="#5a923c" stroke-width="2"/>
+    <text x="590" y="383" font-size="17" font-weight="700">Runbooks</text>
+    <text x="577" y="406" font-size="13" fill="#475569">backup, restore, rotation</text>
+    <rect x="790" y="348" width="188" height="84" rx="12" fill="#fff6df" stroke="#c9811d" stroke-width="2"/>
+    <text x="830" y="383" font-size="17" font-weight="700">Retention</text>
+    <text x="827" y="406" font-size="13" fill="#475569">dry-run prune, reports</text>
+  </g>
+  <g stroke="#334155" stroke-width="2.4" fill="none" marker-end="url(#arrow)">
+    <path d="M258 180 L310 180"/>
+    <path d="M498 180 L550 180"/>
+    <path d="M738 180 L790 180"/>
+    <path d="M884 222 L884 348"/>
+    <path d="M790 390 L738 390"/>
+    <path d="M550 390 L498 390"/>
+    <path d="M404 348 C405 294 405 258 404 222"/>
+  </g>
+  <text x="70" y="528" font-family="Arial" font-size="15" fill="#334155">Observer invariant: the server stores and exposes evidence after the fact; it never approves AO2 runs or executes providers.</text>
+</svg>
