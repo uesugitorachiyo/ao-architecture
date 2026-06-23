@@ -4,6 +4,12 @@
 
 This repository is a colleague-facing architecture guide for the active AO agent orchestration stack. It explains how the repositories interact, which repository owns each authority boundary, how governed agent work flows through the system, and where to inspect workflows, agents, skills, contracts, and evidence.
 
+## Architecture Video
+
+[![AO Architecture video walkthrough](https://img.youtube.com/vi/P0JbsTKItEA/maxresdefault.jpg)](https://youtu.be/P0JbsTKItEA?si=KYaWmZbymO4kRMlK)
+
+Watch the video walkthrough: [AO Architecture on YouTube](https://youtu.be/P0JbsTKItEA?si=KYaWmZbymO4kRMlK)
+
 ## Start Here
 
 1. [Overview](overview/README.md) explains how all repositories interact.
