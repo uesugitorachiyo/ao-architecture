@@ -1,10 +1,24 @@
-# AO Foundry Architecture
+# AO Foundry Architecture: Multi-Repository AI Agent Operations Factory
 
 ![AO Foundry portfolio loop](../images/ao-foundry-portfolio-loop.svg)
 
-AO Foundry is the engineering operations factory above AO Forge. It coordinates many repositories, goals, branches, CI signals, release trains, evidence queues, and overnight advancement loops. It delegates individual governed implementation runs to AO Forge.
+AO Foundry is the multi-repository engineering operations factory component of the AO orchestration framework. It coordinates repositories, goals, branches, CI signals, release trains, evidence queues, and overnight advancement loops. It delegates individual governed implementation runs to AO Forge.
 
 Foundry does not replace Forge. Foundry decides which repository or task is ready for a next step; Forge owns the governed run.
+
+## Search-Friendly Summary
+
+AO Foundry is the portfolio-level scheduler for governed AI agent orchestration. It watches active repositories, readiness ledgers, release gates, and CI evidence, then decides which task is safe to delegate next while preserving execution, policy, evidence storage, and operator UX boundaries.
+
+## Component At A Glance
+
+| Field | Value |
+| --- | --- |
+| Framework layer | Multi-repository operations, scheduling, and readiness coordination |
+| Primary job | Decide which repository, release train, evidence queue, or GoalRun needs the next safe step |
+| Owns | Active-stack registry, readiness ledgers, portfolio board, pulse events, release handoff evidence |
+| Does not own | Governed implementation execution, policy authority, observer storage, operator command UX |
+| Main consumers | AO Forge, AO Command, release coordinators, overnight loop supervisors |
 
 ## Source Context
 
@@ -16,10 +30,11 @@ High-signal source docs:
 - `../../ao-foundry/docs/design/AO-FOUNDRY-V0.1.md`
 - `../../ao-foundry/docs/operations/AO2-PULSE-EVENT-LOOP.md`
 - `../../ao-foundry/docs/operations/ONE-SHOT-FACTORY-RUN.md`
+- `../../ao-foundry/docs/operations/READINESS-EXIT-GATE.md`
 - `../../ao-foundry/docs/operations/SIGNED-SMOKE-RELEASE-GATE.md`
 - `../../ao-foundry/docs/sdd/AO-FOUNDRY-PRODUCTION-READINESS-SDD.md`
 
-## Role In The Stack
+## Role In The AO Orchestration Framework
 
 AO Foundry answers:
 
@@ -61,6 +76,9 @@ AO Foundry is a Go CLI with two command surfaces:
 4. Validate release-candidate ledgers.
 5. Run loop preflight and GitHub runs report checks.
 6. Produce a machine-readable active-stack readiness loop result with first failing check and next actions.
+7. Stop autonomous readiness work when goal readiness and competitive readiness are 100/100 and the loop has no `blocking_next_actions`.
+
+The loop keeps `blocking_next_actions` separate from `maintenance_suggestions` so clean readiness does not invent more implementation work. Live Forge attempts, signed-smoke promotion, release promotion, and fresh implementation require explicit operator intent after the exit gate is satisfied.
 
 ### Release Handoff Workflow
 
@@ -72,6 +90,8 @@ AO Foundry is a Go CLI with two command surfaces:
 ### Pulse Workflow
 
 Foundry's pulse command writes a local evidence bundle with readiness, GoalRun, Forge brief, Forge packet, policy gate, optional live Forge attempt, control-plane readback, run record, eval, trace, demo, release dry-run, competitive audit, and a final pulse-event summary. It is a scheduler and evidence loop only; live implementation remains delegated to AO Forge.
+
+When the readiness exit gate is satisfied, the pulse summary records a stop-oriented next action instead of generating another autonomous task.
 
 ## Agent Roles And Skills
 
@@ -118,7 +138,22 @@ The active-stack readiness ledger is the central source for explaining whether A
 - Do not push, tag, publish, upload evidence, or mutate sibling repositories in normal verification paths.
 - Preserve the active-stack ledger and README snapshot parity.
 - Keep archived operator/runtime/conductor/swarm repositories out of the active registry.
+- Treat 100/100 readiness with no `blocking_next_actions` as a stop signal, not a reason to continue autonomous hardening.
 - Treat signed-smoke promotion as manual required evidence before production promotion.
+
+## FAQ
+
+### What is AO Foundry in the AO orchestration framework?
+
+AO Foundry is the portfolio operations factory. It coordinates active AO repositories, readiness ledgers, CI evidence, release handoffs, and autonomous loop stop conditions.
+
+### Does AO Foundry execute implementation tasks directly?
+
+No. AO Foundry decides what should happen next at the portfolio level, then delegates governed implementation runs to AO Forge.
+
+### Why does AO Foundry stop at 100/100 readiness?
+
+The AO framework treats readiness with no blocking next actions as an exit gate. Foundry records that state and stops autonomous hardening instead of inventing maintenance work.
 
 ## Quick Verification
 
@@ -132,4 +167,3 @@ go run ./cmd/foundry repo board --registry examples/registry/local-ao-stack.foun
 scripts/active-stack-readiness-loop.sh --out tmp/active-stack-readiness-loop.json
 scripts/verify-branch-protection.sh
 ```
-

@@ -1,10 +1,24 @@
-# ao2-control-plane Architecture
+# ao2-control-plane Architecture: Observer Evidence Server For AI Agent Orchestration
 
 ![ao2-control-plane observer architecture](../images/ao2-control-plane-observer.svg)
 
-ao2-control-plane is the optional server layer for AO2 evidence ingest and readback. It receives signed acceptance bundles, control-plane bundles, AO2 memory exports, provider registry snapshots, and signed AO2 evidence packs. It stores them as content-addressed flat files and exposes authenticated read APIs and dashboards.
+ao2-control-plane is the optional observer evidence server component of the AO orchestration framework. It receives signed acceptance bundles, control-plane bundles, AO2 memory exports, provider registry snapshots, and signed AO2 evidence packs. It stores them as content-addressed flat files and exposes authenticated read APIs and dashboards.
 
 It is an observer. It does not approve AO2 runs, execute providers, own evaluator closure, decide release readiness, or mutate AO2 artifacts.
+
+## Search-Friendly Summary
+
+ao2-control-plane makes completed AI agent work inspectable after the fact. It ingests signed AO2 evidence, stores immutable content-addressed observer copies, serves authenticated dashboards and APIs, and preserves readback without becoming an execution, approval, or release-decision authority.
+
+## Component At A Glance
+
+| Field | Value |
+| --- | --- |
+| Framework layer | Observer evidence ingest, storage, and readback |
+| Primary job | Store and display signed AO2 evidence and release-readiness observer material |
+| Owns | Authenticated read APIs, dashboards, content-addressed storage, retention, backup and restore workflows |
+| Does not own | AO2 execution, evaluator closure, release approval, policy decisions, source artifact mutation |
+| Main consumers | AO2, AO Command, AO Foundry, release reviewers, operators inspecting published evidence |
 
 ## Source Context
 
@@ -19,7 +33,7 @@ High-signal source docs:
 - `../../ao2-control-plane/docs/runbooks/storage-retention.md`
 - `../../ao2-control-plane/docs/runbooks/release-smoke.md`
 
-## Role In The Stack
+## Role In The AO Orchestration Framework
 
 ao2-control-plane answers:
 
@@ -124,6 +138,20 @@ Every endpoint should preserve the observer invariant: read, verify, store, and 
 - Keep pruning opt-in and dry-run by default.
 - Do not approve releases or AO2 runs from observer readback.
 
+## FAQ
+
+### What is ao2-control-plane in the AO orchestration framework?
+
+ao2-control-plane is the observer server. It stores and displays signed AO2 evidence after work has completed so operators can inspect durable readback.
+
+### Does ao2-control-plane approve AO2 runs?
+
+No. It is explicitly not an approval authority. AO2 owns execution and evaluator closure, while AO Covenant and AO Forge own policy and factory gates.
+
+### Why is observer storage separate from AO2?
+
+Separating observer storage from local execution keeps AO2 authority local while still allowing durable dashboards, release evidence readback, retention reports, and backup/restore workflows.
+
 ## Quick Verification
 
 Use the source repository for live verification:
@@ -137,4 +165,3 @@ cargo build --release -p ao2-cp-server
 scripts/smoke-three-os.sh
 scripts/check-public-export.sh
 ```
-
