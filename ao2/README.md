@@ -76,7 +76,7 @@ This is intentionally provider-free for the initial slice so the governance path
 
 ### Pulse Auto-Advance Workflow
 
-Pulse can continue local AO2 work without opening a pull request. It writes local evidence for each iteration:
+Pulse can continue local AO2 work without opening a pull request only while a registered task still has unmet stop conditions. It writes local evidence for each iteration:
 
 - summary JSON;
 - per-iteration task executor summaries;
@@ -84,6 +84,8 @@ Pulse can continue local AO2 work without opening a pull request. It writes loca
 - generated packet, board, eval loop, prompt, resume metadata, and task manifest;
 - append-only local ledger entries;
 - PR/CI gate state when waiting on review or CI.
+
+When AO2 consumes a Foundry stop decision or the readiness exit gate is satisfied, Pulse records the stop and does not generate another lengthy task. Direct-main publishing, live execution, signed-smoke promotion, or release promotion still requires explicit operator intent.
 
 ### Release Readiness Workflow
 
@@ -156,4 +158,3 @@ cargo build --workspace
 python3 -m pytest tests/test_ao2_native_runtime_platform_evidence.py
 scripts/check-public-export.sh
 ```
-

@@ -29,7 +29,7 @@
   <rect class="box" x="505" y="132" width="270" height="146" fill="#fff1d6" stroke="#c9811d"/>
   <text class="repo" x="545" y="174">AO Foundry</text>
   <text class="role" x="545" y="202">Portfolio operations factory</text>
-  <text class="small" x="545" y="230">Queues, readiness ledgers, release trains</text>
+  <text class="small" x="545" y="230">Readiness ledgers, exit gates, release trains</text>
 
   <rect class="box" x="505" y="356" width="270" height="146" fill="#e8ecff" stroke="#5967c9"/>
   <text class="repo" x="560" y="398">AO Forge</text>

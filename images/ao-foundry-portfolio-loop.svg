@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1080" height="620" viewBox="0 0 1080 620" role="img" aria-labelledby="title desc">
   <title id="title">AO Foundry portfolio loop</title>
-  <desc id="desc">Shows Foundry coordinating repository registry, task queue, readiness ledger, delegated Forge runs, CI evidence, and release handoff.</desc>
+  <desc id="desc">Shows Foundry coordinating repository registry, task queue, readiness ledger, readiness exit gate, delegated Forge runs, CI evidence, and release handoff.</desc>
   <defs><marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M2,2 L10,6 L2,10 Z" fill="#334155"/></marker></defs>
   <rect width="1080" height="620" fill="#fffaf0"/>
   <text x="52" y="58" font-family="Arial" font-size="30" font-weight="700" fill="#2c1c05">AO Foundry: portfolio operations factory</text>
@@ -27,5 +27,6 @@
     <path d="M782 431 C720 448 690 492 686 529"/>
     <path d="M394 529 C318 508 258 470 298 431"/>
   </g>
-  <text x="74" y="588" font-family="Arial" font-size="15" fill="#334155">Foundry decides which repo or release train is ready for delegated work; Forge still owns each governed run.</text>
+  <text x="74" y="584" font-family="Arial" font-size="15" fill="#334155">Readiness exit gate stops autonomous readiness work when no blocking next actions remain.</text>
+  <text x="74" y="604" font-family="Arial" font-size="15" fill="#334155">Foundry delegates live implementation to Forge only after explicit operator intent.</text>
 </svg>

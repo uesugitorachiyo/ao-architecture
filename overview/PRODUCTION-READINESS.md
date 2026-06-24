@@ -31,6 +31,7 @@ Production-ready, for this documentation set, means:
 - diagrams are stored in `architecture/images`;
 - terms are consistent across documents: Command shows, Foundry coordinates, Forge decides factory steps, Covenant gates trust, AO2 executes, control-plane observes;
 - every guide gives colleagues enough source paths to continue investigation;
+- readiness-loop docs explain the stop-oriented exit gate and keep blockers separate from maintenance suggestions;
 - dangerous authority drift is called out directly.
 
 ## Known Assumptions
@@ -41,7 +42,7 @@ Where a guide describes future direction, it uses wording from the source reposi
 
 ## Maintenance Process
 
-When any source repository changes a boundary, release workflow, provider adapter, policy gate, or evidence contract:
+When any source repository changes a boundary, release workflow, provider adapter, policy gate, readiness exit condition, or evidence contract:
 
 1. Update the matching repository guide.
 2. Update [README.md](README.md) if cross-repository interaction changes.
@@ -59,6 +60,7 @@ find images -name '*.svg' -print
 grep -R "](../images/" ao-command ao-covenant ao-forge ao-foundry ao2 ao2-control-plane overview
 grep -R "Agent Roles And Skills" ao-command ao-covenant ao-forge ao-foundry ao2 ao2-control-plane
 grep -R "Contracts And Evidence" ao-command ao-covenant ao-forge ao-foundry ao2 ao2-control-plane
+grep -R "readiness exit gate" ao-foundry ao2 overview
 ```
 
 The final verification pass for this documentation pack should also confirm that every Markdown image target exists and every SVG is parseable XML.

@@ -16,6 +16,7 @@ High-signal source docs:
 - `../../ao-foundry/docs/design/AO-FOUNDRY-V0.1.md`
 - `../../ao-foundry/docs/operations/AO2-PULSE-EVENT-LOOP.md`
 - `../../ao-foundry/docs/operations/ONE-SHOT-FACTORY-RUN.md`
+- `../../ao-foundry/docs/operations/READINESS-EXIT-GATE.md`
 - `../../ao-foundry/docs/operations/SIGNED-SMOKE-RELEASE-GATE.md`
 - `../../ao-foundry/docs/sdd/AO-FOUNDRY-PRODUCTION-READINESS-SDD.md`
 
@@ -61,6 +62,9 @@ AO Foundry is a Go CLI with two command surfaces:
 4. Validate release-candidate ledgers.
 5. Run loop preflight and GitHub runs report checks.
 6. Produce a machine-readable active-stack readiness loop result with first failing check and next actions.
+7. Stop autonomous readiness work when goal readiness and competitive readiness are 100/100 and the loop has no `blocking_next_actions`.
+
+The loop keeps `blocking_next_actions` separate from `maintenance_suggestions` so clean readiness does not invent more implementation work. Live Forge attempts, signed-smoke promotion, release promotion, and fresh implementation require explicit operator intent after the exit gate is satisfied.
 
 ### Release Handoff Workflow
 
@@ -72,6 +76,8 @@ AO Foundry is a Go CLI with two command surfaces:
 ### Pulse Workflow
 
 Foundry's pulse command writes a local evidence bundle with readiness, GoalRun, Forge brief, Forge packet, policy gate, optional live Forge attempt, control-plane readback, run record, eval, trace, demo, release dry-run, competitive audit, and a final pulse-event summary. It is a scheduler and evidence loop only; live implementation remains delegated to AO Forge.
+
+When the readiness exit gate is satisfied, the pulse summary records a stop-oriented next action instead of generating another autonomous task.
 
 ## Agent Roles And Skills
 
@@ -118,6 +124,7 @@ The active-stack readiness ledger is the central source for explaining whether A
 - Do not push, tag, publish, upload evidence, or mutate sibling repositories in normal verification paths.
 - Preserve the active-stack ledger and README snapshot parity.
 - Keep archived operator/runtime/conductor/swarm repositories out of the active registry.
+- Treat 100/100 readiness with no `blocking_next_actions` as a stop signal, not a reason to continue autonomous hardening.
 - Treat signed-smoke promotion as manual required evidence before production promotion.
 
 ## Quick Verification
@@ -132,4 +139,3 @@ go run ./cmd/foundry repo board --registry examples/registry/local-ao-stack.foun
 scripts/active-stack-readiness-loop.sh --out tmp/active-stack-readiness-loop.json
 scripts/verify-branch-protection.sh
 ```
-
