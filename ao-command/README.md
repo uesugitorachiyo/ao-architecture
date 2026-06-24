@@ -1,10 +1,24 @@
-# AO Command Architecture
+# AO Command Architecture: Read-Only Operator CLI For AI Agent Orchestration
 
 ![AO Command read-only command center](../images/ao-command-readonly.svg)
 
-AO Command is the read-only operator command surface for the AO stack. It gives colleagues one daily command center for stack status, next actions, GoalRun inspection, evidence validation, and release rehearsal summaries.
+AO Command is the read-only operator command component of the AO orchestration framework. It gives colleagues one daily command center for AI agent stack status, next actions, GoalRun inspection, evidence validation, and release rehearsal summaries.
 
 It does not publish releases, promote production, mutate provider state, execute agents, or replace AO Forge policy decisions. Its value is visibility without authority drift.
+
+## Search-Friendly Summary
+
+AO Command is the operator-facing CLI for a governed AI agent orchestration stack. It helps humans inspect production-readiness status, release evidence, active-stack health, and next recommended actions without giving the command surface authority to execute agents, approve risky work, or mutate source-of-truth evidence.
+
+## Component At A Glance
+
+| Field | Value |
+| --- | --- |
+| Framework layer | Operator status and read-only command UX |
+| Primary job | Summarize readiness, evidence, next actions, and release rehearsal state |
+| Owns | CLI presentation, schema validation commands, rehearsal summaries |
+| Does not own | Agent execution, policy approval, GoalRun source of truth, evidence storage |
+| Main consumers | Operators, release reviewers, maintainers checking AO stack health |
 
 ## Source Context
 
@@ -18,7 +32,7 @@ High-signal source docs:
 - `../../ao-command/docs/design/FOUNDRY-REGISTRY-V0.1.md`
 - `../../ao-command/docs/operations/PRODUCTION-READINESS.md`
 
-## Role In The Stack
+## Role In The AO Orchestration Framework
 
 AO Command answers:
 
@@ -121,6 +135,20 @@ The CLI should prefer schema-backed JSON evidence over terminal-only summaries. 
 - Keep CI focused on Go tests, vet, build, smoke, release rehearsal, install verify, and branch protection.
 - Do not use AO Command as the source of truth for GoalRun, policy, execution, or observer storage.
 
+## FAQ
+
+### What is AO Command in the AO orchestration framework?
+
+AO Command is the read-only operator CLI. It gathers and summarizes evidence from AO Forge, AO Foundry, AO Covenant, AO2, and ao2-control-plane so humans can understand stack status without granting the CLI execution authority.
+
+### Does AO Command run AI agents?
+
+No. AO Command does not execute agents or providers. It inspects structured evidence, validates schemas, and presents status and next actions for operators.
+
+### Why is AO Command read-only?
+
+The AO framework separates operator visibility from execution and approval authority. Keeping AO Command read-only prevents status UX from accidentally becoming the policy kernel, factory scheduler, or source of truth.
+
 ## Quick Verification
 
 Use the source repository for live verification:
@@ -133,4 +161,3 @@ go build -o bin/ao-command ./cmd/ao-command
 scripts/ao-command-smoke.sh --forge ../ao-forge --out tmp/ao-command-smoke
 scripts/verify-branch-protection.sh
 ```
-

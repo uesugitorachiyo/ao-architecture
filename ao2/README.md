@@ -1,10 +1,24 @@
-# AO2 Architecture
+# AO2 Architecture: Governed Local Runtime For AI Agent Workflows
 
 ![AO2 governed runtime](../images/ao2-governed-runtime.svg)
 
-AO2 is the governed local execution runtime for agent work. It owns workflow state, policy gates, exact-digest approvals, artifacts, evidence packs, evaluator closure, provider-adapter boundaries, and release-readiness evidence.
+AO2 is the governed local execution runtime component of the AO orchestration framework. It owns workflow state, policy gates, exact-digest approvals, artifacts, evidence packs, evaluator closure, provider-adapter boundaries, and release-readiness evidence.
 
 AO2 replaces the deprecated AO Operator and AO Runtime execution path for active AO work. It does not own cross-repo factory scheduling, release promotion policy, or durable observer storage.
+
+## Search-Friendly Summary
+
+AO2 is the local-first runtime for governed AI agent workflows. It compiles workflows, runs bounded roles and adapters, records policy decisions and approvals, captures artifacts and evidence packs, and blocks evaluator closure when required proof is missing.
+
+## Component At A Glance
+
+| Field | Value |
+| --- | --- |
+| Framework layer | Governed local execution runtime |
+| Primary job | Execute bounded agent workflows and preserve structured evidence |
+| Owns | Run records, role tasks, adapter boundaries, artifacts, approvals, evidence packs, evaluator closure |
+| Does not own | Cross-repo portfolio scheduling, release promotion policy, durable observer storage, operator dashboard UX |
+| Main consumers | AO Forge, AO Foundry, ao2-control-plane, AO Command, reviewers inspecting execution evidence |
 
 ## Source Context
 
@@ -19,7 +33,7 @@ High-signal source docs:
 - `../../ao2/docs/IMPLEMENTATION-SLICES.md`
 - `../../ao2/docs/SDD-risky-pr-run.md`
 
-## Role In The Stack
+## Role In The AO Orchestration Framework
 
 AO2 answers:
 
@@ -145,6 +159,20 @@ Every role handoff should cross an artifact boundary. Terminal output is not the
 - Keep AO2 runtime authority local even when evidence is published to a control plane.
 - Treat adapters, shells, package managers, network tools, and model providers as untrusted actors.
 - Preserve cross-platform release smokes for macOS, Linux, and Windows.
+
+## FAQ
+
+### What is AO2 in the AO orchestration framework?
+
+AO2 is the governed local runtime. It executes bounded AI agent workflows and leaves structured evidence that humans and other AO components can inspect.
+
+### Does AO2 own the whole factory?
+
+No. AO2 owns execution and evidence capture. AO Foundry schedules portfolio work, AO Forge governs factory runs, AO Covenant gates policy, and ao2-control-plane stores observer readback.
+
+### Why is AO2 local-first?
+
+Local-first execution keeps workflow authority, approvals, artifacts, and evaluator closure inspectable before any optional observer evidence is published.
 
 ## Quick Verification
 

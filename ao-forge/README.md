@@ -1,10 +1,24 @@
-# AO Forge Architecture
+# AO Forge Architecture: Governed Factory Brain For AI Agent Orchestration
 
 ![AO Forge factory loop](../images/ao-forge-factory-loop.svg)
 
-AO Forge is the trusted factory brain for the AO stack. It turns an objective into an evidence-backed production line: factory brief, workcell graph, Covenant policy gate, AO2 execution, evidence routing, control-plane readback, operator packet, and next factory decision.
+AO Forge is the governed factory brain component of the AO orchestration framework. It turns an objective into an evidence-backed production line: factory brief, workcell graph, Covenant policy gate, AO2 execution, evidence routing, control-plane readback, operator packet, and next factory decision.
 
 AO Forge does not replace AO2, AO Covenant, ao2-control-plane, AO Foundry, or AO Command. Its production value comes from coordinating those owners without taking over their authority.
+
+## Search-Friendly Summary
+
+AO Forge is the factory planning and GoalRun layer for governed AI agent work. It decides the next safe factory step, validates plans and evidence, routes declared side effects through AO Covenant, delegates bounded execution to AO2, and emits operator packets without becoming the execution runtime itself.
+
+## Component At A Glance
+
+| Field | Value |
+| --- | --- |
+| Framework layer | Governed factory planning and GoalRun state |
+| Primary job | Turn objectives into gated factory runs and evidence-backed operator packets |
+| Owns | Factory briefs, plans, packets, GoalRun state, release gates, readiness audits |
+| Does not own | Provider execution, final policy authority, observer storage, read-only operator UX |
+| Main consumers | AO Foundry, AO Command, release reviewers, governed implementation workflows |
 
 ## Source Context
 
@@ -19,7 +33,7 @@ High-signal source docs:
 - `../../ao-forge/docs/security/RELEASE-THREAT-MODEL.md`
 - `../../ao-forge/docs/release/PRODUCTION-STABLE-PROMOTION.md`
 
-## Role In The Stack
+## Role In The AO Orchestration Framework
 
 AO Forge answers:
 
@@ -117,6 +131,20 @@ Forge treats evidence as immutable proof for the iteration that produced it. Scr
 - Treat stale, missing, duplicated, or mismatched evidence as a stop condition.
 - Do not allow control-plane upload to imply approval.
 
+## FAQ
+
+### What is AO Forge in the AO orchestration framework?
+
+AO Forge is the governed factory component. It converts objectives into schema-backed plans, policy-gated workcells, durable GoalRun state, and evidence packets for operators.
+
+### Does AO Forge replace AO2?
+
+No. AO Forge delegates execution to AO2. Forge owns factory planning and readiness semantics; AO2 owns governed local execution and run evidence.
+
+### Why does AO Forge use GoalRun state?
+
+GoalRun state records objective, scope, phase, acceptance criteria, stop conditions, next action, and retained evidence so repeated agent work stays bounded and auditable.
+
 ## Quick Verification
 
 Use the source repository for live verification:
@@ -130,4 +158,3 @@ scripts/verify-goal-fixtures.sh
 scripts/release-preview-dry-run.sh --out tmp/release-preview-check --tag v0.1.0-preview
 scripts/verify-branch-protection.sh
 ```
-

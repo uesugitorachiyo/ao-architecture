@@ -1,10 +1,24 @@
-# AO Covenant Architecture
+# AO Covenant Architecture: Policy And Trust Kernel For AI Agent Orchestration
 
 ![AO Covenant policy kernel](../images/ao-covenant-policy-kernel.svg)
 
-AO Covenant is the policy and trust kernel for evidence-bound agent work. In the active AO2-first stack, AO Forge asks it for decisions, AO2 performs governed execution, ao2-control-plane stores observer evidence, and AO Command presents read-only operator status.
+AO Covenant is the policy and trust kernel component of the AO orchestration framework. In the active AO2-first stack, AO Forge asks it for decisions, AO2 performs governed execution, ao2-control-plane stores observer evidence, and AO Command presents read-only operator status.
 
 AO Covenant should not become the execution engine, evidence archive UI, or whole-factory scheduler. It is the place where contracts, approvals, provenance, policy decisions, and closure evidence are made explicit.
+
+## Search-Friendly Summary
+
+AO Covenant makes AI agent work reviewable and enforceable by turning contracts, side effects, approvals, provenance, and release evidence into explicit trust artifacts. It is the fail-closed policy layer for governed autonomous software engineering, not a general-purpose agent runner.
+
+## Component At A Glance
+
+| Field | Value |
+| --- | --- |
+| Framework layer | Policy, trust, approval, and evidence verification |
+| Primary job | Gate side effects and verify contracts, approvals, bundles, schemas, and release artifacts |
+| Owns | Policy decisions, approval tickets, evidence integrity, bundle and release verification contracts |
+| Does not own | Agent execution, portfolio scheduling, observer dashboards, operator command UX |
+| Main consumers | AO Forge, AO2, release workflows, reviewers auditing trust evidence |
 
 ## Source Context
 
@@ -19,7 +33,7 @@ High-signal source docs:
 - `../../ao-covenant/docs/release-threat-model-matrix.md`
 - `../../ao-covenant/docs/output-writer-contract.md`
 
-## Role In The Stack
+## Role In The AO Orchestration Framework
 
 AO Covenant answers:
 
@@ -127,6 +141,20 @@ For colleagues, the key mental model is: a Covenant artifact should explain the 
 - Preserve public release evidence, replacement decisions, signatures, and checksums.
 - Ensure CI covers Go tests, schema fixtures, repository hygiene, release readiness, and branch protection.
 
+## FAQ
+
+### What is AO Covenant in the AO orchestration framework?
+
+AO Covenant is the trust and policy component. It decides whether declared side effects are allowed, denied, blocked, or approval-required and verifies the evidence that supports closure.
+
+### Does AO Covenant execute AI agent work?
+
+No. AO Covenant constrains and verifies work. AO2 owns governed execution, while AO Forge and AO Foundry coordinate factory and portfolio workflows.
+
+### Why does AO Covenant fail closed?
+
+Missing, malformed, stale, or denied trust evidence can make agent automation unsafe. AO Covenant treats those states as blockers so the AO framework does not proceed on optimistic assumptions.
+
 ## Quick Verification
 
 Use the source repository for live verification:
@@ -140,4 +168,3 @@ go run ./cmd/covenant policy spine --json
 scripts/check-license-policy.sh
 scripts/verify-branch-protection.sh
 ```
-
