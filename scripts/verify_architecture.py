@@ -41,6 +41,8 @@ REQUIRED_RSI_CLAIMS = [
     "AO Foundry RSI candidate evidence",
     "AO Foundry RSI next improvement task evidence",
     "Foundry pulse -> Forge retention -> Command health",
+    "scripts/rsi-evidence-chain-smoke.sh",
+    "Covenant RSI claim boundary",
     "mutation authority and live self-change are not proven",
     "`claim.publish` side effect",
     "`full-autonomous-self-mutating-rsi` resource",

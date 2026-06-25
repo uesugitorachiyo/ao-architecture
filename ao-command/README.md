@@ -101,12 +101,16 @@ The architecture is pull-based. AO Command reads existing files and command outp
    `mutates_repositories=false`, and the Foundry binding fields.
 5. Treat any blocked family or Foundry binding as a reason to stop the RSI claim
    until the owning repository fixes its evidence.
+6. For the cross-repo proof, run
+   `scripts/rsi-evidence-chain-smoke.sh` from AO Command with AO Forge, AO
+   Foundry, and AO Covenant checkouts.
 
 AO Command's RSI role is verification, not execution. It verifies a bounded,
 governed RSI evidence chain by checking that the AO Foundry RSI candidate
 evidence matches the AO Foundry RSI improvement gate and that the AO Foundry RSI
 next improvement task evidence binds back to both. In the full stack, the
-intended audit path is Foundry pulse -> Forge retention -> Command health.
+intended audit path is Foundry pulse -> Forge retention -> Command health, with
+the Covenant RSI claim boundary checked by the smoke script.
 This is not a claim of full autonomous self-mutating RSI; mutation authority and live self-change are not proven by `rsi health`.
 
 ## Agent Roles And Skills
@@ -187,6 +191,7 @@ go test ./...
 go vet ./...
 go build -o bin/ao-command ./cmd/ao-command
 go run ./cmd/ao-command rsi health --arena-gate ../ao-arena/tmp/arena-promotion-gate.json --crucible-gate ../ao-crucible/tmp/crucible-hardening-gate.json --sentinel-verdict ../ao-sentinel/tmp/sentinel-verdict.json --promoter-gate ../ao-promoter/tmp/promotion-gate.json --foundry-gate ../ao-foundry/tmp/pulse-rsi-verify/rsi-improvement-gate.json --foundry-candidate ../ao-foundry/tmp/pulse-rsi-verify/rsi-candidate.json --foundry-next-task ../ao-foundry/tmp/pulse-rsi-verify/rsi-next-improvement-task.json --json
+scripts/rsi-evidence-chain-smoke.sh --forge ../ao-forge --foundry ../ao-foundry --covenant ../ao-covenant --out tmp/rsi-evidence-chain-smoke
 scripts/ao-command-smoke.sh --forge ../ao-forge --out tmp/ao-command-smoke
 scripts/verify-branch-protection.sh
 ```
