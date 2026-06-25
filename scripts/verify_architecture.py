@@ -38,7 +38,7 @@ SAFETY_PATTERNS = [
     r"/Users/",
     r"/home/",
     r"C:\\",
-    r"(?<!\$PWD)/tmp/[A-Za-z0-9_.-]",
+    r"(?<![A-Za-z0-9_.-])/tmp/[A-Za-z0-9_.-]",
     r"/var/folders/",
     r"Authorization: Bearer",
     r"OPENAI_API_KEY",

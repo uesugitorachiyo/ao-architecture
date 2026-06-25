@@ -2,21 +2,21 @@
 
 ![AO Command read-only command center](../images/ao-command-readonly.svg)
 
-AO Command is the read-only operator command component of the AO orchestration framework. It gives colleagues one daily command center for AI agent stack status, next actions, GoalRun inspection, evidence validation, and release rehearsal summaries.
+AO Command is the read-only operator command component of the AO orchestration framework. It gives colleagues one daily command center for AI agent stack status, next actions, GoalRun inspection, RSI assurance-family health, evidence validation, and release rehearsal summaries.
 
 It does not publish releases, promote production, mutate provider state, execute agents, or replace AO Forge policy decisions. Its value is visibility without authority drift.
 
 ## Search-Friendly Summary
 
-AO Command is the operator-facing CLI for a governed AI agent orchestration stack. It helps humans inspect production-readiness status, release evidence, active-stack health, and next recommended actions without giving the command surface authority to execute agents, approve risky work, or mutate source-of-truth evidence.
+AO Command is the operator-facing CLI for a governed AI agent orchestration stack. It helps humans inspect production-readiness status, release evidence, active-stack health, RSI fixture-loop health, and next recommended actions without giving the command surface authority to execute agents, approve risky work, or mutate source-of-truth evidence.
 
 ## Component At A Glance
 
 | Field | Value |
 | --- | --- |
 | Framework layer | Operator status and read-only command UX |
-| Primary job | Summarize readiness, evidence, next actions, and release rehearsal state |
-| Owns | CLI presentation, schema validation commands, rehearsal summaries |
+| Primary job | Summarize readiness, evidence, RSI health, next actions, and release rehearsal state |
+| Owns | CLI presentation, schema validation commands, RSI health summaries, rehearsal summaries |
 | Does not own | Agent execution, policy approval, GoalRun source of truth, evidence storage |
 | Main consumers | Operators, release reviewers, maintainers checking AO stack health |
 
@@ -42,7 +42,7 @@ AO Command answers:
 - Did release preview, install verify, or release governance evidence validate?
 - Is the active stack still in read-only operator mode?
 
-It reads from AO Forge, AO Foundry, AO Covenant, AO2, and ao2-control-plane evidence surfaces. The command surface is intentionally narrow so operators get clarity without moving trust, execution, or storage authority into the CLI.
+It reads from AO Forge, AO Foundry, AO Covenant, AO2, ao2-control-plane, AO Arena, AO Crucible, AO Sentinel, and AO Promoter evidence surfaces. The command surface is intentionally narrow so operators get clarity without moving trust, execution, promotion, or storage authority into the CLI.
 
 ## Architecture
 
@@ -61,6 +61,7 @@ The architecture is pull-based. AO Command reads existing files and command outp
 | --- | --- |
 | `status` | Reads AO Forge readiness and reports gate counts, required next actions, production-ready decision, and release governance state. |
 | `stack` | Reads AO Foundry active-stack readiness ledgers and reports repository and release-handoff state. |
+| `rsi health` | Reads AO Arena, AO Crucible, AO Sentinel, and AO Promoter fixture evidence and reports governed local RSI health. |
 | `next` | Presents the next operator action derived from Forge evidence. |
 | `goals` | Inspects GoalRun evidence and loop state. |
 | `evidence` | Validates a document against a schema-backed contract. |
@@ -89,6 +90,13 @@ The architecture is pull-based. AO Command reads existing files and command outp
 3. Run `ao-command evidence`.
 4. Treat validation failure as an operator blocker, not as a reason for AO Command to mutate the source evidence.
 
+### RSI Health Workflow
+
+1. Generate fixture/local evidence in AO Arena, AO Crucible, AO Sentinel, and AO Promoter.
+2. Run `ao-command rsi health` with the four JSON artifact paths.
+3. Inspect `rsi_mode=governed_fixture_local`, `operator_mode=read_only`, and `mutates_repositories=false`.
+4. Treat any blocked family as a reason to stop the RSI claim until the owning repository fixes its evidence.
+
 ## Agent Roles And Skills
 
 AO Command does not run autonomous agents. It supports the operator role:
@@ -97,6 +105,7 @@ AO Command does not run autonomous agents. It supports the operator role:
 - compare readiness evidence across repositories;
 - rehearse release evidence;
 - validate structured contracts;
+- summarize RSI assurance-family evidence;
 - summarize next actions without changing the run.
 
 The relevant "skills" are operational: status inspection, schema validation, release rehearsal, and evidence triage.
@@ -112,6 +121,7 @@ AO Command consumes and validates:
 - public provenance manifests;
 - branch-protection evidence;
 - retained-evidence records.
+- Arena promotion gates, Crucible hardening gates, Sentinel verdicts, and Promoter promotion gates.
 
 The CLI should prefer schema-backed JSON evidence over terminal-only summaries. Terminal text is useful for humans; JSON contracts are the durable interface.
 
@@ -126,6 +136,10 @@ The CLI should prefer schema-backed JSON evidence over terminal-only summaries. 
 | AO Covenant | Source for policy, approval, allow, deny, and block evidence. |
 | AO2 | Source for governed execution evidence summaries. |
 | ao2-control-plane | Source for published observer readback when evidence has been ingested. |
+| AO Arena | Source for benchmark promotion gate evidence. |
+| AO Crucible | Source for hardening gate evidence. |
+| AO Sentinel | Source for safety and regression verdict evidence. |
+| AO Promoter | Source for promotion gate evidence; Command does not apply activation plans. |
 
 ## Production-Readiness Notes
 
@@ -134,12 +148,13 @@ The CLI should prefer schema-backed JSON evidence over terminal-only summaries. 
 - Prefer schema validation over informal parsing.
 - Keep CI focused on Go tests, vet, build, smoke, release rehearsal, install verify, and branch protection.
 - Do not use AO Command as the source of truth for GoalRun, policy, execution, or observer storage.
+- Keep `rsi health` evidence-only; it must not run providers, promote candidates, apply activation plans, or mutate repositories.
 
 ## FAQ
 
 ### What is AO Command in the AO orchestration framework?
 
-AO Command is the read-only operator CLI. It gathers and summarizes evidence from AO Forge, AO Foundry, AO Covenant, AO2, and ao2-control-plane so humans can understand stack status without granting the CLI execution authority.
+AO Command is the read-only operator CLI. It gathers and summarizes evidence from AO Forge, AO Foundry, AO Covenant, AO2, ao2-control-plane, AO Arena, AO Crucible, AO Sentinel, and AO Promoter so humans can understand stack status without granting the CLI execution or promotion authority.
 
 ### Does AO Command run AI agents?
 
@@ -158,6 +173,7 @@ cd ../../ao-command
 go test ./...
 go vet ./...
 go build -o bin/ao-command ./cmd/ao-command
+go run ./cmd/ao-command rsi health --arena-gate ../ao-arena/tmp/arena-promotion-gate.json --crucible-gate ../ao-crucible/tmp/crucible-hardening-gate.json --sentinel-verdict ../ao-sentinel/tmp/sentinel-verdict.json --promoter-gate ../ao-promoter/tmp/promotion-gate.json --json
 scripts/ao-command-smoke.sh --forge ../ao-forge --out tmp/ao-command-smoke
 scripts/verify-branch-protection.sh
 ```
