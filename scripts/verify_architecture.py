@@ -34,6 +34,16 @@ REQUIRED_IMAGES = [
     "images/ao-promoter-gated-promotion.svg",
 ]
 
+REQUIRED_RSI_CLAIMS = [
+    "bounded, governed RSI evidence chain",
+    "not a claim of full autonomous self-mutating RSI",
+    "AO Foundry RSI improvement gate",
+    "AO Foundry RSI candidate evidence",
+    "AO Foundry RSI next improvement task evidence",
+    "Foundry pulse -> Forge retention -> Command health",
+    "mutation authority and live self-change are not proven",
+]
+
 SAFETY_PATTERNS = [
     r"/Users/",
     r"/home/",
@@ -101,6 +111,13 @@ def main() -> int:
 
     overview_text = read_text(overview)
     readiness_text = read_text(readiness)
+    root_text = read_text(readme)
+    command_text = read_text(ROOT / "ao-command" / "README.md")
+    rsi_claim_text = "\n".join([root_text, overview_text, command_text])
+    for claim in REQUIRED_RSI_CLAIMS:
+        if claim not in rsi_claim_text:
+            fail(f"architecture docs missing RSI claim guard: {claim}")
+
     for repo in NEW_REPOS:
         if repo not in overview_text:
             fail(f"overview/README.md missing {repo}")

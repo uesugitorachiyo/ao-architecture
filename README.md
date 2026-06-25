@@ -77,6 +77,28 @@ The stack is designed around:
 - clean separation between execution, policy, orchestration, observer storage, and operator UX;
 - stop conditions that prevent autonomous loops from inventing work after readiness is satisfied.
 
+## RSI Claim Boundary
+
+The current architecture supports a bounded, governed RSI evidence chain, not a
+claim of full autonomous self-mutating RSI. The demonstrated chain is:
+
+1. AO Foundry emits an AO Foundry RSI candidate evidence artifact.
+2. AO Foundry emits an AO Foundry RSI improvement gate that requires roughly a
+   5 percent improvement and binds that gate to the candidate evidence.
+3. AO Foundry emits AO Foundry RSI next improvement task evidence derived from
+   the passing candidate and gate.
+4. AO Forge retains the Foundry evidence so it can be audited after the pulse.
+5. AO Command verifies the health chain from Foundry pulse -> Forge retention
+   -> Command health without mutating repositories.
+
+This proves a local, evidence-first recursive-improvement workflow with
+read-only verification and next-task derivation. It is not a claim of full
+autonomous self-mutating RSI because mutation authority and live self-change are
+not proven by the current artifacts. Any future stronger claim must add explicit
+policy approval, mutation authority, live change evidence, rollback evidence,
+and Covenant-approved wording before the architecture can describe it as
+self-mutating.
+
 ## Visual Map
 
 Shared images are stored in [images](images/). Each repository guide references at least one diagram from this shared folder.
