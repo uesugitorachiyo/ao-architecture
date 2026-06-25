@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760" role="img" aria-labelledby="title desc">
   <title id="title">AO stack repository interaction overview</title>
-  <desc id="desc">Shows AO Command, AO Foundry, AO Forge, AO Covenant, AO2, and ao2-control-plane with their responsibilities and evidence flow.</desc>
+  <desc id="desc">Shows AO Command, AO Foundry, AO Forge, AO Covenant, AO2, ao2-control-plane, AO Arena, AO Crucible, AO Sentinel, and AO Promoter with their responsibilities and evidence flow.</desc>
   <defs>
     <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
       <path d="M2,2 L10,6 L2,10 Z" fill="#2f3a4a"/>
@@ -68,5 +68,5 @@
   <path class="arrow" d="M895 300 C820 248 790 214 775 206"/>
   <text class="label" x="785" y="244">release trust</text>
 
-  <text class="small" x="70" y="726">Practical rule: Command shows, Foundry coordinates, Forge decides next factory step, Covenant gates trust, AO2 executes, control-plane observes.</text>
+  <text class="small" x="70" y="726">Practical rule: Command shows, Foundry coordinates, Forge decides, Covenant gates, AO2 executes, control-plane observes, Arena scores, Crucible hardens, Sentinel monitors, Promoter activates.</text>
 </svg>

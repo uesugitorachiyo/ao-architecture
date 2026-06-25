@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="620" viewBox="0 0 1080 620" role="img" aria-labelledby="title desc">
+  <title id="title">AO Arena deterministic scoreboard</title>
+  <desc id="desc">Shows fixture-mode benchmark evidence flowing into deterministic scorecards, comparison reports, and promotion gates.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .bg { fill: #f8fafc; }
+      .title { font: 700 32px Arial, sans-serif; fill: #111827; }
+      .box { fill: #ffffff; stroke: #475569; stroke-width: 2; rx: 12; }
+      .score { fill: #e0f2fe; stroke: #0369a1; stroke-width: 2; rx: 12; }
+      .gate { fill: #ecfdf5; stroke: #047857; stroke-width: 2; rx: 12; }
+      .text { font: 700 17px Arial, sans-serif; fill: #111827; }
+      .small { font: 400 13px Arial, sans-serif; fill: #475569; }
+      .arrow { stroke: #334155; stroke-width: 2.2; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect class="bg" width="1080" height="620"/>
+  <text class="title" x="56" y="58">AO Arena: fixture evidence becomes promotion-grade scores</text>
+  <rect class="box" x="70" y="140" width="220" height="110"/>
+  <text class="text" x="118" y="182">Benchmark suite</text>
+  <text class="small" x="104" y="212">eight canonical tasks</text>
+  <rect class="box" x="70" y="340" width="220" height="110"/>
+  <text class="text" x="118" y="382">Competitors</text>
+  <text class="small" x="101" y="412">baseline and challenger</text>
+  <rect class="box" x="370" y="240" width="230" height="110"/>
+  <text class="text" x="413" y="282">Fixture attempts</text>
+  <text class="small" x="413" y="312">evidence bundles only</text>
+  <rect class="score" x="680" y="140" width="240" height="110"/>
+  <text class="text" x="737" y="182">Scorecards</text>
+  <text class="small" x="720" y="212">deterministic 100-point math</text>
+  <rect class="score" x="680" y="340" width="240" height="110"/>
+  <text class="text" x="730" y="382">Comparison report</text>
+  <text class="small" x="721" y="412">winner, evidence, safety</text>
+  <rect class="gate" x="430" y="480" width="260" height="86"/>
+  <text class="text" x="493" y="516">Promotion gate</text>
+  <text class="small" x="462" y="544">score at least 85 and plus five</text>
+  <path class="arrow" d="M290 195 C335 210 347 247 370 275"/>
+  <path class="arrow" d="M290 395 C337 378 350 335 370 310"/>
+  <path class="arrow" d="M600 272 C632 232 650 202 680 190"/>
+  <path class="arrow" d="M600 320 C634 354 650 382 680 395"/>
+  <path class="arrow" d="M800 450 C760 496 720 520 690 523"/>
+  <path class="arrow" d="M680 523 L690 523"/>
+</svg>

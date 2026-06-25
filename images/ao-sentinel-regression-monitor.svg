@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="620" viewBox="0 0 1080 620" role="img" aria-labelledby="title desc">
+  <title id="title">AO Sentinel safety and regression monitor</title>
+  <desc id="desc">Shows targets and baselines flowing into safety scans, regression diffs, verdicts, incidents, and promoter holds.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .bg { fill: #f8fafc; }
+      .title { font: 700 32px Arial, sans-serif; fill: #111827; }
+      .box { fill: #ffffff; stroke: #475569; stroke-width: 2; rx: 12; }
+      .watch { fill: #fff7ed; stroke: #c2410c; stroke-width: 2; rx: 12; }
+      .clear { fill: #f0fdf4; stroke: #15803d; stroke-width: 2; rx: 12; }
+      .text { font: 700 17px Arial, sans-serif; fill: #111827; }
+      .small { font: 400 13px Arial, sans-serif; fill: #475569; }
+      .arrow { stroke: #334155; stroke-width: 2.2; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect class="bg" width="1080" height="620"/>
+  <text class="title" x="56" y="58">AO Sentinel: watch safety and regressions before promotion</text>
+  <rect class="box" x="75" y="130" width="220" height="104"/>
+  <text class="text" x="137" y="172">Target</text>
+  <text class="small" x="109" y="202">candidate or active stack</text>
+  <rect class="box" x="75" y="330" width="220" height="104"/>
+  <text class="text" x="126" y="372">Baseline</text>
+  <text class="small" x="112" y="402">trusted regression budgets</text>
+  <rect class="watch" x="380" y="128" width="230" height="104"/>
+  <text class="text" x="432" y="170">Safety scan</text>
+  <text class="small" x="420" y="200">public artifact checks</text>
+  <rect class="watch" x="380" y="330" width="230" height="104"/>
+  <text class="text" x="426" y="372">Regression diff</text>
+  <text class="small" x="424" y="402">current vs baseline</text>
+  <rect class="clear" x="705" y="220" width="250" height="118"/>
+  <text class="text" x="780" y="262">Verdict</text>
+  <text class="small" x="748" y="292">clear, incident, or hold</text>
+  <rect class="clear" x="705" y="420" width="250" height="86"/>
+  <text class="text" x="770" y="455">Promoter hold</text>
+  <text class="small" x="762" y="482">blocks unsafe activation</text>
+  <path class="arrow" d="M295 182 L380 180"/>
+  <path class="arrow" d="M295 382 L380 382"/>
+  <path class="arrow" d="M610 180 C658 198 680 230 705 258"/>
+  <path class="arrow" d="M610 382 C660 362 682 326 705 292"/>
+  <path class="arrow" d="M830 338 L830 420"/>
+</svg>

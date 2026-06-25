@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="620" viewBox="0 0 1080 620" role="img" aria-labelledby="title desc">
+  <title id="title">AO Crucible adversarial hardening</title>
+  <desc id="desc">Shows controlled fixture probes producing resilience assessments, hardening gates, and remediation briefs.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .bg { fill: #fbfbff; }
+      .title { font: 700 32px Arial, sans-serif; fill: #111827; }
+      .box { fill: #ffffff; stroke: #475569; stroke-width: 2; rx: 12; }
+      .risk { fill: #fef2f2; stroke: #b91c1c; stroke-width: 2; rx: 12; }
+      .pass { fill: #f0fdf4; stroke: #15803d; stroke-width: 2; rx: 12; }
+      .text { font: 700 17px Arial, sans-serif; fill: #111827; }
+      .small { font: 400 13px Arial, sans-serif; fill: #475569; }
+      .arrow { stroke: #334155; stroke-width: 2.2; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect class="bg" width="1080" height="620"/>
+  <text class="title" x="56" y="58">AO Crucible: trust candidates only after controlled failure probes</text>
+  <rect class="box" x="70" y="145" width="220" height="112"/>
+  <text class="text" x="122" y="188">Subject</text>
+  <text class="small" x="105" y="218">AO orchestration candidate</text>
+  <rect class="risk" x="350" y="120" width="250" height="112"/>
+  <text class="text" x="400" y="163">Probe catalog</text>
+  <text class="small" x="390" y="193">injection, spoof, stale proof</text>
+  <rect class="risk" x="350" y="292" width="250" height="112"/>
+  <text class="text" x="405" y="335">Fixture run</text>
+  <text class="small" x="394" y="365">ten controlled scenarios</text>
+  <rect class="box" x="690" y="145" width="250" height="112"/>
+  <text class="text" x="742" y="188">Assessment</text>
+  <text class="small" x="737" y="218">resilience score and risk</text>
+  <rect class="pass" x="690" y="342" width="250" height="112"/>
+  <text class="text" x="740" y="385">Hardening gate</text>
+  <text class="small" x="733" y="415">pass or remediation brief</text>
+  <path class="arrow" d="M290 200 L350 176"/>
+  <path class="arrow" d="M475 232 L475 292"/>
+  <path class="arrow" d="M600 348 C642 304 658 236 690 200"/>
+  <path class="arrow" d="M815 257 L815 342"/>
+  <text class="small" x="70" y="540">Crucible does not promote candidates. It supplies hardening evidence that Promoter must consume.</text>
+</svg>

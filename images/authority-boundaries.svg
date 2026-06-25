@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="700" viewBox="0 0 1280 700" role="img" aria-labelledby="title desc">
   <title id="title">AO authority boundaries</title>
-  <desc id="desc">Matrix of what each repository owns and must not own.</desc>
+  <desc id="desc">Matrix of what each repository family owns and must not own, including the assurance and promotion repositories.</desc>
   <defs>
     <style>
       .bg { fill: #f8fafc; }
@@ -64,4 +64,5 @@
     <text class="text" x="220" y="418">Signed ingest, content-addressed storage, authenticated read APIs, dashboards</text>
     <text class="text" x="705" y="418">Approving AO2 runs, executing providers, deciding release readiness</text>
   </g>
+  <text class="text" x="56" y="662">Assurance families: AO Arena owns benchmark scoring, AO Crucible owns hardening probes, AO Sentinel owns regression holds, and AO Promoter owns dry-run activation planning. None of them override Covenant policy or AO2 execution authority.</text>
 </svg>

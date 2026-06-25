@@ -10,7 +10,7 @@ This checklist defines what "production-ready documentation" means for the `ao-a
 | --- | --- | --- |
 | Top-level entrypoint exists | Complete | `../README.md` |
 | Cross-repository overview exists | Complete | `README.md` |
-| Every target repository folder has documentation | Complete | `../ao-command`, `../ao-covenant`, `../ao-forge`, `../ao-foundry`, `../ao2`, `../ao2-control-plane` |
+| Every target repository folder has documentation | Complete | `../ao-command`, `../ao-covenant`, `../ao-forge`, `../ao-foundry`, `../ao2`, `../ao2-control-plane`, `../ao-arena`, `../ao-crucible`, `../ao-sentinel`, `../ao-promoter` |
 | Every document contains or references an image | Complete | Each README includes an SVG from `../images` or `images` |
 | Shared images live in the requested images folder | Complete | `../images/*.svg` |
 | Overview explains repository interaction | Complete | `README.md` repository map, practical rule, workflows, and agent roles |
@@ -29,7 +29,7 @@ Production-ready, for this documentation set, means:
 - every repository has an explicit role and non-role;
 - workflows are described as evidence-first sequences;
 - diagrams are stored in `architecture/images`;
-- terms are consistent across documents: Command shows, Foundry coordinates, Forge decides factory steps, Covenant gates trust, AO2 executes, control-plane observes;
+- terms are consistent across documents: Command shows, Foundry coordinates, Forge decides factory steps, Covenant gates trust, AO2 executes, control-plane observes, Arena scores, Crucible hardens, Sentinel monitors, Promoter activates;
 - every guide gives colleagues enough source paths to continue investigation;
 - readiness-loop docs explain the stop-oriented exit gate and keep blockers separate from maintenance suggestions;
 - dangerous authority drift is called out directly.
@@ -58,9 +58,11 @@ Run from `architecture`:
 find . -name '*.md' -print
 find images -name '*.svg' -print
 grep -R "](../images/" ao-command ao-covenant ao-forge ao-foundry ao2 ao2-control-plane overview
-grep -R "Agent Roles And Skills" ao-command ao-covenant ao-forge ao-foundry ao2 ao2-control-plane
-grep -R "Contracts And Evidence" ao-command ao-covenant ao-forge ao-foundry ao2 ao2-control-plane
+grep -R "](../images/" ao-arena ao-crucible ao-sentinel ao-promoter
+grep -R "Agent Roles And Skills" ao-command ao-covenant ao-forge ao-foundry ao2 ao2-control-plane ao-arena ao-crucible ao-sentinel ao-promoter
+grep -R "Contracts And Evidence" ao-command ao-covenant ao-forge ao-foundry ao2 ao2-control-plane ao-arena ao-crucible ao-sentinel ao-promoter
 grep -R "readiness exit gate" ao-foundry ao2 overview
+python3 scripts/verify_architecture.py
 ```
 
 The final verification pass for this documentation pack should also confirm that every Markdown image target exists and every SVG is parseable XML.

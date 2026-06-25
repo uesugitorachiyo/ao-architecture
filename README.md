@@ -2,7 +2,7 @@
 
 ![AO stack overview](images/ao-stack-overview.svg)
 
-AO Architecture documents a multi-repository AI agent orchestration stack for governed autonomous software engineering. It explains how AO Foundry, AO Forge, AO Covenant, AO2, ao2-control-plane, and AO Command work together as an evidence-first agentic factory: choosing work, gating policy, executing bounded agent runs, preserving evidence, exposing read-only status, and stopping when readiness gates are satisfied.
+AO Architecture documents a multi-repository AI agent orchestration stack for governed autonomous software engineering. It explains how AO Foundry, AO Forge, AO Covenant, AO2, ao2-control-plane, AO Command, AO Arena, AO Crucible, AO Sentinel, and AO Promoter work together as an evidence-first agentic factory: choosing work, gating policy, executing bounded agent runs, preserving evidence, measuring outcomes, hardening candidates, monitoring regressions, promoting only gated winners, exposing read-only status, and stopping when readiness gates are satisfied.
 
 Use this documentation to understand the AO stack's architecture, authority boundaries, agent workflows, contracts, production-readiness gates, and evidence trails. The focus is practical orchestration: how agent work moves from portfolio scheduling to governed factory planning, local execution, policy decisions, control-plane readback, and operator-facing status.
 
@@ -16,6 +16,10 @@ The AO stack is a set of open architecture documents for building and operating 
 - AO2 executes bounded local agent workflows and records artifacts, decisions, approvals, and evaluator closure evidence.
 - ao2-control-plane publishes observer evidence without becoming an approval authority.
 - AO Command gives operators a read-only status and command surface for the active stack.
+- AO Arena scores fixture-mode benchmark evidence before a candidate can claim improvement.
+- AO Crucible runs adversarial hardening probes before a candidate is trusted.
+- AO Sentinel watches public-safety and regression signals and can emit promoter holds.
+- AO Promoter activates a candidate only after Arena, Crucible, Covenant, Foundry, Forge, AO2, and Sentinel evidence passes.
 
 That separation is the core idea: AI agent orchestration should be inspectable, evidence-backed, policy-gated, and stoppable.
 
@@ -35,6 +39,10 @@ Watch the video walkthrough: [AO Architecture on YouTube](https://youtu.be/P0Jbs
 | `ao2` | Governed local execution runtime for bounded agent workflows, approvals, artifacts, evidence packs, and evaluator closure. | [AO2 Architecture](ao2/README.md) |
 | `ao2-control-plane` | Read-only observer and evidence publication surface for AO2 and release-readiness signals. | [ao2-control-plane Architecture](ao2-control-plane/README.md) |
 | `ao-command` | Operator-facing status and command surface for viewing the active stack without crossing approval boundaries. | [AO Command Architecture](ao-command/README.md) |
+| `ao-arena` | Deterministic benchmark and scoring layer for comparing bare Codex and AO orchestration outcomes. | [AO Arena Architecture](ao-arena/README.md) |
+| `ao-crucible` | Adversarial hardening layer for fixture-mode resilience probes and remediation evidence. | [AO Crucible Architecture](ao-crucible/README.md) |
+| `ao-sentinel` | Safety and regression monitor that emits deterministic verdicts, incidents, and promoter holds. | [AO Sentinel Architecture](ao-sentinel/README.md) |
+| `ao-promoter` | Gated activation path that turns passing evidence into dry-run activation and rollback plans. | [AO Promoter Architecture](ao-promoter/README.md) |
 
 ## Start Here
 
@@ -45,9 +53,13 @@ Watch the video walkthrough: [AO Architecture on YouTube](https://youtu.be/P0Jbs
 | Folder | Guide |
 | --- | --- |
 | `ao-command` | [AO Command Architecture](ao-command/README.md) |
+| `ao-arena` | [AO Arena Architecture](ao-arena/README.md) |
 | `ao-covenant` | [AO Covenant Architecture](ao-covenant/README.md) |
+| `ao-crucible` | [AO Crucible Architecture](ao-crucible/README.md) |
 | `ao-forge` | [AO Forge Architecture](ao-forge/README.md) |
 | `ao-foundry` | [AO Foundry Architecture](ao-foundry/README.md) |
+| `ao-promoter` | [AO Promoter Architecture](ao-promoter/README.md) |
+| `ao-sentinel` | [AO Sentinel Architecture](ao-sentinel/README.md) |
 | `ao2` | [AO2 Architecture](ao2/README.md) |
 | `ao2-control-plane` | [ao2-control-plane Architecture](ao2-control-plane/README.md) |
 
@@ -61,6 +73,7 @@ The stack is designed around:
 - policy-gated side effects;
 - bounded local execution instead of unbounded autonomy;
 - production-readiness and release-readiness gates;
+- benchmark, hardening, regression, and promotion gates;
 - clean separation between execution, policy, orchestration, observer storage, and operator UX;
 - stop conditions that prevent autonomous loops from inventing work after readiness is satisfied.
 
@@ -77,9 +90,13 @@ These docs describe the target folders as architecture documentation mirrors. Th
 | Source repository | Architecture guide |
 | --- | --- |
 | [ao-command](https://github.com/uesugitorachiyo/ao-command) | [ao-command](ao-command/README.md) |
+| [ao-arena](https://github.com/uesugitorachiyo/ao-arena) | [ao-arena](ao-arena/README.md) |
 | [ao-covenant](https://github.com/uesugitorachiyo/ao-covenant) | [ao-covenant](ao-covenant/README.md) |
+| [ao-crucible](https://github.com/uesugitorachiyo/ao-crucible) | [ao-crucible](ao-crucible/README.md) |
 | [ao-forge](https://github.com/uesugitorachiyo/ao-forge) | [ao-forge](ao-forge/README.md) |
 | [ao-foundry](https://github.com/uesugitorachiyo/ao-foundry) | [ao-foundry](ao-foundry/README.md) |
+| [ao-promoter](https://github.com/uesugitorachiyo/ao-promoter) | [ao-promoter](ao-promoter/README.md) |
+| [ao-sentinel](https://github.com/uesugitorachiyo/ao-sentinel) | [ao-sentinel](ao-sentinel/README.md) |
 | [ao2](https://github.com/uesugitorachiyo/ao2) | [ao2](ao2/README.md) |
 | [ao2-control-plane](https://github.com/uesugitorachiyo/ao2-control-plane) | [ao2-control-plane](ao2-control-plane/README.md) |
 

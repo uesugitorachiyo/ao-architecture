@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="620" viewBox="0 0 1280 620" role="img" aria-labelledby="title desc">
   <title id="title">Evidence-first factory flow</title>
-  <desc id="desc">Shows the lifecycle from objective to operator summary, emphasizing policy decisions, governed execution, evidence export, control-plane ingest, and factory readiness.</desc>
+  <desc id="desc">Shows the lifecycle from objective to operator summary, emphasizing policy decisions, governed execution, evidence export, control-plane ingest, benchmark scoring, hardening, monitoring, promotion, and factory readiness.</desc>
   <defs>
     <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
       <path d="M2,2 L10,6 L2,10 Z" fill="#334155"/>
@@ -69,4 +69,5 @@
 
   <text class="lane" x="56" y="285">Execution lane: plan and gate before side effects</text>
   <text class="lane" x="56" y="488">Evidence lane: every transition leaves a durable, schema-backed record</text>
+  <text class="small" x="56" y="540">Assurance lane: Arena scores, Crucible hardens, Sentinel monitors, and Promoter activates only after gated evidence passes.</text>
 </svg>
