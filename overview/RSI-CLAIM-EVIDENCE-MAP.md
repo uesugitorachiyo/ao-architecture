@@ -8,7 +8,7 @@ allows from what remains denied.
 
 | Claim level | Current decision | Evidence status | Authority |
 | --- | --- | --- | --- |
-| `claim_level=bounded_governed_rsi` | Allowed | Passing local evidence can support this claim when Foundry candidate evidence, the roughly 5 percent Foundry improvement gate, Foundry next-task evidence, Forge retained proofs, Command health, the AO2 claim-readiness audit, and the Covenant boundary check all pass. | AO Foundry produces the pulse evidence, AO Forge retains it, AO Command verifies it, AO2 reports its local claim boundary, and AO Covenant preserves the wording boundary. |
+| `claim_level=bounded_governed_rsi` | Allowed | Passing local evidence can support this claim when Foundry candidate evidence, the roughly 5 percent Foundry improvement gate, Foundry next-task evidence, Forge retained proofs, Command health, the AO2 claim-readiness audit, ao2-control-plane readback, and the Covenant boundary check all pass. | AO Foundry produces the pulse evidence, AO Forge retains it, AO Command verifies it, AO2 reports its local claim boundary, ao2-control-plane observes that boundary without approving it, and AO Covenant preserves the wording boundary. |
 | `claim_level=full_autonomous_self_mutating_rsi` | Denied | Current public artifacts do not prove mutation authority, rollback evidence, live self-change evidence, or an approved Covenant ticket for the full claim. | AO Covenant owns the `claim.publish` side-effect gate for `full-autonomous-self-mutating-rsi`. |
 
 The current stack can describe itself as a bounded, governed RSI workflow. It
@@ -35,13 +35,15 @@ claim has passed the Covenant gate and the required evidence exists.
 | 14 | AO Covenant | AO Covenant PR #56, commit `60f5b4a45c0b420c9224075edd258170a549416d` | Makes Covenant policy output, operator guidance, public docs, and policy-spine gates use `bounded_governed_rsi` and `full_autonomous_self_mutating_rsi` vocabulary. |
 | 15 | AO2 | `npm run rsi:claim-readiness` / `ao2.rsi-claim-readiness-audit.v1` | Emits a local read-only audit that allows `bounded_governed_rsi` and denies `full_autonomous_self_mutating_rsi` until mutation authority, rollback evidence, live self-change evidence, observer readback, and Covenant claim-publish approval exist. |
 | 16 | AO2 | AO2 PR #198, commit `af86093758b13303402b825bf3b5849da88cf501` | Adds the AO2 claim-readiness audit, README boundary, and Python guard coverage for the audit contract and public trust boundary. |
+| 17 | ao2-control-plane | `scripts/verify_ao2_rsi_claim_readiness.py` / `ao2.cp-ao2-rsi-claim-readiness-readback.v1` | Reads the AO2 claim-readiness summary as an observer-only control-plane check, confirms `bounded_governed_rsi` remains allowed, and confirms `full_autonomous_self_mutating_rsi` remains denied with the expected blockers. |
+| 18 | ao2-control-plane | ao2-control-plane PR #70, commit `1f80530ca8430f810fbd2c7f21daa70076c689a0` | Adds CI, docs, and guard coverage for AO2 claim-readiness readback without allowing the control plane to approve RSI claims or mutate repositories. |
 
 ## Execution And Readback Repositories
 
 | Repository | RSI role | Current boundary |
 | --- | --- | --- |
 | `ao2` | Governed local execution runtime for bounded agent workflows, evidence packs, approvals, artifacts, evaluator closure, and local RSI claim-readiness auditing. | AO2 contributes execution and evidence mechanics plus `ao2.rsi-claim-readiness-audit.v1`; the current RSI claim chain does not require AO2 to call deprecated `ao-runtime` and still denies the full self-mutating claim. |
-| `ao2-control-plane` | Read-only observer and evidence publication surface for AO2 evidence and release-readiness signals. | It observes completed evidence after the fact and does not approve RSI claims or mutate repositories. |
+| `ao2-control-plane` | Read-only observer and evidence publication surface for AO2 evidence, release-readiness signals, and AO2 RSI claim-readiness readback. | It observes completed evidence after the fact, emits `ao2.cp-ao2-rsi-claim-readiness-readback.v1`, and does not approve RSI claims or mutate repositories. |
 
 ## Deprecated Or Out-Of-Scope Repositories
 
@@ -69,8 +71,9 @@ the stack needs all of the following:
 4. Live self-change evidence showing the system changed one of its own active
    planning, execution, policy, or verification paths and then re-ran the
    relevant gates.
-5. Observer readback evidence from the appropriate AO2 or ao2-control-plane
-   surface without transferring approval authority to the observer.
+5. Observer readback evidence for the live self-change and rollback evidence
+   packet from the appropriate AO2 or ao2-control-plane surface without
+   transferring approval authority to the observer.
 6. Updated AO Command health and AO Forge retained evidence that publish the new
    claim-level decision and remain schema-valid.
 
