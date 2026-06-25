@@ -136,6 +136,8 @@ rehearsal markers and the `mutates_repositories=false` boundary. It also pins
 AO Covenant PR #57, which denies full self-mutating RSI when retained rollback
 rehearsal evidence exists without mutation authority and live self-change
 evidence.
+AO Command PR #32 makes this architecture manifest validation fail closed if
+those retained Forge and Covenant evidence pins are missing.
 
 ## Visual Map
 
