@@ -155,12 +155,15 @@
     {
       "id": "ao-covenant",
       "role": "claim_publication_policy_gate",
-      "snapshot_commit": "3a47e3845e0a0c6a2db196a00e339de425cc6c6c",
+      "snapshot_commit": "2606a00a6643c99fe46775d8b6238d5915a49206",
       "evidence": [
         "examples/full-rsi-claim-boundary/denied.contract.json",
         "examples/full-rsi-claim-boundary/rollback-retained.contract.json",
         "examples/full-rsi-claim-boundary/rollback-retained-ticket.json",
+        "examples/full-rsi-claim-boundary/live-self-change-authority.packet.json",
         "examples/full-rsi-claim-boundary/evidence-approved.contract.json",
+        "schemas/covenant.live-self-change-authority.v1.schema.json",
+        "covenant.live-self-change-authority.v1",
         "internal/policy/evaluator.go",
         "internal/policy/explain.go",
         "internal/policy/spine.go",
@@ -185,6 +188,12 @@
           "title": "Deny full RSI with retained rollback only",
           "url": "https://github.com/uesugitorachiyo/ao-covenant/pull/57",
           "merge_commit": "3a47e3845e0a0c6a2db196a00e339de425cc6c6c"
+        },
+        {
+          "number": 58,
+          "title": "Add live self-change authority packet schema",
+          "url": "https://github.com/uesugitorachiyo/ao-covenant/pull/58",
+          "merge_commit": "2606a00a6643c99fe46775d8b6238d5915a49206"
         }
       ]
     },
@@ -321,7 +330,7 @@
   ],
   "full_claim_required_evidence": [
     "covenant-approved claim.publish ticket for full-autonomous-self-mutating-rsi",
-    "mutation authority naming repository, branch, allowed write surface, exact digest, approval identity, and expiry",
+    "mutation authority packet using covenant.live-self-change-authority.v1 naming repository, branch, allowed write surface, exact digest, approval identity, and expiry",
     "Covenant-approved full-claim rollback evidence for the same change class, beyond temporary-workspace dry-run rehearsal alone",
     "live self-change evidence over an active planning, execution, policy, or verification path",
     "observer readback for the live self-change and rollback evidence packet that preserves observer-only authority",
