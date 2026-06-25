@@ -98,7 +98,10 @@ claim of full autonomous self-mutating RSI. The demonstrated chain is:
 7. ao2-control-plane reads back those AO2 summaries as observer-only evidence
    and confirms the rollback rehearsal passed while it does not approve RSI
    claims, apply AO2 patches, or mutate repositories.
-8. AO Command's `scripts/rsi-evidence-chain-smoke.sh` runs the executable
+8. AO Command's `rsi manifest` validation now fail-closes unless the
+   architecture manifest includes AO2 `rollback_rehearsal.status=passed`, AO2
+   PR #200, and ao2-control-plane PR #72 while preserving read-only execution.
+9. AO Command's `scripts/rsi-evidence-chain-smoke.sh` runs the executable
    cross-repo proof from Foundry pulse through retained Forge proofs, Command
    health, and the Covenant RSI claim boundary.
 
