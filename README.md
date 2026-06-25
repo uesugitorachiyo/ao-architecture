@@ -94,10 +94,12 @@ claim of full autonomous self-mutating RSI. The demonstrated chain is:
 6. AO2 emits local claim-readiness and governed self-change dry-run summaries;
    the dry-run packet includes proposed self-change and rollback patch artifacts
    without applying them to the repository, plus an executed rollback rehearsal
-   in a temporary workspace.
+   in a temporary workspace and a dry-run `covenant.live-self-change-authority.v1`
+   authority-packet candidate that is not claim-publish-valid.
 7. ao2-control-plane reads back those AO2 summaries as observer-only evidence
-   and confirms the rollback rehearsal passed while it does not approve RSI
-   claims, apply AO2 patches, or mutate repositories.
+   and confirms the rollback rehearsal and authority-packet candidate while it
+   does not approve RSI claims, apply AO2 patches, publish claims, or mutate
+   repositories.
 8. AO Command's `rsi manifest` validation now fail-closes unless the
    architecture manifest includes AO2 `rollback_rehearsal.status=passed`, AO2
    PR #200, ao2-control-plane PR #72, Forge retained-proof pins, and Covenant's
@@ -110,9 +112,11 @@ claim of full autonomous self-mutating RSI. The demonstrated chain is:
 This proves a local, evidence-first recursive-improvement workflow with
 read-only verification, next-task derivation, and governed self-change dry-run
 evidence. It is not a claim of full autonomous self-mutating RSI because
-mutation authority and live self-change are not proven by the current
-artifacts; rollback rehearsal is now present only as temporary-workspace
-evidence for the same dry-run change class.
+live self-change and observer readback for that live change are not proven by
+the current artifacts; rollback rehearsal is now present only as
+temporary-workspace evidence for the same dry-run change class, and AO2's
+authority packet remains a dry-run candidate with
+`schema_valid_for_claim_publish=false`.
 
 AO Covenant owns the wording gate for any stronger claim. Publishing a full
 autonomous self-mutating RSI claim is a `claim.publish` side effect for the
@@ -129,6 +133,13 @@ AO Covenant PR #58 adds the public `covenant.live-self-change-authority.v1`
 schema and `live-self-change-authority.packet.json` fixture for the mutation
 authority portion of that stronger path. That schema is necessary progress, but
 it is not live self-change evidence by itself.
+AO2 PR #201 now emits a dry-run authority-packet candidate using that schema,
+and ao2-control-plane PR #73 verifies the packet hash and dry-run boundary as
+observer-only readback. Those pins make mutation-authority shape auditable, but
+they still do not prove live self-change execution or claim-publish-valid
+observer readback.
+In short, mutation authority and live self-change are not proven for the full
+claim.
 
 The cross-repo source map for this boundary lives in
 [overview/RSI-CLAIM-EVIDENCE-MAP.md](overview/RSI-CLAIM-EVIDENCE-MAP.md), with a
@@ -145,6 +156,9 @@ self-mutating RSI when retained rollback rehearsal evidence exists without
 mutation authority and live self-change evidence.
 It also pins AO Covenant PR #58, where Covenant defines the schema-backed live
 self-change authority packet required before the stronger claim can advance.
+It also pins AO2 PR #201 and ao2-control-plane PR #73, where AO2 emits the
+dry-run authority-packet candidate and the control plane verifies it without
+granting claim approval.
 AO Command PR #32 makes this architecture manifest validation fail closed if
 the retained Forge and Covenant evidence pins are missing. AO Command PR #33
 extends that fail-closed validator to require AO Forge PR #144's architecture
