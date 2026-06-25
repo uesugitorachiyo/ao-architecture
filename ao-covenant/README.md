@@ -86,6 +86,13 @@ wording. A claim that the stack has full autonomous self-mutating RSI is a
 Covenant denies that side effect unless an approved evidence ticket explicitly
 covers mutation authority, rollback evidence, and live self-change evidence.
 
+The public fixture set introduced by AO Covenant PR #55 lives at
+`examples/full-rsi-claim-boundary/` in the AO Covenant source repository. It
+contains denied, generic-approval, and evidence-approved contracts; the
+`evidence-approved.contract.json` fixture demonstrates that policy can record an
+allowed full-RSI claim decision only when the ticket reason names all three
+evidence classes.
+
 This gate keeps the AO architecture from confusing the bounded, governed RSI
 evidence chain with a stronger self-mutating claim that has not yet been proven.
 
