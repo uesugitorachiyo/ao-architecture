@@ -59,14 +59,17 @@
     {
       "id": "ao-forge",
       "role": "goalrun_retention_and_aggregate_proof",
-      "snapshot_commit": "037f505a30bcff2536175b76021cfdd5f5f5a562",
+      "snapshot_commit": "966a3022c66635ab03b0029cd6cf68aefccd11b4",
       "evidence": [
         "docs/contracts/goal-run-retained-evidence-v0.1.schema.json",
         "docs/evidence/goals/ao2-weekend-hardening/20260619T180000Z-verification/ao-foundry-rsi-improvement-gate-retention-proof.json",
         "docs/evidence/goals/ao2-weekend-hardening/20260619T180000Z-verification/ao-foundry-rsi-candidate-retention-proof.json",
         "docs/evidence/goals/ao2-weekend-hardening/20260619T180000Z-verification/ao-foundry-rsi-next-improvement-task-retention-proof.json",
         "docs/evidence/goals/ao2-weekend-hardening/20260619T180000Z-verification/ao-command-rsi-health-retention-proof.json",
+        "docs/evidence/goals/ao2-weekend-hardening/20260619T180000Z-verification/ao-command-rsi-manifest-retention-proof.json",
         "docs/evidence/goals/ao2-weekend-hardening/20260619T180000Z-verification/bounded-rsi-improvement-chain-retention-proof.json",
+        "ao-command-rsi-manifest",
+        "rollback_rehearsal.status=passed",
         "scripts/verify-goal-fixtures.sh"
       ],
       "known_prs": [
@@ -75,6 +78,12 @@
           "title": "Retain RSI claim levels",
           "url": "https://github.com/uesugitorachiyo/ao-forge/pull/142",
           "merge_commit": "037f505a30bcff2536175b76021cfdd5f5f5a562"
+        },
+        {
+          "number": 143,
+          "title": "Retain AO Command RSI manifest evidence",
+          "url": "https://github.com/uesugitorachiyo/ao-forge/pull/143",
+          "merge_commit": "966a3022c66635ab03b0029cd6cf68aefccd11b4"
         }
       ]
     },

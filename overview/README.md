@@ -117,7 +117,9 @@ evidence, and live self-change evidence. That keeps the public architecture
 aligned with the evidence actually produced by the stack.
 
 Use [RSI Claim Evidence Map](RSI-CLAIM-EVIDENCE-MAP.md) for the current
-cross-repo snapshot. The companion
+cross-repo snapshot. AO Forge also retains AO Command's manifest-validation
+proof so the architecture can audit the rollback rehearsal markers after the
+original command run has completed. The companion
 [`rsi-claim-evidence-manifest.json`](rsi-claim-evidence-manifest.json) pins the
 known PRs, source commits, artifact paths, claim-level decisions, and deprecated
 or out-of-scope repositories that must not be used as active RSI evidence.
