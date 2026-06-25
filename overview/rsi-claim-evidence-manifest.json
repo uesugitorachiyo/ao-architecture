@@ -12,6 +12,7 @@
         "ao_foundry_rsi_next_improvement_task",
         "ao_forge_retained_foundry_evidence",
         "ao_command_rsi_health",
+        "ao_command_rsi_manifest_validation",
         "ao2_rsi_claim_readiness_audit",
         "ao2_rsi_self_change_dry_run",
         "ao2_control_plane_rsi_claim_readiness_readback",
@@ -80,12 +81,15 @@
     {
       "id": "ao-command",
       "role": "read_only_rsi_health_verifier",
-      "snapshot_commit": "90ff82ddcc233e5e565b012e9a2f05a0d1a0d8e0",
+      "snapshot_commit": "9e2deea8f522df435c99813f61c318b9651bfa23",
       "evidence": [
         "scripts/rsi-evidence-chain-smoke.sh",
         "go run ./cmd/ao-command rsi manifest --manifest ../ao-architecture/overview/rsi-claim-evidence-manifest.json",
         "docs/contracts/rsi-health-v0.1.schema.json",
         "docs/contracts/rsi-health-bundle-v0.1.schema.json",
+        "rollback_rehearsal.status=passed",
+        "AO2 PR #200",
+        "ao2-control-plane PR #72",
         "README.md",
         "docs/operations/PRODUCTION-READINESS.md"
       ],
@@ -95,9 +99,17 @@
           "title": "Add RSI manifest command",
           "url": "https://github.com/uesugitorachiyo/ao-command/pull/28",
           "merge_commit": "90ff82ddcc233e5e565b012e9a2f05a0d1a0d8e0"
+        },
+        {
+          "number": 31,
+          "title": "Require RSI rollback rehearsal manifest evidence",
+          "url": "https://github.com/uesugitorachiyo/ao-command/pull/31",
+          "merge_commit": "9e2deea8f522df435c99813f61c318b9651bfa23"
         }
       ],
       "claim_output": [
+        "ao_command_rsi_manifest=passed",
+        "mutates_repositories=false",
         "claim_level=bounded_governed_rsi decision=allowed",
         "claim_level=full_autonomous_self_mutating_rsi decision=denied"
       ]

@@ -91,8 +91,9 @@ RSI improvement gate, then emits AO Foundry RSI next improvement task evidence
 when the candidate and gate support the next bounded action. AO Forge retains
 that evidence, AO2 emits claim-readiness plus governed self-change dry-run
 summaries with a temporary-workspace rollback rehearsal, ao2-control-plane reads
-those summaries back as observer-only evidence, and AO Command verifies Foundry
-pulse -> Forge retention -> Command health from read-only inputs.
+those summaries back as observer-only evidence, and AO Command verifies both
+Foundry pulse -> Forge retention -> Command health and the architecture
+manifest's rollback-rehearsal evidence requirements from read-only inputs.
 
 The executable stack check for that bounded claim is AO Command's
 `scripts/rsi-evidence-chain-smoke.sh`. It runs Foundry pulse evidence, checks
