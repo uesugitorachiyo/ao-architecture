@@ -104,7 +104,12 @@ autonomous self-mutating RSI claim is a `claim.publish` side effect for the
 `full-autonomous-self-mutating-rsi` resource, and Covenant denies it unless an
 approved evidence ticket covers mutation authority, rollback evidence, and live
 self-change evidence. The architecture can only describe the stack as
-self-mutating after that policy path exists and passes.
+self-mutating after that policy path exists and passes. The executable fixture
+for this boundary lives in AO Covenant's
+`examples/full-rsi-claim-boundary/` directory, added by AO Covenant PR #55. Its
+`evidence-approved.contract.json` example records an allowed policy decision
+only after the approval reason names mutation authority, rollback evidence, and
+live self-change evidence; it does not add a default claim-publishing adapter.
 
 ## Visual Map
 

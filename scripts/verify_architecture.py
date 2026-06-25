@@ -43,6 +43,9 @@ REQUIRED_RSI_CLAIMS = [
     "Foundry pulse -> Forge retention -> Command health",
     "scripts/rsi-evidence-chain-smoke.sh",
     "Covenant RSI claim boundary",
+    "examples/full-rsi-claim-boundary/",
+    "evidence-approved.contract.json",
+    "AO Covenant PR #55",
     "mutation authority and live self-change are not proven",
     "`claim.publish` side effect",
     "`full-autonomous-self-mutating-rsi` resource",
@@ -54,6 +57,9 @@ REQUIRED_COVENANT_CLAIM_BOUNDARY = [
     "RSI Claim Publication Gate",
     "`claim.publish` side effect",
     "`full-autonomous-self-mutating-rsi` resource",
+    "examples/full-rsi-claim-boundary/",
+    "evidence-approved.contract.json",
+    "AO Covenant PR #55",
     "mutation authority, rollback evidence, and live self-change evidence",
 ]
 
