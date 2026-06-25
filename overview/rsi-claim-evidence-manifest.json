@@ -126,13 +126,16 @@
     {
       "id": "ao-covenant",
       "role": "claim_publication_policy_gate",
-      "snapshot_commit": "60f5b4a45c0b420c9224075edd258170a549416d",
+      "snapshot_commit": "3a47e3845e0a0c6a2db196a00e339de425cc6c6c",
       "evidence": [
         "examples/full-rsi-claim-boundary/denied.contract.json",
+        "examples/full-rsi-claim-boundary/rollback-retained.contract.json",
+        "examples/full-rsi-claim-boundary/rollback-retained-ticket.json",
         "examples/full-rsi-claim-boundary/evidence-approved.contract.json",
         "internal/policy/evaluator.go",
         "internal/policy/explain.go",
         "internal/policy/spine.go",
+        "retained rollback rehearsal alone is insufficient",
         "README.md"
       ],
       "known_prs": [
@@ -147,6 +150,12 @@
           "title": "Define RSI claim level vocabulary",
           "url": "https://github.com/uesugitorachiyo/ao-covenant/pull/56",
           "merge_commit": "60f5b4a45c0b420c9224075edd258170a549416d"
+        },
+        {
+          "number": 57,
+          "title": "Deny full RSI with retained rollback only",
+          "url": "https://github.com/uesugitorachiyo/ao-covenant/pull/57",
+          "merge_commit": "3a47e3845e0a0c6a2db196a00e339de425cc6c6c"
         }
       ]
     },
