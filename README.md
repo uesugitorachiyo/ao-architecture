@@ -132,10 +132,11 @@ The map records `claim_level=bounded_governed_rsi` as the supported bounded
 claim and `claim_level=full_autonomous_self_mutating_rsi` as denied until the
 stronger evidence path exists. It now also pins AO Forge PR #143, where Forge
 retains AO Command's RSI manifest validation output, including rollback
-rehearsal markers and the `mutates_repositories=false` boundary. It also pins
-AO Covenant PR #57, which denies full self-mutating RSI when retained rollback
-rehearsal evidence exists without mutation authority and live self-change
-evidence.
+rehearsal markers and the `mutates_repositories=false` boundary, and AO Forge
+PR #144, where Forge's production-readiness audit proves this architecture pins
+those retained RSI proofs. It also pins AO Covenant PR #57, which denies full
+self-mutating RSI when retained rollback rehearsal evidence exists without
+mutation authority and live self-change evidence.
 AO Command PR #32 makes this architecture manifest validation fail closed if
 those retained Forge and Covenant evidence pins are missing.
 

@@ -11,6 +11,7 @@
         "ao_foundry_rsi_improvement_gate",
         "ao_foundry_rsi_next_improvement_task",
         "ao_forge_retained_foundry_evidence",
+        "ao_forge_architecture_rsi_pin_readback",
         "ao_command_rsi_health",
         "ao_command_rsi_manifest_validation",
         "ao2_rsi_claim_readiness_audit",
@@ -59,15 +60,18 @@
     {
       "id": "ao-forge",
       "role": "goalrun_retention_and_aggregate_proof",
-      "snapshot_commit": "966a3022c66635ab03b0029cd6cf68aefccd11b4",
+      "snapshot_commit": "c196384c854448ee327f8ce4dbeb346c84ab649a",
       "evidence": [
         "docs/contracts/goal-run-retained-evidence-v0.1.schema.json",
+        "docs/contracts/architecture-rsi-pin-readback-v0.1.schema.json",
         "docs/evidence/goals/ao2-weekend-hardening/20260619T180000Z-verification/ao-foundry-rsi-improvement-gate-retention-proof.json",
         "docs/evidence/goals/ao2-weekend-hardening/20260619T180000Z-verification/ao-foundry-rsi-candidate-retention-proof.json",
         "docs/evidence/goals/ao2-weekend-hardening/20260619T180000Z-verification/ao-foundry-rsi-next-improvement-task-retention-proof.json",
         "docs/evidence/goals/ao2-weekend-hardening/20260619T180000Z-verification/ao-command-rsi-health-retention-proof.json",
         "docs/evidence/goals/ao2-weekend-hardening/20260619T180000Z-verification/ao-command-rsi-manifest-retention-proof.json",
         "docs/evidence/goals/ao2-weekend-hardening/20260619T180000Z-verification/bounded-rsi-improvement-chain-retention-proof.json",
+        "docs/evidence/architecture/ao-architecture-rsi-pin-readback.json",
+        "goalrun.architecture_rsi_pin_readback",
         "ao-command-rsi-manifest",
         "rollback_rehearsal.status=passed",
         "scripts/verify-goal-fixtures.sh"
@@ -84,6 +88,12 @@
           "title": "Retain AO Command RSI manifest evidence",
           "url": "https://github.com/uesugitorachiyo/ao-forge/pull/143",
           "merge_commit": "966a3022c66635ab03b0029cd6cf68aefccd11b4"
+        },
+        {
+          "number": 144,
+          "title": "Require architecture RSI pin readback readiness",
+          "url": "https://github.com/uesugitorachiyo/ao-forge/pull/144",
+          "merge_commit": "c196384c854448ee327f8ce4dbeb346c84ab649a"
         }
       ]
     },
