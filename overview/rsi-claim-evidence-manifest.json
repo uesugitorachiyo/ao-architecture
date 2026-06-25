@@ -12,6 +12,7 @@
         "ao_foundry_rsi_next_improvement_task",
         "ao_forge_retained_foundry_evidence",
         "ao_command_rsi_health",
+        "ao2_rsi_claim_readiness_audit",
         "ao_covenant_full_claim_boundary_denial"
       ]
     },
@@ -128,12 +129,28 @@
     {
       "id": "ao2",
       "role": "governed_execution_and_evidence_runtime",
-      "snapshot_commit": "2d273a5ed325177d874eb4fa72ebcfa7c338002c",
+      "snapshot_commit": "af86093758b13303402b825bf3b5849da88cf501",
       "evidence": [
         "README.md",
         "docs/SCHEMAS-AND-INTERFACES.md",
+        "scripts/rsi-claim-readiness-audit.sh",
         "scripts/pulse-generate-next.sh",
-        "scripts/pulse-resume.sh"
+        "scripts/pulse-resume.sh",
+        "tests/test_ao2_rsi_claim_readiness.py",
+        "target/rsi-claim-readiness/latest/summary.json",
+        "ao2.rsi-claim-readiness-audit.v1"
+      ],
+      "known_prs": [
+        {
+          "number": 198,
+          "title": "Add AO2 RSI claim readiness audit",
+          "url": "https://github.com/uesugitorachiyo/ao2/pull/198",
+          "merge_commit": "af86093758b13303402b825bf3b5849da88cf501"
+        }
+      ],
+      "claim_output": [
+        "claim_level=bounded_governed_rsi decision=allowed",
+        "claim_level=full_autonomous_self_mutating_rsi decision=denied"
       ],
       "boundary": "execution_and_evidence_mechanics_only_for_current_rsi_claim"
     },
