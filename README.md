@@ -48,7 +48,8 @@ Watch the video walkthrough: [AO Architecture on YouTube](https://youtu.be/P0Jbs
 
 1. [Overview](overview/README.md) explains how all repositories interact.
 2. [Production Readiness Checklist](overview/PRODUCTION-READINESS.md) explains the quality bar for this documentation pack.
-3. Read individual repository guides when you need implementation detail:
+3. [RSI Claim Evidence Map](overview/RSI-CLAIM-EVIDENCE-MAP.md) pins the bounded/full RSI claim boundary, source artifacts, known PRs, and out-of-scope repositories.
+4. Read individual repository guides when you need implementation detail:
 
 | Folder | Guide |
 | --- | --- |
@@ -110,6 +111,14 @@ for this boundary lives in AO Covenant's
 `evidence-approved.contract.json` example records an allowed policy decision
 only after the approval reason names mutation authority, rollback evidence, and
 live self-change evidence; it does not add a default claim-publishing adapter.
+
+The cross-repo source map for this boundary lives in
+[overview/RSI-CLAIM-EVIDENCE-MAP.md](overview/RSI-CLAIM-EVIDENCE-MAP.md), with a
+machine-readable companion manifest at
+[overview/rsi-claim-evidence-manifest.json](overview/rsi-claim-evidence-manifest.json).
+The map records `claim_level=bounded_governed_rsi` as the supported bounded
+claim and `claim_level=full_autonomous_self_mutating_rsi` as denied until the
+stronger evidence path exists.
 
 ## Visual Map
 

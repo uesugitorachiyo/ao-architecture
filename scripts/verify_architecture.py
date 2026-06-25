@@ -34,6 +34,11 @@ REQUIRED_IMAGES = [
     "images/ao-promoter-gated-promotion.svg",
 ]
 
+REQUIRED_RSI_MAP_FILES = [
+    "overview/RSI-CLAIM-EVIDENCE-MAP.md",
+    "overview/rsi-claim-evidence-manifest.json",
+]
+
 REQUIRED_RSI_CLAIMS = [
     "bounded, governed RSI evidence chain",
     "not a claim of full autonomous self-mutating RSI",
@@ -51,6 +56,39 @@ REQUIRED_RSI_CLAIMS = [
     "`full-autonomous-self-mutating-rsi` resource",
     "rollback evidence",
     "live self-change evidence",
+    "RSI Claim Evidence Map",
+    "rsi-claim-evidence-manifest.json",
+    "claim_level=bounded_governed_rsi",
+    "claim_level=full_autonomous_self_mutating_rsi",
+]
+
+REQUIRED_RSI_MAP_TERMS = [
+    "claim_level=bounded_governed_rsi",
+    "claim_level=full_autonomous_self_mutating_rsi",
+    "AO Foundry PR #65",
+    "AO Forge PR #142",
+    "AO Covenant PR #55",
+    "mutation authority",
+    "rollback evidence",
+    "live self-change evidence",
+    "not active RSI evidence",
+]
+
+REQUIRED_RSI_MANIFEST_TERMS = [
+    '"schema_version": "ao.architecture.rsi-claim-evidence-manifest.v0.1"',
+    '"claim_level": "bounded_governed_rsi"',
+    '"claim_level": "full_autonomous_self_mutating_rsi"',
+    '"decision": "allowed"',
+    '"decision": "denied"',
+    '"ao-foundry"',
+    '"ao-forge"',
+    '"ao-command"',
+    '"ao-covenant"',
+    '"ao2"',
+    '"ao2-control-plane"',
+    '"ao-operator"',
+    '"ao-runtime"',
+    '"ao-control-plane"',
 ]
 
 REQUIRED_COVENANT_CLAIM_BOUNDARY = [
@@ -133,9 +171,23 @@ def main() -> int:
     root_text = read_text(readme)
     command_text = read_text(ROOT / "ao-command" / "README.md")
     rsi_claim_text = "\n".join([root_text, overview_text, command_text])
+    for required_file in REQUIRED_RSI_MAP_FILES:
+        if not (ROOT / required_file).exists():
+            fail(f"missing required RSI map file: {required_file}")
+
     for claim in REQUIRED_RSI_CLAIMS:
         if claim not in rsi_claim_text:
             fail(f"architecture docs missing RSI claim guard: {claim}")
+
+    rsi_map_text = read_text(ROOT / "overview" / "RSI-CLAIM-EVIDENCE-MAP.md")
+    for term in REQUIRED_RSI_MAP_TERMS:
+        if term not in rsi_map_text:
+            fail(f"RSI claim evidence map missing required term: {term}")
+
+    rsi_manifest_text = read_text(ROOT / "overview" / "rsi-claim-evidence-manifest.json")
+    for term in REQUIRED_RSI_MANIFEST_TERMS:
+        if term not in rsi_manifest_text:
+            fail(f"RSI claim evidence manifest missing required term: {term}")
 
     covenant_text = read_text(ROOT / "ao-covenant" / "README.md")
     for claim in REQUIRED_COVENANT_CLAIM_BOUNDARY:
