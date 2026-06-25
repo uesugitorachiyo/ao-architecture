@@ -76,13 +76,22 @@
     {
       "id": "ao-command",
       "role": "read_only_rsi_health_verifier",
-      "snapshot_commit": "8c288a00aaa92062ad08f91bf79483bdac3b07e4",
+      "snapshot_commit": "90ff82ddcc233e5e565b012e9a2f05a0d1a0d8e0",
       "evidence": [
         "scripts/rsi-evidence-chain-smoke.sh",
+        "go run ./cmd/ao-command rsi manifest --manifest ../ao-architecture/overview/rsi-claim-evidence-manifest.json",
         "docs/contracts/rsi-health-v0.1.schema.json",
         "docs/contracts/rsi-health-bundle-v0.1.schema.json",
         "README.md",
         "docs/operations/PRODUCTION-READINESS.md"
+      ],
+      "known_prs": [
+        {
+          "number": 28,
+          "title": "Add RSI manifest command",
+          "url": "https://github.com/uesugitorachiyo/ao-command/pull/28",
+          "merge_commit": "90ff82ddcc233e5e565b012e9a2f05a0d1a0d8e0"
+        }
       ],
       "claim_output": [
         "claim_level=bounded_governed_rsi decision=allowed",
@@ -92,11 +101,13 @@
     {
       "id": "ao-covenant",
       "role": "claim_publication_policy_gate",
-      "snapshot_commit": "c5ff915d65b6159bc64df88805b52959052fd397",
+      "snapshot_commit": "60f5b4a45c0b420c9224075edd258170a549416d",
       "evidence": [
         "examples/full-rsi-claim-boundary/denied.contract.json",
         "examples/full-rsi-claim-boundary/evidence-approved.contract.json",
+        "internal/policy/evaluator.go",
         "internal/policy/explain.go",
+        "internal/policy/spine.go",
         "README.md"
       ],
       "known_prs": [
@@ -105,6 +116,12 @@
           "title": "Add full RSI claim boundary fixtures",
           "url": "https://github.com/uesugitorachiyo/ao-covenant/pull/55",
           "merge_commit": "c5ff915d65b6159bc64df88805b52959052fd397"
+        },
+        {
+          "number": 56,
+          "title": "Define RSI claim level vocabulary",
+          "url": "https://github.com/uesugitorachiyo/ao-covenant/pull/56",
+          "merge_commit": "60f5b4a45c0b420c9224075edd258170a549416d"
         }
       ]
     },
