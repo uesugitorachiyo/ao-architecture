@@ -61,7 +61,7 @@ The architecture is pull-based. AO Command reads existing files and command outp
 | --- | --- |
 | `status` | Reads AO Forge readiness and reports gate counts, required next actions, production-ready decision, and release governance state. |
 | `stack` | Reads AO Foundry active-stack readiness ledgers and reports repository and release-handoff state. |
-| `rsi health` | Reads AO Arena, AO Crucible, AO Sentinel, and AO Promoter fixture evidence and reports governed local RSI health. |
+| `rsi health` | Reads AO Arena, AO Crucible, AO Sentinel, AO Promoter, and AO Foundry RSI evidence and reports governed local RSI health. |
 | `next` | Presents the next operator action derived from Forge evidence. |
 | `goals` | Inspects GoalRun evidence and loop state. |
 | `evidence` | Validates a document against a schema-backed contract. |
@@ -93,9 +93,21 @@ The architecture is pull-based. AO Command reads existing files and command outp
 ### RSI Health Workflow
 
 1. Generate fixture/local evidence in AO Arena, AO Crucible, AO Sentinel, and AO Promoter.
-2. Run `ao-command rsi health` with the four JSON artifact paths.
-3. Inspect `rsi_mode=governed_fixture_local`, `operator_mode=read_only`, and `mutates_repositories=false`.
-4. Treat any blocked family as a reason to stop the RSI claim until the owning repository fixes its evidence.
+2. Generate AO Foundry RSI improvement gate, AO Foundry RSI candidate evidence,
+   and AO Foundry RSI next improvement task evidence from a Foundry pulse.
+3. Run `ao-command rsi health` with the assurance-family JSON artifacts plus
+   `--foundry-gate`, `--foundry-candidate`, and `--foundry-next-task`.
+4. Inspect `rsi_mode=governed_fixture_local`, `operator_mode=read_only`,
+   `mutates_repositories=false`, and the Foundry binding fields.
+5. Treat any blocked family or Foundry binding as a reason to stop the RSI claim
+   until the owning repository fixes its evidence.
+
+AO Command's RSI role is verification, not execution. It verifies a bounded,
+governed RSI evidence chain by checking that the AO Foundry RSI candidate
+evidence matches the AO Foundry RSI improvement gate and that the AO Foundry RSI
+next improvement task evidence binds back to both. In the full stack, the
+intended audit path is Foundry pulse -> Forge retention -> Command health.
+This is not a claim of full autonomous self-mutating RSI; mutation authority and live self-change are not proven by `rsi health`.
 
 ## Agent Roles And Skills
 
@@ -120,8 +132,9 @@ AO Command consumes and validates:
 - release-governance audit JSON;
 - public provenance manifests;
 - branch-protection evidence;
-- retained-evidence records.
+- retained-evidence records;
 - Arena promotion gates, Crucible hardening gates, Sentinel verdicts, and Promoter promotion gates.
+- AO Foundry RSI improvement gate, AO Foundry RSI candidate evidence, and AO Foundry RSI next improvement task evidence.
 
 The CLI should prefer schema-backed JSON evidence over terminal-only summaries. Terminal text is useful for humans; JSON contracts are the durable interface.
 
@@ -173,7 +186,7 @@ cd ../../ao-command
 go test ./...
 go vet ./...
 go build -o bin/ao-command ./cmd/ao-command
-go run ./cmd/ao-command rsi health --arena-gate ../ao-arena/tmp/arena-promotion-gate.json --crucible-gate ../ao-crucible/tmp/crucible-hardening-gate.json --sentinel-verdict ../ao-sentinel/tmp/sentinel-verdict.json --promoter-gate ../ao-promoter/tmp/promotion-gate.json --json
+go run ./cmd/ao-command rsi health --arena-gate ../ao-arena/tmp/arena-promotion-gate.json --crucible-gate ../ao-crucible/tmp/crucible-hardening-gate.json --sentinel-verdict ../ao-sentinel/tmp/sentinel-verdict.json --promoter-gate ../ao-promoter/tmp/promotion-gate.json --foundry-gate ../ao-foundry/tmp/pulse-rsi-verify/rsi-improvement-gate.json --foundry-candidate ../ao-foundry/tmp/pulse-rsi-verify/rsi-candidate.json --foundry-next-task ../ao-foundry/tmp/pulse-rsi-verify/rsi-next-improvement-task.json --json
 scripts/ao-command-smoke.sh --forge ../ao-forge --out tmp/ao-command-smoke
 scripts/verify-branch-protection.sh
 ```

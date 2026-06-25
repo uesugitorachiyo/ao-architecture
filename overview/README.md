@@ -83,6 +83,22 @@ AO Foundry watches the active stack as a portfolio. It reads registry records, C
 
 The readiness exit gate is stop-oriented. When goal readiness and competitive readiness are 100/100 and the active-stack loop passes with no `blocking_next_actions`, autonomous readiness work stops. Follow-up `maintenance_suggestions` stay separate from blockers, and live execution, signed-smoke promotion, release promotion, or new implementation work requires explicit operator intent.
 
+### Governed RSI Evidence Workflow
+
+The active RSI claim is a bounded, governed RSI evidence chain. AO Foundry
+generates AO Foundry RSI candidate evidence, checks it through the AO Foundry
+RSI improvement gate, then emits AO Foundry RSI next improvement task evidence
+when the candidate and gate support the next bounded action. AO Forge retains
+that evidence, and AO Command verifies Foundry pulse -> Forge retention ->
+Command health from read-only inputs.
+
+This workflow can support a roughly 5 percent local recursive-improvement claim
+when the candidate, gate, retained evidence, and command health checks all pass.
+It is not a claim of full autonomous self-mutating RSI. The current architecture
+does not prove mutation authority or live self-change, and it keeps repository
+mutation outside the default RSI health path until AO Covenant-approved policy,
+rollback, and live-change evidence exist.
+
 ### Release And Promotion Workflow
 
 Release readiness is intentionally multi-repo:
