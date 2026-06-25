@@ -29,8 +29,10 @@ claim has passed the Covenant gate and the required evidence exists.
 | 8 | AO Forge | AO Forge PR #142, commit `037f505a30bcff2536175b76021cfdd5f5f5a562` | Makes retained GoalRun evidence preserve `bounded_governed_rsi` allowed and `full_autonomous_self_mutating_rsi` denied decisions. |
 | 9 | AO Command | `scripts/rsi-evidence-chain-smoke.sh` | Runs the executable cross-repo smoke from Foundry pulse through Forge retention, Command health, and the Covenant claim boundary. |
 | 10 | AO Command | `docs/contracts/rsi-health-v0.1.schema.json` and `docs/contracts/rsi-health-bundle-v0.1.schema.json` | Requires RSI health outputs to include structured claim levels. |
-| 11 | AO Covenant | `examples/full-rsi-claim-boundary/evidence-approved.contract.json` | Shows the allowed path for the full claim only when an approved evidence ticket names mutation authority, rollback evidence, and live self-change evidence. |
-| 12 | AO Covenant | AO Covenant PR #55, commit `c5ff915d65b6159bc64df88805b52959052fd397` | Adds the full RSI claim publication boundary fixtures. |
+| 11 | AO Command | AO Command PR #28, commit `90ff82ddcc233e5e565b012e9a2f05a0d1a0d8e0` | Adds read-only `ao-command rsi manifest --manifest` validation for this architecture manifest and wires it into CI and production readiness. |
+| 12 | AO Covenant | `examples/full-rsi-claim-boundary/evidence-approved.contract.json` | Shows the allowed path for the full claim only when an approved evidence ticket names mutation authority, rollback evidence, and live self-change evidence. |
+| 13 | AO Covenant | AO Covenant PR #55, commit `c5ff915d65b6159bc64df88805b52959052fd397` | Adds the full RSI claim publication boundary fixtures. |
+| 14 | AO Covenant | AO Covenant PR #56, commit `60f5b4a45c0b420c9224075edd258170a549416d` | Makes Covenant policy output, operator guidance, public docs, and policy-spine gates use `bounded_governed_rsi` and `full_autonomous_self_mutating_rsi` vocabulary. |
 
 ## Execution And Readback Repositories
 
