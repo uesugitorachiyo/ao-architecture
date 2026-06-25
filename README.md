@@ -100,7 +100,9 @@ claim of full autonomous self-mutating RSI. The demonstrated chain is:
    claims, apply AO2 patches, or mutate repositories.
 8. AO Command's `rsi manifest` validation now fail-closes unless the
    architecture manifest includes AO2 `rollback_rehearsal.status=passed`, AO2
-   PR #200, and ao2-control-plane PR #72 while preserving read-only execution.
+   PR #200, ao2-control-plane PR #72, Forge retained-proof pins, and Covenant's
+   retained rollback and authority-packet pins while preserving read-only
+   execution.
 9. AO Command's `scripts/rsi-evidence-chain-smoke.sh` runs the executable
    cross-repo proof from Foundry pulse through retained Forge proofs, Command
    health, and the Covenant RSI claim boundary.
@@ -147,6 +149,10 @@ AO Command PR #32 makes this architecture manifest validation fail closed if
 the retained Forge and Covenant evidence pins are missing. AO Command PR #33
 extends that fail-closed validator to require AO Forge PR #144's architecture
 RSI pin readback evidence.
+AO Command PR #34 extends it again to require AO Covenant PR #58's
+`covenant.live-self-change-authority.v1` schema and
+`live-self-change-authority.packet.json` fixture before the bounded RSI manifest
+can pass.
 
 ## Visual Map
 
