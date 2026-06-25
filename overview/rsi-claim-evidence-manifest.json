@@ -132,7 +132,7 @@
     {
       "id": "ao2",
       "role": "governed_execution_and_evidence_runtime",
-      "snapshot_commit": "204078604b8bb52b606ed2bf35ff5c5dd9654b21",
+      "snapshot_commit": "6c5d383c78362168fe50851bb6063a63114f1cee",
       "evidence": [
         "README.md",
         "docs/SCHEMAS-AND-INTERFACES.md",
@@ -146,8 +146,10 @@
         "target/rsi-self-change-dry-run/latest/summary.json",
         "target/rsi-self-change-dry-run/latest/proposed-self-change.patch",
         "target/rsi-self-change-dry-run/latest/rollback-self-change.patch",
+        "target/rsi-self-change-dry-run/latest/rollback-rehearsal/worktree/scripts/rsi-claim-readiness-audit.sh",
         "ao2.rsi-claim-readiness-audit.v1",
-        "ao2.rsi-governed-self-change-dry-run.v1"
+        "ao2.rsi-governed-self-change-dry-run.v1",
+        "rollback_rehearsal.status=passed"
       ],
       "known_prs": [
         {
@@ -161,10 +163,17 @@
           "title": "Add AO2 RSI self-change dry-run evidence",
           "url": "https://github.com/uesugitorachiyo/ao2/pull/199",
           "merge_commit": "204078604b8bb52b606ed2bf35ff5c5dd9654b21"
+        },
+        {
+          "number": 200,
+          "title": "Add RSI rollback rehearsal evidence",
+          "url": "https://github.com/uesugitorachiyo/ao2/pull/200",
+          "merge_commit": "6c5d383c78362168fe50851bb6063a63114f1cee"
         }
       ],
       "claim_output": [
         "self_change_dry_run=passed",
+        "rollback_rehearsal=passed",
         "claim_level=bounded_governed_rsi decision=allowed",
         "claim_level=full_autonomous_self_mutating_rsi decision=denied"
       ],
@@ -173,7 +182,7 @@
     {
       "id": "ao2-control-plane",
       "role": "read_only_observer_readback",
-      "snapshot_commit": "9a54ac1ffad95080a92a82096a90c1b7bc9c1700",
+      "snapshot_commit": "3f81bba3a897101e2a56ba76de9a59a7d027f464",
       "evidence": [
         "README.md",
         "docs/SECURITY.md",
@@ -187,6 +196,7 @@
         "target/ao2-rsi-self-change-dry-run-readback/summary.json",
         "ao2.cp-ao2-rsi-claim-readiness-readback.v1",
         "ao2.cp-ao2-rsi-self-change-dry-run-readback.v1",
+        "rollback_rehearsal.status=passed",
         "crates/ao2-cp-server"
       ],
       "known_prs": [
@@ -201,6 +211,12 @@
           "title": "Add AO2 RSI self-change dry-run readback",
           "url": "https://github.com/uesugitorachiyo/ao2-control-plane/pull/71",
           "merge_commit": "9a54ac1ffad95080a92a82096a90c1b7bc9c1700"
+        },
+        {
+          "number": 72,
+          "title": "Require AO2 RSI rollback rehearsal readback",
+          "url": "https://github.com/uesugitorachiyo/ao2-control-plane/pull/72",
+          "merge_commit": "3f81bba3a897101e2a56ba76de9a59a7d027f464"
         }
       ],
       "claim_output": [
@@ -247,7 +263,7 @@
   "full_claim_required_evidence": [
     "covenant-approved claim.publish ticket for full-autonomous-self-mutating-rsi",
     "mutation authority naming repository, branch, allowed write surface, exact digest, approval identity, and expiry",
-    "rollback evidence for the same change class",
+    "Covenant-approved full-claim rollback evidence for the same change class, beyond temporary-workspace dry-run rehearsal alone",
     "live self-change evidence over an active planning, execution, policy, or verification path",
     "observer readback for the live self-change and rollback evidence packet that preserves observer-only authority",
     "AO Command and AO Forge retained evidence with updated claim-level decisions"

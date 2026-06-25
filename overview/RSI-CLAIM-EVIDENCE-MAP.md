@@ -9,7 +9,7 @@ allows from what remains denied.
 | Claim level | Current decision | Evidence status | Authority |
 | --- | --- | --- | --- |
 | `claim_level=bounded_governed_rsi` | Allowed | Passing local evidence can support this claim when Foundry candidate evidence, the roughly 5 percent Foundry improvement gate, Foundry next-task evidence, Forge retained proofs, Command health, the AO2 claim-readiness audit, AO2 governed self-change dry-run evidence, ao2-control-plane readbacks, and the Covenant boundary check all pass. | AO Foundry produces the pulse evidence, AO Forge retains it, AO Command verifies it, AO2 reports its local claim boundary and dry-run self-change packet, ao2-control-plane observes those packets without approving them, and AO Covenant preserves the wording boundary. |
-| `claim_level=full_autonomous_self_mutating_rsi` | Denied | Current public artifacts do not prove mutation authority, executed rollback evidence, live self-change evidence, or an approved Covenant ticket for the full claim. | AO Covenant owns the `claim.publish` side-effect gate for `full-autonomous-self-mutating-rsi`. |
+| `claim_level=full_autonomous_self_mutating_rsi` | Denied | Current public artifacts include executed temporary-workspace rollback rehearsal evidence, but they do not prove mutation authority, live self-change evidence, or an approved Covenant ticket for the full claim. | AO Covenant owns the `claim.publish` side-effect gate for `full-autonomous-self-mutating-rsi`. |
 
 The current stack can describe itself as a bounded, governed RSI workflow. It
 must not describe itself as full autonomous self-mutating RSI until the stronger
@@ -35,12 +35,14 @@ claim has passed the Covenant gate and the required evidence exists.
 | 14 | AO Covenant | AO Covenant PR #56, commit `60f5b4a45c0b420c9224075edd258170a549416d` | Makes Covenant policy output, operator guidance, public docs, and policy-spine gates use `bounded_governed_rsi` and `full_autonomous_self_mutating_rsi` vocabulary. |
 | 15 | AO2 | `npm run rsi:claim-readiness` / `ao2.rsi-claim-readiness-audit.v1` | Emits a local read-only audit that allows `bounded_governed_rsi` and denies `full_autonomous_self_mutating_rsi` until mutation authority, rollback evidence, live self-change evidence, observer readback, and Covenant claim-publish approval exist. |
 | 16 | AO2 | AO2 PR #198, commit `af86093758b13303402b825bf3b5849da88cf501` | Adds the AO2 claim-readiness audit, README boundary, and Python guard coverage for the audit contract and public trust boundary. |
-| 17 | AO2 | `npm run rsi:self-change-dry-run` / `ao2.rsi-governed-self-change-dry-run.v1` | Emits proposed self-change and rollback patch artifacts for `verification_path_hardening` without applying the patch, preserving `full_autonomous_self_mutating_rsi` as denied. |
+| 17 | AO2 | `npm run rsi:self-change-dry-run` / `ao2.rsi-governed-self-change-dry-run.v1` | Emits proposed self-change and rollback patch artifacts for `verification_path_hardening` without applying the patch to the repository, executes rollback rehearsal in a temporary workspace, and preserves `full_autonomous_self_mutating_rsi` as denied. |
 | 18 | AO2 | AO2 PR #199, commit `204078604b8bb52b606ed2bf35ff5c5dd9654b21` | Adds governed self-change dry-run evidence, README boundary text, and Python guard coverage while keeping mutation authority and live self-change unproven. |
-| 19 | ao2-control-plane | `scripts/verify_ao2_rsi_claim_readiness.py` / `ao2.cp-ao2-rsi-claim-readiness-readback.v1` | Reads the AO2 claim-readiness summary as an observer-only control-plane check, confirms `bounded_governed_rsi` remains allowed, and confirms `full_autonomous_self_mutating_rsi` remains denied with the expected blockers. |
-| 20 | ao2-control-plane | ao2-control-plane PR #70, commit `1f80530ca8430f810fbd2c7f21daa70076c689a0` | Adds CI, docs, and guard coverage for AO2 claim-readiness readback without allowing the control plane to approve RSI claims or mutate repositories. |
-| 21 | ao2-control-plane | `scripts/verify_ao2_rsi_self_change_dry_run.py` / `ao2.cp-ao2-rsi-self-change-dry-run-readback.v1` | Reads the AO2 self-change dry-run summary as observer-only evidence, confirms it is a dry run with planned rollback artifacts, and confirms the control plane does not apply AO2 patches. |
-| 22 | ao2-control-plane | ao2-control-plane PR #71, commit `9a54ac1ffad95080a92a82096a90c1b7bc9c1700` | Adds CI, docs, and guard coverage for AO2 governed self-change dry-run readback without allowing the control plane to approve RSI claims, apply patches, or mutate repositories. |
+| 19 | AO2 | AO2 PR #200, commit `6c5d383c78362168fe50851bb6063a63114f1cee` | Adds executed rollback rehearsal evidence for the same `verification_path_hardening` change class in a temporary workspace while keeping repository mutation and full self-mutating RSI denied. |
+| 20 | ao2-control-plane | `scripts/verify_ao2_rsi_claim_readiness.py` / `ao2.cp-ao2-rsi-claim-readiness-readback.v1` | Reads the AO2 claim-readiness summary as an observer-only control-plane check, confirms `bounded_governed_rsi` remains allowed, and confirms `full_autonomous_self_mutating_rsi` remains denied with the expected blockers. |
+| 21 | ao2-control-plane | ao2-control-plane PR #70, commit `1f80530ca8430f810fbd2c7f21daa70076c689a0` | Adds CI, docs, and guard coverage for AO2 claim-readiness readback without allowing the control plane to approve RSI claims or mutate repositories. |
+| 22 | ao2-control-plane | `scripts/verify_ao2_rsi_self_change_dry_run.py` / `ao2.cp-ao2-rsi-self-change-dry-run-readback.v1` | Reads the AO2 self-change dry-run summary as observer-only evidence, confirms it is a dry run with planned rollback artifacts and executed temporary-workspace rollback rehearsal evidence, and confirms the control plane does not apply AO2 patches. |
+| 23 | ao2-control-plane | ao2-control-plane PR #71, commit `9a54ac1ffad95080a92a82096a90c1b7bc9c1700` | Adds CI, docs, and guard coverage for AO2 governed self-change dry-run readback without allowing the control plane to approve RSI claims, apply patches, or mutate repositories. |
+| 24 | ao2-control-plane | ao2-control-plane PR #72, commit `3f81bba3a897101e2a56ba76de9a59a7d027f464` | Requires ao2-control-plane readback to validate AO2 `rollback_rehearsal.status=passed` evidence while preserving observer-only authority. |
 
 ## Execution And Readback Repositories
 
@@ -71,7 +73,9 @@ the stack needs all of the following:
 2. Mutation authority evidence that names the repository, branch, allowed write
    surface, exact digest, approval identity, and expiry.
 3. Rollback evidence that has been executed or rehearsed against the same change
-   class and retained with digests.
+   class and retained with digests. The current AO2 evidence satisfies this as
+   temporary-workspace rehearsal for the dry-run change class, not live rollback
+   of a repository mutation.
 4. Live self-change evidence showing the system changed one of its own active
    planning, execution, policy, or verification paths and then re-ran the
    relevant gates.
