@@ -129,6 +129,9 @@ Forge and Covenant retained evidence pins are absent. AO Forge's
 `goalrun.architecture_rsi_pin_readback` production-readiness gate now also
 proves this architecture pins those retained Forge RSI proofs, and AO Command
 PR #33 fail-closes the manifest when that Forge PR #144 readback is absent. The
+AO Command PR #34 validator also fail-closes the manifest when AO Covenant PR
+#58's `covenant.live-self-change-authority.v1` authority packet schema and
+fixture pins are absent. The
 companion
 [`rsi-claim-evidence-manifest.json`](rsi-claim-evidence-manifest.json) pins the
 known PRs, source commits, artifact paths, claim-level decisions, and deprecated

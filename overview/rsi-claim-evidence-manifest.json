@@ -100,7 +100,7 @@
     {
       "id": "ao-command",
       "role": "read_only_rsi_health_verifier",
-      "snapshot_commit": "cca2c05ffb3f3eea3cdadc08152e3c051f6f5069",
+      "snapshot_commit": "97144fb40631d4c90bb083310e0c66437375f1a5",
       "evidence": [
         "scripts/rsi-evidence-chain-smoke.sh",
         "go run ./cmd/ao-command rsi manifest --manifest ../ao-architecture/overview/rsi-claim-evidence-manifest.json",
@@ -112,10 +112,14 @@
         "AO Forge PR #143",
         "AO Forge PR #144",
         "AO Covenant PR #57",
+        "AO Covenant PR #58",
         "ao-command-rsi-manifest-retention-proof.json",
         "goalrun.architecture_rsi_pin_readback",
         "ao-architecture-rsi-pin-readback.json",
         "rollback-retained.contract.json",
+        "live-self-change-authority.packet.json",
+        "schemas/covenant.live-self-change-authority.v1.schema.json",
+        "covenant.live-self-change-authority.v1",
         "README.md",
         "docs/operations/PRODUCTION-READINESS.md"
       ],
@@ -143,6 +147,12 @@
           "title": "Require Forge architecture RSI readback pin",
           "url": "https://github.com/uesugitorachiyo/ao-command/pull/33",
           "merge_commit": "cca2c05ffb3f3eea3cdadc08152e3c051f6f5069"
+        },
+        {
+          "number": 34,
+          "title": "Require Covenant authority packet in RSI manifest",
+          "url": "https://github.com/uesugitorachiyo/ao-command/pull/34",
+          "merge_commit": "97144fb40631d4c90bb083310e0c66437375f1a5"
         }
       ],
       "claim_output": [
