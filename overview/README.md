@@ -122,7 +122,9 @@ Use [RSI Claim Evidence Map](RSI-CLAIM-EVIDENCE-MAP.md) for the current
 cross-repo snapshot. AO Forge also retains AO Command's manifest-validation
 proof so the architecture can audit the rollback rehearsal markers after the
 original command run has completed, and AO Command now fails closed when those
-Forge and Covenant retained evidence pins are absent. The companion
+Forge and Covenant retained evidence pins are absent. AO Forge's
+`goalrun.architecture_rsi_pin_readback` production-readiness gate now also
+proves this architecture pins those retained Forge RSI proofs. The companion
 [`rsi-claim-evidence-manifest.json`](rsi-claim-evidence-manifest.json) pins the
 known PRs, source commits, artifact paths, claim-level decisions, and deprecated
 or out-of-scope repositories that must not be used as active RSI evidence.
