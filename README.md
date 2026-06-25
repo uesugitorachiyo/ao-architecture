@@ -94,10 +94,14 @@ claim of full autonomous self-mutating RSI. The demonstrated chain is:
 This proves a local, evidence-first recursive-improvement workflow with
 read-only verification and next-task derivation. It is not a claim of full
 autonomous self-mutating RSI because mutation authority and live self-change are
-not proven by the current artifacts. Any future stronger claim must add explicit
-policy approval, mutation authority, live change evidence, rollback evidence,
-and Covenant-approved wording before the architecture can describe it as
-self-mutating.
+not proven by the current artifacts.
+
+AO Covenant owns the wording gate for any stronger claim. Publishing a full
+autonomous self-mutating RSI claim is a `claim.publish` side effect for the
+`full-autonomous-self-mutating-rsi` resource, and Covenant denies it unless an
+approved evidence ticket covers mutation authority, rollback evidence, and live
+self-change evidence. The architecture can only describe the stack as
+self-mutating after that policy path exists and passes.
 
 ## Visual Map
 

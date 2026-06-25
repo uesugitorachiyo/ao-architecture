@@ -40,6 +40,7 @@ AO Covenant answers:
 - What contract governs this work?
 - Which side effects were declared?
 - Did policy allow, deny, block, or require approval before execution?
+- Is a public capability claim itself a governed `claim.publish` side effect?
 - Is an approval exact-digest-bound and still valid?
 - Does the evidence pack verify against recorded digests?
 - Can the release, bundle, or schema artifact be validated offline?
@@ -76,6 +77,17 @@ Public JSON schemas live in `schemas/` and are embedded into the binary so autom
 6. Record events, artifacts, input snapshots, policy decisions, approvals, failures, and digests.
 7. Evaluate closure from obligations to evidence.
 8. Export and verify the evidence pack.
+
+### RSI Claim Publication Gate
+
+AO Covenant owns the policy boundary for full autonomous self-mutating RSI
+wording. A claim that the stack has full autonomous self-mutating RSI is a
+`claim.publish` side effect on the `full-autonomous-self-mutating-rsi` resource.
+Covenant denies that side effect unless an approved evidence ticket explicitly
+covers mutation authority, rollback evidence, and live self-change evidence.
+
+This gate keeps the AO architecture from confusing the bounded, governed RSI
+evidence chain with a stronger self-mutating claim that has not yet been proven.
 
 ### Approval Workflow
 

@@ -42,6 +42,17 @@ REQUIRED_RSI_CLAIMS = [
     "AO Foundry RSI next improvement task evidence",
     "Foundry pulse -> Forge retention -> Command health",
     "mutation authority and live self-change are not proven",
+    "`claim.publish` side effect",
+    "`full-autonomous-self-mutating-rsi` resource",
+    "rollback evidence",
+    "live self-change evidence",
+]
+
+REQUIRED_COVENANT_CLAIM_BOUNDARY = [
+    "RSI Claim Publication Gate",
+    "`claim.publish` side effect",
+    "`full-autonomous-self-mutating-rsi` resource",
+    "mutation authority, rollback evidence, and live self-change evidence",
 ]
 
 SAFETY_PATTERNS = [
@@ -117,6 +128,11 @@ def main() -> int:
     for claim in REQUIRED_RSI_CLAIMS:
         if claim not in rsi_claim_text:
             fail(f"architecture docs missing RSI claim guard: {claim}")
+
+    covenant_text = read_text(ROOT / "ao-covenant" / "README.md")
+    for claim in REQUIRED_COVENANT_CLAIM_BOUNDARY:
+        if claim not in covenant_text:
+            fail(f"ao-covenant/README.md missing RSI claim boundary: {claim}")
 
     for repo in NEW_REPOS:
         if repo not in overview_text:
