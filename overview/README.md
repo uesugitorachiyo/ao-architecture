@@ -114,7 +114,10 @@ AO Covenant now treats full autonomous self-mutating RSI wording as a governed
 `claim.publish` side effect. The `full-autonomous-self-mutating-rsi` resource is
 denied unless an approved evidence ticket covers mutation authority, rollback
 evidence, and live self-change evidence. That keeps the public architecture
-aligned with the evidence actually produced by the stack. Its retained-rollback
+aligned with the evidence actually produced by the stack. AO Covenant now
+publishes `covenant.live-self-change-authority.v1` for the mutation authority
+packet, but live self-change execution and observer readback remain unproven.
+Its retained-rollback
 fixture also makes explicit that rollback rehearsal evidence alone is not enough
 to publish the full self-mutating RSI claim.
 

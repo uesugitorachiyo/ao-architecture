@@ -123,6 +123,10 @@ for this boundary lives in AO Covenant's
 `evidence-approved.contract.json` example records an allowed policy decision
 only after the approval reason names mutation authority, rollback evidence, and
 live self-change evidence; it does not add a default claim-publishing adapter.
+AO Covenant PR #58 adds the public `covenant.live-self-change-authority.v1`
+schema and `live-self-change-authority.packet.json` fixture for the mutation
+authority portion of that stronger path. That schema is necessary progress, but
+it is not live self-change evidence by itself.
 
 The cross-repo source map for this boundary lives in
 [overview/RSI-CLAIM-EVIDENCE-MAP.md](overview/RSI-CLAIM-EVIDENCE-MAP.md), with a
@@ -137,6 +141,8 @@ PR #144, where Forge's production-readiness audit proves this architecture pins
 those retained RSI proofs. It also pins AO Covenant PR #57, which denies full
 self-mutating RSI when retained rollback rehearsal evidence exists without
 mutation authority and live self-change evidence.
+It also pins AO Covenant PR #58, where Covenant defines the schema-backed live
+self-change authority packet required before the stronger claim can advance.
 AO Command PR #32 makes this architecture manifest validation fail closed if
 the retained Forge and Covenant evidence pins are missing. AO Command PR #33
 extends that fail-closed validator to require AO Forge PR #144's architecture
