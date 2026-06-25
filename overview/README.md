@@ -90,24 +90,24 @@ generates AO Foundry RSI candidate evidence, checks it through the AO Foundry
 RSI improvement gate, then emits AO Foundry RSI next improvement task evidence
 when the candidate and gate support the next bounded action. AO Forge retains
 that evidence, AO2 emits claim-readiness plus governed self-change dry-run
-summaries, ao2-control-plane reads those summaries back as observer-only
-evidence, and AO Command verifies Foundry pulse -> Forge retention -> Command
-health from read-only inputs.
+summaries with a temporary-workspace rollback rehearsal, ao2-control-plane reads
+those summaries back as observer-only evidence, and AO Command verifies Foundry
+pulse -> Forge retention -> Command health from read-only inputs.
 
 The executable stack check for that bounded claim is AO Command's
 `scripts/rsi-evidence-chain-smoke.sh`. It runs Foundry pulse evidence, checks
 the retained Forge RSI proofs through Command health, and confirms the Covenant
 RSI claim boundary still denies full autonomous self-mutating RSI wording when
-mutation authority, rollback evidence, and live self-change evidence are
-missing.
+mutation authority, Covenant-approved full-claim rollback evidence, and live
+self-change evidence are missing.
 
 This workflow can support a roughly 5 percent local recursive-improvement claim
 when the candidate, gate, retained evidence, AO2 dry-run evidence, control-plane
 readbacks, and command health checks all pass. It is not a claim of full
 autonomous self-mutating RSI. The current architecture does not prove mutation
-authority, executed rollback evidence, or live self-change, and it keeps
-repository mutation outside the default RSI health path until AO
-Covenant-approved policy, rollback, and live-change evidence exist.
+authority or live self-change, and it keeps repository mutation outside the
+default RSI health path until AO Covenant-approved policy, rollback, and
+live-change evidence exist.
 
 AO Covenant now treats full autonomous self-mutating RSI wording as a governed
 `claim.publish` side effect. The `full-autonomous-self-mutating-rsi` resource is

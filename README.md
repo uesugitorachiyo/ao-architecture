@@ -93,10 +93,11 @@ claim of full autonomous self-mutating RSI. The demonstrated chain is:
    -> Command health without mutating repositories.
 6. AO2 emits local claim-readiness and governed self-change dry-run summaries;
    the dry-run packet includes proposed self-change and rollback patch artifacts
-   without applying them.
+   without applying them to the repository, plus an executed rollback rehearsal
+   in a temporary workspace.
 7. ao2-control-plane reads back those AO2 summaries as observer-only evidence
-   and confirms it does not approve RSI claims, apply AO2 patches, or mutate
-   repositories.
+   and confirms the rollback rehearsal passed while it does not approve RSI
+   claims, apply AO2 patches, or mutate repositories.
 8. AO Command's `scripts/rsi-evidence-chain-smoke.sh` runs the executable
    cross-repo proof from Foundry pulse through retained Forge proofs, Command
    health, and the Covenant RSI claim boundary.
@@ -104,8 +105,9 @@ claim of full autonomous self-mutating RSI. The demonstrated chain is:
 This proves a local, evidence-first recursive-improvement workflow with
 read-only verification, next-task derivation, and governed self-change dry-run
 evidence. It is not a claim of full autonomous self-mutating RSI because
-mutation authority, executed rollback evidence, and live self-change are not
-proven by the current artifacts.
+mutation authority and live self-change are not proven by the current
+artifacts; rollback rehearsal is now present only as temporary-workspace
+evidence for the same dry-run change class.
 
 AO Covenant owns the wording gate for any stronger claim. Publishing a full
 autonomous self-mutating RSI claim is a `claim.publish` side effect for the
