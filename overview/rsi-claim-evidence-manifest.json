@@ -16,8 +16,10 @@
         "ao_command_rsi_manifest_validation",
         "ao2_rsi_claim_readiness_audit",
         "ao2_rsi_self_change_dry_run",
+        "ao2_rsi_authority_packet_dry_run_candidate",
         "ao2_control_plane_rsi_claim_readiness_readback",
         "ao2_control_plane_rsi_self_change_dry_run_readback",
+        "ao2_control_plane_rsi_authority_packet_readback",
         "ao_covenant_full_claim_boundary_denial"
       ]
     },
@@ -210,7 +212,7 @@
     {
       "id": "ao2",
       "role": "governed_execution_and_evidence_runtime",
-      "snapshot_commit": "6c5d383c78362168fe50851bb6063a63114f1cee",
+      "snapshot_commit": "8b232431bbeb007330ebf1acfb025b2a73ba98d3",
       "evidence": [
         "README.md",
         "docs/SCHEMAS-AND-INTERFACES.md",
@@ -224,9 +226,13 @@
         "target/rsi-self-change-dry-run/latest/summary.json",
         "target/rsi-self-change-dry-run/latest/proposed-self-change.patch",
         "target/rsi-self-change-dry-run/latest/rollback-self-change.patch",
+        "target/rsi-self-change-dry-run/latest/live-self-change-authority.packet.json",
         "target/rsi-self-change-dry-run/latest/rollback-rehearsal/worktree/scripts/rsi-claim-readiness-audit.sh",
         "ao2.rsi-claim-readiness-audit.v1",
         "ao2.rsi-governed-self-change-dry-run.v1",
+        "covenant.live-self-change-authority.v1",
+        "mutation_authority_packet.mode=dry_run_candidate",
+        "mutation_authority_packet.schema_valid_for_claim_publish=false",
         "rollback_rehearsal.status=passed"
       ],
       "known_prs": [
@@ -247,11 +253,19 @@
           "title": "Add RSI rollback rehearsal evidence",
           "url": "https://github.com/uesugitorachiyo/ao2/pull/200",
           "merge_commit": "6c5d383c78362168fe50851bb6063a63114f1cee"
+        },
+        {
+          "number": 201,
+          "title": "Emit RSI authority packet dry-run evidence",
+          "url": "https://github.com/uesugitorachiyo/ao2/pull/201",
+          "merge_commit": "8b232431bbeb007330ebf1acfb025b2a73ba98d3"
         }
       ],
       "claim_output": [
         "self_change_dry_run=passed",
         "rollback_rehearsal=passed",
+        "mutation_authority_packet=dry_run_candidate",
+        "schema_valid_for_claim_publish=false",
         "claim_level=bounded_governed_rsi decision=allowed",
         "claim_level=full_autonomous_self_mutating_rsi decision=denied"
       ],
@@ -260,20 +274,27 @@
     {
       "id": "ao2-control-plane",
       "role": "read_only_observer_readback",
-      "snapshot_commit": "3f81bba3a897101e2a56ba76de9a59a7d027f464",
+      "snapshot_commit": "6b83330c8a673b2bf210818c080ba4361062cf8f",
       "evidence": [
         "README.md",
         "docs/SECURITY.md",
         "docs/runbooks/release-smoke.md",
         "scripts/verify_ao2_rsi_claim_readiness.py",
         "scripts/verify_ao2_rsi_self_change_dry_run.py",
+        "scripts/verify_ao2_rsi_authority_packet.py",
         "scripts/verify_ao2_stable_promotion_evidence_index.py",
         "tests/test_ao2_rsi_claim_readiness_readback.py",
         "tests/test_ao2_rsi_self_change_dry_run_readback.py",
+        "tests/test_ao2_rsi_authority_packet_readback.py",
         "target/ao2-rsi-claim-readiness-readback/summary.json",
         "target/ao2-rsi-self-change-dry-run-readback/summary.json",
+        "target/ao2-rsi-authority-packet-readback/summary.json",
         "ao2.cp-ao2-rsi-claim-readiness-readback.v1",
         "ao2.cp-ao2-rsi-self-change-dry-run-readback.v1",
+        "ao2.cp-ao2-rsi-authority-packet-readback.v1",
+        "covenant.live-self-change-authority.v1",
+        "live-self-change-authority.packet.json",
+        "schema_valid_for_claim_publish=false",
         "rollback_rehearsal.status=passed",
         "crates/ao2-cp-server"
       ],
@@ -295,11 +316,18 @@
           "title": "Require AO2 RSI rollback rehearsal readback",
           "url": "https://github.com/uesugitorachiyo/ao2-control-plane/pull/72",
           "merge_commit": "3f81bba3a897101e2a56ba76de9a59a7d027f464"
+        },
+        {
+          "number": 73,
+          "title": "Add AO2 RSI authority packet readback",
+          "url": "https://github.com/uesugitorachiyo/ao2-control-plane/pull/73",
+          "merge_commit": "6b83330c8a673b2bf210818c080ba4361062cf8f"
         }
       ],
       "claim_output": [
         "control_plane_ao2_rsi_claim_readiness_readback=passed",
         "control_plane_ao2_rsi_self_change_dry_run_readback=passed",
+        "control_plane_ao2_rsi_authority_packet_readback=passed",
         "claim_level=bounded_governed_rsi decision=allowed",
         "claim_level=full_autonomous_self_mutating_rsi decision=denied"
       ],

@@ -111,7 +111,11 @@ evidence matches the AO Foundry RSI improvement gate and that the AO Foundry RSI
 next improvement task evidence binds back to both. In the full stack, the
 intended audit path is Foundry pulse -> Forge retention -> Command health, with
 the Covenant RSI claim boundary checked by the smoke script.
-This is not a claim of full autonomous self-mutating RSI; mutation authority and live self-change are not proven by `rsi health`.
+The architecture manifest now also pins AO2 PR #201's dry-run authority-packet
+candidate and ao2-control-plane PR #73's observer-only authority-packet
+readback as the next enforcement surface for `rsi manifest`. This is not a
+claim of full autonomous self-mutating RSI; mutation authority and live
+self-change are not proven by `rsi health`.
 
 ## Agent Roles And Skills
 
