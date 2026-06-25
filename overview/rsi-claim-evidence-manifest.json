@@ -1,0 +1,176 @@
+{
+  "schema_version": "ao.architecture.rsi-claim-evidence-manifest.v0.1",
+  "generated_date": "2026-06-25",
+  "claim_levels": [
+    {
+      "claim_level": "bounded_governed_rsi",
+      "decision": "allowed",
+      "status": "supported_when_chain_passes",
+      "required_evidence": [
+        "ao_foundry_rsi_candidate_evidence",
+        "ao_foundry_rsi_improvement_gate",
+        "ao_foundry_rsi_next_improvement_task",
+        "ao_forge_retained_foundry_evidence",
+        "ao_command_rsi_health",
+        "ao_covenant_full_claim_boundary_denial"
+      ]
+    },
+    {
+      "claim_level": "full_autonomous_self_mutating_rsi",
+      "decision": "denied",
+      "status": "missing_required_full_claim_evidence",
+      "required_before_allowed": [
+        "covenant_claim_publish_approval",
+        "mutation_authority",
+        "rollback_evidence",
+        "live_self_change_evidence",
+        "observer_readback",
+        "updated_retained_claim_level_evidence"
+      ]
+    }
+  ],
+  "active_repositories": [
+    {
+      "id": "ao-foundry",
+      "role": "pulse_candidate_and_improvement_gate_producer",
+      "snapshot_commit": "61e8f11fa382e3628f7f6c8f99c0758fd24430a1",
+      "evidence": [
+        "tmp/pulse-rsi-verify/rsi-candidate.json",
+        "tmp/pulse-rsi-verify/rsi-improvement-gate.json",
+        "tmp/pulse-rsi-verify/rsi-next-improvement-task.json",
+        "README.md",
+        "docs/sdd/AO-FOUNDRY-PULSE-GOLDEN-LOOP-SDD.md",
+        "docs/operations/AO2-PULSE-EVENT-LOOP.md"
+      ],
+      "known_prs": [
+        {
+          "number": 65,
+          "title": "Document RSI claim boundary",
+          "url": "https://github.com/uesugitorachiyo/ao-foundry/pull/65",
+          "merge_commit": "61e8f11fa382e3628f7f6c8f99c0758fd24430a1"
+        }
+      ]
+    },
+    {
+      "id": "ao-forge",
+      "role": "goalrun_retention_and_aggregate_proof",
+      "snapshot_commit": "037f505a30bcff2536175b76021cfdd5f5f5a562",
+      "evidence": [
+        "docs/contracts/goal-run-retained-evidence-v0.1.schema.json",
+        "docs/evidence/goals/ao2-weekend-hardening/20260619T180000Z-verification/ao-foundry-rsi-improvement-gate-retention-proof.json",
+        "docs/evidence/goals/ao2-weekend-hardening/20260619T180000Z-verification/ao-foundry-rsi-candidate-retention-proof.json",
+        "docs/evidence/goals/ao2-weekend-hardening/20260619T180000Z-verification/ao-foundry-rsi-next-improvement-task-retention-proof.json",
+        "docs/evidence/goals/ao2-weekend-hardening/20260619T180000Z-verification/ao-command-rsi-health-retention-proof.json",
+        "docs/evidence/goals/ao2-weekend-hardening/20260619T180000Z-verification/bounded-rsi-improvement-chain-retention-proof.json",
+        "scripts/verify-goal-fixtures.sh"
+      ],
+      "known_prs": [
+        {
+          "number": 142,
+          "title": "Retain RSI claim levels",
+          "url": "https://github.com/uesugitorachiyo/ao-forge/pull/142",
+          "merge_commit": "037f505a30bcff2536175b76021cfdd5f5f5a562"
+        }
+      ]
+    },
+    {
+      "id": "ao-command",
+      "role": "read_only_rsi_health_verifier",
+      "snapshot_commit": "8c288a00aaa92062ad08f91bf79483bdac3b07e4",
+      "evidence": [
+        "scripts/rsi-evidence-chain-smoke.sh",
+        "docs/contracts/rsi-health-v0.1.schema.json",
+        "docs/contracts/rsi-health-bundle-v0.1.schema.json",
+        "README.md",
+        "docs/operations/PRODUCTION-READINESS.md"
+      ],
+      "claim_output": [
+        "claim_level=bounded_governed_rsi decision=allowed",
+        "claim_level=full_autonomous_self_mutating_rsi decision=denied"
+      ]
+    },
+    {
+      "id": "ao-covenant",
+      "role": "claim_publication_policy_gate",
+      "snapshot_commit": "c5ff915d65b6159bc64df88805b52959052fd397",
+      "evidence": [
+        "examples/full-rsi-claim-boundary/denied.contract.json",
+        "examples/full-rsi-claim-boundary/evidence-approved.contract.json",
+        "internal/policy/explain.go",
+        "README.md"
+      ],
+      "known_prs": [
+        {
+          "number": 55,
+          "title": "Add full RSI claim boundary fixtures",
+          "url": "https://github.com/uesugitorachiyo/ao-covenant/pull/55",
+          "merge_commit": "c5ff915d65b6159bc64df88805b52959052fd397"
+        }
+      ]
+    },
+    {
+      "id": "ao2",
+      "role": "governed_execution_and_evidence_runtime",
+      "snapshot_commit": "2d273a5ed325177d874eb4fa72ebcfa7c338002c",
+      "evidence": [
+        "README.md",
+        "docs/SCHEMAS-AND-INTERFACES.md",
+        "scripts/pulse-generate-next.sh",
+        "scripts/pulse-resume.sh"
+      ],
+      "boundary": "execution_and_evidence_mechanics_only_for_current_rsi_claim"
+    },
+    {
+      "id": "ao2-control-plane",
+      "role": "read_only_observer_readback",
+      "snapshot_commit": "7db3a963af318714f60414c816d0aa5b52a4ad15",
+      "evidence": [
+        "README.md",
+        "docs/SECURITY.md",
+        "scripts/verify_ao2_stable_promotion_evidence_index.py",
+        "crates/ao2-cp-server"
+      ],
+      "boundary": "observer_only_no_claim_approval_no_repository_mutation"
+    }
+  ],
+  "deprecated_or_out_of_scope_repositories": [
+    {
+      "id": "ao-operator",
+      "status": "deprecated",
+      "replacement": "ao2",
+      "rsi_evidence_scope": "not_active_rsi_evidence"
+    },
+    {
+      "id": "ao-runtime",
+      "status": "deprecated",
+      "replacement": "ao2",
+      "rsi_evidence_scope": "not_active_rsi_evidence"
+    },
+    {
+      "id": "ao-control-plane",
+      "status": "deprecated",
+      "replacement": "ao2-control-plane",
+      "rsi_evidence_scope": "not_active_rsi_evidence"
+    },
+    {
+      "id": "ao-conductor",
+      "status": "out_of_scope",
+      "replacement": null,
+      "rsi_evidence_scope": "not_active_rsi_evidence"
+    },
+    {
+      "id": "agy-swarms",
+      "status": "out_of_scope",
+      "replacement": null,
+      "rsi_evidence_scope": "not_active_rsi_evidence"
+    }
+  ],
+  "full_claim_required_evidence": [
+    "covenant-approved claim.publish ticket for full-autonomous-self-mutating-rsi",
+    "mutation authority naming repository, branch, allowed write surface, exact digest, approval identity, and expiry",
+    "rollback evidence for the same change class",
+    "live self-change evidence over an active planning, execution, policy, or verification path",
+    "observer readback that preserves observer-only authority",
+    "AO Command and AO Forge retained evidence with updated claim-level decisions"
+  ]
+}

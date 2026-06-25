@@ -112,6 +112,12 @@ denied unless an approved evidence ticket covers mutation authority, rollback
 evidence, and live self-change evidence. That keeps the public architecture
 aligned with the evidence actually produced by the stack.
 
+Use [RSI Claim Evidence Map](RSI-CLAIM-EVIDENCE-MAP.md) for the current
+cross-repo snapshot. The companion
+[`rsi-claim-evidence-manifest.json`](rsi-claim-evidence-manifest.json) pins the
+known PRs, source commits, artifact paths, claim-level decisions, and deprecated
+or out-of-scope repositories that must not be used as active RSI evidence.
+
 ### Release And Promotion Workflow
 
 Release readiness is intentionally multi-repo:
