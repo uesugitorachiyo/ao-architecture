@@ -114,7 +114,9 @@ AO Covenant now treats full autonomous self-mutating RSI wording as a governed
 `claim.publish` side effect. The `full-autonomous-self-mutating-rsi` resource is
 denied unless an approved evidence ticket covers mutation authority, rollback
 evidence, and live self-change evidence. That keeps the public architecture
-aligned with the evidence actually produced by the stack.
+aligned with the evidence actually produced by the stack. Its retained-rollback
+fixture also makes explicit that rollback rehearsal evidence alone is not enough
+to publish the full self-mutating RSI claim.
 
 Use [RSI Claim Evidence Map](RSI-CLAIM-EVIDENCE-MAP.md) for the current
 cross-repo snapshot. AO Forge also retains AO Command's manifest-validation
