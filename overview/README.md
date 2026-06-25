@@ -92,6 +92,13 @@ when the candidate and gate support the next bounded action. AO Forge retains
 that evidence, and AO Command verifies Foundry pulse -> Forge retention ->
 Command health from read-only inputs.
 
+The executable stack check for that bounded claim is AO Command's
+`scripts/rsi-evidence-chain-smoke.sh`. It runs Foundry pulse evidence, checks
+the retained Forge RSI proofs through Command health, and confirms the Covenant
+RSI claim boundary still denies full autonomous self-mutating RSI wording when
+mutation authority, rollback evidence, and live self-change evidence are
+missing.
+
 This workflow can support a roughly 5 percent local recursive-improvement claim
 when the candidate, gate, retained evidence, and command health checks all pass.
 It is not a claim of full autonomous self-mutating RSI. The current architecture

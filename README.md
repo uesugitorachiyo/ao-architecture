@@ -90,6 +90,9 @@ claim of full autonomous self-mutating RSI. The demonstrated chain is:
 4. AO Forge retains the Foundry evidence so it can be audited after the pulse.
 5. AO Command verifies the health chain from Foundry pulse -> Forge retention
    -> Command health without mutating repositories.
+6. AO Command's `scripts/rsi-evidence-chain-smoke.sh` runs the executable
+   cross-repo proof from Foundry pulse through retained Forge proofs, Command
+   health, and the Covenant RSI claim boundary.
 
 This proves a local, evidence-first recursive-improvement workflow with
 read-only verification and next-task derivation. It is not a claim of full
