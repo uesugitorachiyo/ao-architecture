@@ -36,7 +36,7 @@ Production-ready, for this documentation set, means:
 
 ## Known Assumptions
 
-The target folders started as empty documentation folders. The implementation details in these guides were extracted from local sibling source repositories under `/Users/torachiyouesugi/Documents/public` and mapped to the public GitHub repositories linked from the top-level README.
+The target folders started as empty documentation folders. The implementation details in these guides were extracted from sibling source repositories and mapped to the public GitHub repositories linked from the top-level README.
 
 Where a guide describes future direction, it uses wording from the source repository docs and keeps the current authority boundary explicit.
 

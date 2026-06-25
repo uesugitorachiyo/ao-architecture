@@ -102,3 +102,7 @@ An evidence-first workflow records structured artifacts for the work an agent pe
 ### Where should I start?
 
 Start with [Overview](overview/README.md), then read [AO Foundry Architecture](ao-foundry/README.md) for the portfolio-level factory loop, [AO Forge Architecture](ao-forge/README.md) for governed factory runs, and [AO2 Architecture](ao2/README.md) for local execution and evidence capture.
+
+## License
+
+AO Architecture is licensed under `Apache-2.0`. See `LICENSE`.
