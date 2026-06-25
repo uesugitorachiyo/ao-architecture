@@ -99,6 +99,12 @@ does not prove mutation authority or live self-change, and it keeps repository
 mutation outside the default RSI health path until AO Covenant-approved policy,
 rollback, and live-change evidence exist.
 
+AO Covenant now treats full autonomous self-mutating RSI wording as a governed
+`claim.publish` side effect. The `full-autonomous-self-mutating-rsi` resource is
+denied unless an approved evidence ticket covers mutation authority, rollback
+evidence, and live self-change evidence. That keeps the public architecture
+aligned with the evidence actually produced by the stack.
+
 ### Release And Promotion Workflow
 
 Release readiness is intentionally multi-repo:
