@@ -195,6 +195,15 @@ The repositories communicate through durable artifacts rather than implicit proc
 
 The recurring production-readiness principle is simple: if a decision matters, it should have a contract, a schema, a digest, a verification command, and a documented owner.
 
+## Skills Integration
+
+Selected reusable agent skills are promoted into AO only when they can become
+enforceable contracts or gates. The current integration plan is documented in
+[AO Skills Integration SDD](AO-SKILLS-INTEGRATION-SDD.md): AO Blueprint owns
+the implementation-spec gate, AO Forge owns context handoff validation, AO
+Sentinel owns CI and observability triage packets, and future instruction,
+learning, distillation, or RAG work remains deferred until explicitly needed.
+
 ## Source Repositories Inspected
 
 These overview docs were written from the public source repositories:
