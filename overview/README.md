@@ -197,12 +197,13 @@ The recurring production-readiness principle is simple: if a decision matters, i
 
 ## Skills Integration
 
-Selected reusable agent skills are promoted into AO only when they can become
-enforceable contracts or gates. The current integration plan is documented in
-[AO Skills Integration SDD](AO-SKILLS-INTEGRATION-SDD.md): AO Blueprint owns
-the implementation-spec gate, AO Forge owns context handoff validation, AO
-Sentinel owns CI and observability triage packets, and future instruction,
-learning, distillation, or RAG work remains deferred until explicitly needed.
+Selected reusable Codex and Claude Code agent skills are promoted into AO only
+when they can become enforceable contracts or gates. The current integration
+plan is documented in [AO Skills Integration SDD](AO-SKILLS-INTEGRATION-SDD.md):
+AO Blueprint owns implementation-spec and quality-profile gates, AO Forge owns
+context handoff and GoalRun verification validation, AO Sentinel owns CI triage
+and security-review packets, and future instruction, learning, distillation,
+agent-introspection, or RAG work remains deferred until explicitly needed.
 
 ## Source Repositories Inspected
 

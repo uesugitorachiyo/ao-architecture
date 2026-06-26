@@ -49,7 +49,7 @@ Watch the video walkthrough: [AO Architecture on YouTube](https://youtu.be/P0Jbs
 1. [Overview](overview/README.md) explains how all repositories interact.
 2. [Production Readiness Checklist](overview/PRODUCTION-READINESS.md) explains the quality bar for this documentation pack.
 3. [RSI Claim Evidence Map](overview/RSI-CLAIM-EVIDENCE-MAP.md) pins the bounded/full RSI claim boundary, source artifacts, known PRs, and out-of-scope repositories.
-4. [AO Skills Integration SDD](overview/AO-SKILLS-INTEGRATION-SDD.md) records which reusable agent skills became enforceable AO contracts and which ones remain deferred.
+4. [AO Skills Integration SDD](overview/AO-SKILLS-INTEGRATION-SDD.md) records which Codex and Claude Code skill patterns became enforceable AO contracts and which ones remain deferred.
 5. Read individual repository guides when you need implementation detail:
 
 | Folder | Guide |
