@@ -60,8 +60,10 @@ AO Atlas answers:
 - Which Foundry fixture import packet and run-link readback prove the handoff is
   visible without expanding authority?
 
-Atlas sits after operator or Blueprint intent and before Foundry scheduling when
-an objective is too large to hand directly to one factory run.
+Atlas sits after AO Blueprint build authorization and before Foundry scheduling
+when an objective is too large to hand directly to one factory run. It should
+emit a Blueprint clarification request, not a ready workgraph, when the
+objective is underspecified.
 
 ## Architecture
 

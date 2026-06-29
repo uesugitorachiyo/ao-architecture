@@ -42,7 +42,10 @@ AO Command answers:
 - Did release preview, install verify, or release governance evidence validate?
 - Is the active stack still in read-only operator mode?
 
-It reads from AO Forge, AO Foundry, AO Covenant, AO2, ao2-control-plane, AO Arena, AO Crucible, AO Sentinel, and AO Promoter evidence surfaces. The command surface is intentionally narrow so operators get clarity without moving trust, execution, promotion, or storage authority into the CLI.
+It reads from AO Blueprint, AO Atlas, AO Foundry, AO Forge, AO Covenant, AO2,
+ao2-control-plane, AO Arena, AO Crucible, AO Sentinel, and AO Promoter evidence
+surfaces. The command surface is intentionally narrow so operators get clarity
+without moving trust, execution, promotion, or storage authority into the CLI.
 
 ## Architecture
 
@@ -61,6 +64,7 @@ The architecture is pull-based. AO Command reads existing files and command outp
 | --- | --- |
 | `status` | Reads AO Forge readiness and reports gate counts, required next actions, production-ready decision, and release governance state. |
 | `stack` | Reads AO Foundry active-stack readiness ledgers and reports repository and release-handoff state. |
+| `atlas status` | Reads AO Foundry Atlas observer evidence and reports Atlas compile/readback status without scheduling or execution authority. |
 | `rsi health` | Reads AO Arena, AO Crucible, AO Sentinel, AO Promoter, and AO Foundry RSI evidence and reports governed local RSI health. |
 | `next` | Presents the next operator action derived from Forge evidence. |
 | `goals` | Inspects GoalRun evidence and loop state. |
@@ -152,6 +156,8 @@ The CLI should prefer schema-backed JSON evidence over terminal-only summaries. 
 
 | Repository | AO Command interaction |
 | --- | --- |
+| AO Blueprint | Source for requirements sufficiency and build-authorization evidence when surfaced by owning readback artifacts. |
+| AO Atlas | Source for stack-instance/workgraph/context-pack compile and run-link readback evidence through Foundry observer status. |
 | AO Forge | Primary source for readiness, GoalRun truth, release preview, retained evidence, and governance state. |
 | AO Foundry | Source for active-stack readiness ledgers and portfolio status. |
 | AO Covenant | Source for policy, approval, allow, deny, and block evidence. |
