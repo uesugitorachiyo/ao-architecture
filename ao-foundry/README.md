@@ -158,6 +158,7 @@ Foundry contracts include:
 - signed-smoke ingest, preflight, result, and summary;
 - Pulse intake preflight, PR lifecycle, and overnight start-gate results;
 - Blueprint/Atlas/Pulse e2e dry-run and complex-refactor workgraph rehearsal summaries;
+- first docs-only approval request, approval gate, approved dry-run chain, and PR rehearsal gate;
 - control-plane readback and Forge live attempt.
 
 The active-stack readiness ledger is the central source for explaining whether
@@ -172,7 +173,7 @@ Covenant are ready.
 | --- | --- |
 | AO Atlas | Supplies validated stack-instance, workgraph, Foundry import, run-link, and status readback material; Foundry validates ready-node imports but remains the scheduler. |
 | AO Forge | Delegates individual governed factory runs and consumes run/gate outcomes. |
-| AO Command | Reads active-stack status and Pulse gate artifacts for read-only operator summaries. |
+| AO Command | Reads active-stack status, Pulse gate artifacts, live-mutation readiness, and first docs-only PR rehearsal gate artifacts for read-only operator summaries. |
 | AO2 | Consumes execution readiness, Pulse evidence, and release evidence. |
 | ao2-control-plane | Consumes observer readback and hosted evidence signals. |
 | AO Covenant | Relies on policy spine and trust evidence for release and run gates. |

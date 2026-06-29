@@ -119,6 +119,29 @@ run-link evidence exists. That is the intended behavior: Atlas decomposes and
 records, Foundry gates and schedules, Command reads, and blocked work does not
 start.
 
+### First Docs-Only Live-Mutation Boundary
+
+The first live-mutation path is intentionally tiny and docs-only. AO Foundry now
+has a request -> Covenant ticket -> approval gate -> Forge guard -> AO2
+docs-only patch packet -> worktree preparation -> rollback rehearsal -> Sentinel
+-> Promoter -> AO Command dry-run chain for that class, plus a final
+`ao.foundry.live-docs-pr-rehearsal-gate.v0.1` decision gate.
+
+The architecture treats this as an approval-bound rehearsal path, not autonomous
+mutation authority:
+
+- `safe_to_request=true` means the docs-only class has enough dry-run evidence
+  to ask for approval.
+- `safe_to_execute=true` can appear only on the PR rehearsal gate when the
+  explicit Covenant approval ticket is present and digest-bound.
+- AO Command reads that gate with `live-mutation pr-rehearsal` and remains
+  read-only.
+- No component has authority to create branches, create worktrees, open PRs,
+  merge, publish, upload, call providers, or mutate repositories from readback
+  evidence alone.
+
+Fully unsupervised complex live mutation remains outside the proven boundary.
+
 Blocked-node repair and `needs_context` repack remain Atlas-owned artifacts.
 They can become explicit factory tasks or bounded replacement context packs,
 but they do not schedule or execute themselves. Foundry consumes those artifacts

@@ -116,8 +116,9 @@ provider calls disabled, and repository mutation outside AO Command and Atlas.
 
 ## Governed Live-Mutation Boundary
 
-The stack now has a fixture-only governed live-mutation dry-run chain for the
-first tiny live-mutation class. The proof lives in AO Foundry as
+The stack now has a fixture-only governed live-mutation dry-run chain and a
+first docs-only approval path for the first tiny live-mutation class. The
+baseline proof lives in AO Foundry as
 `scripts/governed-live-mutation-dry-run-chain.sh` and emits
 `ao.foundry.governed-live-mutation-dry-run-chain.v0.1`.
 
@@ -142,19 +143,31 @@ What is proven:
   authority evidence is missing;
 - AO Command can expose the operator-facing status read-only;
 - the chain can reach `dry_run_ready_for_request` for a tiny docs-only class.
+- AO Foundry can emit a first docs-only approval request, validate an exact
+  Covenant approval ticket, bind that approval into an approved docs-only
+  dry-run chain, and evaluate a final PR rehearsal gate;
+- AO Command can read that final PR rehearsal gate and explain whether the next
+  step is `request_operator_approval` or
+  `start_first_docs_only_live_pr_rehearsal`, without starting the rehearsal.
 
 What is not proven:
 
 - no live repository mutation has been performed by this chain;
+- no live branch, worktree, or pull request has been created by this chain;
 - no provider call, release, upload, tag, or publish action is authorized;
 - no component may bypass Covenant, Sentinel, Promoter, rollback, worktree, PR
   lifecycle, or operator kill-switch evidence;
-- passing the dry-run chain is not ungated live mutation authority.
+- passing the dry-run chain is not ungated live mutation authority;
+- the stack does not claim fully unsupervised complex repository mutation.
 
-The next step after this boundary is a separate operator-approved request for
-the first tiny live-mutation class. Until that request exists, the architecture
-must continue to describe the path as dry-run governed live-mutation readiness,
-not live autonomous mutation.
+The current boundary is precise:
+
+- `safe_to_request=true` is proven for the first tiny docs-only class;
+- `safe_to_execute=true` is allowed only for the docs-only PR rehearsal decision
+  when an explicit approved Covenant ticket is present and digest-bound to the
+  approved dry-run chain;
+- actual live mutation remains unperformed until a separate, explicit operator
+  instruction starts the first docs-only branch/PR rehearsal under those gates.
 
 ## Context Management Boundary
 
