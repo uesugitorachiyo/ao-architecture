@@ -103,6 +103,13 @@ the stack needs all of the following:
 Until those six requirements are all present and verified, the architecture
 supports only bounded governed RSI wording.
 
+The separate first-live-docs readiness path is narrower than this RSI claim
+boundary. AO Foundry PR #98 can report `safe_to_request=true` for the first tiny
+docs-only class, and `safe_to_execute=true` can appear only for an exact-scope
+docs-only PR rehearsal after explicit operator approval and all gates pass. That
+does not prove live self-change, observer readback for a live self-change, or
+authority to publish the full autonomous self-mutating RSI claim.
+
 ## Machine-Readable Manifest
 
 The companion manifest is
