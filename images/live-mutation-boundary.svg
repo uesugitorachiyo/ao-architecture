@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760" role="img" aria-labelledby="title desc">
+  <title id="title">First docs-only live mutation boundary</title>
+  <desc id="desc">Shows the AO request, approval, guard, patch-packet, rollback, Sentinel, Promoter, and Command readback chain for the first tiny docs-only live mutation class. It distinguishes safe to request from conditional safe to execute and keeps fully unsupervised complex live mutation out of scope.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .bg { fill: #fbfcfe; }
+      .title { font: 700 32px Arial, sans-serif; fill: #111827; }
+      .subtitle { font: 400 14px Arial, sans-serif; fill: #475569; }
+      .box { fill: #ffffff; stroke: #64748b; stroke-width: 2; rx: 10; }
+      .request { fill: #e8f5f1; stroke: #0f766e; }
+      .approval { fill: #fff7df; stroke: #b7791f; }
+      .guard { fill: #eef2ff; stroke: #4f46e5; }
+      .execution { fill: #f0f9ff; stroke: #0284c7; }
+      .hold { fill: #fff1f2; stroke: #be123c; }
+      .readback { fill: #f5f3ff; stroke: #7c3aed; }
+      .denied { fill: #f8fafc; stroke: #94a3b8; stroke-dasharray: 8 6; }
+      .label { font: 700 15px Arial, sans-serif; fill: #111827; }
+      .small { font: 400 12px Arial, sans-serif; fill: #334155; }
+      .tiny { font: 400 11px Arial, sans-serif; fill: #475569; }
+      .arrow { stroke: #334155; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .bar { fill: #111827; rx: 8; }
+      .barText { font: 700 14px Arial, sans-serif; fill: #ffffff; }
+      .yes { fill: #dcfce7; stroke: #16a34a; }
+      .maybe { fill: #fef3c7; stroke: #d97706; }
+      .no { fill: #fee2e2; stroke: #dc2626; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1280" height="760"/>
+  <text class="title" x="48" y="54">First tiny docs-only live mutation is approval-bound</text>
+  <text class="subtitle" x="48" y="82">The stack can request a tightly scoped docs-only rehearsal. Execution remains conditional on exact operator approval and every gate.</text>
+
+  <rect class="bar" x="48" y="108" width="1184" height="36"/>
+  <text class="barText" x="72" y="131">Request and approval evidence</text>
+
+  <rect class="box request" x="48" y="176" width="160" height="92"/>
+  <text class="label" x="75" y="210">Blueprint</text>
+  <text class="small" x="70" y="236">build intent</text>
+  <text class="tiny" x="65" y="254">not mutation approval</text>
+
+  <rect class="box request" x="248" y="176" width="160" height="92"/>
+  <text class="label" x="287" y="210">Atlas</text>
+  <text class="small" x="273" y="236">workgraph/context</text>
+  <text class="tiny" x="268" y="254">no authority grant</text>
+
+  <rect class="box request" x="448" y="176" width="160" height="92"/>
+  <text class="label" x="482" y="210">Foundry</text>
+  <text class="small" x="476" y="236">approval request</text>
+  <text class="tiny" x="468" y="254">safe_to_request</text>
+
+  <rect class="box approval" x="648" y="176" width="160" height="92"/>
+  <text class="label" x="680" y="210">Covenant</text>
+  <text class="small" x="678" y="236">exact ticket</text>
+  <text class="tiny" x="671" y="254">deny stale/mismatch</text>
+
+  <rect class="box guard" x="848" y="176" width="160" height="92"/>
+  <text class="label" x="889" y="210">Foundry</text>
+  <text class="small" x="878" y="236">approval gate</text>
+  <text class="tiny" x="871" y="254">binds ticket digest</text>
+
+  <rect class="box guard" x="1048" y="176" width="160" height="92"/>
+  <text class="label" x="1093" y="210">Forge</text>
+  <text class="small" x="1080" y="236">execution guard</text>
+  <text class="tiny" x="1072" y="254">docs-only allowlist</text>
+
+  <path class="arrow" d="M208 222 L248 222"/>
+  <path class="arrow" d="M408 222 L448 222"/>
+  <path class="arrow" d="M608 222 L648 222"/>
+  <path class="arrow" d="M808 222 L848 222"/>
+  <path class="arrow" d="M1008 222 L1048 222"/>
+
+  <rect class="bar" x="48" y="312" width="1184" height="36"/>
+  <text class="barText" x="72" y="335">Execution rehearsal evidence</text>
+
+  <rect class="box execution" x="98" y="382" width="178" height="94"/>
+  <text class="label" x="134" y="416">AO2 packet</text>
+  <text class="small" x="124" y="442">dry-run patch plan</text>
+  <text class="tiny" x="121" y="460">exact changed files</text>
+
+  <rect class="box execution" x="326" y="382" width="178" height="94"/>
+  <text class="label" x="353" y="416">Worktree gate</text>
+  <text class="small" x="356" y="442">isolated branch</text>
+  <text class="tiny" x="352" y="460">blocks dirty/reused</text>
+
+  <rect class="box execution" x="554" y="382" width="178" height="94"/>
+  <text class="label" x="590" y="416">Rollback</text>
+  <text class="small" x="584" y="442">rehearsal proof</text>
+  <text class="tiny" x="585" y="460">restore exact patch</text>
+
+  <rect class="box hold" x="782" y="382" width="178" height="94"/>
+  <text class="label" x="821" y="416">Sentinel</text>
+  <text class="small" x="817" y="442">hold or clear</text>
+  <text class="tiny" x="811" y="460">safety/regression</text>
+
+  <rect class="box approval" x="1010" y="382" width="178" height="94"/>
+  <text class="label" x="1044" y="416">Promoter</text>
+  <text class="small" x="1037" y="442">activation boundary</text>
+  <text class="tiny" x="1051" y="460">still gated</text>
+
+  <path class="arrow" d="M1128 268 C1128 325 205 318 187 382"/>
+  <path class="arrow" d="M276 429 L326 429"/>
+  <path class="arrow" d="M504 429 L554 429"/>
+  <path class="arrow" d="M732 429 L782 429"/>
+  <path class="arrow" d="M960 429 L1010 429"/>
+
+  <rect class="bar" x="48" y="520" width="1184" height="36"/>
+  <text class="barText" x="72" y="543">Operator readback and claim boundary</text>
+
+  <rect class="box readback" x="96" y="594" width="238" height="92"/>
+  <text class="label" x="152" y="628">AO Command</text>
+  <text class="small" x="130" y="654">read-only status</text>
+  <text class="tiny" x="123" y="672">mutates_repositories=false</text>
+
+  <rect class="box yes" x="394" y="594" width="220" height="92"/>
+  <text class="label" x="433" y="628">safe_to_request</text>
+  <text class="small" x="438" y="654">ready for operator</text>
+  <text class="tiny" x="448" y="672">docs-only class</text>
+
+  <rect class="box maybe" x="674" y="594" width="238" height="92"/>
+  <text class="label" x="718" y="628">safe_to_execute</text>
+  <text class="small" x="703" y="654">only with exact approval</text>
+  <text class="tiny" x="698" y="672">and all gates passing</text>
+
+  <rect class="box no" x="972" y="594" width="220" height="92"/>
+  <text class="label" x="1003" y="628">out of scope</text>
+  <text class="small" x="999" y="654">fully unsupervised</text>
+  <text class="tiny" x="1005" y="672">complex live mutation</text>
+
+  <path class="arrow" d="M1099 476 C1099 540 250 536 215 594"/>
+  <path class="arrow" d="M334 640 L394 640"/>
+  <path class="arrow" d="M614 640 L674 640"/>
+  <path class="arrow" d="M912 640 L972 640"/>
+
+  <rect class="box denied" x="48" y="710" width="1184" height="30"/>
+  <text class="small" x="68" y="730">No component claims ungated live mutation authority. A readback report can explain a decision, but it cannot approve, execute, publish, or mutate.</text>
+</svg>

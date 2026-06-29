@@ -121,6 +121,8 @@ start.
 
 ### First Docs-Only Live-Mutation Boundary
 
+![First docs-only live mutation boundary](../images/live-mutation-boundary.svg)
+
 The first live-mutation path is intentionally tiny and docs-only. AO Foundry now
 has a request -> Covenant ticket -> approval gate -> Forge guard -> AO2
 docs-only patch packet -> worktree preparation -> rollback rehearsal -> Sentinel
