@@ -105,6 +105,10 @@ The reference proof lives in AO Foundry:
   blocked, completed, and failed task counts, the next recommended factory
   task, and why the loop may start the next ready task while blocked tasks stay
   denied.
+- AO Command's `complex-refactor status --summary <summary.json>` reads the
+  rehearsal summary and reports the same decision surface, including
+  blocked-node repair and needs-context repack status, while preserving
+  `operator_mode=read_only` and `mutates_repositories=false`.
 
 This is not live autonomous implementation. The proof is fixture-only and keeps
 `schedules_work=false`, `executes_work=false`, `approves_work=false`,

@@ -119,6 +119,12 @@ Foundry also has two fixture-only proofs for the Blueprint -> Atlas -> Foundry
 - `scripts/complex-refactor-workgraph-rehearsal.sh` proves that an oversized
   refactor can be represented as Atlas workgraph nodes, context packs, Foundry
   import/readback, Pulse start-gate evidence, and AO Command readback.
+- `scripts/overnight-rehearsal-runner.sh` keeps that proof dry-run-only by
+  validating the start gate, lifecycle state, Atlas import, repair/repack
+  evidence, and Command-readable status before any implementation would start.
+- `scripts/atlas-stress-readiness.sh` validates the larger Atlas stress
+  workgraph fixture so Foundry can prove sequencing, blocked nodes, and ready
+  imports without copying stack folders.
 
 The complex refactor rehearsal reports that a next ready factory task may start
 when its dependency and Pulse gate evidence are ready, while blocked downstream

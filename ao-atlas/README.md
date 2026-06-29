@@ -135,6 +135,17 @@ that model with Atlas workgraph/status commands, Foundry import/readback, Pulse
 gate evidence, and AO Command readback. The rehearsal proves decomposition and
 readback, not live execution.
 
+The rehearsal now also mirrors Atlas repair and repack behavior for blocked
+large work:
+
+- a blocked workgraph node can emit a repair factory task that preserves
+  objective, acceptance, safety, dependency, and evidence requirements;
+- a `needs_context` run-link can produce a bounded replacement context pack
+  with source references, digests, assumptions, exclusions, and the missing
+  context reason;
+- both artifacts stay fixture/readback material until Foundry chooses a safe
+  delegated task.
+
 ## Agent Roles And Skills
 
 - intake compiler records broad operator intent without claiming readiness;

@@ -104,6 +104,13 @@ run-link evidence exists. That is the intended behavior: Atlas decomposes and
 records, Foundry gates and schedules, Command reads, and blocked work does not
 start.
 
+Blocked-node repair and `needs_context` repack remain Atlas-owned artifacts.
+They can become explicit factory tasks or bounded replacement context packs,
+but they do not schedule or execute themselves. Foundry consumes those artifacts
+as rehearsal inputs, and AO Command reads the resulting repair/repack status
+from the Foundry summary so operators can see whether the next safe action is
+to run one ready task, repair a blocked node, or collect missing context.
+
 The readiness exit gate is stop-oriented. When goal readiness and competitive readiness are 100/100 and the active-stack loop passes with no `blocking_next_actions`, autonomous readiness work stops. Follow-up `maintenance_suggestions` stay separate from blockers, and live execution, signed-smoke promotion, release promotion, or new implementation work requires explicit operator intent.
 
 ### Governed RSI Evidence Workflow
