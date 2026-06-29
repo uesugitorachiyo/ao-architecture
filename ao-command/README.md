@@ -2,7 +2,7 @@
 
 ![AO Command read-only command center](../images/ao-command-readonly.svg)
 
-AO Command is the read-only operator command component of the AO orchestration framework. It gives colleagues one daily command center for AI agent stack status, next actions, GoalRun inspection, RSI assurance-family health, evidence validation, and release rehearsal summaries.
+AO Command is the read-only operator command component of the AO orchestration framework. It gives colleagues one daily command center for AI agent stack status, Pulse gate status, next actions, GoalRun inspection, RSI assurance-family health, evidence validation, and release rehearsal summaries.
 
 It does not publish releases, promote production, mutate provider state, execute agents, or replace AO Forge policy decisions. Its value is visibility without authority drift.
 
@@ -15,8 +15,8 @@ AO Command is the operator-facing CLI for a governed AI agent orchestration stac
 | Field | Value |
 | --- | --- |
 | Framework layer | Operator status and read-only command UX |
-| Primary job | Summarize readiness, evidence, RSI health, next actions, and release rehearsal state |
-| Owns | CLI presentation, schema validation commands, RSI health summaries, rehearsal summaries |
+| Primary job | Summarize readiness, Pulse gate evidence, RSI health, next actions, and release rehearsal state |
+| Owns | CLI presentation, schema validation commands, Pulse gate summaries, RSI health summaries, rehearsal summaries |
 | Does not own | Agent execution, policy approval, GoalRun source of truth, evidence storage |
 | Main consumers | Operators, release reviewers, maintainers checking AO stack health |
 
@@ -37,6 +37,7 @@ High-signal source docs:
 AO Command answers:
 
 - What is the current production-readiness status?
+- May the Pulse/event-loop start, block, or stop, and why?
 - What is the next recommended action?
 - Which GoalRun or readiness evidence explains that recommendation?
 - Did release preview, install verify, or release governance evidence validate?
@@ -65,6 +66,7 @@ The architecture is pull-based. AO Command reads existing files and command outp
 | `status` | Reads AO Forge readiness and reports gate counts, required next actions, production-ready decision, and release governance state. |
 | `stack` | Reads AO Foundry active-stack readiness ledgers and reports repository and release-handoff state. |
 | `atlas status` | Reads AO Foundry Atlas observer evidence and reports Atlas compile/readback status without scheduling or execution authority. |
+| `pulse status` | Reads AO Foundry Pulse intake preflight, PR lifecycle, and overnight start-gate artifacts without starting loops or mutating repositories. |
 | `rsi health` | Reads AO Arena, AO Crucible, AO Sentinel, AO Promoter, and AO Foundry RSI evidence and reports governed local RSI health. |
 | `next` | Presents the next operator action derived from Forge evidence. |
 | `goals` | Inspects GoalRun evidence and loop state. |
@@ -93,6 +95,18 @@ The architecture is pull-based. AO Command reads existing files and command outp
 2. Select the document emitted by Forge or another owner.
 3. Run `ao-command evidence`.
 4. Treat validation failure as an operator blocker, not as a reason for AO Command to mutate the source evidence.
+
+### Pulse Gate Readback Workflow
+
+1. Run AO Foundry's intake preflight, PR lifecycle inspect, and overnight start
+   gate from the Foundry checkout.
+2. Run `ao-command pulse status --preflight <path> --lifecycle <path>
+   --start-gate <path>`.
+3. Inspect `status`, `allowed_next_action`, `first_failing_check`,
+   `blocking_next_actions`, `operator_mode=read_only`, and
+   `mutates_repositories=false`.
+4. Treat `blocked` or `failed` as operator readback, not permission for AO
+   Command to start, merge, approve, publish, or mutate anything.
 
 ### RSI Health Workflow
 
@@ -145,6 +159,7 @@ AO Command consumes and validates:
 - public provenance manifests;
 - branch-protection evidence;
 - retained-evidence records;
+- AO Foundry Pulse intake preflight, PR lifecycle, and overnight start-gate artifacts;
 - Arena promotion gates, Crucible hardening gates, Sentinel verdicts, and Promoter promotion gates.
 - AO Foundry RSI improvement gate, AO Foundry RSI candidate evidence, and AO Foundry RSI next improvement task evidence.
 
@@ -159,7 +174,7 @@ The CLI should prefer schema-backed JSON evidence over terminal-only summaries. 
 | AO Blueprint | Source for requirements sufficiency and build-authorization evidence when surfaced by owning readback artifacts. |
 | AO Atlas | Source for stack-instance/workgraph/context-pack compile and run-link readback evidence through Foundry observer status. |
 | AO Forge | Primary source for readiness, GoalRun truth, release preview, retained evidence, and governance state. |
-| AO Foundry | Source for active-stack readiness ledgers and portfolio status. |
+| AO Foundry | Source for active-stack readiness ledgers, portfolio status, Atlas observer status, and Pulse gate artifacts. |
 | AO Covenant | Source for policy, approval, allow, deny, and block evidence. |
 | AO2 | Source for governed execution evidence summaries. |
 | ao2-control-plane | Source for published observer readback when evidence has been ingested. |
@@ -176,6 +191,8 @@ The CLI should prefer schema-backed JSON evidence over terminal-only summaries. 
 - Keep CI focused on Go tests, vet, build, smoke, release rehearsal, install verify, and branch protection.
 - Do not use AO Command as the source of truth for GoalRun, policy, execution, or observer storage.
 - Keep `rsi health` evidence-only; it must not run providers, promote candidates, apply activation plans, or mutate repositories.
+- Keep `pulse status` read-only; it must not start loops, create branches,
+  merge PRs, publish, call providers, or mutate repositories.
 
 ## FAQ
 
@@ -200,6 +217,7 @@ cd ../../ao-command
 go test ./...
 go vet ./...
 go build -o bin/ao-command ./cmd/ao-command
+go run ./cmd/ao-command pulse status --preflight ../ao-foundry/examples/pulse-overnight-start-gate/ready.intake-preflight.json --lifecycle ../ao-foundry/examples/pulse-lifecycle/ready-to-start-next-slice.json --start-gate ../ao-foundry/examples/pulse-overnight-start-gate/ready.json --json
 go run ./cmd/ao-command rsi health --arena-gate ../ao-arena/tmp/arena-promotion-gate.json --crucible-gate ../ao-crucible/tmp/crucible-hardening-gate.json --sentinel-verdict ../ao-sentinel/tmp/sentinel-verdict.json --promoter-gate ../ao-promoter/tmp/promotion-gate.json --foundry-gate ../ao-foundry/tmp/pulse-rsi-verify/rsi-improvement-gate.json --foundry-candidate ../ao-foundry/tmp/pulse-rsi-verify/rsi-candidate.json --foundry-next-task ../ao-foundry/tmp/pulse-rsi-verify/rsi-next-improvement-task.json --json
 scripts/rsi-evidence-chain-smoke.sh --forge ../ao-forge --foundry ../ao-foundry --covenant ../ao-covenant --out tmp/rsi-evidence-chain-smoke
 scripts/ao-command-smoke.sh --forge ../ao-forge --out tmp/ao-command-smoke

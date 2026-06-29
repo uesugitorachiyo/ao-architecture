@@ -104,12 +104,18 @@ AO Atlas is a Go CLI:
 
 1. Emit `ao.atlas.foundry-handoff.v0.1` and `ao.atlas.foundry-import.v0.1`
    fixture material from ready workgraph nodes.
-2. Ask AO Foundry to validate the import packet and public `atlas-demo` registry
+2. Preserve factory assignment, objective, acceptance criteria, non-goals,
+   safety limits, verification commands, context-pack refs, dependency refs,
+   required evidence, source paths, and SHA-256 digests.
+3. Fail closed when a selected node is blocked, failed, completed, missing
+   context, missing factory assignment, has incomplete dependencies, or would
+   imply scheduling, execution, or approval authority.
+4. Ask AO Foundry to validate the import packet and public `atlas-demo` registry
    fixture.
-3. Record Atlas run-link evidence with `ao.atlas.run-link.v0.1`.
-4. Ask AO Foundry to emit `ao.foundry.atlas-readback.v0.1` and
+5. Record Atlas run-link evidence with `ao.atlas.run-link.v0.1`.
+6. Ask AO Foundry to emit `ao.foundry.atlas-readback.v0.1` and
    `ao.foundry.atlas-status.v0.1` observer summaries.
-5. Keep the roundtrip fixture-only: no scheduling, execution, approval,
+7. Keep the roundtrip fixture-only: no scheduling, execution, approval,
    provider calls, publication, or sibling repository mutation.
 
 ## Agent Roles And Skills

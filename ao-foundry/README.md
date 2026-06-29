@@ -92,6 +92,24 @@ The loop keeps `blocking_next_actions` separate from `maintenance_suggestions` s
 
 Foundry's pulse command writes a local evidence bundle with readiness, GoalRun, Forge brief, Forge packet, policy gate, optional live Forge attempt, control-plane readback, run record, eval, trace, demo, release dry-run, competitive audit, and a final pulse-event summary. It is a scheduler and evidence loop only; live implementation remains delegated to AO Forge.
 
+Before autonomous overnight advancement starts, Foundry now requires a
+Blueprint/Atlas-aware intake and lifecycle gate chain:
+
+1. `foundry pulse intake-preflight` reads Blueprint build authorization or a
+   blocked Blueprint clarification request and requires Atlas handoff/readback
+   evidence for oversized work.
+2. `foundry pulse lifecycle inspect` confirms the target repo is clean on
+   synced `main`, has no active current-slice PR/check blocker, and has no
+   incomplete merged-branch cleanup.
+3. `foundry pulse overnight-start-gate` composes those artifacts into
+   `ao.foundry.pulse-overnight-start-gate.v0.1`, requires digest-bound source
+   evidence, and fails closed on failed preflight, stale digests, pending or
+   failing checks, dirty worktrees, unsynced main, or cleanup gaps.
+
+The start gate decides whether a loop may start, block, or stop. It does not
+start implementation, schedule work, approve work, call providers, publish, or
+mutate repositories.
+
 When the readiness exit gate is satisfied, the pulse summary records a stop-oriented next action instead of generating another autonomous task.
 
 ## Agent Roles And Skills
@@ -117,6 +135,7 @@ Foundry contracts include:
 - GoalRun and goal-readiness audit;
 - pulse event, loop event log, loop lease, trace, eval result, eval scorecard;
 - signed-smoke ingest, preflight, result, and summary;
+- Pulse intake preflight, PR lifecycle, and overnight start-gate results;
 - control-plane readback and Forge live attempt.
 
 The active-stack readiness ledger is the central source for explaining whether
@@ -129,9 +148,9 @@ Covenant are ready.
 
 | Repository | AO Foundry interaction |
 | --- | --- |
-| AO Atlas | Supplies validated stack-instance, workgraph, Foundry import, run-link, and status readback material; Foundry remains the scheduler. |
+| AO Atlas | Supplies validated stack-instance, workgraph, Foundry import, run-link, and status readback material; Foundry validates ready-node imports but remains the scheduler. |
 | AO Forge | Delegates individual governed factory runs and consumes run/gate outcomes. |
-| AO Command | Supplies active-stack status for read-only operator summaries. |
+| AO Command | Reads active-stack status and Pulse gate artifacts for read-only operator summaries. |
 | AO2 | Consumes execution readiness, Pulse evidence, and release evidence. |
 | ao2-control-plane | Consumes observer readback and hosted evidence signals. |
 | AO Covenant | Relies on policy spine and trust evidence for release and run gates. |

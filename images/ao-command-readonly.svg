@@ -18,7 +18,7 @@
 
   <rect class="box" x="430" y="245" width="260" height="112" fill="#dff4f0" stroke="#1b7f79"/>
   <text class="repo" x="510" y="292">AO Command</text>
-  <text class="small" x="476" y="318">status, stack, atlas status, rsi health</text>
+  <text class="small" x="458" y="318">status, stack, atlas status, pulse status, rsi health</text>
   <text class="small" x="488" y="340">operator_mode=read_only</text>
 
   <rect class="box" x="72" y="92" width="200" height="70" fill="#fef3c7" stroke="#b7791f"/>

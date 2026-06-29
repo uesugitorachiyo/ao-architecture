@@ -11,13 +11,13 @@ Use this documentation to understand the AO stack's architecture, authority boun
 The AO stack is a set of open architecture documents for building and operating governed AI agent systems. Instead of treating agent automation as a single chat session or unbounded background worker, the stack splits responsibility across small tools with clear boundaries:
 
 - AO Blueprint is the requirements interview, blueprint compiler, and build-authorization front door.
-- AO Atlas turns oversized objectives into stack-instance manifests, workgraphs, factory tasks, bounded context packs, Foundry fixture handoff/import material, and digest-bound run-link readback records.
-- AO Foundry coordinates multi-repository engineering operations and readiness loops.
+- AO Atlas turns oversized objectives into stack-instance manifests, workgraphs, factory tasks, bounded context packs, Foundry-compatible import material, and digest-bound run-link readback records.
+- AO Foundry coordinates multi-repository engineering operations and readiness loops, including Blueprint/Atlas intake preflight, one-slice PR lifecycle state, and overnight start gates.
 - AO Forge turns an objective into a governed factory run with durable GoalRun state.
 - AO Covenant gates policy, trust, side effects, release bundles, and evidence contracts.
 - AO2 executes bounded local agent workflows and records artifacts, decisions, approvals, and evaluator closure evidence.
 - ao2-control-plane publishes observer evidence without becoming an approval authority.
-- AO Command gives operators a read-only status and command surface for the active stack.
+- AO Command gives operators a read-only status and command surface for the active stack, including Pulse gate readback.
 - AO Arena scores fixture-mode benchmark evidence before a candidate can claim improvement.
 - AO Crucible runs adversarial hardening probes before a candidate is trusted.
 - AO Sentinel watches public-safety and regression signals and can emit promoter holds.
