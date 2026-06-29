@@ -67,6 +67,18 @@ AO Promoter is a local-first Go CLI:
 
 Promoter scans README, docs, and examples for public-safety issues. It blocks live apply by default and treats missing rollback, stale Arena gates, failed Crucible gates, unsafe scans, and candidate mismatches as fail-closed.
 
+### First Docs-Only Activation Boundary
+
+AO Promoter owns the final activation-boundary check for the first docs-only
+class. It requires passing evidence from Covenant, Foundry, Forge, AO2,
+Sentinel, rollback rehearsal, and AO Command readback before it can report that
+the docs-only PR rehearsal boundary is satisfied.
+
+Promoter still does not perform live execution by default. Its boundary can
+distinguish dry-run activation readiness from a live docs-only PR rehearsal
+decision, but it cannot turn missing approval into permission, bypass Sentinel,
+or promote fully unsupervised complex live mutation.
+
 ## Agent Roles And Skills
 
 - promotion packet validator checks candidate and evidence consistency;

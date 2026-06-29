@@ -87,6 +87,18 @@ Before any repeated hardening loop:
 
 Forge owns release-preview, install-verify, release-verify, rollback, promotion, retained-evidence, and production-readiness gates. Mutating paths remain fail-closed behind Covenant decisions, clean-workspace checks, explicit operator confirmation, release-preview evidence, and workflow gates.
 
+### First Docs-Only Live-Mutation Guard Role
+
+AO Forge owns the guarded execution-plan validation layer for the first
+docs-only class. Its live-docs execution guard requires the Foundry approval
+gate, an exact-scope Covenant ticket, docs-only path allowlist, clean isolated
+worktree evidence, rollback plan, Sentinel no-hold/pass evidence, and AO Command
+readback before a docs-only execution plan can be considered runnable.
+
+Forge does not grant the operator approval, widen the write scope, or execute by
+default. If any approval, allowlist, rollback, worktree, Sentinel, or readback
+evidence is missing or mismatched, the guard blocks the path.
+
 ## Agent Roles And Skills
 
 AO Forge coordinates agents without being the execution agent:

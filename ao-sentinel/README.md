@@ -67,6 +67,18 @@ AO Sentinel is a local-first Go CLI:
 
 Sentinel can perform a bounded watch dry-run for a fixed iteration count. It records the monitor cycle without live provider calls or live control-plane writes.
 
+### First Docs-Only Live-Mutation Hold Role
+
+AO Sentinel owns the safety/regression hold verdict for the first docs-only
+class. It can clear or hold the path based on approval evidence, rollback
+evidence, docs-only allowlist evidence, public-safety scan evidence, and
+verification evidence.
+
+Sentinel does not approve or execute the mutation. A missing approval ticket,
+missing rollback rehearsal, unsafe path, failed verification, public-safety
+finding, or stale evidence should produce a hold that Promoter and Foundry must
+respect.
+
 ## Agent Roles And Skills
 
 - baseline curator owns trusted safety and regression references;

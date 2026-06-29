@@ -96,6 +96,20 @@ evidence classes.
 This gate keeps the AO architecture from confusing the bounded, governed RSI
 evidence chain with a stronger self-mutating claim that has not yet been proven.
 
+### First Docs-Only Live-Mutation Approval Role
+
+AO Covenant owns the approval-ticket boundary for the first tiny docs-only
+live-mutation class. Its ticket validator must match the Foundry request exactly:
+repository, branch prefix, docs-only allowlist, forbidden paths, maximum changed
+files, rollback plan reference, kill-switch reference, authority reference, and
+expiry/revocation state. Pending, denied, stale, revoked, or mismatched tickets
+remain blockers.
+
+This approval role is deliberately narrow. Covenant can make the docs-only
+request approval-bound and exact-scope, but it does not execute the mutation,
+create branches, approve broad live mutation, or grant fully unsupervised
+complex repository mutation authority.
+
 ### Approval Workflow
 
 1. A risky action is described as a precise effect over a precise resource.

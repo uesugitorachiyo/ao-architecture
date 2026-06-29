@@ -115,6 +115,18 @@ Pulse can continue local AO2 work without opening a pull request only while a re
 
 When AO2 consumes a Foundry stop decision or the readiness exit gate is satisfied, Pulse records the stop and does not generate another lengthy task. Direct-main publishing, live execution, signed-smoke promotion, or release promotion still requires explicit operator intent.
 
+### First Docs-Only Patch Packet Role
+
+AO2 owns the execution packet shape for the first docs-only live-mutation class.
+The docs-only patch packet records the exact changed-file plan, dry-run apply
+result, verification commands, rollback patch, provider/session boundary, and
+forbidden-path checks for an isolated worktree candidate.
+
+That packet is not self-authorizing. AO2 must not apply a live repository patch
+unless the caller supplies an explicit exact-scope approval path and the
+Foundry, Covenant, Forge, Sentinel, Promoter, rollback, and Command gates all
+pass. Without that approval chain, AO2 stays at dry-run evidence.
+
 ### Release Readiness Workflow
 
 AO2's release readiness chain builds and consumes artifacts until final publication closure:

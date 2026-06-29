@@ -133,6 +133,22 @@ control-surface proof, not direct implementation.
 
 When the readiness exit gate is satisfied, the pulse summary records a stop-oriented next action instead of generating another autonomous task.
 
+### First Docs-Only Live-Mutation Role
+
+AO Foundry is the coordinating owner for the first tiny docs-only live-mutation
+request path. It emits the operator approval request, validates the exact-scope
+Covenant approval ticket, composes the approval gate, prepares worktree and
+rollback rehearsal evidence, runs the approved dry-run chain, evaluates the
+docs-only PR rehearsal gate, and records the
+`ao.foundry.first-live-docs-readiness-rollup.v0.1` summary.
+
+That role is still gatekeeping and coordination. Foundry does not grant policy
+approval, execute AO2 patches, bypass Sentinel or Promoter, create the live
+branch/PR from readback evidence alone, or broaden the approval from docs-only
+to complex live mutation. `safe_to_request=true` means the request is ready for
+operator review; `safe_to_execute=true` is conditional on an explicit
+exact-scope approval artifact and all downstream gates.
+
 ## Agent Roles And Skills
 
 Foundry coordinates higher-level operating roles:
