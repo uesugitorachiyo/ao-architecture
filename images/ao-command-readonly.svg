@@ -1,30 +1,66 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="560" viewBox="0 0 1080 560" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="640" viewBox="0 0 1120 640" role="img" aria-labelledby="title desc">
   <title id="title">AO Command read-only command center</title>
-  <desc id="desc">AO Command reads evidence from Forge, Foundry, Covenant, AO2, and the control plane without mutating provider or release state.</desc>
-  <defs><marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M2,2 L10,6 L2,10 Z" fill="#334155"/></marker></defs>
-  <rect width="1080" height="560" fill="#f7fbfb"/>
-  <text x="52" y="58" font-family="Arial" font-size="30" font-weight="700" fill="#12212b">AO Command: read-only operator command center</text>
-  <rect x="408" y="204" width="264" height="118" rx="14" fill="#dff4f0" stroke="#1b7f79" stroke-width="2"/>
-  <text x="456" y="252" font-family="Arial" font-size="24" font-weight="700" fill="#102027">AO Command</text>
-  <text x="455" y="282" font-family="Arial" font-size="15" fill="#2b4653">status, stack, next, goals, evidence</text>
-  <g font-family="Arial" font-size="16" font-weight="700" fill="#111827">
-    <rect x="70" y="130" width="210" height="72" rx="12" fill="#e8ecff" stroke="#5967c9"/>
-    <text x="132" y="174">AO Forge</text>
-    <rect x="70" y="316" width="210" height="72" rx="12" fill="#fff1d6" stroke="#c9811d"/>
-    <text x="125" y="360">AO Foundry</text>
-    <rect x="800" y="130" width="210" height="72" rx="12" fill="#f2e8ff" stroke="#8557c5"/>
-    <text x="846" y="174">Covenant</text>
-    <rect x="800" y="316" width="210" height="72" rx="12" fill="#e8f7df" stroke="#5a923c"/>
-    <text x="830" y="360">Control plane</text>
-    <rect x="435" y="420" width="210" height="72" rx="12" fill="#e1f0ff" stroke="#2678bd"/>
-    <text x="522" y="464">AO2</text>
-  </g>
-  <g stroke="#334155" stroke-width="2.3" fill="none" marker-end="url(#arrow)">
-    <path d="M280 166 C338 178 360 205 408 236"/>
-    <path d="M280 352 C340 340 368 310 408 286"/>
-    <path d="M800 166 C740 180 704 206 672 236"/>
-    <path d="M800 352 C740 337 704 307 672 286"/>
-    <path d="M540 420 L540 322"/>
-  </g>
-  <text x="70" y="500" font-family="Arial" font-size="16" fill="#334155">Design intent: give humans one daily command center while preserving AO Forge, AO Covenant, AO2, and control-plane ownership boundaries.</text>
+  <desc id="desc">AO Command reads Blueprint, Atlas, Foundry, Forge, Covenant, AO2, control-plane, and assurance evidence without scheduling, executing, approving, publishing, or mutating repositories.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .title { font: 700 30px Arial, sans-serif; fill: #12212b; }
+      .box { stroke-width: 2; rx: 10; }
+      .repo { font: 700 16px Arial, sans-serif; fill: #111827; }
+      .small { font: 400 12px Arial, sans-serif; fill: #334155; }
+      .arrow { stroke: #334155; stroke-width: 2.2; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect width="1120" height="640" fill="#f7fbfb"/>
+  <text class="title" x="48" y="56">AO Command: read-only operator command center</text>
+
+  <rect class="box" x="430" y="245" width="260" height="112" fill="#dff4f0" stroke="#1b7f79"/>
+  <text class="repo" x="510" y="292">AO Command</text>
+  <text class="small" x="476" y="318">status, stack, atlas status, rsi health</text>
+  <text class="small" x="488" y="340">operator_mode=read_only</text>
+
+  <rect class="box" x="72" y="92" width="200" height="70" fill="#fef3c7" stroke="#b7791f"/>
+  <text class="repo" x="119" y="122">AO Blueprint</text>
+  <text class="small" x="104" y="146">authorization evidence</text>
+
+  <rect class="box" x="72" y="202" width="200" height="70" fill="#e0f2fe" stroke="#0369a1"/>
+  <text class="repo" x="126" y="232">AO Atlas</text>
+  <text class="small" x="103" y="256">compile/readback evidence</text>
+
+  <rect class="box" x="72" y="312" width="200" height="70" fill="#fff1d6" stroke="#c9811d"/>
+  <text class="repo" x="116" y="342">AO Foundry</text>
+  <text class="small" x="100" y="366">active-stack ledger</text>
+
+  <rect class="box" x="72" y="422" width="200" height="70" fill="#e8ecff" stroke="#5967c9"/>
+  <text class="repo" x="126" y="452">AO Forge</text>
+  <text class="small" x="100" y="476">GoalRun and retained evidence</text>
+
+  <rect class="box" x="848" y="92" width="200" height="70" fill="#f2e8ff" stroke="#8557c5"/>
+  <text class="repo" x="894" y="122">Covenant</text>
+  <text class="small" x="882" y="146">policy decisions</text>
+
+  <rect class="box" x="848" y="202" width="200" height="70" fill="#e1f0ff" stroke="#2678bd"/>
+  <text class="repo" x="933" y="232">AO2</text>
+  <text class="small" x="887" y="256">execution summaries</text>
+
+  <rect class="box" x="848" y="312" width="200" height="70" fill="#e8f7df" stroke="#5a923c"/>
+  <text class="repo" x="885" y="342">Control plane</text>
+  <text class="small" x="878" y="366">observer readback</text>
+
+  <rect class="box" x="848" y="422" width="200" height="70" fill="#ffffff" stroke="#64748b"/>
+  <text class="repo" x="891" y="452">Assurance</text>
+  <text class="small" x="870" y="476">Arena, Crucible, Sentinel, Promoter</text>
+
+  <path class="arrow" d="M272 127 C340 150 388 205 430 268"/>
+  <path class="arrow" d="M272 237 C342 250 388 270 430 291"/>
+  <path class="arrow" d="M272 347 L430 315"/>
+  <path class="arrow" d="M272 457 C345 430 388 370 430 333"/>
+  <path class="arrow" d="M848 127 C770 150 726 206 690 268"/>
+  <path class="arrow" d="M848 237 C775 252 730 272 690 291"/>
+  <path class="arrow" d="M848 347 L690 315"/>
+  <path class="arrow" d="M848 457 C780 430 730 370 690 333"/>
+
+  <text class="small" x="70" y="570">AO Command reads and validates. It does not schedule, execute, approve claims, call providers, publish releases, apply activation plans, or mutate repositories.</text>
 </svg>
