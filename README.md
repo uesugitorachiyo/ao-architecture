@@ -164,7 +164,11 @@ What is not proven:
 
 The current boundary is precise:
 
+- dry-run governed live mutation readiness is ready for the first tiny
+  docs-only class;
 - `safe_to_request=true` is proven for the first tiny docs-only class;
+- execution readiness is conditional, not general: it requires explicit
+  exact-scope operator approval and all downstream gates;
 - `safe_to_execute=true` is allowed only for the docs-only PR rehearsal decision
   when an explicit approved Covenant ticket is present and digest-bound to the
   approved dry-run chain;
