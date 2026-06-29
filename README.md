@@ -10,8 +10,9 @@ Use this documentation to understand the AO stack's architecture, authority boun
 
 The AO stack is a set of open architecture documents for building and operating governed AI agent systems. Instead of treating agent automation as a single chat session or unbounded background worker, the stack splits responsibility across small tools with clear boundaries:
 
-- AO Foundry coordinates multi-repository engineering operations and readiness loops.
+- AO Blueprint is the requirements interview, blueprint compiler, and build-authorization front door.
 - AO Atlas turns oversized objectives into stack-instance manifests, workgraphs, factory tasks, bounded context packs, Foundry fixture handoff/import material, and digest-bound run-link readback records.
+- AO Foundry coordinates multi-repository engineering operations and readiness loops.
 - AO Forge turns an objective into a governed factory run with durable GoalRun state.
 - AO Covenant gates policy, trust, side effects, release bundles, and evidence contracts.
 - AO2 executes bounded local agent workflows and records artifacts, decisions, approvals, and evaluator closure evidence.
@@ -34,6 +35,7 @@ Watch the video walkthrough: [AO Architecture on YouTube](https://youtu.be/P0Jbs
 
 | Repository | Role in the AI agent orchestration stack | Start here |
 | --- | --- | --- |
+| `ao-blueprint` | Requirements interview, blueprint pack, sufficiency audit, and build-authorization front door. | [AO Blueprint Architecture](ao-blueprint/README.md) |
 | `ao-atlas` | Stack-instance and workgraph layer for oversized objective intake, bounded context packs, Foundry fixture handoff/import, and run-link readback. | [AO Atlas Architecture](ao-atlas/README.md) |
 | `ao-foundry` | Engineering operations factory for multi-repo scheduling, readiness, release trains, and autonomous loop stop conditions. | [AO Foundry Architecture](ao-foundry/README.md) |
 | `ao-forge` | Governed factory brain for GoalRun state, factory plans, Covenant gates, AO2 delegation, and operator evidence packets. | [AO Forge Architecture](ao-forge/README.md) |
@@ -56,6 +58,7 @@ Watch the video walkthrough: [AO Architecture on YouTube](https://youtu.be/P0Jbs
 
 | Folder | Guide |
 | --- | --- |
+| `ao-blueprint` | [AO Blueprint Architecture](ao-blueprint/README.md) |
 | `ao-atlas` | [AO Atlas Architecture](ao-atlas/README.md) |
 | `ao-command` | [AO Command Architecture](ao-command/README.md) |
 | `ao-arena` | [AO Arena Architecture](ao-arena/README.md) |
@@ -184,6 +187,7 @@ These docs describe the target folders as architecture documentation mirrors. Th
 
 | Source repository | Architecture guide |
 | --- | --- |
+| [ao-blueprint](https://github.com/uesugitorachiyo/ao-blueprint) | [ao-blueprint](ao-blueprint/README.md) |
 | [ao-atlas](https://github.com/uesugitorachiyo/ao-atlas) | [ao-atlas](ao-atlas/README.md) |
 | [ao-command](https://github.com/uesugitorachiyo/ao-command) | [ao-command](ao-command/README.md) |
 | [ao-arena](https://github.com/uesugitorachiyo/ao-arena) | [ao-arena](ao-arena/README.md) |

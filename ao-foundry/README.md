@@ -43,7 +43,8 @@ AO Foundry answers:
 - Which CI or production-readiness signal changed?
 - Which release-handoff gates are ready or still manual?
 - What next delegated factory action is safe?
-- Is the active stack still aligned across six repositories?
+- Is the active stack still aligned across the seven active repositories that
+  now include AO Atlas?
 
 Its scope is portfolio operations. It coordinates the operating picture across repos while preserving repo-local owners for execution, policy, evidence storage, and operator command UX.
 
@@ -118,7 +119,9 @@ Foundry contracts include:
 - signed-smoke ingest, preflight, result, and summary;
 - control-plane readback and Forge live attempt.
 
-The active-stack readiness ledger is the central source for explaining whether AO Foundry, AO Forge, AO Command, AO2, ao2-control-plane, and AO Covenant are ready.
+The active-stack readiness ledger is the central source for explaining whether
+AO Foundry, AO Atlas, AO Forge, AO Command, AO2, ao2-control-plane, and AO
+Covenant are ready.
 
 ## Interactions With Other Repositories
 
@@ -126,6 +129,7 @@ The active-stack readiness ledger is the central source for explaining whether A
 
 | Repository | AO Foundry interaction |
 | --- | --- |
+| AO Atlas | Supplies validated stack-instance, workgraph, Foundry import, run-link, and status readback material; Foundry remains the scheduler. |
 | AO Forge | Delegates individual governed factory runs and consumes run/gate outcomes. |
 | AO Command | Supplies active-stack status for read-only operator summaries. |
 | AO2 | Consumes execution readiness, Pulse evidence, and release evidence. |
