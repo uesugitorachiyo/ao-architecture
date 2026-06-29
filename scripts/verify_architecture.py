@@ -10,6 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 ACTIVE_REPOS = [
+    "ao-atlas",
     "ao-foundry",
     "ao-forge",
     "ao-covenant",
@@ -208,6 +209,7 @@ def main() -> int:
     readiness_text = read_text(readiness)
     root_text = read_text(readme)
     command_text = read_text(ROOT / "ao-command" / "README.md")
+    atlas_text = read_text(ROOT / "ao-atlas" / "README.md")
     rsi_claim_text = "\n".join([root_text, overview_text, command_text])
     for required_file in REQUIRED_RSI_MAP_FILES:
         if not (ROOT / required_file).exists():
@@ -216,6 +218,19 @@ def main() -> int:
     for claim in REQUIRED_RSI_CLAIMS:
         if claim not in rsi_claim_text:
             fail(f"architecture docs missing RSI claim guard: {claim}")
+
+    for atlas_term in [
+        "AO Atlas",
+        "ao.atlas.stack-instance.v0.1",
+        "ao.atlas.workgraph.v0.1",
+        "ao.atlas.context-pack.v0.1",
+        "ao.atlas.foundry-import.v0.1",
+        "ao.foundry.atlas-readback.v0.1",
+        "ao.foundry.atlas-status.v0.1",
+        "does not schedule, execute, approve, publish, call providers, or mutate sibling repositories",
+    ]:
+        if atlas_term not in "\n".join([root_text, overview_text, atlas_text]):
+            fail(f"architecture docs missing AO Atlas term: {atlas_term}")
 
     rsi_map_text = read_text(ROOT / "overview" / "RSI-CLAIM-EVIDENCE-MAP.md")
     for term in REQUIRED_RSI_MAP_TERMS:
