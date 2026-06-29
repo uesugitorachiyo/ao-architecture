@@ -116,6 +116,8 @@ provider calls disabled, and repository mutation outside AO Command and Atlas.
 
 ## Governed Live-Mutation Boundary
 
+![First docs-only live mutation boundary](images/live-mutation-boundary.svg)
+
 The stack now has a fixture-only governed live-mutation dry-run chain and a
 first docs-only approval path for the first tiny live-mutation class. The
 baseline proof lives in AO Foundry as
