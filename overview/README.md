@@ -93,6 +93,17 @@ AO Atlas sits upstream of scheduling when a mission is too large for one factory
 
 Pulse/event-loop startup is now a gated readback chain, not a direct runner. AO Foundry validates Blueprint/Atlas intake preflight, one-slice PR lifecycle state, and `ao.foundry.pulse-overnight-start-gate.v0.1` before overnight advancement may begin. AO Command can read those three artifacts with `pulse status` and report ready, blocked, or failed while remaining read-only. A blocked Blueprint clarification stops implementation instead of being treated as ready work.
 
+AO Foundry now carries a fixture-only oversized-task proof for complex refactor
+work. The proof uses `examples/complex-refactor-workgraph/` to model a
+multi-slice refactor as Atlas factory tasks with completed, ready, blocked, and
+stitch nodes. `scripts/complex-refactor-workgraph-rehearsal.sh` validates the
+Atlas workgraph and context packs, Foundry import/readback, Pulse start-gate
+evidence, and AO Command readback. Its summary can say that one ready factory
+task may start while the overall mission remains blocked until downstream
+run-link evidence exists. That is the intended behavior: Atlas decomposes and
+records, Foundry gates and schedules, Command reads, and blocked work does not
+start.
+
 The readiness exit gate is stop-oriented. When goal readiness and competitive readiness are 100/100 and the active-stack loop passes with no `blocking_next_actions`, autonomous readiness work stops. Follow-up `maintenance_suggestions` stay separate from blockers, and live execution, signed-smoke promotion, release promotion, or new implementation work requires explicit operator intent.
 
 ### Governed RSI Evidence Workflow

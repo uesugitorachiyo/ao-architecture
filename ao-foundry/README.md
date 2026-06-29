@@ -110,6 +110,21 @@ The start gate decides whether a loop may start, block, or stop. It does not
 start implementation, schedule work, approve work, call providers, publish, or
 mutate repositories.
 
+Foundry also has two fixture-only proofs for the Blueprint -> Atlas -> Foundry
+-> Command path:
+
+- `scripts/blueprint-atlas-pulse-e2e-dry-run.sh` proves that a ready Blueprint
+  authorization and Atlas handoff can reach a ready runner start decision while
+  a blocked Blueprint request cannot produce `pulse-event.json`.
+- `scripts/complex-refactor-workgraph-rehearsal.sh` proves that an oversized
+  refactor can be represented as Atlas workgraph nodes, context packs, Foundry
+  import/readback, Pulse start-gate evidence, and AO Command readback.
+
+The complex refactor rehearsal reports that a next ready factory task may start
+when its dependency and Pulse gate evidence are ready, while blocked downstream
+tasks remain denied until completed run-link evidence exists. This is a
+control-surface proof, not direct implementation.
+
 When the readiness exit gate is satisfied, the pulse summary records a stop-oriented next action instead of generating another autonomous task.
 
 ## Agent Roles And Skills
@@ -136,6 +151,7 @@ Foundry contracts include:
 - pulse event, loop event log, loop lease, trace, eval result, eval scorecard;
 - signed-smoke ingest, preflight, result, and summary;
 - Pulse intake preflight, PR lifecycle, and overnight start-gate results;
+- Blueprint/Atlas/Pulse e2e dry-run and complex-refactor workgraph rehearsal summaries;
 - control-plane readback and Forge live attempt.
 
 The active-stack readiness ledger is the central source for explaining whether
