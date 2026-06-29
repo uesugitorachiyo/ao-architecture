@@ -67,6 +67,7 @@ The architecture is pull-based. AO Command reads existing files and command outp
 | `stack` | Reads AO Foundry active-stack readiness ledgers and reports repository and release-handoff state. |
 | `atlas status` | Reads AO Foundry Atlas observer evidence and reports Atlas compile/readback status without scheduling or execution authority. |
 | `pulse status` | Reads AO Foundry Pulse intake preflight, PR lifecycle, and overnight start-gate artifacts without starting loops or mutating repositories. |
+| `complex-refactor status` | Reads AO Foundry's fixture-only complex-refactor rehearsal summary and reports task counts, next safe action, repair-plan status, and needs-context repack status. |
 | `rsi health` | Reads AO Arena, AO Crucible, AO Sentinel, AO Promoter, and AO Foundry RSI evidence and reports governed local RSI health. |
 | `next` | Presents the next operator action derived from Forge evidence. |
 | `goals` | Inspects GoalRun evidence and loop state. |
@@ -115,6 +116,19 @@ complex refactor workgraph rehearsal, Command readback helps explain why the
 next ready factory task may start while blocked downstream tasks remain denied.
 Command does not create branches, schedule Atlas nodes, execute agents, or
 approve the workgraph.
+
+### Complex Refactor Readback Workflow
+
+1. Run AO Foundry's fixture-only complex refactor rehearsal to produce a
+   summary with Atlas workgraph counts, Foundry gate state, repair-plan state,
+   context-repack state, and source digests.
+2. Run `ao-command complex-refactor status --summary <summary.json> --json`.
+3. Inspect `status`, `next_recommended_factory_task`, `repair_plan`,
+   `context_repack`, `first_failing_check`, `operator_mode=read_only`, and
+   `mutates_repositories=false`.
+4. Treat the output as explanation only. AO Command does not schedule the ready
+   task, repair a blocked node, repack context, merge PRs, call providers, or
+   mutate any repository.
 
 ### RSI Health Workflow
 
