@@ -131,6 +131,20 @@ approve the workgraph.
    task, repair a blocked node, repack context, merge PRs, call providers, or
    mutate any repository.
 
+### First Docs-Only Live-Mutation Readback Workflow
+
+AO Command reads the first-live-docs approval path without becoming part of the
+authority chain. It can explain the Foundry approval request, Covenant approval
+ticket, Foundry approval gate, final docs-only PR rehearsal gate, and readiness
+rollup through read-only status surfaces.
+
+The readback must keep `operator_mode=read_only` and
+`mutates_repositories=false`. A Command report may say that `safe_to_request` is
+ready, or that `safe_to_execute` is conditionally true for the first docs-only
+PR rehearsal after exact approval and all gates pass, but it cannot approve the
+ticket, create worktrees, create branches, open PRs, merge, publish, call
+providers, or execute AO2 patches.
+
 ### RSI Health Workflow
 
 1. Generate fixture/local evidence in AO Arena, AO Crucible, AO Sentinel, and AO Promoter.

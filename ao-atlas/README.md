@@ -157,6 +157,18 @@ large work:
 - both artifacts stay fixture/readback material until Foundry chooses a safe
   delegated task.
 
+### First Docs-Only Scope Boundary
+
+AO Atlas can feed the first-live-docs path when oversized work needs
+decomposition before a docs-only request is formed. It may provide workgraph,
+context-pack, Foundry import, run-link, repair, and repack evidence showing which
+bounded docs task is ready and what context it received.
+
+Atlas does not grant mutation authority. It does not approve the docs-only
+ticket, schedule the live branch/PR, execute AO2 patches, publish, call
+providers, or mutate sibling repositories. Execution authority comes later
+through Foundry, Covenant, Forge, AO2, Sentinel, Promoter, and Command evidence.
+
 ## Agent Roles And Skills
 
 - intake compiler records broad operator intent without claiming readiness;
