@@ -166,6 +166,11 @@ The current boundary is precise:
 - `safe_to_execute=true` is allowed only for the docs-only PR rehearsal decision
   when an explicit approved Covenant ticket is present and digest-bound to the
   approved dry-run chain;
+- AO Foundry PR #98, commit
+  `2e40f40cd48b9652c42dd670f9df959c930afd42`, adds
+  `scripts/first-live-docs-readiness-rollup.sh` and
+  `ao.foundry.first-live-docs-readiness-rollup.v0.1` as the public rollup for
+  that boundary;
 - actual live mutation remains unperformed until a separate, explicit operator
   instruction starts the first docs-only branch/PR rehearsal under those gates.
 

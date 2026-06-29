@@ -134,6 +134,11 @@ mutation authority:
   to ask for approval.
 - `safe_to_execute=true` can appear only on the PR rehearsal gate when the
   explicit Covenant approval ticket is present and digest-bound.
+- AO Foundry PR #98, commit
+  `2e40f40cd48b9652c42dd670f9df959c930afd42`, adds the
+  `ao.foundry.first-live-docs-readiness-rollup.v0.1` rollup that summarizes the
+  request, ticket, gate, guard, patch packet, worktree, rollback, Sentinel,
+  Promoter, and Command evidence for this first docs-only class.
 - AO Command reads that gate with `live-mutation pr-rehearsal` and remains
   read-only.
 - No component has authority to create branches, create worktrees, open PRs,
