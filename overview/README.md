@@ -208,7 +208,9 @@ to publish the full self-mutating RSI claim.
 Use [RSI Claim Evidence Map](RSI-CLAIM-EVIDENCE-MAP.md) for the current
 cross-repo snapshot, and use
 [Live Mutation Stale Language Sweep](LIVE-MUTATION-STALE-LANGUAGE-SWEEP.md) to
-check that public wording does not overclaim live mutation authority. AO Forge
+check that public wording does not overclaim live mutation authority. Use
+[Live Mutation Documentation Consistency Proof](LIVE-MUTATION-DOCUMENTATION-CONSISTENCY.md)
+as the final cross-repo checklist for the first-live-docs public boundary. AO Forge
 also retains AO Command's manifest-validation
 proof so the architecture can audit the rollback rehearsal markers after the
 original command run has completed, and AO Command now fails closed when those
