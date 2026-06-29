@@ -100,6 +100,17 @@ AO Atlas is a Go CLI:
 4. Use `workgraph next`, `workgraph complete`, `workgraph repair-plan`,
    `context-pack repack`, and `mission status` to keep the graph bounded.
 
+### Mission-Scale Context Workflow
+
+Atlas context handling is mission-scale. It manages source references, digests,
+summaries, assumptions, exclusions, missing-context protocol, and budget checks
+before a ready factory task is handed to Foundry.
+
+AO2 context handling is different: AO2 shrinks and records the context for one
+governed runtime slice after Foundry/Forge has selected the task. Atlas should
+not run adapters or close AO2 evidence, and AO2 should not take over Atlas's
+workgraph, repair-plan, or context-repack responsibilities.
+
 ### Foundry Handoff And Readback Workflow
 
 1. Emit `ao.atlas.foundry-handoff.v0.1` and `ao.atlas.foundry-import.v0.1`

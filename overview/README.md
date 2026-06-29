@@ -85,6 +85,21 @@ Then drill into the owning repository:
 
 The governed implementation loop starts with a Blueprint-authorized task or objective and ends with evidence-bound closure. AO Atlas compiles oversized authorized objectives into bounded factory packets when needed. AO Forge plans the work and keeps durable GoalRun state. AO Covenant gates side effects. AO2 executes the work locally, records artifacts, and rejects closure until evidence exists. The control plane is optional and receives evidence after the fact.
 
+### Context Boundary Workflow
+
+AO Atlas handles context at mission scale. It decides how an oversized objective
+is split into workgraph nodes, factory tasks, context packs, repair tasks,
+context repacks, and Foundry handoff material before any one factory run starts.
+
+AO2 handles context at governed-run scale. It receives the bounded task context
+selected by Foundry/Forge, compiles local role context, runs adapters in the
+runtime, records transcripts and artifacts, and can shrink or reject the run
+when the evidence or context is insufficient.
+
+The boundary prevents two common failure modes: Atlas must not execute a
+context pack as if it were a runtime, and AO2 must not absorb an entire
+mission-scale workgraph as one oversized run.
+
 ### Portfolio Readiness Workflow
 
 AO Foundry watches the active stack as a portfolio. It reads registry records, CI run evidence, release-candidate ledgers, signed-smoke gates, branch-protection status, and production-readiness rollups. It can recommend the next safe delegated action, but it delegates governed execution to AO Forge.
