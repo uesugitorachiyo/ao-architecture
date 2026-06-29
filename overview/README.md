@@ -10,6 +10,7 @@ The most important design decision is separation of authority. No single reposit
 
 | Repository | Primary role | What to read next |
 | --- | --- | --- |
+| [AO Atlas](../ao-atlas/README.md) | Stack-instance, workgraph, context-pack, and Foundry fixture handoff compiler | Use this to understand oversized objective decomposition before Foundry scheduling. |
 | [AO Command](../ao-command/README.md) | Read-only operator command center | Start here when someone asks "what is happening?" |
 | [AO Foundry](../ao-foundry/README.md) | Portfolio-level engineering operations factory | Use this to understand multi-repo readiness and release trains. |
 | [AO Forge](../ao-forge/README.md) | Trusted factory brain for one governed run | Use this to understand GoalRun, factory plans, and release gates. |
@@ -25,6 +26,7 @@ The most important design decision is separation of authority. No single reposit
 
 ```text
 AO Command shows what is happening.
+AO Atlas compiles oversized objectives into stack-instance workgraphs and bounded context packs.
 AO Foundry coordinates the portfolio.
 AO Forge decides the next allowed factory step.
 AO Covenant decides whether declared side effects are trusted.
@@ -43,17 +45,18 @@ AO Promoter activates only when all gates and rollback evidence pass.
 ![Evidence-first workflow](../images/evidence-flow.svg)
 
 1. An operator objective enters through the human workflow, usually surfaced through AO Command or a Foundry queue.
-2. AO Foundry decides whether the repository, branch, release train, or task is ready for delegated work.
-3. AO Forge converts the objective into a factory plan, GoalRun state, release gate, or operator packet.
-4. AO Covenant evaluates declared side effects and produces allow, deny, block, or approval-required decisions.
-5. AO2 executes the governed run through a bounded adapter such as scripted, Codex, or Claude.
-6. AO2 writes run events, artifacts, exact-digest approvals, reviewer concerns, evaluator closure, and an evidence pack.
-7. ao2-control-plane may ingest signed AO2 evidence and expose authenticated read APIs or dashboards.
-8. AO Arena compares baseline and challenger evidence through deterministic fixture-mode scores.
-9. AO Crucible runs adversarial hardening probes and emits hardening gates or remediation briefs.
-10. AO Sentinel compares active evidence against trusted baselines and emits clear, incident, or promoter-hold verdicts.
-11. AO Promoter consumes Arena, Crucible, Covenant, Foundry, Forge, AO2, and Sentinel evidence to produce activation, rollback, apply dry-run, and operator reports.
-12. AO Forge and AO Command consume the evidence to explain status, next actions, readiness, and release decisions.
+2. AO Atlas may compile oversized objectives into stack-instance manifests, workgraphs, factory tasks, and bounded context packs without copying source repositories.
+3. AO Foundry decides whether the repository, branch, release train, Atlas import/readback packet, or task is ready for delegated work.
+4. AO Forge converts the objective into a factory plan, GoalRun state, release gate, or operator packet.
+5. AO Covenant evaluates declared side effects and produces allow, deny, block, or approval-required decisions.
+6. AO2 executes the governed run through a bounded adapter such as scripted, Codex, or Claude.
+7. AO2 writes run events, artifacts, exact-digest approvals, reviewer concerns, evaluator closure, and an evidence pack.
+8. ao2-control-plane may ingest signed AO2 evidence and expose authenticated read APIs or dashboards.
+9. AO Arena compares baseline and challenger evidence through deterministic fixture-mode scores.
+10. AO Crucible runs adversarial hardening probes and emits hardening gates or remediation briefs.
+11. AO Sentinel compares active evidence against trusted baselines and emits clear, incident, or promoter-hold verdicts.
+12. AO Promoter consumes Arena, Crucible, Covenant, Foundry, Forge, AO2, and Sentinel evidence to produce activation, rollback, apply dry-run, and operator reports.
+13. AO Forge, AO Foundry, and AO Command consume the evidence to explain status, next actions, readiness, and release decisions.
 
 ## Core Workflows
 
@@ -64,6 +67,7 @@ Use AO Command for the first read. It is intentionally read-only and gives one c
 Then drill into the owning repository:
 
 - AO Foundry for portfolio readiness, active-stack ledgers, release trains, and multi-repo blockers.
+- AO Atlas for stack-instance manifests, workgraphs, context packs, Foundry fixture handoff/import, and run-link readback.
 - AO Forge for factory plans, GoalRun transitions, production-readiness scoring, and release gates.
 - AO Covenant for why a side effect was allowed, denied, blocked, or required approval.
 - AO2 for what actually ran, which adapter participated, what changed, what evidence was produced, and why closure accepted or rejected the run.
@@ -80,6 +84,8 @@ The governed implementation loop starts with a task or objective and ends with e
 ### Portfolio Readiness Workflow
 
 AO Foundry watches the active stack as a portfolio. It reads registry records, CI run evidence, release-candidate ledgers, signed-smoke gates, branch-protection status, and production-readiness rollups. It can recommend the next safe delegated action, but it delegates governed execution to AO Forge.
+
+AO Atlas sits upstream of scheduling when a mission is too large for one factory context. It emits public-safe stack-instance and workgraph artifacts, then Foundry validates `ao.atlas.foundry-import.v0.1`, `ao.foundry.atlas-readback.v0.1`, and `ao.foundry.atlas-status.v0.1` observer evidence before treating Atlas material as ready. Atlas does not schedule, execute, approve, publish, call providers, or mutate sibling repositories.
 
 The readiness exit gate is stop-oriented. When goal readiness and competitive readiness are 100/100 and the active-stack loop passes with no `blocking_next_actions`, autonomous readiness work stops. Follow-up `maintenance_suggestions` stay separate from blockers, and live execution, signed-smoke promotion, release promotion, or new implementation work requires explicit operator intent.
 
@@ -171,6 +177,7 @@ This stack uses "agent" to mean a bounded role in a governed run, not an unlimit
 | Role | Owned by | Skill or capability |
 | --- | --- | --- |
 | Operator | Human plus AO Command | Inspect status, choose next action, approve intentional gates. |
+| Stack-instance compiler | AO Atlas | Turn oversized objectives into bounded workgraphs, context packs, Foundry fixture import material, and run-link readback. |
 | Portfolio coordinator | AO Foundry | Select ready repositories, tasks, release trains, and readiness loops. |
 | Factory planner | AO Forge | Decompose objective into GoalRun state, plans, gates, and packets. |
 | Policy broker | AO Covenant | Evaluate declared side effects, approval tickets, revocations, and trust evidence. |
@@ -188,6 +195,7 @@ This stack uses "agent" to mean a bounded role in a governed run, not an unlimit
 The repositories communicate through durable artifacts rather than implicit process memory:
 
 - JSON schemas for contracts, GoalRun state, release candidates, readiness audits, provider registries, evidence packs, and control-plane summaries.
+- Atlas contracts for stack instances, intake, workgraphs, factory tasks, context packs, Foundry handoff/import, run links, and Foundry observer status.
 - Canonical digests and sidecar checksums for contracts, artifacts, bundles, and release assets.
 - Append-only ledgers or JSONL records for events and run history.
 - Operator packets, readiness rollups, release reports, and dashboard readbacks.
@@ -211,6 +219,7 @@ These overview docs were written from the public source repositories:
 
 | Repository | Public source |
 | --- | --- |
+| AO Atlas | [uesugitorachiyo/ao-atlas](https://github.com/uesugitorachiyo/ao-atlas) |
 | AO Command | [uesugitorachiyo/ao-command](https://github.com/uesugitorachiyo/ao-command) |
 | AO Arena | [uesugitorachiyo/ao-arena](https://github.com/uesugitorachiyo/ao-arena) |
 | AO Covenant | [uesugitorachiyo/ao-covenant](https://github.com/uesugitorachiyo/ao-covenant) |

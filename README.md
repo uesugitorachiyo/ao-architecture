@@ -2,7 +2,7 @@
 
 ![AO stack overview](images/ao-stack-overview.svg)
 
-AO Architecture documents a multi-repository AI agent orchestration stack for governed autonomous software engineering. It explains how AO Foundry, AO Forge, AO Covenant, AO2, ao2-control-plane, AO Command, AO Arena, AO Crucible, AO Sentinel, and AO Promoter work together as an evidence-first agentic factory: choosing work, gating policy, executing bounded agent runs, preserving evidence, measuring outcomes, hardening candidates, monitoring regressions, promoting only gated winners, exposing read-only status, and stopping when readiness gates are satisfied.
+AO Architecture documents a multi-repository AI agent orchestration stack for governed autonomous software engineering. It explains how AO Blueprint, AO Atlas, AO Foundry, AO Forge, AO Covenant, AO2, ao2-control-plane, AO Command, AO Arena, AO Crucible, AO Sentinel, and AO Promoter work together as an evidence-first agentic factory: specifying work, compiling stack-instance workgraphs, choosing work, gating policy, executing bounded agent runs, preserving evidence, measuring outcomes, hardening candidates, monitoring regressions, promoting only gated winners, exposing read-only status, and stopping when readiness gates are satisfied.
 
 Use this documentation to understand the AO stack's architecture, authority boundaries, agent workflows, contracts, production-readiness gates, and evidence trails. The focus is practical orchestration: how agent work moves from portfolio scheduling to governed factory planning, local execution, policy decisions, control-plane readback, and operator-facing status.
 
@@ -11,6 +11,7 @@ Use this documentation to understand the AO stack's architecture, authority boun
 The AO stack is a set of open architecture documents for building and operating governed AI agent systems. Instead of treating agent automation as a single chat session or unbounded background worker, the stack splits responsibility across small tools with clear boundaries:
 
 - AO Foundry coordinates multi-repository engineering operations and readiness loops.
+- AO Atlas turns oversized objectives into stack-instance manifests, workgraphs, factory tasks, bounded context packs, Foundry fixture handoff/import material, and digest-bound run-link readback records.
 - AO Forge turns an objective into a governed factory run with durable GoalRun state.
 - AO Covenant gates policy, trust, side effects, release bundles, and evidence contracts.
 - AO2 executes bounded local agent workflows and records artifacts, decisions, approvals, and evaluator closure evidence.
@@ -33,6 +34,7 @@ Watch the video walkthrough: [AO Architecture on YouTube](https://youtu.be/P0Jbs
 
 | Repository | Role in the AI agent orchestration stack | Start here |
 | --- | --- | --- |
+| `ao-atlas` | Stack-instance and workgraph layer for oversized objective intake, bounded context packs, Foundry fixture handoff/import, and run-link readback. | [AO Atlas Architecture](ao-atlas/README.md) |
 | `ao-foundry` | Engineering operations factory for multi-repo scheduling, readiness, release trains, and autonomous loop stop conditions. | [AO Foundry Architecture](ao-foundry/README.md) |
 | `ao-forge` | Governed factory brain for GoalRun state, factory plans, Covenant gates, AO2 delegation, and operator evidence packets. | [AO Forge Architecture](ao-forge/README.md) |
 | `ao-covenant` | Policy and trust layer for side-effect decisions, release bundles, signatures, schemas, and evidence contracts. | [AO Covenant Architecture](ao-covenant/README.md) |
@@ -54,6 +56,7 @@ Watch the video walkthrough: [AO Architecture on YouTube](https://youtu.be/P0Jbs
 
 | Folder | Guide |
 | --- | --- |
+| `ao-atlas` | [AO Atlas Architecture](ao-atlas/README.md) |
 | `ao-command` | [AO Command Architecture](ao-command/README.md) |
 | `ao-arena` | [AO Arena Architecture](ao-arena/README.md) |
 | `ao-covenant` | [AO Covenant Architecture](ao-covenant/README.md) |
@@ -181,6 +184,7 @@ These docs describe the target folders as architecture documentation mirrors. Th
 
 | Source repository | Architecture guide |
 | --- | --- |
+| [ao-atlas](https://github.com/uesugitorachiyo/ao-atlas) | [ao-atlas](ao-atlas/README.md) |
 | [ao-command](https://github.com/uesugitorachiyo/ao-command) | [ao-command](ao-command/README.md) |
 | [ao-arena](https://github.com/uesugitorachiyo/ao-arena) | [ao-arena](ao-arena/README.md) |
 | [ao-covenant](https://github.com/uesugitorachiyo/ao-covenant) | [ao-covenant](ao-covenant/README.md) |
