@@ -108,6 +108,14 @@ The architecture is pull-based. AO Command reads existing files and command outp
 4. Treat `blocked` or `failed` as operator readback, not permission for AO
    Command to start, merge, approve, publish, or mutate anything.
 
+AO Command is also part of Foundry's fixture-only e2e proofs. In the
+Blueprint/Atlas/Pulse dry run, Command reads the ready and blocked gate paths
+and reports `operator_mode=read_only` and `mutates_repositories=false`. In the
+complex refactor workgraph rehearsal, Command readback helps explain why the
+next ready factory task may start while blocked downstream tasks remain denied.
+Command does not create branches, schedule Atlas nodes, execute agents, or
+approve the workgraph.
+
 ### RSI Health Workflow
 
 1. Generate fixture/local evidence in AO Arena, AO Crucible, AO Sentinel, and AO Promoter.

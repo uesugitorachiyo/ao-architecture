@@ -118,6 +118,23 @@ AO Atlas is a Go CLI:
 7. Keep the roundtrip fixture-only: no scheduling, execution, approval,
    provider calls, publication, or sibling repository mutation.
 
+### Complex Refactor Rehearsal Workflow
+
+AO Foundry now mirrors a realistic Atlas workgraph for a complex refactor in
+`../../ao-foundry/examples/complex-refactor-workgraph/`. The fixture shows how
+Atlas represents a large job without handing a whole mission to one factory:
+
+1. one completed boundary-audit node;
+2. two dependency-ready factory nodes;
+3. blocked AO Command readback and stitch/integration nodes;
+4. context packs for each bounded task;
+5. Foundry import and run-link readback evidence for the next ready task.
+
+`../../ao-foundry/scripts/complex-refactor-workgraph-rehearsal.sh` validates
+that model with Atlas workgraph/status commands, Foundry import/readback, Pulse
+gate evidence, and AO Command readback. The rehearsal proves decomposition and
+readback, not live execution.
+
 ## Agent Roles And Skills
 
 - intake compiler records broad operator intent without claiming readiness;

@@ -85,6 +85,31 @@ The stack is designed around:
 - clean separation between execution, policy, orchestration, observer storage, and operator UX;
 - stop conditions that prevent autonomous loops from inventing work after readiness is satisfied.
 
+## Oversized Task Control Path
+
+The current stack has a fixture-only proof for managing a complex refactor that
+is too large for one context window. AO Blueprint remains the front door for
+build authorization, AO Atlas decomposes the oversized objective into a
+stack-instance workgraph, bounded context packs, Foundry import material, and
+run-link readback, AO Foundry validates the workgraph/import and Pulse gates,
+and AO Command reads the resulting status without mutating repositories.
+
+The reference proof lives in AO Foundry:
+
+- `scripts/blueprint-atlas-pulse-e2e-dry-run.sh` proves Blueprint ready and
+  blocked paths through Atlas, Foundry gates, runner start decision, and AO
+  Command readback.
+- `examples/complex-refactor-workgraph/` models a larger refactor with
+  completed, ready, blocked, and stitch nodes.
+- `scripts/complex-refactor-workgraph-rehearsal.sh` reports total, ready,
+  blocked, completed, and failed task counts, the next recommended factory
+  task, and why the loop may start the next ready task while blocked tasks stay
+  denied.
+
+This is not live autonomous implementation. The proof is fixture-only and keeps
+`schedules_work=false`, `executes_work=false`, `approves_work=false`,
+provider calls disabled, and repository mutation outside AO Command and Atlas.
+
 ## RSI Claim Boundary
 
 The current architecture supports a bounded, governed RSI evidence chain, not a
