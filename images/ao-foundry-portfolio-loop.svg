@@ -26,7 +26,7 @@
 
   <rect class="box" x="398" y="260" width="292" height="120" fill="#fff1d6" stroke="#c9811d" stroke-width="3"/>
   <text class="repo" x="493" y="307">AO Foundry</text>
-  <text class="small" x="436" y="334">registry, readiness, PR lifecycle, release trains</text>
+  <text class="small" x="426" y="334">registry, readiness, intake/start gates, PR lifecycle</text>
 
   <rect class="box" x="832" y="120" width="210" height="78" fill="#ffffff" stroke="#c9811d"/>
   <text class="repo" x="881" y="153">Repo registry</text>

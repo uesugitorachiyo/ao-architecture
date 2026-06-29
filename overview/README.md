@@ -89,7 +89,9 @@ The governed implementation loop starts with a Blueprint-authorized task or obje
 
 AO Foundry watches the active stack as a portfolio. It reads registry records, CI run evidence, release-candidate ledgers, signed-smoke gates, branch-protection status, and production-readiness rollups. It can recommend the next safe delegated action, but it delegates governed execution to AO Forge.
 
-AO Atlas sits upstream of scheduling when a mission is too large for one factory context. It emits public-safe stack-instance and workgraph artifacts, then Foundry validates `ao.atlas.foundry-import.v0.1`, `ao.foundry.atlas-readback.v0.1`, and `ao.foundry.atlas-status.v0.1` observer evidence before treating Atlas material as ready. Atlas does not schedule, execute, approve, publish, call providers, or mutate sibling repositories.
+AO Atlas sits upstream of scheduling when a mission is too large for one factory context. It emits public-safe stack-instance and workgraph artifacts, then Foundry validates `ao.atlas.foundry-import.v0.1`, `ao.foundry.atlas-readback.v0.1`, and `ao.foundry.atlas-status.v0.1` observer evidence before treating Atlas material as ready. The current Atlas import path selects only ready nodes, preserves factory assignment, acceptance criteria, safety limits, verification commands, context-pack refs, dependency refs, and required evidence, and emits explicit `schedules_work=false`, `executes_work=false`, and `approves_work=false` boundaries. Atlas does not schedule, execute, approve, publish, call providers, or mutate sibling repositories.
+
+Pulse/event-loop startup is now a gated readback chain, not a direct runner. AO Foundry validates Blueprint/Atlas intake preflight, one-slice PR lifecycle state, and `ao.foundry.pulse-overnight-start-gate.v0.1` before overnight advancement may begin. AO Command can read those three artifacts with `pulse status` and report ready, blocked, or failed while remaining read-only. A blocked Blueprint clarification stops implementation instead of being treated as ready work.
 
 The readiness exit gate is stop-oriented. When goal readiness and competitive readiness are 100/100 and the active-stack loop passes with no `blocking_next_actions`, autonomous readiness work stops. Follow-up `maintenance_suggestions` stay separate from blockers, and live execution, signed-smoke promotion, release promotion, or new implementation work requires explicit operator intent.
 
@@ -190,6 +192,7 @@ This stack uses "agent" to mean a bounded role in a governed run, not an unlimit
 | Reviewer | AO2 workflow role | Emit concerns, evidence requirements, and correction requests. |
 | Evaluator closer | AO2 and Covenant patterns | Accept or reject only from mapped evidence. |
 | Evidence observer | ao2-control-plane | Verify, store, index, and present signed evidence after execution. |
+| Operator gate reader | AO Command | Read Pulse intake preflight, PR lifecycle, and overnight start-gate artifacts without starting loops or mutating repositories. |
 | Benchmark scorer | AO Arena | Compare baseline and challenger outcomes from deterministic fixture evidence. |
 | Adversarial probe runner | AO Crucible | Exercise candidates against controlled failure scenarios before promotion. |
 | Regression monitor | AO Sentinel | Watch trusted baselines and emit holds when safety or behavior regresses. |
@@ -201,6 +204,7 @@ The repositories communicate through durable artifacts rather than implicit proc
 
 - JSON schemas for contracts, GoalRun state, release candidates, readiness audits, provider registries, evidence packs, and control-plane summaries.
 - Atlas contracts for stack instances, intake, workgraphs, factory tasks, context packs, Foundry handoff/import, run links, and Foundry observer status.
+- Foundry Pulse contracts for intake preflight, one-slice PR lifecycle, overnight start gates, and read-only Command status summaries.
 - Canonical digests and sidecar checksums for contracts, artifacts, bundles, and release assets.
 - Append-only ledgers or JSONL records for events and run history.
 - Operator packets, readiness rollups, release reports, and dashboard readbacks.
