@@ -114,6 +114,22 @@ This is not live autonomous implementation. The proof is fixture-only and keeps
 `schedules_work=false`, `executes_work=false`, `approves_work=false`,
 provider calls disabled, and repository mutation outside AO Command and Atlas.
 
+## Context Management Boundary
+
+AO Atlas and AO2 both handle context, but at different scales:
+
+- AO Atlas owns mission-scale context management. It turns an oversized
+  objective into stack-instance workgraphs, factory tasks, bounded context
+  packs, repair tasks, repack artifacts, and Foundry import/readback material.
+- AO2 owns tactical per-run context shrink. It compiles the context needed by a
+  governed local workflow role, runs bounded adapters, captures transcripts and
+  artifacts, and rejects closure when evidence is missing.
+
+Atlas decides how a large mission should be split before scheduling. AO2 decides
+what a specific governed run received and records why that run accepted,
+blocked, or failed. AO2 should not become the mission workgraph compiler, and
+Atlas should not become the execution runtime.
+
 ## RSI Claim Boundary
 
 The current architecture supports a bounded, governed RSI evidence chain, not a

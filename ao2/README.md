@@ -88,6 +88,20 @@ This is intentionally provider-free for the initial slice so the governance path
 5. Sandbox patch promotion requires exact digest matching.
 6. AO2 records artifacts and rejects closure when required evidence is missing.
 
+### Tactical Context Shrink Workflow
+
+AO2 context handling is tactical and per-run. It receives a bounded task packet
+from Foundry or Forge, compiles the role context needed for that local workflow,
+and records exactly what the adapter saw. When the context is too broad, stale,
+or missing required evidence, AO2 should shrink, block, or reject the run and
+emit artifacts explaining why.
+
+AO2 does not own mission-scale context decomposition. Oversized objectives,
+multi-node workgraphs, context-pack budgets, blocked-node repair plans, and
+`needs_context` repacks belong to AO Atlas before Foundry schedules a ready
+task. AO2's job is to execute one governed slice and produce durable evidence,
+not to turn an entire mission into its own workgraph.
+
 ### Pulse Auto-Advance Workflow
 
 Pulse can continue local AO2 work without opening a pull request only while a registered task still has unmet stop conditions. It writes local evidence for each iteration:
@@ -147,6 +161,7 @@ Every role handoff should cross an artifact boundary. Terminal output is not the
 | Repository | AO2 interaction |
 | --- | --- |
 | AO Forge | Receives delegated governed execution from Forge and returns evidence packs or run summaries. |
+| AO Atlas | Supplies mission-scale workgraph and context-pack material through Foundry/Forge; AO2 consumes only the bounded slice selected for execution. |
 | AO Covenant | Uses the same trust model: declared side effects, policy gates, exact approvals, and evidence closure. |
 | ao2-control-plane | Publishes signed evidence, provider registries, release support bundles, and readback material to the observer. |
 | AO Foundry | Supplies execution and Pulse evidence for portfolio readiness. |
