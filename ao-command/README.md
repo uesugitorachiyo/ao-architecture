@@ -68,6 +68,7 @@ The architecture is pull-based. AO Command reads existing files and command outp
 | `atlas status` | Reads AO Foundry Atlas observer evidence and reports Atlas compile/readback status without scheduling or execution authority. |
 | `pulse status` | Reads AO Foundry Pulse intake preflight, PR lifecycle, and overnight start-gate artifacts without starting loops or mutating repositories. |
 | `complex-refactor status` | Reads AO Foundry's fixture-only complex-refactor rehearsal summary and reports task counts, next safe action, repair-plan status, and needs-context repack status. |
+| `live-mutation pr-rehearsal` | Reads AO Foundry's first docs-only PR rehearsal gate and reports whether approval is still required or the docs-only rehearsal decision may start. |
 | `rsi health` | Reads AO Arena, AO Crucible, AO Sentinel, AO Promoter, and AO Foundry RSI evidence and reports governed local RSI health. |
 | `next` | Presents the next operator action derived from Forge evidence. |
 | `goals` | Inspects GoalRun evidence and loop state. |
