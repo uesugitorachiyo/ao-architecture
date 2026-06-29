@@ -114,6 +114,48 @@ This is not live autonomous implementation. The proof is fixture-only and keeps
 `schedules_work=false`, `executes_work=false`, `approves_work=false`,
 provider calls disabled, and repository mutation outside AO Command and Atlas.
 
+## Governed Live-Mutation Boundary
+
+The stack now has a fixture-only governed live-mutation dry-run chain for the
+first tiny live-mutation class. The proof lives in AO Foundry as
+`scripts/governed-live-mutation-dry-run-chain.sh` and emits
+`ao.foundry.governed-live-mutation-dry-run-chain.v0.1`.
+
+The chain links:
+
+1. Blueprint/Atlas complex-task evidence;
+2. Foundry overnight start gate;
+3. Covenant live-mutation authority dry-run evidence;
+4. Forge live-mutation dry-run plan;
+5. AO2 live-mutation dry-run packet;
+6. Foundry worktree-isolation proof;
+7. Foundry rollback rehearsal;
+8. Sentinel live-mutation hold verdict;
+9. Promoter live-mutation activation boundary;
+10. AO Command live-mutation readback.
+
+What is proven:
+
+- oversized work can be decomposed and read back before mutation is requested;
+- every live-mutation prerequisite can be represented as digest-bound evidence;
+- Sentinel and Promoter can hold the path when safety, regression, rollback, or
+  authority evidence is missing;
+- AO Command can expose the operator-facing status read-only;
+- the chain can reach `dry_run_ready_for_request` for a tiny docs-only class.
+
+What is not proven:
+
+- no live repository mutation has been performed by this chain;
+- no provider call, release, upload, tag, or publish action is authorized;
+- no component may bypass Covenant, Sentinel, Promoter, rollback, worktree, PR
+  lifecycle, or operator kill-switch evidence;
+- passing the dry-run chain is not ungated live mutation authority.
+
+The next step after this boundary is a separate operator-approved request for
+the first tiny live-mutation class. Until that request exists, the architecture
+must continue to describe the path as dry-run governed live-mutation readiness,
+not live autonomous mutation.
+
 ## Context Management Boundary
 
 AO Atlas and AO2 both handle context, but at different scales:
