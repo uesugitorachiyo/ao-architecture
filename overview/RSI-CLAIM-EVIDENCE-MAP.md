@@ -104,14 +104,12 @@ Until those six requirements are all present and verified, the architecture
 supports only bounded governed RSI wording.
 
 The separate mutation authority ladder is narrower than this RSI claim boundary.
-The highest proven live mutation class is `test_only`; docs-only and test-only
+The highest proven live mutation class is `complex_repo_mutation`; docs-only,
+test-only, low-risk-code, multi-repo low-risk, and governed complex mutation
 live rehearsals do not prove live self-change, observer readback for a live
-self-change, low-risk code authority, multi-repo live mutation, complex
-repository mutation, or authority to publish the full autonomous self-mutating
-RSI claim. `low_risk_code` remains `safe_to_execute=false`,
-`multi_repo_low_risk` remains dry-run-only, `complex_repo_mutation` remains
-dry-run-only, fully unsupervised complex repository mutation remains denied,
-and fully unsupervised RSI remains denied.
+self-change, fully unsupervised complex mutation, or authority to publish the
+full autonomous self-mutating RSI claim. Fully unsupervised complex repository
+mutation remains denied, and fully unsupervised RSI remains denied.
 
 ## Machine-Readable Manifest
 
