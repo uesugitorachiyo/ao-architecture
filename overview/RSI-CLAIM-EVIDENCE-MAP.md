@@ -103,12 +103,15 @@ the stack needs all of the following:
 Until those six requirements are all present and verified, the architecture
 supports only bounded governed RSI wording.
 
-The separate first-live-docs readiness path is narrower than this RSI claim
-boundary. AO Foundry PR #98 can report `safe_to_request=true` for the first tiny
-docs-only class, and `safe_to_execute=true` can appear only for an exact-scope
-docs-only PR rehearsal after explicit operator approval and all gates pass. That
-does not prove live self-change, observer readback for a live self-change, or
-authority to publish the full autonomous self-mutating RSI claim.
+The separate mutation authority ladder is narrower than this RSI claim boundary.
+The highest proven live mutation class is `test_only`; docs-only and test-only
+live rehearsals do not prove live self-change, observer readback for a live
+self-change, low-risk code authority, multi-repo live mutation, complex
+repository mutation, or authority to publish the full autonomous self-mutating
+RSI claim. `low_risk_code` remains `safe_to_execute=false`,
+`multi_repo_low_risk` remains dry-run-only, `complex_repo_mutation` remains
+dry-run-only, fully unsupervised complex repository mutation remains denied,
+and fully unsupervised RSI remains denied.
 
 ## Machine-Readable Manifest
 

@@ -41,6 +41,27 @@ REQUIRED_RSI_MAP_FILES = [
     "overview/rsi-claim-evidence-manifest.json",
 ]
 
+REQUIRED_LIVE_MUTATION_LADDER_FILES = [
+    "overview/MUTATION-AUTHORITY-LADDER.md",
+]
+
+REQUIRED_LIVE_MUTATION_LADDER_TERMS = [
+    "Mutation Authority Ladder",
+    "docs_only_single_file",
+    "docs_only_multi_file",
+    "docs_config_only",
+    "test_only",
+    "low_risk_code",
+    "multi_repo_low_risk",
+    "complex_repo_mutation",
+    "highest proven live mutation class is `test_only`",
+    "`low_risk_code` remains `safe_to_execute=false`",
+    "`multi_repo_low_risk` remains dry-run-only",
+    "`complex_repo_mutation` remains dry-run-only",
+    "fully unsupervised complex repository mutation remains denied",
+    "fully unsupervised RSI remains denied",
+]
+
 REQUIRED_RSI_CLAIMS = [
     "bounded, governed RSI evidence chain",
     "not a claim of full autonomous self-mutating RSI",
@@ -215,10 +236,26 @@ def main() -> int:
     for required_file in REQUIRED_RSI_MAP_FILES:
         if not (ROOT / required_file).exists():
             fail(f"missing required RSI map file: {required_file}")
+    for required_file in REQUIRED_LIVE_MUTATION_LADDER_FILES:
+        if not (ROOT / required_file).exists():
+            fail(f"missing required live mutation ladder file: {required_file}")
 
     for claim in REQUIRED_RSI_CLAIMS:
         if claim not in rsi_claim_text:
             fail(f"architecture docs missing RSI claim guard: {claim}")
+
+    ladder_text = "\n".join(
+        [
+            root_text,
+            overview_text,
+            read_text(ROOT / "overview" / "LIVE-MUTATION-DOCUMENTATION-CONSISTENCY.md"),
+            read_text(ROOT / "overview" / "LIVE-MUTATION-STALE-LANGUAGE-SWEEP.md"),
+            read_text(ROOT / "overview" / "MUTATION-AUTHORITY-LADDER.md"),
+        ]
+    )
+    for term in REQUIRED_LIVE_MUTATION_LADDER_TERMS:
+        if term not in ladder_text:
+            fail(f"architecture docs missing live mutation ladder term: {term}")
 
     for atlas_term in [
         "AO Atlas",

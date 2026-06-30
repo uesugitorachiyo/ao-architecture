@@ -119,9 +119,17 @@ provider calls disabled, and repository mutation outside AO Command and Atlas.
 
 ![First docs-only live mutation boundary](images/live-mutation-boundary.svg)
 
-The stack now has a fixture-only governed live-mutation dry-run chain and a
-first docs-only approval path for the first tiny live-mutation class. The
-baseline proof lives in AO Foundry as
+The stack now has a governed mutation-class ladder, not broad live mutation
+authority. The architecture source of truth is
+[overview/MUTATION-AUTHORITY-LADDER.md](overview/MUTATION-AUTHORITY-LADDER.md).
+The highest proven live mutation class is `test_only`: docs-only live
+rehearsals and one bounded test-only live rehearsal are proven, while
+`low_risk_code` remains `safe_to_execute=false`, `multi_repo_low_risk` remains
+dry-run-only, `complex_repo_mutation` remains dry-run-only, fully unsupervised
+complex repository mutation remains denied, and fully unsupervised RSI remains
+denied.
+
+The baseline dry-run proof still lives in AO Foundry as
 `scripts/governed-live-mutation-dry-run-chain.sh` and emits
 `ao.foundry.governed-live-mutation-dry-run-chain.v0.1`.
 
@@ -145,41 +153,45 @@ What is proven:
 - Sentinel and Promoter can hold the path when safety, regression, rollback, or
   authority evidence is missing;
 - AO Command can expose the operator-facing status read-only;
-- the chain can reach `dry_run_ready_for_request` for a tiny docs-only class.
+- the chain can reach `dry_run_ready_for_request` for a tiny docs-only class;
 - AO Foundry can emit a first docs-only approval request, validate an exact
   Covenant approval ticket, bind that approval into an approved docs-only
   dry-run chain, and evaluate a final PR rehearsal gate;
 - AO Command can read that final PR rehearsal gate and explain whether the next
   step is `request_operator_approval` or
   `start_first_docs_only_live_pr_rehearsal`, without starting the rehearsal.
+- docs-only live rehearsals and the bounded `test_only` live rehearsal have
+  advanced the highest proven live class to `test_only`.
 
 What is not proven:
 
-- no live repository mutation has been performed by this chain;
-- no live branch, worktree, or pull request has been created by this chain;
+- no live `low_risk_code` mutation is approved or proven;
+- no live `multi_repo_low_risk` rehearsal is approved or proven;
+- no live `complex_repo_mutation` rehearsal is approved or proven;
 - no provider call, release, upload, tag, or publish action is authorized;
 - no component may bypass Covenant, Sentinel, Promoter, rollback, worktree, PR
   lifecycle, or operator kill-switch evidence;
 - passing the dry-run chain is not ungated live mutation authority;
-- the stack does not claim fully unsupervised complex repository mutation.
+- the stack does not claim fully unsupervised complex repository mutation or
+  fully unsupervised RSI.
 
 The current boundary is precise:
 
-- dry-run governed live mutation readiness is ready for the first tiny
-  docs-only class;
-- `safe_to_request=true` is proven for the first tiny docs-only class;
+- dry-run governed live mutation readiness exists for the lower ladder and for
+  the current dry-run-only higher classes;
+- `safe_to_request=true` can be reported only by the relevant class gate;
 - execution readiness is conditional, not general: it requires explicit
   exact-scope operator approval and all downstream gates;
-- `safe_to_execute=true` is allowed only for the docs-only PR rehearsal decision
-  when an explicit approved Covenant ticket is present and digest-bound to the
-  approved dry-run chain;
+- `safe_to_execute=true` is not a broad stack claim; it is class-bound and
+  evidence-bound;
 - AO Foundry PR #98, commit
   `2e40f40cd48b9652c42dd670f9df959c930afd42`, adds
   `scripts/first-live-docs-readiness-rollup.sh` and
   `ao.foundry.first-live-docs-readiness-rollup.v0.1` as the public rollup for
-  that boundary;
-- actual live mutation remains unperformed until a separate, explicit operator
-  instruction starts the first docs-only branch/PR rehearsal under those gates.
+  the first docs-only boundary;
+- later live rehearsals do not promote `low_risk_code`, `multi_repo_low_risk`,
+  `complex_repo_mutation`, or fully unsupervised RSI without their own gates and
+  evidence.
 
 ## Context Management Boundary
 

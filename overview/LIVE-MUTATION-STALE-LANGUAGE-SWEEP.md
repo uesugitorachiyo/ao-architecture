@@ -1,12 +1,20 @@
 # Live Mutation Stale Language Sweep
 
-This sweep checks public AO stack wording after the first-live-docs readiness
-work. The current public boundary remains:
+This sweep checks public AO stack wording after the mutation-class ladder work.
+The current public boundary remains:
 
-- first tiny docs-only live mutation is safe to request;
-- `safe_to_execute=true` is valid only for the exact approved docs-only PR
-  rehearsal scope after all gates pass;
+- the highest proven live mutation class is `test_only`;
+- `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
+  `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
+  `complex_repo_mutation` are separate authority classes;
+- `safe_to_execute=true` is valid only when the exact class scope and all class
+  gates pass;
+- `low_risk_code` remains `safe_to_execute=false`;
+- `multi_repo_low_risk` remains dry-run-only;
+- `complex_repo_mutation` remains dry-run-only;
 - fully unsupervised complex live repository mutation remains out of scope;
+- fully unsupervised complex repository mutation remains denied;
+- fully unsupervised RSI remains denied;
 - no AO component grants ungated live mutation authority.
 
 ## Sweep Commands
@@ -26,8 +34,10 @@ The sweep should treat these as acceptable hits:
 - denial language for `full_autonomous_self_mutating_rsi`;
 - `claim.publish` fixtures that prove fail-closed RSI claim behavior;
 - invalid fixtures where `ungated_live_mutation_claim=true` is expected to fail;
-- `safe_to_execute=true` only when paired with exact approval and the first
-  docs-only PR rehearsal boundary;
+- `safe_to_execute=true` only when paired with exact class scope, exact
+  approval, and all class gates;
+- `low_risk_code` denial language that says `safe_to_execute=false`;
+- dry-run-only language for `multi_repo_low_risk` and `complex_repo_mutation`;
 - statements that the stack does not grant ungated or fully unsupervised live
   mutation authority.
 
@@ -36,6 +46,8 @@ The sweep should treat these as stale or unsafe:
 - any claim that the stack is production-ready for broad live mutation;
 - any claim that `safe_to_execute=true` can exist without exact-scope operator
   approval;
+- any claim that `low_risk_code`, `multi_repo_low_risk`, or
+  `complex_repo_mutation` has live execution authority;
 - any statement that Blueprint, Atlas, Command, Sentinel, or Promoter can
   approve or execute live repository mutation;
 - stale active-stack counts such as "six active repos" when Atlas is included;
