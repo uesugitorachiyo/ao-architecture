@@ -149,6 +149,22 @@ mutation authority:
 
 Fully unsupervised complex live mutation remains outside the proven boundary.
 
+### Mutation Authority Ladder
+
+The current public ladder is documented in
+[Mutation Authority Ladder](MUTATION-AUTHORITY-LADDER.md). The highest proven
+live mutation class is `test_only`. Docs-only live rehearsals and one bounded
+test-only live rehearsal are evidence-backed, but `low_risk_code` remains
+`safe_to_execute=false`, `multi_repo_low_risk` remains dry-run-only,
+`complex_repo_mutation` remains dry-run-only, fully unsupervised complex
+repository mutation remains denied, and fully unsupervised RSI remains denied.
+
+This distinction matters because dry-run readiness, approved live docs
+mutation, approved test-only mutation, approved low-risk code mutation,
+multi-repo rehearsal, complex mutation, and fully unsupervised RSI are separate
+claim levels. A lower-class rehearsal is promotion evidence only when Promoter,
+Sentinel, Covenant, Command, rollback, CI, and class-specific gates all agree.
+
 Blocked-node repair and `needs_context` repack remain Atlas-owned artifacts.
 They can become explicit factory tasks or bounded replacement context packs,
 but they do not schedule or execute themselves. Foundry consumes those artifacts
