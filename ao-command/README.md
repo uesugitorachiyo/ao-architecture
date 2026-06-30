@@ -230,6 +230,9 @@ The CLI should prefer schema-backed JSON evidence over terminal-only summaries. 
 - Keep `rsi health` evidence-only; it must not run providers, promote candidates, apply activation plans, or mutate repositories.
 - Keep `pulse status` read-only; it must not start loops, create branches,
   merge PRs, publish, call providers, or mutate repositories.
+- Keep `blueprint-atlas-foundry status` read-only; it reports Blueprint pack,
+  Atlas import, and Foundry gate status without compiling, scheduling,
+  approving, executing, or mutating work.
 
 ## FAQ
 
