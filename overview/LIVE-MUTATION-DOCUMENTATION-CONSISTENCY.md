@@ -5,13 +5,12 @@ the governed live-mutation boundary after the mutation-class ladder work.
 
 ## Public Boundary Statement
 
-- The highest proven live mutation class is `test_only`.
+- The highest proven live mutation class is `complex_repo_mutation`.
 - `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
   `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
   `complex_repo_mutation` are distinct authority classes.
-- `low_risk_code` remains `safe_to_execute=false`.
-- `multi_repo_low_risk` remains dry-run-only.
-- `complex_repo_mutation` remains dry-run-only.
+- `low_risk_code`, `multi_repo_low_risk`, and `complex_repo_mutation` are
+  proven only inside their governed rehearsal boundaries.
 - Dry-run readiness, approved live docs mutation, approved test-only mutation,
   approved low-risk code mutation, multi-repo rehearsal, complex mutation, and
   fully unsupervised RSI are separate public claim levels.

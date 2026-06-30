@@ -125,12 +125,11 @@ provider calls disabled, and repository mutation outside AO Command and Atlas.
 The stack now has a governed mutation-class ladder, not broad live mutation
 authority. The architecture source of truth is
 [overview/MUTATION-AUTHORITY-LADDER.md](overview/MUTATION-AUTHORITY-LADDER.md).
-The highest proven live mutation class is `test_only`: docs-only live
-rehearsals and one bounded test-only live rehearsal are proven, while
-`low_risk_code` remains `safe_to_execute=false`, `multi_repo_low_risk` remains
-dry-run-only, `complex_repo_mutation` remains dry-run-only, fully unsupervised
-complex repository mutation remains denied, and fully unsupervised RSI remains
-denied.
+The highest proven live mutation class is `complex_repo_mutation`: docs-only,
+test-only, low-risk code, multi-repo low-risk, and the governed 12-node
+complex_repo_mutation rehearsal are proven through exact-scope live evidence.
+Fully unsupervised complex repository mutation remains denied, and fully
+unsupervised RSI remains denied.
 
 The current mirror includes the latest authority-ladder evidence: AO Atlas PR
 #34 upgrades the complex-class rehearsal graph with low-risk decomposition and a
@@ -172,12 +171,14 @@ What is proven:
 - AO Command can read that final PR rehearsal gate and explain whether the next
   step is `request_operator_approval` or
   `start_first_docs_only_live_pr_rehearsal`, without starting the rehearsal.
-- docs-only live rehearsals and the bounded `test_only` live rehearsal have
-  advanced the highest proven live class to `test_only`.
-- Atlas and Foundry can model a fourteen-node `complex_repo_mutation` rehearsal
-  with context repack, repair plans, low-risk decomposition, rollback graph,
-  blocked nodes, dependency gates, and one safe next-node import, while keeping
-  execution dry-run-only.
+- docs-only live rehearsals and the bounded `test_only` live rehearsal advanced
+  the ladder through `test_only`; later evidence now advances the current
+  highest proven live class to `complex_repo_mutation`.
+- Atlas, Foundry, Sentinel, Promoter, and Command completed a governed 12-node
+  `complex_repo_mutation` rehearsal with context repack, repair plans,
+  low-risk decomposition, rollback graph, blocked-node handling, dependency
+  gates, serialized execution, PR/CI/merge evidence, and digest-bound closure
+  evidence.
 - Foundry's Pulse event-loop policy can continue without operator Q&A only
   inside the current proven class when `safe_to_execute=true` and all stop
   gates pass; the policy itself does not schedule, execute, approve, open PRs,
@@ -185,9 +186,8 @@ What is proven:
 
 What is not proven:
 
-- no live `low_risk_code` mutation is approved or proven;
-- no live `multi_repo_low_risk` rehearsal is approved or proven;
-- no live `complex_repo_mutation` rehearsal is approved or proven;
+- no mutation broader than the governed `complex_repo_mutation` rehearsal is
+  approved or proven;
 - no provider call, release, upload, tag, or publish action is authorized;
 - no component may bypass Covenant, Sentinel, Promoter, rollback, worktree, PR
   lifecycle, or operator kill-switch evidence;
@@ -204,17 +204,15 @@ The current boundary is precise:
   exact-scope operator approval and all downstream gates;
 - `safe_to_execute=true` is not a broad stack claim; it is class-bound and
   evidence-bound;
-- unattended continuation is also class-bound: it cannot jump from `test_only`
-  to `low_risk_code`, `multi_repo_low_risk`, or `complex_repo_mutation` without
-  matching promotion evidence;
+- unattended continuation is also class-bound: it cannot jump beyond
+  `complex_repo_mutation` without matching promotion evidence;
 - AO Foundry PR #98, commit
   `2e40f40cd48b9652c42dd670f9df959c930afd42`, adds
   `scripts/first-live-docs-readiness-rollup.sh` and
   `ao.foundry.first-live-docs-readiness-rollup.v0.1` as the public rollup for
   the first docs-only boundary;
-- later live rehearsals do not promote `low_risk_code`, `multi_repo_low_risk`,
-  `complex_repo_mutation`, or fully unsupervised RSI without their own gates and
-  evidence.
+- later live rehearsals do not promote fully unsupervised complex mutation or
+  fully unsupervised RSI without their own gates and evidence.
 
 ## Context Management Boundary
 

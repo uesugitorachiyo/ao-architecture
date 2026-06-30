@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ao-architecture
+        uses: actions/checkout@v7
+
+      - name: Verify architecture docs
+        run: python3 scripts/verify_architecture.py
+
+      - name: Public safety scan
+        run: |
+          pattern="ghp""_|github""_pat_|BEGIN ""RSA|BEGIN ""OPENSSH|ANTI""GRAVITY|private ""handoff|api""_key|access""_token"
+          ! rg -n "$pattern" README.md overview scripts

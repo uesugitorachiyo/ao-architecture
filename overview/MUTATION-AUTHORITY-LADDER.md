@@ -5,20 +5,21 @@ authority across AO Atlas, AO Foundry, AO Covenant, AO Forge, AO2, AO Sentinel,
 AO Promoter, and AO Command. It distinguishes dry-run readiness from approved
 live mutation and from the still-denied fully unsupervised RSI claim.
 
-The highest proven live mutation class is `test_only`. That means the stack can
-point to governed live rehearsal evidence through the docs-only classes and one
-bounded test-only class. It does not mean broad code mutation, multi-repo live
-mutation, complex repository mutation, or fully unsupervised RSI is proven.
+The highest proven live mutation class is `complex_repo_mutation`. That means
+the stack can point to governed live rehearsal evidence through the docs-only,
+test-only, low-risk code, multi-repo low-risk, and 12-node complex mutation
+classes. It does not mean fully unsupervised complex repository mutation or
+fully unsupervised RSI is proven.
 
 | Class or claim boundary | Current public state | What is allowed | What remains denied |
 | --- | --- | --- | --- |
 | `docs_only_single_file` | Proven live rehearsal class. | Exact-scope docs-only approval, rollback, Sentinel, Promoter, Command readback, CI, PR lifecycle, and merge evidence can support one bounded docs-only live mutation. | Broad docs authority, config/code changes, or unsupervised follow-on mutation. |
 | `docs_only_multi_file` | Proven live rehearsal class. | A bounded docs-only multi-file PR can proceed only inside its max-file limit and class gates. | More than the class file limit, code edits, config edits, or automatic class promotion. |
 | `docs_config_only` | Modeled mutation class, not a broader live authority claim. | Dry-run classification can identify docs/config-only scope when its gates exist. | Treating config-adjacent files as low-risk code or bypassing Covenant/Sentinel/Promoter. |
-| `test_only` | Highest proven live mutation class. | One bounded test-only live rehearsal can be approved when rollback, CI, Sentinel, Promoter, Command readback, and exact class evidence pass. | Production code changes, broad test rewrites, or using test-only success as live code authority. |
-| `low_risk_code` | Dry-run/request boundary only. | Foundry may report safe-to-request for a dry-run design when lower-class evidence, rollback, CI, Sentinel, Promoter, Command readback, and class ticket evidence pass. | `low_risk_code` remains `safe_to_execute=false`; no approved low-risk live code mutation is proven. |
-| `multi_repo_low_risk` | Dry-run rehearsal boundary only. | Atlas, Foundry, and Command can model serialized repo-by-repo state with per-repo rollback and no concurrent unsafe execution. | `multi_repo_low_risk` remains dry-run-only; no live multi-repo low-risk rehearsal is proven. |
-| `complex_repo_mutation` | Atlas dry-run rehearsal only. | Atlas can classify and model a fourteen-node complex workgraph with blocked nodes, context repack, repair, low-risk decomposition, rollback graph, dependency gates, Sentinel/Promoter/Command evidence, and promotion gates. Foundry can select only the Atlas `workgraph next` safe node for import. | `complex_repo_mutation` remains dry-run-only until every lower class has required live evidence and all gates pass. |
+| `test_only` | Proven live rehearsal class. | One bounded test-only live rehearsal can be approved when rollback, CI, Sentinel, Promoter, Command readback, and exact class evidence pass. | Production code changes, broad test rewrites, or using test-only success as live code authority. |
+| `low_risk_code` | Proven live rehearsal class. | One bounded low-risk code live rehearsal can be approved when lower-class evidence, rollback, CI, Sentinel, Promoter, Command readback, and class ticket evidence pass. | Broad code changes, auth/policy/provider/release/deploy surfaces, or automatic class promotion. |
+| `multi_repo_low_risk` | Proven live rehearsal class. | Serialized repo-by-repo live rehearsal can proceed with per-repo rollback, CI, branch cleanup, no concurrent mutation, Sentinel, Promoter, and Command evidence. | Concurrent repo mutation, shared-surface expansion, or unsequenced multi-repo execution. |
+| `complex_repo_mutation` | Highest proven live mutation class. | The governed 12-node complex_repo_mutation rehearsal is proven with completed Atlas workgraph, safe node gates, serialized PR/CI/merge evidence, rollback evidence, Sentinel evidence, Promoter evidence, Command readback, and forbidden-surface closure evidence. | Mutation broader than the governed complex rehearsal boundary or any fully unsupervised complex mutation claim. |
 | Fully unsupervised complex repository mutation | Denied. | No public claim may describe this as proven. | Fully unsupervised complex repository mutation remains denied. |
 | Fully unsupervised RSI | Denied. | The stack may claim bounded, governed RSI evidence only when the RSI evidence map passes. | Fully unsupervised RSI remains denied until Covenant claim-publish policy, live mutation authority, rollback evidence, live self-change evidence, observer readback, Command/Forge retention, and all class gates pass. |
 
@@ -37,6 +38,9 @@ mutation, complex repository mutation, or fully unsupervised RSI is proven.
   `safe_to_execute=true`. It stops on dirty repos, stale evidence, failed CI,
   broadened scope, Sentinel holds, Promoter denial, rollback failure, branch
   cleanup failure, or class-jump attempts.
+- The 2026-06-30 complex_repo_mutation mission completed all 12 governed nodes
+  and closed promotion with digest-bound run-link, node-gate, rollback,
+  Sentinel, Promoter, Command, CI, merge, and forbidden-surface evidence.
 
 ## Layer Responsibilities
 
@@ -62,11 +66,8 @@ Use this ladder when writing public claims:
 - Dry-run readiness means the evidence chain can be inspected or requested; it
   does not mutate repositories.
 - Approved live docs mutation means only docs-only classes have live evidence.
-- Approved test-only mutation means `test_only` is the highest proven live
-  class.
-- Approved low-risk code mutation is not proven.
-- Multi-repo rehearsal is not live.
-- Complex mutation is not live.
+- Approved complex mutation means `complex_repo_mutation` is the highest proven
+  live class for the governed 12-node rehearsal boundary.
 - An event-loop continuation policy is not mutation authority; it can only stay
   inside the proven class and must stop on the configured blockers.
 - Fully unsupervised complex repository mutation remains denied.
