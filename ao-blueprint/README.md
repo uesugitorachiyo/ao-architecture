@@ -60,7 +60,7 @@ The canonical path is:
 ```text
 operator intent
 -> AO Blueprint interview, sufficiency audit, and build authorization
--> AO Atlas stack-instance/workgraph/context-pack compilation when scope is large
+-> AO Atlas Blueprint import and stack-instance/workgraph/context-pack compilation when scope is oversized, mutation-class, or long-running
 -> AO Foundry portfolio scheduling and readiness loop
 -> AO Forge governed factory run
 -> AO Covenant policy and side-effect gates
@@ -97,8 +97,9 @@ AO Blueprint is a local-first Go CLI:
 1. Validate the blueprint pack.
 2. Confirm the readiness audit reaches the required sufficiency threshold.
 3. Emit a build-authorization packet only when the pack is ready.
-4. Route large authorized objectives to AO Atlas for workgraph and context-pack
-   compilation.
+4. Route oversized, mutation-class, and long-running authorized objectives to
+   AO Atlas for Blueprint import, workgraph, context-pack, candidate-selection,
+   and Foundry import compilation.
 5. Route bounded implementation slices through AO Foundry and AO Forge before
    AO2 execution.
 
@@ -115,8 +116,8 @@ ready.
 - sufficiency auditor checks readiness categories and blockers;
 - blueprint compiler writes durable build context;
 - authorization emitter produces a machine-readable packet;
-- handoff preparer routes ready work to Atlas, Foundry, or Forge without
-  expanding authority.
+- handoff preparer routes ready oversized, mutation-class, or long-running work
+  through Atlas before Foundry without expanding authority.
 
 ## Contracts And Evidence
 

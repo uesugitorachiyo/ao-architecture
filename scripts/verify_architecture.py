@@ -62,6 +62,14 @@ REQUIRED_LIVE_MUTATION_LADDER_TERMS = [
     "fully unsupervised RSI remains denied",
 ]
 
+REQUIRED_BLUEPRINT_ATLAS_FOUNDRY_TERMS = [
+    "AO Blueprint -> AO Atlas -> AO Foundry",
+    "ao.atlas.blueprint-import.v0.1",
+    "Atlas is the mandatory compiler between Blueprint and Foundry",
+    "Foundry does not accept direct Blueprint handoff",
+    "blueprint-atlas-foundry status",
+]
+
 REQUIRED_RSI_CLAIMS = [
     "bounded, governed RSI evidence chain",
     "not a claim of full autonomous self-mutating RSI",
@@ -232,6 +240,7 @@ def main() -> int:
     root_text = read_text(readme)
     command_text = read_text(ROOT / "ao-command" / "README.md")
     atlas_text = read_text(ROOT / "ao-atlas" / "README.md")
+    blueprint_text = read_text(ROOT / "ao-blueprint" / "README.md")
     rsi_claim_text = "\n".join([root_text, overview_text, command_text])
     for required_file in REQUIRED_RSI_MAP_FILES:
         if not (ROOT / required_file).exists():
@@ -269,6 +278,11 @@ def main() -> int:
     ]:
         if atlas_term not in "\n".join([root_text, overview_text, atlas_text]):
             fail(f"architecture docs missing AO Atlas term: {atlas_term}")
+
+    blueprint_atlas_foundry_text = "\n".join([root_text, overview_text, blueprint_text, atlas_text, command_text])
+    for term in REQUIRED_BLUEPRINT_ATLAS_FOUNDRY_TERMS:
+        if term not in blueprint_atlas_foundry_text:
+            fail(f"architecture docs missing Blueprint -> Atlas -> Foundry term: {term}")
 
     rsi_map_text = read_text(ROOT / "overview" / "RSI-CLAIM-EVIDENCE-MAP.md")
     for term in REQUIRED_RSI_MAP_TERMS:

@@ -3,9 +3,10 @@
 ![AO stack overview](../images/ao-stack-overview.svg)
 
 AO Atlas is the stack-instance and workgraph layer of the AO orchestration
-framework. It turns oversized objectives into public-safe stack-instance
-manifests, intake artifacts, workgraphs, factory tasks, bounded context packs,
-Foundry fixture handoff/import material, and digest-bound run-link readback.
+framework. It turns oversized, mutation-class, and long-running Blueprint
+output into public-safe Blueprint imports, stack-instance manifests, intake
+artifacts, workgraphs, factory tasks, bounded context packs, Foundry fixture
+handoff/import material, and digest-bound run-link readback.
 
 AO Atlas does not replace AO Blueprint, AO Foundry, AO Forge, AO Covenant, AO2,
 AO Command, or ao2-control-plane. Its value is preventing context-window
@@ -14,18 +15,20 @@ factory packets over one shared AO toolchain.
 
 ## Search-Friendly Summary
 
-AO Atlas is the AO stack-instance compiler. It decomposes large objectives into
-bounded factory-level workgraphs and context packs, emits Foundry-compatible
-fixture material, and records readback links without scheduling, executing,
-approving, publishing, calling providers, or mutating sibling repositories.
+AO Atlas is the AO stack-instance compiler. It imports Blueprint packs and
+build authorization for oversized, mutation-class, and long-running work,
+decomposes large objectives into bounded factory-level workgraphs and context
+packs, emits Foundry-compatible fixture material, and records readback links
+without scheduling, executing, approving, publishing, calling providers, or
+mutating sibling repositories.
 
 ## Component At A Glance
 
 | Field | Value |
 | --- | --- |
-| Framework layer | Stack-instance manifests, workgraphs, context packs, and Foundry fixture handoff |
-| Primary job | Compile oversized objectives into bounded factory tasks and public-safe readback records |
-| Owns | Stack-instance contract, intake contract, workgraph contract, factory-task contract, context-pack contract, Foundry handoff/import fixtures, run-link records |
+| Framework layer | Blueprint import, stack-instance manifests, workgraphs, context packs, and Foundry fixture handoff |
+| Primary job | Compile oversized, mutation-class, and long-running Blueprint output into bounded factory tasks and public-safe readback records |
+| Owns | Blueprint import contract, stack-instance contract, intake contract, workgraph contract, factory-task contract, context-pack contract, Foundry handoff/import fixtures, run-link records |
 | Does not own | Requirements authorization, portfolio scheduling, governed execution, policy approval, provider calls, release publication, sibling repository mutation |
 | Main consumers | AO Foundry, AO Forge, AO Blueprint, operators reviewing workgraph readiness |
 
@@ -61,9 +64,12 @@ AO Atlas answers:
   visible without expanding authority?
 
 Atlas sits after AO Blueprint build authorization and before Foundry scheduling
-when an objective is too large to hand directly to one factory run. It should
-emit a Blueprint clarification request, not a ready workgraph, when the
-objective is underspecified.
+when an objective is too large, mutation-classed, or long-running. It consumes
+Blueprint packs through `ao.atlas.blueprint-import.v0.1` and should emit a
+Blueprint request/blocked artifact, not a ready workgraph, when authorization
+is missing, blocked, stale, or out of scope.
+Foundry must not accept direct Blueprint output as ready work for these
+classes; Atlas is the mandatory compiler between Blueprint and Foundry.
 
 ## Architecture
 

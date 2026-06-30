@@ -48,7 +48,7 @@ AO Promoter activates only when all gates and rollback evidence pass.
 
 1. An operator objective enters AO Blueprint when it needs requirements interview, sufficiency scoring, or build authorization.
 2. AO Blueprint emits a blueprint pack and build-authorization packet, or blocks underspecified work before it reaches execution.
-3. AO Atlas may compile oversized authorized objectives into stack-instance manifests, workgraphs, factory tasks, and bounded context packs without copying source repositories.
+3. AO Atlas must compile oversized, mutation-class, and long-running Blueprint-authorized objectives into `ao.atlas.blueprint-import.v0.1`, stack-instance manifests, workgraphs, factory tasks, bounded context packs, candidate-selection records, and Foundry import material without copying source repositories.
 4. AO Foundry decides whether the repository, branch, release train, Atlas import/readback packet, or task is ready for delegated work.
 5. AO Forge converts the objective into a factory plan, GoalRun state, release gate, or operator packet.
 6. AO Covenant evaluates declared side effects and produces allow, deny, block, or approval-required decisions.
@@ -70,6 +70,7 @@ Use AO Command for the first read. It is intentionally read-only and gives one c
 Then drill into the owning repository:
 
 - AO Blueprint for requirements sufficiency, blueprint packs, and build authorization before work is treated as ready.
+- AO Atlas for mandatory Blueprint import before Foundry on oversized, mutation-class, or long-running work.
 - AO Foundry for portfolio readiness, active-stack ledgers, release trains, and multi-repo blockers.
 - AO Atlas for stack-instance manifests, workgraphs, context packs, Foundry fixture handoff/import, and run-link readback.
 - AO Forge for factory plans, GoalRun transitions, production-readiness scoring, and release gates.
@@ -83,7 +84,7 @@ Then drill into the owning repository:
 
 ### Governed Implementation Workflow
 
-The governed implementation loop starts with a Blueprint-authorized task or objective and ends with evidence-bound closure. AO Atlas compiles oversized authorized objectives into bounded factory packets when needed. AO Forge plans the work and keeps durable GoalRun state. AO Covenant gates side effects. AO2 executes the work locally, records artifacts, and rejects closure until evidence exists. The control plane is optional and receives evidence after the fact.
+The governed implementation loop starts with a Blueprint-authorized task or objective and ends with evidence-bound closure. AO Atlas is the mandatory compiler between Blueprint and Foundry for oversized, mutation-class, and long-running work; it imports the Blueprint pack and authorization before Foundry gates treat the work as ready. AO Forge plans the work and keeps durable GoalRun state. AO Covenant gates side effects. AO2 executes the work locally, records artifacts, and rejects closure until evidence exists. The control plane is optional and receives evidence after the fact.
 
 ### Context Boundary Workflow
 
@@ -104,9 +105,9 @@ mission-scale workgraph as one oversized run.
 
 AO Foundry watches the active stack as a portfolio. It reads registry records, CI run evidence, release-candidate ledgers, signed-smoke gates, branch-protection status, and production-readiness rollups. It can recommend the next safe delegated action, but it delegates governed execution to AO Forge.
 
-AO Atlas sits upstream of scheduling when a mission is too large for one factory context. It emits public-safe stack-instance and workgraph artifacts, then Foundry validates `ao.atlas.foundry-import.v0.1`, `ao.foundry.atlas-readback.v0.1`, and `ao.foundry.atlas-status.v0.1` observer evidence before treating Atlas material as ready. The current Atlas import path selects only ready nodes, preserves factory assignment, acceptance criteria, safety limits, verification commands, context-pack refs, dependency refs, and required evidence, and emits explicit `schedules_work=false`, `executes_work=false`, and `approves_work=false` boundaries. Atlas does not schedule, execute, approve, publish, call providers, or mutate sibling repositories.
+AO Atlas sits upstream of scheduling when a mission is too large for one factory context or belongs to a mutation/long-running class. It emits public-safe Blueprint import, stack-instance, and workgraph artifacts, then Foundry validates `ao.atlas.blueprint-import.v0.1`, `ao.atlas.foundry-import.v0.1`, `ao.foundry.atlas-readback.v0.1`, and `ao.foundry.atlas-status.v0.1` observer evidence before treating Atlas material as ready. The current Atlas import path selects only ready nodes, preserves factory assignment, acceptance criteria, safety limits, verification commands, context-pack refs, dependency refs, and required evidence, and emits explicit `schedules_work=false`, `executes_work=false`, and `approves_work=false` boundaries. Atlas does not schedule, execute, approve, publish, call providers, or mutate sibling repositories.
 
-Pulse/event-loop startup is now a gated readback chain, not a direct runner. AO Foundry validates Blueprint/Atlas intake preflight, one-slice PR lifecycle state, and `ao.foundry.pulse-overnight-start-gate.v0.1` before overnight advancement may begin. AO Command can read those three artifacts with `pulse status` and report ready, blocked, or failed while remaining read-only. A blocked Blueprint clarification stops implementation instead of being treated as ready work.
+Pulse/event-loop startup is now a gated readback chain, not a direct runner. AO Foundry validates Atlas Blueprint import, Blueprint/Atlas intake preflight, one-slice PR lifecycle state, and `ao.foundry.pulse-overnight-start-gate.v0.1` before overnight advancement may begin. AO Command can read the Blueprint -> Atlas -> Foundry chain with `blueprint-atlas-foundry status`, and can read Pulse gates with `pulse status`, while remaining read-only. A blocked Blueprint clarification stops implementation instead of being treated as ready work.
 
 AO Foundry now carries a fixture-only oversized-task proof for complex refactor
 work. The proof uses `examples/complex-refactor-workgraph/` to model a
@@ -275,7 +276,7 @@ This stack uses "agent" to mean a bounded role in a governed run, not an unlimit
 | --- | --- | --- |
 | Operator | Human plus AO Command | Inspect status, choose next action, approve intentional gates. |
 | Requirements authorizer | AO Blueprint | Interview, compile blueprint packs, score sufficiency, and emit or deny build authorization. |
-| Stack-instance compiler | AO Atlas | Turn oversized objectives into bounded workgraphs, context packs, Foundry fixture import material, and run-link readback. |
+| Stack-instance compiler | AO Atlas | Import Blueprint packs and authorization for oversized, mutation-class, or long-running work; turn authorized objectives into bounded workgraphs, context packs, Foundry fixture import material, and run-link readback. |
 | Portfolio coordinator | AO Foundry | Select ready repositories, tasks, release trains, and readiness loops. |
 | Factory planner | AO Forge | Decompose objective into GoalRun state, plans, gates, and packets. |
 | Policy broker | AO Covenant | Evaluate declared side effects, approval tickets, revocations, and trust evidence. |
@@ -283,7 +284,7 @@ This stack uses "agent" to mean a bounded role in a governed run, not an unlimit
 | Reviewer | AO2 workflow role | Emit concerns, evidence requirements, and correction requests. |
 | Evaluator closer | AO2 and Covenant patterns | Accept or reject only from mapped evidence. |
 | Evidence observer | ao2-control-plane | Verify, store, index, and present signed evidence after execution. |
-| Operator gate reader | AO Command | Read Pulse intake preflight, PR lifecycle, and overnight start-gate artifacts without starting loops or mutating repositories. |
+| Operator gate reader | AO Command | Read Blueprint -> Atlas -> Foundry status plus Pulse intake preflight, PR lifecycle, and overnight start-gate artifacts without starting loops or mutating repositories. |
 | Benchmark scorer | AO Arena | Compare baseline and challenger outcomes from deterministic fixture evidence. |
 | Adversarial probe runner | AO Crucible | Exercise candidates against controlled failure scenarios before promotion. |
 | Regression monitor | AO Sentinel | Watch trusted baselines and emit holds when safety or behavior regresses. |
@@ -294,7 +295,7 @@ This stack uses "agent" to mean a bounded role in a governed run, not an unlimit
 The repositories communicate through durable artifacts rather than implicit process memory:
 
 - JSON schemas for contracts, GoalRun state, release candidates, readiness audits, provider registries, evidence packs, and control-plane summaries.
-- Atlas contracts for stack instances, intake, workgraphs, factory tasks, context packs, Foundry handoff/import, run links, and Foundry observer status.
+- Atlas contracts for Blueprint import, stack instances, intake, workgraphs, factory tasks, context packs, Foundry handoff/import, run links, and Foundry observer status.
 - Foundry Pulse contracts for intake preflight, one-slice PR lifecycle, overnight start gates, and read-only Command status summaries.
 - Canonical digests and sidecar checksums for contracts, artifacts, bundles, and release assets.
 - Append-only ledgers or JSONL records for events and run history.

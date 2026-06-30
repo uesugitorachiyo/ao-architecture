@@ -11,8 +11,8 @@ Use this documentation to understand the AO stack's architecture, authority boun
 The AO stack is a set of open architecture documents for building and operating governed AI agent systems. Instead of treating agent automation as a single chat session or unbounded background worker, the stack splits responsibility across small tools with clear boundaries:
 
 - AO Blueprint is the requirements interview, blueprint compiler, and build-authorization front door.
-- AO Atlas turns oversized objectives into stack-instance manifests, workgraphs, factory tasks, bounded context packs, Foundry-compatible import material, and digest-bound run-link readback records.
-- AO Foundry coordinates multi-repository engineering operations and readiness loops, including Blueprint/Atlas intake preflight, one-slice PR lifecycle state, and overnight start gates.
+- AO Atlas consumes Blueprint output for oversized, mutation-class, and long-running work, then turns it into `ao.atlas.blueprint-import.v0.1`, stack-instance manifests, workgraphs, factory tasks, bounded context packs, Foundry-compatible import material, and digest-bound run-link readback records.
+- AO Foundry coordinates multi-repository engineering operations and readiness loops, including Blueprint/Atlas intake preflight, one-slice PR lifecycle state, and overnight start gates. Foundry does not accept direct Blueprint handoff for oversized, mutation-class, or long-running work; Atlas is the mandatory compiler between Blueprint and Foundry.
 - AO Forge turns an objective into a governed factory run with durable GoalRun state.
 - AO Covenant gates policy, trust, side effects, release bundles, and evidence contracts.
 - AO2 executes bounded local agent workflows and records artifacts, decisions, approvals, and evaluator closure evidence.
@@ -36,7 +36,7 @@ Watch the video walkthrough: [AO Architecture on YouTube](https://youtu.be/P0Jbs
 | Repository | Role in the AI agent orchestration stack | Start here |
 | --- | --- | --- |
 | `ao-blueprint` | Requirements interview, blueprint pack, sufficiency audit, and build-authorization front door. | [AO Blueprint Architecture](ao-blueprint/README.md) |
-| `ao-atlas` | Stack-instance and workgraph layer for oversized objective intake, bounded context packs, Foundry fixture handoff/import, and run-link readback. | [AO Atlas Architecture](ao-atlas/README.md) |
+| `ao-atlas` | Blueprint import, stack-instance, and workgraph layer for oversized objective intake, bounded context packs, Foundry fixture handoff/import, and run-link readback. | [AO Atlas Architecture](ao-atlas/README.md) |
 | `ao-foundry` | Engineering operations factory for multi-repo scheduling, readiness, release trains, and autonomous loop stop conditions. | [AO Foundry Architecture](ao-foundry/README.md) |
 | `ao-forge` | Governed factory brain for GoalRun state, factory plans, Covenant gates, AO2 delegation, and operator evidence packets. | [AO Forge Architecture](ao-forge/README.md) |
 | `ao-covenant` | Policy and trust layer for side-effect decisions, release bundles, signatures, schemas, and evidence contracts. | [AO Covenant Architecture](ao-covenant/README.md) |
@@ -90,16 +90,19 @@ The stack is designed around:
 
 The current stack has a fixture-only proof for managing a complex refactor that
 is too large for one context window. AO Blueprint remains the front door for
-build authorization, AO Atlas decomposes the oversized objective into a
-stack-instance workgraph, bounded context packs, Foundry import material, and
-run-link readback, AO Foundry validates the workgraph/import and Pulse gates,
-and AO Command reads the resulting status without mutating repositories.
+build authorization, AO Atlas imports the Blueprint pack and authorization into
+`ao.atlas.blueprint-import.v0.1`, then decomposes the oversized objective into
+a stack-instance workgraph, bounded context packs, Foundry import material, and
+run-link readback. AO Foundry validates the Atlas import/readback and Pulse
+gates, and AO Command reads the resulting status without mutating repositories.
+For these classes, the canonical path is AO Blueprint -> AO Atlas -> AO Foundry;
+Blueprint does not hand directly to Foundry.
 
 The reference proof lives in AO Foundry:
 
 - `scripts/blueprint-atlas-pulse-e2e-dry-run.sh` proves Blueprint ready and
-  blocked paths through Atlas, Foundry gates, runner start decision, and AO
-  Command readback.
+  blocked paths through Atlas import, Foundry gates, runner start decision, and
+  AO Command readback.
 - `examples/complex-refactor-workgraph/` models a larger refactor with
   completed, ready, blocked, and stitch nodes.
 - `scripts/complex-refactor-workgraph-rehearsal.sh` reports total, ready,
