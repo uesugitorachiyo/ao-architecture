@@ -104,8 +104,8 @@ The reference proof lives in AO Foundry:
   completed, ready, blocked, and stitch nodes.
 - `scripts/complex-refactor-workgraph-rehearsal.sh` reports total, ready,
   blocked, completed, and failed task counts, the next recommended factory
-  task, and why the loop may start the next ready task while blocked tasks stay
-  denied.
+  task, and why the loop may select exactly one dependency-safe ready task
+  while blocked tasks stay denied.
 - AO Command's `complex-refactor status --summary <summary.json>` reads the
   rehearsal summary and reports the same decision surface, including
   blocked-node repair and needs-context repack status, while preserving
@@ -128,6 +128,15 @@ rehearsals and one bounded test-only live rehearsal are proven, while
 dry-run-only, `complex_repo_mutation` remains dry-run-only, fully unsupervised
 complex repository mutation remains denied, and fully unsupervised RSI remains
 denied.
+
+The current mirror includes the latest authority-ladder evidence: AO Atlas PR
+#34 upgrades the complex-class rehearsal graph with low-risk decomposition and a
+rollback graph, AO Foundry PR #117 proves Foundry can import only the Atlas
+`workgraph next` safe node for the complex rehearsal, and AO Foundry PR #118
+hardens the Pulse event-loop policy so unattended continuation stays within the
+current proven class and stops on class jumps, rollback failure, failing CI,
+dirty repos, stale evidence, Sentinel holds, Promoter denial, branch cleanup
+failure, or broadened scope.
 
 The baseline dry-run proof still lives in AO Foundry as
 `scripts/governed-live-mutation-dry-run-chain.sh` and emits
@@ -162,6 +171,14 @@ What is proven:
   `start_first_docs_only_live_pr_rehearsal`, without starting the rehearsal.
 - docs-only live rehearsals and the bounded `test_only` live rehearsal have
   advanced the highest proven live class to `test_only`.
+- Atlas and Foundry can model a fourteen-node `complex_repo_mutation` rehearsal
+  with context repack, repair plans, low-risk decomposition, rollback graph,
+  blocked nodes, dependency gates, and one safe next-node import, while keeping
+  execution dry-run-only.
+- Foundry's Pulse event-loop policy can continue without operator Q&A only
+  inside the current proven class when `safe_to_execute=true` and all stop
+  gates pass; the policy itself does not schedule, execute, approve, open PRs,
+  merge PRs, call providers, or mutate repositories.
 
 What is not proven:
 
@@ -184,6 +201,9 @@ The current boundary is precise:
   exact-scope operator approval and all downstream gates;
 - `safe_to_execute=true` is not a broad stack claim; it is class-bound and
   evidence-bound;
+- unattended continuation is also class-bound: it cannot jump from `test_only`
+  to `low_risk_code`, `multi_repo_low_risk`, or `complex_repo_mutation` without
+  matching promotion evidence;
 - AO Foundry PR #98, commit
   `2e40f40cd48b9652c42dd670f9df959c930afd42`, adds
   `scripts/first-live-docs-readiness-rollup.sh` and
