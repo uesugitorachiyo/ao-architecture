@@ -113,11 +113,12 @@ work. The proof uses `examples/complex-refactor-workgraph/` to model a
 multi-slice refactor as Atlas factory tasks with completed, ready, blocked, and
 stitch nodes. `scripts/complex-refactor-workgraph-rehearsal.sh` validates the
 Atlas workgraph and context packs, Foundry import/readback, Pulse start-gate
-evidence, and AO Command readback. Its summary can say that one ready factory
-task may start while the overall mission remains blocked until downstream
-run-link evidence exists. That is the intended behavior: Atlas decomposes and
-records, Foundry gates and schedules, Command reads, and blocked work does not
-start.
+evidence, and AO Command readback. It now also proves a one-task Foundry import
+for the Atlas `workgraph next` safe node. Its summary can say that one ready
+factory task may be selected while the overall mission remains blocked until
+downstream run-link evidence exists. That is the intended behavior: Atlas
+decomposes and records, Foundry gates selection, Command reads, and blocked
+work does not start.
 
 ### First Docs-Only Live-Mutation Boundary
 
@@ -158,6 +159,12 @@ test-only live rehearsal are evidence-backed, but `low_risk_code` remains
 `safe_to_execute=false`, `multi_repo_low_risk` remains dry-run-only,
 `complex_repo_mutation` remains dry-run-only, fully unsupervised complex
 repository mutation remains denied, and fully unsupervised RSI remains denied.
+The current complex dry-run rehearsal has fourteen nodes with context repack,
+repair plans, low-risk decomposition, rollback graph, blocked-node handling,
+dependency gates, and promotion gates. Foundry's Pulse event-loop policy may
+continue without operator Q&A only inside the current proven class and only when
+class-gate, promotion-state, rollback, CI, repo hygiene, evidence freshness,
+Sentinel, Promoter, branch cleanup, and scope gates all pass.
 
 This distinction matters because dry-run readiness, approved live docs
 mutation, approved test-only mutation, approved low-risk code mutation,

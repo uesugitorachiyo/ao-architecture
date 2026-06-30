@@ -139,12 +139,16 @@ Atlas represents a large job without handing a whole mission to one factory:
 2. two dependency-ready factory nodes;
 3. blocked AO Command readback and stitch/integration nodes;
 4. context packs for each bounded task;
-5. Foundry import and run-link readback evidence for the next ready task.
+5. Foundry import and run-link readback evidence for the next ready task;
+6. a separate Atlas `complex_repo_mutation` rehearsal fixture with fourteen
+   dry-run nodes, including context repack, repair plans, low-risk
+   decomposition, rollback graph, dependency gates, and promotion gates.
 
 `../../ao-foundry/scripts/complex-refactor-workgraph-rehearsal.sh` validates
 that model with Atlas workgraph/status commands, Foundry import/readback, Pulse
-gate evidence, and AO Command readback. The rehearsal proves decomposition and
-readback, not live execution.
+gate evidence, and AO Command readback. It now also emits and validates a
+Foundry import for exactly one Atlas `workgraph next` safe node. The rehearsal
+proves decomposition and readback, not live execution.
 
 The rehearsal now also mirrors Atlas repair and repack behavior for blocked
 large work:
@@ -156,6 +160,11 @@ large work:
   context reason;
 - both artifacts stay fixture/readback material until Foundry chooses a safe
   delegated task.
+
+The highest proven live mutation class remains `test_only`. Atlas can classify
+`low_risk_code`, `multi_repo_low_risk`, and `complex_repo_mutation` workgraphs
+for dry-run/readback, but it does not promote those classes or mark them safe to
+execute.
 
 ### First Docs-Only Scope Boundary
 

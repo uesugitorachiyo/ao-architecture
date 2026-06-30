@@ -129,7 +129,9 @@ Foundry also has two fixture-only proofs for the Blueprint -> Atlas -> Foundry
 The complex refactor rehearsal reports that a next ready factory task may start
 when its dependency and Pulse gate evidence are ready, while blocked downstream
 tasks remain denied until completed run-link evidence exists. This is a
-control-surface proof, not direct implementation.
+control-surface proof, not direct implementation. The current rehearsal also
+emits and validates a one-task Foundry import for the Atlas `workgraph next`
+safe node, so multiple ready nodes do not become unsafe parallel execution.
 
 When the readiness exit gate is satisfied, the pulse summary records a stop-oriented next action instead of generating another autonomous task.
 
@@ -148,6 +150,18 @@ branch/PR from readback evidence alone, or broaden the approval from docs-only
 to complex live mutation. `safe_to_request=true` means the request is ready for
 operator review; `safe_to_execute=true` is conditional on an explicit
 exact-scope approval artifact and all downstream gates.
+
+### Mutation-Class Event-Loop Policy
+
+Foundry's Pulse event-loop policy is a read-only continuation gate, not mutation
+authority. It may continue without operator Q&A only inside the current proven
+mutation class and only when class-gate, promotion-state, rollback, CI, repo
+hygiene, evidence freshness, Sentinel, Promoter, branch cleanup, and scope
+evidence all pass. It stops on dirty repos, stale evidence, failed CI,
+broadened scope, Sentinel holds, Promoter denial, rollback failure, branch
+cleanup failure, or class-jump attempts. The current proven class is
+`test_only`; live `low_risk_code`, live `multi_repo_low_risk`, live
+`complex_repo_mutation`, and fully unsupervised complex mutation remain denied.
 
 ## Agent Roles And Skills
 
@@ -175,6 +189,7 @@ Foundry contracts include:
 - Pulse intake preflight, PR lifecycle, and overnight start-gate results;
 - Blueprint/Atlas/Pulse e2e dry-run and complex-refactor workgraph rehearsal summaries;
 - first docs-only approval request, approval gate, approved dry-run chain, and PR rehearsal gate;
+- mutation-class event-loop policy with promotion-state and rollback stop gates;
 - control-plane readback and Forge live attempt.
 
 The active-stack readiness ledger is the central source for explaining whether
