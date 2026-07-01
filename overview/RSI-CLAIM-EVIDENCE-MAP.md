@@ -15,6 +15,13 @@ The current stack can describe itself as a bounded, governed RSI workflow. It
 must not describe itself as full autonomous self-mutating RSI until the stronger
 claim has passed the Covenant gate and the required evidence exists.
 
+`bounded_rsi_evidence_rehearsal` is live-proven as a bounded evidence rehearsal
+state only. It is evidence for the bounded workflow, not a new broad RSI claim.
+The highest proven live class remains `fully_unsupervised_complex_mutation`, the
+next denied class remains `RSI`, and broad RSI, unrestricted self-modification,
+hidden instruction mutation, and policy/auth/secret/provider/deploy/release/
+config/dependency expansion remain denied.
+
 ## Active Evidence Chain
 
 | Step | Owner | Artifact or command | Claim contribution |
@@ -57,6 +64,9 @@ claim has passed the Covenant gate and the required evidence exists.
 | 36 | ao2-control-plane | ao2-control-plane PR #72, commit `3f81bba3a897101e2a56ba76de9a59a7d027f464` | Requires ao2-control-plane readback to validate AO2 `rollback_rehearsal.status=passed` evidence while preserving observer-only authority. |
 | 37 | ao2-control-plane | `scripts/verify_ao2_rsi_authority_packet.py` / `ao2.cp-ao2-rsi-authority-packet-readback.v1` | Reads AO2's `live-self-change-authority.packet.json` dry-run candidate, verifies the summary hash, requires `schema_valid_for_claim_publish=false`, and confirms live self-change and observer readback remain missing for the full claim. |
 | 38 | ao2-control-plane | ao2-control-plane PR #73, commit `6b83330c8a673b2bf210818c080ba4361062cf8f` | Adds observer-only authority-packet readback coverage without approving RSI claims, applying AO2 patches, publishing claims, or mutating repositories. |
+| 39 | AO Foundry | AO Foundry PR #175, commit `b12ac9b62ab8d20b4092d2a5d13081607567e816` | Records the final bounded RSI evidence rehearsal closure: 32 nodes completed, all stop gates cleared, `bounded_rsi_evidence_rehearsal_live_proven=true`, no authority broadening, no forbidden surfaces, no hidden instruction mutation, `highest_proven_live_class=fully_unsupervised_complex_mutation`, and `next_denied_class=RSI`. |
+| 40 | AO Promoter | `ao.promoter.rsi-first-bounded-evidence-final-verdict.v0.1` | Accepts `verdict=promote_bounded_rsi_evidence_rehearsal` and confirms broad RSI and unrestricted self-modification remain denied. |
+| 41 | AO Command | `ao.command.rsi-first-bounded-evidence-class-decision-readback.v0.1` | Accepts `decision=promote_bounded_rsi_evidence_rehearsal_keep_broad_rsi_denied` and reads back that broad RSI, hidden self-modification, and unrestricted self-modification remain denied. |
 
 ## Execution And Readback Repositories
 
@@ -102,6 +112,10 @@ the stack needs all of the following:
 
 Until those six requirements are all present and verified, the architecture
 supports only bounded governed RSI wording.
+
+The bounded RSI evidence rehearsal closure does not satisfy those six
+requirements for the stronger claim. It proves only the bounded rehearsal state:
+`bounded_rsi_evidence_rehearsal`.
 
 The separate mutation authority ladder is narrower than this RSI claim boundary.
 The highest proven live mutation class is

@@ -58,7 +58,13 @@ REQUIRED_LIVE_MUTATION_LADDER_TERMS = [
     "highest proven live mutation class is\n`fully_unsupervised_complex_mutation`",
     "governed 12-node complex",
     "26-node fully unsupervised complex first non-planning",
+    "bounded_rsi_evidence_rehearsal",
+    "live-proven as a bounded evidence rehearsal",
     "fully unsupervised RSI remains denied",
+    "broad RSI and unrestricted self-modification remain denied",
+    "hidden instruction mutation",
+    "policy/auth/secret/provider/deploy/release/config/dependency expansion",
+    "next denied class remains `RSI`",
 ]
 
 REQUIRED_BLUEPRINT_ATLAS_FOUNDRY_TERMS = [
@@ -90,6 +96,12 @@ REQUIRED_RSI_CLAIMS = [
     "rsi-claim-evidence-manifest.json",
     "claim_level=bounded_governed_rsi",
     "claim_level=full_autonomous_self_mutating_rsi",
+    "bounded_rsi_evidence_rehearsal",
+    "bounded_rsi_evidence_rehearsal_live_proven=true",
+    "b12ac9b62ab8d20b4092d2a5d13081607567e816",
+    "highest_proven_live_class=fully_unsupervised_complex_mutation",
+    "next_denied_class=RSI",
+    "broad RSI, hidden",
 ]
 
 REQUIRED_RSI_MAP_TERMS = [
@@ -113,6 +125,10 @@ REQUIRED_RSI_MAP_TERMS = [
     "ao2.cp-ao2-rsi-claim-readiness-readback.v1",
     "ao2.cp-ao2-rsi-self-change-dry-run-readback.v1",
     "ao2.cp-ao2-rsi-authority-packet-readback.v1",
+    "AO Foundry PR #175",
+    "b12ac9b62ab8d20b4092d2a5d13081607567e816",
+    "promote_bounded_rsi_evidence_rehearsal",
+    "promote_bounded_rsi_evidence_rehearsal_keep_broad_rsi_denied",
     "mutation authority",
     "rollback evidence",
     "live self-change evidence",

@@ -168,6 +168,11 @@ continue without operator Q&A only inside the current proven class and only when
 class-gate, promotion-state, rollback, CI, repo hygiene, evidence freshness,
 Sentinel, Promoter, branch cleanup, and scope gates all pass.
 
+`bounded_rsi_evidence_rehearsal` is live-proven as a bounded evidence rehearsal
+state only. It does not change the highest proven live class from
+`fully_unsupervised_complex_mutation`, does not prove broad RSI, and does not
+authorize unrestricted self-modification.
+
 This distinction matters because dry-run readiness, approved live docs
 mutation, approved test-only mutation, approved low-risk code mutation,
 multi-repo rehearsal, complex mutation, and fully unsupervised RSI are separate
@@ -215,6 +220,14 @@ candidate with `schema_valid_for_claim_publish=false`. The stack keeps
 repository mutation outside the default RSI health path until AO
 Covenant-approved policy, rollback, live-change evidence, and observer readback
 exist.
+
+The 2026-07-01 closure adds one precise public state:
+`bounded_rsi_evidence_rehearsal` is live-proven. AO Foundry PR #175 merged at
+`b12ac9b62ab8d20b4092d2a5d13081607567e816`; the matching Promoter verdict and
+Command readback promote only the bounded evidence rehearsal and keep broad RSI,
+hidden instruction mutation, and unrestricted self-modification denied. The
+highest proven live class remains `fully_unsupervised_complex_mutation`, and the
+next denied class remains `RSI`.
 
 AO Covenant now treats full autonomous self-mutating RSI wording as a governed
 `claim.publish` side effect. The `full-autonomous-self-mutating-rsi` resource is
