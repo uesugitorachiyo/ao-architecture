@@ -4,7 +4,7 @@ This sweep checks public AO stack wording after the mutation-class ladder work.
 The current public boundary remains:
 
 - the highest proven live class is
-  `public_safe_guided_evidence_application_four_attempts`;
+  `public_safe_reviewer_approved_bounded_recursive_improvement_wording_evidence`;
 - `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
   `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
   `complex_repo_mutation` are separate lower authority classes;
@@ -33,10 +33,8 @@ The current public boundary remains:
   public-safe guided evidence-application evidence showing causal-review guidance
   can select and prioritize later bounded evidence attempts under independent
   gates;
-- the approved public wording is exactly: "AO has public-safe guided
-  evidence-application evidence showing causal-review guidance can select and
-  prioritize later bounded evidence attempts under independent gates; stronger
-  recursive-improvement wording and broad_RSI remain denied.";
+- `public_safe_reviewer_approved_bounded_recursive_improvement_wording_evidence` is proven only for exact public-safe reviewer-approved bounded recursive-improvement wording evidence; its approved wording is exactly: "AO has public-safe reviewer-approved bounded recursive-improvement wording evidence showing guided evidence application can improve later evidence attempts under independent review gates; broad_RSI remains denied."
+- the approved public wording is exactly: "AO has public-safe reviewer-approved bounded recursive-improvement wording evidence showing guided evidence application can improve later evidence attempts under independent review gates; broad_RSI remains denied.";
 - `broad_RSI` remains denied;
 - fully unsupervised RSI remains denied;
 - broad RSI, unrestricted self-modification, hidden instruction mutation, and
@@ -75,7 +73,7 @@ The sweep should treat these as acceptable hits:
 - statements that broad RSI, unrestricted self-modification, and hidden
   instruction mutation remain denied;
 - statements that the highest proven live class remains
-  `public_safe_guided_evidence_application_four_attempts` and the next
+  `public_safe_reviewer_approved_bounded_recursive_improvement_wording_evidence` and the next
   denied class remains `broad_RSI`.
 - statements that stronger recursive-improvement wording remains denied;
 
@@ -100,7 +98,7 @@ The sweep should treat these as stale or unsafe:
 - any positive pass claim for broad RSI;
 - any statement that hidden instruction mutation is allowed;
 - any statement that grants policy-changing autonomy.
-- any statement that stronger recursive-improvement claims are proven or stronger recursive-improvement wording is approved.
+- any statement that unbounded stronger recursive-improvement claims are proven or broad recursive-improvement wording is approved.
 
 As of this sweep, no stale active-stack count or broad live-mutation approval
 claim is expected to remain in the public documentation.

@@ -6,7 +6,7 @@ the governed live-mutation boundary after the mutation-class ladder work.
 ## Public Boundary Statement
 
 - The highest proven live class is
-  `public_safe_guided_evidence_application_four_attempts`.
+  `public_safe_reviewer_approved_bounded_recursive_improvement_wording_evidence`.
 - `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
   `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
   `complex_repo_mutation` are distinct lower authority classes.
@@ -37,10 +37,7 @@ the governed live-mutation boundary after the mutation-class ladder work.
   public-safe guided evidence-application evidence showing causal-review guidance
   can select and prioritize later bounded evidence attempts under independent
   gates.
-- The approved public wording is exactly: "AO has public-safe guided
-  evidence-application evidence showing causal-review guidance can select and
-  prioritize later bounded evidence attempts under independent gates; stronger
-  recursive-improvement wording and broad_RSI remain denied."
+- The approved public wording is exactly: "AO has public-safe reviewer-approved bounded recursive-improvement wording evidence showing guided evidence application can improve later evidence attempts under independent review gates; broad_RSI remains denied."
 - Dry-run readiness, approved live docs mutation, approved test-only mutation,
   approved low-risk code mutation, multi-repo rehearsal, complex mutation, and
   bounded RSI application are separate public claim levels.
@@ -99,7 +96,7 @@ This documentation set is consistent when:
 - remaining `safe_to_execute=true` mentions are tied to exact approval and all
   gates;
 - ladder wording names
-  `public_safe_guided_evidence_application_four_attempts` as the
+  `public_safe_reviewer_approved_bounded_recursive_improvement_wording_evidence` as the
   current highest proven live class and keeps `broad_RSI` denied unless its own
   gates pass;
 - bounded RSI wording says only `bounded_rsi_evidence_rehearsal` is live-proven
@@ -110,8 +107,9 @@ This documentation set is consistent when:
 - exact safe public claim wording says only conservative public-safe tracked
   readback evidence is proven and quotes the approved wording exactly;
 - stale-language sweeps treat positive claims that broad_RSI, RSI, unrestricted
-  self-modification, hidden instruction mutation, policy-changing autonomy, or
-  stronger recursive-improvement claims are proven or stronger recursive-improvement wording is approved as unsafe unless
-  they are explicit denial examples;
+  self-modification, hidden instruction mutation, policy-changing autonomy,
+  unbounded stronger recursive-improvement claims, or broad recursive-
+  improvement wording are proven as unsafe unless they are explicit denial
+  examples;
 - every public repo page states its own authority boundary;
 - operator review remains the next step before any approval request is acted on.

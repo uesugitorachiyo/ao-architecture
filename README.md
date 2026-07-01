@@ -126,7 +126,7 @@ The stack now has a governed mutation-class ladder, not broad live mutation
 authority. The architecture source of truth is
 [overview/MUTATION-AUTHORITY-LADDER.md](overview/MUTATION-AUTHORITY-LADDER.md).
 The highest proven live class is
-`public_safe_guided_evidence_application_four_attempts`. Docs-only,
+`public_safe_reviewer_approved_bounded_recursive_improvement_wording_evidence`. Docs-only,
 test-only, low-risk code, multi-repo low-risk, the governed 12-node
 complex_repo_mutation rehearsal, the 26-node fully unsupervised complex first
 non-planning rehearsal, `bounded_rsi_evidence_rehearsal`, and
@@ -215,6 +215,9 @@ What is proven:
   include release/readiness evidence quality, security/public-safety scan quality,
   operator readback UX, and cross-repo evidence linking. Stronger
   recursive-improvement wording remains denied, and `broad_RSI` remains denied.
+
+- `public_safe_reviewer_approved_bounded_recursive_improvement_wording_evidence` is proven from AO Foundry PR #195, commit `0f742738324c185ba7243bc53ee2f1bc81804ef6`, with tracked public evidence under
+  `docs/evidence/recursive-improvement-reviewer-approved-wording/`. The approved public wording is exactly: "AO has public-safe reviewer-approved bounded recursive-improvement wording evidence showing guided evidence application can improve later evidence attempts under independent review gates; broad_RSI remains denied." This advances the highest proven live class to that exact narrow class. `broad_RSI`, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and unbounded stronger recursive-improvement claims remain denied.
 - Foundry's Pulse event-loop policy can continue without operator Q&A only
   inside the current proven class when `safe_to_execute=true` and all stop
   gates pass; the policy itself does not schedule, execute, approve, open PRs,
@@ -380,6 +383,9 @@ wording and broad_RSI remain denied." This advances the highest proven live
 class to that exact narrow class. Stronger recursive-improvement wording remains
 denied, and `broad_RSI`, unrestricted self-modification, hidden instruction
 mutation, and policy-changing autonomy remain denied.
+
+`public_safe_reviewer_approved_bounded_recursive_improvement_wording_evidence` is proven from AO Foundry PR #195, commit `0f742738324c185ba7243bc53ee2f1bc81804ef6`, with tracked public evidence under
+`docs/evidence/recursive-improvement-reviewer-approved-wording/`. The approved public wording is exactly: "AO has public-safe reviewer-approved bounded recursive-improvement wording evidence showing guided evidence application can improve later evidence attempts under independent review gates; broad_RSI remains denied." This advances the highest proven live class to that exact narrow class. `broad_RSI`, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and unbounded stronger recursive-improvement claims remain denied.
 
 
 AO Covenant owns the wording gate for any stronger claim. Publishing a full
