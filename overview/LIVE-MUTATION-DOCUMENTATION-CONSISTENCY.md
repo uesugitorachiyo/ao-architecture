@@ -6,7 +6,7 @@ the governed live-mutation boundary after the mutation-class ladder work.
 ## Public Boundary Statement
 
 - The highest proven live class is
-  `bounded_rsi_self_improvement_application`.
+  `exact_safe_public_claim_wording_conservative_readback_evidence`.
 - `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
   `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
   `complex_repo_mutation` are distinct lower authority classes.
@@ -18,6 +18,12 @@ the governed live-mutation boundary after the mutation-class ladder work.
   rehearsal state and does not prove broad RSI.
 - `bounded_rsi_self_improvement_application` is proven only for the exact
   private readback/eval rubric rehearsal.
+- `exact_safe_public_claim_wording_conservative_readback_evidence` is proven
+  only for conservative public-safe tracked readback evidence for bounded
+  improvement-claim review and retraction rehearsal.
+- The approved public wording is exactly: "AO has public-safe tracked readback
+  evidence for bounded improvement-claim review and retraction rehearsal;
+  stronger recursive-improvement claims remain denied."
 - Dry-run readiness, approved live docs mutation, approved test-only mutation,
   approved low-risk code mutation, multi-repo rehearsal, complex mutation, and
   bounded RSI application are separate public claim levels.
@@ -26,6 +32,7 @@ the governed live-mutation boundary after the mutation-class ladder work.
   policy/auth/secret/provider/deploy/release/config/dependency expansion remain
   denied.
 - Policy-changing autonomy remains denied.
+- Stronger recursive-improvement claims remain denied.
 - No component claims ungated live mutation authority.
 
 ## Updated Source Docs
@@ -58,7 +65,7 @@ Run stale-claim scans from the AO workspace root:
 rg -n -i "six active|6 active|six repositories|6 repositories|six active repos|6 active repos" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
 rg -n -i "production ready for live mutation|fully autonomous live mutation|ungated live mutation authority|fully unsupervised complex live repo mutation is proven" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
 rg -n -i "safe_to_execute=true" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
-rg -n -i "RSI is proven|broad RSI is proven|unrestricted self-modification|hidden instruction mutation allowed|policy-changing autonomy|fully autonomous RSI|highest proven live class|next denied class" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
+rg -n -i "RSI is proven|broad RSI is proven|broad_RSI is proven|unrestricted self-modification|hidden instruction mutation allowed|policy-changing autonomy allowed|policy-changing autonomy|stronger recursive-improvement claims are proven|fully autonomous RSI|highest proven live class|next denied class" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
 ```
 
 The `safe_to_execute=true` scan may return expected hits when the same line or
@@ -74,13 +81,20 @@ This documentation set is consistent when:
 - broad live-mutation overclaim scans find no positive claim;
 - remaining `safe_to_execute=true` mentions are tied to exact approval and all
   gates;
-- ladder wording names `bounded_rsi_self_improvement_application` as the current
-  highest proven live class and keeps `broad_RSI` denied unless its own gates
-  pass;
+- ladder wording names
+  `exact_safe_public_claim_wording_conservative_readback_evidence` as the
+  current highest proven live class and keeps `broad_RSI` denied unless its own
+  gates pass;
 - bounded RSI wording says only `bounded_rsi_evidence_rehearsal` is live-proven
   and keeps broad RSI, hidden instruction mutation, unrestricted
   self-modification, and policy-changing self-modification denied;
 - bounded application wording says only the exact private readback/eval rubric
   rehearsal is proven;
+- exact safe public claim wording says only conservative public-safe tracked
+  readback evidence is proven and quotes the approved wording exactly;
+- stale-language sweeps treat positive claims that broad_RSI, RSI, unrestricted
+  self-modification, hidden instruction mutation, policy-changing autonomy, or
+  stronger recursive-improvement claims are proven or allowed as unsafe unless
+  they are explicit denial examples;
 - every public repo page states its own authority boundary;
 - operator review remains the next step before any approval request is acted on.
