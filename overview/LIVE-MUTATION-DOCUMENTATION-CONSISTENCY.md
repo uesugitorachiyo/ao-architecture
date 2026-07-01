@@ -6,7 +6,7 @@ the governed live-mutation boundary after the mutation-class ladder work.
 ## Public Boundary Statement
 
 - The highest proven live class is
-  `public_safe_bounded_improvement_evidence_expansion_four_attempts`.
+  `public_safe_intermediate_causal_review_claim_evidence`.
 - `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
   `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
   `complex_repo_mutation` are distinct lower authority classes.
@@ -27,9 +27,13 @@ the governed live-mutation boundary after the mutation-class ladder work.
 - `public_safe_reviewed_causal_chain_boundary_generalization_evidence` is proven
   only for public-safe reviewed causal-chain boundary generalization evidence
   across multiple independent claim-review roles.
-- The approved public wording is exactly: "AO has public-safe tracked readback
-  evidence for bounded improvement-claim review and retraction rehearsal;
-  stronger recursive-improvement claims remain denied."
+- `public_safe_intermediate_causal_review_claim_evidence` is proven only for
+  public-safe intermediate causal-review evidence that bounded improvement
+  evidence can guide and constrain later claim review across independent roles.
+- The approved public wording is exactly: "AO has public-safe intermediate
+  causal-review evidence that bounded improvement evidence can guide and
+  constrain later claim review across independent roles; stronger
+  recursive-improvement wording and broad_RSI remain denied."
 - Dry-run readiness, approved live docs mutation, approved test-only mutation,
   approved low-risk code mutation, multi-repo rehearsal, complex mutation, and
   bounded RSI application are separate public claim levels.
@@ -88,7 +92,7 @@ This documentation set is consistent when:
 - remaining `safe_to_execute=true` mentions are tied to exact approval and all
   gates;
 - ladder wording names
-  `public_safe_bounded_improvement_evidence_expansion_four_attempts` as the
+  `public_safe_intermediate_causal_review_claim_evidence` as the
   current highest proven live class and keeps `broad_RSI` denied unless its own
   gates pass;
 - bounded RSI wording says only `bounded_rsi_evidence_rehearsal` is live-proven
