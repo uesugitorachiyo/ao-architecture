@@ -5,17 +5,18 @@ the governed live-mutation boundary after the mutation-class ladder work.
 
 ## Public Boundary Statement
 
-- The highest proven live mutation class is `complex_repo_mutation`.
+- The highest proven live mutation class is
+  `fully_unsupervised_complex_mutation`.
 - `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
   `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
-  `complex_repo_mutation` are distinct authority classes.
+  `complex_repo_mutation` are distinct lower authority classes.
 - `low_risk_code`, `multi_repo_low_risk`, and `complex_repo_mutation` are
   proven only inside their governed rehearsal boundaries.
+- `fully_unsupervised_complex_mutation` is proven only inside the governed
+  26-node first non-planning rehearsal boundary.
 - Dry-run readiness, approved live docs mutation, approved test-only mutation,
   approved low-risk code mutation, multi-repo rehearsal, complex mutation, and
   fully unsupervised RSI are separate public claim levels.
-- Fully unsupervised complex live repository mutation remains out of scope.
-- Fully unsupervised complex repository mutation remains denied.
 - Fully unsupervised RSI remains denied.
 - No component claims ungated live mutation authority.
 
@@ -64,8 +65,8 @@ This documentation set is consistent when:
 - broad live-mutation overclaim scans find no positive claim;
 - remaining `safe_to_execute=true` mentions are tied to exact approval and all
   gates;
-- ladder wording names `test_only` as the current highest proven live class and
-  keeps low-risk code, multi-repo, complex mutation, and fully unsupervised RSI
-  denied unless their own gates pass;
+- ladder wording names `fully_unsupervised_complex_mutation` as the current
+  highest proven live class and keeps fully unsupervised RSI denied unless its
+  own gates pass;
 - every public repo page states its own authority boundary;
 - operator review remains the next step before any approval request is acted on.

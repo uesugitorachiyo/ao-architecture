@@ -149,20 +149,22 @@ mutation authority:
   merge, publish, upload, call providers, or mutate repositories from readback
   evidence alone.
 
-Fully unsupervised complex live mutation remains outside the proven boundary.
+Fully unsupervised complex live mutation is proven only inside the governed
+26-node first non-planning rehearsal boundary.
 
 ### Mutation Authority Ladder
 
 The current public ladder is documented in
 [Mutation Authority Ladder](MUTATION-AUTHORITY-LADDER.md). The highest proven
-live mutation class is `complex_repo_mutation`. Docs-only, test-only,
-low-risk-code, multi-repo low-risk, and the governed 12-node complex mutation
-rehearsal are evidence-backed; fully unsupervised complex repository mutation
-remains denied, and fully unsupervised RSI remains denied. The completed
-complex rehearsal has context repack, repair plans, low-risk decomposition,
-rollback graph, blocked-node handling, dependency gates, promotion gates, and
-digest-bound closure evidence. Foundry's Pulse event-loop policy may continue
-without operator Q&A only inside the current proven class and only when
+live mutation class is `fully_unsupervised_complex_mutation`. Docs-only,
+test-only, low-risk-code, multi-repo low-risk, the governed 12-node complex
+mutation rehearsal, and the 26-node fully unsupervised complex first
+non-planning rehearsal are evidence-backed; fully unsupervised RSI remains
+denied. The completed complex rehearsals have context repack, repair plans,
+low-risk decomposition, rollback graph, blocked-node handling, dependency
+gates, promotion gates, digest-bound closure evidence, Promoter final verdict,
+and Command class-decision readback. Foundry's Pulse event-loop policy may
+continue without operator Q&A only inside the current proven class and only when
 class-gate, promotion-state, rollback, CI, repo hygiene, evidence freshness,
 Sentinel, Promoter, branch cleanup, and scope gates all pass.
 

@@ -54,9 +54,10 @@ REQUIRED_LIVE_MUTATION_LADDER_TERMS = [
     "low_risk_code",
     "multi_repo_low_risk",
     "complex_repo_mutation",
-    "highest proven live mutation class is `complex_repo_mutation`",
+    "fully_unsupervised_complex_mutation",
+    "highest proven live mutation class is\n`fully_unsupervised_complex_mutation`",
     "governed 12-node complex",
-    "fully unsupervised complex repository mutation remains denied",
+    "26-node fully unsupervised complex first non-planning",
     "fully unsupervised RSI remains denied",
 ]
 

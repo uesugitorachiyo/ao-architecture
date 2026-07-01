@@ -3,16 +3,17 @@
 This sweep checks public AO stack wording after the mutation-class ladder work.
 The current public boundary remains:
 
-- the highest proven live mutation class is `complex_repo_mutation`;
+- the highest proven live mutation class is
+  `fully_unsupervised_complex_mutation`;
 - `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
   `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
-  `complex_repo_mutation` are separate authority classes;
+  `complex_repo_mutation` are separate lower authority classes;
 - `safe_to_execute=true` is valid only when the exact class scope and all class
   gates pass;
 - `low_risk_code`, `multi_repo_low_risk`, and `complex_repo_mutation` are
   proven only inside their governed rehearsal boundaries;
-- fully unsupervised complex live repository mutation remains out of scope;
-- fully unsupervised complex repository mutation remains denied;
+- `fully_unsupervised_complex_mutation` is proven only inside the governed
+  26-node first non-planning rehearsal boundary;
 - fully unsupervised RSI remains denied;
 - no AO component grants ungated live mutation authority.
 
@@ -52,7 +53,7 @@ The sweep should treat these as stale or unsafe:
 - any statement that Blueprint, Atlas, Command, Sentinel, or Promoter can
   approve or execute live repository mutation;
 - stale active-stack counts such as "six active repos" when Atlas is included;
-- any statement that fully unsupervised complex live repo mutation is proven.
+- any statement that fully unsupervised RSI is proven.
 
 As of this sweep, no stale active-stack count or broad live-mutation approval
 claim is expected to remain in the public documentation.
