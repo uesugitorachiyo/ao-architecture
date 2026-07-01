@@ -129,7 +129,9 @@ The highest proven live mutation class is
 `fully_unsupervised_complex_mutation`: docs-only, test-only, low-risk code,
 multi-repo low-risk, the governed 12-node complex_repo_mutation rehearsal, and
 the 26-node fully unsupervised complex first non-planning rehearsal are proven
-through exact-scope live evidence. Fully unsupervised RSI remains denied.
+through exact-scope live evidence. `bounded_rsi_evidence_rehearsal` is now
+live-proven as a bounded evidence rehearsal only. Fully unsupervised RSI remains
+denied.
 
 The current mirror includes the latest authority-ladder evidence: AO Atlas PR
 #34 upgrades the complex-class rehearsal graph with low-risk decomposition and a
@@ -184,6 +186,12 @@ What is proven:
   nodes completed, every stop gate cleared, PR/CI/merge evidence, branch
   cleanup evidence, no concurrent mutation, no forbidden surfaces, Promoter
   final promotion, Command class-decision readback, and RSI denial preserved.
+- Foundry PR #175, commit
+  `b12ac9b62ab8d20b4092d2a5d13081607567e816`, records
+  `bounded_rsi_evidence_rehearsal` as live-proven for the bounded 32-node
+  evidence rehearsal only. The final rollup, Promoter verdict, and Command
+  readback keep broad RSI, hidden instruction mutation, and unrestricted
+  self-modification denied.
 - Foundry's Pulse event-loop policy can continue without operator Q&A only
   inside the current proven class when `safe_to_execute=true` and all stop
   gates pass; the policy itself does not schedule, execute, approve, open PRs,
@@ -196,9 +204,11 @@ What is not proven:
 - no provider call, release, upload, tag, or publish action is authorized;
 - no component may bypass Covenant, Sentinel, Promoter, rollback, worktree, PR
   lifecycle, or operator kill-switch evidence;
+- no hidden instruction mutation, policy/auth/secret/provider/deploy/release/
+  config/dependency expansion, broad RSI, or unrestricted self-modification is
+  authorized;
 - passing the dry-run chain is not ungated live mutation authority;
-- the stack does not claim fully unsupervised complex repository mutation or
-  fully unsupervised RSI.
+- the stack does not claim broad RSI or unrestricted self-improvement.
 
 The current boundary is precise:
 
@@ -218,6 +228,9 @@ The current boundary is precise:
   the first docs-only boundary;
 - later live rehearsals do not promote fully unsupervised complex mutation or
   fully unsupervised RSI without their own gates and evidence.
+- the bounded RSI evidence rehearsal does not change the highest proven live
+  class: it remains `fully_unsupervised_complex_mutation`, and the next denied
+  class remains `RSI`.
 
 ## Context Management Boundary
 
@@ -274,6 +287,17 @@ the current artifacts; rollback rehearsal is now present only as
 temporary-workspace evidence for the same dry-run change class, and AO2's
 authority packet remains a dry-run candidate with
 `schema_valid_for_claim_publish=false`.
+
+The 2026-07-01 bounded evidence closure proves only
+`bounded_rsi_evidence_rehearsal`. AO Foundry PR #175 merged at
+`b12ac9b62ab8d20b4092d2a5d13081607567e816`; the final rollup says
+`bounded_rsi_evidence_rehearsal_live_proven=true`,
+`highest_proven_live_class=fully_unsupervised_complex_mutation`, and
+`next_denied_class=RSI`. The matching Promoter verdict promotes only the bounded
+evidence rehearsal, and the Command readback says broad RSI, hidden
+self-modification, and unrestricted self-modification remain denied. This does
+not prove RSI, does not authorize unrestricted self-improvement, and does not
+allow hidden or policy-changing self-modification.
 
 AO Covenant owns the wording gate for any stronger claim. Publishing a full
 autonomous self-mutating RSI claim is a `claim.publish` side effect for the

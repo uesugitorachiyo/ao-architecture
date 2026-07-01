@@ -14,10 +14,15 @@ the governed live-mutation boundary after the mutation-class ladder work.
   proven only inside their governed rehearsal boundaries.
 - `fully_unsupervised_complex_mutation` is proven only inside the governed
   26-node first non-planning rehearsal boundary.
+- `bounded_rsi_evidence_rehearsal` is live-proven only as a bounded evidence
+  rehearsal state and does not prove broad RSI.
 - Dry-run readiness, approved live docs mutation, approved test-only mutation,
   approved low-risk code mutation, multi-repo rehearsal, complex mutation, and
   fully unsupervised RSI are separate public claim levels.
 - Fully unsupervised RSI remains denied.
+- Broad RSI, unrestricted self-modification, hidden instruction mutation, and
+  policy/auth/secret/provider/deploy/release/config/dependency expansion remain
+  denied.
 - No component claims ungated live mutation authority.
 
 ## Updated Source Docs
@@ -50,6 +55,7 @@ Run stale-claim scans from the AO workspace root:
 rg -n -i "six active|6 active|six repositories|6 repositories|six active repos|6 active repos" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
 rg -n -i "production ready for live mutation|fully autonomous live mutation|ungated live mutation authority|fully unsupervised complex live repo mutation is proven" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
 rg -n -i "safe_to_execute=true" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
+rg -n -i "RSI proven|broad RSI|unrestricted self-modification|hidden instruction mutation|fully autonomous RSI|highest proven live class|next denied class" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
 ```
 
 The `safe_to_execute=true` scan may return expected hits when the same line or
@@ -68,5 +74,8 @@ This documentation set is consistent when:
 - ladder wording names `fully_unsupervised_complex_mutation` as the current
   highest proven live class and keeps fully unsupervised RSI denied unless its
   own gates pass;
+- bounded RSI wording says only `bounded_rsi_evidence_rehearsal` is live-proven
+  and keeps broad RSI, hidden instruction mutation, unrestricted
+  self-modification, and policy-changing self-modification denied;
 - every public repo page states its own authority boundary;
 - operator review remains the next step before any approval request is acted on.

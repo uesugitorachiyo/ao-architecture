@@ -10,7 +10,12 @@ The highest proven live mutation class is
 governed live rehearsal evidence through the docs-only, test-only, low-risk
 code, multi-repo low-risk, 12-node complex mutation, and 26-node fully
 unsupervised complex first non-planning classes. It does not mean fully
-unsupervised RSI is proven.
+unsupervised RSI has passed its own gates.
+
+The bounded RSI evidence rehearsal state is also live-proven:
+`bounded_rsi_evidence_rehearsal`. This records the 32-node governed evidence
+rehearsal only. It does not advance the highest proven live mutation class, does
+not prove broad RSI, and does not authorize unrestricted self-modification.
 
 | Class or claim boundary | Current public state | What is allowed | What remains denied |
 | --- | --- | --- | --- |
@@ -22,6 +27,7 @@ unsupervised RSI is proven.
 | `multi_repo_low_risk` | Proven live rehearsal class. | Serialized repo-by-repo live rehearsal can proceed with per-repo rollback, CI, branch cleanup, no concurrent mutation, Sentinel, Promoter, and Command evidence. | Concurrent repo mutation, shared-surface expansion, or unsequenced multi-repo execution. |
 | `complex_repo_mutation` | Proven live rehearsal class. | The governed 12-node complex_repo_mutation rehearsal is proven with completed Atlas workgraph, safe node gates, serialized PR/CI/merge evidence, rollback evidence, Sentinel evidence, Promoter evidence, Command readback, and forbidden-surface closure evidence. | Mutation broader than the governed complex rehearsal boundary without the fully unsupervised complex closure evidence. |
 | `fully_unsupervised_complex_mutation` | Highest proven live mutation class. | The 26-node first non-planning rehearsal is proven with all nodes completed, every stop gate cleared, per-node PR/CI/merge evidence, branch cleanup evidence, Sentinel/Promoter/Command closure, no concurrent mutation, no forbidden surfaces, and RSI denial preserved. | Fully unsupervised RSI, claim publication, provider calls, credential use, release/deploy/publish/upload/tag authority, or any self-improving RSI claim. |
+| `bounded_rsi_evidence_rehearsal` | Live-proven bounded evidence rehearsal state. | The 32-node bounded RSI evidence rehearsal is proven as evidence-only closure with Foundry final rollup, Promoter final verdict, Command class-decision readback, no authority broadening, no forbidden surfaces, and no hidden instruction mutation. It may be reported only as `bounded_rsi_evidence_rehearsal` live-proven. | Broad RSI, unrestricted self-modification, hidden instruction mutation, policy/auth/secret/provider/deploy/release/config/dependency expansion, claim publication, or any broader RSI claim. |
 | Fully unsupervised RSI | Denied. | The stack may claim bounded, governed RSI evidence only when the RSI evidence map passes. | Fully unsupervised RSI remains denied until Covenant claim-publish policy, live mutation authority, rollback evidence, live self-change evidence, observer readback, Command/Forge retention, and all class gates pass. |
 
 ## Latest Merged Evidence
@@ -47,6 +53,14 @@ unsupervised RSI is proven.
   completion evidence, Foundry final rollup, Promoter final verdict, and Command
   class-decision readback. The promotion advances the highest proven live class
   to `fully_unsupervised_complex_mutation` and keeps RSI denied.
+- AO Foundry PR #175, commit
+  `b12ac9b62ab8d20b4092d2a5d13081607567e816`, records the final closure for
+  `bounded_rsi_evidence_rehearsal`: all 32 evidence nodes completed, every stop
+  gate cleared, Foundry final rollup accepted, Promoter verdict
+  `promote_bounded_rsi_evidence_rehearsal` accepted, and Command readback
+  `promote_bounded_rsi_evidence_rehearsal_keep_broad_rsi_denied` accepted. This
+  keeps the highest proven live class at `fully_unsupervised_complex_mutation`
+  and keeps the next denied class as `RSI`.
 
 ## Layer Responsibilities
 
@@ -75,8 +89,12 @@ Use this ladder when writing public claims:
 - Approved fully unsupervised complex mutation means
   `fully_unsupervised_complex_mutation` is the highest proven live mutation
   class for the governed 26-node first non-planning rehearsal boundary.
+- `bounded_rsi_evidence_rehearsal` means only the bounded evidence rehearsal was
+  proven; broad RSI and unrestricted self-modification remain denied.
 - An event-loop continuation policy is not mutation authority; it can only stay
   inside the proven class and must stop on the configured blockers.
 - Fully unsupervised complex repository mutation is proven only for the governed
   26-node first non-planning rehearsal boundary.
+- Hidden instruction mutation and policy/auth/secret/provider/deploy/release/
+  config/dependency expansion remain denied.
 - Fully unsupervised RSI remains denied.
