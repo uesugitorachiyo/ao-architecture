@@ -24,6 +24,9 @@ the governed live-mutation boundary after the mutation-class ladder work.
 - `public_safe_bounded_improvement_evidence_expansion_four_attempts` is proven
   only for four public-safe bounded evidence expansion attempts with
   reproducibility runbooks.
+- `public_safe_reviewed_causal_chain_boundary_generalization_evidence` is proven
+  only for public-safe reviewed causal-chain boundary generalization evidence
+  across multiple independent claim-review roles.
 - The approved public wording is exactly: "AO has public-safe tracked readback
   evidence for bounded improvement-claim review and retraction rehearsal;
   stronger recursive-improvement claims remain denied."

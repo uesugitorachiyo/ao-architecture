@@ -55,7 +55,7 @@ REQUIRED_LIVE_MUTATION_LADDER_TERMS = [
     "multi_repo_low_risk",
     "complex_repo_mutation",
     "fully_unsupervised_complex_mutation",
-    "highest proven live class is\n`public_safe_bounded_improvement_evidence_expansion_four_attempts`",
+    "highest proven live class is\n`public_safe_reviewed_causal_chain_boundary_generalization_evidence`",
     "governed 12-node complex",
     "26-node fully unsupervised complex",
     "bounded_rsi_evidence_rehearsal",
@@ -66,6 +66,8 @@ REQUIRED_LIVE_MUTATION_LADDER_TERMS = [
     "exact_safe_public_claim_wording_conservative_readback_evidence",
     "public_safe_bounded_improvement_evidence_expansion_four_attempts",
     "four public-safe bounded evidence expansion attempts",
+    "public_safe_reviewed_causal_chain_boundary_generalization_evidence",
+    "reviewed causal-chain boundary generalization evidence",
     "reproducibility runbooks",
     "conservative public-safe tracked readback evidence",
     "public-safe tracked readback evidence",
@@ -81,6 +83,9 @@ REQUIRED_LIVE_MUTATION_LADDER_TERMS = [
     "AO Foundry PR #181",
     "d31b6f2247780867c3c72dbda5abb7377f3a1b3e",
     "docs/evidence/recursive-improvement-public-evidence-expansion/",
+    "AO Foundry PR #187",
+    "ee55f7918b86f997922707e4c0b2ba6536fe43cf",
+    "docs/evidence/recursive-improvement-reviewed-boundary-generalization/",
 ]
 
 REQUIRED_BLUEPRINT_ATLAS_FOUNDRY_TERMS = [
@@ -177,6 +182,8 @@ REQUIRED_RSI_MAP_TERMS = [
     "public_safe_bounded_improvement_evidence_expansion_four_attempts=proven",
     "promote_public_safe_bounded_improvement_evidence_expansion_four_attempts_broad_RSI_denied",
     "public_safe_bounded_improvement_evidence_expansion_four_attempts proven; stronger recursive-improvement wording denied; broad_RSI denied",
+    "public_safe_reviewed_causal_chain_boundary_generalization_evidence",
+    "reviewed causal-chain boundary generalization",
     "broad_RSI",
     "mutation authority",
     "rollback evidence",

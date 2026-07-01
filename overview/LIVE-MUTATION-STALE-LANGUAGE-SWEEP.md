@@ -4,7 +4,7 @@ This sweep checks public AO stack wording after the mutation-class ladder work.
 The current public boundary remains:
 
 - the highest proven live class is
-  `public_safe_bounded_improvement_evidence_expansion_four_attempts`;
+  `public_safe_reviewed_causal_chain_boundary_generalization_evidence`;
 - `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
   `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
   `complex_repo_mutation` are separate lower authority classes;
@@ -31,6 +31,7 @@ The current public boundary remains:
   denied;
 - policy-changing autonomy remains denied;
 - stronger recursive-improvement wording remains denied;
+- reviewed boundary generalization evidence does not approve stronger recursive-improvement wording;
 - no AO component grants ungated live mutation authority.
 
 ## Sweep Commands
@@ -61,7 +62,7 @@ The sweep should treat these as acceptable hits:
 - statements that broad RSI, unrestricted self-modification, and hidden
   instruction mutation remain denied;
 - statements that the highest proven live class remains
-  `public_safe_bounded_improvement_evidence_expansion_four_attempts` and the next
+  `public_safe_reviewed_causal_chain_boundary_generalization_evidence` and the next
   denied class remains `broad_RSI`.
 - statements that stronger recursive-improvement wording remains denied;
 

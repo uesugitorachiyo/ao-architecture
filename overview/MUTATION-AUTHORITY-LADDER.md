@@ -6,7 +6,7 @@ AO Promoter, and AO Command. It distinguishes dry-run readiness from approved
 live mutation and from the still-denied fully unsupervised RSI claim.
 
 The highest proven live class is
-`public_safe_bounded_improvement_evidence_expansion_four_attempts`. That means the
+`public_safe_reviewed_causal_chain_boundary_generalization_evidence`. That means the
 stack can point to governed live rehearsal evidence through the docs-only,
 test-only, low-risk code, multi-repo low-risk, 12-node complex mutation, 26-node
 fully unsupervised complex first non-planning, bounded RSI evidence rehearsal,
