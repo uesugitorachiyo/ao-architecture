@@ -41,11 +41,14 @@
     {
       "id": "ao-foundry",
       "role": "pulse_candidate_and_improvement_gate_producer",
-      "snapshot_commit": "61e8f11fa382e3628f7f6c8f99c0758fd24430a1",
+      "snapshot_commit": "4ec509fd64d1fc1ea41ea7f22aae900ba79e09a1",
       "evidence": [
         "tmp/pulse-rsi-verify/rsi-candidate.json",
         "tmp/pulse-rsi-verify/rsi-improvement-gate.json",
         "tmp/pulse-rsi-verify/rsi-next-improvement-task.json",
+        "docs/evidence/recursive-improvement-guided-evidence-application/evidence-index.json",
+        "docs/evidence/recursive-improvement-guided-evidence-application/final-rollup.json",
+        "docs/evidence/recursive-improvement-guided-evidence-application/wording-candidate-results.json",
         "README.md",
         "docs/sdd/AO-FOUNDRY-PULSE-GOLDEN-LOOP-SDD.md",
         "docs/operations/AO2-PULSE-EVENT-LOOP.md"
@@ -56,6 +59,12 @@
           "title": "Document RSI claim boundary",
           "url": "https://github.com/uesugitorachiyo/ao-foundry/pull/65",
           "merge_commit": "61e8f11fa382e3628f7f6c8f99c0758fd24430a1"
+        },
+        {
+          "number": 193,
+          "title": "Add guided evidence application proof",
+          "url": "https://github.com/uesugitorachiyo/ao-foundry/pull/193",
+          "merge_commit": "4ec509fd64d1fc1ea41ea7f22aae900ba79e09a1"
         }
       ]
     },

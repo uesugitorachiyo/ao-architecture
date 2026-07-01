@@ -273,14 +273,15 @@ scripts/production-readiness.sh
 scripts/atlas-foundry-roundtrip-smoke.sh
 ```
 
-`public_safe_bounded_improvement_evidence_expansion_four_attempts` is now proven from AO Foundry PR #181, commit
-`d31b6f2247780867c3c72dbda5abb7377f3a1b3e`, with tracked public evidence under
-`docs/evidence/recursive-improvement-public-evidence-expansion/`. Four
-public-safe bounded evidence expansion attempts are tracked with reproducibility
-runbooks: release/readiness evidence quality (`0.68` -> `0.91`), security/public-
-safety scan quality (`0.64` -> `0.90`), operator readback UX (`0.62` -> `0.88`),
-and cross-repo evidence linking (`0.60` -> `0.87`). The highest proven live class
-is `public_safe_bounded_improvement_evidence_expansion_four_attempts` and the next denied class is `broad_RSI`. Stronger
-recursive-improvement wording remains denied, `broad_RSI` remains denied,
-unrestricted self-modification remains denied, hidden instruction mutation
-remains denied, and policy-changing autonomy remains denied.
+`public_safe_guided_evidence_application_four_attempts` is proven from AO Foundry PR #193, commit
+`4ec509fd64d1fc1ea41ea7f22aae900ba79e09a1`, with tracked public evidence under
+`docs/evidence/recursive-improvement-guided-evidence-application/`. Four public-safe
+guided evidence-application attempts are tracked with baseline and post-change
+measurements: guided candidate-fit evaluation quality (`0.67` -> `0.92`),
+reviewer-blocker triage quality (`0.65` -> `0.91`), cross-evidence dependency
+selection quality (`0.64` -> `0.90`), and safe-next-evidence prioritization
+quality (`0.62` -> `0.89`). The highest proven live class is
+`public_safe_guided_evidence_application_four_attempts` and the next denied class is
+`broad_RSI`. Stronger recursive-improvement wording remains denied, `broad_RSI`
+remains denied, unrestricted self-modification remains denied, hidden instruction
+mutation remains denied, and policy-changing autonomy remains denied.
