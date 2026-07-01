@@ -4,7 +4,7 @@ This sweep checks public AO stack wording after the mutation-class ladder work.
 The current public boundary remains:
 
 - the highest proven live class is
-  `exact_safe_public_claim_wording_conservative_readback_evidence`;
+  `public_safe_bounded_improvement_evidence_expansion_four_attempts`;
 - `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
   `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
   `complex_repo_mutation` are separate lower authority classes;
@@ -18,10 +18,10 @@ The current public boundary remains:
   rehearsal state;
 - `bounded_rsi_self_improvement_application` is proven only for the exact
   private readback/eval rubric rehearsal;
-- `exact_safe_public_claim_wording_conservative_readback_evidence` is proven
-  only for conservative public-safe tracked readback evidence for bounded
-  improvement-claim review and retraction rehearsal;
-- the approved public wording is exactly: "AO has public-safe tracked readback
+- `public_safe_bounded_improvement_evidence_expansion_four_attempts` is proven
+  only for four public-safe bounded evidence expansion attempts with
+  reproducibility runbooks;
+- the prior approved public wording remains exactly: "AO has public-safe tracked readback
   evidence for bounded improvement-claim review and retraction rehearsal;
   stronger recursive-improvement claims remain denied.";
 - `broad_RSI` remains denied;
@@ -30,7 +30,7 @@ The current public boundary remains:
   policy/auth/secret/provider/deploy/release/config/dependency expansion remain
   denied;
 - policy-changing autonomy remains denied;
-- stronger recursive-improvement claims remain denied;
+- stronger recursive-improvement wording remains denied;
 - no AO component grants ungated live mutation authority.
 
 ## Sweep Commands
@@ -41,7 +41,7 @@ Run these from the AO workspace root:
 rg -n -i "six active|6 active|six repositories|6 repositories|six active repos|6 active repos" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
 rg -n -i "safe_to_execute(=|:| true)|safe to execute|production ready for live mutation|fully autonomous live mutation|ungated live mutation authority|grant[s]? ungated|claims? ungated|fully unsupervised complex" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
 rg -n -i "self-mutating RSI|full autonomous self-mutating RSI" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
-rg -n -i "RSI is proven|broad RSI is proven|broad_RSI is proven|unrestricted self-modification|hidden instruction mutation allowed|policy-changing autonomy allowed|policy-changing autonomy|stronger recursive-improvement claims are proven|fully autonomous RSI|highest proven live class|next denied class" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
+rg -n -i "RSI is proven|broad RSI is proven|broad_RSI is proven|unrestricted self-modification|hidden instruction mutation allowed|policy-changing autonomy allowed|policy-changing autonomy|stronger recursive-improvement claims are proven|stronger recursive-improvement wording approved|fully autonomous RSI|highest proven live class|next denied class" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
 ```
 
 ## Result Interpretation
@@ -61,9 +61,9 @@ The sweep should treat these as acceptable hits:
 - statements that broad RSI, unrestricted self-modification, and hidden
   instruction mutation remain denied;
 - statements that the highest proven live class remains
-  `exact_safe_public_claim_wording_conservative_readback_evidence` and the next
+  `public_safe_bounded_improvement_evidence_expansion_four_attempts` and the next
   denied class remains `broad_RSI`.
-- statements that stronger recursive-improvement claims remain denied;
+- statements that stronger recursive-improvement wording remains denied;
 
 The sweep should treat these as stale or unsafe:
 
@@ -86,7 +86,7 @@ The sweep should treat these as stale or unsafe:
 - any positive pass claim for broad RSI;
 - any statement that hidden instruction mutation is allowed;
 - any statement that grants policy-changing autonomy.
-- any statement that stronger recursive-improvement claims are proven.
+- any statement that stronger recursive-improvement claims are proven or stronger recursive-improvement wording is approved.
 
 As of this sweep, no stale active-stack count or broad live-mutation approval
 claim is expected to remain in the public documentation.

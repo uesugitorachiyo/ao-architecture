@@ -156,7 +156,7 @@ Fully unsupervised complex live mutation is proven only inside the governed
 
 The current public ladder is documented in
 [Mutation Authority Ladder](MUTATION-AUTHORITY-LADDER.md). The highest proven
-live class is `exact_safe_public_claim_wording_conservative_readback_evidence`.
+live class is `public_safe_bounded_improvement_evidence_expansion_four_attempts`.
 Docs-only, test-only, low-risk-code, multi-repo low-risk, the governed 12-node
 complex mutation rehearsal, the 26-node fully unsupervised complex first
 non-planning rehearsal, `bounded_rsi_evidence_rehearsal`, and
@@ -185,12 +185,18 @@ policy-changing autonomy denied.
 for conservative public-safe readback evidence around bounded improvement-claim
 review and retraction rehearsal. The approved public wording is exactly: "AO has
 public-safe tracked readback evidence for bounded improvement-claim review and
-retraction rehearsal; stronger recursive-improvement claims remain denied." It
-changes the highest proven live class to
-`exact_safe_public_claim_wording_conservative_readback_evidence`, keeps
-`broad_RSI` as the next denied class, and keeps unrestricted self-modification,
-hidden instruction mutation, policy-changing autonomy, and stronger
-recursive-improvement claims denied.
+retraction rehearsal; stronger recursive-improvement claims remain denied." Stronger recursive-improvement wording remains denied; stronger recursive-improvement wording remains denied. It
+remains prior evidence and keeps unrestricted self-modification, hidden
+instruction mutation, policy-changing autonomy, and stronger recursive-improvement
+claims denied.
+
+`public_safe_bounded_improvement_evidence_expansion_four_attempts` is proven for four public-safe bounded evidence expansion attempts with
+reproducibility runbooks. AO Foundry PR #181, commit `d31b6f2247780867c3c72dbda5abb7377f3a1b3e` records release/readiness evidence quality,
+security/public-safety scan quality, operator readback UX, and cross-repo
+evidence linking under `docs/evidence/recursive-improvement-public-evidence-expansion/`. It changes the highest proven live class to
+`public_safe_bounded_improvement_evidence_expansion_four_attempts`, keeps `broad_RSI` as the next denied class, and keeps stronger
+recursive-improvement wording, unrestricted self-modification, hidden instruction
+mutation, and policy-changing autonomy denied.
 
 This distinction matters because dry-run readiness, approved live docs
 mutation, approved test-only mutation, approved low-risk code mutation,
@@ -267,6 +273,14 @@ claims remain denied." Covenant and Architecture approve only the conservative
 evidence wording, Sentinel clears only that wording while holding broad_RSI
 wording, Promoter promotes only the exact safe public claim wording class, and
 Command reads back `broad_RSI` as denied.
+
+The public-safe bounded improvement evidence expansion closure adds the current
+precise public state: `public_safe_bounded_improvement_evidence_expansion_four_attempts` is proven. AO Foundry PR #181, commit `d31b6f2247780867c3c72dbda5abb7377f3a1b3e` records four public-safe bounded
+evidence expansion attempts with reproducibility runbooks under `docs/evidence/recursive-improvement-public-evidence-expansion/`.
+Public-reader and Covenant approve narrow evidence expansion only, Architecture
+approves narrow evidence expansion only, Sentinel clears the narrow expansion
+while holding stronger recursive-improvement wording, Promoter promotes only the
+bounded evidence expansion class, and Command reads back `broad_RSI` as denied.
 
 AO Covenant now treats full autonomous self-mutating RSI wording as a governed
 `claim.publish` side effect. The `full-autonomous-self-mutating-rsi` resource is

@@ -6,13 +6,14 @@ AO Promoter, and AO Command. It distinguishes dry-run readiness from approved
 live mutation and from the still-denied fully unsupervised RSI claim.
 
 The highest proven live class is
-`exact_safe_public_claim_wording_conservative_readback_evidence`. That means the
+`public_safe_bounded_improvement_evidence_expansion_four_attempts`. That means the
 stack can point to governed live rehearsal evidence through the docs-only,
 test-only, low-risk code, multi-repo low-risk, 12-node complex mutation, 26-node
 fully unsupervised complex first non-planning, bounded RSI evidence rehearsal,
-and exact private readback/eval rubric application classes, plus conservative
+and exact private readback/eval rubric application classes, conservative
 public-safe readback evidence for bounded improvement-claim review and retraction
-rehearsal. It does not establish `broad_RSI`.
+rehearsal, and four public-safe bounded evidence expansion attempts with
+reproducibility runbooks. It does not establish `broad_RSI`.
 
 The bounded RSI evidence rehearsal state is also live-proven:
 `bounded_rsi_evidence_rehearsal`. This records the 32-node governed evidence
@@ -29,8 +30,15 @@ public-safe readback evidence:
 `exact_safe_public_claim_wording_conservative_readback_evidence`. The approved
 public wording is exactly: "AO has public-safe tracked readback evidence for
 bounded improvement-claim review and retraction rehearsal; stronger
-recursive-improvement claims remain denied." It advances the highest proven live
-class to that exact class and keeps `broad_RSI` as the next denied class.
+recursive-improvement claims remain denied." It remains prior evidence and keeps
+`broad_RSI` as the next denied class.
+
+The public-safe bounded improvement evidence expansion state is proven for four
+tracked public-safe attempts with reproducibility runbooks:
+`public_safe_bounded_improvement_evidence_expansion_four_attempts`. It advances the highest proven live class to that exact class and keeps
+`broad_RSI`, stronger recursive-improvement wording, unrestricted
+self-modification, hidden instruction mutation, and policy-changing autonomy
+denied.
 
 | Class or claim boundary | Current public state | What is allowed | What remains denied |
 | --- | --- | --- | --- |
@@ -44,7 +52,8 @@ class to that exact class and keeps `broad_RSI` as the next denied class.
 | `fully_unsupervised_complex_mutation` | Proven live rehearsal class. | The 26-node first non-planning rehearsal is proven with all nodes completed, every stop gate cleared, per-node PR/CI/merge evidence, branch cleanup evidence, Sentinel/Promoter/Command closure, no concurrent mutation, no forbidden surfaces, and RSI denial preserved. | Broad RSI, claim publication, provider calls, credential use, release/deploy/publish/upload/tag authority, or unrestricted self-modification. |
 | `bounded_rsi_evidence_rehearsal` | Live-proven bounded evidence rehearsal state. | The 32-node bounded RSI evidence rehearsal is proven as evidence-only closure with Foundry final rollup, Promoter final verdict, Command class-decision readback, no authority broadening, no forbidden surfaces, and no hidden instruction mutation. It may be reported only as `bounded_rsi_evidence_rehearsal` live-proven. | Broad RSI, unrestricted self-modification, hidden instruction mutation, policy/auth/secret/provider/deploy/release/config/dependency expansion, claim publication, or any broader RSI claim. |
 | `bounded_rsi_self_improvement_application` | Proven live class. | Proven only for the exact private readback/eval rubric rehearsal, with baseline `0.60`, post-change `1.00`, improvement `0.40`, eval/regression passed, no denied-surface regressions, Foundry final rollup, Promoter verdict, and Command readback. | `broad_RSI`, unrestricted self-modification, hidden instruction mutation, policy/auth/secret/provider/deploy/release/config/dependency expansion, policy-changing autonomy, claim publication, or any broader RSI claim. |
-| `exact_safe_public_claim_wording_conservative_readback_evidence` | Highest proven live class. | Proven only for conservative public-safe tracked readback evidence for bounded improvement-claim review and retraction rehearsal. The approved public wording is exactly: "AO has public-safe tracked readback evidence for bounded improvement-claim review and retraction rehearsal; stronger recursive-improvement claims remain denied." Evidence comes from AO Foundry PR #179, commit `c8baee170100d8f3427e235180581caeb5ee93e0`, tracked public evidence under `docs/evidence/rsi-exact-safe-public-claim-wording/`, Covenant conservative wording approval, Architecture conservative wording approval, Sentinel clear-for-conservative hold-for-broad_RSI, Promoter promotion of only this exact class, and Command readback. | `broad_RSI`, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/dependency expansion, stronger recursive-improvement claims, or any unrestricted RSI claim. |
+| `exact_safe_public_claim_wording_conservative_readback_evidence` | Proven prior live class. | Proven only for conservative public-safe tracked readback evidence for bounded improvement-claim review and retraction rehearsal. The approved public wording is exactly: "AO has public-safe tracked readback evidence for bounded improvement-claim review and retraction rehearsal; stronger recursive-improvement claims remain denied." Evidence comes from AO Foundry PR #179, commit `c8baee170100d8f3427e235180581caeb5ee93e0`, tracked public evidence under `docs/evidence/rsi-exact-safe-public-claim-wording/`, Covenant conservative wording approval, Architecture conservative wording approval, Sentinel clear-for-conservative hold-for-broad_RSI, Promoter promotion of only this exact class, and Command readback. | `broad_RSI`, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/dependency expansion, stronger recursive-improvement claims, or any unrestricted RSI claim. |
+| `public_safe_bounded_improvement_evidence_expansion_four_attempts` | Highest proven live class. | Proven for four public-safe bounded evidence expansion attempts with reproducibility runbooks. Evidence comes from AO Foundry PR #181, commit `d31b6f2247780867c3c72dbda5abb7377f3a1b3e`, tracked public evidence under `docs/evidence/recursive-improvement-public-evidence-expansion/`, Attempt E release/readiness evidence quality `0.68` -> `0.91`, Attempt F security/public-safety scan quality `0.64` -> `0.90`, Attempt G operator readback UX `0.62` -> `0.88`, Attempt H cross-repo evidence linking `0.60` -> `0.87`, public-reader approval of narrow evidence expansion only, Covenant and Architecture narrow approval only, Sentinel clear-for-narrow hold-for-stronger wording, Promoter promotion of only this exact class, and Command readback. | `broad_RSI`, stronger recursive-improvement wording, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/dependency expansion, or any unrestricted RSI claim. |
 | `broad_RSI` | Denied. | No broad RSI authority is allowed by this ladder. | `broad_RSI` remains denied until its own explicit gates, evidence, and public-claim authority exist. |
 
 ## Latest Merged Evidence
@@ -94,6 +103,15 @@ class to that exact class and keeps `broad_RSI` as the next denied class.
   recursive-improvement claims remain denied." Covenant, Architecture, Sentinel,
   Promoter, and Command approve only that conservative evidence wording and keep
   `broad_RSI` denied.
+- AO Foundry PR #181, commit
+  `d31b6f2247780867c3c72dbda5abb7377f3a1b3e`, records
+  `public_safe_bounded_improvement_evidence_expansion_four_attempts` as proven with tracked public evidence under
+  `docs/evidence/recursive-improvement-public-evidence-expansion/`. Four public-safe bounded evidence expansion attempts are tracked
+  with reproducibility runbooks: release/readiness evidence quality, security/
+  public-safety scan quality, operator readback UX, and cross-repo evidence
+  linking. Public-reader, Covenant, and Architecture approve narrow evidence
+  expansion only; adversarial wording and Sentinel keep stronger recursive-
+  improvement wording denied; `broad_RSI` remains denied.
 
 ## Layer Responsibilities
 
@@ -131,6 +149,10 @@ Use this ladder when writing public claims:
   improvement-claim review and retraction rehearsal was proven; `broad_RSI`,
   stronger recursive-improvement claims, unrestricted self-modification, hidden
   instruction mutation, and policy-changing autonomy remain denied.
+- `public_safe_bounded_improvement_evidence_expansion_four_attempts` means only four public-safe bounded evidence expansion attempts with
+  reproducibility runbooks were proven; `broad_RSI`, stronger recursive-
+  improvement wording, unrestricted self-modification, hidden instruction
+  mutation, and policy-changing autonomy remain denied.
 - unrestricted self-modification remains denied.
 - hidden instruction mutation remains denied.
 - An event-loop continuation policy is not mutation authority; it can only stay
@@ -141,5 +163,5 @@ Use this ladder when writing public claims:
   config/dependency expansion remain denied.
 - Policy-changing autonomy remains denied.
 - The highest proven live class is
-  `exact_safe_public_claim_wording_conservative_readback_evidence`.
+  `public_safe_bounded_improvement_evidence_expansion_four_attempts`.
 - The next denied class remains `broad_RSI`.
