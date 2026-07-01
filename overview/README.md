@@ -156,11 +156,11 @@ Fully unsupervised complex live mutation is proven only inside the governed
 
 The current public ladder is documented in
 [Mutation Authority Ladder](MUTATION-AUTHORITY-LADDER.md). The highest proven
-live mutation class is `fully_unsupervised_complex_mutation`. Docs-only,
-test-only, low-risk-code, multi-repo low-risk, the governed 12-node complex
-mutation rehearsal, and the 26-node fully unsupervised complex first
-non-planning rehearsal are evidence-backed; fully unsupervised RSI remains
-denied. The completed complex rehearsals have context repack, repair plans,
+live class is `bounded_rsi_self_improvement_application`. Docs-only, test-only,
+low-risk-code, multi-repo low-risk, the governed 12-node complex mutation
+rehearsal, the 26-node fully unsupervised complex first non-planning rehearsal,
+and `bounded_rsi_evidence_rehearsal` remain evidence-backed; `broad_RSI`
+remains denied. The completed complex rehearsals have context repack, repair plans,
 low-risk decomposition, rollback graph, blocked-node handling, dependency
 gates, promotion gates, digest-bound closure evidence, Promoter final verdict,
 and Command class-decision readback. Foundry's Pulse event-loop policy may
@@ -172,6 +172,13 @@ Sentinel, Promoter, branch cleanup, and scope gates all pass.
 state only. It does not change the highest proven live class from
 `fully_unsupervised_complex_mutation`, does not prove broad RSI, and does not
 authorize unrestricted self-modification.
+
+`bounded_rsi_self_improvement_application` is proven only for the exact private
+readback/eval rubric rehearsal. It changes the highest proven live class to
+`bounded_rsi_self_improvement_application`, keeps `broad_RSI` as the next denied
+class, and keeps unrestricted self-modification, hidden instruction mutation,
+policy/auth/secret/provider/deploy/release/config/dependency expansion, and
+policy-changing autonomy denied.
 
 This distinction matters because dry-run readiness, approved live docs
 mutation, approved test-only mutation, approved low-risk code mutation,
@@ -226,8 +233,16 @@ The 2026-07-01 closure adds one precise public state:
 `b12ac9b62ab8d20b4092d2a5d13081607567e816`; the matching Promoter verdict and
 Command readback promote only the bounded evidence rehearsal and keep broad RSI,
 hidden instruction mutation, and unrestricted self-modification denied. The
-highest proven live class remains `fully_unsupervised_complex_mutation`, and the
-next denied class remains `RSI`.
+later bounded self-improvement application closure supersedes the current
+highest-class readback.
+
+The bounded self-improvement application closure adds one newer precise public
+state: `bounded_rsi_self_improvement_application` is proven only for the exact
+private readback/eval rubric rehearsal. The Foundry final rollup records
+baseline `0.60`, post-change `1.00`, improvement `0.40`, eval/regression
+passed, and no denied-surface regressions. Promoter accepts only that bounded
+application, and Command reads back `highest_proven_live_class` as
+`bounded_rsi_self_improvement_application` with `next_denied_class=broad_RSI`.
 
 AO Covenant now treats full autonomous self-mutating RSI wording as a governed
 `claim.publish` side effect. The `full-autonomous-self-mutating-rsi` resource is

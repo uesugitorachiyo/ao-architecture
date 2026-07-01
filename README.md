@@ -125,13 +125,13 @@ provider calls disabled, and repository mutation outside AO Command and Atlas.
 The stack now has a governed mutation-class ladder, not broad live mutation
 authority. The architecture source of truth is
 [overview/MUTATION-AUTHORITY-LADDER.md](overview/MUTATION-AUTHORITY-LADDER.md).
-The highest proven live mutation class is
-`fully_unsupervised_complex_mutation`: docs-only, test-only, low-risk code,
-multi-repo low-risk, the governed 12-node complex_repo_mutation rehearsal, and
-the 26-node fully unsupervised complex first non-planning rehearsal are proven
-through exact-scope live evidence. `bounded_rsi_evidence_rehearsal` is now
-live-proven as a bounded evidence rehearsal only. Fully unsupervised RSI remains
-denied.
+The highest proven live class is
+`bounded_rsi_self_improvement_application`. Docs-only, test-only, low-risk code,
+multi-repo low-risk, the governed 12-node complex_repo_mutation rehearsal, the
+26-node fully unsupervised complex first non-planning rehearsal, and
+`bounded_rsi_evidence_rehearsal` remain prior evidence. The new class is proven
+only for the exact private readback/eval rubric rehearsal. `broad_RSI` remains
+the next denied class.
 
 The current mirror includes the latest authority-ladder evidence: AO Atlas PR
 #34 upgrades the complex-class rehearsal graph with low-risk decomposition and a
@@ -192,6 +192,11 @@ What is proven:
   evidence rehearsal only. The final rollup, Promoter verdict, and Command
   readback keep broad RSI, hidden instruction mutation, and unrestricted
   self-modification denied.
+- `bounded_rsi_self_improvement_application` is proven only for the exact
+  private readback/eval rubric rehearsal. The Foundry final rollup records
+  baseline `0.60`, post-change `1.00`, improvement `0.40`, eval/regression
+  passed, no denied-surface regressions, highest proven live class
+  `bounded_rsi_self_improvement_application`, and next denied class `broad_RSI`.
 - Foundry's Pulse event-loop policy can continue without operator Q&A only
   inside the current proven class when `safe_to_execute=true` and all stop
   gates pass; the policy itself does not schedule, execute, approve, open PRs,
@@ -207,6 +212,7 @@ What is not proven:
 - no hidden instruction mutation, policy/auth/secret/provider/deploy/release/
   config/dependency expansion, broad RSI, or unrestricted self-modification is
   authorized;
+- no policy-changing autonomy is authorized;
 - passing the dry-run chain is not ungated live mutation authority;
 - the stack does not claim broad RSI or unrestricted self-improvement.
 
@@ -228,9 +234,9 @@ The current boundary is precise:
   the first docs-only boundary;
 - later live rehearsals do not promote fully unsupervised complex mutation or
   fully unsupervised RSI without their own gates and evidence.
-- the bounded RSI evidence rehearsal does not change the highest proven live
-  class: it remains `fully_unsupervised_complex_mutation`, and the next denied
-  class remains `RSI`.
+- the bounded RSI self-improvement application advances the highest proven live
+  class to `bounded_rsi_self_improvement_application` only for the exact private
+  readback/eval rubric rehearsal; the next denied class remains `broad_RSI`.
 
 ## Context Management Boundary
 
@@ -298,6 +304,16 @@ evidence rehearsal, and the Command readback says broad RSI, hidden
 self-modification, and unrestricted self-modification remain denied. This does
 not prove RSI, does not authorize unrestricted self-improvement, and does not
 allow hidden or policy-changing self-modification.
+
+The later bounded application closure proves only
+`bounded_rsi_self_improvement_application` for one exact private readback/eval
+rubric rehearsal. Its Foundry final rollup records baseline `0.60`, post-change
+`1.00`, improvement `0.40`, eval/regression passed, and no denied-surface
+regressions. Its Promoter verdict accepts only the bounded application, and its
+Command readback keeps `broad_RSI`, unrestricted self-modification, hidden
+instruction mutation, and policy/auth/secret/provider/deploy/release/config/
+dependency expansion denied. This is not broad RSI and does not authorize
+policy-changing autonomy.
 
 AO Covenant owns the wording gate for any stronger claim. Publishing a full
 autonomous self-mutating RSI claim is a `claim.publish` side effect for the
