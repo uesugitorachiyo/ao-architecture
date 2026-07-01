@@ -125,11 +125,11 @@ provider calls disabled, and repository mutation outside AO Command and Atlas.
 The stack now has a governed mutation-class ladder, not broad live mutation
 authority. The architecture source of truth is
 [overview/MUTATION-AUTHORITY-LADDER.md](overview/MUTATION-AUTHORITY-LADDER.md).
-The highest proven live mutation class is `complex_repo_mutation`: docs-only,
-test-only, low-risk code, multi-repo low-risk, and the governed 12-node
-complex_repo_mutation rehearsal are proven through exact-scope live evidence.
-Fully unsupervised complex repository mutation remains denied, and fully
-unsupervised RSI remains denied.
+The highest proven live mutation class is
+`fully_unsupervised_complex_mutation`: docs-only, test-only, low-risk code,
+multi-repo low-risk, the governed 12-node complex_repo_mutation rehearsal, and
+the 26-node fully unsupervised complex first non-planning rehearsal are proven
+through exact-scope live evidence. Fully unsupervised RSI remains denied.
 
 The current mirror includes the latest authority-ladder evidence: AO Atlas PR
 #34 upgrades the complex-class rehearsal graph with low-risk decomposition and a
@@ -173,12 +173,17 @@ What is proven:
   `start_first_docs_only_live_pr_rehearsal`, without starting the rehearsal.
 - docs-only live rehearsals and the bounded `test_only` live rehearsal advanced
   the ladder through `test_only`; later evidence now advances the current
-  highest proven live class to `complex_repo_mutation`.
+  highest proven live class to `fully_unsupervised_complex_mutation`.
 - Atlas, Foundry, Sentinel, Promoter, and Command completed a governed 12-node
   `complex_repo_mutation` rehearsal with context repack, repair plans,
   low-risk decomposition, rollback graph, blocked-node handling, dependency
   gates, serialized execution, PR/CI/merge evidence, and digest-bound closure
   evidence.
+- Atlas, Foundry, Sentinel, Promoter, and Command completed the 26-node
+  `fully_unsupervised_complex_mutation` first non-planning rehearsal with all
+  nodes completed, every stop gate cleared, PR/CI/merge evidence, branch
+  cleanup evidence, no concurrent mutation, no forbidden surfaces, Promoter
+  final promotion, Command class-decision readback, and RSI denial preserved.
 - Foundry's Pulse event-loop policy can continue without operator Q&A only
   inside the current proven class when `safe_to_execute=true` and all stop
   gates pass; the policy itself does not schedule, execute, approve, open PRs,
@@ -186,8 +191,8 @@ What is proven:
 
 What is not proven:
 
-- no mutation broader than the governed `complex_repo_mutation` rehearsal is
-  approved or proven;
+- no mutation broader than the governed 26-node fully unsupervised complex first
+  non-planning rehearsal is approved or proven;
 - no provider call, release, upload, tag, or publish action is authorized;
 - no component may bypass Covenant, Sentinel, Promoter, rollback, worktree, PR
   lifecycle, or operator kill-switch evidence;

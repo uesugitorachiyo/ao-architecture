@@ -167,10 +167,11 @@ large work:
 - both artifacts stay fixture/readback material until Foundry chooses a safe
   delegated task.
 
-The highest proven live mutation class remains `test_only`. Atlas can classify
-`low_risk_code`, `multi_repo_low_risk`, and `complex_repo_mutation` workgraphs
-for dry-run/readback, but it does not promote those classes or mark them safe to
-execute.
+The highest proven live mutation class is now
+`fully_unsupervised_complex_mutation`. Atlas can classify and compile
+workgraphs through that boundary, including repair/repack and Foundry handoff
+artifacts, but it does not execute live mutation or bypass Foundry, Sentinel,
+Promoter, Command, rollback, CI, branch cleanup, and class gates.
 
 ### First Docs-Only Scope Boundary
 

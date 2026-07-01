@@ -75,9 +75,10 @@ Sentinel, rollback rehearsal, and AO Command readback before it can report that
 the docs-only PR rehearsal boundary is satisfied.
 
 Promoter still does not perform live execution by default. Its boundary can
-distinguish dry-run activation readiness from a live docs-only PR rehearsal
-decision, but it cannot turn missing approval into permission, bypass Sentinel,
-or promote fully unsupervised complex live mutation.
+distinguish dry-run activation readiness from live rehearsal promotion evidence,
+including the completed fully unsupervised complex first non-planning closure,
+but it cannot turn missing approval into permission, bypass Sentinel, or promote
+fully unsupervised RSI.
 
 ## Agent Roles And Skills
 
