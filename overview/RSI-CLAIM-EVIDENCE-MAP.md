@@ -28,6 +28,17 @@ readback/eval rubric rehearsal. It advances the highest proven live class to
 instruction mutation, policy/auth/secret/provider/deploy/release/config/
 dependency expansion, and policy-changing autonomy denied.
 
+`exact_safe_public_claim_wording_conservative_readback_evidence` is proven only
+for conservative public-safe tracked readback evidence around bounded
+improvement-claim review and retraction rehearsal. The approved public wording is
+exactly: "AO has public-safe tracked readback evidence for bounded
+improvement-claim review and retraction rehearsal; stronger recursive-improvement
+claims remain denied." It advances the highest proven live class to
+`exact_safe_public_claim_wording_conservative_readback_evidence`, keeps the next
+denied class at `broad_RSI`, and keeps unrestricted self-modification, hidden
+instruction mutation, policy-changing autonomy, and stronger
+recursive-improvement claims denied.
+
 ## Active Evidence Chain
 
 | Step | Owner | Artifact or command | Claim contribution |
@@ -78,6 +89,9 @@ dependency expansion, and policy-changing autonomy denied.
 | 44 | AO Foundry | `ao.foundry.rsi-self-improvement-application-final-rollup.v0.1` | Records `bounded_rsi_self_improvement_application=proven` only for the exact private readback/eval rubric rehearsal, with baseline `0.60`, post-change `1.00`, improvement `0.40`, eval/regression `passed`, no denied-surface regressions, highest proven live class `bounded_rsi_self_improvement_application`, and next denied class `broad_RSI`. |
 | 45 | AO Promoter | `ao.promoter.rsi-self-improvement-application-verdict.v0.1` | Accepts the bounded self-improvement application because objective improvement and regression evidence passed within exact private readback/eval scope; broad RSI remains denied. |
 | 46 | AO Command | `ao.command.rsi-self-improvement-application-readback.v0.1` | Reads back `class_decision=bounded_rsi_self_improvement_application_proven`, denies `broad_RSI`, unrestricted self-modification, hidden instruction mutation, and policy/auth/secret/provider/deploy/release/config/dependency expansion, and reports `next_denied_class=broad_RSI`. |
+| 47 | AO Foundry | AO Foundry PR #179, commit `c8baee170100d8f3427e235180581caeb5ee93e0`, `docs/evidence/rsi-exact-safe-public-claim-wording/final-rollup.json` | Records `exact_safe_public_claim_wording_conservative_readback_evidence=proven` with tracked public evidence under `docs/evidence/rsi-exact-safe-public-claim-wording/`, approved exact wording for conservative readback evidence, and `broad_RSI` denied. |
+| 48 | AO Covenant / AO Architecture / AO Sentinel | Conservative wording gate results | Covenant result `approved_conservative_readback_evidence_only_wording_broad_RSI_denied`, Architecture result `approved_conservative_readback_evidence_only_wording_broad_RSI_denied`, and Sentinel result `clear_for_conservative_readback_wording_hold_for_broad_RSI` approve only the exact conservative public wording and hold stronger recursive-improvement claims. |
+| 49 | AO Promoter / AO Command | Final promotion and readback | Promoter result `promote_exact_safe_public_claim_wording_conservative_readback_evidence_broad_RSI_denied` and Command result `exact_safe_public_claim_wording_conservative_readback_evidence_proven_broad_RSI_denied` name the exact proven class while keeping `broad_RSI` denied. |
 
 ## Execution And Readback Repositories
 
@@ -133,12 +147,21 @@ six requirements for a broad claim. It proves only
 `bounded_rsi_self_improvement_application` for the exact private readback/eval
 rubric rehearsal.
 
+The exact safe public claim wording closure does not satisfy those six
+requirements for a broad claim either. It proves only
+`exact_safe_public_claim_wording_conservative_readback_evidence` and only
+approves this exact wording: "AO has public-safe tracked readback evidence for
+bounded improvement-claim review and retraction rehearsal; stronger
+recursive-improvement claims remain denied."
+
 The separate mutation authority ladder is narrower than this RSI claim boundary.
-The highest proven live class is `bounded_rsi_self_improvement_application`;
-docs-only, test-only, low-risk-code, multi-repo low-risk, governed complex
-mutation, fully unsupervised complex first non-planning, bounded evidence
-rehearsal, and bounded private readback/eval application evidence do not prove
-broad RSI or authority to publish a broad RSI claim. `broad_RSI` remains denied.
+The highest proven live class is
+`exact_safe_public_claim_wording_conservative_readback_evidence`; docs-only,
+test-only, low-risk-code, multi-repo low-risk, governed complex mutation, fully
+unsupervised complex first non-planning, bounded evidence rehearsal, bounded
+private readback/eval application evidence, and conservative public-safe
+readback evidence do not prove broad RSI or authority to publish a broad RSI
+claim. `broad_RSI` remains denied.
 
 ## Machine-Readable Manifest
 

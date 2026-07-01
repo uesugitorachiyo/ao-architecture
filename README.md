@@ -126,11 +126,13 @@ The stack now has a governed mutation-class ladder, not broad live mutation
 authority. The architecture source of truth is
 [overview/MUTATION-AUTHORITY-LADDER.md](overview/MUTATION-AUTHORITY-LADDER.md).
 The highest proven live class is
-`bounded_rsi_self_improvement_application`. Docs-only, test-only, low-risk code,
-multi-repo low-risk, the governed 12-node complex_repo_mutation rehearsal, the
-26-node fully unsupervised complex first non-planning rehearsal, and
-`bounded_rsi_evidence_rehearsal` remain prior evidence. The new class is proven
-only for the exact private readback/eval rubric rehearsal. `broad_RSI` remains
+`exact_safe_public_claim_wording_conservative_readback_evidence`. Docs-only,
+test-only, low-risk code, multi-repo low-risk, the governed 12-node
+complex_repo_mutation rehearsal, the 26-node fully unsupervised complex first
+non-planning rehearsal, `bounded_rsi_evidence_rehearsal`, and
+`bounded_rsi_self_improvement_application` remain prior evidence. The current
+class is proven only for conservative public-safe readback evidence around
+bounded improvement-claim review and retraction rehearsal. `broad_RSI` remains
 the next denied class.
 
 The current mirror includes the latest authority-ladder evidence: AO Atlas PR
@@ -197,6 +199,15 @@ What is proven:
   baseline `0.60`, post-change `1.00`, improvement `0.40`, eval/regression
   passed, no denied-surface regressions, highest proven live class
   `bounded_rsi_self_improvement_application`, and next denied class `broad_RSI`.
+- `exact_safe_public_claim_wording_conservative_readback_evidence` is proven
+  from AO Foundry PR #179, commit
+  `c8baee170100d8f3427e235180581caeb5ee93e0`, and the tracked public evidence in
+  `docs/evidence/rsi-exact-safe-public-claim-wording/`. The approved public
+  wording is exactly: "AO has public-safe tracked readback evidence for bounded
+  improvement-claim review and retraction rehearsal; stronger
+  recursive-improvement claims remain denied." Covenant, Architecture, Sentinel,
+  Promoter, and Command approve only that conservative wording; `broad_RSI`
+  remains denied.
 - Foundry's Pulse event-loop policy can continue without operator Q&A only
   inside the current proven class when `safe_to_execute=true` and all stop
   gates pass; the policy itself does not schedule, execute, approve, open PRs,
@@ -234,9 +245,10 @@ The current boundary is precise:
   the first docs-only boundary;
 - later live rehearsals do not promote fully unsupervised complex mutation or
   fully unsupervised RSI without their own gates and evidence.
-- the bounded RSI self-improvement application advances the highest proven live
-  class to `bounded_rsi_self_improvement_application` only for the exact private
-  readback/eval rubric rehearsal; the next denied class remains `broad_RSI`.
+- the exact safe public claim wording closure advances the highest proven live
+  class to `exact_safe_public_claim_wording_conservative_readback_evidence` only
+  for conservative public-safe readback evidence; the next denied class remains
+  `broad_RSI`.
 
 ## Context Management Boundary
 
@@ -314,6 +326,21 @@ Command readback keeps `broad_RSI`, unrestricted self-modification, hidden
 instruction mutation, and policy/auth/secret/provider/deploy/release/config/
 dependency expansion denied. This is not broad RSI and does not authorize
 policy-changing autonomy.
+
+The exact safe public claim wording closure proves only
+`exact_safe_public_claim_wording_conservative_readback_evidence`. AO Foundry PR
+#179 merged at `c8baee170100d8f3427e235180581caeb5ee93e0`, and the tracked
+public evidence is under
+`docs/evidence/rsi-exact-safe-public-claim-wording/`. The approved public wording
+is exactly: "AO has public-safe tracked readback evidence for bounded
+improvement-claim review and retraction rehearsal; stronger recursive-improvement
+claims remain denied." Covenant approved conservative readback evidence only,
+Architecture approved conservative readback evidence only, Sentinel cleared only
+the conservative wording while holding broad_RSI wording, Promoter promoted only
+the exact safe public claim wording class, and Command read back that the exact
+safe wording evidence is proven. This does not prove `broad_RSI`, unrestricted
+self-modification, hidden instruction mutation, policy-changing autonomy, or any
+stronger recursive-improvement claim.
 
 AO Covenant owns the wording gate for any stronger claim. Publishing a full
 autonomous self-mutating RSI claim is a `claim.publish` side effect for the
