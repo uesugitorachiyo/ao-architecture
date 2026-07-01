@@ -126,15 +126,16 @@ The stack now has a governed mutation-class ladder, not broad live mutation
 authority. The architecture source of truth is
 [overview/MUTATION-AUTHORITY-LADDER.md](overview/MUTATION-AUTHORITY-LADDER.md).
 The highest proven live class is
-`public_safe_causal_review_evidence_selection_guidance`. Docs-only,
+`public_safe_guided_evidence_application_four_attempts`. Docs-only,
 test-only, low-risk code, multi-repo low-risk, the governed 12-node
 complex_repo_mutation rehearsal, the 26-node fully unsupervised complex first
 non-planning rehearsal, `bounded_rsi_evidence_rehearsal`, and
 `bounded_rsi_self_improvement_application` remain prior evidence. The current
-class is proven only for public-safe causal-review evidence that prior bounded
-evidence can guide later evidence-selection and blocker prioritization under
-independent review gates. The guard says stronger recursive-improvement wording
-remains denied. `broad_RSI` remains the next denied class.
+class is proven only for public-safe guided evidence-application evidence
+showing causal-review guidance can select and prioritize later bounded evidence
+attempts under independent gates. The guard says stronger
+recursive-improvement wording remains denied. `broad_RSI` remains the next
+denied class.
 
 The current mirror includes the latest authority-ladder evidence: AO Atlas PR
 #34 upgrades the complex-class rehearsal graph with low-risk decomposition and a
@@ -367,6 +368,18 @@ hidden instruction mutation, and policy-changing autonomy remain denied.
 
 `public_safe_causal_review_evidence_selection_guidance` is proven from AO Foundry PR #191, commit `413b70f15d8f3d0203dc7be076914a2f3b539881`, with tracked public evidence under
 `docs/evidence/recursive-improvement-evidence-selection-guidance/`. The approved public wording is exactly: "AO has public-safe causal-review evidence that prior bounded evidence can guide later evidence-selection and blocker prioritization under independent review gates; stronger recursive-improvement wording and broad_RSI remain denied." This advances the highest proven live class to that exact narrow class. Stronger recursive-improvement wording remains denied, and `broad_RSI`, unrestricted self-modification, hidden instruction mutation, and policy-changing autonomy remain denied.
+
+`public_safe_guided_evidence_application_four_attempts` is proven from AO
+Foundry PR #193, commit `4ec509fd64d1fc1ea41ea7f22aae900ba79e09a1`, with
+tracked public evidence under
+`docs/evidence/recursive-improvement-guided-evidence-application/`. The approved
+public wording is exactly: "AO has public-safe guided evidence-application
+evidence showing causal-review guidance can select and prioritize later bounded
+evidence attempts under independent gates; stronger recursive-improvement
+wording and broad_RSI remain denied." This advances the highest proven live
+class to that exact narrow class. Stronger recursive-improvement wording remains
+denied, and `broad_RSI`, unrestricted self-modification, hidden instruction
+mutation, and policy-changing autonomy remain denied.
 
 
 AO Covenant owns the wording gate for any stronger claim. Publishing a full
