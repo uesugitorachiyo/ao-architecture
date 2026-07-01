@@ -55,7 +55,7 @@ REQUIRED_LIVE_MUTATION_LADDER_TERMS = [
     "multi_repo_low_risk",
     "complex_repo_mutation",
     "fully_unsupervised_complex_mutation",
-    "highest proven live class is\n`exact_safe_public_claim_wording_conservative_readback_evidence`",
+    "highest proven live class is\n`public_safe_bounded_improvement_evidence_expansion_four_attempts`",
     "governed 12-node complex",
     "26-node fully unsupervised complex",
     "bounded_rsi_evidence_rehearsal",
@@ -64,9 +64,13 @@ REQUIRED_LIVE_MUTATION_LADDER_TERMS = [
     "proven only for the exact",
     "private readback/eval rubric rehearsal",
     "exact_safe_public_claim_wording_conservative_readback_evidence",
+    "public_safe_bounded_improvement_evidence_expansion_four_attempts",
+    "four public-safe bounded evidence expansion attempts",
+    "reproducibility runbooks",
     "conservative public-safe tracked readback evidence",
     "public-safe tracked readback evidence",
     "stronger recursive-improvement claims remain denied",
+    "stronger recursive-improvement wording remains denied",
     "broad_RSI` remains denied",
     "unrestricted self-modification remains denied",
     "broad_RSI",
@@ -74,6 +78,9 @@ REQUIRED_LIVE_MUTATION_LADDER_TERMS = [
     "policy/auth/secret/provider/deploy/release/config/dependency expansion",
     "policy-changing autonomy",
     "next denied class remains `broad_RSI`",
+    "AO Foundry PR #181",
+    "d31b6f2247780867c3c72dbda5abb7377f3a1b3e",
+    "docs/evidence/recursive-improvement-public-evidence-expansion/",
 ]
 
 REQUIRED_BLUEPRINT_ATLAS_FOUNDRY_TERMS = [
@@ -123,6 +130,7 @@ REQUIRED_RSI_CLAIMS = [
     "docs/evidence/rsi-exact-safe-public-claim-wording/",
     "public-safe tracked readback evidence",
     "stronger recursive-improvement claims remain denied",
+    "stronger recursive-improvement wording remains denied",
 ]
 
 REQUIRED_RSI_MAP_TERMS = [
@@ -166,6 +174,9 @@ REQUIRED_RSI_MAP_TERMS = [
     "clear_for_conservative_readback_wording_hold_for_broad_RSI",
     "promote_exact_safe_public_claim_wording_conservative_readback_evidence_broad_RSI_denied",
     "exact_safe_public_claim_wording_conservative_readback_evidence_proven_broad_RSI_denied",
+    "public_safe_bounded_improvement_evidence_expansion_four_attempts=proven",
+    "promote_public_safe_bounded_improvement_evidence_expansion_four_attempts_broad_RSI_denied",
+    "public_safe_bounded_improvement_evidence_expansion_four_attempts proven; stronger recursive-improvement wording denied; broad_RSI denied",
     "broad_RSI",
     "mutation authority",
     "rollback evidence",

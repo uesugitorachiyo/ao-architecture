@@ -33,11 +33,15 @@ for conservative public-safe tracked readback evidence around bounded
 improvement-claim review and retraction rehearsal. The approved public wording is
 exactly: "AO has public-safe tracked readback evidence for bounded
 improvement-claim review and retraction rehearsal; stronger recursive-improvement
-claims remain denied." It advances the highest proven live class to
-`exact_safe_public_claim_wording_conservative_readback_evidence`, keeps the next
-denied class at `broad_RSI`, and keeps unrestricted self-modification, hidden
-instruction mutation, policy-changing autonomy, and stronger
-recursive-improvement claims denied.
+claims remain denied." It remains prior evidence and keeps unrestricted
+self-modification, hidden instruction mutation, policy-changing autonomy, and
+stronger recursive-improvement claims denied.
+
+`public_safe_bounded_improvement_evidence_expansion_four_attempts` is proven for four public-safe bounded evidence expansion attempts with
+reproducibility runbooks. It advances the highest proven live class to
+`public_safe_bounded_improvement_evidence_expansion_four_attempts`, keeps the next denied class at `broad_RSI`, and keeps stronger
+recursive-improvement wording, unrestricted self-modification, hidden instruction
+mutation, policy-changing autonomy, and broad RSI denied.
 
 ## Active Evidence Chain
 
@@ -92,6 +96,9 @@ recursive-improvement claims denied.
 | 47 | AO Foundry | AO Foundry PR #179, commit `c8baee170100d8f3427e235180581caeb5ee93e0`, `docs/evidence/rsi-exact-safe-public-claim-wording/final-rollup.json` | Records `exact_safe_public_claim_wording_conservative_readback_evidence=proven` with tracked public evidence under `docs/evidence/rsi-exact-safe-public-claim-wording/`, approved exact wording for conservative readback evidence, and `broad_RSI` denied. |
 | 48 | AO Covenant / AO Architecture / AO Sentinel | Conservative wording gate results | Covenant result `approved_conservative_readback_evidence_only_wording_broad_RSI_denied`, Architecture result `approved_conservative_readback_evidence_only_wording_broad_RSI_denied`, and Sentinel result `clear_for_conservative_readback_wording_hold_for_broad_RSI` approve only the exact conservative public wording and hold stronger recursive-improvement claims. |
 | 49 | AO Promoter / AO Command | Final promotion and readback | Promoter result `promote_exact_safe_public_claim_wording_conservative_readback_evidence_broad_RSI_denied` and Command result `exact_safe_public_claim_wording_conservative_readback_evidence_proven_broad_RSI_denied` name the exact proven class while keeping `broad_RSI` denied. |
+| 50 | AO Foundry | AO Foundry PR #181, commit `d31b6f2247780867c3c72dbda5abb7377f3a1b3e`, `docs/evidence/recursive-improvement-public-evidence-expansion/final-rollup.json` | Records `public_safe_bounded_improvement_evidence_expansion_four_attempts=proven` with four public-safe bounded evidence expansion attempts, reproducibility runbooks, and tracked evidence under `docs/evidence/recursive-improvement-public-evidence-expansion/`. |
+| 51 | AO Covenant / AO Architecture / AO Sentinel | Narrow evidence expansion gate results | Covenant and Architecture approve narrow evidence expansion only; Sentinel clears the narrow evidence expansion and holds stronger recursive-improvement wording. |
+| 52 | AO Promoter / AO Command | Final promotion and readback | Promoter result `promote_public_safe_bounded_improvement_evidence_expansion_four_attempts_broad_RSI_denied` and Command readback `public_safe_bounded_improvement_evidence_expansion_four_attempts proven; stronger recursive-improvement wording denied; broad_RSI denied` name the exact proven class while keeping `broad_RSI` denied. |
 
 ## Execution And Readback Repositories
 
@@ -154,14 +161,20 @@ approves this exact wording: "AO has public-safe tracked readback evidence for
 bounded improvement-claim review and retraction rehearsal; stronger
 recursive-improvement claims remain denied."
 
+The public-safe bounded improvement evidence expansion closure also does not
+satisfy those six requirements for a broad claim. It proves only `public_safe_bounded_improvement_evidence_expansion_four_attempts` with
+four tracked public-safe bounded evidence expansion attempts and reproducibility
+runbooks; stronger recursive-improvement wording remains denied.
+
 The separate mutation authority ladder is narrower than this RSI claim boundary.
 The highest proven live class is
-`exact_safe_public_claim_wording_conservative_readback_evidence`; docs-only,
+`public_safe_bounded_improvement_evidence_expansion_four_attempts`; docs-only,
 test-only, low-risk-code, multi-repo low-risk, governed complex mutation, fully
 unsupervised complex first non-planning, bounded evidence rehearsal, bounded
 private readback/eval application evidence, and conservative public-safe
-readback evidence do not prove broad RSI or authority to publish a broad RSI
-claim. `broad_RSI` remains denied.
+readback evidence, and four public-safe bounded evidence expansion attempts do
+not prove broad RSI or authority to publish a broad RSI claim. `broad_RSI`
+remains denied.
 
 ## Machine-Readable Manifest
 

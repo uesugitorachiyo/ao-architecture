@@ -126,7 +126,7 @@ The stack now has a governed mutation-class ladder, not broad live mutation
 authority. The architecture source of truth is
 [overview/MUTATION-AUTHORITY-LADDER.md](overview/MUTATION-AUTHORITY-LADDER.md).
 The highest proven live class is
-`exact_safe_public_claim_wording_conservative_readback_evidence`. Docs-only,
+`public_safe_bounded_improvement_evidence_expansion_four_attempts`. Docs-only,
 test-only, low-risk code, multi-repo low-risk, the governed 12-node
 complex_repo_mutation rehearsal, the 26-node fully unsupervised complex first
 non-planning rehearsal, `bounded_rsi_evidence_rehearsal`, and
@@ -208,6 +208,11 @@ What is proven:
   recursive-improvement claims remain denied." Covenant, Architecture, Sentinel,
   Promoter, and Command approve only that conservative wording; `broad_RSI`
   remains denied.
+- `public_safe_bounded_improvement_evidence_expansion_four_attempts` is proven from AO Foundry PR #181, commit `d31b6f2247780867c3c72dbda5abb7377f3a1b3e`, with tracked public evidence under
+  `docs/evidence/recursive-improvement-public-evidence-expansion/`. The four new public-safe bounded evidence expansion attempts
+  include release/readiness evidence quality, security/public-safety scan quality,
+  operator readback UX, and cross-repo evidence linking. Stronger
+  recursive-improvement wording remains denied, and `broad_RSI` remains denied.
 - Foundry's Pulse event-loop policy can continue without operator Q&A only
   inside the current proven class when `safe_to_execute=true` and all stop
   gates pass; the policy itself does not schedule, execute, approve, open PRs,
@@ -327,7 +332,7 @@ instruction mutation, and policy/auth/secret/provider/deploy/release/config/
 dependency expansion denied. This is not broad RSI and does not authorize
 policy-changing autonomy.
 
-The exact safe public claim wording closure proves only
+The exact safe public claim wording closure remains prior evidence for
 `exact_safe_public_claim_wording_conservative_readback_evidence`. AO Foundry PR
 #179 merged at `c8baee170100d8f3427e235180581caeb5ee93e0`, and the tracked
 public evidence is under
@@ -341,6 +346,18 @@ the exact safe public claim wording class, and Command read back that the exact
 safe wording evidence is proven. This does not prove `broad_RSI`, unrestricted
 self-modification, hidden instruction mutation, policy-changing autonomy, or any
 stronger recursive-improvement claim.
+
+The public-safe bounded improvement evidence expansion closure proves
+`public_safe_bounded_improvement_evidence_expansion_four_attempts`. AO Foundry PR #181, commit `d31b6f2247780867c3c72dbda5abb7377f3a1b3e` records four public-safe bounded evidence expansion attempts with
+reproducibility runbooks under `docs/evidence/recursive-improvement-public-evidence-expansion/`. Attempt E improves release/readiness
+evidence quality from `0.68` to `0.91`; Attempt F improves security/public-safety
+scan quality from `0.64` to `0.90`; Attempt G improves operator readback UX from
+`0.62` to `0.88`; Attempt H improves cross-repo evidence linking from `0.60` to
+`0.87`. Public-reader, Covenant, and Architecture approve narrow evidence
+expansion only; adversarial wording denies stronger recursive-improvement
+wording; Sentinel clears the narrow evidence expansion and holds stronger
+recursive-improvement wording. `broad_RSI`, unrestricted self-modification,
+hidden instruction mutation, and policy-changing autonomy remain denied.
 
 AO Covenant owns the wording gate for any stronger claim. Publishing a full
 autonomous self-mutating RSI claim is a `claim.publish` side effect for the
