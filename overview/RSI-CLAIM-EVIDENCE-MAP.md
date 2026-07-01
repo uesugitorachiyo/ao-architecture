@@ -99,6 +99,9 @@ mutation, policy-changing autonomy, and broad RSI denied.
 | 50 | AO Foundry | AO Foundry PR #181, commit `d31b6f2247780867c3c72dbda5abb7377f3a1b3e`, `docs/evidence/recursive-improvement-public-evidence-expansion/final-rollup.json` | Records `public_safe_bounded_improvement_evidence_expansion_four_attempts=proven` with four public-safe bounded evidence expansion attempts, reproducibility runbooks, and tracked evidence under `docs/evidence/recursive-improvement-public-evidence-expansion/`. |
 | 51 | AO Covenant / AO Architecture / AO Sentinel | Narrow evidence expansion gate results | Covenant and Architecture approve narrow evidence expansion only; Sentinel clears the narrow evidence expansion and holds stronger recursive-improvement wording. |
 | 52 | AO Promoter / AO Command | Final promotion and readback | Promoter result `promote_public_safe_bounded_improvement_evidence_expansion_four_attempts_broad_RSI_denied` and Command readback `public_safe_bounded_improvement_evidence_expansion_four_attempts proven; stronger recursive-improvement wording denied; broad_RSI denied` name the exact proven class while keeping `broad_RSI` denied. |
+| 53 | AO Foundry | AO Foundry PR #187, commit `ee55f7918b86f997922707e4c0b2ba6536fe43cf`, `docs/evidence/recursive-improvement-reviewed-boundary-generalization/final-rollup.json` | Records `public_safe_reviewed_causal_chain_boundary_generalization_evidence=proven` with 480 completed reviewed-boundary nodes and tracked public evidence under `docs/evidence/recursive-improvement-reviewed-boundary-generalization/`. |
+| 54 | AO Covenant / AO Architecture / AO Sentinel | Reviewed boundary wording gate results | Covenant and Architecture approve narrow reviewed boundary generalization only; Sentinel clears the narrow reviewed boundary wording and holds stronger recursive-improvement wording and `broad_RSI`. |
+| 55 | AO Promoter / AO Command | Final promotion and readback | Promoter result `promote_public_safe_reviewed_causal_chain_boundary_generalization_evidence_keep_broad_RSI_denied` and Command readback `public_safe_reviewed_causal_chain_boundary_generalization_evidence_proven_stronger_recursive_improvement_denied_broad_RSI_denied` name the exact proven class while keeping `broad_RSI` denied. |
 
 ## Execution And Readback Repositories
 
@@ -165,10 +168,13 @@ The public-safe bounded improvement evidence expansion closure also does not
 satisfy those six requirements for a broad claim. It proves only `public_safe_bounded_improvement_evidence_expansion_four_attempts` with
 four tracked public-safe bounded evidence expansion attempts and reproducibility
 runbooks; stronger recursive-improvement wording remains denied.
+`public_safe_reviewed_causal_chain_boundary_generalization_evidence` is proven from AO Foundry PR #187, commit `ee55f7918b86f997922707e4c0b2ba6536fe43cf`, with tracked public evidence under
+`docs/evidence/recursive-improvement-reviewed-boundary-generalization/`. The approved public wording is exactly: "AO has public-safe reviewed causal-chain boundary generalization evidence across multiple independent claim-review roles; stronger recursive-improvement wording and broad_RSI remain denied." This advances the highest proven live class to that exact narrow class. Stronger recursive-improvement wording remains denied, and `broad_RSI`, unrestricted self-modification, hidden instruction mutation, and policy-changing autonomy remain denied.
+
 
 The separate mutation authority ladder is narrower than this RSI claim boundary.
 The highest proven live class is
-`public_safe_bounded_improvement_evidence_expansion_four_attempts`; docs-only,
+`public_safe_reviewed_causal_chain_boundary_generalization_evidence`; docs-only,
 test-only, low-risk-code, multi-repo low-risk, governed complex mutation, fully
 unsupervised complex first non-planning, bounded evidence rehearsal, bounded
 private readback/eval application evidence, and conservative public-safe
