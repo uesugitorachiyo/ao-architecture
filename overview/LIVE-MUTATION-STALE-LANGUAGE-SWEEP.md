@@ -3,8 +3,8 @@
 This sweep checks public AO stack wording after the mutation-class ladder work.
 The current public boundary remains:
 
-- the highest proven live mutation class is
-  `fully_unsupervised_complex_mutation`;
+- the highest proven live class is
+  `bounded_rsi_self_improvement_application`;
 - `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
   `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
   `complex_repo_mutation` are separate lower authority classes;
@@ -16,10 +16,14 @@ The current public boundary remains:
   26-node first non-planning rehearsal boundary;
 - `bounded_rsi_evidence_rehearsal` is live-proven only as a bounded evidence
   rehearsal state;
+- `bounded_rsi_self_improvement_application` is proven only for the exact
+  private readback/eval rubric rehearsal;
+- `broad_RSI` remains denied;
 - fully unsupervised RSI remains denied;
 - broad RSI, unrestricted self-modification, hidden instruction mutation, and
   policy/auth/secret/provider/deploy/release/config/dependency expansion remain
   denied;
+- policy-changing autonomy remains denied;
 - no AO component grants ungated live mutation authority.
 
 ## Sweep Commands
@@ -30,7 +34,7 @@ Run these from the AO workspace root:
 rg -n -i "six active|6 active|six repositories|6 repositories|six active repos|6 active repos" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
 rg -n -i "safe_to_execute(=|:| true)|safe to execute|production ready for live mutation|fully autonomous live mutation|ungated live mutation authority|grant[s]? ungated|claims? ungated|fully unsupervised complex" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
 rg -n -i "self-mutating RSI|full autonomous self-mutating RSI" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
-rg -n -i "RSI proven|broad RSI|unrestricted self-modification|hidden instruction mutation|fully autonomous RSI|highest proven live class|next denied class" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
+rg -n -i "RSI is proven|broad RSI is proven|unrestricted self-modification|hidden instruction mutation allowed|policy-changing autonomy|fully autonomous RSI|highest proven live class|next denied class" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
 ```
 
 ## Result Interpretation
@@ -50,7 +54,8 @@ The sweep should treat these as acceptable hits:
 - statements that broad RSI, unrestricted self-modification, and hidden
   instruction mutation remain denied;
 - statements that the highest proven live class remains
-  `fully_unsupervised_complex_mutation` and the next denied class remains `RSI`.
+  `bounded_rsi_self_improvement_application` and the next denied class remains
+  `broad_RSI`.
 
 The sweep should treat these as stale or unsafe:
 
@@ -70,6 +75,9 @@ The sweep should treat these as stale or unsafe:
 - any statement that hidden instructions or policy/auth/secret/provider/deploy/
   release/config/dependency surfaces may be mutated by the bounded RSI evidence
   rehearsal.
+- any positive pass claim for broad RSI;
+- any statement that hidden instruction mutation is allowed;
+- any statement that grants policy-changing autonomy.
 
 As of this sweep, no stale active-stack count or broad live-mutation approval
 claim is expected to remain in the public documentation.

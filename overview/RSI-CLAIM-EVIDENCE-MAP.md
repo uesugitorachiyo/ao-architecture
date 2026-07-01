@@ -17,10 +17,16 @@ claim has passed the Covenant gate and the required evidence exists.
 
 `bounded_rsi_evidence_rehearsal` is live-proven as a bounded evidence rehearsal
 state only. It is evidence for the bounded workflow, not a new broad RSI claim.
-The highest proven live class remains `fully_unsupervised_complex_mutation`, the
-next denied class remains `RSI`, and broad RSI, unrestricted self-modification,
-hidden instruction mutation, and policy/auth/secret/provider/deploy/release/
-config/dependency expansion remain denied.
+It does not claim broad RSI, unrestricted self-modification, hidden instruction
+mutation, or policy/auth/secret/provider/deploy/release/config/dependency
+expansion.
+
+`bounded_rsi_self_improvement_application` is proven only for the exact private
+readback/eval rubric rehearsal. It advances the highest proven live class to
+`bounded_rsi_self_improvement_application`, keeps the next denied class at
+`broad_RSI`, and keeps broad RSI, unrestricted self-modification, hidden
+instruction mutation, policy/auth/secret/provider/deploy/release/config/
+dependency expansion, and policy-changing autonomy denied.
 
 ## Active Evidence Chain
 
@@ -67,6 +73,11 @@ config/dependency expansion remain denied.
 | 39 | AO Foundry | AO Foundry PR #175, commit `b12ac9b62ab8d20b4092d2a5d13081607567e816` | Records the final bounded RSI evidence rehearsal closure: 32 nodes completed, all stop gates cleared, `bounded_rsi_evidence_rehearsal_live_proven=true`, no authority broadening, no forbidden surfaces, no hidden instruction mutation, `highest_proven_live_class=fully_unsupervised_complex_mutation`, and `next_denied_class=RSI`. |
 | 40 | AO Promoter | `ao.promoter.rsi-first-bounded-evidence-final-verdict.v0.1` | Accepts `verdict=promote_bounded_rsi_evidence_rehearsal` and confirms broad RSI and unrestricted self-modification remain denied. |
 | 41 | AO Command | `ao.command.rsi-first-bounded-evidence-class-decision-readback.v0.1` | Accepts `decision=promote_bounded_rsi_evidence_rehearsal_keep_broad_rsi_denied` and reads back that broad RSI, hidden self-modification, and unrestricted self-modification remain denied. |
+| 42 | AO Blueprint | `excluded/rsi-first-bounded-self-improvement-application-blueprint` | Defines the exact bounded self-improvement application plan for private readback/eval rubric improvement and explicitly denies broad RSI, unrestricted self-modification, hidden instruction mutation, and expansion of policy/auth/secret/provider/deploy/release/config/dependency authority. |
+| 43 | AO Atlas | `rsi-first-bounded-self-improvement-application-20260701` workgraph | Compiles the bounded self-improvement application into a 36-node workgraph with no broad RSI claim and denied surfaces carried on every task. |
+| 44 | AO Foundry | `ao.foundry.rsi-self-improvement-application-final-rollup.v0.1` | Records `bounded_rsi_self_improvement_application=proven` only for the exact private readback/eval rubric rehearsal, with baseline `0.60`, post-change `1.00`, improvement `0.40`, eval/regression `passed`, no denied-surface regressions, highest proven live class `bounded_rsi_self_improvement_application`, and next denied class `broad_RSI`. |
+| 45 | AO Promoter | `ao.promoter.rsi-self-improvement-application-verdict.v0.1` | Accepts the bounded self-improvement application because objective improvement and regression evidence passed within exact private readback/eval scope; broad RSI remains denied. |
+| 46 | AO Command | `ao.command.rsi-self-improvement-application-readback.v0.1` | Reads back `class_decision=bounded_rsi_self_improvement_application_proven`, denies `broad_RSI`, unrestricted self-modification, hidden instruction mutation, and policy/auth/secret/provider/deploy/release/config/dependency expansion, and reports `next_denied_class=broad_RSI`. |
 
 ## Execution And Readback Repositories
 
@@ -117,13 +128,17 @@ The bounded RSI evidence rehearsal closure does not satisfy those six
 requirements for the stronger claim. It proves only the bounded rehearsal state:
 `bounded_rsi_evidence_rehearsal`.
 
+The bounded RSI self-improvement application closure also does not satisfy those
+six requirements for a broad claim. It proves only
+`bounded_rsi_self_improvement_application` for the exact private readback/eval
+rubric rehearsal.
+
 The separate mutation authority ladder is narrower than this RSI claim boundary.
-The highest proven live mutation class is
-`fully_unsupervised_complex_mutation`; docs-only, test-only, low-risk-code,
-multi-repo low-risk, governed complex mutation, and fully unsupervised complex
-first non-planning live rehearsals do not prove live self-change, observer
-readback for a live self-change, or authority to publish the full autonomous
-self-mutating RSI claim. Fully unsupervised RSI remains denied.
+The highest proven live class is `bounded_rsi_self_improvement_application`;
+docs-only, test-only, low-risk-code, multi-repo low-risk, governed complex
+mutation, fully unsupervised complex first non-planning, bounded evidence
+rehearsal, and bounded private readback/eval application evidence do not prove
+broad RSI or authority to publish a broad RSI claim. `broad_RSI` remains denied.
 
 ## Machine-Readable Manifest
 

@@ -5,17 +5,22 @@ authority across AO Atlas, AO Foundry, AO Covenant, AO Forge, AO2, AO Sentinel,
 AO Promoter, and AO Command. It distinguishes dry-run readiness from approved
 live mutation and from the still-denied fully unsupervised RSI claim.
 
-The highest proven live mutation class is
-`fully_unsupervised_complex_mutation`. That means the stack can point to
-governed live rehearsal evidence through the docs-only, test-only, low-risk
-code, multi-repo low-risk, 12-node complex mutation, and 26-node fully
-unsupervised complex first non-planning classes. It does not mean fully
-unsupervised RSI has passed its own gates.
+The highest proven live class is `bounded_rsi_self_improvement_application`.
+That means the stack can point to governed live rehearsal evidence through the
+docs-only, test-only, low-risk code, multi-repo low-risk, 12-node complex
+mutation, 26-node fully unsupervised complex first non-planning, and bounded RSI
+evidence rehearsal classes, plus one exact private readback/eval rubric
+application. It does not establish `broad_RSI`.
 
 The bounded RSI evidence rehearsal state is also live-proven:
 `bounded_rsi_evidence_rehearsal`. This records the 32-node governed evidence
 rehearsal only. It does not advance the highest proven live mutation class, does
 not prove broad RSI, and does not authorize unrestricted self-modification.
+
+The bounded RSI self-improvement application state is proven only for the exact
+private readback/eval rubric rehearsal:
+`bounded_rsi_self_improvement_application`. It advances the highest proven live
+class to that exact class and keeps `broad_RSI` as the next denied class.
 
 | Class or claim boundary | Current public state | What is allowed | What remains denied |
 | --- | --- | --- | --- |
@@ -26,9 +31,10 @@ not prove broad RSI, and does not authorize unrestricted self-modification.
 | `low_risk_code` | Proven live rehearsal class. | One bounded low-risk code live rehearsal can be approved when lower-class evidence, rollback, CI, Sentinel, Promoter, Command readback, and class ticket evidence pass. | Broad code changes, auth/policy/provider/release/deploy surfaces, or automatic class promotion. |
 | `multi_repo_low_risk` | Proven live rehearsal class. | Serialized repo-by-repo live rehearsal can proceed with per-repo rollback, CI, branch cleanup, no concurrent mutation, Sentinel, Promoter, and Command evidence. | Concurrent repo mutation, shared-surface expansion, or unsequenced multi-repo execution. |
 | `complex_repo_mutation` | Proven live rehearsal class. | The governed 12-node complex_repo_mutation rehearsal is proven with completed Atlas workgraph, safe node gates, serialized PR/CI/merge evidence, rollback evidence, Sentinel evidence, Promoter evidence, Command readback, and forbidden-surface closure evidence. | Mutation broader than the governed complex rehearsal boundary without the fully unsupervised complex closure evidence. |
-| `fully_unsupervised_complex_mutation` | Highest proven live mutation class. | The 26-node first non-planning rehearsal is proven with all nodes completed, every stop gate cleared, per-node PR/CI/merge evidence, branch cleanup evidence, Sentinel/Promoter/Command closure, no concurrent mutation, no forbidden surfaces, and RSI denial preserved. | Fully unsupervised RSI, claim publication, provider calls, credential use, release/deploy/publish/upload/tag authority, or any self-improving RSI claim. |
+| `fully_unsupervised_complex_mutation` | Proven live rehearsal class. | The 26-node first non-planning rehearsal is proven with all nodes completed, every stop gate cleared, per-node PR/CI/merge evidence, branch cleanup evidence, Sentinel/Promoter/Command closure, no concurrent mutation, no forbidden surfaces, and RSI denial preserved. | Broad RSI, claim publication, provider calls, credential use, release/deploy/publish/upload/tag authority, or unrestricted self-modification. |
 | `bounded_rsi_evidence_rehearsal` | Live-proven bounded evidence rehearsal state. | The 32-node bounded RSI evidence rehearsal is proven as evidence-only closure with Foundry final rollup, Promoter final verdict, Command class-decision readback, no authority broadening, no forbidden surfaces, and no hidden instruction mutation. It may be reported only as `bounded_rsi_evidence_rehearsal` live-proven. | Broad RSI, unrestricted self-modification, hidden instruction mutation, policy/auth/secret/provider/deploy/release/config/dependency expansion, claim publication, or any broader RSI claim. |
-| Fully unsupervised RSI | Denied. | The stack may claim bounded, governed RSI evidence only when the RSI evidence map passes. | Fully unsupervised RSI remains denied until Covenant claim-publish policy, live mutation authority, rollback evidence, live self-change evidence, observer readback, Command/Forge retention, and all class gates pass. |
+| `bounded_rsi_self_improvement_application` | Highest proven live class. | Proven only for the exact private readback/eval rubric rehearsal, with baseline `0.60`, post-change `1.00`, improvement `0.40`, eval/regression passed, no denied-surface regressions, Foundry final rollup, Promoter verdict, and Command readback. | `broad_RSI`, unrestricted self-modification, hidden instruction mutation, policy/auth/secret/provider/deploy/release/config/dependency expansion, policy-changing autonomy, claim publication, or any broader RSI claim. |
+| `broad_RSI` | Denied. | No broad RSI authority is allowed by this ladder. | `broad_RSI` remains denied until its own explicit gates, evidence, and public-claim authority exist. |
 
 ## Latest Merged Evidence
 
@@ -59,8 +65,14 @@ not prove broad RSI, and does not authorize unrestricted self-modification.
   gate cleared, Foundry final rollup accepted, Promoter verdict
   `promote_bounded_rsi_evidence_rehearsal` accepted, and Command readback
   `promote_bounded_rsi_evidence_rehearsal_keep_broad_rsi_denied` accepted. This
-  keeps the highest proven live class at `fully_unsupervised_complex_mutation`
-  and keeps the next denied class as `RSI`.
+  prior evidence closure does not establish `broad_RSI` or unrestricted
+  self-modification.
+- The bounded RSI self-improvement application closure records
+  `bounded_rsi_self_improvement_application` as proven only for the exact
+  private readback/eval rubric rehearsal. The final rollup records baseline
+  `0.60`, post-change `1.00`, improvement `0.40`, eval/regression passed, no
+  denied-surface regressions, highest proven live class
+  `bounded_rsi_self_improvement_application`, and next denied class `broad_RSI`.
 
 ## Layer Responsibilities
 
@@ -87,14 +99,19 @@ Use this ladder when writing public claims:
   does not mutate repositories.
 - Approved live docs mutation means only docs-only classes have live evidence.
 - Approved fully unsupervised complex mutation means
-  `fully_unsupervised_complex_mutation` is the highest proven live mutation
-  class for the governed 26-node first non-planning rehearsal boundary.
+  `fully_unsupervised_complex_mutation` is proven for the governed 26-node first
+  non-planning rehearsal boundary.
 - `bounded_rsi_evidence_rehearsal` means only the bounded evidence rehearsal was
   proven; broad RSI and unrestricted self-modification remain denied.
+- `bounded_rsi_self_improvement_application` means only the exact private
+  readback/eval rubric rehearsal was proven; `broad_RSI` remains denied.
+- unrestricted self-modification remains denied.
+- hidden instruction mutation remains denied.
 - An event-loop continuation policy is not mutation authority; it can only stay
   inside the proven class and must stop on the configured blockers.
 - Fully unsupervised complex repository mutation is proven only for the governed
   26-node first non-planning rehearsal boundary.
 - Hidden instruction mutation and policy/auth/secret/provider/deploy/release/
   config/dependency expansion remain denied.
-- Fully unsupervised RSI remains denied.
+- Policy-changing autonomy remains denied.
+- The next denied class is `broad_RSI`.
