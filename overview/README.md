@@ -156,7 +156,7 @@ Fully unsupervised complex live mutation is proven only inside the governed
 
 The current public ladder is documented in
 [Mutation Authority Ladder](MUTATION-AUTHORITY-LADDER.md). The highest proven
-live class is `public_safe_guided_evidence_application_four_attempts`.
+live class is `public_safe_reviewer_approved_bounded_recursive_improvement_wording_evidence`.
 Docs-only, test-only, low-risk-code, multi-repo low-risk, the governed 12-node
 complex mutation rehearsal, the 26-node fully unsupervised complex first
 non-planning rehearsal, `bounded_rsi_evidence_rehearsal`, and
@@ -198,6 +198,9 @@ evidence linking under `docs/evidence/recursive-improvement-public-evidence-expa
 `public_safe_bounded_improvement_evidence_expansion_four_attempts`, keeps `broad_RSI` as the next denied class, and keeps stronger
 recursive-improvement wording, unrestricted self-modification, hidden instruction
 mutation, and policy-changing autonomy denied.
+
+
+`public_safe_reviewer_approved_bounded_recursive_improvement_wording_evidence` is proven for exact public-safe reviewer-approved bounded recursive-improvement wording evidence. AO Foundry PR #195, commit `0f742738324c185ba7243bc53ee2f1bc81804ef6` records 820 completed nodes and four reviewer-approved bounded wording attempts under `docs/evidence/recursive-improvement-reviewer-approved-wording/`. It changes the highest proven live class to `public_safe_reviewer_approved_bounded_recursive_improvement_wording_evidence`, keeps `broad_RSI` as the next denied class, and keeps unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and unbounded stronger recursive-improvement claims denied.
 
 This distinction matters because dry-run readiness, approved live docs
 mutation, approved test-only mutation, approved low-risk code mutation,
