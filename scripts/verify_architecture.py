@@ -55,7 +55,7 @@ REQUIRED_LIVE_MUTATION_LADDER_TERMS = [
     "multi_repo_low_risk",
     "complex_repo_mutation",
     "fully_unsupervised_complex_mutation",
-    "highest proven live class is\n`public_safe_reviewed_causal_chain_boundary_generalization_evidence`",
+    "highest proven live class is\n`public_safe_intermediate_causal_review_claim_evidence`",
     "governed 12-node complex",
     "26-node fully unsupervised complex",
     "bounded_rsi_evidence_rehearsal",
@@ -68,6 +68,8 @@ REQUIRED_LIVE_MUTATION_LADDER_TERMS = [
     "four public-safe bounded evidence expansion attempts",
     "public_safe_reviewed_causal_chain_boundary_generalization_evidence",
     "reviewed causal-chain boundary generalization evidence",
+    "public_safe_intermediate_causal_review_claim_evidence",
+    "intermediate causal-review evidence",
     "reproducibility runbooks",
     "conservative public-safe tracked readback evidence",
     "public-safe tracked readback evidence",
@@ -86,6 +88,9 @@ REQUIRED_LIVE_MUTATION_LADDER_TERMS = [
     "AO Foundry PR #187",
     "ee55f7918b86f997922707e4c0b2ba6536fe43cf",
     "docs/evidence/recursive-improvement-reviewed-boundary-generalization/",
+    "AO Foundry PR #189",
+    "860e3f353ab833c4a671b9d0ee6d8101ece2815c",
+    "docs/evidence/recursive-improvement-safe-intermediate-claim/",
 ]
 
 REQUIRED_BLUEPRINT_ATLAS_FOUNDRY_TERMS = [
@@ -184,6 +189,10 @@ REQUIRED_RSI_MAP_TERMS = [
     "public_safe_bounded_improvement_evidence_expansion_four_attempts proven; stronger recursive-improvement wording denied; broad_RSI denied",
     "public_safe_reviewed_causal_chain_boundary_generalization_evidence",
     "reviewed causal-chain boundary generalization",
+    "public_safe_intermediate_causal_review_claim_evidence",
+    "intermediate causal-review",
+    "promote_public_safe_intermediate_causal_review_claim_evidence_keep_broad_RSI_denied",
+    "public_safe_intermediate_causal_review_claim_evidence_proven_stronger_recursive_improvement_denied_broad_RSI_denied",
     "broad_RSI",
     "mutation authority",
     "rollback evidence",
