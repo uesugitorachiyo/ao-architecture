@@ -4,7 +4,7 @@ This sweep checks public AO stack wording after the mutation-class ladder work.
 The current public boundary remains:
 
 - the highest proven live class is
-  `public_safe_intermediate_causal_review_claim_evidence`;
+  `public_safe_causal_review_evidence_selection_guidance`;
 - `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
   `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
   `complex_repo_mutation` are separate lower authority classes;
@@ -26,9 +26,12 @@ The current public boundary remains:
 - `public_safe_intermediate_causal_review_claim_evidence` is proven only for
   public-safe intermediate causal-review evidence that bounded improvement
   evidence can guide and constrain later claim review across independent roles;
-- the approved public wording is exactly: "AO has public-safe intermediate
-  causal-review evidence that bounded improvement evidence can guide and
-  constrain later claim review across independent roles; stronger
+- `public_safe_causal_review_evidence_selection_guidance` is proven only for
+  public-safe causal-review evidence that prior bounded evidence can guide later
+  evidence-selection and blocker prioritization under independent review gates;
+- the approved public wording is exactly: "AO has public-safe causal-review
+  evidence that prior bounded evidence can guide later evidence-selection and
+  blocker prioritization under independent review gates; stronger
   recursive-improvement wording and broad_RSI remain denied.";
 - `broad_RSI` remains denied;
 - fully unsupervised RSI remains denied;
@@ -68,7 +71,7 @@ The sweep should treat these as acceptable hits:
 - statements that broad RSI, unrestricted self-modification, and hidden
   instruction mutation remain denied;
 - statements that the highest proven live class remains
-  `public_safe_intermediate_causal_review_claim_evidence` and the next
+  `public_safe_causal_review_evidence_selection_guidance` and the next
   denied class remains `broad_RSI`.
 - statements that stronger recursive-improvement wording remains denied;
 

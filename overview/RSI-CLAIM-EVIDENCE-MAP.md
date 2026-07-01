@@ -45,9 +45,17 @@ mutation, policy-changing autonomy, and broad RSI denied.
 
 `public_safe_intermediate_causal_review_claim_evidence` is proven for
 public-safe intermediate causal-review evidence that bounded improvement evidence
-can guide and constrain later claim review across independent roles. It advances
-the highest proven live class to
-`public_safe_intermediate_causal_review_claim_evidence`, keeps the next denied
+can guide and constrain later claim review across independent roles. It remains
+prior evidence, keeps
+the next denied class at `broad_RSI`, and keeps stronger recursive-improvement
+wording, unrestricted self-modification, hidden instruction mutation,
+policy-changing autonomy, and broad RSI denied.
+
+`public_safe_causal_review_evidence_selection_guidance` is proven for
+public-safe causal-review evidence that prior bounded evidence can guide later
+evidence-selection and blocker prioritization under independent review gates. It
+advances the highest proven live class to
+`public_safe_causal_review_evidence_selection_guidance`, keeps the next denied
 class at `broad_RSI`, and keeps stronger recursive-improvement wording,
 unrestricted self-modification, hidden instruction mutation, policy-changing
 autonomy, and broad RSI denied.
@@ -114,6 +122,9 @@ autonomy, and broad RSI denied.
 | 56 | AO Foundry | AO Foundry PR #189, commit `860e3f353ab833c4a671b9d0ee6d8101ece2815c`, `docs/evidence/recursive-improvement-safe-intermediate-claim/final-rollup.json` | Records `public_safe_intermediate_causal_review_claim_evidence=proven` with 560 completed intermediate causal-review nodes and tracked public evidence under `docs/evidence/recursive-improvement-safe-intermediate-claim/`. |
 | 57 | AO Covenant / AO Architecture / AO Sentinel | Intermediate causal-review wording gate results | Covenant and Architecture approve only the narrow intermediate causal-review claim; Sentinel clears the narrow intermediate causal-review claim while holding stronger recursive-improvement wording and `broad_RSI`. |
 | 58 | AO Promoter / AO Command | Final promotion and readback | Promoter result `promote_public_safe_intermediate_causal_review_claim_evidence_keep_broad_RSI_denied` and Command readback `public_safe_intermediate_causal_review_claim_evidence_proven_stronger_recursive_improvement_denied_broad_RSI_denied` name the exact proven class while keeping `broad_RSI` denied. |
+| 59 | AO Foundry | AO Foundry PR #191, commit `413b70f15d8f3d0203dc7be076914a2f3b539881`, `docs/evidence/recursive-improvement-evidence-selection-guidance/final-rollup.json` | Records `public_safe_causal_review_evidence_selection_guidance=proven` with 640 completed guidance nodes, four guided attempts, and tracked public evidence under `docs/evidence/recursive-improvement-evidence-selection-guidance/`. |
+| 60 | AO Covenant / AO Architecture / AO Sentinel | Evidence-selection guidance wording gate results | Covenant and Architecture approve only the narrow evidence-selection guidance claim; Sentinel clears the narrow guidance wording while holding stronger recursive-improvement wording and `broad_RSI`. |
+| 61 | AO Promoter / AO Command | Final promotion and readback | Promoter result `promote_public_safe_causal_review_evidence_selection_guidance_keep_broad_RSI_denied` and Command readback `public_safe_causal_review_evidence_selection_guidance_proven_stronger_recursive_improvement_denied_broad_RSI_denied` name the exact proven class while keeping `broad_RSI` denied. |
 
 ## Execution And Readback Repositories
 
@@ -184,18 +195,22 @@ runbooks; stronger recursive-improvement wording remains denied.
 `docs/evidence/recursive-improvement-reviewed-boundary-generalization/`. The approved public wording is exactly: "AO has public-safe reviewed causal-chain boundary generalization evidence across multiple independent claim-review roles; stronger recursive-improvement wording and broad_RSI remain denied." This remains prior evidence. Stronger recursive-improvement wording remains denied, and `broad_RSI`, unrestricted self-modification, hidden instruction mutation, and policy-changing autonomy remain denied.
 
 `public_safe_intermediate_causal_review_claim_evidence` is proven from AO Foundry PR #189, commit `860e3f353ab833c4a671b9d0ee6d8101ece2815c`, with tracked public evidence under
-`docs/evidence/recursive-improvement-safe-intermediate-claim/`. The approved public wording is exactly: "AO has public-safe intermediate causal-review evidence that bounded improvement evidence can guide and constrain later claim review across independent roles; stronger recursive-improvement wording and broad_RSI remain denied." This advances the highest proven live class to that exact narrow class. Stronger recursive-improvement wording remains denied, and `broad_RSI`, unrestricted self-modification, hidden instruction mutation, and policy-changing autonomy remain denied.
+`docs/evidence/recursive-improvement-safe-intermediate-claim/`. The approved public wording is exactly: "AO has public-safe intermediate causal-review evidence that bounded improvement evidence can guide and constrain later claim review across independent roles; stronger recursive-improvement wording and broad_RSI remain denied." This remains prior evidence. Stronger recursive-improvement wording remains denied, and `broad_RSI`, unrestricted self-modification, hidden instruction mutation, and policy-changing autonomy remain denied.
+
+`public_safe_causal_review_evidence_selection_guidance` is proven from AO Foundry PR #191, commit `413b70f15d8f3d0203dc7be076914a2f3b539881`, with tracked public evidence under
+`docs/evidence/recursive-improvement-evidence-selection-guidance/`. The approved public wording is exactly: "AO has public-safe causal-review evidence that prior bounded evidence can guide later evidence-selection and blocker prioritization under independent review gates; stronger recursive-improvement wording and broad_RSI remain denied." This advances the highest proven live class to that exact narrow class. Stronger recursive-improvement wording remains denied, and `broad_RSI`, unrestricted self-modification, hidden instruction mutation, and policy-changing autonomy remain denied.
 
 
 The separate mutation authority ladder is narrower than this RSI claim boundary.
 The highest proven live class is
-`public_safe_intermediate_causal_review_claim_evidence`; docs-only,
+`public_safe_causal_review_evidence_selection_guidance`; docs-only,
 test-only, low-risk-code, multi-repo low-risk, governed complex mutation, fully
 unsupervised complex first non-planning, bounded evidence rehearsal, bounded
 private readback/eval application evidence, and conservative public-safe
 readback evidence, four public-safe bounded evidence expansion attempts,
 reviewed causal-chain boundary generalization, and intermediate causal-review
-evidence do not prove broad RSI or authority to publish a broad RSI claim.
+evidence, plus evidence-selection guidance, do not prove broad RSI or authority
+to publish a broad RSI claim.
 `broad_RSI` remains denied.
 
 ## Machine-Readable Manifest
