@@ -152,6 +152,9 @@ upload/tag authority, dependency update authority, direct main mutation,
 concurrent mutation, hidden instruction changes, and unrestricted RSI claims
 denied.
 
+
+`public_safe_bounded_sandboxed_self_change_multi_surface_support_eval_negative_controls_four_attempts` is proven for public-safe bounded sandboxed self-change multi-surface support/eval negative-control evidence across four exact-scope reversible attempts under sandbox containment gates. It advances the highest proven live class to `public_safe_bounded_sandboxed_self_change_multi_surface_support_eval_negative_controls_four_attempts`, keeps the next denied class at `unrestricted_self_modification` (`next_denied_class=unrestricted_self_modification`), and keeps unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, sandbox containment bypass, policy/auth/secret/provider/deploy/release/config/dependency expansion, credential use, provider calls, release/deploy/publish/upload/tag authority, dependency update authority, direct main mutation, concurrent mutation, hidden instruction changes, and unrestricted RSI claims denied.
+
 ## Active Evidence Chain
 
 | Step | Owner | Artifact or command | Claim contribution |
@@ -248,6 +251,8 @@ denied.
 | 79 | AO Covenant / AO Architecture / AO Sentinel / AO Promoter / AO Command | Unrestricted self-modification cross-repo documentation/readback gate results | Covenant result `deny_unrestricted_self_modification_allow_cross_repo_doc_readback`, Architecture result `approve_cross_repo_doc_readback_wording_deny_unrestricted_self_modification_claim`, Sentinel result `clear_cross_repo_doc_readback_hold_unrestricted_self_modification`, Promoter result `promote_public_safe_bounded_sandboxed_self_change_cross_repo_doc_readback_four_attempts_keep_unrestricted_self_modification_denied`, and Command readback `public_safe_bounded_sandboxed_self_change_cross_repo_doc_readback_four_attempts_proven_unrestricted_self_modification_denied` approve only the bounded sandboxed cross-repo documentation/readback class and keep unrestricted self-modification denied. |
 | 80 | AO Foundry | AO Foundry PR #222, commit `9938df55959ac904295fd4d0dc0eddc52626c972`, `docs/evidence/unrestricted-self-modification-support-code-eval/final-rollup.json` | Records `public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts=proven`, `240 / 240` nodes completed, support-code fixture validation quality `0.72` -> `0.95`, eval harness diagnostics quality `0.70` -> `0.94`, rollback automation evidence quality `0.69` -> `0.93`, sandbox containment trace quality `0.68` -> `0.92`, eval/regression passed, rollback passed, retraction passed, kill switch passed, and approved wording for bounded sandboxed support-code/eval evidence while keeping `unrestricted_self_modification` denied. |
 | 81 | AO Covenant / AO Architecture / AO Sentinel / AO Promoter / AO Command | Unrestricted self-modification support-code/eval gate results | Covenant result `deny_unrestricted_self_modification_allow_support_code_eval`, Architecture result `approve_support_code_eval_wording_deny_unrestricted_self_modification_claim`, Sentinel result `clear_support_code_eval_hold_unrestricted_self_modification`, Promoter result `promote_public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts_keep_unrestricted_self_modification_denied`, and Command readback `public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts_proven_unrestricted_self_modification_denied` approve only the bounded sandboxed support-code/eval class and keep unrestricted self-modification denied. |
+| 82 | AO Foundry | AO Foundry PR #223, commit `3cd8c470538d626bebfc63262979f364ea53b081`, `docs/evidence/unrestricted-self-modification-multi-surface-support-eval/final-rollup.json` | Records `public_safe_bounded_sandboxed_self_change_multi_surface_support_eval_negative_controls_four_attempts=proven`, `300 / 300` nodes completed, cross-repo support fixture consistency `0.74` -> `0.96`, evaluation harness negative-control coverage `0.71` -> `0.95`, sandbox containment bypass rejection evidence `0.70` -> `0.94`, cross-surface rollback/readiness traceability `0.69` -> `0.93`, eval/regression passed, rollback passed, retraction passed, kill switch passed, negative-control gates passed, and approved wording for bounded sandboxed multi-surface support/eval negative-control evidence while keeping `unrestricted_self_modification` denied. |
+| 83 | AO Covenant / AO Architecture / AO Sentinel / AO Promoter / AO Command | Unrestricted self-modification multi-surface support/eval negative-control gate results | Covenant result `deny_unrestricted_self_modification_allow_multi_surface_support_eval_negative_controls`, Architecture result `approve_multi_surface_support_eval_wording_deny_unrestricted_self_modification_claim`, Sentinel result `clear_multi_surface_support_eval_hold_unrestricted_self_modification`, Promoter result `promote_public_safe_bounded_sandboxed_self_change_multi_surface_support_eval_negative_controls_four_attempts_keep_unrestricted_self_modification_denied`, and Command readback `public_safe_bounded_sandboxed_self_change_multi_surface_support_eval_negative_controls_four_attempts_proven_unrestricted_self_modification_denied` approve only the bounded sandboxed multi-surface support/eval negative-control class and keep unrestricted self-modification denied. |
 
 ## Execution And Readback Repositories
 
@@ -355,7 +360,7 @@ name the exact proven class while keeping `broad_RSI` denied.
 
 The separate mutation authority ladder is narrower than this RSI claim boundary.
 The current highest proven live class is
-`public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts`; docs-only,
+`public_safe_bounded_sandboxed_self_change_multi_surface_support_eval_negative_controls_four_attempts`; docs-only,
 test-only, low-risk-code, multi-repo low-risk, governed complex mutation, fully
 unsupervised complex first non-planning, bounded evidence rehearsal, bounded
 private readback/eval application evidence, conservative public-safe readback
@@ -475,7 +480,7 @@ dependency expansion, credential use, provider calls,
 release/deploy/publish/upload/tag authority, dependency update authority, direct
 main mutation, concurrent mutation, hidden instruction changes, or any
 unrestricted RSI claim. This remains prior evidence. The current highest proven live class is
-`public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts`; the next
+`public_safe_bounded_sandboxed_self_change_multi_surface_support_eval_negative_controls_four_attempts`; the next
 denied class is `unrestricted_self_modification`
 (`next_denied_class=unrestricted_self_modification`).
 
@@ -511,7 +516,7 @@ provider/deploy/release/config/dependency expansion, credential use, provider
 calls, release/deploy/publish/upload/tag authority, dependency update
 authority, direct main mutation, concurrent mutation, hidden instruction
 changes, or any unrestricted RSI claim. This remains prior evidence. The current highest proven live class is
-`public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts`;
+`public_safe_bounded_sandboxed_self_change_multi_surface_support_eval_negative_controls_four_attempts`;
 the next denied class is `unrestricted_self_modification`
 (`next_denied_class=unrestricted_self_modification`).
 
