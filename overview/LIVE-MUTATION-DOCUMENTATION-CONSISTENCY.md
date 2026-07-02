@@ -39,8 +39,9 @@ the governed live-mutation boundary after the mutation-class ladder work.
   gates.
 - `public_safe_reviewer_approved_bounded_recursive_improvement_wording_evidence` remains prior evidence for exact public-safe reviewer-approved bounded recursive-improvement wording evidence.
 - `public_safe_bounded_recursive_improvement_wording_generality_evidence` remains prior evidence for public-safe bounded recursive-improvement wording generality evidence.
-- `public_safe_bounded_recursive_improvement_review_durability_evidence` is proven only for public-safe bounded recursive-improvement review durability evidence.
-- The approved public wording is exactly: "AO has public-safe bounded recursive-improvement review durability evidence showing bounded recursive-improvement wording remains stable across delayed re-review, adversarial drift checks, stale-language sweeps, and reproducibility retests under independent gates; broad_RSI remains denied."
+- `public_safe_bounded_recursive_improvement_review_durability_evidence` remains prior evidence for public-safe bounded recursive-improvement review durability evidence.
+- `public_safe_recursive_improvement_claim_threshold_calibration_evidence` is proven only for public-safe recursive-improvement claim threshold calibration evidence.
+- The approved public wording is exactly: "AO has public-safe recursive-improvement claim threshold calibration evidence showing stronger bounded recursive-improvement claims can be evaluated against reproducible threshold, public-reader, adversarial wording, Covenant, Sentinel, rollback, and retraction gates; broad_RSI remains denied."
 - Dry-run readiness, approved live docs mutation, approved test-only mutation,
   approved low-risk code mutation, multi-repo rehearsal, complex mutation, and
   bounded RSI application are separate public claim levels.
@@ -100,7 +101,7 @@ This documentation set is consistent when:
   gates;
 - ladder wording names
   `public_safe_bounded_recursive_improvement_review_durability_evidence` as the
-  current highest proven live class and keeps `broad_RSI` denied unless its own
+  prior proven live class and keeps `broad_RSI` denied unless its own
   gates pass;
 - bounded RSI wording says only `bounded_rsi_evidence_rehearsal` is live-proven
   and keeps broad RSI, hidden instruction mutation, unrestricted

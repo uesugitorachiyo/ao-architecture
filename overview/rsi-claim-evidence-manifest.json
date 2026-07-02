@@ -41,7 +41,7 @@
     {
       "id": "ao-foundry",
       "role": "pulse_candidate_and_improvement_gate_producer",
-      "snapshot_commit": "12d524b60c200cab643e44f9105169b045602798",
+      "snapshot_commit": "3e3d1101da112fa5ff0aca26f8ab2933652f3502",
       "evidence": [
         "tmp/pulse-rsi-verify/rsi-candidate.json",
         "tmp/pulse-rsi-verify/rsi-improvement-gate.json",
@@ -58,7 +58,9 @@
         "docs/evidence/recursive-improvement-bounded-wording-generality/final-rollup.json",
         "docs/evidence/recursive-improvement-review-durability/evidence-index.json",
         "docs/evidence/recursive-improvement-review-durability/final-rollup.json",
-        "docs/evidence/recursive-improvement-review-durability/review-durability-results.json"
+        "docs/evidence/recursive-improvement-review-durability/review-durability-results.json",
+        "docs/evidence/recursive-improvement-claim-threshold-calibration/evidence-index.json",
+        "docs/evidence/recursive-improvement-claim-threshold-calibration/final-rollup.json"
       ],
       "known_prs": [
         {
