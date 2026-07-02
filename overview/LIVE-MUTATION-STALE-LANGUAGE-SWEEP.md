@@ -248,8 +248,8 @@ forbidden surface expansion, policy/auth/secret/provider/deploy/release/config/
 dependency expansion, credential use, provider calls,
 release/deploy/publish/upload/tag authority, dependency update authority, direct
 main mutation, concurrent mutation, hidden instruction changes, or any
-unrestricted RSI claim. The highest proven live class is
-`public_safe_bounded_sandboxed_self_change_applications_non_readback_four_attempts`; the next
+unrestricted RSI claim. This remains prior evidence. The current highest proven live class is
+`public_safe_bounded_sandboxed_self_change_cross_repo_doc_readback_four_attempts`; the next
 denied class is `unrestricted_self_modification`
 (`next_denied_class=unrestricted_self_modification`).
 
@@ -296,3 +296,25 @@ Promoter
 `promote_public_safe_bounded_sandboxed_self_change_applications_non_readback_four_attempts_keep_unrestricted_self_modification_denied`,
 and Command
 `public_safe_bounded_sandboxed_self_change_applications_non_readback_four_attempts_proven_unrestricted_self_modification_denied`.
+
+## Cross-Repo Documentation/Readback Sandboxed Self-Change Sweep
+
+The current highest proven live class is
+`public_safe_bounded_sandboxed_self_change_cross_repo_doc_readback_four_attempts`.
+It is proven from AO Foundry PR #221, commit
+`a993f4b6284de711cdb2b3fd6f006bb2706df9c8`, with tracked public evidence under
+`docs/evidence/unrestricted-self-modification-cross-repo-doc-readback/`.
+
+The approved public wording is exactly: "AO has public-safe bounded sandboxed
+self-change cross-repo documentation/readback evidence across four exact-scope
+documentation consistency attempts under sandbox containment gates; unrestricted
+self-modification, hidden instruction mutation, policy-changing autonomy, and
+forbidden surface expansion remain denied."
+
+The stale-language sweep must reject wording that says or implies unrestricted
+self-modification is proven, hidden instruction mutation is allowed,
+policy-changing autonomy is allowed, forbidden surface expansion is allowed,
+direct-main mutation is allowed, concurrent mutation is allowed,
+provider/credential authority is allowed, release/deploy/publish/upload/tag
+authority is allowed, dependency update authority is allowed, or any
+unrestricted RSI claim is proven.
