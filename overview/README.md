@@ -659,3 +659,12 @@ Promoter
 `promote_public_safe_bounded_sandboxed_self_change_cross_repo_doc_readback_four_attempts_keep_unrestricted_self_modification_denied`,
 and Command
 `public_safe_bounded_sandboxed_self_change_cross_repo_doc_readback_four_attempts_proven_unrestricted_self_modification_denied`.
+
+## Multi-Surface Support/Eval Negative-Control Readback
+
+The current highest proven live class is
+`public_safe_bounded_sandboxed_self_change_multi_surface_support_eval_negative_controls_four_attempts`. It is proven from AO Foundry PR #223, commit
+`3cd8c470538d626bebfc63262979f364ea53b081`, with tracked public evidence under
+`docs/evidence/unrestricted-self-modification-multi-surface-support-eval/` and final rollup `docs/evidence/unrestricted-self-modification-multi-surface-support-eval/final-rollup.json`. The approved public wording is exactly: "AO has public-safe bounded sandboxed self-change multi-surface support/eval negative-control evidence across four exact-scope reversible attempts under sandbox containment gates; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and forbidden surface expansion remain denied."
+
+This keeps `unrestricted_self_modification`, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, sandbox containment bypass, and unrestricted RSI denied.

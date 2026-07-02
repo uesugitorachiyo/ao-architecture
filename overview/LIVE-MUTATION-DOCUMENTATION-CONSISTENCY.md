@@ -6,7 +6,7 @@ the governed live-mutation boundary after the mutation-class ladder work.
 ## Public Boundary Statement
 
 - The highest proven live class is
-  `public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts`.
+  `public_safe_bounded_sandboxed_self_change_multi_surface_support_eval_negative_controls_four_attempts`.
 - `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
   `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
   `complex_repo_mutation` are distinct lower authority classes.
@@ -89,7 +89,7 @@ the governed live-mutation boundary after the mutation-class ladder work.
   documentation consistency attempts under sandbox containment gates.
 - `public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts`
   is proven only for four public-safe bounded sandboxed self-change
-  support-code/eval attempts under sandbox containment gates.
+  multi-surface support/eval negative-control attempts under sandbox containment gates.
 - The approved public wording is exactly: "AO has public-safe bounded sandboxed self-change support-code/eval evidence across four exact-scope reversible support-code and evaluation attempts under sandbox containment gates; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and forbidden surface expansion remain denied."
 - The support-code/eval run completed 240 / 240 nodes and four attempts:
   support-code fixture validation quality 0.72 -> 0.95, eval harness
@@ -137,7 +137,7 @@ Run stale-claim scans from the AO workspace root:
 rg -n -i "six active|6 active|six repositories|6 repositories|six active repos|6 active repos" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
 rg -n -i "production ready for live mutation|fully autonomous live mutation|ungated live mutation authority|fully unsupervised complex live repo mutation is proven" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
 rg -n -i "safe_to_execute=true" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
-rg -n -i "RSI is proven|broad RSI is proven|broad_RSI is proven|unrestricted self-modification|hidden instruction mutation allowed|policy-changing autonomy allowed|policy-changing autonomy|stronger recursive-improvement claims are proven|stronger recursive-improvement wording approved|full 10-day campaign complete|fully autonomous RSI|highest proven live class|next denied class" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
+rg -n -i "RSI is proven|broad RSI is proven|broad_RSI is proven|unrestricted self-modification|hidden instruction mutation allowed|policy-changing autonomy allowed|sandbox containment bypass allowed|policy-changing autonomy|stronger recursive-improvement claims are proven|stronger recursive-improvement wording approved|full 10-day campaign complete|fully autonomous RSI|highest proven live class|next denied class" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
 ```
 
 The `safe_to_execute=true` scan may return expected hits when the same line or
@@ -410,3 +410,15 @@ highest proven live class is
 `public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts`; the
 next denied class is `unrestricted_self_modification`
 (`next_denied_class=unrestricted_self_modification`).
+
+## Multi-Surface Support/Eval Negative-Control Sandboxed Self-Change
+
+`public_safe_bounded_sandboxed_self_change_multi_surface_support_eval_negative_controls_four_attempts` is proven from AO Foundry PR #223, commit
+`3cd8c470538d626bebfc63262979f364ea53b081`, with tracked public evidence under
+`docs/evidence/unrestricted-self-modification-multi-surface-support-eval/` and final rollup `docs/evidence/unrestricted-self-modification-multi-surface-support-eval/final-rollup.json`. The approved public wording is exactly: "AO has public-safe bounded sandboxed self-change multi-surface support/eval negative-control evidence across four exact-scope reversible attempts under sandbox containment gates; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and forbidden surface expansion remain denied." The run completed `300 / 300` nodes and passed cross-repo support fixture consistency `0.74` -> `0.96`, evaluation harness negative-control coverage `0.71` -> `0.95`, sandbox containment bypass rejection evidence `0.70` -> `0.94`, and cross-surface rollback/readiness traceability `0.69` -> `0.93`.
+
+It records `public_safe_bounded_sandboxed_self_change_multi_surface_support_eval_negative_controls_four_attempts=proven`. This proves only bounded sandboxed self-change multi-surface support/eval negative-control evidence across four exact-scope reversible attempts under sandbox containment gates. It does not prove unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, sandbox containment bypass, policy/auth/secret/provider/deploy/release/config/dependency expansion, credential use, provider calls, release/deploy/publish/upload/tag authority, dependency update authority, direct main mutation, concurrent mutation, hidden instruction changes, or any unrestricted RSI claim. The highest proven live class is
+`public_safe_bounded_sandboxed_self_change_multi_surface_support_eval_negative_controls_four_attempts`; the next denied class is `unrestricted_self_modification`
+(`next_denied_class=unrestricted_self_modification`).
+
+Final gate identifiers: Covenant `deny_unrestricted_self_modification_allow_multi_surface_support_eval_negative_controls`, Architecture `approve_multi_surface_support_eval_wording_deny_unrestricted_self_modification_claim`, Sentinel `clear_multi_surface_support_eval_hold_unrestricted_self_modification`, Promoter `promote_public_safe_bounded_sandboxed_self_change_multi_surface_support_eval_negative_controls_four_attempts_keep_unrestricted_self_modification_denied`, and Command `public_safe_bounded_sandboxed_self_change_multi_surface_support_eval_negative_controls_four_attempts_proven_unrestricted_self_modification_denied`.
