@@ -6,7 +6,7 @@ the governed live-mutation boundary after the mutation-class ladder work.
 ## Public Boundary Statement
 
 - The highest proven live class is
-  `public_safe_reviewer_approved_bounded_recursive_improvement_wording_evidence`.
+  `public_safe_bounded_recursive_improvement_wording_generality_evidence`.
 - `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
   `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
   `complex_repo_mutation` are distinct lower authority classes.
@@ -37,7 +37,9 @@ the governed live-mutation boundary after the mutation-class ladder work.
   public-safe guided evidence-application evidence showing causal-review guidance
   can select and prioritize later bounded evidence attempts under independent
   gates.
-- The approved public wording is exactly: "AO has public-safe reviewer-approved bounded recursive-improvement wording evidence showing guided evidence application can improve later evidence attempts under independent review gates; broad_RSI remains denied."
+- `public_safe_reviewer_approved_bounded_recursive_improvement_wording_evidence` remains prior evidence for exact public-safe reviewer-approved bounded recursive-improvement wording evidence.
+- `public_safe_bounded_recursive_improvement_wording_generality_evidence` is proven only for public-safe bounded recursive-improvement wording generality evidence.
+- The approved public wording is exactly: "AO has public-safe bounded recursive-improvement wording generality evidence showing reviewer-approved bounded wording can transfer across additional public-safe review tasks under independent gates; broad_RSI remains denied."
 - Dry-run readiness, approved live docs mutation, approved test-only mutation,
   approved low-risk code mutation, multi-repo rehearsal, complex mutation, and
   bounded RSI application are separate public claim levels.
@@ -96,7 +98,7 @@ This documentation set is consistent when:
 - remaining `safe_to_execute=true` mentions are tied to exact approval and all
   gates;
 - ladder wording names
-  `public_safe_reviewer_approved_bounded_recursive_improvement_wording_evidence` as the
+  `public_safe_bounded_recursive_improvement_wording_generality_evidence` as the
   current highest proven live class and keeps `broad_RSI` denied unless its own
   gates pass;
 - bounded RSI wording says only `bounded_rsi_evidence_rehearsal` is live-proven

@@ -70,7 +70,9 @@ unrestricted self-modification, hidden instruction mutation, policy-changing
 autonomy, and broad RSI denied.
 
 
-`public_safe_reviewer_approved_bounded_recursive_improvement_wording_evidence` is proven for exact public-safe reviewer-approved bounded recursive-improvement wording evidence showing guided evidence application can improve later evidence attempts under independent review gates. It advances the highest proven live class to `public_safe_reviewer_approved_bounded_recursive_improvement_wording_evidence`, keeps the next denied class at `broad_RSI`, and keeps unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, unbounded stronger recursive-improvement claims, and broad RSI denied.
+`public_safe_reviewer_approved_bounded_recursive_improvement_wording_evidence` is proven for exact public-safe reviewer-approved bounded recursive-improvement wording evidence showing guided evidence application can improve later evidence attempts under independent review gates. It remains prior evidence and keeps unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, unbounded stronger recursive-improvement claims, and broad RSI denied.
+
+`public_safe_bounded_recursive_improvement_wording_generality_evidence` is proven for public-safe bounded recursive-improvement wording generality evidence showing reviewer-approved bounded wording can transfer across additional public-safe review tasks under independent gates. It advances the highest proven live class to `public_safe_bounded_recursive_improvement_wording_generality_evidence`, keeps the next denied class at `broad_RSI`, and keeps unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/dependency expansion, unbounded stronger recursive-improvement claims, and broad RSI denied.
 
 ## Active Evidence Chain
 
@@ -144,6 +146,10 @@ autonomy, and broad RSI denied.
 | 65 | AO Foundry | AO Foundry PR #195, commit `0f742738324c185ba7243bc53ee2f1bc81804ef6`, `docs/evidence/recursive-improvement-reviewer-approved-wording/final-rollup.json` | Records `public_safe_reviewer_approved_bounded_recursive_improvement_wording_evidence=proven` with 820 completed reviewer-approved wording nodes, four bounded wording attempts, and tracked public evidence under `docs/evidence/recursive-improvement-reviewer-approved-wording/`. |
 | 66 | AO Covenant / AO Architecture / AO Sentinel | Reviewer-approved bounded wording gate results | Covenant and Architecture approve the exact public-safe reviewer-approved bounded recursive-improvement wording only; Sentinel clears the exact bounded wording while holding `broad_RSI`. |
 | 67 | AO Promoter / AO Command | Final promotion and readback | Promoter result `promote_public_safe_reviewer_approved_bounded_recursive_improvement_wording_evidence_broad_RSI_denied` and Command readback `public_safe_reviewer_approved_bounded_recursive_improvement_wording_evidence_proven_broad_RSI_denied` name the exact proven class while keeping `broad_RSI` denied. |
+
+| 68 | AO Foundry | AO Foundry PR #197, commit `166398641b655f0da97817659acc771026b204e7`, `docs/evidence/recursive-improvement-bounded-wording-generality/final-rollup.json` | Records `public_safe_bounded_recursive_improvement_wording_generality_evidence=proven` with 900 completed bounded wording generality nodes, four public-safe bounded wording transfer attempts, and tracked public evidence under `docs/evidence/recursive-improvement-bounded-wording-generality/`. |
+| 69 | AO Covenant / AO Architecture / AO Sentinel | Bounded wording generality gate results | Covenant and Architecture approve bounded wording generality only; Sentinel clears bounded wording generality while holding `broad_RSI`. |
+| 70 | AO Promoter / AO Command | Final promotion and readback | Promoter result `promote_public_safe_bounded_recursive_improvement_wording_generality_evidence_broad_RSI_denied` and Command readback `public_safe_bounded_recursive_improvement_wording_generality_evidence_proven_broad_RSI_denied` name the exact proven class while keeping `broad_RSI` denied. |
 
 ## Execution And Readback Repositories
 
@@ -235,9 +241,12 @@ mutation, and policy-changing autonomy remain denied.
 `public_safe_reviewer_approved_bounded_recursive_improvement_wording_evidence` is proven from AO Foundry PR #195, commit `0f742738324c185ba7243bc53ee2f1bc81804ef6`, with tracked public evidence under
 `docs/evidence/recursive-improvement-reviewer-approved-wording/`. The approved public wording is exactly: "AO has public-safe reviewer-approved bounded recursive-improvement wording evidence showing guided evidence application can improve later evidence attempts under independent review gates; broad_RSI remains denied." This advances the highest proven live class to that exact narrow class. `broad_RSI`, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and unbounded stronger recursive-improvement claims remain denied.
 
+`public_safe_bounded_recursive_improvement_wording_generality_evidence` is proven from AO Foundry PR #197, commit `166398641b655f0da97817659acc771026b204e7`, with tracked public evidence under
+`docs/evidence/recursive-improvement-bounded-wording-generality/`. The approved public wording is exactly: "AO has public-safe bounded recursive-improvement wording generality evidence showing reviewer-approved bounded wording can transfer across additional public-safe review tasks under independent gates; broad_RSI remains denied." This advances the highest proven live class to that exact narrow class. `broad_RSI`, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/dependency expansion, and unbounded stronger recursive-improvement claims remain denied.
+
 The separate mutation authority ladder is narrower than this RSI claim boundary.
 The highest proven live class is
-`public_safe_reviewer_approved_bounded_recursive_improvement_wording_evidence`; docs-only,
+`public_safe_bounded_recursive_improvement_wording_generality_evidence`; docs-only,
 test-only, low-risk-code, multi-repo low-risk, governed complex mutation, fully
 unsupervised complex first non-planning, bounded evidence rehearsal, bounded
 private readback/eval application evidence, and conservative public-safe
