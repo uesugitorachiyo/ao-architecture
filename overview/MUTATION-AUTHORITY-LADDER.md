@@ -6,7 +6,7 @@ AO Promoter, and AO Command. It distinguishes dry-run readiness from approved
 live mutation and from the still-denied fully unsupervised RSI claim.
 
 The highest proven live class is
-`public_safe_bounded_reversible_self_change_application_rehearsal`. That means the
+`public_safe_repeated_bounded_reversible_self_change_applications_four_attempts`. That means the
 stack can point to governed live rehearsal evidence through the docs-only,
 test-only, low-risk code, multi-repo low-risk, 12-node complex mutation, 26-node
 fully unsupervised complex first non-planning, bounded RSI evidence rehearsal,
@@ -79,7 +79,8 @@ denied.
 | `broad_RSI` | Proven prior live class under governed public-safe campaign boundaries. | Proven from AO Foundry PR #211, commit `630edc70905db745380edd1072e04b546dcccfe3`, with tracked public evidence under `docs/evidence/broad-rsi-ten-day-campaign-segment-08/`, `2800 / 2800` campaign nodes completed, `28000 SDD slices`, public-reader `approved_exact_governed_broad_RSI_wording`, Sentinel `clear_for_governed_broad_RSI_public_wording`, Promoter `promote_broad_RSI_governed_public_safe_campaign_completion_unrestricted_boundaries_denied`, and Command `broad_RSI_proven_under_governed_public_safe_campaign_completion_boundaries`. The approved public wording is exactly: "AO has proven governed broad_RSI for public claim publication across the AO stack public-safe 10-day evidence campaign; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and forbidden surface expansion remain denied." | Unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/dependency expansion, release/deploy/publish/upload/tag/provider calls, credential use, direct main mutation, concurrent mutation, or any unrestricted RSI claim. |
 | `public_safe_unrestricted_self_modification_sandbox_containment_rehearsal` | Proven prior live class. | Proven for public-safe sandbox containment evidence for dry-run self-change proposal evaluation. Evidence comes from AO Foundry PR #216, commit `7881613065de48f2547833a9ecc9a9011b55a96a`, tracked public evidence under `docs/evidence/unrestricted-self-modification-sandbox-containment/`, `420 / 420` nodes completed, Covenant `deny_unrestricted_self_modification_allow_sandbox_containment_rehearsal`, Architecture `approve_sandbox_containment_wording_deny_unrestricted_self_modification_claim`, Sentinel `clear_sandbox_containment_hold_unrestricted_self_modification`, Promoter `promote_public_safe_unrestricted_self_modification_sandbox_containment_rehearsal_keep_unrestricted_self_modification_denied`, and Command `public_safe_unrestricted_self_modification_sandbox_containment_rehearsal_proven_unrestricted_self_modification_denied`. The approved public wording is exactly: "AO has public-safe sandbox containment evidence for dry-run self-change proposal evaluation; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and forbidden surface expansion remain denied." | `unrestricted_self_modification`, hidden instruction mutation, policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/dependency expansion, credential use, provider calls, release/deploy/publish/upload/tag authority, dependency update authority, direct main mutation, concurrent mutation, hidden instruction changes, or any unrestricted RSI claim. |
 | `public_safe_unrestricted_self_modification_adversarial_negative_controls` | Proven prior live class. | Proven for public-safe adversarial negative-control evidence that unsafe dry-run self-change proposals are rejected under sandbox containment gates. Evidence comes from AO Foundry PR #217, commit `b7e487022ae7436be13e0a49d0bf15f5c7936145`, tracked public evidence under `docs/evidence/unrestricted-self-modification-adversarial-negative-controls/`, `560 / 560` nodes completed, Covenant `deny_unrestricted_self_modification_allow_adversarial_negative_controls`, Sentinel `clear_adversarial_negative_controls_hold_unrestricted_self_modification`, Promoter `promote_public_safe_unrestricted_self_modification_adversarial_negative_controls_keep_unrestricted_self_modification_denied`, and Command `public_safe_unrestricted_self_modification_adversarial_negative_controls_proven_unrestricted_self_modification_denied`. The approved public wording is exactly: "AO has public-safe adversarial negative-control evidence that unsafe dry-run self-change proposals are rejected under sandbox containment gates; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and forbidden surface expansion remain denied." | `unrestricted_self_modification`, hidden instruction mutation, policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/dependency expansion, credential use, provider calls, release/deploy/publish/upload/tag authority, dependency update authority, direct main mutation, concurrent mutation, hidden instruction changes, forbidden surface expansion, or any unrestricted RSI claim. |
-| `public_safe_bounded_reversible_self_change_application_rehearsal` | Highest proven live class. | Proven for one exact-scope reversible support/readback evidence improvement under sandbox containment gates. Evidence comes from AO Foundry PR #218, commit `3b2feaced4207c97f98cef44f3b3276c59a7873b`, tracked public evidence under `docs/evidence/unrestricted-self-modification-bounded-reversible-application/`, `640 / 640` nodes completed, baseline `0.70`, post-change `0.94`, improvement `0.24`, eval/regression passed, rollback passed, retraction passed, kill switch passed, Covenant `deny_unrestricted_self_modification_allow_bounded_reversible_application`, Sentinel `clear_bounded_reversible_application_hold_unrestricted_self_modification`, Promoter `promote_public_safe_bounded_reversible_self_change_application_rehearsal_keep_unrestricted_self_modification_denied`, and Command `public_safe_bounded_reversible_self_change_application_rehearsal_proven_unrestricted_self_modification_denied`. The approved public wording is exactly: "AO has public-safe bounded reversible self-change application evidence for one exact-scope support/readback improvement under sandbox containment gates; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and forbidden surface expansion remain denied." | `unrestricted_self_modification`, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, policy/auth/secret/provider/deploy/release/config/dependency expansion, credential use, provider calls, release/deploy/publish/upload/tag authority, dependency update authority, direct main mutation, concurrent mutation, hidden instruction changes, or any unrestricted RSI claim. |
+| `public_safe_bounded_reversible_self_change_application_rehearsal` | Proven prior live class. | Proven for one exact-scope reversible support/readback evidence improvement under sandbox containment gates. Evidence comes from AO Foundry PR #218, commit `3b2feaced4207c97f98cef44f3b3276c59a7873b`, tracked public evidence under `docs/evidence/unrestricted-self-modification-bounded-reversible-application/`, `640 / 640` nodes completed, baseline `0.70`, post-change `0.94`, improvement `0.24`, eval/regression passed, rollback passed, retraction passed, kill switch passed, Covenant `deny_unrestricted_self_modification_allow_bounded_reversible_application`, Sentinel `clear_bounded_reversible_application_hold_unrestricted_self_modification`, Promoter `promote_public_safe_bounded_reversible_self_change_application_rehearsal_keep_unrestricted_self_modification_denied`, and Command `public_safe_bounded_reversible_self_change_application_rehearsal_proven_unrestricted_self_modification_denied`. The approved public wording is exactly: "AO has public-safe bounded reversible self-change application evidence for one exact-scope support/readback improvement under sandbox containment gates; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and forbidden surface expansion remain denied." | `unrestricted_self_modification`, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, policy/auth/secret/provider/deploy/release/config/dependency expansion, credential use, provider calls, release/deploy/publish/upload/tag authority, dependency update authority, direct main mutation, concurrent mutation, hidden instruction changes, or any unrestricted RSI claim. |
+| `public_safe_repeated_bounded_reversible_self_change_applications_four_attempts` | Highest proven live class. | Proven for four public-safe, exact-scope, reversible support/readback evidence attempts under sandbox containment gates. Evidence comes from AO Foundry PR #219, commit `88b52ce1ca9e8679cccdc64fe21c2b63340076b5`, tracked public evidence under `docs/evidence/unrestricted-self-modification-repeated-bounded-applications/`, `960 / 960` nodes completed, support/readback evidence quality `0.71` -> `0.93`, public-safety scan readback quality `0.69` -> `0.92`, rollback/retraction runbook quality `0.67` -> `0.91`, cross-evidence linking readback quality `0.66` -> `0.90`, eval/regression passed, rollback passed, retraction passed, kill switch passed, Covenant `deny_unrestricted_self_modification_allow_repeated_bounded_applications`, Sentinel `clear_repeated_bounded_applications_hold_unrestricted_self_modification`, Promoter `promote_public_safe_repeated_bounded_reversible_self_change_applications_four_attempts_keep_unrestricted_self_modification_denied`, and Command `public_safe_repeated_bounded_reversible_self_change_applications_four_attempts_proven_unrestricted_self_modification_denied`. The approved public wording is exactly: "AO has public-safe repeated bounded reversible self-change application evidence across four exact-scope support/readback attempts under sandbox containment gates; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and forbidden surface expansion remain denied." | `unrestricted_self_modification`, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, policy/auth/secret/provider/deploy/release/config/dependency expansion, credential use, provider calls, release/deploy/publish/upload/tag authority, dependency update authority, direct main mutation, concurrent mutation, hidden instruction changes, or any unrestricted RSI claim. |
 
 ## Latest Merged Evidence
 
@@ -281,14 +282,14 @@ Use this ladder when writing public claims:
   config/dependency expansion remain denied.
 - Policy-changing autonomy remains denied.
 - The highest proven live class is
-  `public_safe_bounded_reversible_self_change_application_rehearsal`.
+  `public_safe_repeated_bounded_reversible_self_change_applications_four_attempts`.
 - The next denied class remains `unrestricted_self_modification`.
 
 ## Governed Broad RSI Public-Safe Campaign Completion
 
 `broad_RSI` is proven from AO Foundry PR #211, commit `630edc70905db745380edd1072e04b546dcccfe3`, with tracked public evidence under `docs/evidence/broad-rsi-ten-day-campaign-segment-08/`. The approved public wording is exactly: "AO has proven governed broad_RSI for public claim publication across the AO stack public-safe 10-day evidence campaign; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and forbidden surface expansion remain denied." The campaign completed `2800 / 2800` nodes, the segment-08 Blueprint emitted `28000 SDD slices`, and final public-reader, adversarial wording, Covenant, Architecture, Sentinel, Promoter, Command, rollback/retraction, stale-language, no-repeat, no-abandonment, and eval/regression gates passed.
 
-This does not prove unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/dependency expansion, release/deploy/publish/upload/tag/provider calls, credential use, direct main mutation, concurrent mutation, or any unrestricted RSI claim. This remains prior evidence; the current highest proven live class is `public_safe_bounded_reversible_self_change_application_rehearsal`, and the next denied class is `unrestricted_self_modification` (`next_denied_class=unrestricted_self_modification`).
+This does not prove unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/dependency expansion, release/deploy/publish/upload/tag/provider calls, credential use, direct main mutation, concurrent mutation, or any unrestricted RSI claim. This remains prior evidence; the current highest proven live class is `public_safe_repeated_bounded_reversible_self_change_applications_four_attempts`, and the next denied class is `unrestricted_self_modification` (`next_denied_class=unrestricted_self_modification`).
 
 Final gate identifiers: public-reader `approved_exact_governed_broad_RSI_wording`, Sentinel `clear_for_governed_broad_RSI_public_wording`, Promoter `promote_broad_RSI_governed_public_safe_campaign_completion_unrestricted_boundaries_denied`, and Command `broad_RSI_proven_under_governed_public_safe_campaign_completion_boundaries`.
 
@@ -380,7 +381,7 @@ dependency expansion, credential use, provider calls,
 release/deploy/publish/upload/tag authority, dependency update authority, direct
 main mutation, concurrent mutation, hidden instruction changes, or any
 unrestricted RSI claim. The highest proven live class is
-`public_safe_bounded_reversible_self_change_application_rehearsal`; the next
+`public_safe_repeated_bounded_reversible_self_change_applications_four_attempts`; the next
 denied class is `unrestricted_self_modification`
 (`next_denied_class=unrestricted_self_modification`).
 
@@ -391,3 +392,39 @@ Promoter
 `promote_public_safe_bounded_reversible_self_change_application_rehearsal_keep_unrestricted_self_modification_denied`,
 and Command
 `public_safe_bounded_reversible_self_change_application_rehearsal_proven_unrestricted_self_modification_denied`.
+
+## Repeated Bounded Reversible Self-Change Applications
+
+`public_safe_repeated_bounded_reversible_self_change_applications_four_attempts`
+is proven from AO Foundry PR #219, commit
+`88b52ce1ca9e8679cccdc64fe21c2b63340076b5`, with tracked public evidence under
+`docs/evidence/unrestricted-self-modification-repeated-bounded-applications/`.
+The approved public wording is exactly: "AO has public-safe repeated bounded
+reversible self-change application evidence across four exact-scope
+support/readback attempts under sandbox containment gates; unrestricted
+self-modification, hidden instruction mutation, policy-changing autonomy, and
+forbidden surface expansion remain denied." The run completed `960 / 960`
+nodes and four independent attempts: support/readback evidence quality `0.71`
+-> `0.93`, public-safety scan readback quality `0.69` -> `0.92`,
+rollback/retraction runbook quality `0.67` -> `0.91`, and
+cross-evidence linking readback quality `0.66` -> `0.90`.
+
+This proves only repeated bounded, reversible, exact-scope support/readback
+self-change applications under sandbox containment gates. It does not prove
+unrestricted self-modification, hidden instruction mutation, policy-changing
+autonomy, forbidden surface expansion, policy/auth/secret/provider/deploy/
+release/config/dependency expansion, credential use, provider calls,
+release/deploy/publish/upload/tag authority, dependency update authority, direct
+main mutation, concurrent mutation, hidden instruction changes, or any
+unrestricted RSI claim. The highest proven live class is
+`public_safe_repeated_bounded_reversible_self_change_applications_four_attempts`;
+the next denied class is `unrestricted_self_modification`
+(`next_denied_class=unrestricted_self_modification`).
+
+Final gate identifiers: Covenant
+`deny_unrestricted_self_modification_allow_repeated_bounded_applications`,
+Sentinel `clear_repeated_bounded_applications_hold_unrestricted_self_modification`,
+Promoter
+`promote_public_safe_repeated_bounded_reversible_self_change_applications_four_attempts_keep_unrestricted_self_modification_denied`,
+and Command
+`public_safe_repeated_bounded_reversible_self_change_applications_four_attempts_proven_unrestricted_self_modification_denied`.
