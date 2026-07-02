@@ -126,11 +126,11 @@ The stack now has a governed mutation-class ladder, not broad live mutation
 authority. The architecture source of truth is
 [overview/MUTATION-AUTHORITY-LADDER.md](overview/MUTATION-AUTHORITY-LADDER.md).
 The highest proven live class is
-`public_safe_recursive_improvement_claim_threshold_calibration_evidence`. Docs-only,
+`public_safe_broad_RSI_governed_campaign_first_segment_state_evidence`. Docs-only,
 test-only, low-risk code, multi-repo low-risk, the governed 12-node
 complex_repo_mutation rehearsal, the 26-node fully unsupervised complex first
 non-planning rehearsal, `bounded_rsi_evidence_rehearsal`, and
-`bounded_rsi_self_improvement_application` remain prior evidence. The current class is proven only for public-safe recursive-improvement claim threshold calibration evidence showing stronger bounded recursive-improvement claims can be evaluated against reproducible threshold, public-reader, adversarial wording, Covenant, Sentinel, rollback, and retraction gates. The guard keeps `broad_RSI`, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and unbounded stronger recursive-improvement claims denied.
+`bounded_rsi_self_improvement_application` remain prior evidence. The current class is proven only for public-safe first-segment state evidence showing a 10-day broad_RSI evidence campaign can start from mission-state, no-repeat, sufficiency, Pulse reliability, context-repack, rollback, and claim-gate readbacks while `broad_RSI` remains denied. The guard keeps `broad_RSI`, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, full 10-day campaign completion claims, and unbounded stronger recursive-improvement claims denied.
 
 The current mirror includes the latest authority-ladder evidence: AO Atlas PR
 #34 upgrades the complex-class rehearsal graph with low-risk decomposition and a
@@ -390,6 +390,9 @@ mutation, and policy-changing autonomy remain denied.
 
 `public_safe_recursive_improvement_claim_threshold_calibration_evidence` is proven from AO Foundry PR #201, commit `3e3d1101da112fa5ff0aca26f8ab2933652f3502`, with tracked public evidence under
 `docs/evidence/recursive-improvement-claim-threshold-calibration/`. The approved public wording is exactly: "AO has public-safe recursive-improvement claim threshold calibration evidence showing stronger bounded recursive-improvement claims can be evaluated against reproducible threshold, public-reader, adversarial wording, Covenant, Sentinel, rollback, and retraction gates; broad_RSI remains denied." This advances the highest proven live class to that exact narrow class. `broad_RSI`, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/dependency expansion, and unbounded stronger recursive-improvement claims remain denied.
+`public_safe_broad_RSI_governed_campaign_first_segment_state_evidence` is proven from AO Foundry PR #203, commit `b7523031d61b11df374e2203bdf44927e2d8432a`, with tracked public evidence under
+`docs/evidence/broad-rsi-ten-day-governed-evidence-campaign/`. The first segment completed 180 / 2500 campaign nodes and five public-safe attempts: mission-state ledger completeness `0.71` -> `0.97`, no-repeat continuation quality `0.68` -> `0.94`, Pulse no-return-early readback `0.66` -> `0.93`, context repack continuity `0.65` -> `0.92`, and public claim minimization matrix `0.67` -> `0.94`. The approved public wording is exactly: "AO has public-safe broad_RSI governed campaign first-segment state evidence showing a 10-day evidence campaign can start from mission-state, no-repeat, sufficiency, Pulse reliability, context-repack, rollback, and claim-gate readbacks while broad_RSI remains denied." This advances the highest proven live class to that exact narrow class. `broad_RSI`, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/dependency expansion, release/deploy/publish/upload/tag/provider calls, credential use, direct main mutation, concurrent mutation, full 10-day campaign completion, and unbounded stronger recursive-improvement claims remain denied.
+
 
 AO Covenant owns the wording gate for any stronger claim. Publishing a full
 autonomous self-mutating RSI claim is a `claim.publish` side effect for the

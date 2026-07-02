@@ -41,7 +41,7 @@
     {
       "id": "ao-foundry",
       "role": "pulse_candidate_and_improvement_gate_producer",
-      "snapshot_commit": "3e3d1101da112fa5ff0aca26f8ab2933652f3502",
+      "snapshot_commit": "b7523031d61b11df374e2203bdf44927e2d8432a",
       "evidence": [
         "tmp/pulse-rsi-verify/rsi-candidate.json",
         "tmp/pulse-rsi-verify/rsi-improvement-gate.json",
@@ -60,7 +60,12 @@
         "docs/evidence/recursive-improvement-review-durability/final-rollup.json",
         "docs/evidence/recursive-improvement-review-durability/review-durability-results.json",
         "docs/evidence/recursive-improvement-claim-threshold-calibration/evidence-index.json",
-        "docs/evidence/recursive-improvement-claim-threshold-calibration/final-rollup.json"
+        "docs/evidence/recursive-improvement-claim-threshold-calibration/final-rollup.json",
+        "docs/evidence/broad-rsi-ten-day-governed-evidence-campaign/evidence-index.json",
+        "docs/evidence/broad-rsi-ten-day-governed-evidence-campaign/final-rollup.json",
+        "docs/evidence/broad-rsi-ten-day-governed-evidence-campaign/mission-state/mission-state.json",
+        "docs/evidence/broad-rsi-ten-day-governed-evidence-campaign/gates/no-repeat-gate.json",
+        "docs/evidence/broad-rsi-ten-day-governed-evidence-campaign/gates/pulse-reliability.json"
       ],
       "known_prs": [
         {
@@ -92,6 +97,12 @@
           "title": "Add review durability evidence",
           "url": "https://github.com/uesugitorachiyo/ao-foundry/pull/199",
           "merge_commit": "12d524b60c200cab643e44f9105169b045602798"
+        },
+        {
+          "number": 203,
+          "title": "Add broad RSI campaign first segment evidence",
+          "url": "https://github.com/uesugitorachiyo/ao-foundry/pull/203",
+          "merge_commit": "b7523031d61b11df374e2203bdf44927e2d8432a"
         }
       ]
     },
