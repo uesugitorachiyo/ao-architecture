@@ -41,7 +41,7 @@
     {
       "id": "ao-foundry",
       "role": "pulse_candidate_and_improvement_gate_producer",
-      "snapshot_commit": "0f742738324c185ba7243bc53ee2f1bc81804ef6",
+      "snapshot_commit": "166398641b655f0da97817659acc771026b204e7",
       "evidence": [
         "tmp/pulse-rsi-verify/rsi-candidate.json",
         "tmp/pulse-rsi-verify/rsi-improvement-gate.json",
@@ -53,7 +53,9 @@
         "docs/sdd/AO-FOUNDRY-PULSE-GOLDEN-LOOP-SDD.md",
         "docs/operations/AO2-PULSE-EVENT-LOOP.md",
         "docs/evidence/recursive-improvement-reviewer-approved-wording/evidence-index.json",
-        "docs/evidence/recursive-improvement-reviewer-approved-wording/final-rollup.json"
+        "docs/evidence/recursive-improvement-reviewer-approved-wording/final-rollup.json",
+        "docs/evidence/recursive-improvement-bounded-wording-generality/evidence-index.json",
+        "docs/evidence/recursive-improvement-bounded-wording-generality/final-rollup.json"
       ],
       "known_prs": [
         {
@@ -73,6 +75,12 @@
           "title": "Add reviewer-approved wording evidence",
           "url": "https://github.com/uesugitorachiyo/ao-foundry/pull/195",
           "merge_commit": "0f742738324c185ba7243bc53ee2f1bc81804ef6"
+        },
+        {
+          "number": 197,
+          "title": "Add bounded wording generality evidence",
+          "url": "https://github.com/uesugitorachiyo/ao-foundry/pull/197",
+          "merge_commit": "166398641b655f0da97817659acc771026b204e7"
         }
       ]
     },
