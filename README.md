@@ -126,14 +126,14 @@ The stack now has a governed mutation-class ladder, not broad live mutation
 authority. The architecture source of truth is
 [overview/MUTATION-AUTHORITY-LADDER.md](overview/MUTATION-AUTHORITY-LADDER.md).
 The highest proven live class is
-`public_safe_bounded_sandboxed_self_change_multi_surface_support_eval_negative_controls_four_attempts`. Docs-only,
+`public_safe_bounded_sandboxed_self_change_delegated_dry_run_authority_gap_four_attempts`. Docs-only,
 test-only, low-risk code, multi-repo low-risk, the governed 12-node
 complex_repo_mutation rehearsal, the 26-node fully unsupervised complex first
 non-planning rehearsal, `bounded_rsi_evidence_rehearsal`, and
 `bounded_rsi_self_improvement_application` remain prior evidence. `broad_RSI`
 is proven only for the governed public-safe 10-day evidence campaign. The
 current class is proven only for four public-safe bounded sandboxed
-self-change multi-surface support/eval negative-control attempts under sandbox containment gates. The
+self-change delegated dry-run authority-gap attempts under sandbox containment gates. The
 guard keeps
 unrestricted self-modification, hidden instruction mutation, policy-changing
 autonomy, forbidden surface expansion, sandbox containment bypass, and any unrestricted RSI claim denied.
@@ -683,3 +683,15 @@ It records `public_safe_bounded_sandboxed_self_change_multi_surface_support_eval
 (`next_denied_class=unrestricted_self_modification`).
 
 Final gate identifiers: Covenant `deny_unrestricted_self_modification_allow_multi_surface_support_eval_negative_controls`, Architecture `approve_multi_surface_support_eval_wording_deny_unrestricted_self_modification_claim`, Sentinel `clear_multi_surface_support_eval_hold_unrestricted_self_modification`, Promoter `promote_public_safe_bounded_sandboxed_self_change_multi_surface_support_eval_negative_controls_four_attempts_keep_unrestricted_self_modification_denied`, and Command `public_safe_bounded_sandboxed_self_change_multi_surface_support_eval_negative_controls_four_attempts_proven_unrestricted_self_modification_denied`.
+
+## Delegated Dry-Run Authority-Gap Sandboxed Self-Change
+
+`public_safe_bounded_sandboxed_self_change_delegated_dry_run_authority_gap_four_attempts` is proven from AO Foundry PR #224, commit
+`afdd6562dfe83cec2eaa5d4172e23f9cec26c14e`, with tracked public evidence under
+`docs/evidence/unrestricted-self-modification-delegated-dry-run-authority-gap/` and final rollup `docs/evidence/unrestricted-self-modification-delegated-dry-run-authority-gap/final-rollup.json`. The approved public wording is exactly: "AO has public-safe bounded sandboxed self-change delegated dry-run authority-gap evidence across four exact-scope reversible attempts under sandbox containment gates; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, and sandbox containment bypass remain denied." The run completed `360 / 360` nodes and passed delegated dry-run ticket/readback consistency `0.73` -> `0.96`, Forge/AO2 bounded packet containment evidence `0.71` -> `0.95`, Foundry-to-Atlas handoff no-authority-broadening evidence `0.70` -> `0.94`, and rollback/retraction/kill-switch traceability across delegated dry-run surfaces `0.69` -> `0.93`.
+
+It records `public_safe_bounded_sandboxed_self_change_delegated_dry_run_authority_gap_four_attempts=proven`. This proves only bounded sandboxed self-change delegated dry-run authority-gap evidence across four exact-scope reversible attempts under sandbox containment gates. It does not prove unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, sandbox containment bypass, policy/auth/secret/provider/deploy/release/config/dependency expansion, credential use, provider calls, release/deploy/publish/upload/tag authority, dependency update authority, direct main mutation, concurrent mutation, hidden instruction changes, or any unrestricted RSI claim. The highest proven live class is
+`public_safe_bounded_sandboxed_self_change_delegated_dry_run_authority_gap_four_attempts`; the next denied class is `unrestricted_self_modification`
+(`next_denied_class=unrestricted_self_modification`).
+
+Final gate identifiers: Covenant `deny_unrestricted_self_modification_allow_delegated_dry_run_authority_gap`, Architecture `approve_delegated_dry_run_authority_gap_wording_deny_unrestricted_self_modification_claim`, Sentinel `clear_delegated_dry_run_authority_gap_hold_unrestricted_self_modification`, Promoter `promote_public_safe_bounded_sandboxed_self_change_delegated_dry_run_authority_gap_four_attempts_keep_unrestricted_self_modification_denied`, and Command `public_safe_bounded_sandboxed_self_change_delegated_dry_run_authority_gap_four_attempts_proven_unrestricted_self_modification_denied`.

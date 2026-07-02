@@ -136,3 +136,8 @@ PATH="$PWD/tmp/bin:$PATH" sentinel compare regression --baseline examples/baseli
 PATH="$PWD/tmp/bin:$PATH" sentinel monitor evaluate --target examples/targets/valid/local-ao-stack.sentinel-target.json --baseline examples/baselines/valid/ao-stack.sentinel-baseline.json --safety tmp/readme-safety.json --regression tmp/regression-diff.json --out tmp/sentinel-verdict.json
 PATH="$PWD/tmp/bin:$PATH" sentinel hold emit --verdict tmp/sentinel-verdict.json --out tmp/promoter-hold.json
 ```
+## Delegated Dry-Run Authority-Gap Sentinel Readback
+
+AO Sentinel clears only the narrow class `public_safe_bounded_sandboxed_self_change_delegated_dry_run_authority_gap_four_attempts` from AO Foundry PR #224, commit `afdd6562dfe83cec2eaa5d4172e23f9cec26c14e`, with tracked public evidence under `docs/evidence/unrestricted-self-modification-delegated-dry-run-authority-gap/` and final rollup `docs/evidence/unrestricted-self-modification-delegated-dry-run-authority-gap/final-rollup.json`. The Sentinel result is `clear_delegated_dry_run_authority_gap_hold_unrestricted_self_modification`. The approved public wording is exactly: "AO has public-safe bounded sandboxed self-change delegated dry-run authority-gap evidence across four exact-scope reversible attempts under sandbox containment gates; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, and sandbox containment bypass remain denied."
+
+Sentinel keeps holds for unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, sandbox containment bypass, and unrestricted RSI.
