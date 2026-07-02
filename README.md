@@ -126,7 +126,7 @@ The stack now has a governed mutation-class ladder, not broad live mutation
 authority. The architecture source of truth is
 [overview/MUTATION-AUTHORITY-LADDER.md](overview/MUTATION-AUTHORITY-LADDER.md).
 The highest proven live class is
-`public_safe_broad_RSI_governed_campaign_segment_07_evidence`. Docs-only,
+`broad_RSI`. Docs-only,
 test-only, low-risk code, multi-repo low-risk, the governed 12-node
 complex_repo_mutation rehearsal, the 26-node fully unsupervised complex first
 non-planning rehearsal, `bounded_rsi_evidence_rehearsal`, and
@@ -495,3 +495,11 @@ Start with [Overview](overview/README.md), then read [AO Foundry Architecture](a
 ## License
 
 AO Architecture is licensed under `Apache-2.0`. See `LICENSE`.
+
+## Governed Broad RSI Public-Safe Campaign Completion
+
+`broad_RSI` is proven from AO Foundry PR #211, commit `630edc70905db745380edd1072e04b546dcccfe3`, with tracked public evidence under `docs/evidence/broad-rsi-ten-day-campaign-segment-08/`. The approved public wording is exactly: "AO has proven governed broad_RSI for public claim publication across the AO stack public-safe 10-day evidence campaign; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and forbidden surface expansion remain denied." The campaign completed `2800 / 2800` nodes, the segment-08 Blueprint emitted `28000 SDD slices`, and final public-reader, adversarial wording, Covenant, Architecture, Sentinel, Promoter, Command, rollback/retraction, stale-language, no-repeat, no-abandonment, and eval/regression gates passed.
+
+This does not prove unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/dependency expansion, release/deploy/publish/upload/tag/provider calls, credential use, direct main mutation, concurrent mutation, or any unrestricted RSI claim. The highest proven live class is `broad_RSI`; the next denied class is `unrestricted_self_modification` (`next_denied_class=unrestricted_self_modification`).
+
+Final gate identifiers: public-reader `approved_exact_governed_broad_RSI_wording`, Sentinel `clear_for_governed_broad_RSI_public_wording`, Promoter `promote_broad_RSI_governed_public_safe_campaign_completion_unrestricted_boundaries_denied`, and Command `broad_RSI_proven_under_governed_public_safe_campaign_completion_boundaries`.
