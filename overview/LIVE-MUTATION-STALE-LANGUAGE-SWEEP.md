@@ -4,7 +4,7 @@ This sweep checks public AO stack wording after the mutation-class ladder work.
 The current public boundary remains:
 
 - the highest proven live class is
-  `public_safe_repeated_bounded_reversible_self_change_applications_four_attempts`;
+  `public_safe_bounded_sandboxed_self_change_applications_non_readback_four_attempts`;
 - `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
   `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
   `complex_repo_mutation` are separate lower authority classes;
@@ -68,6 +68,16 @@ The current public boundary remains:
   readback quality 0.69 -> 0.92, rollback/retraction runbook quality 0.67 ->
   0.91, and cross-evidence linking readback quality 0.66 -> 0.90, and does not
   prove unrestricted self-modification;
+- `public_safe_bounded_sandboxed_self_change_applications_non_readback_four_attempts`
+  is proven only for four public-safe bounded sandboxed self-change application
+  evidence attempts across non-readback exact-scope evidence tasks under sandbox
+  containment gates;
+- the approved public wording is exactly: "AO has public-safe bounded sandboxed self-change application evidence across four non-readback exact-scope evidence tasks under sandbox containment gates; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and forbidden surface expansion remain denied.";
+- the bounded sandboxed application run completed 140 / 140 nodes and four
+  attempts: fixture/schema evidence quality 0.68 -> 0.91, CI/readiness
+  diagnostics evidence quality 0.66 -> 0.90, public-safety rule calibration
+  evidence quality 0.65 -> 0.89, and rollback/evidence-link integrity quality
+  0.64 -> 0.88, and does not prove unrestricted self-modification;
 - `unrestricted_self_modification` remains denied;
 - fully unsupervised RSI remains denied;
 - broad RSI, unrestricted self-modification, hidden instruction mutation, and
@@ -108,7 +118,7 @@ The sweep should treat these as acceptable hits:
 - statements that unrestricted self-modification and hidden
   instruction mutation remain denied;
 - statements that the highest proven live class remains
-  `public_safe_repeated_bounded_reversible_self_change_applications_four_attempts` and the
+  `public_safe_bounded_sandboxed_self_change_applications_non_readback_four_attempts` and the
   next denied class remains `unrestricted_self_modification`.
 - statements that stronger recursive-improvement wording remains denied;
 
@@ -239,7 +249,7 @@ dependency expansion, credential use, provider calls,
 release/deploy/publish/upload/tag authority, dependency update authority, direct
 main mutation, concurrent mutation, hidden instruction changes, or any
 unrestricted RSI claim. The highest proven live class is
-`public_safe_repeated_bounded_reversible_self_change_applications_four_attempts`; the next
+`public_safe_bounded_sandboxed_self_change_applications_non_readback_four_attempts`; the next
 denied class is `unrestricted_self_modification`
 (`next_denied_class=unrestricted_self_modification`).
 
@@ -250,3 +260,39 @@ Promoter
 `promote_public_safe_bounded_reversible_self_change_application_rehearsal_keep_unrestricted_self_modification_denied`,
 and Command
 `public_safe_bounded_reversible_self_change_application_rehearsal_proven_unrestricted_self_modification_denied`.
+
+## Bounded Sandboxed Self-Change Applications
+
+`public_safe_bounded_sandboxed_self_change_applications_non_readback_four_attempts`
+is proven from AO Foundry PR #220, commit
+`eff03edd62ba32af57defc71a7f3b800f320b8d3`, with tracked public evidence under
+`docs/evidence/unrestricted-self-modification-bounded-sandbox-applications/`.
+The approved public wording is exactly: "AO has public-safe bounded sandboxed
+self-change application evidence across four non-readback exact-scope evidence
+tasks under sandbox containment gates; unrestricted self-modification, hidden
+instruction mutation, policy-changing autonomy, and forbidden surface expansion
+remain denied." The run completed `140 / 140` nodes and passed fixture/schema
+evidence quality `0.68` -> `0.91`, CI/readiness diagnostics evidence quality
+`0.66` -> `0.90`, public-safety rule calibration evidence quality `0.65` ->
+`0.89`, and rollback/evidence-link integrity quality `0.64` -> `0.88`.
+
+This does not prove unrestricted self-modification, hidden instruction mutation,
+policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/
+dependency expansion, credential use, provider calls,
+release/deploy/publish/upload/tag authority, dependency update authority, direct
+main mutation, concurrent mutation, hidden instruction changes, forbidden
+surface expansion, or any unrestricted RSI claim. The highest proven live class
+is `public_safe_bounded_sandboxed_self_change_applications_non_readback_four_attempts`;
+the next denied class is `unrestricted_self_modification`
+(`next_denied_class=unrestricted_self_modification`).
+
+Final gate identifiers: Covenant
+`deny_unrestricted_self_modification_allow_bounded_sandbox_non_readback_applications`,
+Architecture
+`approve_bounded_sandbox_non_readback_wording_deny_unrestricted_self_modification_claim`,
+Sentinel
+`clear_bounded_sandbox_non_readback_applications_hold_unrestricted_self_modification`,
+Promoter
+`promote_public_safe_bounded_sandboxed_self_change_applications_non_readback_four_attempts_keep_unrestricted_self_modification_denied`,
+and Command
+`public_safe_bounded_sandboxed_self_change_applications_non_readback_four_attempts_proven_unrestricted_self_modification_denied`.

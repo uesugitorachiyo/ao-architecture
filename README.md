@@ -126,14 +126,15 @@ The stack now has a governed mutation-class ladder, not broad live mutation
 authority. The architecture source of truth is
 [overview/MUTATION-AUTHORITY-LADDER.md](overview/MUTATION-AUTHORITY-LADDER.md).
 The highest proven live class is
-`public_safe_repeated_bounded_reversible_self_change_applications_four_attempts`. Docs-only,
+`public_safe_bounded_sandboxed_self_change_applications_non_readback_four_attempts`. Docs-only,
 test-only, low-risk code, multi-repo low-risk, the governed 12-node
 complex_repo_mutation rehearsal, the 26-node fully unsupervised complex first
 non-planning rehearsal, `bounded_rsi_evidence_rehearsal`, and
 `bounded_rsi_self_improvement_application` remain prior evidence. `broad_RSI`
 is proven only for the governed public-safe 10-day evidence campaign. The
-current class is proven only for four public-safe, exact-scope, reversible
-support/readback evidence attempts under sandbox containment gates. The guard keeps
+current class is proven only for four public-safe bounded sandboxed
+self-change application evidence attempts across non-readback exact-scope
+evidence tasks under sandbox containment gates. The guard keeps
 unrestricted self-modification, hidden instruction mutation, policy-changing
 autonomy, forbidden surface expansion, and any unrestricted RSI claim denied.
 
@@ -592,3 +593,42 @@ Promoter
 `promote_public_safe_repeated_bounded_reversible_self_change_applications_four_attempts_keep_unrestricted_self_modification_denied`,
 and Command
 `public_safe_repeated_bounded_reversible_self_change_applications_four_attempts_proven_unrestricted_self_modification_denied`.
+
+## Bounded Sandboxed Self-Change Applications
+
+`public_safe_bounded_sandboxed_self_change_applications_non_readback_four_attempts`
+is proven from AO Foundry PR #220, commit
+`eff03edd62ba32af57defc71a7f3b800f320b8d3`, with tracked public evidence under
+`docs/evidence/unrestricted-self-modification-bounded-sandbox-applications/`.
+The approved public wording is exactly: "AO has public-safe bounded sandboxed
+self-change application evidence across four non-readback exact-scope evidence
+tasks under sandbox containment gates; unrestricted self-modification, hidden
+instruction mutation, policy-changing autonomy, and forbidden surface expansion
+remain denied." The run completed `140 / 140` nodes and four independent
+attempts: fixture/schema evidence quality `0.68` -> `0.91`, CI/readiness
+diagnostics evidence quality `0.66` -> `0.90`, public-safety rule calibration
+evidence quality `0.65` -> `0.89`, and rollback/evidence-link integrity
+quality `0.64` -> `0.88`.
+
+This proves only bounded sandboxed self-change application evidence across four
+non-readback exact-scope evidence tasks under sandbox containment gates. It
+does not prove unrestricted self-modification, hidden instruction mutation,
+policy-changing autonomy, forbidden surface expansion, policy/auth/secret/
+provider/deploy/release/config/dependency expansion, credential use, provider
+calls, release/deploy/publish/upload/tag authority, dependency update
+authority, direct main mutation, concurrent mutation, hidden instruction
+changes, or any unrestricted RSI claim. The highest proven live class is
+`public_safe_bounded_sandboxed_self_change_applications_non_readback_four_attempts`;
+the next denied class is `unrestricted_self_modification`
+(`next_denied_class=unrestricted_self_modification`).
+
+Final gate identifiers: Covenant
+`deny_unrestricted_self_modification_allow_bounded_sandbox_non_readback_applications`,
+Architecture
+`approve_bounded_sandbox_non_readback_wording_deny_unrestricted_self_modification_claim`,
+Sentinel
+`clear_bounded_sandbox_non_readback_applications_hold_unrestricted_self_modification`,
+Promoter
+`promote_public_safe_bounded_sandboxed_self_change_applications_non_readback_four_attempts_keep_unrestricted_self_modification_denied`,
+and Command
+`public_safe_bounded_sandboxed_self_change_applications_non_readback_four_attempts_proven_unrestricted_self_modification_denied`.
