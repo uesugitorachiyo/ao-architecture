@@ -246,6 +246,8 @@ denied.
 | 77 | AO Covenant / AO Architecture / AO Sentinel / AO Promoter / AO Command | Unrestricted self-modification bounded sandbox non-readback application gate results | Covenant result `deny_unrestricted_self_modification_allow_bounded_sandbox_non_readback_applications`, Architecture result `approve_bounded_sandbox_non_readback_wording_deny_unrestricted_self_modification_claim`, Sentinel result `clear_bounded_sandbox_non_readback_applications_hold_unrestricted_self_modification`, Promoter result `promote_public_safe_bounded_sandboxed_self_change_applications_non_readback_four_attempts_keep_unrestricted_self_modification_denied`, and Command readback `public_safe_bounded_sandboxed_self_change_applications_non_readback_four_attempts_proven_unrestricted_self_modification_denied` approve only the bounded sandboxed non-readback application class and keep unrestricted self-modification denied. |
 | 78 | AO Foundry | AO Foundry PR #221, commit `a993f4b6284de711cdb2b3fd6f006bb2706df9c8`, `docs/evidence/unrestricted-self-modification-cross-repo-doc-readback/final-rollup.json` | Records `public_safe_bounded_sandboxed_self_change_cross_repo_doc_readback_four_attempts=proven`, `180 / 180` nodes completed, Architecture source-of-truth consistency evidence quality `0.70` -> `0.94`, Component README readback parity quality `0.68` -> `0.93`, CI/PR merge evidence linkage quality `0.67` -> `0.92`, stale-language denial sweep quality `0.66` -> `0.91`, eval/regression passed, rollback passed, retraction passed, kill switch passed, and approved wording for bounded sandboxed self-change cross-repo documentation/readback evidence while keeping `unrestricted_self_modification` denied. |
 | 79 | AO Covenant / AO Architecture / AO Sentinel / AO Promoter / AO Command | Unrestricted self-modification cross-repo documentation/readback gate results | Covenant result `deny_unrestricted_self_modification_allow_cross_repo_doc_readback`, Architecture result `approve_cross_repo_doc_readback_wording_deny_unrestricted_self_modification_claim`, Sentinel result `clear_cross_repo_doc_readback_hold_unrestricted_self_modification`, Promoter result `promote_public_safe_bounded_sandboxed_self_change_cross_repo_doc_readback_four_attempts_keep_unrestricted_self_modification_denied`, and Command readback `public_safe_bounded_sandboxed_self_change_cross_repo_doc_readback_four_attempts_proven_unrestricted_self_modification_denied` approve only the bounded sandboxed cross-repo documentation/readback class and keep unrestricted self-modification denied. |
+| 80 | AO Foundry | AO Foundry PR #222, commit `9938df55959ac904295fd4d0dc0eddc52626c972`, `docs/evidence/unrestricted-self-modification-support-code-eval/final-rollup.json` | Records `public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts=proven`, `240 / 240` nodes completed, support-code fixture validation quality `0.72` -> `0.95`, eval harness diagnostics quality `0.70` -> `0.94`, rollback automation evidence quality `0.69` -> `0.93`, sandbox containment trace quality `0.68` -> `0.92`, eval/regression passed, rollback passed, retraction passed, kill switch passed, and approved wording for bounded sandboxed support-code/eval evidence while keeping `unrestricted_self_modification` denied. |
+| 81 | AO Covenant / AO Architecture / AO Sentinel / AO Promoter / AO Command | Unrestricted self-modification support-code/eval gate results | Covenant result `deny_unrestricted_self_modification_allow_support_code_eval`, Architecture result `approve_support_code_eval_wording_deny_unrestricted_self_modification_claim`, Sentinel result `clear_support_code_eval_hold_unrestricted_self_modification`, Promoter result `promote_public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts_keep_unrestricted_self_modification_denied`, and Command readback `public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts_proven_unrestricted_self_modification_denied` approve only the bounded sandboxed support-code/eval class and keep unrestricted self-modification denied. |
 
 ## Execution And Readback Repositories
 
@@ -353,7 +355,7 @@ name the exact proven class while keeping `broad_RSI` denied.
 
 The separate mutation authority ladder is narrower than this RSI claim boundary.
 The current highest proven live class is
-`public_safe_bounded_sandboxed_self_change_cross_repo_doc_readback_four_attempts`; docs-only,
+`public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts`; docs-only,
 test-only, low-risk-code, multi-repo low-risk, governed complex mutation, fully
 unsupervised complex first non-planning, bounded evidence rehearsal, bounded
 private readback/eval application evidence, conservative public-safe readback
@@ -381,7 +383,7 @@ out-of-scope repository map for automated audits.
 
 `broad_RSI` is proven from AO Foundry PR #211, commit `630edc70905db745380edd1072e04b546dcccfe3`, with tracked public evidence under `docs/evidence/broad-rsi-ten-day-campaign-segment-08/`. The approved public wording is exactly: "AO has proven governed broad_RSI for public claim publication across the AO stack public-safe 10-day evidence campaign; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and forbidden surface expansion remain denied." The campaign completed `2800 / 2800` nodes, the segment-08 Blueprint emitted `28000 SDD slices`, and final public-reader, adversarial wording, Covenant, Architecture, Sentinel, Promoter, Command, rollback/retraction, stale-language, no-repeat, no-abandonment, and eval/regression gates passed.
 
-This does not prove unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/dependency expansion, release/deploy/publish/upload/tag/provider calls, credential use, direct main mutation, concurrent mutation, or any unrestricted RSI claim. This remains prior evidence; the current highest proven live class is `public_safe_bounded_sandboxed_self_change_cross_repo_doc_readback_four_attempts`, and the next denied class is `unrestricted_self_modification` (`next_denied_class=unrestricted_self_modification`).
+This does not prove unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/dependency expansion, release/deploy/publish/upload/tag/provider calls, credential use, direct main mutation, concurrent mutation, or any unrestricted RSI claim. This remains prior evidence; the current highest proven live class is `public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts`, and the next denied class is `unrestricted_self_modification` (`next_denied_class=unrestricted_self_modification`).
 
 Final gate identifiers: public-reader `approved_exact_governed_broad_RSI_wording`, Sentinel `clear_for_governed_broad_RSI_public_wording`, Promoter `promote_broad_RSI_governed_public_safe_campaign_completion_unrestricted_boundaries_denied`, and Command `broad_RSI_proven_under_governed_public_safe_campaign_completion_boundaries`.
 
@@ -473,7 +475,7 @@ dependency expansion, credential use, provider calls,
 release/deploy/publish/upload/tag authority, dependency update authority, direct
 main mutation, concurrent mutation, hidden instruction changes, or any
 unrestricted RSI claim. This remains prior evidence. The current highest proven live class is
-`public_safe_bounded_sandboxed_self_change_cross_repo_doc_readback_four_attempts`; the next
+`public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts`; the next
 denied class is `unrestricted_self_modification`
 (`next_denied_class=unrestricted_self_modification`).
 
@@ -509,7 +511,7 @@ provider/deploy/release/config/dependency expansion, credential use, provider
 calls, release/deploy/publish/upload/tag authority, dependency update
 authority, direct main mutation, concurrent mutation, hidden instruction
 changes, or any unrestricted RSI claim. This remains prior evidence. The current highest proven live class is
-`public_safe_bounded_sandboxed_self_change_cross_repo_doc_readback_four_attempts`;
+`public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts`;
 the next denied class is `unrestricted_self_modification`
 (`next_denied_class=unrestricted_self_modification`).
 
@@ -549,6 +551,35 @@ release/config/dependency expansion, credential use, provider calls,
 release/deploy/publish/upload/tag authority, dependency update authority, direct
 main mutation, concurrent mutation, hidden instruction changes, or any
 unrestricted RSI claim. The highest proven live class is
-`public_safe_bounded_sandboxed_self_change_cross_repo_doc_readback_four_attempts`;
+`public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts`;
+the next denied class is `unrestricted_self_modification`
+(`next_denied_class=unrestricted_self_modification`).
+
+## Support-Code/Eval Sandboxed Self-Change
+
+`public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts`
+is proven from AO Foundry PR #222, commit
+`9938df55959ac904295fd4d0dc0eddc52626c972`, with tracked public evidence under
+`docs/evidence/unrestricted-self-modification-support-code-eval/`. The approved
+public wording is exactly: "AO has public-safe bounded sandboxed self-change
+support-code/eval evidence across four exact-scope reversible support-code and
+evaluation attempts under sandbox containment gates; unrestricted
+self-modification, hidden instruction mutation, policy-changing autonomy, and
+forbidden surface expansion remain denied." The run completed `240 / 240`
+nodes and passed support-code fixture validation quality `0.72` -> `0.95`,
+eval harness diagnostics quality `0.70` -> `0.94`, rollback automation evidence
+quality `0.69` -> `0.93`, and sandbox containment trace quality `0.68` ->
+`0.92`.
+
+This proves only bounded sandboxed self-change support-code/eval evidence
+across four exact-scope reversible support-code and evaluation attempts under
+sandbox containment gates. It does not prove unrestricted self-modification,
+hidden instruction mutation, policy-changing autonomy, forbidden surface
+expansion, policy/auth/secret/provider/deploy/release/config/dependency
+expansion, credential use, provider calls, release/deploy/publish/upload/tag
+authority, dependency update authority, direct main mutation, concurrent
+mutation, hidden instruction changes, sandbox containment bypass, or any
+unrestricted RSI claim. The highest proven live class is
+`public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts`;
 the next denied class is `unrestricted_self_modification`
 (`next_denied_class=unrestricted_self_modification`).
