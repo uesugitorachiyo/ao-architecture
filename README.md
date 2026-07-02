@@ -126,15 +126,15 @@ The stack now has a governed mutation-class ladder, not broad live mutation
 authority. The architecture source of truth is
 [overview/MUTATION-AUTHORITY-LADDER.md](overview/MUTATION-AUTHORITY-LADDER.md).
 The highest proven live class is
-`public_safe_bounded_sandboxed_self_change_applications_non_readback_four_attempts`. Docs-only,
+`public_safe_bounded_sandboxed_self_change_cross_repo_doc_readback_four_attempts`. Docs-only,
 test-only, low-risk code, multi-repo low-risk, the governed 12-node
 complex_repo_mutation rehearsal, the 26-node fully unsupervised complex first
 non-planning rehearsal, `bounded_rsi_evidence_rehearsal`, and
 `bounded_rsi_self_improvement_application` remain prior evidence. `broad_RSI`
 is proven only for the governed public-safe 10-day evidence campaign. The
 current class is proven only for four public-safe bounded sandboxed
-self-change application evidence attempts across non-readback exact-scope
-evidence tasks under sandbox containment gates. The guard keeps
+self-change cross-repo documentation/readback attempts under sandbox
+containment gates. The guard keeps
 unrestricted self-modification, hidden instruction mutation, policy-changing
 autonomy, forbidden surface expansion, and any unrestricted RSI claim denied.
 
@@ -617,8 +617,8 @@ policy-changing autonomy, forbidden surface expansion, policy/auth/secret/
 provider/deploy/release/config/dependency expansion, credential use, provider
 calls, release/deploy/publish/upload/tag authority, dependency update
 authority, direct main mutation, concurrent mutation, hidden instruction
-changes, or any unrestricted RSI claim. The highest proven live class is
-`public_safe_bounded_sandboxed_self_change_applications_non_readback_four_attempts`;
+changes, or any unrestricted RSI claim. This remains prior evidence. The current highest proven live class is
+`public_safe_bounded_sandboxed_self_change_cross_repo_doc_readback_four_attempts`;
 the next denied class is `unrestricted_self_modification`
 (`next_denied_class=unrestricted_self_modification`).
 
@@ -632,3 +632,42 @@ Promoter
 `promote_public_safe_bounded_sandboxed_self_change_applications_non_readback_four_attempts_keep_unrestricted_self_modification_denied`,
 and Command
 `public_safe_bounded_sandboxed_self_change_applications_non_readback_four_attempts_proven_unrestricted_self_modification_denied`.
+
+## Cross-Repo Documentation/Readback Sandboxed Self-Change
+
+`public_safe_bounded_sandboxed_self_change_cross_repo_doc_readback_four_attempts`
+is proven from AO Foundry PR #221, commit
+`a993f4b6284de711cdb2b3fd6f006bb2706df9c8`, with tracked public evidence under
+`docs/evidence/unrestricted-self-modification-cross-repo-doc-readback/`. The
+approved public wording is exactly: "AO has public-safe bounded sandboxed
+self-change cross-repo documentation/readback evidence across four exact-scope
+documentation consistency attempts under sandbox containment gates; unrestricted
+self-modification, hidden instruction mutation, policy-changing autonomy, and
+forbidden surface expansion remain denied." The run completed `180 / 180`
+nodes and four independent attempts: Architecture source-of-truth consistency
+evidence quality `0.70` -> `0.94`, component README readback parity quality
+`0.68` -> `0.93`, CI/PR merge evidence linkage quality `0.67` -> `0.92`, and
+stale-language denial sweep quality `0.66` -> `0.91`.
+
+This proves only bounded sandboxed self-change cross-repo
+documentation/readback evidence across four exact-scope documentation
+consistency attempts under sandbox containment gates. It does not prove
+unrestricted self-modification, hidden instruction mutation, policy-changing
+autonomy, forbidden surface expansion, policy/auth/secret/provider/deploy/
+release/config/dependency expansion, credential use, provider calls,
+release/deploy/publish/upload/tag authority, dependency update authority, direct
+main mutation, concurrent mutation, hidden instruction changes, or any
+unrestricted RSI claim. The highest proven live class is
+`public_safe_bounded_sandboxed_self_change_cross_repo_doc_readback_four_attempts`;
+the next denied class is `unrestricted_self_modification`
+(`next_denied_class=unrestricted_self_modification`).
+
+Final gate identifiers: Covenant
+`deny_unrestricted_self_modification_allow_cross_repo_doc_readback`,
+Architecture
+`approve_cross_repo_doc_readback_wording_deny_unrestricted_self_modification_claim`,
+Sentinel `clear_cross_repo_doc_readback_hold_unrestricted_self_modification`,
+Promoter
+`promote_public_safe_bounded_sandboxed_self_change_cross_repo_doc_readback_four_attempts_keep_unrestricted_self_modification_denied`,
+and Command
+`public_safe_bounded_sandboxed_self_change_cross_repo_doc_readback_four_attempts_proven_unrestricted_self_modification_denied`.

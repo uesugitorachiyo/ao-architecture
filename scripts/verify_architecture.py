@@ -55,7 +55,7 @@ REQUIRED_LIVE_MUTATION_LADDER_TERMS = [
     "multi_repo_low_risk",
     "complex_repo_mutation",
     "fully_unsupervised_complex_mutation",
-    "highest proven live class is\n`public_safe_bounded_sandboxed_self_change_applications_non_readback_four_attempts`",
+    "highest proven live class is\n`public_safe_bounded_sandboxed_self_change_cross_repo_doc_readback_four_attempts`",
     "governed 12-node complex",
     "26-node fully unsupervised complex",
     "bounded_rsi_evidence_rehearsal",
