@@ -208,7 +208,7 @@ mutation, and policy-changing autonomy denied.
 `docs/evidence/recursive-improvement-review-durability/`. The approved public wording is exactly: "AO has public-safe bounded recursive-improvement review durability evidence showing bounded recursive-improvement wording remains stable across delayed re-review, adversarial drift checks, stale-language sweeps, and reproducibility retests under independent gates; broad_RSI remains denied." This remains prior evidence. `broad_RSI`, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/dependency expansion, and unbounded stronger recursive-improvement claims remain denied.
 
 `public_safe_recursive_improvement_claim_threshold_calibration_evidence` is proven from AO Foundry PR #201, commit `3e3d1101da112fa5ff0aca26f8ab2933652f3502`, with tracked public evidence under
-`docs/evidence/recursive-improvement-claim-threshold-calibration/`. The approved public wording is exactly: "AO has public-safe recursive-improvement claim threshold calibration evidence showing stronger bounded recursive-improvement claims can be evaluated against reproducible threshold, public-reader, adversarial wording, Covenant, Sentinel, rollback, and retraction gates; broad_RSI remains denied." This advances the highest proven live class to that exact narrow class. `broad_RSI`, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/dependency expansion, and unbounded stronger recursive-improvement claims remain denied.
+`docs/evidence/recursive-improvement-claim-threshold-calibration/`. The approved public wording is exactly: "AO has public-safe recursive-improvement claim threshold calibration evidence showing stronger bounded recursive-improvement claims can be evaluated against reproducible threshold, public-reader, adversarial wording, Covenant, Sentinel, rollback, and retraction gates; broad_RSI remains denied." This remains prior evidence after the segment-05 promotion. `broad_RSI`, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/dependency expansion, and unbounded stronger recursive-improvement claims remain denied.
 
 This distinction matters because dry-run readiness, approved live docs
 mutation, approved test-only mutation, approved low-risk code mutation,
@@ -314,6 +314,25 @@ class to that exact narrow class. The guard is explicit: stronger
 recursive-improvement wording remains denied, and `broad_RSI`, unrestricted
 self-modification, hidden instruction mutation, and policy-changing autonomy
 remain denied.
+
+The broad_RSI ten-day governed campaign segment-05 closure adds the current
+precise public state:
+`public_safe_broad_RSI_governed_campaign_segment_05_evidence` is proven. AO
+Foundry PR #208 merged at `54fb7c8210b169f71953d52d28e0e69f1c5aad1a`; its
+tracked public evidence lives under
+`docs/evidence/broad-rsi-ten-day-campaign-segment-05/`. Segment 05 completed
+420 nodes and advances campaign progress to 1500 / 2800 nodes. The approved
+public wording is exactly: "AO has public-safe broad_RSI governed campaign
+segment-05 evidence extending the 10-day campaign through multi-repo evidence
+linkage stress, reproducibility reruns, long-horizon drift checks, refactoring
+pulse support-debt containment, context-repack, rollback, and claim-gate
+readbacks while broad_RSI remains denied." This advances the highest proven
+live class to that exact narrow class. `broad_RSI`, full 10-day campaign
+completion, unrestricted self-modification, hidden instruction mutation,
+policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/
+dependency expansion, release/deploy/publish/upload/tag/provider calls,
+credential use, direct main mutation, concurrent mutation, and unbounded
+stronger recursive-improvement claims remain denied.
 
 
 AO Covenant now treats full autonomous self-mutating RSI wording as a governed

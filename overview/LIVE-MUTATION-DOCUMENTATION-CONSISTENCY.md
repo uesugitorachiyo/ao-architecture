@@ -6,7 +6,7 @@ the governed live-mutation boundary after the mutation-class ladder work.
 ## Public Boundary Statement
 
 - The highest proven live class is
-  `public_safe_broad_RSI_governed_campaign_first_segment_state_evidence`.
+  `public_safe_broad_RSI_governed_campaign_segment_05_evidence`.
 - `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
   `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
   `complex_repo_mutation` are distinct lower authority classes.
@@ -41,9 +41,10 @@ the governed live-mutation boundary after the mutation-class ladder work.
 - `public_safe_bounded_recursive_improvement_wording_generality_evidence` remains prior evidence for public-safe bounded recursive-improvement wording generality evidence.
 - `public_safe_bounded_recursive_improvement_review_durability_evidence` remains prior evidence for public-safe bounded recursive-improvement review durability evidence.
 - `public_safe_recursive_improvement_claim_threshold_calibration_evidence` remains prior evidence for public-safe recursive-improvement claim threshold calibration evidence.
-- `public_safe_broad_RSI_governed_campaign_first_segment_state_evidence` is proven only for public-safe broad_RSI governed campaign first-segment state evidence.
-- The approved public wording is exactly: "AO has public-safe broad_RSI governed campaign first-segment state evidence showing a 10-day evidence campaign can start from mission-state, no-repeat, sufficiency, Pulse reliability, context-repack, rollback, and claim-gate readbacks while broad_RSI remains denied."
-- The first segment completed 180 / 2500 campaign nodes and five public-safe attempts; it does not complete the full 10-day campaign.
+- `public_safe_broad_RSI_governed_campaign_first_segment_state_evidence` remains prior evidence for public-safe broad_RSI governed campaign first-segment state evidence.
+- `public_safe_broad_RSI_governed_campaign_segment_05_evidence` is proven only for public-safe broad_RSI governed campaign segment-05 evidence.
+- The approved public wording is exactly: "AO has public-safe broad_RSI governed campaign segment-05 evidence extending the 10-day campaign through multi-repo evidence linkage stress, reproducibility reruns, long-horizon drift checks, refactoring pulse support-debt containment, context-repack, rollback, and claim-gate readbacks while broad_RSI remains denied."
+- Segment 05 completed 420 nodes and advances campaign progress to 1500 / 2800 nodes; it does not complete the full 10-day campaign.
 - Dry-run readiness, approved live docs mutation, approved test-only mutation,
   approved low-risk code mutation, multi-repo rehearsal, complex mutation, and
   bounded RSI application are separate public claim levels.
