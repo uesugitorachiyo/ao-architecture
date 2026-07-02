@@ -4,7 +4,7 @@ This sweep checks public AO stack wording after the mutation-class ladder work.
 The current public boundary remains:
 
 - the highest proven live class is
-  `public_safe_bounded_sandboxed_self_change_applications_non_readback_four_attempts`;
+  `public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts`;
 - `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
   `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
   `complex_repo_mutation` are separate lower authority classes;
@@ -78,6 +78,18 @@ The current public boundary remains:
   diagnostics evidence quality 0.66 -> 0.90, public-safety rule calibration
   evidence quality 0.65 -> 0.89, and rollback/evidence-link integrity quality
   0.64 -> 0.88, and does not prove unrestricted self-modification;
+- `public_safe_bounded_sandboxed_self_change_cross_repo_doc_readback_four_attempts`
+  remains prior evidence for public-safe bounded sandboxed self-change
+  cross-repo documentation/readback evidence;
+- `public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts`
+  is proven only for four public-safe bounded sandboxed self-change
+  support-code/eval attempts under sandbox containment gates;
+- the approved public wording is exactly: "AO has public-safe bounded sandboxed self-change support-code/eval evidence across four exact-scope reversible support-code and evaluation attempts under sandbox containment gates; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and forbidden surface expansion remain denied.";
+- the support-code/eval run completed 240 / 240 nodes and four attempts:
+  support-code fixture validation quality 0.72 -> 0.95, eval harness
+  diagnostics quality 0.70 -> 0.94, rollback automation evidence quality
+  0.69 -> 0.93, and sandbox containment trace quality 0.68 -> 0.92, and does
+  not prove unrestricted self-modification;
 - `unrestricted_self_modification` remains denied;
 - fully unsupervised RSI remains denied;
 - broad RSI, unrestricted self-modification, hidden instruction mutation, and
@@ -118,7 +130,7 @@ The sweep should treat these as acceptable hits:
 - statements that unrestricted self-modification and hidden
   instruction mutation remain denied;
 - statements that the highest proven live class remains
-  `public_safe_bounded_sandboxed_self_change_applications_non_readback_four_attempts` and the
+  `public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts` and the
   next denied class remains `unrestricted_self_modification`.
 - statements that stronger recursive-improvement wording remains denied;
 
@@ -249,7 +261,7 @@ dependency expansion, credential use, provider calls,
 release/deploy/publish/upload/tag authority, dependency update authority, direct
 main mutation, concurrent mutation, hidden instruction changes, or any
 unrestricted RSI claim. This remains prior evidence. The current highest proven live class is
-`public_safe_bounded_sandboxed_self_change_cross_repo_doc_readback_four_attempts`; the next
+`public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts`; the next
 denied class is `unrestricted_self_modification`
 (`next_denied_class=unrestricted_self_modification`).
 
@@ -300,7 +312,7 @@ and Command
 ## Cross-Repo Documentation/Readback Sandboxed Self-Change Sweep
 
 The current highest proven live class is
-`public_safe_bounded_sandboxed_self_change_cross_repo_doc_readback_four_attempts`.
+`public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts`.
 It is proven from AO Foundry PR #221, commit
 `a993f4b6284de711cdb2b3fd6f006bb2706df9c8`, with tracked public evidence under
 `docs/evidence/unrestricted-self-modification-cross-repo-doc-readback/`.

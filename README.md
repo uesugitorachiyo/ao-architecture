@@ -126,15 +126,15 @@ The stack now has a governed mutation-class ladder, not broad live mutation
 authority. The architecture source of truth is
 [overview/MUTATION-AUTHORITY-LADDER.md](overview/MUTATION-AUTHORITY-LADDER.md).
 The highest proven live class is
-`public_safe_bounded_sandboxed_self_change_cross_repo_doc_readback_four_attempts`. Docs-only,
+`public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts`. Docs-only,
 test-only, low-risk code, multi-repo low-risk, the governed 12-node
 complex_repo_mutation rehearsal, the 26-node fully unsupervised complex first
 non-planning rehearsal, `bounded_rsi_evidence_rehearsal`, and
 `bounded_rsi_self_improvement_application` remain prior evidence. `broad_RSI`
 is proven only for the governed public-safe 10-day evidence campaign. The
 current class is proven only for four public-safe bounded sandboxed
-self-change cross-repo documentation/readback attempts under sandbox
-containment gates. The guard keeps
+self-change support-code/eval attempts under sandbox containment gates. The
+guard keeps
 unrestricted self-modification, hidden instruction mutation, policy-changing
 autonomy, forbidden surface expansion, and any unrestricted RSI claim denied.
 
@@ -618,7 +618,7 @@ provider/deploy/release/config/dependency expansion, credential use, provider
 calls, release/deploy/publish/upload/tag authority, dependency update
 authority, direct main mutation, concurrent mutation, hidden instruction
 changes, or any unrestricted RSI claim. This remains prior evidence. The current highest proven live class is
-`public_safe_bounded_sandboxed_self_change_cross_repo_doc_readback_four_attempts`;
+`public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts`;
 the next denied class is `unrestricted_self_modification`
 (`next_denied_class=unrestricted_self_modification`).
 
@@ -658,7 +658,7 @@ release/config/dependency expansion, credential use, provider calls,
 release/deploy/publish/upload/tag authority, dependency update authority, direct
 main mutation, concurrent mutation, hidden instruction changes, or any
 unrestricted RSI claim. The highest proven live class is
-`public_safe_bounded_sandboxed_self_change_cross_repo_doc_readback_four_attempts`;
+`public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts`;
 the next denied class is `unrestricted_self_modification`
 (`next_denied_class=unrestricted_self_modification`).
 

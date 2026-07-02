@@ -290,3 +290,26 @@ This does not prove `broad_RSI`, unrestricted self-modification, hidden instruct
 `public_safe_broad_RSI_governed_campaign_first_segment_state_evidence` is proven from AO Foundry PR #203, commit `b7523031d61b11df374e2203bdf44927e2d8432a`, with tracked public evidence under `docs/evidence/broad-rsi-ten-day-governed-evidence-campaign/`. The approved public wording is exactly: "AO has public-safe broad_RSI governed campaign first-segment state evidence showing a 10-day evidence campaign can start from mission-state, no-repeat, sufficiency, Pulse reliability, context-repack, rollback, and claim-gate readbacks while broad_RSI remains denied." This remains prior evidence; the current highest proven live class is `public_safe_broad_RSI_governed_campaign_segment_05_evidence` and the next denied class is `broad_RSI`.
 
 This does not prove `broad_RSI`, full 10-day campaign completion, final repeated independent broad evidence, final cross-repo generality proof for `broad_RSI`, exact `broad_RSI` public-reader approval, exact `broad_RSI` Covenant or Architecture approval, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/dependency expansion, release/deploy/publish/upload/tag/provider calls, credential use, direct main mutation, concurrent mutation, or unbounded stronger recursive-improvement claims.
+
+## Support-Code/Eval Sandboxed Self-Change Readback
+
+`public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts` is
+proven from AO Foundry PR #222, commit
+`9938df55959ac904295fd4d0dc0eddc52626c972`, with tracked public evidence under
+`docs/evidence/unrestricted-self-modification-support-code-eval/`. The approved
+public wording is exactly: "AO has public-safe bounded sandboxed self-change
+support-code/eval evidence across four exact-scope reversible support-code and
+evaluation attempts under sandbox containment gates; unrestricted
+self-modification, hidden instruction mutation, policy-changing autonomy, and
+forbidden surface expansion remain denied." Command reads back
+`public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts_proven_unrestricted_self_modification_denied`
+and keeps `next_denied_class=unrestricted_self_modification`.
+
+This proves only bounded sandboxed self-change support-code/eval evidence under
+sandbox containment gates. It does not prove unrestricted self-modification,
+hidden instruction mutation, policy-changing autonomy, forbidden surface
+expansion, sandbox containment bypass, policy/auth/secret/provider/deploy/
+release/config/dependency expansion, credential use, provider calls,
+release/deploy/publish/upload/tag authority, dependency update authority, direct
+main mutation, concurrent mutation, hidden instruction changes, or any
+unrestricted RSI claim.
