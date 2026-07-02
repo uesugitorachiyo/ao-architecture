@@ -249,16 +249,28 @@ mutation, and policy-changing autonomy remain denied.
 `public_safe_bounded_recursive_improvement_wording_generality_evidence` is proven from AO Foundry PR #197, commit `166398641b655f0da97817659acc771026b204e7`, with tracked public evidence under
 `docs/evidence/recursive-improvement-bounded-wording-generality/`. The approved public wording is exactly: "AO has public-safe bounded recursive-improvement wording generality evidence showing reviewer-approved bounded wording can transfer across additional public-safe review tasks under independent gates; broad_RSI remains denied." This remains prior evidence. `broad_RSI`, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/dependency expansion, and unbounded stronger recursive-improvement claims remain denied.
 
+
+`public_safe_recursive_improvement_claim_threshold_calibration_evidence` is proven from AO Foundry PR #201, commit `3e3d1101da112fa5ff0aca26f8ab2933652f3502`, with tracked public evidence under
+`docs/evidence/recursive-improvement-claim-threshold-calibration/`, including
+`docs/evidence/recursive-improvement-claim-threshold-calibration/final-rollup.json`.
+The approved public wording is exactly: "AO has public-safe recursive-improvement claim threshold calibration evidence showing stronger bounded recursive-improvement claims can be evaluated against reproducible threshold, public-reader, adversarial wording, Covenant, Sentinel, rollback, and retraction gates; broad_RSI remains denied." This advances the highest proven live class to that exact narrow class. `broad_RSI`, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/dependency expansion, and unbounded stronger recursive-improvement claims remain denied.
+Promoter result
+`promote_public_safe_recursive_improvement_claim_threshold_calibration_evidence_broad_RSI_denied`
+and Command readback
+`public_safe_recursive_improvement_claim_threshold_calibration_evidence_proven_broad_RSI_denied`
+name the exact proven class while keeping `broad_RSI` denied.
+
 The separate mutation authority ladder is narrower than this RSI claim boundary.
 The highest proven live class is
-`public_safe_bounded_recursive_improvement_review_durability_evidence`; docs-only,
+`public_safe_recursive_improvement_claim_threshold_calibration_evidence`; docs-only,
 test-only, low-risk-code, multi-repo low-risk, governed complex mutation, fully
 unsupervised complex first non-planning, bounded evidence rehearsal, bounded
 private readback/eval application evidence, and conservative public-safe
 readback evidence, four public-safe bounded evidence expansion attempts,
-reviewed causal-chain boundary generalization, and intermediate causal-review
-evidence, plus evidence-selection guidance and guided evidence-application, do
-not prove broad RSI or authority to publish a broad RSI claim.
+reviewed causal-chain boundary generalization, intermediate causal-review
+evidence, evidence-selection guidance, guided evidence-application, bounded
+wording generality, review durability, and claim threshold calibration do not
+prove broad RSI or authority to publish a broad RSI claim.
 `broad_RSI` remains denied.
 
 ## Machine-Readable Manifest
