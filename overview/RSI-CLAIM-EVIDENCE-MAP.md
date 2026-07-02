@@ -84,13 +84,13 @@ autonomy, and broad RSI denied.
 
 `broad_RSI` is proven only under governed public-safe campaign-completion
 boundaries. It remains prior evidence after the unrestricted self-modification
-readiness-boundary map and does not prove unrestricted self-modification, hidden
+sandbox-containment map and does not prove unrestricted self-modification, hidden
 instruction mutation, policy-changing autonomy, or forbidden surface expansion.
 
-`public_safe_unrestricted_self_modification_readiness_boundary_map` is proven
-for public-safe readiness-boundary evidence for evaluating unrestricted
-self-modification. It advances the highest proven live class to
-`public_safe_unrestricted_self_modification_readiness_boundary_map`, keeps the
+`public_safe_unrestricted_self_modification_sandbox_containment_rehearsal` is proven
+for public-safe sandbox containment evidence for dry-run self-change
+proposal evaluation. It advances the highest proven live class to
+`public_safe_unrestricted_self_modification_sandbox_containment_rehearsal`, keeps the
 next denied class at `unrestricted_self_modification`
 (`next_denied_class=unrestricted_self_modification`), and keeps unrestricted
 self-modification, hidden instruction mutation, policy-changing autonomy,
@@ -156,8 +156,8 @@ instruction changes, and unrestricted RSI claims denied.
 | 51 | AO Foundry | AO Foundry PR #210, commit `8f8ac5f8f74d942c7a02a6c2dd39a7c974872bb6`, `docs/evidence/broad-rsi-ten-day-campaign-segment-07/final-rollup.json` | Records `public_safe_broad_RSI_governed_campaign_segment_07_evidence=proven`, 540 segment nodes completed, 2520 / 2800 campaign nodes completed, 27000 SDD slices generated, four public-safe attempts completed, and `broad_RSI` denied. |
 | 52 | AO Covenant / AO Architecture / AO Sentinel / AO Promoter / AO Command | Campaign segment-07 gate results | Covenant result `approved_segment_07_wording_broad_RSI_denied`, Architecture result `approved_segment_07_wording_broad_RSI_denied`, Sentinel result `clear_for_segment_07_hold_for_broad_RSI`, Promoter result `promote_public_safe_broad_RSI_governed_campaign_segment_07_evidence_broad_RSI_denied`, and Command readback `public_safe_broad_RSI_governed_campaign_segment_07_evidence_proven_broad_RSI_denied` approve only segment-07 wording and keep broad_RSI denied. |
 | 53 | AO Foundry | AO Foundry PR #211, commit `630edc70905db745380edd1072e04b546dcccfe3`, `docs/evidence/broad-rsi-ten-day-campaign-segment-08/final-rollup.json` | Records `broad_RSI=proven` only under governed public-safe campaign-completion boundaries while preserving unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and forbidden surface expansion as denied. |
-| 54 | AO Foundry | AO Foundry PR #215, commit `e5ed75361554b1c90518c0e0df10b18adec77e5f`, `docs/evidence/unrestricted-self-modification-readiness-boundary/final-rollup.json` | Records `public_safe_unrestricted_self_modification_readiness_boundary_map=proven`, `320 / 320` nodes completed, and the approved wording for public-safe readiness-boundary evidence while keeping `unrestricted_self_modification` denied. |
-| 55 | AO Covenant / AO Architecture / AO Sentinel / AO Promoter / AO Command | Unrestricted self-modification readiness-boundary gate results | Covenant result `deny_unrestricted_self_modification_allow_readiness_boundary_map`, Architecture result `approve_readiness_boundary_wording_deny_unrestricted_self_modification_claim`, Sentinel result `clear_readiness_boundary_hold_unrestricted_self_modification`, Promoter result `promote_public_safe_unrestricted_self_modification_readiness_boundary_map_keep_unrestricted_self_modification_denied`, and Command readback `public_safe_unrestricted_self_modification_readiness_boundary_map_proven_unrestricted_self_modification_denied` approve only the readiness-boundary map and keep unrestricted self-modification denied. |
+| 54 | AO Foundry | AO Foundry PR #216, commit `7881613065de48f2547833a9ecc9a9011b55a96a`, `docs/evidence/unrestricted-self-modification-sandbox-containment/final-rollup.json` | Records `public_safe_unrestricted_self_modification_sandbox_containment_rehearsal=proven`, `420 / 420` nodes completed, and the approved wording for public-safe sandbox-containment evidence while keeping `unrestricted_self_modification` denied. |
+| 55 | AO Covenant / AO Architecture / AO Sentinel / AO Promoter / AO Command | Unrestricted self-modification sandbox-containment gate results | Covenant result `deny_unrestricted_self_modification_allow_sandbox_containment_rehearsal`, Architecture result `approve_sandbox_containment_wording_deny_unrestricted_self_modification_claim`, Sentinel result `clear_sandbox_containment_hold_unrestricted_self_modification`, Promoter result `promote_public_safe_unrestricted_self_modification_sandbox_containment_rehearsal_keep_unrestricted_self_modification_denied`, and Command readback `public_safe_unrestricted_self_modification_sandbox_containment_rehearsal_proven_unrestricted_self_modification_denied` approve only the sandbox-containment map and keep unrestricted self-modification denied. |
 | 51 | AO Promoter / AO Command | Final promotion and readback | Promoter result `promote_exact_safe_public_claim_wording_conservative_readback_evidence_broad_RSI_denied` and Command result `exact_safe_public_claim_wording_conservative_readback_evidence_proven_broad_RSI_denied` name the exact proven class while keeping `broad_RSI` denied. |
 | 52 | AO Foundry | AO Foundry PR #181, commit `d31b6f2247780867c3c72dbda5abb7377f3a1b3e`, `docs/evidence/recursive-improvement-public-evidence-expansion/final-rollup.json` | Records `public_safe_bounded_improvement_evidence_expansion_four_attempts=proven` with four public-safe bounded evidence expansion attempts, reproducibility runbooks, and tracked evidence under `docs/evidence/recursive-improvement-public-evidence-expansion/`. |
 | 53 | AO Covenant / AO Architecture / AO Sentinel | Narrow evidence expansion gate results | Covenant and Architecture approve narrow evidence expansion only; Sentinel clears the narrow evidence expansion and holds stronger recursive-improvement wording. |
@@ -292,7 +292,7 @@ name the exact proven class while keeping `broad_RSI` denied.
 
 The separate mutation authority ladder is narrower than this RSI claim boundary.
 The highest proven live class is
-`public_safe_unrestricted_self_modification_readiness_boundary_map`; docs-only,
+`public_safe_unrestricted_self_modification_sandbox_containment_rehearsal`; docs-only,
 test-only, low-risk-code, multi-repo low-risk, governed complex mutation, fully
 unsupervised complex first non-planning, bounded evidence rehearsal, bounded
 private readback/eval application evidence, conservative public-safe readback
@@ -319,16 +319,16 @@ This does not prove unrestricted self-modification, hidden instruction mutation,
 
 Final gate identifiers: public-reader `approved_exact_governed_broad_RSI_wording`, Sentinel `clear_for_governed_broad_RSI_public_wording`, Promoter `promote_broad_RSI_governed_public_safe_campaign_completion_unrestricted_boundaries_denied`, and Command `broad_RSI_proven_under_governed_public_safe_campaign_completion_boundaries`.
 
-## Unrestricted Self-Modification Readiness Boundary Evidence
+## Unrestricted Self-Modification Sandbox Containment Evidence
 
-`public_safe_unrestricted_self_modification_readiness_boundary_map` is proven
-from AO Foundry PR #215, commit
-`e5ed75361554b1c90518c0e0df10b18adec77e5f`, with tracked public evidence under
-`docs/evidence/unrestricted-self-modification-readiness-boundary/`. The approved
-public wording is exactly: "AO has public-safe readiness-boundary evidence for
-evaluating unrestricted self-modification; unrestricted self-modification,
+`public_safe_unrestricted_self_modification_sandbox_containment_rehearsal` is proven
+from AO Foundry PR #216, commit
+`7881613065de48f2547833a9ecc9a9011b55a96a`, with tracked public evidence under
+`docs/evidence/unrestricted-self-modification-sandbox-containment/`. The approved
+public wording is exactly: "AO has public-safe sandbox containment evidence for
+dry-run self-change proposal evaluation; unrestricted self-modification,
 hidden instruction mutation, policy-changing autonomy, and forbidden surface
-expansion remain denied." The readiness-boundary run completed `320 / 320`
+expansion remain denied." The sandbox-containment run completed `420 / 420`
 nodes and passed Covenant, Architecture, Sentinel, Promoter, Command,
 rollback/retraction, stale-language, public-safety, and eval/regression gates.
 
@@ -338,15 +338,15 @@ dependency expansion, credential use, provider calls,
 release/deploy/publish/upload/tag authority, dependency update authority, direct
 main mutation, concurrent mutation, hidden instruction changes, or any
 unrestricted RSI claim. The highest proven live class is
-`public_safe_unrestricted_self_modification_readiness_boundary_map`; the next
+`public_safe_unrestricted_self_modification_sandbox_containment_rehearsal`; the next
 denied class is `unrestricted_self_modification`
 (`next_denied_class=unrestricted_self_modification`).
 
 Final gate identifiers: Covenant
-`deny_unrestricted_self_modification_allow_readiness_boundary_map`, Architecture
-`approve_readiness_boundary_wording_deny_unrestricted_self_modification_claim`,
-Sentinel `clear_readiness_boundary_hold_unrestricted_self_modification`,
+`deny_unrestricted_self_modification_allow_sandbox_containment_rehearsal`, Architecture
+`approve_sandbox_containment_wording_deny_unrestricted_self_modification_claim`,
+Sentinel `clear_sandbox_containment_hold_unrestricted_self_modification`,
 Promoter
-`promote_public_safe_unrestricted_self_modification_readiness_boundary_map_keep_unrestricted_self_modification_denied`,
+`promote_public_safe_unrestricted_self_modification_sandbox_containment_rehearsal_keep_unrestricted_self_modification_denied`,
 and Command
-`public_safe_unrestricted_self_modification_readiness_boundary_map_proven_unrestricted_self_modification_denied`.
+`public_safe_unrestricted_self_modification_sandbox_containment_rehearsal_proven_unrestricted_self_modification_denied`.

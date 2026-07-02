@@ -6,7 +6,7 @@ the governed live-mutation boundary after the mutation-class ladder work.
 ## Public Boundary Statement
 
 - The highest proven live class is
-  `public_safe_unrestricted_self_modification_readiness_boundary_map`.
+  `public_safe_unrestricted_self_modification_sandbox_containment_rehearsal`.
 - `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
   `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
   `complex_repo_mutation` are distinct lower authority classes.
@@ -45,11 +45,11 @@ the governed live-mutation boundary after the mutation-class ladder work.
 - `public_safe_broad_RSI_governed_campaign_segment_07_evidence` remains prior evidence for public-safe broad_RSI governed campaign segment-07 evidence.
 - `broad_RSI` remains prior evidence proven only under governed public-safe
   campaign-completion boundaries.
-- `public_safe_unrestricted_self_modification_readiness_boundary_map` is proven
-  only for public-safe readiness-boundary evidence for evaluating unrestricted
-  self-modification.
-- The approved public wording is exactly: "AO has public-safe readiness-boundary evidence for evaluating unrestricted self-modification; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and forbidden surface expansion remain denied."
-- The readiness-boundary run completed 320 / 320 nodes and does not prove
+- `public_safe_unrestricted_self_modification_sandbox_containment_rehearsal` is proven
+  only for public-safe sandbox containment evidence for dry-run self-change
+  proposal evaluation.
+- The approved public wording is exactly: "AO has public-safe sandbox containment evidence for dry-run self-change proposal evaluation; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and forbidden surface expansion remain denied."
+- The sandbox-containment run completed 420 / 420 nodes and does not prove
   unrestricted self-modification.
 - Dry-run readiness, approved live docs mutation, approved test-only mutation,
   approved low-risk code mutation, multi-repo rehearsal, complex mutation, and
@@ -109,7 +109,7 @@ This documentation set is consistent when:
 - remaining `safe_to_execute=true` mentions are tied to exact approval and all
   gates;
 - ladder wording names
-  `public_safe_unrestricted_self_modification_readiness_boundary_map` as the
+  `public_safe_unrestricted_self_modification_sandbox_containment_rehearsal` as the
   highest proven live class and keeps `unrestricted_self_modification` denied
   unless its own gates pass;
 - bounded RSI wording says only `bounded_rsi_evidence_rehearsal` is live-proven
@@ -135,16 +135,16 @@ This does not prove unrestricted self-modification, hidden instruction mutation,
 
 Final gate identifiers: public-reader `approved_exact_governed_broad_RSI_wording`, Sentinel `clear_for_governed_broad_RSI_public_wording`, Promoter `promote_broad_RSI_governed_public_safe_campaign_completion_unrestricted_boundaries_denied`, and Command `broad_RSI_proven_under_governed_public_safe_campaign_completion_boundaries`.
 
-## Unrestricted Self-Modification Readiness Boundary Evidence
+## Unrestricted Self-Modification Sandbox Containment Evidence
 
-`public_safe_unrestricted_self_modification_readiness_boundary_map` is proven
-from AO Foundry PR #215, commit
-`e5ed75361554b1c90518c0e0df10b18adec77e5f`, with tracked public evidence under
-`docs/evidence/unrestricted-self-modification-readiness-boundary/`. The approved
-public wording is exactly: "AO has public-safe readiness-boundary evidence for
-evaluating unrestricted self-modification; unrestricted self-modification,
+`public_safe_unrestricted_self_modification_sandbox_containment_rehearsal` is proven
+from AO Foundry PR #216, commit
+`7881613065de48f2547833a9ecc9a9011b55a96a`, with tracked public evidence under
+`docs/evidence/unrestricted-self-modification-sandbox-containment/`. The approved
+public wording is exactly: "AO has public-safe sandbox containment evidence for
+dry-run self-change proposal evaluation; unrestricted self-modification,
 hidden instruction mutation, policy-changing autonomy, and forbidden surface
-expansion remain denied." The readiness-boundary run completed `320 / 320`
+expansion remain denied." The sandbox-containment run completed `420 / 420`
 nodes and passed Covenant, Architecture, Sentinel, Promoter, Command,
 rollback/retraction, stale-language, public-safety, and eval/regression gates.
 
@@ -154,15 +154,15 @@ dependency expansion, credential use, provider calls,
 release/deploy/publish/upload/tag authority, dependency update authority, direct
 main mutation, concurrent mutation, hidden instruction changes, or any
 unrestricted RSI claim. The highest proven live class is
-`public_safe_unrestricted_self_modification_readiness_boundary_map`; the next
+`public_safe_unrestricted_self_modification_sandbox_containment_rehearsal`; the next
 denied class is `unrestricted_self_modification`
 (`next_denied_class=unrestricted_self_modification`).
 
 Final gate identifiers: Covenant
-`deny_unrestricted_self_modification_allow_readiness_boundary_map`, Architecture
-`approve_readiness_boundary_wording_deny_unrestricted_self_modification_claim`,
-Sentinel `clear_readiness_boundary_hold_unrestricted_self_modification`,
+`deny_unrestricted_self_modification_allow_sandbox_containment_rehearsal`, Architecture
+`approve_sandbox_containment_wording_deny_unrestricted_self_modification_claim`,
+Sentinel `clear_sandbox_containment_hold_unrestricted_self_modification`,
 Promoter
-`promote_public_safe_unrestricted_self_modification_readiness_boundary_map_keep_unrestricted_self_modification_denied`,
+`promote_public_safe_unrestricted_self_modification_sandbox_containment_rehearsal_keep_unrestricted_self_modification_denied`,
 and Command
-`public_safe_unrestricted_self_modification_readiness_boundary_map_proven_unrestricted_self_modification_denied`.
+`public_safe_unrestricted_self_modification_sandbox_containment_rehearsal_proven_unrestricted_self_modification_denied`.
