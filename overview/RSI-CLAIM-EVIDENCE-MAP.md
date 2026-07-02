@@ -99,6 +99,20 @@ credential use, provider calls, release/deploy/publish/upload/tag authority,
 dependency update authority, direct main mutation, concurrent mutation, hidden
 instruction changes, and unrestricted RSI claims denied.
 
+`public_safe_unrestricted_self_modification_adversarial_negative_controls` is
+proven for public-safe adversarial negative-control evidence showing unsafe
+dry-run self-change proposals are rejected under sandbox containment gates. It
+advances the highest proven live class to
+`public_safe_unrestricted_self_modification_adversarial_negative_controls`, keeps
+the next denied class at `unrestricted_self_modification`
+(`next_denied_class=unrestricted_self_modification`), and keeps unrestricted
+self-modification, hidden instruction mutation, policy-changing autonomy,
+forbidden surface expansion, policy/auth/secret/provider/deploy/release/config/
+dependency expansion, credential use, provider calls, release/deploy/publish/
+upload/tag authority, dependency update authority, direct main mutation,
+concurrent mutation, hidden instruction changes, and unrestricted RSI claims
+denied.
+
 ## Active Evidence Chain
 
 | Step | Owner | Artifact or command | Claim contribution |
@@ -158,6 +172,8 @@ instruction changes, and unrestricted RSI claims denied.
 | 53 | AO Foundry | AO Foundry PR #211, commit `630edc70905db745380edd1072e04b546dcccfe3`, `docs/evidence/broad-rsi-ten-day-campaign-segment-08/final-rollup.json` | Records `broad_RSI=proven` only under governed public-safe campaign-completion boundaries while preserving unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and forbidden surface expansion as denied. |
 | 54 | AO Foundry | AO Foundry PR #216, commit `7881613065de48f2547833a9ecc9a9011b55a96a`, `docs/evidence/unrestricted-self-modification-sandbox-containment/final-rollup.json` | Records `public_safe_unrestricted_self_modification_sandbox_containment_rehearsal=proven`, `420 / 420` nodes completed, and the approved wording for public-safe sandbox-containment evidence while keeping `unrestricted_self_modification` denied. |
 | 55 | AO Covenant / AO Architecture / AO Sentinel / AO Promoter / AO Command | Unrestricted self-modification sandbox-containment gate results | Covenant result `deny_unrestricted_self_modification_allow_sandbox_containment_rehearsal`, Architecture result `approve_sandbox_containment_wording_deny_unrestricted_self_modification_claim`, Sentinel result `clear_sandbox_containment_hold_unrestricted_self_modification`, Promoter result `promote_public_safe_unrestricted_self_modification_sandbox_containment_rehearsal_keep_unrestricted_self_modification_denied`, and Command readback `public_safe_unrestricted_self_modification_sandbox_containment_rehearsal_proven_unrestricted_self_modification_denied` approve only the sandbox-containment map and keep unrestricted self-modification denied. |
+| 56 | AO Foundry | AO Foundry PR #217, commit `b7e487022ae7436be13e0a49d0bf15f5c7936145`, `docs/evidence/unrestricted-self-modification-adversarial-negative-controls/final-rollup.json` | Records `public_safe_unrestricted_self_modification_adversarial_negative_controls=proven`, `560 / 560` nodes completed, and the approved wording for public-safe adversarial negative-control rejection while keeping `unrestricted_self_modification` denied. |
+| 57 | AO Covenant / AO Sentinel / AO Promoter / AO Command | Unrestricted self-modification adversarial negative-control gate results | Covenant result `deny_unrestricted_self_modification_allow_adversarial_negative_controls`, Sentinel result `clear_adversarial_negative_controls_hold_unrestricted_self_modification`, Promoter result `promote_public_safe_unrestricted_self_modification_adversarial_negative_controls_keep_unrestricted_self_modification_denied`, and Command readback `public_safe_unrestricted_self_modification_adversarial_negative_controls_proven_unrestricted_self_modification_denied` approve only adversarial negative controls and keep unrestricted self-modification denied. |
 | 51 | AO Promoter / AO Command | Final promotion and readback | Promoter result `promote_exact_safe_public_claim_wording_conservative_readback_evidence_broad_RSI_denied` and Command result `exact_safe_public_claim_wording_conservative_readback_evidence_proven_broad_RSI_denied` name the exact proven class while keeping `broad_RSI` denied. |
 | 52 | AO Foundry | AO Foundry PR #181, commit `d31b6f2247780867c3c72dbda5abb7377f3a1b3e`, `docs/evidence/recursive-improvement-public-evidence-expansion/final-rollup.json` | Records `public_safe_bounded_improvement_evidence_expansion_four_attempts=proven` with four public-safe bounded evidence expansion attempts, reproducibility runbooks, and tracked evidence under `docs/evidence/recursive-improvement-public-evidence-expansion/`. |
 | 53 | AO Covenant / AO Architecture / AO Sentinel | Narrow evidence expansion gate results | Covenant and Architecture approve narrow evidence expansion only; Sentinel clears the narrow evidence expansion and holds stronger recursive-improvement wording. |
@@ -292,7 +308,7 @@ name the exact proven class while keeping `broad_RSI` denied.
 
 The separate mutation authority ladder is narrower than this RSI claim boundary.
 The highest proven live class is
-`public_safe_unrestricted_self_modification_sandbox_containment_rehearsal`; docs-only,
+`public_safe_unrestricted_self_modification_adversarial_negative_controls`; docs-only,
 test-only, low-risk-code, multi-repo low-risk, governed complex mutation, fully
 unsupervised complex first non-planning, bounded evidence rehearsal, bounded
 private readback/eval application evidence, conservative public-safe readback
@@ -300,8 +316,9 @@ evidence, four public-safe bounded evidence expansion attempts, reviewed
 causal-chain boundary generalization, intermediate causal-review evidence,
 evidence-selection guidance, guided evidence-application, bounded wording
 generality, review durability, claim threshold calibration, and governed
-public-safe broad_RSI campaign completion remain prior evidence. None of them
-prove unrestricted self-modification or unrestricted RSI.
+public-safe broad_RSI campaign completion and sandbox-containment evidence remain
+prior evidence. None of them prove unrestricted self-modification or unrestricted
+RSI.
 `unrestricted_self_modification` remains denied.
 
 ## Machine-Readable Manifest
@@ -350,3 +367,36 @@ Promoter
 `promote_public_safe_unrestricted_self_modification_sandbox_containment_rehearsal_keep_unrestricted_self_modification_denied`,
 and Command
 `public_safe_unrestricted_self_modification_sandbox_containment_rehearsal_proven_unrestricted_self_modification_denied`.
+
+## Unrestricted Self-Modification Adversarial Negative Controls
+
+`public_safe_unrestricted_self_modification_adversarial_negative_controls` is
+proven from AO Foundry PR #217, commit
+`b7e487022ae7436be13e0a49d0bf15f5c7936145`, with tracked public evidence under
+`docs/evidence/unrestricted-self-modification-adversarial-negative-controls/`.
+The approved public wording is exactly: "AO has public-safe adversarial
+negative-control evidence that unsafe dry-run self-change proposals are
+rejected under sandbox containment gates; unrestricted self-modification,
+hidden instruction mutation, policy-changing autonomy, and forbidden surface
+expansion remain denied." The adversarial negative-control run completed
+`560 / 560` nodes and passed Covenant, Sentinel, Promoter, Command,
+rollback/retraction, stale-language, public-safety, and eval/regression gates.
+
+This proves only public-safe adversarial negative-control rejection for unsafe
+dry-run self-change proposals. It does not prove unrestricted self-modification,
+hidden instruction mutation, policy-changing autonomy, policy/auth/secret/
+provider/deploy/release/config/dependency expansion, credential use, provider
+calls, release/deploy/publish/upload/tag authority, dependency update authority,
+direct main mutation, concurrent mutation, hidden instruction changes, forbidden
+surface expansion, or any unrestricted RSI claim. The highest proven live class
+is `public_safe_unrestricted_self_modification_adversarial_negative_controls`;
+the next denied class is `unrestricted_self_modification`
+(`next_denied_class=unrestricted_self_modification`).
+
+Final gate identifiers: Covenant
+`deny_unrestricted_self_modification_allow_adversarial_negative_controls`,
+Sentinel `clear_adversarial_negative_controls_hold_unrestricted_self_modification`,
+Promoter
+`promote_public_safe_unrestricted_self_modification_adversarial_negative_controls_keep_unrestricted_self_modification_denied`,
+and Command
+`public_safe_unrestricted_self_modification_adversarial_negative_controls_proven_unrestricted_self_modification_denied`.

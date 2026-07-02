@@ -4,7 +4,7 @@ This sweep checks public AO stack wording after the mutation-class ladder work.
 The current public boundary remains:
 
 - the highest proven live class is
-  `public_safe_unrestricted_self_modification_sandbox_containment_rehearsal`;
+  `public_safe_unrestricted_self_modification_adversarial_negative_controls`;
 - `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
   `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
   `complex_repo_mutation` are separate lower authority classes;
@@ -46,6 +46,12 @@ The current public boundary remains:
 - the approved public wording is exactly: "AO has public-safe sandbox containment evidence for dry-run self-change proposal evaluation; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and forbidden surface expansion remain denied.";
 - the sandbox-containment run completed 420 / 420 nodes and does not prove
   unrestricted self-modification;
+- `public_safe_unrestricted_self_modification_adversarial_negative_controls` is
+  proven only for public-safe adversarial negative-control rejection of unsafe
+  dry-run self-change proposals;
+- the approved public wording is exactly: "AO has public-safe adversarial negative-control evidence that unsafe dry-run self-change proposals are rejected under sandbox containment gates; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and forbidden surface expansion remain denied.";
+- the adversarial negative-control run completed 560 / 560 nodes and does not
+  prove unrestricted self-modification;
 - `unrestricted_self_modification` remains denied;
 - fully unsupervised RSI remains denied;
 - broad RSI, unrestricted self-modification, hidden instruction mutation, and
@@ -65,6 +71,7 @@ rg -n -i "six active|6 active|six repositories|6 repositories|six active repos|6
 rg -n -i "safe_to_execute(=|:| true)|safe to execute|production ready for live mutation|fully autonomous live mutation|ungated live mutation authority|grant[s]? ungated|claims? ungated|fully unsupervised complex" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
 rg -n -i "self-mutating RSI|full autonomous self-mutating RSI" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
 rg -n -i "RSI is proven|broad RSI is proven|broad_RSI is proven|unrestricted self-modification|hidden instruction mutation allowed|policy-changing autonomy allowed|policy-changing autonomy|stronger recursive-improvement claims are proven|stronger recursive-improvement wording approved|full 10-day campaign complete|fully autonomous RSI|highest proven live class|next denied class" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
+rg -n -i "unrestricted_self_modification.*proven|unrestricted self-modification allowed|forbidden surface expansion allowed|credential authority allowed|provider authority allowed|direct main mutation allowed|concurrent mutation allowed" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
 ```
 
 ## Result Interpretation
@@ -84,7 +91,7 @@ The sweep should treat these as acceptable hits:
 - statements that unrestricted self-modification and hidden
   instruction mutation remain denied;
 - statements that the highest proven live class remains
-  `public_safe_unrestricted_self_modification_sandbox_containment_rehearsal` and the
+  `public_safe_unrestricted_self_modification_adversarial_negative_controls` and the
   next denied class remains `unrestricted_self_modification`.
 - statements that stronger recursive-improvement wording remains denied;
 
@@ -155,3 +162,36 @@ Promoter
 `promote_public_safe_unrestricted_self_modification_sandbox_containment_rehearsal_keep_unrestricted_self_modification_denied`,
 and Command
 `public_safe_unrestricted_self_modification_sandbox_containment_rehearsal_proven_unrestricted_self_modification_denied`.
+
+## Unrestricted Self-Modification Adversarial Negative Controls
+
+`public_safe_unrestricted_self_modification_adversarial_negative_controls` is
+proven from AO Foundry PR #217, commit
+`b7e487022ae7436be13e0a49d0bf15f5c7936145`, with tracked public evidence under
+`docs/evidence/unrestricted-self-modification-adversarial-negative-controls/`.
+The approved public wording is exactly: "AO has public-safe adversarial
+negative-control evidence that unsafe dry-run self-change proposals are
+rejected under sandbox containment gates; unrestricted self-modification,
+hidden instruction mutation, policy-changing autonomy, and forbidden surface
+expansion remain denied." The adversarial negative-control run completed
+`560 / 560` nodes and passed Covenant, Sentinel, Promoter, Command,
+rollback/retraction, stale-language, public-safety, and eval/regression gates.
+
+This proves only public-safe adversarial negative-control rejection for unsafe
+dry-run self-change proposals. It does not prove unrestricted self-modification,
+hidden instruction mutation, policy-changing autonomy, policy/auth/secret/
+provider/deploy/release/config/dependency expansion, credential use, provider
+calls, release/deploy/publish/upload/tag authority, dependency update authority,
+direct main mutation, concurrent mutation, hidden instruction changes, forbidden
+surface expansion, or any unrestricted RSI claim. The highest proven live class
+is `public_safe_unrestricted_self_modification_adversarial_negative_controls`;
+the next denied class is `unrestricted_self_modification`
+(`next_denied_class=unrestricted_self_modification`).
+
+Final gate identifiers: Covenant
+`deny_unrestricted_self_modification_allow_adversarial_negative_controls`,
+Sentinel `clear_adversarial_negative_controls_hold_unrestricted_self_modification`,
+Promoter
+`promote_public_safe_unrestricted_self_modification_adversarial_negative_controls_keep_unrestricted_self_modification_denied`,
+and Command
+`public_safe_unrestricted_self_modification_adversarial_negative_controls_proven_unrestricted_self_modification_denied`.

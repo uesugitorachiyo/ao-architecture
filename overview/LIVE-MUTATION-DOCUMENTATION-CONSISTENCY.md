@@ -6,7 +6,7 @@ the governed live-mutation boundary after the mutation-class ladder work.
 ## Public Boundary Statement
 
 - The highest proven live class is
-  `public_safe_unrestricted_self_modification_sandbox_containment_rehearsal`.
+  `public_safe_unrestricted_self_modification_adversarial_negative_controls`.
 - `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
   `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
   `complex_repo_mutation` are distinct lower authority classes.
@@ -51,6 +51,12 @@ the governed live-mutation boundary after the mutation-class ladder work.
 - The approved public wording is exactly: "AO has public-safe sandbox containment evidence for dry-run self-change proposal evaluation; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and forbidden surface expansion remain denied."
 - The sandbox-containment run completed 420 / 420 nodes and does not prove
   unrestricted self-modification.
+- `public_safe_unrestricted_self_modification_adversarial_negative_controls` is
+  proven only for public-safe adversarial negative-control rejection of unsafe
+  dry-run self-change proposals.
+- The approved public wording is exactly: "AO has public-safe adversarial negative-control evidence that unsafe dry-run self-change proposals are rejected under sandbox containment gates; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and forbidden surface expansion remain denied."
+- The adversarial negative-control run completed 560 / 560 nodes and does not
+  prove unrestricted self-modification.
 - Dry-run readiness, approved live docs mutation, approved test-only mutation,
   approved low-risk code mutation, multi-repo rehearsal, complex mutation, and
   bounded RSI application are separate public claim levels.
@@ -109,7 +115,7 @@ This documentation set is consistent when:
 - remaining `safe_to_execute=true` mentions are tied to exact approval and all
   gates;
 - ladder wording names
-  `public_safe_unrestricted_self_modification_sandbox_containment_rehearsal` as the
+  `public_safe_unrestricted_self_modification_adversarial_negative_controls` as the
   highest proven live class and keeps `unrestricted_self_modification` denied
   unless its own gates pass;
 - bounded RSI wording says only `bounded_rsi_evidence_rehearsal` is live-proven
@@ -166,3 +172,36 @@ Promoter
 `promote_public_safe_unrestricted_self_modification_sandbox_containment_rehearsal_keep_unrestricted_self_modification_denied`,
 and Command
 `public_safe_unrestricted_self_modification_sandbox_containment_rehearsal_proven_unrestricted_self_modification_denied`.
+
+## Unrestricted Self-Modification Adversarial Negative Controls
+
+`public_safe_unrestricted_self_modification_adversarial_negative_controls` is
+proven from AO Foundry PR #217, commit
+`b7e487022ae7436be13e0a49d0bf15f5c7936145`, with tracked public evidence under
+`docs/evidence/unrestricted-self-modification-adversarial-negative-controls/`.
+The approved public wording is exactly: "AO has public-safe adversarial
+negative-control evidence that unsafe dry-run self-change proposals are
+rejected under sandbox containment gates; unrestricted self-modification,
+hidden instruction mutation, policy-changing autonomy, and forbidden surface
+expansion remain denied." The adversarial negative-control run completed
+`560 / 560` nodes and passed Covenant, Sentinel, Promoter, Command,
+rollback/retraction, stale-language, public-safety, and eval/regression gates.
+
+This proves only public-safe adversarial negative-control rejection for unsafe
+dry-run self-change proposals. It does not prove unrestricted self-modification,
+hidden instruction mutation, policy-changing autonomy, policy/auth/secret/
+provider/deploy/release/config/dependency expansion, credential use, provider
+calls, release/deploy/publish/upload/tag authority, dependency update authority,
+direct main mutation, concurrent mutation, hidden instruction changes, forbidden
+surface expansion, or any unrestricted RSI claim. The highest proven live class
+is `public_safe_unrestricted_self_modification_adversarial_negative_controls`;
+the next denied class is `unrestricted_self_modification`
+(`next_denied_class=unrestricted_self_modification`).
+
+Final gate identifiers: Covenant
+`deny_unrestricted_self_modification_allow_adversarial_negative_controls`,
+Sentinel `clear_adversarial_negative_controls_hold_unrestricted_self_modification`,
+Promoter
+`promote_public_safe_unrestricted_self_modification_adversarial_negative_controls_keep_unrestricted_self_modification_denied`,
+and Command
+`public_safe_unrestricted_self_modification_adversarial_negative_controls_proven_unrestricted_self_modification_denied`.
