@@ -126,16 +126,17 @@ The stack now has a governed mutation-class ladder, not broad live mutation
 authority. The architecture source of truth is
 [overview/MUTATION-AUTHORITY-LADDER.md](overview/MUTATION-AUTHORITY-LADDER.md).
 The highest proven live class is
-`public_safe_unrestricted_self_modification_sandbox_containment_rehearsal`. Docs-only,
+`public_safe_unrestricted_self_modification_adversarial_negative_controls`. Docs-only,
 test-only, low-risk code, multi-repo low-risk, the governed 12-node
 complex_repo_mutation rehearsal, the 26-node fully unsupervised complex first
 non-planning rehearsal, `bounded_rsi_evidence_rehearsal`, and
 `bounded_rsi_self_improvement_application` remain prior evidence. `broad_RSI`
 is proven only for the governed public-safe 10-day evidence campaign. The
-current class is proven only for public-safe sandbox containment evidence for
-dry-run self-change proposal evaluation. The guard keeps unrestricted
-self-modification, hidden instruction mutation, policy-changing autonomy,
-forbidden surface expansion, and any unrestricted RSI claim denied.
+current class is proven only for public-safe adversarial negative-control
+evidence showing unsafe dry-run self-change proposals are rejected under sandbox
+containment gates. The guard keeps unrestricted self-modification, hidden
+instruction mutation, policy-changing autonomy, forbidden surface expansion,
+and any unrestricted RSI claim denied.
 
 The current mirror includes the latest authority-ladder evidence: AO Atlas PR
 #34 upgrades the complex-class rehearsal graph with low-risk decomposition and a
