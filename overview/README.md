@@ -156,18 +156,22 @@ Fully unsupervised complex live mutation is proven only inside the governed
 
 The current public ladder is documented in
 [Mutation Authority Ladder](MUTATION-AUTHORITY-LADDER.md). The highest proven
-live class is `public_safe_bounded_recursive_improvement_review_durability_evidence`.
+live class is `public_safe_bounded_reversible_self_change_application_rehearsal`.
 Docs-only, test-only, low-risk-code, multi-repo low-risk, the governed 12-node
 complex mutation rehearsal, the 26-node fully unsupervised complex first
 non-planning rehearsal, `bounded_rsi_evidence_rehearsal`, and
-`bounded_rsi_self_improvement_application` remain evidence-backed; `broad_RSI`
-remains denied. The completed complex rehearsals have context repack, repair
-plans, low-risk decomposition, rollback graph, blocked-node handling, dependency
-gates, promotion gates, digest-bound closure evidence, Promoter final verdict,
-and Command class-decision readback. Foundry's Pulse event-loop policy may
-continue without operator Q&A only inside the current proven class and only when
-class-gate, promotion-state, rollback, CI, repo hygiene, evidence freshness,
-Sentinel, Promoter, branch cleanup, and scope gates all pass.
+`bounded_rsi_self_improvement_application` remain evidence-backed. `broad_RSI`
+is prior governed campaign evidence; `unrestricted_self_modification` remains
+the next denied class. The new highest class proves only one exact-scope
+reversible support/readback evidence improvement under sandbox containment
+gates. It does not prove unrestricted self-modification, hidden instruction
+mutation, policy-changing autonomy, forbidden surface expansion, credential use,
+provider calls, direct-main mutation, concurrent mutation, release/deploy/
+publish/upload/tag authority, dependency update authority, or any unrestricted
+RSI claim. Foundry's Pulse event-loop policy may continue without operator Q&A
+only inside the current proven class and only when class-gate, promotion-state,
+rollback, CI, repo hygiene, evidence freshness, Sentinel, Promoter, branch
+cleanup, and scope gates all pass.
 
 `bounded_rsi_evidence_rehearsal` is live-proven as a bounded evidence rehearsal
 state only. It does not change the highest proven live class from
@@ -209,6 +213,25 @@ mutation, and policy-changing autonomy denied.
 
 `public_safe_recursive_improvement_claim_threshold_calibration_evidence` is proven from AO Foundry PR #201, commit `3e3d1101da112fa5ff0aca26f8ab2933652f3502`, with tracked public evidence under
 `docs/evidence/recursive-improvement-claim-threshold-calibration/`. The approved public wording is exactly: "AO has public-safe recursive-improvement claim threshold calibration evidence showing stronger bounded recursive-improvement claims can be evaluated against reproducible threshold, public-reader, adversarial wording, Covenant, Sentinel, rollback, and retraction gates; broad_RSI remains denied." This remains prior evidence after the segment-07 promotion. `broad_RSI`, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/dependency expansion, and unbounded stronger recursive-improvement claims remain denied.
+
+`public_safe_bounded_reversible_self_change_application_rehearsal` is proven
+from AO Foundry PR #218, commit
+`3b2feaced4207c97f98cef44f3b3276c59a7873b`, with tracked public evidence under
+`docs/evidence/unrestricted-self-modification-bounded-reversible-application/`.
+The approved public wording is exactly: "AO has public-safe bounded reversible
+self-change application evidence for one exact-scope support/readback
+improvement under sandbox containment gates; unrestricted self-modification,
+hidden instruction mutation, policy-changing autonomy, and forbidden surface
+expansion remain denied." The run completed `640 / 640` nodes, measured
+baseline `0.70`, post-change `0.94`, improvement `0.24`, and passed
+eval/regression, rollback, retraction, kill-switch, Covenant, Sentinel,
+Promoter, and Command gates. This advances the highest proven live class to
+that exact narrow class and keeps `unrestricted_self_modification`, hidden
+instruction mutation, policy-changing autonomy, forbidden surface expansion,
+policy/auth/secret/provider/deploy/release/config/dependency expansion,
+credential use, provider calls, release/deploy/publish/upload/tag authority,
+dependency update authority, direct-main mutation, concurrent mutation, and any
+unrestricted RSI claim denied.
 
 This distinction matters because dry-run readiness, approved live docs
 mutation, approved test-only mutation, approved low-risk code mutation,
@@ -470,7 +493,7 @@ This documentation set is considered production-ready when:
 
 `broad_RSI` is proven from AO Foundry PR #211, commit `630edc70905db745380edd1072e04b546dcccfe3`, with tracked public evidence under `docs/evidence/broad-rsi-ten-day-campaign-segment-08/`. The approved public wording is exactly: "AO has proven governed broad_RSI for public claim publication across the AO stack public-safe 10-day evidence campaign; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and forbidden surface expansion remain denied." The campaign completed `2800 / 2800` nodes, the segment-08 Blueprint emitted `28000 SDD slices`, and final public-reader, adversarial wording, Covenant, Architecture, Sentinel, Promoter, Command, rollback/retraction, stale-language, no-repeat, no-abandonment, and eval/regression gates passed.
 
-This does not prove unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/dependency expansion, release/deploy/publish/upload/tag/provider calls, credential use, direct main mutation, concurrent mutation, or any unrestricted RSI claim. The highest proven live class is `broad_RSI`; the next denied class is `unrestricted_self_modification` (`next_denied_class=unrestricted_self_modification`).
+This does not prove unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/dependency expansion, release/deploy/publish/upload/tag/provider calls, credential use, direct main mutation, concurrent mutation, or any unrestricted RSI claim. This remains prior evidence; the current highest proven live class is `public_safe_bounded_reversible_self_change_application_rehearsal`, and the next denied class is `unrestricted_self_modification` (`next_denied_class=unrestricted_self_modification`).
 
 Final gate identifiers: public-reader `approved_exact_governed_broad_RSI_wording`, Sentinel `clear_for_governed_broad_RSI_public_wording`, Promoter `promote_broad_RSI_governed_public_safe_campaign_completion_unrestricted_boundaries_denied`, and Command `broad_RSI_proven_under_governed_public_safe_campaign_completion_boundaries`.
 
