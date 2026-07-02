@@ -41,7 +41,7 @@
     {
       "id": "ao-foundry",
       "role": "pulse_candidate_and_improvement_gate_producer",
-      "snapshot_commit": "166398641b655f0da97817659acc771026b204e7",
+      "snapshot_commit": "12d524b60c200cab643e44f9105169b045602798",
       "evidence": [
         "tmp/pulse-rsi-verify/rsi-candidate.json",
         "tmp/pulse-rsi-verify/rsi-improvement-gate.json",
@@ -55,7 +55,10 @@
         "docs/evidence/recursive-improvement-reviewer-approved-wording/evidence-index.json",
         "docs/evidence/recursive-improvement-reviewer-approved-wording/final-rollup.json",
         "docs/evidence/recursive-improvement-bounded-wording-generality/evidence-index.json",
-        "docs/evidence/recursive-improvement-bounded-wording-generality/final-rollup.json"
+        "docs/evidence/recursive-improvement-bounded-wording-generality/final-rollup.json",
+        "docs/evidence/recursive-improvement-review-durability/evidence-index.json",
+        "docs/evidence/recursive-improvement-review-durability/final-rollup.json",
+        "docs/evidence/recursive-improvement-review-durability/review-durability-results.json"
       ],
       "known_prs": [
         {
@@ -81,6 +84,12 @@
           "title": "Add bounded wording generality evidence",
           "url": "https://github.com/uesugitorachiyo/ao-foundry/pull/197",
           "merge_commit": "166398641b655f0da97817659acc771026b204e7"
+        },
+        {
+          "number": 199,
+          "title": "Add review durability evidence",
+          "url": "https://github.com/uesugitorachiyo/ao-foundry/pull/199",
+          "merge_commit": "12d524b60c200cab643e44f9105169b045602798"
         }
       ]
     },

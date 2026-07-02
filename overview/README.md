@@ -156,7 +156,7 @@ Fully unsupervised complex live mutation is proven only inside the governed
 
 The current public ladder is documented in
 [Mutation Authority Ladder](MUTATION-AUTHORITY-LADDER.md). The highest proven
-live class is `public_safe_bounded_recursive_improvement_wording_generality_evidence`.
+live class is `public_safe_bounded_recursive_improvement_review_durability_evidence`.
 Docs-only, test-only, low-risk-code, multi-repo low-risk, the governed 12-node
 complex mutation rehearsal, the 26-node fully unsupervised complex first
 non-planning rehearsal, `bounded_rsi_evidence_rehearsal`, and
@@ -201,6 +201,11 @@ mutation, and policy-changing autonomy denied.
 
 
 `public_safe_reviewer_approved_bounded_recursive_improvement_wording_evidence` is proven for exact public-safe reviewer-approved bounded recursive-improvement wording evidence. AO Foundry PR #195, commit `0f742738324c185ba7243bc53ee2f1bc81804ef6` records 820 completed nodes and four reviewer-approved bounded wording attempts under `docs/evidence/recursive-improvement-reviewer-approved-wording/`. It remains prior evidence. `broad_RSI`, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and unbounded stronger recursive-improvement claims remain denied.
+
+`public_safe_bounded_recursive_improvement_wording_generality_evidence` remains prior evidence for public-safe bounded recursive-improvement wording generality. AO Foundry PR #197, commit `166398641b655f0da97817659acc771026b204e7` records 900 completed nodes and four bounded wording generality attempts under `docs/evidence/recursive-improvement-bounded-wording-generality/`. `broad_RSI`, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/dependency expansion, and unbounded stronger recursive-improvement claims remain denied.
+
+`public_safe_bounded_recursive_improvement_review_durability_evidence` is proven from AO Foundry PR #199, commit `12d524b60c200cab643e44f9105169b045602798`, with tracked public evidence under
+`docs/evidence/recursive-improvement-review-durability/`. The approved public wording is exactly: "AO has public-safe bounded recursive-improvement review durability evidence showing bounded recursive-improvement wording remains stable across delayed re-review, adversarial drift checks, stale-language sweeps, and reproducibility retests under independent gates; broad_RSI remains denied." This advances the highest proven live class to that exact narrow class. `broad_RSI`, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/dependency expansion, and unbounded stronger recursive-improvement claims remain denied.
 
 This distinction matters because dry-run readiness, approved live docs
 mutation, approved test-only mutation, approved low-risk code mutation,
