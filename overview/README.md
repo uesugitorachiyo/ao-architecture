@@ -473,3 +473,35 @@ This documentation set is considered production-ready when:
 This does not prove unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/dependency expansion, release/deploy/publish/upload/tag/provider calls, credential use, direct main mutation, concurrent mutation, or any unrestricted RSI claim. The highest proven live class is `broad_RSI`; the next denied class is `unrestricted_self_modification` (`next_denied_class=unrestricted_self_modification`).
 
 Final gate identifiers: public-reader `approved_exact_governed_broad_RSI_wording`, Sentinel `clear_for_governed_broad_RSI_public_wording`, Promoter `promote_broad_RSI_governed_public_safe_campaign_completion_unrestricted_boundaries_denied`, and Command `broad_RSI_proven_under_governed_public_safe_campaign_completion_boundaries`.
+
+## Unrestricted Self-Modification Readiness Boundary Evidence
+
+`public_safe_unrestricted_self_modification_readiness_boundary_map` is proven
+from AO Foundry PR #215, commit
+`e5ed75361554b1c90518c0e0df10b18adec77e5f`, with tracked public evidence under
+`docs/evidence/unrestricted-self-modification-readiness-boundary/`. The approved
+public wording is exactly: "AO has public-safe readiness-boundary evidence for
+evaluating unrestricted self-modification; unrestricted self-modification,
+hidden instruction mutation, policy-changing autonomy, and forbidden surface
+expansion remain denied." The readiness-boundary run completed `320 / 320`
+nodes and passed Covenant, Architecture, Sentinel, Promoter, Command,
+rollback/retraction, stale-language, public-safety, and eval/regression gates.
+
+This does not prove unrestricted self-modification, hidden instruction mutation,
+policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/
+dependency expansion, credential use, provider calls,
+release/deploy/publish/upload/tag authority, dependency update authority, direct
+main mutation, concurrent mutation, hidden instruction changes, or any
+unrestricted RSI claim. The highest proven live class is
+`public_safe_unrestricted_self_modification_readiness_boundary_map`; the next
+denied class is `unrestricted_self_modification`
+(`next_denied_class=unrestricted_self_modification`).
+
+Final gate identifiers: Covenant
+`deny_unrestricted_self_modification_allow_readiness_boundary_map`, Architecture
+`approve_readiness_boundary_wording_deny_unrestricted_self_modification_claim`,
+Sentinel `clear_readiness_boundary_hold_unrestricted_self_modification`,
+Promoter
+`promote_public_safe_unrestricted_self_modification_readiness_boundary_map_keep_unrestricted_self_modification_denied`,
+and Command
+`public_safe_unrestricted_self_modification_readiness_boundary_map_proven_unrestricted_self_modification_denied`.

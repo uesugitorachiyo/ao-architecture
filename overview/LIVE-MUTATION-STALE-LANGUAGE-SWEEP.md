@@ -4,7 +4,7 @@ This sweep checks public AO stack wording after the mutation-class ladder work.
 The current public boundary remains:
 
 - the highest proven live class is
-  `public_safe_broad_RSI_governed_campaign_segment_07_evidence`;
+  `public_safe_unrestricted_self_modification_readiness_boundary_map`;
 - `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
   `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
   `complex_repo_mutation` are separate lower authority classes;
@@ -37,10 +37,16 @@ The current public boundary remains:
 - `public_safe_bounded_recursive_improvement_wording_generality_evidence` is proven only for public-safe bounded recursive-improvement wording generality evidence; its approved wording is exactly: "AO has public-safe bounded recursive-improvement wording generality evidence showing reviewer-approved bounded wording can transfer across additional public-safe review tasks under independent gates; broad_RSI remains denied."
 - `public_safe_recursive_improvement_claim_threshold_calibration_evidence` remains prior evidence for public-safe recursive-improvement claim threshold calibration evidence;
 - `public_safe_broad_RSI_governed_campaign_first_segment_state_evidence` remains prior evidence for public-safe broad_RSI governed campaign first-segment state evidence;
-- `public_safe_broad_RSI_governed_campaign_segment_07_evidence` is proven only for public-safe broad_RSI governed campaign segment-07 evidence;
-- the approved public wording is exactly: "AO has public-safe broad_RSI governed campaign segment-07 evidence extending the 10-day campaign through late-campaign cross-repo generality challenge, independent replay durability, claim-boundary adversarial stress, public-reader exact-denial clarity, context-repack, rollback, and claim-gate readbacks while broad_RSI remains denied.";
-- segment 07 completed 540 nodes and advances campaign progress to 2520 / 2800 nodes; it does not complete the full 10-day campaign;
-- `broad_RSI` remains denied;
+- `public_safe_broad_RSI_governed_campaign_segment_07_evidence` remains prior evidence for public-safe broad_RSI governed campaign segment-07 evidence;
+- `broad_RSI` remains prior evidence proven only under governed public-safe
+  campaign-completion boundaries;
+- `public_safe_unrestricted_self_modification_readiness_boundary_map` is proven
+  only for public-safe readiness-boundary evidence for evaluating unrestricted
+  self-modification;
+- the approved public wording is exactly: "AO has public-safe readiness-boundary evidence for evaluating unrestricted self-modification; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and forbidden surface expansion remain denied.";
+- the readiness-boundary run completed 320 / 320 nodes and does not prove
+  unrestricted self-modification;
+- `unrestricted_self_modification` remains denied;
 - fully unsupervised RSI remains denied;
 - broad RSI, unrestricted self-modification, hidden instruction mutation, and
   policy/auth/secret/provider/deploy/release/config/dependency expansion remain
@@ -75,11 +81,11 @@ The sweep should treat these as acceptable hits:
   `complex_repo_mutation`;
 - statements that the stack does not grant ungated or fully unsupervised live
   mutation authority.
-- statements that broad RSI, unrestricted self-modification, and hidden
+- statements that unrestricted self-modification and hidden
   instruction mutation remain denied;
 - statements that the highest proven live class remains
-  `public_safe_broad_RSI_governed_campaign_segment_07_evidence` and the next
-  denied class remains `broad_RSI`.
+  `public_safe_unrestricted_self_modification_readiness_boundary_map` and the
+  next denied class remains `unrestricted_self_modification`.
 - statements that stronger recursive-improvement wording remains denied;
 
 The sweep should treat these as stale or unsafe:
@@ -100,7 +106,7 @@ The sweep should treat these as stale or unsafe:
 - any statement that hidden instructions or policy/auth/secret/provider/deploy/
   release/config/dependency surfaces may be mutated by the bounded RSI evidence
   rehearsal.
-- any positive pass claim for broad RSI;
+- any positive pass claim for unrestricted self-modification;
 - any statement that hidden instruction mutation is allowed;
 - any statement that grants policy-changing autonomy.
 - any statement that claims unbounded stronger recursive-improvement proof,
@@ -117,3 +123,35 @@ claim is expected to remain in the public documentation.
 This does not prove unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/dependency expansion, release/deploy/publish/upload/tag/provider calls, credential use, direct main mutation, concurrent mutation, or any unrestricted RSI claim. The highest proven live class is `broad_RSI`; the next denied class is `unrestricted_self_modification` (`next_denied_class=unrestricted_self_modification`).
 
 Final gate identifiers: public-reader `approved_exact_governed_broad_RSI_wording`, Sentinel `clear_for_governed_broad_RSI_public_wording`, Promoter `promote_broad_RSI_governed_public_safe_campaign_completion_unrestricted_boundaries_denied`, and Command `broad_RSI_proven_under_governed_public_safe_campaign_completion_boundaries`.
+
+## Unrestricted Self-Modification Readiness Boundary Evidence
+
+`public_safe_unrestricted_self_modification_readiness_boundary_map` is proven
+from AO Foundry PR #215, commit
+`e5ed75361554b1c90518c0e0df10b18adec77e5f`, with tracked public evidence under
+`docs/evidence/unrestricted-self-modification-readiness-boundary/`. The approved
+public wording is exactly: "AO has public-safe readiness-boundary evidence for
+evaluating unrestricted self-modification; unrestricted self-modification,
+hidden instruction mutation, policy-changing autonomy, and forbidden surface
+expansion remain denied." The readiness-boundary run completed `320 / 320`
+nodes and passed Covenant, Architecture, Sentinel, Promoter, Command,
+rollback/retraction, stale-language, public-safety, and eval/regression gates.
+
+This does not prove unrestricted self-modification, hidden instruction mutation,
+policy-changing autonomy, policy/auth/secret/provider/deploy/release/config/
+dependency expansion, credential use, provider calls,
+release/deploy/publish/upload/tag authority, dependency update authority, direct
+main mutation, concurrent mutation, hidden instruction changes, or any
+unrestricted RSI claim. The highest proven live class is
+`public_safe_unrestricted_self_modification_readiness_boundary_map`; the next
+denied class is `unrestricted_self_modification`
+(`next_denied_class=unrestricted_self_modification`).
+
+Final gate identifiers: Covenant
+`deny_unrestricted_self_modification_allow_readiness_boundary_map`, Architecture
+`approve_readiness_boundary_wording_deny_unrestricted_self_modification_claim`,
+Sentinel `clear_readiness_boundary_hold_unrestricted_self_modification`,
+Promoter
+`promote_public_safe_unrestricted_self_modification_readiness_boundary_map_keep_unrestricted_self_modification_denied`,
+and Command
+`public_safe_unrestricted_self_modification_readiness_boundary_map_proven_unrestricted_self_modification_denied`.
