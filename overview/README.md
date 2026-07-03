@@ -44,6 +44,30 @@ AO Sentinel watches active-stack safety and regression signals.
 AO Promoter activates only when all gates and rollback evidence pass.
 ```
 
+## AO Mission Contract Map
+
+The AO Mission contract map defines how user objectives become durable,
+read-only, inspectable mission state before Blueprint, Atlas, or Foundry work:
+
+- `ao.mission.record.v0.1`: mission objective, digest, route, phase, artifacts,
+  blockers, continuation steps, and exact next action.
+- `ao.mission.event-loop-decision.v0.1`: Pulse-style continuation readback for
+  the zero-wait event loop; it is not execution approval.
+- `ao.mission.scheduler-readback.v0.1`: codex-cron wakeup readback; codex-cron
+  remains scheduler wakeup substrate only.
+- `ao.command.mission-status.v0.1`: AO Command operator readback over mission
+  route, phase, next action, and denied authority flags.
+- `ao.atlas.ao-mission-import.v0.1`: digest-bound import of Mission, Command,
+  and artifact-manifest readbacks before Atlas workgraph compilation.
+- `ao.foundry.ao-mission-smoke-readback.v0.1`: Foundry fixture smoke over route
+  and governance snapshot readbacks.
+- `ao.foundry.ao-mission-final-rollup-smoke.v0.1`: Foundry fixture smoke over
+  Mission and Foundry final-rollup closure.
+
+Telegram and A2A gateways are intent/readback only. External chat or agent
+clients can request status, next action, and continuation intents, but cannot
+receive direct mutation authority or bypass the AO gate chain.
+
 ![Authority boundaries](../images/authority-boundaries.svg)
 
 ## How A Run Moves Through The Stack
