@@ -69,6 +69,24 @@ class at `broad_RSI`, and keeps stronger recursive-improvement wording,
 unrestricted self-modification, hidden instruction mutation, policy-changing
 autonomy, and broad RSI denied.
 
+`public_safe_sandbox_bypass_resistance_evidence_four_attempts` is proven for
+public-safe sandbox containment bypass resistance evidence across four
+exact-scope reversible negative-control attempts under contained
+external-command self-change gates. It advances the highest proven live class to
+`public_safe_sandbox_bypass_resistance_evidence_four_attempts`, keeps the next
+denied class at `unrestricted_self_modification`
+(`next_denied_class=unrestricted_self_modification`), and keeps unrestricted
+self-modification, sandbox containment bypass authority, real sandbox escape,
+provider calls, credential use, hidden instruction mutation, policy-changing
+autonomy, forbidden surface expansion, release/deploy/publish/upload/tag
+authority, dependency updates, direct-main mutation, concurrent mutation, broad
+public claims, and unrestricted RSI denied.
+It records `public_safe_sandbox_bypass_resistance_evidence_four_attempts=proven`
+with final rollup
+`docs/evidence/unrestricted-self-modification-sandbox-bypass-resistance/final-rollup.json`
+and Command readback
+`public_safe_sandbox_bypass_resistance_evidence_four_attempts_proven_unrestricted_self_modification_denied`.
+
 
 `public_safe_reviewer_approved_bounded_recursive_improvement_wording_evidence` is proven for exact public-safe reviewer-approved bounded recursive-improvement wording evidence showing guided evidence application can improve later evidence attempts under independent review gates. It remains prior evidence and keeps unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, unbounded stronger recursive-improvement claims, and broad RSI denied.
 

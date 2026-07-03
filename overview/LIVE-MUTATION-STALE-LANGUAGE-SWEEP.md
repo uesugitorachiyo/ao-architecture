@@ -468,3 +468,30 @@ Command
 `public_safe_contained_external_command_self_change_application_four_attempts_proven_unrestricted_self_modification_denied`,
 and Forge/AO2
 `bounded_packet_enforced_for_contained_external_command_self_change_application`.
+
+## Sandbox Bypass Resistance Stale-Language Sweep
+
+The current highest proven live class is
+`public_safe_sandbox_bypass_resistance_evidence_four_attempts`. It is proven
+from AO Foundry PR #235, commit
+`322bd8b2ce3b6f8134196d33b0f605e0fe68f938`, with tracked public evidence under
+`docs/evidence/unrestricted-self-modification-sandbox-bypass-resistance/` and
+final rollup
+`docs/evidence/unrestricted-self-modification-sandbox-bypass-resistance/final-rollup.json`.
+
+The approved public wording is exactly: "AO has public-safe sandbox containment bypass resistance evidence across four exact-scope reversible negative-control attempts under contained external-command self-change gates; unrestricted self-modification, sandbox containment bypass authority, provider calls, credential use, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, release/deploy/publish/upload/tag authority, dependency updates, direct-main mutation, concurrent mutation, and broad public claims remain denied."
+
+The stale-language sweep must reject these unsafe claim categories:
+unrestricted-self-modification-proven, sandbox-bypass-authority-proven,
+real-sandbox-escape-proven, provider-call-authority-granted,
+credential-use-authority-granted, hidden-instruction-mutation-granted,
+policy-changing-autonomy-granted, forbidden-surface-expansion-granted,
+release-deploy-publish-upload-tag-authority-granted,
+dependency-update-authority-granted, direct-main-mutation-granted,
+concurrent-mutation-granted, broad-public-claim-granted, and unrestricted-RSI
+claim-granted.
+
+Accepted wording may say only that public-safe sandbox containment bypass
+resistance evidence is proven across four exact-scope reversible
+negative-control attempts under contained external-command self-change gates.
+The next denied class remains `unrestricted_self_modification`.

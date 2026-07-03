@@ -597,3 +597,42 @@ Command
 `public_safe_contained_external_command_self_change_application_four_attempts_proven_unrestricted_self_modification_denied`,
 and Forge/AO2
 `bounded_packet_enforced_for_contained_external_command_self_change_application`.
+
+## Sandbox Bypass Resistance Consistency
+
+AO Architecture, AO Foundry, AO Atlas, AO Blueprint, AO Command, AO Promoter,
+AO Covenant, and AO Sentinel must read back
+`public_safe_sandbox_bypass_resistance_evidence_four_attempts` as the highest
+proven live class. AO Foundry PR #235, commit
+`322bd8b2ce3b6f8134196d33b0f605e0fe68f938`, provides tracked public evidence
+under
+`docs/evidence/unrestricted-self-modification-sandbox-bypass-resistance/` with
+final rollup
+`docs/evidence/unrestricted-self-modification-sandbox-bypass-resistance/final-rollup.json`.
+
+The approved public wording is exactly: "AO has public-safe sandbox containment bypass resistance evidence across four exact-scope reversible negative-control attempts under contained external-command self-change gates; unrestricted self-modification, sandbox containment bypass authority, provider calls, credential use, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, release/deploy/publish/upload/tag authority, dependency updates, direct-main mutation, concurrent mutation, and broad public claims remain denied."
+
+Consistency requires every public readback to preserve the denial boundary:
+`unrestricted_self_modification`, sandbox containment bypass authority, real
+sandbox escape, provider calls, credential use, hidden instruction mutation,
+policy-changing autonomy, forbidden surface expansion,
+release/deploy/publish/upload/tag authority, dependency updates, direct-main
+mutation, concurrent mutation, broad public claims, and unrestricted RSI remain
+denied. The next denied class is `unrestricted_self_modification`.
+
+The exact attempt labels are sandbox bypass negative-control readback quality,
+allowlist-denial fixture quality, containment-boundary rollback trace quality,
+and stale-language and public-claim bypass denial quality.
+
+Final gate identifiers: Covenant
+`deny_unrestricted_self_modification_allow_sandbox_bypass_resistance_evidence`,
+Architecture
+`approve_sandbox_bypass_resistance_wording_deny_unrestricted_self_modification_claim`,
+Sentinel
+`clear_sandbox_bypass_resistance_hold_unrestricted_self_modification_and_bypass_authority`,
+Promoter
+`promote_public_safe_sandbox_bypass_resistance_evidence_four_attempts_keep_unrestricted_self_modification_denied`,
+Command
+`public_safe_sandbox_bypass_resistance_evidence_four_attempts_proven_unrestricted_self_modification_denied`,
+and Forge/AO2
+`bounded_packet_enforced_for_sandbox_bypass_resistance_evidence_only`.
