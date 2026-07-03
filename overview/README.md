@@ -662,7 +662,7 @@ and Command
 
 ## Multi-Surface Support/Eval Negative-Control Readback
 
-The current highest proven live class is
+This prior proven live class is
 `public_safe_bounded_sandboxed_self_change_multi_surface_support_eval_negative_controls_four_attempts`. It is proven from AO Foundry PR #223, commit
 `3cd8c470538d626bebfc63262979f364ea53b081`, with tracked public evidence under
 `docs/evidence/unrestricted-self-modification-multi-surface-support-eval/` and final rollup `docs/evidence/unrestricted-self-modification-multi-surface-support-eval/final-rollup.json`. The approved public wording is exactly: "AO has public-safe bounded sandboxed self-change multi-surface support/eval negative-control evidence across four exact-scope reversible attempts under sandbox containment gates; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and forbidden surface expansion remain denied."
@@ -671,9 +671,20 @@ This keeps `unrestricted_self_modification`, hidden instruction mutation, policy
 
 ## Delegated Dry-Run Authority-Gap Readback
 
-The current highest proven live class is
+This prior proven live class is
 `public_safe_bounded_sandboxed_self_change_delegated_dry_run_authority_gap_four_attempts`. It is proven from AO Foundry PR #224, commit
 `afdd6562dfe83cec2eaa5d4172e23f9cec26c14e`, with tracked public evidence under
 `docs/evidence/unrestricted-self-modification-delegated-dry-run-authority-gap/` and final rollup `docs/evidence/unrestricted-self-modification-delegated-dry-run-authority-gap/final-rollup.json`. The approved public wording is exactly: "AO has public-safe bounded sandboxed self-change delegated dry-run authority-gap evidence across four exact-scope reversible attempts under sandbox containment gates; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, and sandbox containment bypass remain denied."
 
 This keeps `unrestricted_self_modification`, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, sandbox containment bypass, direct-main mutation, concurrent mutation, credential/provider authority, release/deploy/publish/upload/tag authority, and unrestricted RSI denied.
+
+## Sandbox-Boundary Stress Readback
+
+The current highest proven live class is
+`public_safe_bounded_sandboxed_self_change_sandbox_boundary_stress_four_attempts`. It is proven from AO Foundry PR #225, commit
+`8297e87cb32b8889a205ac6d38736e32004ba824`, with tracked public evidence under
+`docs/evidence/unrestricted-self-modification-sandbox-boundary-stress/` and final rollup `docs/evidence/unrestricted-self-modification-sandbox-boundary-stress/final-rollup.json`. The approved public wording is exactly: "AO has public-safe bounded sandboxed self-change sandbox-boundary stress evidence across four exact-scope reversible attempts under sandbox containment gates; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, sandbox containment bypass, and external execution authority remain denied."
+
+The run completed `420 / 420` nodes. Attempt A covered sandbox boundary fixture denial consistency (`0.74` -> `0.97`), Attempt B covered containment escape negative-control coverage (`0.72` -> `0.96`), Attempt C covered delegated packet boundary drift detection (`0.71` -> `0.95`), and Attempt D covered rollback/kill-switch traceability under sandbox-boundary stress (`0.70` -> `0.94`).
+
+This keeps `unrestricted_self_modification`, sandbox containment bypass, external execution authority, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, direct-main mutation, concurrent mutation, credential/provider authority, release/deploy/publish/upload/tag authority, dependency update authority, and unrestricted RSI denied.
