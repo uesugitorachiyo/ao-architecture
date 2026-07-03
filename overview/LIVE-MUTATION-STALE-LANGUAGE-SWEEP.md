@@ -4,7 +4,7 @@ This sweep checks public AO stack wording after the mutation-class ladder work.
 The current public boundary remains:
 
 - the highest proven live class is
-  `public_safe_external_execution_authority_readiness_boundary_map`;
+  `public_safe_bounded_sandboxed_external_execution_authority_rehearsal_four_attempts`;
 - `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
   `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
   `complex_repo_mutation` are separate lower authority classes;
@@ -405,3 +405,28 @@ It records `public_safe_bounded_sandboxed_self_change_delegated_dry_run_authorit
 (`next_denied_class=unrestricted_self_modification`).
 
 Final gate identifiers: Covenant `deny_unrestricted_self_modification_allow_delegated_dry_run_authority_gap`, Architecture `approve_delegated_dry_run_authority_gap_wording_deny_unrestricted_self_modification_claim`, Sentinel `clear_delegated_dry_run_authority_gap_hold_unrestricted_self_modification`, Promoter `promote_public_safe_bounded_sandboxed_self_change_delegated_dry_run_authority_gap_four_attempts_keep_unrestricted_self_modification_denied`, and Command `public_safe_bounded_sandboxed_self_change_delegated_dry_run_authority_gap_four_attempts_proven_unrestricted_self_modification_denied`.
+
+## Bounded Sandboxed External-Execution Authority Rehearsal Alignment
+
+AO Foundry PR #233, commit `ee11d0e8093d357d803e6a5df8c36e5badf46dc6`, records
+`public_safe_bounded_sandboxed_external_execution_authority_rehearsal_four_attempts=proven`. This proves only bounded sandboxed external-execution authority
+rehearsal evidence across four exact-scope reversible allowlisted local-command
+attempts under sandbox containment gates. It does not prove provider-call
+authority, credential authority, sandbox containment bypass,
+`unrestricted_self_modification`, hidden instruction mutation, policy-changing
+autonomy, forbidden surface expansion, release/deploy/publish/upload/tag
+authority, dependency updates, direct-main mutation, concurrent mutation, broad
+public claims, or unrestricted RSI. The highest proven live class is `public_safe_bounded_sandboxed_external_execution_authority_rehearsal_four_attempts`;
+the next denied class is `unrestricted_self_modification`.
+
+Final gate identifiers: Covenant
+`approve_bounded_sandboxed_external_execution_authority_rehearsal_actual_external_execution_broad_authority_denied`,
+Architecture
+`approve_bounded_sandboxed_external_execution_authority_rehearsal_wording_deny_unrestricted_self_modification`,
+Sentinel
+`clear_bounded_sandboxed_external_execution_authority_rehearsal_hold_unrestricted_self_modification_and_sandbox_bypass`,
+Promoter
+`promote_public_safe_bounded_sandboxed_external_execution_authority_rehearsal_four_attempts_keep_unrestricted_self_modification_denied`,
+Command
+`public_safe_bounded_sandboxed_external_execution_authority_rehearsal_four_attempts_proven_unrestricted_self_modification_denied`,
+and Forge/AO2 `bounded_packet_enforced_for_allowlisted_local_command_sandbox_rehearsal_only`.
