@@ -437,6 +437,8 @@ REQUIRED_AO_MISSION_CONTRACT_MAP_TERMS = [
     "ao.mission.event-loop-decision.v0.1",
     "ao.mission.scheduler-readback.v0.1",
     "ao.mission.route-decision.v0.1",
+    "AO Mission route-history exports",
+    "AO Mission route history",
     "ao.command.mission-status.v0.1",
     "ao.mission.artifact-manifest.v0.1",
     "ao.atlas.ao-mission-import.v0.1",
@@ -447,7 +449,8 @@ REQUIRED_AO_MISSION_CONTRACT_MAP_TERMS = [
     "ao.foundry.ao-mission-e2e-smoke.v0.1",
     "intent/readback only",
     "scheduler wakeup substrate only",
-    "Cross-artifact agreement readback only; no authority is granted.",
+    "artifact-ref digest mismatch blocks import",
+    "optional artifact-manifest digest readback only; no authority is granted.",
 ]
 
 REQUIRED_RSI_CLAIMS = [

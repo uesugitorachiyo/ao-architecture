@@ -105,10 +105,14 @@ readback and routing evidence, not execution authority:
   scheduler wakeup substrate only.
 - `ao.mission.route-decision.v0.1` records AO Mission's next route, reason,
   and exact next action for read-only Command inspection.
+- AO Mission route-history exports are read-only ordered
+  `ao.mission.route-decision.v0.1` lists for AO Command history inspection.
 - `ao.command.mission-status.v0.1` exposes AO Mission status to AO Command as
   read-only operator evidence.
 - `ao.atlas.ao-mission-import.v0.1` binds AO Mission record, Command status,
-  and artifact-manifest digests before Atlas compiles workgraphs.
+  and artifact-manifest digests before Atlas compiles workgraphs. When the
+  manifest includes artifact refs, Atlas verifies each referenced file against
+  its declared `sha256:` digest and blocks on mismatch.
 - `ao.atlas.ao-mission-workgraph-metadata.v0.1` binds an imported Mission
   context to a validated Atlas workgraph and node-count readback.
 - `ao.foundry.ao-mission-smoke-readback.v0.1` validates route and governance
@@ -119,16 +123,18 @@ readback and routing evidence, not execution authority:
   readiness-only Foundry evidence.
 - `ao.foundry.ao-mission-e2e-smoke.v0.1` binds Mission route/snapshot, Atlas
   workgraph metadata, and Mission/Foundry final rollups without granting
-  execution authority.
+  execution authority. Foundry can also consume an optional AO Mission artifact
+  manifest and fail closed on ref digest mismatch.
 
 | Contract | Producer | Consumer | Authority boundary |
 | --- | --- | --- | --- |
 | `ao.mission.route-decision.v0.1` | AO Mission | AO Command, AO Atlas | Next-route readback only; does not execute the route. |
+| AO Mission route history | AO Mission | AO Command | Ordered route-decision readback only; no scheduling, execution, or approval. |
 | `ao.command.mission-status.v0.1` | AO Mission | AO Command, AO Atlas | Operator status readback only; no scheduling, execution, or approval. |
-| `ao.mission.artifact-manifest.v0.1` | AO Mission | AO Command, AO Atlas | Artifact refs and digests only; no repository mutation authority. |
-| `ao.atlas.ao-mission-import.v0.1` | AO Atlas | AO Atlas workgraph compiler | Digest-bound Mission import only; Atlas still cannot execute work. |
+| `ao.mission.artifact-manifest.v0.1` | AO Mission | AO Command, AO Atlas, AO Foundry | Artifact refs and digests only; no repository mutation authority. |
+| `ao.atlas.ao-mission-import.v0.1` | AO Atlas | AO Atlas workgraph compiler | Digest-bound Mission import only; artifact-ref digest mismatch blocks import; Atlas still cannot execute work. |
 | `ao.atlas.ao-mission-workgraph-metadata.v0.1` | AO Atlas | AO Foundry | Workgraph/node-count provenance only; Foundry gates execution separately. |
-| `ao.foundry.ao-mission-e2e-smoke.v0.1` | AO Foundry | AO Command, operators | Cross-artifact agreement readback only; no authority is granted. |
+| `ao.foundry.ao-mission-e2e-smoke.v0.1` | AO Foundry | AO Command, operators | Cross-artifact agreement and optional artifact-manifest digest readback only; no authority is granted. |
 
 Telegram and A2A gateways remain intent/readback only. They do not approve
 policy, execute mutation, call providers, publish releases, widen repository
