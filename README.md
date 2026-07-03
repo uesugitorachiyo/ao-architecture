@@ -121,6 +121,15 @@ readback and routing evidence, not execution authority:
   workgraph metadata, and Mission/Foundry final rollups without granting
   execution authority.
 
+| Contract | Producer | Consumer | Authority boundary |
+| --- | --- | --- | --- |
+| `ao.mission.route-decision.v0.1` | AO Mission | AO Command, AO Atlas | Next-route readback only; does not execute the route. |
+| `ao.command.mission-status.v0.1` | AO Mission | AO Command, AO Atlas | Operator status readback only; no scheduling, execution, or approval. |
+| `ao.mission.artifact-manifest.v0.1` | AO Mission | AO Command, AO Atlas | Artifact refs and digests only; no repository mutation authority. |
+| `ao.atlas.ao-mission-import.v0.1` | AO Atlas | AO Atlas workgraph compiler | Digest-bound Mission import only; Atlas still cannot execute work. |
+| `ao.atlas.ao-mission-workgraph-metadata.v0.1` | AO Atlas | AO Foundry | Workgraph/node-count provenance only; Foundry gates execution separately. |
+| `ao.foundry.ao-mission-e2e-smoke.v0.1` | AO Foundry | AO Command, operators | Cross-artifact agreement readback only; no authority is granted. |
+
 Telegram and A2A gateways remain intent/readback only. They do not approve
 policy, execute mutation, call providers, publish releases, widen repository
 authority, or bypass Blueprint, Atlas, Foundry, Forge/AO2, Covenant, Sentinel,
