@@ -259,6 +259,8 @@ denied.
 | 85 | AO Covenant / AO Architecture / AO Sentinel / AO Promoter / AO Command | Unrestricted self-modification delegated dry-run authority-gap gate results | Covenant result `deny_unrestricted_self_modification_allow_delegated_dry_run_authority_gap`, Architecture result `approve_delegated_dry_run_authority_gap_wording_deny_unrestricted_self_modification_claim`, Sentinel result `clear_delegated_dry_run_authority_gap_hold_unrestricted_self_modification`, Promoter result `promote_public_safe_bounded_sandboxed_self_change_delegated_dry_run_authority_gap_four_attempts_keep_unrestricted_self_modification_denied`, and Command readback `public_safe_bounded_sandboxed_self_change_delegated_dry_run_authority_gap_four_attempts_proven_unrestricted_self_modification_denied` approve only the bounded sandboxed delegated dry-run authority-gap class and keep unrestricted self-modification denied. |
 | 86 | AO Foundry | AO Foundry PR #225, commit `8297e87cb32b8889a205ac6d38736e32004ba824`, `docs/evidence/unrestricted-self-modification-sandbox-boundary-stress/final-rollup.json` | Records `public_safe_bounded_sandboxed_self_change_sandbox_boundary_stress_four_attempts=proven`, `420 / 420` nodes completed, sandbox boundary fixture denial consistency `0.74` -> `0.97`, containment escape negative-control coverage `0.72` -> `0.96`, delegated packet boundary drift detection `0.71` -> `0.95`, rollback/kill-switch traceability under sandbox-boundary stress `0.70` -> `0.94`, eval/regression passed, rollback passed, retraction passed, kill switch passed, cross-attempt reproducibility passed, and approved wording for bounded sandboxed sandbox-boundary stress evidence while keeping `unrestricted_self_modification`, sandbox containment bypass, and external execution authority denied. |
 | 87 | AO Covenant / AO Architecture / AO Sentinel / AO Promoter / AO Command | Unrestricted self-modification sandbox-boundary stress gate results | Covenant result `deny_unrestricted_self_modification_allow_sandbox_boundary_stress`, Architecture result `approve_sandbox_boundary_stress_wording_deny_unrestricted_self_modification_claim`, Sentinel result `clear_sandbox_boundary_stress_hold_unrestricted_self_modification`, Promoter result `promote_public_safe_bounded_sandboxed_self_change_sandbox_boundary_stress_four_attempts_keep_unrestricted_self_modification_denied`, and Command readback `public_safe_bounded_sandboxed_self_change_sandbox_boundary_stress_four_attempts_proven_unrestricted_self_modification_denied` approve only the bounded sandboxed sandbox-boundary stress class and keep unrestricted self-modification, sandbox containment bypass, and external execution authority denied. |
+| 88 | AO Foundry | AO Foundry PR #227, commit `d5a03bded8157df53b4fedc0736e953f29854501`, `docs/evidence/unrestricted-self-modification-sandbox-boundary-generality/final-rollup.json` | Records `public_safe_bounded_sandboxed_self_change_sandbox_boundary_generality_four_attempts=proven`, `500 / 500` nodes completed, sandboxed evidence-link permission boundary `0.75` -> `0.97`, sandboxed negative-control fixture portability `0.73` -> `0.96`, sandboxed rollback replay boundary `0.72` -> `0.95`, sandboxed cross-surface claim-minimization boundary `0.71` -> `0.94`, eval/regression passed, rollback passed, retraction passed, kill switch passed, cross-attempt reproducibility passed, and approved wording for bounded sandboxed sandbox-boundary generality evidence while keeping `unrestricted_self_modification`, sandbox containment bypass, and external execution authority denied. |
+| 89 | AO Covenant / AO Architecture / AO Sentinel / AO Promoter / AO Command | Unrestricted self-modification sandbox-boundary generality gate results | Covenant result `deny_unrestricted_self_modification_allow_sandbox_boundary_generality`, Architecture result `approve_sandbox_boundary_generality_wording_deny_unrestricted_self_modification_claim`, Sentinel result `clear_sandbox_boundary_generality_hold_unrestricted_self_modification`, Promoter result `promote_public_safe_bounded_sandboxed_self_change_sandbox_boundary_generality_four_attempts_keep_unrestricted_self_modification_denied`, and Command readback `public_safe_bounded_sandboxed_self_change_sandbox_boundary_generality_four_attempts_proven_unrestricted_self_modification_denied` approve only the bounded sandboxed sandbox-boundary generality class and keep unrestricted self-modification, sandbox containment bypass, and external execution authority denied. |
 
 ## Execution And Readback Repositories
 
@@ -366,7 +368,7 @@ name the exact proven class while keeping `broad_RSI` denied.
 
 The separate mutation authority ladder is narrower than this RSI claim boundary.
 The current highest proven live class is
-`public_safe_bounded_sandboxed_self_change_multi_surface_support_eval_negative_controls_four_attempts`; docs-only,
+`public_safe_bounded_sandboxed_self_change_sandbox_boundary_generality_four_attempts`; docs-only,
 test-only, low-risk-code, multi-repo low-risk, governed complex mutation, fully
 unsupervised complex first non-planning, bounded evidence rehearsal, bounded
 private readback/eval application evidence, conservative public-safe readback
@@ -376,11 +378,13 @@ evidence-selection guidance, guided evidence-application, bounded wording
 generality, review durability, claim threshold calibration, and governed
 public-safe broad_RSI campaign completion, sandbox-containment evidence,
 adversarial negative-control rejection, one bounded reversible support/readback
-application, and repeated bounded support/readback attempts remain prior
-evidence. The current class proves only bounded sandboxed self-change
-cross-repo documentation/readback evidence across four exact-scope documentation
-consistency attempts under sandbox containment gates. None of them prove
-unrestricted self-modification or unrestricted RSI.
+application, repeated bounded support/readback attempts, multi-surface
+support/eval negative controls, delegated dry-run authority-gap evidence, and
+sandbox-boundary stress evidence remain prior evidence. The current class proves
+only bounded sandboxed self-change sandbox-boundary generality evidence across
+four additional exact-scope reversible attempts under sandbox containment gates.
+None of them prove unrestricted self-modification, sandbox containment bypass,
+external execution authority, or unrestricted RSI.
 `unrestricted_self_modification` remains denied.
 
 ## Machine-Readable Manifest
