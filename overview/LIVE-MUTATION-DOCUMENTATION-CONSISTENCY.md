@@ -675,3 +675,28 @@ Command
 `public_safe_unrestricted_self_modification_authority_escalation_criteria_four_attempts_proven_unrestricted_self_modification_denied`,
 and Forge/AO2
 `bounded_packet_enforced_for_authority_escalation_criteria_evidence_only`.
+
+## Authority-Request Dry-Run Documentation Consistency
+
+AO Foundry PR #237, commit `1eda6a0c0fc6a97580e7ef52a94cfae85f41d5f2`,
+records
+`public_safe_unrestricted_self_modification_authority_request_dry_run_four_attempts=proven`.
+This proves only public-safe unrestricted self-modification authority-request
+dry-run evidence across four exact-scope reversible packet, denial-ticket,
+hold, and no-execution readback attempts under contained external-command
+self-change gates.
+
+Tracked public evidence is under
+`docs/evidence/unrestricted-self-modification-authority-request-dry-run/` with
+final rollup
+`docs/evidence/unrestricted-self-modification-authority-request-dry-run/final-rollup.json`.
+The approved public wording is exactly: "AO has public-safe unrestricted self-modification authority-request dry-run evidence across four exact-scope reversible packet, denial-ticket, hold, and no-execution readback attempts under contained external-command self-change gates; unrestricted self-modification, sandbox containment bypass authority, real sandbox escape, provider calls, credential use, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, release/deploy/publish/upload/tag authority, dependency updates, direct-main mutation, concurrent mutation, and broad public claims remain denied."
+
+The current highest proven live class is
+`public_safe_unrestricted_self_modification_authority_request_dry_run_four_attempts`;
+the next denied class is `unrestricted_self_modification`. This does not prove
+unrestricted self-modification, sandbox containment bypass authority, real
+sandbox escape, provider calls, credential use, hidden instruction mutation,
+policy-changing autonomy, forbidden surface expansion,
+release/deploy/publish/upload/tag authority, dependency updates, direct-main
+mutation, concurrent mutation, broad public claims, or unrestricted RSI.
