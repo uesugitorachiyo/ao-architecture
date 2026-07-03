@@ -91,6 +91,32 @@ The stack is designed around:
 - clean separation between execution, policy, orchestration, observer storage, and operator UX;
 - stop conditions that prevent autonomous loops from inventing work after readiness is satisfied.
 
+## AO Mission Contract Map
+
+AO Mission is the user-entry and continuation ledger layer. Its contracts are
+readback and routing evidence, not execution authority:
+
+- `ao.mission.record.v0.1` records the durable mission objective, route, phase,
+  artifacts, blockers, and exact next action.
+- `ao.mission.event-loop-decision.v0.1` records each zero-wait continuation
+  decision with `safe_to_execute=false`, `executes_work=false`, and
+  `approves_work=false`.
+- `ao.mission.scheduler-readback.v0.1` records codex-cron integration as
+  scheduler wakeup substrate only.
+- `ao.command.mission-status.v0.1` exposes AO Mission status to AO Command as
+  read-only operator evidence.
+- `ao.atlas.ao-mission-import.v0.1` binds AO Mission record, Command status,
+  and artifact-manifest digests before Atlas compiles workgraphs.
+- `ao.foundry.ao-mission-smoke-readback.v0.1` validates route and governance
+  snapshot fixtures before Foundry treats Mission output as usable readback.
+- `ao.foundry.ao-mission-final-rollup-smoke.v0.1` validates Mission and Foundry
+  final-rollup agreement after generated nodes are consumed.
+
+Telegram and A2A gateways remain intent/readback only. They do not approve
+policy, execute mutation, call providers, publish releases, widen repository
+authority, or bypass Blueprint, Atlas, Foundry, Forge/AO2, Covenant, Sentinel,
+Promoter, Command, CI, rollback, eval/regression, or Architecture wording gates.
+
 ## Oversized Task Control Path
 
 The current stack has a fixture-only proof for managing a complex refactor that

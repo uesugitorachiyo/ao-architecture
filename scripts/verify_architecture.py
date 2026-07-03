@@ -430,6 +430,19 @@ REQUIRED_BLUEPRINT_ATLAS_FOUNDRY_TERMS = [
     "blueprint-atlas-foundry status",
 ]
 
+REQUIRED_AO_MISSION_CONTRACT_MAP_TERMS = [
+    "AO Mission contract map",
+    "ao.mission.record.v0.1",
+    "ao.mission.event-loop-decision.v0.1",
+    "ao.mission.scheduler-readback.v0.1",
+    "ao.command.mission-status.v0.1",
+    "ao.atlas.ao-mission-import.v0.1",
+    "ao.foundry.ao-mission-smoke-readback.v0.1",
+    "ao.foundry.ao-mission-final-rollup-smoke.v0.1",
+    "intent/readback only",
+    "scheduler wakeup substrate only",
+]
+
 REQUIRED_RSI_CLAIMS = [
     "bounded, governed RSI evidence chain",
     "not a claim of full autonomous self-mutating RSI",
@@ -772,6 +785,11 @@ def main() -> int:
     for term in REQUIRED_BLUEPRINT_ATLAS_FOUNDRY_TERMS:
         if term not in blueprint_atlas_foundry_text:
             fail(f"architecture docs missing Blueprint -> Atlas -> Foundry term: {term}")
+
+    ao_mission_contract_map_text = "\n".join([root_text, overview_text, command_text, atlas_text])
+    for term in REQUIRED_AO_MISSION_CONTRACT_MAP_TERMS:
+        if term not in ao_mission_contract_map_text:
+            fail(f"architecture docs missing AO Mission contract map term: {term}")
 
     rsi_map_text = read_text(ROOT / "overview" / "RSI-CLAIM-EVIDENCE-MAP.md")
     for term in REQUIRED_RSI_MAP_TERMS:
