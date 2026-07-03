@@ -126,18 +126,23 @@ The stack now has a governed mutation-class ladder, not broad live mutation
 authority. The architecture source of truth is
 [overview/MUTATION-AUTHORITY-LADDER.md](overview/MUTATION-AUTHORITY-LADDER.md).
 The highest proven live class is
-`public_safe_external_execution_authority_readiness_boundary_map`. Docs-only,
-test-only, low-risk code, multi-repo low-risk, the governed 12-node
+`public_safe_unrestricted_self_modification_authority_request_dry_run_four_attempts`.
+Docs-only, test-only, low-risk code, multi-repo low-risk, the governed 12-node
 complex_repo_mutation rehearsal, the 26-node fully unsupervised complex first
-non-planning rehearsal, `bounded_rsi_evidence_rehearsal`, and
-`bounded_rsi_self_improvement_application` remain prior evidence. `broad_RSI`
-is proven only for the governed public-safe 10-day evidence campaign. The
-current class is proven only for public-safe external-execution authority
-readiness-boundary evidence across four exact-scope reversible dry-run attempts
-under sandbox containment gates. The guard keeps actual external execution
-authority, provider calls, credential use, unrestricted self-modification,
-hidden instruction mutation, policy-changing autonomy, forbidden surface
-expansion, sandbox containment bypass, and any unrestricted RSI claim denied.
+non-planning rehearsal, `bounded_rsi_evidence_rehearsal`,
+`bounded_rsi_self_improvement_application`, governed public-safe broad_RSI
+campaign completion, bounded sandboxed self-change, contained external-command
+self-change, sandbox-bypass resistance, and authority-escalation criteria
+remain prior evidence. The current class is proven only for public-safe
+unrestricted self-modification authority-request dry-run evidence across four
+exact-scope reversible packet, denial-ticket, hold, and no-execution readback
+attempts under contained external-command self-change gates. The guard keeps
+unrestricted self-modification, sandbox containment bypass authority, real
+sandbox escape, provider calls, credential use, hidden instruction mutation,
+policy-changing autonomy, forbidden surface expansion,
+release/deploy/publish/upload/tag authority, dependency updates, direct-main
+mutation, concurrent mutation, broad public claims, and unrestricted RSI
+denied.
 
 The current mirror includes the latest authority-ladder evidence: AO Atlas PR
 #34 upgrades the complex-class rehearsal graph with low-risk decomposition and a
@@ -932,3 +937,43 @@ Command
 `public_safe_unrestricted_self_modification_authority_escalation_criteria_four_attempts_proven_unrestricted_self_modification_denied`,
 and Forge/AO2
 `bounded_packet_enforced_for_authority_escalation_criteria_evidence_only`.
+
+## Authority-Request Dry-Run Evidence
+
+The current highest proven live class is
+`public_safe_unrestricted_self_modification_authority_request_dry_run_four_attempts`.
+It is proven from AO Foundry PR #237, commit
+`1eda6a0c0fc6a97580e7ef52a94cfae85f41d5f2`, with tracked public evidence under
+`docs/evidence/unrestricted-self-modification-authority-request-dry-run/` and
+final rollup
+`docs/evidence/unrestricted-self-modification-authority-request-dry-run/final-rollup.json`.
+The approved public wording is exactly: "AO has public-safe unrestricted self-modification authority-request dry-run evidence across four exact-scope reversible packet, denial-ticket, hold, and no-execution readback attempts under contained external-command self-change gates; unrestricted self-modification, sandbox containment bypass authority, real sandbox escape, provider calls, credential use, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, release/deploy/publish/upload/tag authority, dependency updates, direct-main mutation, concurrent mutation, and broad public claims remain denied."
+
+The run completed `12000 / 12000` nodes. Attempt Y covered authority-request
+packet completeness (`0.80` -> `0.98`), Attempt Z covered Covenant denial
+ticket readback quality (`0.78` -> `0.97`), Attempt AA covered Sentinel hold
+and kill-switch request trace quality (`0.76` -> `0.96`), and Attempt AB
+covered Command and Promoter no-execution decision quality (`0.75` -> `0.95`).
+
+This proves only public-safe unrestricted self-modification authority-request
+dry-run evidence across four exact-scope reversible packet, denial-ticket,
+hold, and no-execution readback attempts. It does not prove
+`unrestricted_self_modification`, sandbox containment bypass authority, real
+sandbox escape, provider calls, credential use, hidden instruction mutation,
+policy-changing autonomy, forbidden surface expansion,
+release/deploy/publish/upload/tag authority, dependency updates, direct-main
+mutation, concurrent mutation, broad public claims, or unrestricted RSI. The
+next denied class is `unrestricted_self_modification`
+(`next_denied_class=unrestricted_self_modification`).
+
+Final gate identifiers: Covenant
+`deny_unrestricted_self_modification_allow_authority_request_dry_run_evidence`,
+Architecture
+`approve_authority_request_dry_run_wording_deny_unrestricted_self_modification_claim`,
+Sentinel
+`clear_authority_request_dry_run_hold_unrestricted_self_modification_and_bypass_authority`,
+Promoter
+`promote_public_safe_unrestricted_self_modification_authority_request_dry_run_four_attempts_keep_unrestricted_self_modification_denied`,
+Command
+`public_safe_unrestricted_self_modification_authority_request_dry_run_four_attempts_proven_unrestricted_self_modification_denied`,
+and Forge/AO2 `bounded_packet_enforced_for_authority_request_dry_run_evidence_only`.
