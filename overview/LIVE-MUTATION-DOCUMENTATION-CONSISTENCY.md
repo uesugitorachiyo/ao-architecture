@@ -560,3 +560,40 @@ Promoter
 Command
 `public_safe_bounded_sandboxed_external_execution_authority_rehearsal_four_attempts_proven_unrestricted_self_modification_denied`,
 and Forge/AO2 `bounded_packet_enforced_for_allowlisted_local_command_sandbox_rehearsal_only`.
+
+## Contained External-Command Self-Change Application Consistency
+
+AO Architecture, AO Foundry, AO Atlas, AO Blueprint, AO Command, AO Promoter,
+AO Covenant, and AO Sentinel must read back
+`public_safe_contained_external_command_self_change_application_four_attempts`
+as the highest proven live class. AO Foundry PR #234, commit
+`a9ea020f4b19a43c22dcde7194409989862ae951`, provides tracked public evidence
+under
+`docs/evidence/unrestricted-self-modification-contained-external-command-self-change/`
+with final rollup
+`docs/evidence/unrestricted-self-modification-contained-external-command-self-change/final-rollup.json`.
+
+The approved public wording is exactly: "AO has public-safe contained external-command self-change application evidence across four exact-scope reversible allowlisted local-command attempts under sandbox containment gates; unrestricted self-modification, sandbox containment bypass, provider calls, credential use, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, release/deploy/publish/upload/tag authority, dependency updates, direct-main mutation, concurrent mutation, and broad public claims remain denied."
+
+Consistency requires every public readback to preserve the denial boundary:
+`unrestricted_self_modification`, sandbox containment bypass, provider calls,
+credential use, hidden instruction mutation, policy-changing autonomy,
+forbidden surface expansion, release/deploy/publish/upload/tag authority,
+dependency updates, direct-main mutation, concurrent mutation, broad public
+claims, and unrestricted RSI remain denied. The next denied class is
+`unrestricted_self_modification`.
+
+The exact attempt labels are contained local-command readback fixture improvement, contained local-command eval fixture improvement, contained local-command rollback fixture improvement, and contained local-command stale-language fixture improvement.
+
+Final gate identifiers: Covenant
+`deny_unrestricted_self_modification_allow_contained_external_command_self_change_application`,
+Architecture
+`approve_contained_external_command_self_change_wording_deny_unrestricted_self_modification_claim`,
+Sentinel
+`clear_contained_external_command_self_change_hold_unrestricted_self_modification_and_sandbox_bypass`,
+Promoter
+`promote_public_safe_contained_external_command_self_change_application_four_attempts_keep_unrestricted_self_modification_denied`,
+Command
+`public_safe_contained_external_command_self_change_application_four_attempts_proven_unrestricted_self_modification_denied`,
+and Forge/AO2
+`bounded_packet_enforced_for_contained_external_command_self_change_application`.
