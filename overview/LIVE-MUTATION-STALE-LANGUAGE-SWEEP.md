@@ -4,7 +4,7 @@ This sweep checks public AO stack wording after the mutation-class ladder work.
 The current public boundary remains:
 
 - the highest proven live class is
-  `public_safe_bounded_sandboxed_self_change_delegated_dry_run_authority_gap_four_attempts`;
+  `public_safe_bounded_sandboxed_self_change_sandbox_boundary_stress_four_attempts`;
 - `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
   `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
   `complex_repo_mutation` are separate lower authority classes;
@@ -90,6 +90,17 @@ The current public boundary remains:
   diagnostics quality 0.70 -> 0.94, rollback automation evidence quality
   0.69 -> 0.93, and sandbox containment trace quality 0.68 -> 0.92, and does
   not prove unrestricted self-modification;
+- `public_safe_bounded_sandboxed_self_change_sandbox_boundary_stress_four_attempts`
+  is proven only for four public-safe bounded sandboxed self-change
+  sandbox-boundary stress attempts under sandbox containment gates;
+- the approved public wording is exactly: "AO has public-safe bounded sandboxed self-change sandbox-boundary stress evidence across four exact-scope reversible attempts under sandbox containment gates; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, sandbox containment bypass, and external execution authority remain denied.";
+- the sandbox-boundary stress run completed 420 / 420 nodes and four attempts:
+  sandbox boundary fixture denial consistency 0.74 -> 0.97, containment escape
+  negative-control coverage 0.72 -> 0.96, delegated packet boundary drift
+  detection 0.71 -> 0.95, and rollback/kill-switch traceability under
+  sandbox-boundary stress 0.70 -> 0.94, and does not prove unrestricted
+  self-modification, sandbox containment bypass, or external execution
+  authority;
 - `unrestricted_self_modification` remains denied;
 - fully unsupervised RSI remains denied;
 - broad RSI, unrestricted self-modification, hidden instruction mutation, and
@@ -110,7 +121,7 @@ rg -n -i "safe_to_execute(=|:| true)|safe to execute|production ready for live m
 rg -n -i "self-mutating RSI|full autonomous self-mutating RSI" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
 rg -n -i "RSI is proven|broad RSI is proven|broad_RSI is proven|unrestricted self-modification|hidden instruction mutation allowed|policy-changing autonomy allowed|sandbox containment bypass allowed|policy-changing autonomy|stronger recursive-improvement claims are proven|stronger recursive-improvement wording approved|full 10-day campaign complete|fully autonomous RSI|highest proven live class|next denied class" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
 rg -n -i "unrestricted_self_modification.*proven|unrestricted self-modification allowed|forbidden surface expansion allowed|credential authority allowed|provider authority allowed|direct main mutation allowed|concurrent mutation allowed" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
-rg -n -i "unrestricted_self_modification.*proven|unrestricted self-modification is proven|hidden instruction mutation is allowed|policy-changing autonomy is allowed|forbidden surface expansion is allowed|direct-main mutation is allowed|concurrent mutation is allowed|credential authority is allowed|provider authority is allowed" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
+rg -n -i "unrestricted_self_modification.*proven|unrestricted self-modification is proven|hidden instruction mutation is allowed|policy-changing autonomy is allowed|forbidden surface expansion is allowed|sandbox containment bypass is allowed|external execution authority is allowed|direct-main mutation is allowed|concurrent mutation is allowed|credential authority is allowed|provider authority is allowed" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
 ```
 
 ## Result Interpretation
@@ -130,7 +141,7 @@ The sweep should treat these as acceptable hits:
 - statements that unrestricted self-modification and hidden
   instruction mutation remain denied;
 - statements that the highest proven live class remains
-  `public_safe_bounded_sandboxed_self_change_support_code_eval_four_attempts` and the
+  `public_safe_bounded_sandboxed_self_change_sandbox_boundary_stress_four_attempts` and the
   next denied class remains `unrestricted_self_modification`.
 - statements that stronger recursive-improvement wording remains denied;
 
@@ -156,8 +167,9 @@ The sweep should treat these as stale or unsafe:
 - any statement that hidden instruction mutation is allowed;
 - any statement that grants policy-changing autonomy.
 - any statement that claims unrestricted self-modification is proven;
-- any statement that claims forbidden surface expansion, direct-main mutation,
-  concurrent mutation, credential authority, or provider authority is allowed;
+- any statement that claims forbidden surface expansion, sandbox containment
+  bypass, external execution authority, direct-main mutation, concurrent
+  mutation, credential authority, or provider authority is allowed;
 - any statement that claims unbounded stronger recursive-improvement proof,
   claims completion of the full 10-day campaign, or approves broad recursive-
   improvement wording.
@@ -326,10 +338,11 @@ forbidden surface expansion remain denied."
 The stale-language sweep must reject wording that says or implies unrestricted
 self-modification is proven, hidden instruction mutation is allowed,
 policy-changing autonomy is allowed, forbidden surface expansion is allowed,
-direct-main mutation is allowed, concurrent mutation is allowed,
+direct-main mutation is allowed, concurrent mutation is allowed, sandbox
+containment bypass is allowed, external execution authority is allowed,
 provider/credential authority is allowed, release/deploy/publish/upload/tag
-authority is allowed, dependency update authority is allowed, or any
-unrestricted RSI claim is proven.
+authority is allowed, dependency update authority is allowed, or any unrestricted
+RSI claim is proven.
 
 ## Multi-Surface Support/Eval Negative-Control Sandboxed Self-Change
 

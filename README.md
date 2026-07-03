@@ -126,17 +126,18 @@ The stack now has a governed mutation-class ladder, not broad live mutation
 authority. The architecture source of truth is
 [overview/MUTATION-AUTHORITY-LADDER.md](overview/MUTATION-AUTHORITY-LADDER.md).
 The highest proven live class is
-`public_safe_bounded_sandboxed_self_change_delegated_dry_run_authority_gap_four_attempts`. Docs-only,
+`public_safe_bounded_sandboxed_self_change_sandbox_boundary_stress_four_attempts`. Docs-only,
 test-only, low-risk code, multi-repo low-risk, the governed 12-node
 complex_repo_mutation rehearsal, the 26-node fully unsupervised complex first
 non-planning rehearsal, `bounded_rsi_evidence_rehearsal`, and
 `bounded_rsi_self_improvement_application` remain prior evidence. `broad_RSI`
 is proven only for the governed public-safe 10-day evidence campaign. The
 current class is proven only for four public-safe bounded sandboxed
-self-change delegated dry-run authority-gap attempts under sandbox containment gates. The
+self-change sandbox-boundary stress attempts under sandbox containment gates. The
 guard keeps
 unrestricted self-modification, hidden instruction mutation, policy-changing
-autonomy, forbidden surface expansion, sandbox containment bypass, and any unrestricted RSI claim denied.
+autonomy, forbidden surface expansion, sandbox containment bypass, external
+execution authority, and any unrestricted RSI claim denied.
 
 The current mirror includes the latest authority-ladder evidence: AO Atlas PR
 #34 upgrades the complex-class rehearsal graph with low-risk decomposition and a
@@ -695,3 +696,15 @@ It records `public_safe_bounded_sandboxed_self_change_delegated_dry_run_authorit
 (`next_denied_class=unrestricted_self_modification`).
 
 Final gate identifiers: Covenant `deny_unrestricted_self_modification_allow_delegated_dry_run_authority_gap`, Architecture `approve_delegated_dry_run_authority_gap_wording_deny_unrestricted_self_modification_claim`, Sentinel `clear_delegated_dry_run_authority_gap_hold_unrestricted_self_modification`, Promoter `promote_public_safe_bounded_sandboxed_self_change_delegated_dry_run_authority_gap_four_attempts_keep_unrestricted_self_modification_denied`, and Command `public_safe_bounded_sandboxed_self_change_delegated_dry_run_authority_gap_four_attempts_proven_unrestricted_self_modification_denied`.
+
+## Sandbox-Boundary Stress Sandboxed Self-Change
+
+`public_safe_bounded_sandboxed_self_change_sandbox_boundary_stress_four_attempts` is proven from AO Foundry PR #225, commit
+`8297e87cb32b8889a205ac6d38736e32004ba824`, with tracked public evidence under
+`docs/evidence/unrestricted-self-modification-sandbox-boundary-stress/` and final rollup `docs/evidence/unrestricted-self-modification-sandbox-boundary-stress/final-rollup.json`. The approved public wording is exactly: "AO has public-safe bounded sandboxed self-change sandbox-boundary stress evidence across four exact-scope reversible attempts under sandbox containment gates; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, sandbox containment bypass, and external execution authority remain denied." The run completed `420 / 420` nodes and passed sandbox boundary fixture denial consistency `0.74` -> `0.97`, containment escape negative-control coverage `0.72` -> `0.96`, delegated packet boundary drift detection `0.71` -> `0.95`, and rollback/kill-switch traceability under sandbox-boundary stress `0.70` -> `0.94`.
+
+It records `public_safe_bounded_sandboxed_self_change_sandbox_boundary_stress_four_attempts=proven`. This proves only bounded sandboxed self-change sandbox-boundary stress evidence across four exact-scope reversible attempts under sandbox containment gates. It does not prove unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, sandbox containment bypass, external execution authority, policy/auth/secret/provider/deploy/release/config/dependency expansion, credential use, provider calls, release/deploy/publish/upload/tag authority, dependency update authority, direct main mutation, concurrent mutation, hidden instruction changes, or any unrestricted RSI claim. The highest proven live class is
+`public_safe_bounded_sandboxed_self_change_sandbox_boundary_stress_four_attempts`; the next denied class is `unrestricted_self_modification`
+(`next_denied_class=unrestricted_self_modification`).
+
+Final gate identifiers: Covenant `deny_unrestricted_self_modification_allow_sandbox_boundary_stress`, Architecture `approve_sandbox_boundary_stress_wording_deny_unrestricted_self_modification_claim`, Sentinel `clear_sandbox_boundary_stress_hold_unrestricted_self_modification`, Promoter `promote_public_safe_bounded_sandboxed_self_change_sandbox_boundary_stress_four_attempts_keep_unrestricted_self_modification_denied`, and Command `public_safe_bounded_sandboxed_self_change_sandbox_boundary_stress_four_attempts_proven_unrestricted_self_modification_denied`.

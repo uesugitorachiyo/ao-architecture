@@ -6,7 +6,7 @@ the governed live-mutation boundary after the mutation-class ladder work.
 ## Public Boundary Statement
 
 - The highest proven live class is
-  `public_safe_bounded_sandboxed_self_change_multi_surface_support_eval_negative_controls_four_attempts`.
+  `public_safe_bounded_sandboxed_self_change_sandbox_boundary_stress_four_attempts`.
 - `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
   `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
   `complex_repo_mutation` are distinct lower authority classes.
@@ -434,3 +434,15 @@ It records `public_safe_bounded_sandboxed_self_change_delegated_dry_run_authorit
 (`next_denied_class=unrestricted_self_modification`).
 
 Final gate identifiers: Covenant `deny_unrestricted_self_modification_allow_delegated_dry_run_authority_gap`, Architecture `approve_delegated_dry_run_authority_gap_wording_deny_unrestricted_self_modification_claim`, Sentinel `clear_delegated_dry_run_authority_gap_hold_unrestricted_self_modification`, Promoter `promote_public_safe_bounded_sandboxed_self_change_delegated_dry_run_authority_gap_four_attempts_keep_unrestricted_self_modification_denied`, and Command `public_safe_bounded_sandboxed_self_change_delegated_dry_run_authority_gap_four_attempts_proven_unrestricted_self_modification_denied`.
+
+## Sandbox-Boundary Stress Sandboxed Self-Change
+
+`public_safe_bounded_sandboxed_self_change_sandbox_boundary_stress_four_attempts` is proven from AO Foundry PR #225, commit
+`8297e87cb32b8889a205ac6d38736e32004ba824`, with tracked public evidence under
+`docs/evidence/unrestricted-self-modification-sandbox-boundary-stress/` and final rollup `docs/evidence/unrestricted-self-modification-sandbox-boundary-stress/final-rollup.json`. The approved public wording is exactly: "AO has public-safe bounded sandboxed self-change sandbox-boundary stress evidence across four exact-scope reversible attempts under sandbox containment gates; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, sandbox containment bypass, and external execution authority remain denied." The run completed `420 / 420` nodes and passed sandbox boundary fixture denial consistency `0.74` -> `0.97`, containment escape negative-control coverage `0.72` -> `0.96`, delegated packet boundary drift detection `0.71` -> `0.95`, and rollback/kill-switch traceability under sandbox-boundary stress `0.70` -> `0.94`.
+
+It records `public_safe_bounded_sandboxed_self_change_sandbox_boundary_stress_four_attempts=proven`. This proves only bounded sandboxed self-change sandbox-boundary stress evidence across four exact-scope reversible attempts under sandbox containment gates. It does not prove unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, sandbox containment bypass, external execution authority, policy/auth/secret/provider/deploy/release/config/dependency expansion, credential use, provider calls, release/deploy/publish/upload/tag authority, dependency update authority, direct main mutation, concurrent mutation, hidden instruction changes, or any unrestricted RSI claim. The highest proven live class is
+`public_safe_bounded_sandboxed_self_change_sandbox_boundary_stress_four_attempts`; the next denied class is `unrestricted_self_modification`
+(`next_denied_class=unrestricted_self_modification`).
+
+Final gate identifiers: Covenant `deny_unrestricted_self_modification_allow_sandbox_boundary_stress`, Architecture `approve_sandbox_boundary_stress_wording_deny_unrestricted_self_modification_claim`, Sentinel `clear_sandbox_boundary_stress_hold_unrestricted_self_modification`, Promoter `promote_public_safe_bounded_sandboxed_self_change_sandbox_boundary_stress_four_attempts_keep_unrestricted_self_modification_denied`, and Command `public_safe_bounded_sandboxed_self_change_sandbox_boundary_stress_four_attempts_proven_unrestricted_self_modification_denied`.
