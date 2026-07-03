@@ -432,11 +432,13 @@ REQUIRED_BLUEPRINT_ATLAS_FOUNDRY_TERMS = [
 
 REQUIRED_AO_MISSION_CONTRACT_MAP_TERMS = [
     "AO Mission contract map",
+    "| Contract | Producer | Consumer | Authority boundary |",
     "ao.mission.record.v0.1",
     "ao.mission.event-loop-decision.v0.1",
     "ao.mission.scheduler-readback.v0.1",
     "ao.mission.route-decision.v0.1",
     "ao.command.mission-status.v0.1",
+    "ao.mission.artifact-manifest.v0.1",
     "ao.atlas.ao-mission-import.v0.1",
     "ao.atlas.ao-mission-workgraph-metadata.v0.1",
     "ao.foundry.ao-mission-smoke-readback.v0.1",
@@ -445,6 +447,7 @@ REQUIRED_AO_MISSION_CONTRACT_MAP_TERMS = [
     "ao.foundry.ao-mission-e2e-smoke.v0.1",
     "intent/readback only",
     "scheduler wakeup substrate only",
+    "Cross-artifact agreement readback only; no authority is granted.",
 ]
 
 REQUIRED_RSI_CLAIMS = [
