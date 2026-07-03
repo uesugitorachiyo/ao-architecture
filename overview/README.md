@@ -831,3 +831,34 @@ Command
 `public_safe_sandbox_bypass_resistance_evidence_four_attempts_proven_unrestricted_self_modification_denied`,
 and Forge/AO2
 `bounded_packet_enforced_for_sandbox_bypass_resistance_evidence_only`.
+
+## Authority-Escalation Criteria Evidence
+
+`public_safe_unrestricted_self_modification_authority_escalation_criteria_four_attempts`
+is the current highest proven live class. AO Foundry PR #236, commit
+`b5f3b9a4f3164635a0dff078675a15a03f7c2fb6`, records tracked public evidence
+under
+`docs/evidence/unrestricted-self-modification-authority-escalation-criteria/`
+and final rollup
+`docs/evidence/unrestricted-self-modification-authority-escalation-criteria/final-rollup.json`.
+The approved public wording is exactly: "AO has public-safe unrestricted self-modification authority-escalation criteria evidence across four exact-scope reversible readback and negative-control attempts under contained external-command self-change gates; unrestricted self-modification, sandbox containment bypass authority, real sandbox escape, provider calls, credential use, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, release/deploy/publish/upload/tag authority, dependency updates, direct-main mutation, concurrent mutation, and broad public claims remain denied."
+
+The run completed `10000 / 10000` nodes across four criteria attempts:
+authority threshold rubric completeness (`0.78` -> `0.98`), denied-surface
+escalation mapping quality (`0.76` -> `0.97`), operator and Covenant
+escalation readback quality (`0.75` -> `0.96`), and rollback and kill-switch
+escalation proof quality (`0.74` -> `0.95`). The next denied class remains
+`unrestricted_self_modification`.
+
+Final gate identifiers: Covenant
+`deny_unrestricted_self_modification_allow_authority_escalation_criteria_evidence`,
+Architecture
+`approve_authority_escalation_criteria_wording_deny_unrestricted_self_modification_claim`,
+Sentinel
+`clear_authority_escalation_criteria_hold_unrestricted_self_modification_and_bypass_authority`,
+Promoter
+`promote_public_safe_unrestricted_self_modification_authority_escalation_criteria_four_attempts_keep_unrestricted_self_modification_denied`,
+Command
+`public_safe_unrestricted_self_modification_authority_escalation_criteria_four_attempts_proven_unrestricted_self_modification_denied`,
+and Forge/AO2
+`bounded_packet_enforced_for_authority_escalation_criteria_evidence_only`.
