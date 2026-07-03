@@ -6,7 +6,7 @@ the governed live-mutation boundary after the mutation-class ladder work.
 ## Public Boundary Statement
 
 - The highest proven live class is
-  `public_safe_external_execution_authority_boundary_fixture_evidence_four_attempts`.
+  `public_safe_external_execution_authority_readiness_boundary_map`.
 - `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
   `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
   `complex_repo_mutation` are distinct lower authority classes.
@@ -100,6 +100,20 @@ the governed live-mutation boundary after the mutation-class ladder work.
   approved low-risk code mutation, multi-repo rehearsal, complex mutation, and
   bounded RSI application are separate public claim levels.
 - `unrestricted_self_modification` remains denied.
+- `public_safe_external_execution_authority_readiness_boundary_map` is proven
+  only for public-safe external-execution authority readiness-boundary evidence
+  across four exact-scope reversible dry-run attempts under sandbox containment
+  gates.
+- The approved public wording is exactly: "AO has public-safe external-execution
+  authority readiness-boundary evidence across four exact-scope reversible
+  dry-run attempts under sandbox containment gates; actual external execution
+  authority, provider calls, credential use, sandbox containment bypass,
+  unrestricted self-modification, hidden instruction mutation, policy-changing
+  autonomy, and forbidden surface expansion remain denied."
+- The readiness-boundary run completed 640 / 640 nodes and does not prove actual
+  external execution authority, provider calls, credential use, sandbox
+  containment bypass, unrestricted self-modification, hidden instruction
+  mutation, policy-changing autonomy, or forbidden surface expansion.
 - Unrestricted self-modification, hidden instruction mutation, and
   policy/auth/secret/provider/deploy/release/config/dependency expansion remain
   denied.
@@ -471,8 +485,53 @@ Final gate identifiers: Covenant `deny_actual_external_execution_authority_allow
 `18a609f430a9a7e91fc0e62aea4b5789144c9fec`, with tracked public evidence under
 `docs/evidence/sandboxed-external-execution-dry-run-packet/` and final rollup `docs/evidence/sandboxed-external-execution-dry-run-packet/final-rollup.json`. The approved public wording is exactly: "AO has public-safe sandboxed external-execution dry-run authority packet evidence across four exact-scope reversible attempts under sandbox containment gates; actual external execution authority, provider calls, credential use, sandbox containment bypass, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and forbidden surface expansion remain denied." The run completed `520 / 520` nodes and passed provider-call dry-run ticket fixture quality `0.77` -> `0.97`, credential-use denial packet quality `0.75` -> `0.96`, external-command dry-run allowlist packet quality `0.74` -> `0.95`, and sandbox containment bypass negative-control packet quality `0.73` -> `0.94`.
 
-It records `public_safe_sandboxed_external_execution_dry_run_packet_evidence_four_attempts=proven`. This proves only public-safe sandboxed external-execution dry-run authority packet evidence across four exact-scope reversible attempts under sandbox containment gates. It does not prove actual external execution authority, provider calls, credential use, sandbox containment bypass, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, policy/auth/secret/provider/deploy/release/config/dependency expansion, release/deploy/publish/upload/tag authority, dependency updates, direct main mutation, concurrent mutation, hidden instruction changes, or any unrestricted RSI claim. The highest proven live class is
-`public_safe_sandboxed_external_execution_dry_run_packet_evidence_four_attempts`; the next denied class is `unrestricted_self_modification`
+It records `public_safe_sandboxed_external_execution_dry_run_packet_evidence_four_attempts=proven`. This proves only public-safe sandboxed external-execution dry-run authority packet evidence across four exact-scope reversible attempts under sandbox containment gates. It does not prove actual external execution authority, provider calls, credential use, sandbox containment bypass, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, policy/auth/secret/provider/deploy/release/config/dependency expansion, release/deploy/publish/upload/tag authority, dependency updates, direct main mutation, concurrent mutation, hidden instruction changes, or any unrestricted RSI claim. This remains prior evidence. The current highest proven live class is
+`public_safe_external_execution_authority_readiness_boundary_map`; the next denied class is `unrestricted_self_modification`
 (`next_denied_class=unrestricted_self_modification`).
 
 Final gate identifiers: Covenant `deny_actual_external_execution_authority_allow_dry_run_packet_evidence`, Architecture `approve_sandboxed_external_execution_dry_run_packet_wording_deny_actual_external_execution_authority`, Sentinel `clear_sandboxed_external_execution_dry_run_packet_hold_actual_external_execution_authority`, Promoter `promote_public_safe_sandboxed_external_execution_dry_run_packet_evidence_four_attempts_keep_unrestricted_self_modification_denied`, Command `public_safe_sandboxed_external_execution_dry_run_packet_evidence_four_attempts_proven_external_execution_authority_denied`, and Forge/AO2 `bounded_packet_enforced_for_dry_run_authority_evidence_only`.
+
+## External-Execution Authority Readiness Boundary
+
+`public_safe_external_execution_authority_readiness_boundary_map` is proven from
+AO Foundry PR #232, commit `b6f409946775bc19a04f5ca25a9aea91b9631707`, with
+tracked public evidence under
+`docs/evidence/external-execution-authority-readiness-boundary/` and final
+rollup
+`docs/evidence/external-execution-authority-readiness-boundary/final-rollup.json`.
+The approved public wording is exactly: "AO has public-safe external-execution
+authority readiness-boundary evidence across four exact-scope reversible dry-run
+attempts under sandbox containment gates; actual external execution authority,
+provider calls, credential use, sandbox containment bypass, unrestricted
+self-modification, hidden instruction mutation, policy-changing autonomy, and
+forbidden surface expansion remain denied." The run completed `640 / 640` nodes
+and passed execution-authority denial readiness-map quality `0.78` -> `0.98`,
+provider-call quarantine readiness quality `0.76` -> `0.97`, credential
+non-use readiness quality `0.75` -> `0.96`, and sandbox bypass stop-readiness
+quality `0.74` -> `0.95`.
+
+It records `public_safe_external_execution_authority_readiness_boundary_map=proven`.
+This proves only public-safe external-execution authority readiness-boundary
+evidence across four exact-scope reversible dry-run attempts under sandbox
+containment gates. It does not prove actual external execution authority,
+provider calls, credential use, sandbox containment bypass, unrestricted
+self-modification, hidden instruction mutation, policy-changing autonomy,
+forbidden surface expansion, policy/auth/secret/provider/deploy/release/config/
+dependency expansion, release/deploy/publish/upload/tag authority, dependency
+updates, direct main mutation, concurrent mutation, hidden instruction changes,
+or any unrestricted RSI claim. The highest proven live class is
+`public_safe_external_execution_authority_readiness_boundary_map`; the next
+denied class is `unrestricted_self_modification`
+(`next_denied_class=unrestricted_self_modification`).
+
+Final gate identifiers: Covenant
+`approved_public_safe_external_execution_readiness_boundary_only_actual_external_execution_denied`,
+Architecture
+`narrow_readiness_boundary_wording_supported_actual_external_execution_wording_denied`,
+Sentinel
+`clear_for_readiness_boundary_map_hold_for_actual_external_execution_and_unrestricted_self_modification`,
+Promoter
+`promote_public_safe_external_execution_authority_readiness_boundary_map_actual_external_execution_denied_unrestricted_self_modification_denied`,
+Command
+`public_safe_external_execution_authority_readiness_boundary_map_proven_actual_external_execution_denied_unrestricted_self_modification_denied`,
+and Forge/AO2 `all_packets_exact_scope_reversible_dry_run_only`.

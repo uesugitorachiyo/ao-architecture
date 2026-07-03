@@ -4,7 +4,7 @@ This sweep checks public AO stack wording after the mutation-class ladder work.
 The current public boundary remains:
 
 - the highest proven live class is
-  `public_safe_external_execution_authority_boundary_fixture_evidence_four_attempts`;
+  `public_safe_external_execution_authority_readiness_boundary_map`;
 - `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
   `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
   `complex_repo_mutation` are separate lower authority classes;
@@ -126,6 +126,19 @@ The current public boundary remains:
   negative-control packet quality 0.73 -> 0.94, and does not prove actual
   external execution authority, provider calls, credential use, sandbox
   containment bypass, or unrestricted self-modification;
+- `public_safe_external_execution_authority_readiness_boundary_map` is proven
+  only for public-safe external-execution authority readiness-boundary evidence
+  across four exact-scope reversible dry-run attempts under sandbox containment
+  gates;
+- the approved public wording is exactly: "AO has public-safe external-execution authority readiness-boundary evidence across four exact-scope reversible dry-run attempts under sandbox containment gates; actual external execution authority, provider calls, credential use, sandbox containment bypass, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and forbidden surface expansion remain denied.";
+- the readiness-boundary run completed 640 / 640 nodes and four attempts:
+  execution-authority denial readiness-map quality 0.78 -> 0.98,
+  provider-call quarantine readiness quality 0.76 -> 0.97, credential non-use
+  readiness quality 0.75 -> 0.96, and sandbox bypass stop-readiness quality
+  0.74 -> 0.95, and does not prove actual external execution authority,
+  provider calls, credential use, sandbox containment bypass, unrestricted
+  self-modification, hidden instruction mutation, policy-changing autonomy, or
+  forbidden surface expansion;
 - `unrestricted_self_modification` remains denied;
 - fully unsupervised RSI remains denied;
 - broad RSI, unrestricted self-modification, hidden instruction mutation, and
@@ -166,7 +179,7 @@ The sweep should treat these as acceptable hits:
 - statements that unrestricted self-modification and hidden
   instruction mutation remain denied;
 - statements that the highest proven live class remains
-  `public_safe_sandboxed_external_execution_dry_run_packet_evidence_four_attempts` and the
+  `public_safe_external_execution_authority_readiness_boundary_map` and the
   next denied class remains `unrestricted_self_modification`.
 - statements that stronger recursive-improvement wording remains denied;
 
