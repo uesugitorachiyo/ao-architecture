@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="360" viewBox="0 0 1120 360" role="img" aria-labelledby="title desc">
+  <title id="title">AO Mission pipeline</title>
+  <desc id="desc">AO Mission accepts user objectives, routes to Blueprint, Atlas, Foundry, Forge and AO2, then records read-only governance status through Command and control-plane surfaces.</desc>
+  <rect width="1120" height="360" fill="#f7f9fb"/>
+  <style>
+    .box { fill: #ffffff; stroke: #243447; stroke-width: 2; rx: 6; }
+    .guard { fill: #fff6e5; stroke: #8a5a00; stroke-width: 2; rx: 6; }
+    .deny { fill: #fceeee; stroke: #9b2c2c; stroke-width: 2; rx: 6; }
+    .text { font: 15px sans-serif; fill: #17202a; }
+    .small { font: 12px sans-serif; fill: #3a4a5b; }
+    .arrow { stroke: #243447; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+  </style>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#243447"/>
+    </marker>
+  </defs>
+  <rect class="box" x="32" y="82" width="130" height="80"/>
+  <text class="text" x="54" y="116">User / CLI</text>
+  <text class="small" x="52" y="140">Telegram / A2A</text>
+  <rect class="box" x="202" y="62" width="150" height="120"/>
+  <text class="text" x="232" y="100">AO Mission</text>
+  <text class="small" x="220" y="126">mission ledger</text>
+  <text class="small" x="215" y="148">router and status</text>
+  <rect class="box" x="392" y="40" width="140" height="80"/>
+  <text class="text" x="420" y="76">Blueprint</text>
+  <text class="small" x="410" y="100">authorization</text>
+  <rect class="box" x="392" y="154" width="140" height="80"/>
+  <text class="text" x="434" y="190">Atlas</text>
+  <text class="small" x="410" y="214">workgraph</text>
+  <rect class="box" x="574" y="154" width="140" height="80"/>
+  <text class="text" x="616" y="190">Foundry</text>
+  <text class="small" x="604" y="214">PR lifecycle</text>
+  <rect class="guard" x="756" y="126" width="150" height="110"/>
+  <text class="text" x="782" y="166">Forge / AO2</text>
+  <text class="small" x="782" y="190">bounded runs</text>
+  <text class="small" x="780" y="212">policy packet</text>
+  <rect class="guard" x="574" y="276" width="332" height="54"/>
+  <text class="text" x="596" y="309">Covenant, Sentinel, Promoter, Arena, Crucible</text>
+  <rect class="box" x="948" y="154" width="140" height="80"/>
+  <text class="text" x="976" y="188">Command</text>
+  <text class="small" x="968" y="212">read-only view</text>
+  <rect class="deny" x="202" y="230" width="330" height="64"/>
+  <text class="text" x="224" y="258">Denied authority stays denied</text>
+  <text class="small" x="224" y="280">no direct main, credentials, release, deploy, hidden mutation</text>
+  <path class="arrow" d="M162 122 H202"/>
+  <path class="arrow" d="M352 112 L392 82"/>
+  <path class="arrow" d="M352 146 L392 186"/>
+  <path class="arrow" d="M532 194 H574"/>
+  <path class="arrow" d="M714 194 H756"/>
+  <path class="arrow" d="M906 194 H948"/>
+  <path class="arrow" d="M1018 154 V72 H278 V62"/>
+  <path class="arrow" d="M740 276 V236"/>
+</svg>
