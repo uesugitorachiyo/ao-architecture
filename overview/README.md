@@ -691,7 +691,7 @@ This keeps `unrestricted_self_modification`, sandbox containment bypass, externa
 
 ## External Execution Authority Boundary Fixture Readback
 
-The current highest proven live class is
+Prior external-execution authority boundary fixture evidence remains proven as
 `public_safe_external_execution_authority_boundary_fixture_evidence_four_attempts`. It is proven from AO Foundry PR #229, commit
 `fcd734c1907c3649166334a5b15c42d0e2e990de`, with tracked public evidence under
 `docs/evidence/external-execution-authority-boundary/` and final rollup `docs/evidence/external-execution-authority-boundary/final-rollup.json`. The approved public wording is exactly: "AO has public-safe external-execution-authority boundary fixture evidence across four exact-scope reversible attempts under sandbox containment gates; actual external execution authority, provider calls, credential use, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, and sandbox containment bypass remain denied."
@@ -707,3 +707,14 @@ Prior sandbox-boundary stress evidence remains proven from AO Foundry PR #225, c
 The run completed `420 / 420` nodes. Attempt A covered sandbox boundary fixture denial consistency (`0.74` -> `0.97`), Attempt B covered containment escape negative-control coverage (`0.72` -> `0.96`), Attempt C covered delegated packet boundary drift detection (`0.71` -> `0.95`), and Attempt D covered rollback/kill-switch traceability under sandbox-boundary stress (`0.70` -> `0.94`).
 
 This keeps `unrestricted_self_modification`, sandbox containment bypass, external execution authority, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, direct-main mutation, concurrent mutation, credential/provider authority, release/deploy/publish/upload/tag authority, dependency update authority, and unrestricted RSI denied.
+
+## Sandboxed External-Execution Dry-Run Packet Readback
+
+The current highest proven live class is
+`public_safe_sandboxed_external_execution_dry_run_packet_evidence_four_attempts`. It is proven from AO Foundry PR #231, commit
+`18a609f430a9a7e91fc0e62aea4b5789144c9fec`, with tracked public evidence under
+`docs/evidence/sandboxed-external-execution-dry-run-packet/` and final rollup `docs/evidence/sandboxed-external-execution-dry-run-packet/final-rollup.json`. The approved public wording is exactly: "AO has public-safe sandboxed external-execution dry-run authority packet evidence across four exact-scope reversible attempts under sandbox containment gates; actual external execution authority, provider calls, credential use, sandbox containment bypass, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, and forbidden surface expansion remain denied."
+
+The run completed `520 / 520` nodes. Attempt I covered provider-call dry-run ticket fixture quality (`0.77` -> `0.97`), Attempt J covered credential-use denial packet quality (`0.75` -> `0.96`), Attempt K covered external-command dry-run allowlist packet quality (`0.74` -> `0.95`), and Attempt L covered sandbox containment bypass negative-control packet quality (`0.73` -> `0.94`).
+
+This keeps actual external execution authority, provider calls, credential use, sandbox containment bypass, `unrestricted_self_modification`, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, direct-main mutation, concurrent mutation, release/deploy/publish/upload/tag authority, dependency update authority, and unrestricted RSI denied.
