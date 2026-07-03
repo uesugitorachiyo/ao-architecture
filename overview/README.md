@@ -10,6 +10,7 @@ The most important design decision is separation of authority. No single reposit
 
 | Repository | Primary role | What to read next |
 | --- | --- | --- |
+| [AO Mission](../ao-mission/README.md) | Central user entry point, mission router, continuation ledger, gateway, scheduler adapter, and governance snapshot producer | Start here when a user objective needs durable status, next action, or continuation readback. |
 | [AO Blueprint](../ao-blueprint/README.md) | Requirements interview, blueprint pack, sufficiency audit, and build authorization | Start here when an objective is not specified enough to build. |
 | [AO Atlas](../ao-atlas/README.md) | Stack-instance, workgraph, context-pack, and Foundry fixture handoff compiler | Use this to understand oversized objective decomposition before Foundry scheduling. |
 | [AO Command](../ao-command/README.md) | Read-only operator command center | Start here when someone asks "what is happening?" |
@@ -26,6 +27,7 @@ The most important design decision is separation of authority. No single reposit
 ## Practical Rule
 
 ```text
+AO Mission accepts objectives, records mission state, routes to the right AO component, and emits governance snapshots without approving or executing mutation.
 AO Command shows what is happening.
 AO Blueprint decides whether an objective is specified enough to build.
 AO Atlas compiles oversized objectives into stack-instance workgraphs and bounded context packs.

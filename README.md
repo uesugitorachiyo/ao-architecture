@@ -2,7 +2,7 @@
 
 ![AO stack overview](images/ao-stack-overview.svg)
 
-AO Architecture documents a multi-repository AI agent orchestration stack for governed autonomous software engineering. It explains how AO Blueprint, AO Atlas, AO Foundry, AO Forge, AO Covenant, AO2, ao2-control-plane, AO Command, AO Arena, AO Crucible, AO Sentinel, and AO Promoter work together as an evidence-first agentic factory: specifying work, compiling stack-instance workgraphs, choosing work, gating policy, executing bounded agent runs, preserving evidence, measuring outcomes, hardening candidates, monitoring regressions, promoting only gated winners, exposing read-only status, and stopping when readiness gates are satisfied.
+AO Architecture documents a multi-repository AI agent orchestration stack for governed autonomous software engineering. It explains how AO Mission, AO Blueprint, AO Atlas, AO Foundry, AO Forge, AO Covenant, AO2, ao2-control-plane, AO Command, AO Arena, AO Crucible, AO Sentinel, and AO Promoter work together as an evidence-first agentic factory: accepting operator objectives, specifying work, compiling stack-instance workgraphs, choosing work, gating policy, executing bounded agent runs, preserving evidence, measuring outcomes, hardening candidates, monitoring regressions, promoting only gated winners, exposing read-only status, and stopping when readiness gates are satisfied.
 
 Use this documentation to understand the AO stack's architecture, authority boundaries, agent workflows, contracts, production-readiness gates, and evidence trails. The focus is practical orchestration: how agent work moves from portfolio scheduling to governed factory planning, local execution, policy decisions, control-plane readback, and operator-facing status.
 
@@ -10,6 +10,8 @@ Use this documentation to understand the AO stack's architecture, authority boun
 
 The AO stack is a set of open architecture documents for building and operating governed AI agent systems. Instead of treating agent automation as a single chat session or unbounded background worker, the stack splits responsibility across small tools with clear boundaries:
 
+- AO Blueprint is the requirements interview, blueprint compiler, and build-authorization front door.
+- AO Mission is the central user entry point, mission router, continuation ledger, gateway, scheduler adapter, and governance snapshot producer. It records intents and readbacks but does not approve or execute mutation.
 - AO Blueprint is the requirements interview, blueprint compiler, and build-authorization front door.
 - AO Atlas consumes Blueprint output for oversized, mutation-class, and long-running work, then turns it into `ao.atlas.blueprint-import.v0.1`, stack-instance manifests, workgraphs, factory tasks, bounded context packs, Foundry-compatible import material, and digest-bound run-link readback records.
 - AO Foundry coordinates multi-repository engineering operations and readiness loops, including Blueprint/Atlas intake preflight, one-slice PR lifecycle state, and overnight start gates. Foundry does not accept direct Blueprint handoff for oversized, mutation-class, or long-running work; Atlas is the mandatory compiler between Blueprint and Foundry.
@@ -35,6 +37,7 @@ Watch the video walkthrough: [AO Architecture on YouTube](https://youtu.be/P0Jbs
 
 | Repository | Role in the AI agent orchestration stack | Start here |
 | --- | --- | --- |
+| `ao-mission` | Central user entry point, mission router, continuation ledger, gateway, scheduler adapter, and governance snapshot producer. | [AO Mission](../ao-mission/README.md) |
 | `ao-blueprint` | Requirements interview, blueprint pack, sufficiency audit, and build-authorization front door. | [AO Blueprint Architecture](ao-blueprint/README.md) |
 | `ao-atlas` | Blueprint import, stack-instance, and workgraph layer for oversized objective intake, bounded context packs, Foundry fixture handoff/import, and run-link readback. | [AO Atlas Architecture](ao-atlas/README.md) |
 | `ao-foundry` | Engineering operations factory for multi-repo scheduling, readiness, release trains, and autonomous loop stop conditions. | [AO Foundry Architecture](ao-foundry/README.md) |
