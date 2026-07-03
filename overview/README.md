@@ -721,8 +721,7 @@ This keeps actual external execution authority, provider calls, credential use, 
 
 ## External-Execution Authority Readiness Boundary Readback
 
-The current highest proven live class is
-`public_safe_external_execution_authority_readiness_boundary_map`. It is proven
+`public_safe_external_execution_authority_readiness_boundary_map` is proven
 from AO Foundry PR #232, commit
 `b6f409946775bc19a04f5ca25a9aea91b9631707`, with tracked public evidence under
 `docs/evidence/external-execution-authority-readiness-boundary/` and final
@@ -746,3 +745,28 @@ sandbox containment bypass, `unrestricted_self_modification`, hidden instruction
 mutation, policy-changing autonomy, forbidden surface expansion, direct-main
 mutation, concurrent mutation, release/deploy/publish/upload/tag authority,
 dependency update authority, and unrestricted RSI denied.
+
+
+## Bounded Sandboxed External-Execution Authority Rehearsal Readback
+
+The current highest proven live class is
+`public_safe_bounded_sandboxed_external_execution_authority_rehearsal_four_attempts`. It is proven from AO Foundry PR #233, commit
+`ee11d0e8093d357d803e6a5df8c36e5badf46dc6`, with tracked public evidence under
+`docs/evidence/bounded-sandboxed-external-execution-authority-rehearsal/` and
+final rollup
+`docs/evidence/bounded-sandboxed-external-execution-authority-rehearsal/final-rollup.json`.
+The approved public wording is exactly: "AO has public-safe bounded sandboxed external-execution authority rehearsal evidence across four exact-scope reversible allowlisted local-command attempts under sandbox containment gates; provider calls, credential use, sandbox containment bypass, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, release/deploy/publish/upload/tag authority, dependency updates, direct-main mutation, concurrent mutation, and broad public claims remain denied."
+
+The run completed `720 / 720` nodes. Attempt Q covered allowlisted local command
+sandbox rehearsal quality (`0.79` -> `0.98`), Attempt R covered sandbox
+environment isolation evidence quality (`0.77` -> `0.97`), Attempt S covered
+provider and credential quarantine during sandboxed execution quality (`0.76` ->
+`0.96`), and Attempt T covered kill-switch rollback and retraction evidence
+quality (`0.75` -> `0.95`).
+
+This proves only the bounded sandbox-contained allowlisted local-command
+rehearsal class. It keeps provider calls, credential use, sandbox containment
+bypass, `unrestricted_self_modification`, hidden instruction mutation,
+policy-changing autonomy, forbidden surface expansion,
+release/deploy/publish/upload/tag authority, dependency updates, direct-main
+mutation, concurrent mutation, broad public claims, and unrestricted RSI denied.
