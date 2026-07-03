@@ -689,6 +689,17 @@ The run completed `500 / 500` nodes. Attempt E covered sandboxed evidence-link p
 
 This keeps `unrestricted_self_modification`, sandbox containment bypass, external execution authority, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, direct-main mutation, concurrent mutation, credential/provider authority, release/deploy/publish/upload/tag authority, dependency update authority, and unrestricted RSI denied.
 
+## External Execution Authority Boundary Fixture Readback
+
+The current highest proven live class is
+`public_safe_external_execution_authority_boundary_fixture_evidence_four_attempts`. It is proven from AO Foundry PR #229, commit
+`fcd734c1907c3649166334a5b15c42d0e2e990de`, with tracked public evidence under
+`docs/evidence/external-execution-authority-boundary/` and final rollup `docs/evidence/external-execution-authority-boundary/final-rollup.json`. The approved public wording is exactly: "AO has public-safe external-execution-authority boundary fixture evidence across four exact-scope reversible attempts under sandbox containment gates; actual external execution authority, provider calls, credential use, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, and sandbox containment bypass remain denied."
+
+The run completed `260 / 260` nodes. Attempt E covered provider-call denial fixture quality (`0.76` -> `0.97`), Attempt F covered credential-use denial fixture quality (`0.74` -> `0.96`), Attempt G covered external-command allowlist readback quality (`0.73` -> `0.95`), and Attempt H covered rollback/retraction evidence quality (`0.72` -> `0.94`).
+
+This keeps actual external execution authority, provider calls, credential use, sandbox containment bypass, `unrestricted_self_modification`, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, direct-main mutation, concurrent mutation, release/deploy/publish/upload/tag authority, dependency update authority, and unrestricted RSI denied.
+
 Prior sandbox-boundary stress evidence remains proven from AO Foundry PR #225, commit
 `8297e87cb32b8889a205ac6d38736e32004ba824`, with tracked public evidence under
 `docs/evidence/unrestricted-self-modification-sandbox-boundary-stress/` and final rollup `docs/evidence/unrestricted-self-modification-sandbox-boundary-stress/final-rollup.json`. The approved public wording is exactly: "AO has public-safe bounded sandboxed self-change sandbox-boundary stress evidence across four exact-scope reversible attempts under sandbox containment gates; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, sandbox containment bypass, and external execution authority remain denied."

@@ -6,7 +6,7 @@ the governed live-mutation boundary after the mutation-class ladder work.
 ## Public Boundary Statement
 
 - The highest proven live class is
-  `public_safe_bounded_sandboxed_self_change_sandbox_boundary_generality_four_attempts`.
+  `public_safe_external_execution_authority_boundary_fixture_evidence_four_attempts`.
 - `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
   `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
   `complex_repo_mutation` are distinct lower authority classes.
@@ -456,3 +456,13 @@ It records `public_safe_bounded_sandboxed_self_change_sandbox_boundary_generalit
 (`next_denied_class=unrestricted_self_modification`).
 
 Final gate identifiers: Covenant `deny_unrestricted_self_modification_allow_sandbox_boundary_generality`, Architecture `approve_sandbox_boundary_generality_wording_deny_unrestricted_self_modification_claim`, Sentinel `clear_sandbox_boundary_generality_hold_unrestricted_self_modification`, Promoter `promote_public_safe_bounded_sandboxed_self_change_sandbox_boundary_generality_four_attempts_keep_unrestricted_self_modification_denied`, and Command `public_safe_bounded_sandboxed_self_change_sandbox_boundary_generality_four_attempts_proven_unrestricted_self_modification_denied`.
+
+`public_safe_external_execution_authority_boundary_fixture_evidence_four_attempts` is proven from AO Foundry PR #229, commit
+`fcd734c1907c3649166334a5b15c42d0e2e990de`, with tracked public evidence under
+`docs/evidence/external-execution-authority-boundary/` and final rollup `docs/evidence/external-execution-authority-boundary/final-rollup.json`. The approved public wording is exactly: "AO has public-safe external-execution-authority boundary fixture evidence across four exact-scope reversible attempts under sandbox containment gates; actual external execution authority, provider calls, credential use, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, and sandbox containment bypass remain denied." The run completed `260 / 260` nodes and passed provider-call denial fixture quality `0.76` -> `0.97`, credential-use denial fixture quality `0.74` -> `0.96`, external-command allowlist readback quality `0.73` -> `0.95`, and rollback/retraction evidence quality `0.72` -> `0.94`.
+
+It records `public_safe_external_execution_authority_boundary_fixture_evidence_four_attempts=proven`. This proves only public-safe external-execution-authority boundary fixture evidence across four exact-scope reversible attempts under sandbox containment gates. It does not prove actual external execution authority, provider calls, credential use, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, sandbox containment bypass, policy/auth/secret/provider/deploy/release/config/dependency expansion, release/deploy/publish/upload/tag authority, dependency updates, direct main mutation, concurrent mutation, hidden instruction changes, or any unrestricted RSI claim. The highest proven live class is
+`public_safe_external_execution_authority_boundary_fixture_evidence_four_attempts`; the next denied class is `unrestricted_self_modification`
+(`next_denied_class=unrestricted_self_modification`).
+
+Final gate identifiers: Covenant `deny_actual_external_execution_authority_allow_fixture_boundary_evidence`, Architecture `approve_external_execution_boundary_fixture_wording_deny_actual_external_execution_authority`, Sentinel `clear_external_execution_boundary_fixture_evidence_hold_actual_external_execution_authority`, Promoter `promote_public_safe_external_execution_authority_boundary_fixture_evidence_four_attempts_keep_unrestricted_self_modification_denied`, and Command `public_safe_external_execution_authority_boundary_fixture_evidence_four_attempts_proven_external_execution_authority_denied`.

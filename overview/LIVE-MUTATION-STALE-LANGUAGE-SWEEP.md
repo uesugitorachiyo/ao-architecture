@@ -4,7 +4,7 @@ This sweep checks public AO stack wording after the mutation-class ladder work.
 The current public boundary remains:
 
 - the highest proven live class is
-  `public_safe_bounded_sandboxed_self_change_sandbox_boundary_generality_four_attempts`;
+  `public_safe_external_execution_authority_boundary_fixture_evidence_four_attempts`;
 - `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
   `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
   `complex_repo_mutation` are separate lower authority classes;
@@ -112,6 +112,16 @@ The current public boundary remains:
   claim-minimization boundary 0.71 -> 0.94, and does not prove unrestricted
   self-modification, sandbox containment bypass, or external execution
   authority;
+- `public_safe_external_execution_authority_boundary_fixture_evidence_four_attempts`
+  is proven only for four public-safe external-execution-authority boundary
+  fixture attempts under sandbox containment gates;
+- the approved public wording is exactly: "AO has public-safe external-execution-authority boundary fixture evidence across four exact-scope reversible attempts under sandbox containment gates; actual external execution authority, provider calls, credential use, unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, and sandbox containment bypass remain denied.";
+- the external-execution boundary fixture run completed 260 / 260 nodes and four
+  attempts: provider-call denial fixture quality 0.76 -> 0.97, credential-use
+  denial fixture quality 0.74 -> 0.96, external-command allowlist readback
+  quality 0.73 -> 0.95, and rollback/retraction evidence quality 0.72 -> 0.94,
+  and does not prove actual external execution authority, provider calls,
+  credential use, sandbox containment bypass, or unrestricted self-modification;
 - `unrestricted_self_modification` remains denied;
 - fully unsupervised RSI remains denied;
 - broad RSI, unrestricted self-modification, hidden instruction mutation, and
@@ -132,7 +142,7 @@ rg -n -i "safe_to_execute(=|:| true)|safe to execute|production ready for live m
 rg -n -i "self-mutating RSI|full autonomous self-mutating RSI" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
 rg -n -i "RSI is proven|broad RSI is proven|broad_RSI is proven|unrestricted self-modification|hidden instruction mutation allowed|policy-changing autonomy allowed|sandbox containment bypass allowed|policy-changing autonomy|stronger recursive-improvement claims are proven|stronger recursive-improvement wording approved|full 10-day campaign complete|fully autonomous RSI|highest proven live class|next denied class" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
 rg -n -i "unrestricted_self_modification.*proven|unrestricted self-modification allowed|forbidden surface expansion allowed|credential authority allowed|provider authority allowed|direct main mutation allowed|concurrent mutation allowed" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
-rg -n -i "unrestricted_self_modification.*proven|unrestricted self-modification is proven|hidden instruction mutation is allowed|policy-changing autonomy is allowed|forbidden surface expansion is allowed|sandbox containment bypass is allowed|external execution authority is allowed|direct-main mutation is allowed|concurrent mutation is allowed|credential authority is allowed|provider authority is allowed" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
+rg -n -i "unrestricted_self_modification.*proven|unrestricted self-modification is proven|hidden instruction mutation is allowed|policy-changing autonomy is allowed|forbidden surface expansion is allowed|sandbox containment bypass is allowed|actual external execution authority is proven|external execution authority is allowed|provider calls are allowed|credential use is allowed|sandbox containment bypass is allowed|direct-main mutation is allowed|concurrent mutation is allowed|credential authority is allowed|provider authority is allowed" ao-architecture ao-foundry ao-covenant ao-command ao-forge ao2 ao-sentinel ao-promoter ao-atlas ao-blueprint --glob '*.md' --glob '*.json' --glob '*.sh' --glob '*.go' --glob '!target/**' --glob '!tmp/**' --glob '!node_modules/**'
 ```
 
 ## Result Interpretation
@@ -152,7 +162,7 @@ The sweep should treat these as acceptable hits:
 - statements that unrestricted self-modification and hidden
   instruction mutation remain denied;
 - statements that the highest proven live class remains
-  `public_safe_bounded_sandboxed_self_change_sandbox_boundary_generality_four_attempts` and the
+  `public_safe_external_execution_authority_boundary_fixture_evidence_four_attempts` and the
   next denied class remains `unrestricted_self_modification`.
 - statements that stronger recursive-improvement wording remains denied;
 
