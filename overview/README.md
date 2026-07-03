@@ -55,14 +55,22 @@ read-only, inspectable mission state before Blueprint, Atlas, or Foundry work:
   the zero-wait event loop; it is not execution approval.
 - `ao.mission.scheduler-readback.v0.1`: codex-cron wakeup readback; codex-cron
   remains scheduler wakeup substrate only.
+- `ao.mission.route-decision.v0.1`: read-only next-route evidence for Command
+  inspection.
 - `ao.command.mission-status.v0.1`: AO Command operator readback over mission
   route, phase, next action, and denied authority flags.
 - `ao.atlas.ao-mission-import.v0.1`: digest-bound import of Mission, Command,
   and artifact-manifest readbacks before Atlas workgraph compilation.
+- `ao.atlas.ao-mission-workgraph-metadata.v0.1`: digest-bound binding between
+  an imported Mission context and a validated Atlas workgraph.
 - `ao.foundry.ao-mission-smoke-readback.v0.1`: Foundry fixture smoke over route
   and governance snapshot readbacks.
 - `ao.foundry.ao-mission-final-rollup-smoke.v0.1`: Foundry fixture smoke over
   Mission and Foundry final-rollup closure.
+- `ao.foundry.ao-mission-readiness-ledger.v0.1`: readiness-only ledger entry
+  derived from final-rollup smoke.
+- `ao.foundry.ao-mission-e2e-smoke.v0.1`: cross-artifact smoke binding Mission,
+  Atlas, and Foundry readbacks without granting authority.
 
 Telegram and A2A gateways are intent/readback only. External chat or agent
 clients can request status, next action, and continuation intents, but cannot

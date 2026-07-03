@@ -103,14 +103,23 @@ readback and routing evidence, not execution authority:
   `approves_work=false`.
 - `ao.mission.scheduler-readback.v0.1` records codex-cron integration as
   scheduler wakeup substrate only.
+- `ao.mission.route-decision.v0.1` records AO Mission's next route, reason,
+  and exact next action for read-only Command inspection.
 - `ao.command.mission-status.v0.1` exposes AO Mission status to AO Command as
   read-only operator evidence.
 - `ao.atlas.ao-mission-import.v0.1` binds AO Mission record, Command status,
   and artifact-manifest digests before Atlas compiles workgraphs.
+- `ao.atlas.ao-mission-workgraph-metadata.v0.1` binds an imported Mission
+  context to a validated Atlas workgraph and node-count readback.
 - `ao.foundry.ao-mission-smoke-readback.v0.1` validates route and governance
   snapshot fixtures before Foundry treats Mission output as usable readback.
 - `ao.foundry.ao-mission-final-rollup-smoke.v0.1` validates Mission and Foundry
   final-rollup agreement after generated nodes are consumed.
+- `ao.foundry.ao-mission-readiness-ledger.v0.1` records final-rollup smoke as
+  readiness-only Foundry evidence.
+- `ao.foundry.ao-mission-e2e-smoke.v0.1` binds Mission route/snapshot, Atlas
+  workgraph metadata, and Mission/Foundry final rollups without granting
+  execution authority.
 
 Telegram and A2A gateways remain intent/readback only. They do not approve
 policy, execute mutation, call providers, publish releases, widen repository
