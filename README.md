@@ -126,14 +126,14 @@ The stack now has a governed mutation-class ladder, not broad live mutation
 authority. The architecture source of truth is
 [overview/MUTATION-AUTHORITY-LADDER.md](overview/MUTATION-AUTHORITY-LADDER.md).
 The highest proven live class is
-`public_safe_bounded_sandboxed_self_change_sandbox_boundary_stress_four_attempts`. Docs-only,
+`public_safe_bounded_sandboxed_self_change_sandbox_boundary_generality_four_attempts`. Docs-only,
 test-only, low-risk code, multi-repo low-risk, the governed 12-node
 complex_repo_mutation rehearsal, the 26-node fully unsupervised complex first
 non-planning rehearsal, `bounded_rsi_evidence_rehearsal`, and
 `bounded_rsi_self_improvement_application` remain prior evidence. `broad_RSI`
 is proven only for the governed public-safe 10-day evidence campaign. The
 current class is proven only for four public-safe bounded sandboxed
-self-change sandbox-boundary stress attempts under sandbox containment gates. The
+self-change sandbox-boundary generality attempts under sandbox containment gates. The
 guard keeps
 unrestricted self-modification, hidden instruction mutation, policy-changing
 autonomy, forbidden surface expansion, sandbox containment bypass, external
@@ -708,3 +708,13 @@ It records `public_safe_bounded_sandboxed_self_change_sandbox_boundary_stress_fo
 (`next_denied_class=unrestricted_self_modification`).
 
 Final gate identifiers: Covenant `deny_unrestricted_self_modification_allow_sandbox_boundary_stress`, Architecture `approve_sandbox_boundary_stress_wording_deny_unrestricted_self_modification_claim`, Sentinel `clear_sandbox_boundary_stress_hold_unrestricted_self_modification`, Promoter `promote_public_safe_bounded_sandboxed_self_change_sandbox_boundary_stress_four_attempts_keep_unrestricted_self_modification_denied`, and Command `public_safe_bounded_sandboxed_self_change_sandbox_boundary_stress_four_attempts_proven_unrestricted_self_modification_denied`.
+
+`public_safe_bounded_sandboxed_self_change_sandbox_boundary_generality_four_attempts` is proven from AO Foundry PR #227, commit
+`d5a03bded8157df53b4fedc0736e953f29854501`, with tracked public evidence under
+`docs/evidence/unrestricted-self-modification-sandbox-boundary-generality/` and final rollup `docs/evidence/unrestricted-self-modification-sandbox-boundary-generality/final-rollup.json`. The approved public wording is exactly: "AO has public-safe bounded sandboxed self-change sandbox-boundary generality evidence across four additional exact-scope reversible attempts under sandbox containment gates; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, sandbox containment bypass, and external execution authority remain denied." The run completed `500 / 500` nodes and passed sandboxed evidence-link permission boundary `0.75` -> `0.97`, sandboxed negative-control fixture portability `0.73` -> `0.96`, sandboxed rollback replay boundary `0.72` -> `0.95`, and sandboxed cross-surface claim-minimization boundary `0.71` -> `0.94`.
+
+It records `public_safe_bounded_sandboxed_self_change_sandbox_boundary_generality_four_attempts=proven`. This proves only bounded sandboxed self-change sandbox-boundary generality evidence across four additional exact-scope reversible attempts under sandbox containment gates. It does not prove unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, sandbox containment bypass, external execution authority, policy/auth/secret/provider/deploy/release/config/dependency expansion, credential use, provider calls, release/deploy/publish/upload/tag authority, dependency update authority, direct main mutation, concurrent mutation, hidden instruction changes, or any unrestricted RSI claim. The highest proven live class is
+`public_safe_bounded_sandboxed_self_change_sandbox_boundary_generality_four_attempts`; the next denied class is `unrestricted_self_modification`
+(`next_denied_class=unrestricted_self_modification`).
+
+Final gate identifiers: Covenant `deny_unrestricted_self_modification_allow_sandbox_boundary_generality`, Architecture `approve_sandbox_boundary_generality_wording_deny_unrestricted_self_modification_claim`, Sentinel `clear_sandbox_boundary_generality_hold_unrestricted_self_modification`, Promoter `promote_public_safe_bounded_sandboxed_self_change_sandbox_boundary_generality_four_attempts_keep_unrestricted_self_modification_denied`, and Command `public_safe_bounded_sandboxed_self_change_sandbox_boundary_generality_four_attempts_proven_unrestricted_self_modification_denied`.

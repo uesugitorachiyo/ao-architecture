@@ -4,7 +4,7 @@ This sweep checks public AO stack wording after the mutation-class ladder work.
 The current public boundary remains:
 
 - the highest proven live class is
-  `public_safe_bounded_sandboxed_self_change_sandbox_boundary_stress_four_attempts`;
+  `public_safe_bounded_sandboxed_self_change_sandbox_boundary_generality_four_attempts`;
 - `docs_only_single_file`, `docs_only_multi_file`, `docs_config_only`,
   `test_only`, `low_risk_code`, `multi_repo_low_risk`, and
   `complex_repo_mutation` are separate lower authority classes;
@@ -101,6 +101,17 @@ The current public boundary remains:
   sandbox-boundary stress 0.70 -> 0.94, and does not prove unrestricted
   self-modification, sandbox containment bypass, or external execution
   authority;
+- `public_safe_bounded_sandboxed_self_change_sandbox_boundary_generality_four_attempts`
+  is proven only for four additional public-safe bounded sandboxed self-change
+  sandbox-boundary generality attempts under sandbox containment gates;
+- the approved public wording is exactly: "AO has public-safe bounded sandboxed self-change sandbox-boundary generality evidence across four additional exact-scope reversible attempts under sandbox containment gates; unrestricted self-modification, hidden instruction mutation, policy-changing autonomy, forbidden surface expansion, sandbox containment bypass, and external execution authority remain denied.";
+- the sandbox-boundary generality run completed 500 / 500 nodes and four
+  attempts: sandboxed evidence-link permission boundary 0.75 -> 0.97,
+  sandboxed negative-control fixture portability 0.73 -> 0.96, sandboxed
+  rollback replay boundary 0.72 -> 0.95, and sandboxed cross-surface
+  claim-minimization boundary 0.71 -> 0.94, and does not prove unrestricted
+  self-modification, sandbox containment bypass, or external execution
+  authority;
 - `unrestricted_self_modification` remains denied;
 - fully unsupervised RSI remains denied;
 - broad RSI, unrestricted self-modification, hidden instruction mutation, and
@@ -141,7 +152,7 @@ The sweep should treat these as acceptable hits:
 - statements that unrestricted self-modification and hidden
   instruction mutation remain denied;
 - statements that the highest proven live class remains
-  `public_safe_bounded_sandboxed_self_change_sandbox_boundary_stress_four_attempts` and the
+  `public_safe_bounded_sandboxed_self_change_sandbox_boundary_generality_four_attempts` and the
   next denied class remains `unrestricted_self_modification`.
 - statements that stronger recursive-improvement wording remains denied;
 
