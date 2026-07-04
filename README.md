@@ -103,6 +103,12 @@ readback and routing evidence, not execution authority:
   `approves_work=false`.
 - `ao.mission.scheduler-readback.v0.1` records codex-cron integration as
   scheduler wakeup substrate only.
+- `ao.mission.scheduler-recovery-readback.v0.1` records missed and recovered
+  wakeups as read-only recovery evidence. It can recommend governed
+  continuation but does not schedule, execute, approve, or mutate repositories.
+- `ao.mission.ledger-compaction-readback.v0.1` records continuation-ledger
+  compaction as read-only provenance. It preserves digest-bound evidence but
+  does not alter authority.
 - `ao.mission.route-decision.v0.1` records AO Mission's next route, reason,
   and exact next action for read-only Command inspection.
 - AO Mission route-history exports are read-only ordered
@@ -114,10 +120,10 @@ readback and routing evidence, not execution authority:
 - `ao.command.mission-status.v0.1` exposes AO Mission status to AO Command as
   read-only operator evidence.
 - `ao.atlas.ao-mission-import.v0.1` binds AO Mission record, Command status,
-  artifact-manifest digests, and optional AO Mission route-history provenance
-  before Atlas compiles workgraphs. When the manifest includes artifact refs,
-  Atlas verifies each referenced file against its declared `sha256:` digest and
-  blocks on mismatch.
+  artifact-manifest digests, and optional AO Mission route-history,
+  scheduler-recovery, and ledger-compaction provenance before Atlas compiles
+  workgraphs. When the manifest includes artifact refs, Atlas verifies each
+  referenced file against its declared `sha256:` digest and blocks on mismatch.
 - `ao.atlas.ao-mission-workgraph-metadata.v0.1` binds an imported Mission
   context to a validated Atlas workgraph and node-count readback.
 - `ao.foundry.ao-mission-smoke-readback.v0.1` validates route and governance
@@ -127,9 +133,10 @@ readback and routing evidence, not execution authority:
 - `ao.foundry.ao-mission-readiness-ledger.v0.1` records final-rollup smoke as
   readiness-only Foundry evidence.
 - `ao.foundry.ao-mission-e2e-smoke.v0.1` binds Mission route/snapshot, Atlas
-  workgraph metadata, and Mission/Foundry final rollups without granting
-  execution authority. Foundry can also consume an optional AO Mission artifact
-  manifest and fail closed on ref digest mismatch.
+  workgraph metadata, Mission/Foundry final rollups, optional scheduler-recovery
+  readbacks, optional ledger-compaction readbacks, and optional artifact-manifest
+  digest checks without granting execution authority. Foundry fails closed on
+  schema mismatch, mission mismatch, authority drift, or ref digest mismatch.
 
 | Contract | Producer | Consumer | Authority boundary |
 | --- | --- | --- | --- |
@@ -137,6 +144,9 @@ readback and routing evidence, not execution authority:
 | AO Mission route history | AO Mission | AO Command | Ordered route-decision readback only; no scheduling, execution, or approval. |
 | `ao.mission.gateway-intent-ledger.v0.1` | AO Mission | AO Command, AO Atlas | Gateway intent ledger only; no scheduling, execution, approval, or repository mutation. |
 | `ao.command.mission-gateway.v0.1` | AO Command | Operators | Read-only gateway ledger summary; no mutation authority is granted from Telegram or A2A. |
+| `ao.mission.scheduler-recovery-readback.v0.1` | AO Mission | AO Command, AO Atlas, AO Foundry | Recovery provenance only; no scheduling, execution, approval, provider, credential, release, direct-main, or concurrent mutation authority. |
+| `ao.mission.ledger-compaction-readback.v0.1` | AO Mission | AO Command, AO Atlas, AO Foundry | Ledger compaction provenance only; no scheduling, execution, approval, or repository mutation authority. |
+| `ao.command.mission-evidence.v0.1` | AO Command | Operators | Read-only scheduler recovery and ledger compaction summary; no work authority is granted. |
 | `ao.command.mission-status.v0.1` | AO Mission | AO Command, AO Atlas | Operator status readback only; no scheduling, execution, or approval. |
 | `ao.mission.artifact-manifest.v0.1` | AO Mission | AO Command, AO Atlas, AO Foundry | Artifact refs and digests only; no repository mutation authority. |
 | `ao.atlas.ao-mission-import.v0.1` | AO Atlas | AO Atlas workgraph compiler | Digest-bound Mission import only; artifact-ref digest mismatch blocks import; Atlas still cannot execute work. |
@@ -149,6 +159,8 @@ authority, or bypass Blueprint, Atlas, Foundry, Forge/AO2, Covenant, Sentinel,
 Promoter, Command, CI, rollback, eval/regression, or Architecture wording gates.
 See [AO Mission Gateway Sequence](overview/AO-MISSION-GATEWAY-SEQUENCE.md) for
 the gateway -> ledger -> Atlas provenance path.
+See [AO Mission Recovery And Compaction Sequence](overview/AO-MISSION-RECOVERY-COMPACTION-SEQUENCE.md)
+for the scheduler recovery -> ledger compaction -> Atlas/Foundry provenance path.
 
 ## Oversized Task Control Path
 
