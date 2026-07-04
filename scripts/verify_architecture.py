@@ -453,6 +453,8 @@ REQUIRED_AO_MISSION_CONTRACT_MAP_TERMS = [
     "scheduler recovery -> ledger compaction -> Atlas/Foundry provenance path",
     "ao.command.mission-status.v0.1",
     "ao.mission.artifact-manifest.v0.1",
+    "ao.mission.archive.v0.1",
+    "ao.mission.archive-validation.v0.1",
     "ao.atlas.ao-mission-import.v0.1",
     "ao.atlas.ao-mission-workgraph-metadata.v0.1",
     "ao.foundry.ao-mission-smoke-readback.v0.1",
@@ -464,6 +466,7 @@ REQUIRED_AO_MISSION_CONTRACT_MAP_TERMS = [
     "Recovery provenance only",
     "Ledger compaction provenance only",
     "artifact-ref digest mismatch blocks import",
+    "Mission archive validation provenance",
     "optional scheduler-recovery",
     "optional ledger-compaction",
 ]
@@ -483,6 +486,7 @@ REQUIRED_AO_MISSION_GATEWAY_AUTHORITY_TERMS = [
     "covenant.scheduler-recovery-authority-denial.v1",
     "External agents receive no direct mutation authority",
     "Artifact refs are digest-bound readbacks",
+    "Mission archive validation is provenance only",
     "No gateway implementation should add a shortcut",
 ]
 

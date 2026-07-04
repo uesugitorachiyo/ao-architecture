@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
   <title id="title">AO Mission gateway authority map</title>
-  <desc id="desc">Telegram, A2A, and codex-cron feed AO Mission readbacks without direct execution authority; governed work continues through Blueprint, Atlas, Foundry, Forge/AO2, Covenant, Sentinel, Promoter, and Command.</desc>
+  <desc id="desc">Telegram, A2A, and codex-cron feed AO Mission readbacks without direct execution authority; Mission archive validation remains provenance only; governed work continues through Blueprint, Atlas, Foundry, Forge/AO2, Covenant, Sentinel, Promoter, and Command.</desc>
   <defs>
     <style>
       text { font-family: Arial, sans-serif; fill: #172033; }
@@ -36,6 +36,11 @@
   <text x="370" y="176" text-anchor="middle" class="small">mission record</text>
   <text x="370" y="196" text-anchor="middle" class="small">route decision</text>
   <text x="370" y="216" text-anchor="middle" class="small">governance snapshot</text>
+  <text x="370" y="236" text-anchor="middle" class="small">archive validation</text>
+
+  <rect x="280" y="264" width="180" height="62" class="box read"/>
+  <text x="370" y="290" text-anchor="middle" class="label">Archive</text>
+  <text x="370" y="311" text-anchor="middle" class="small">digest-bound provenance</text>
 
   <rect x="530" y="46" width="156" height="72" class="box gate"/>
   <text x="608" y="77" text-anchor="middle" class="label">Blueprint</text>
@@ -73,6 +78,9 @@
   <path d="M200 73 C230 73 250 134 280 150" class="arrow"/>
   <path d="M200 177 H280" class="arrow"/>
   <path d="M200 281 C235 281 250 221 280 205" class="arrow"/>
+  <path d="M370 242 V264" class="arrow"/>
+  <path d="M460 295 C498 292 502 224 530 196" class="arrow"/>
+  <path d="M460 306 C498 318 502 300 530 286" class="arrow"/>
   <path d="M460 160 C500 128 500 94 530 82" class="arrow"/>
   <path d="M460 180 H530" class="arrow"/>
   <path d="M460 205 C502 225 502 264 530 278" class="arrow"/>
