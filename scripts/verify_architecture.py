@@ -432,6 +432,7 @@ REQUIRED_BLUEPRINT_ATLAS_FOUNDRY_TERMS = [
 
 REQUIRED_AO_MISSION_CONTRACT_MAP_TERMS = [
     "AO Mission contract map",
+    "AO Mission Gateway Authority Map",
     "| Contract | Producer | Consumer | Authority boundary |",
     "ao.mission.record.v0.1",
     "ao.mission.event-loop-decision.v0.1",
@@ -447,6 +448,7 @@ REQUIRED_AO_MISSION_CONTRACT_MAP_TERMS = [
     "covenant.scheduler-recovery-authority-denial.v1",
     "gateway/recovery/compaction -> Atlas -> Foundry -> Command readback path",
     "gateway -> ledger -> Atlas provenance path",
+    "Telegram, A2A, codex-cron",
     "scheduler recovery -> ledger compaction -> Atlas/Foundry provenance path",
     "ao.command.mission-status.v0.1",
     "ao.mission.artifact-manifest.v0.1",
@@ -463,6 +465,24 @@ REQUIRED_AO_MISSION_CONTRACT_MAP_TERMS = [
     "artifact-ref digest mismatch blocks import",
     "optional scheduler-recovery",
     "optional ledger-compaction",
+]
+
+REQUIRED_AO_MISSION_GATEWAY_AUTHORITY_TERMS = [
+    "AO Mission Gateway Authority Map",
+    "Telegram gateway",
+    "A2A gateway",
+    "codex-cron adapter",
+    "streaming=false",
+    "push_notifications=false",
+    "state_transition_history=true",
+    "artifact_readbacks=true",
+    "covenant.gateway-intent-authority-denial.v1",
+    "covenant.telegram-intent-authority-denial.v1",
+    "covenant.a2a-intent-authority-denial.v1",
+    "covenant.scheduler-recovery-authority-denial.v1",
+    "External agents receive no direct mutation authority",
+    "Artifact refs are digest-bound readbacks",
+    "No gateway implementation should add a shortcut",
 ]
 
 REQUIRED_RSI_CLAIMS = [
@@ -812,6 +832,11 @@ def main() -> int:
     for term in REQUIRED_AO_MISSION_CONTRACT_MAP_TERMS:
         if term not in ao_mission_contract_map_text:
             fail(f"architecture docs missing AO Mission contract map term: {term}")
+
+    gateway_authority_text = read_text(ROOT / "overview" / "AO-MISSION-GATEWAY-AUTHORITY-MAP.md")
+    for term in REQUIRED_AO_MISSION_GATEWAY_AUTHORITY_TERMS:
+        if term not in gateway_authority_text:
+            fail(f"AO Mission gateway authority map missing term: {term}")
 
     rsi_map_text = read_text(ROOT / "overview" / "RSI-CLAIM-EVIDENCE-MAP.md")
     for term in REQUIRED_RSI_MAP_TERMS:

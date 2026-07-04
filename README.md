@@ -162,6 +162,9 @@ authority, or bypass Blueprint, Atlas, Foundry, Forge/AO2, Covenant, Sentinel,
 Promoter, Command, CI, rollback, eval/regression, or Architecture wording gates.
 See [AO Mission Gateway Sequence](overview/AO-MISSION-GATEWAY-SEQUENCE.md) for
 the gateway -> ledger -> Atlas provenance path.
+See [AO Mission Gateway Authority Map](overview/AO-MISSION-GATEWAY-AUTHORITY-MAP.md)
+for the Telegram, A2A, codex-cron, Mission, Atlas, Foundry, and Command
+authority boundary.
 See [AO Mission Recovery And Compaction Sequence](overview/AO-MISSION-RECOVERY-COMPACTION-SEQUENCE.md)
 for the scheduler recovery -> ledger compaction -> Atlas/Foundry provenance path.
 See [AO Mission Provenance Sequence](overview/AO-MISSION-PROVENANCE-SEQUENCE.md)
