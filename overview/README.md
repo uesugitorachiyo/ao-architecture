@@ -58,6 +58,8 @@ read-only, inspectable mission state before Blueprint, Atlas, or Foundry work:
 - `ao.mission.scheduler-recovery-readback.v0.1`: missed/recovered wakeup
   readback; recovery can recommend governed continuation but cannot schedule or
   execute work.
+- `covenant.scheduler-recovery-authority-denial.v1`: schema-backed Covenant
+  denial that scheduler recovery remains readback/provenance only.
 - `ao.mission.ledger-compaction-readback.v0.1`: continuation-ledger compaction
   readback; compaction preserves provenance but grants no authority.
 - `ao.mission.route-decision.v0.1`: read-only next-route evidence for Command
@@ -83,6 +85,7 @@ read-only, inspectable mission state before Blueprint, Atlas, or Foundry work:
 | --- | --- | --- | --- |
 | `ao.mission.route-decision.v0.1` | AO Mission | AO Command, AO Atlas | Next-route readback only; does not execute the route. |
 | `ao.mission.scheduler-recovery-readback.v0.1` | AO Mission | AO Command, AO Atlas, AO Foundry | Recovery provenance only; no scheduling, execution, approval, provider, credential, release, direct-main, or concurrent mutation authority. |
+| `covenant.scheduler-recovery-authority-denial.v1` | AO Covenant | AO Mission, AO Command, AO Atlas, AO Foundry | Schema-backed denial that scheduler recovery does not schedule, execute, approve, mutate, call providers, use credentials, publish, or widen concurrency/direct-main authority. |
 | `ao.mission.ledger-compaction-readback.v0.1` | AO Mission | AO Command, AO Atlas, AO Foundry | Ledger compaction provenance only; no scheduling, execution, approval, or repository mutation authority. |
 | `ao.command.mission-evidence.v0.1` | AO Command | Operators | Read-only scheduler recovery and ledger compaction summary; no work authority is granted. |
 | `ao.command.mission-status.v0.1` | AO Mission | AO Command, AO Atlas | Operator status readback only; no scheduling, execution, or approval. |
