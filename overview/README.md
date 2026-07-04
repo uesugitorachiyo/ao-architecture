@@ -62,6 +62,8 @@ read-only, inspectable mission state before Blueprint, Atlas, or Foundry work:
   denial that scheduler recovery remains readback/provenance only.
 - `ao.mission.ledger-compaction-readback.v0.1`: continuation-ledger compaction
   readback; compaction preserves provenance but grants no authority.
+- `ao.mission.timeline-compaction-readback.v0.1`: digest-bound retained mission
+  timeline readback; timeline compaction provenance grants no authority.
 - `ao.mission.route-decision.v0.1`: read-only next-route evidence for Command
   inspection.
 - `ao.mission.archive.v0.1`: digest-bound public-safe Mission archive evidence.
@@ -70,7 +72,7 @@ read-only, inspectable mission state before Blueprint, Atlas, or Foundry work:
 - `ao.command.mission-status.v0.1`: AO Command operator readback over mission
   route, phase, next action, and denied authority flags.
 - `ao.atlas.ao-mission-import.v0.1`: digest-bound import of Mission, Command,
-  artifact-manifest, route-history, scheduler-recovery, ledger-compaction, and Mission archive validation
+  artifact-manifest, route-history, scheduler-recovery, ledger-compaction, timeline-compaction, and Mission archive validation
   readbacks before Atlas workgraph compilation.
 - `ao.atlas.ao-mission-workgraph-metadata.v0.1`: digest-bound binding between
   an imported Mission context and a validated Atlas workgraph.
@@ -81,7 +83,7 @@ read-only, inspectable mission state before Blueprint, Atlas, or Foundry work:
 - `ao.foundry.ao-mission-readiness-ledger.v0.1`: readiness-only ledger entry
   derived from final-rollup smoke.
 - `ao.foundry.ao-mission-e2e-smoke.v0.1`: cross-artifact smoke binding Mission,
-  Atlas, Foundry, scheduler-recovery, ledger-compaction, and Mission archive validation readbacks without
+  Atlas, Foundry, scheduler-recovery, ledger-compaction, timeline-compaction, and Mission archive validation readbacks without
   granting authority.
 
 | Contract | Producer | Consumer | Authority boundary |
@@ -90,7 +92,10 @@ read-only, inspectable mission state before Blueprint, Atlas, or Foundry work:
 | `ao.mission.scheduler-recovery-readback.v0.1` | AO Mission | AO Command, AO Atlas, AO Foundry | Recovery provenance only; no scheduling, execution, approval, provider, credential, release, direct-main, or concurrent mutation authority. |
 | `covenant.scheduler-recovery-authority-denial.v1` | AO Covenant | AO Mission, AO Command, AO Atlas, AO Foundry | Schema-backed denial that scheduler recovery does not schedule, execute, approve, mutate, call providers, use credentials, publish, or widen concurrency/direct-main authority. |
 | `ao.mission.ledger-compaction-readback.v0.1` | AO Mission | AO Command, AO Atlas, AO Foundry | Ledger compaction provenance only; no scheduling, execution, approval, or repository mutation authority. |
-| `ao.command.mission-evidence.v0.1` | AO Command | Operators | Read-only scheduler recovery and ledger compaction summary; no work authority is granted. |
+| `ao.mission.timeline-compaction-readback.v0.1` | AO Mission | AO Command, AO Atlas, AO Foundry | Timeline compaction provenance only; no scheduling, execution, approval, or repository mutation authority. |
+| A2A fixture server readback | AO Mission | AO Atlas, AO Foundry, operators | Local Agent Card and JSON-RPC path readiness only; no execution authority is granted. |
+| Telegram freshness classification | AO Mission | AO Atlas, AO Foundry, AO Command | Gateway replay freshness readback only; fresh, stale, and unknown states do not grant authority. |
+| `ao.command.mission-evidence.v0.1` | AO Command | Operators | Read-only scheduler recovery, ledger compaction, and timeline compaction summary; no work authority is granted. |
 | `ao.command.mission-status.v0.1` | AO Mission | AO Command, AO Atlas | Operator status readback only; no scheduling, execution, or approval. |
 | `ao.mission.artifact-manifest.v0.1` | AO Mission | AO Command, AO Atlas | Artifact refs and digests only; no repository mutation authority. |
 | `ao.mission.gateway-readiness-rollup.v0.1` | AO Mission | AO Atlas, AO Foundry, AO Command | Gateway readiness rollup is provenance only; Replay correlation IDs connect gateway readbacks to rollups without granting scheduling, execution, approval, or repository mutation authority. |

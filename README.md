@@ -111,6 +111,10 @@ readback and routing evidence, not execution authority:
 - `ao.mission.ledger-compaction-readback.v0.1` records continuation-ledger
   compaction as read-only provenance. It preserves digest-bound evidence but
   does not alter authority.
+- `ao.mission.timeline-compaction-readback.v0.1` records digest-bound retained
+  route and continuation-step timeline state for Atlas, Foundry, and Command
+  binding. Timeline compaction provenance is readback only and does not schedule,
+  execute, approve, or mutate repositories.
 - `ao.mission.route-decision.v0.1` records AO Mission's next route, reason,
   and exact next action for read-only Command inspection.
 - AO Mission route-history exports are read-only ordered
@@ -119,6 +123,11 @@ readback and routing evidence, not execution authority:
   intents as readback only. AO Command can inspect the ledger through
   `ao.command.mission-gateway.v0.1`; the ledger does not schedule, execute,
   approve, or mutate repositories.
+- Telegram freshness classification records gateway replay timestamps as fresh,
+  stale, or unknown; gateway readbacks are never assumed fresh by default.
+- A2A fixture server readback records the local Agent Card path and JSON-RPC
+  path for fixture interoperability only. It is not a running execution
+  authority.
 - `ao.mission.gateway-readiness-rollup.v0.1` records gateway replay,
   compatibility, archive-validation, and snapshot-diff readbacks as
   provenance-only evidence. Gateway readiness rollup provenance may include a
@@ -132,7 +141,7 @@ readback and routing evidence, not execution authority:
   read-only operator evidence.
 - `ao.atlas.ao-mission-import.v0.1` binds AO Mission record, Command status,
   artifact-manifest digests, and optional AO Mission route-history,
-  scheduler-recovery, ledger-compaction, Mission archive validation provenance,
+  scheduler-recovery, ledger-compaction, timeline-compaction, Mission archive validation provenance,
   and Gateway readiness rollup provenance before Atlas compiles
   workgraphs. When the manifest includes artifact refs, Atlas verifies each
   referenced file against its declared `sha256:` digest and blocks on mismatch.
@@ -146,7 +155,8 @@ readback and routing evidence, not execution authority:
   readiness-only Foundry evidence.
 - `ao.foundry.ao-mission-e2e-smoke.v0.1` binds Mission route/snapshot, Atlas
   workgraph metadata, Mission/Foundry final rollups, optional scheduler-recovery
-  readbacks, optional ledger-compaction readbacks, optional Mission archive validation
+  readbacks, optional ledger-compaction readbacks, optional timeline-compaction
+  readbacks, optional Mission archive validation
   provenance, and optional artifact-manifest digest checks without granting execution authority. Foundry fails closed on
   schema mismatch, mission mismatch, authority drift, or ref digest mismatch.
 
@@ -162,7 +172,10 @@ readback and routing evidence, not execution authority:
 | `ao.mission.scheduler-recovery-readback.v0.1` | AO Mission | AO Command, AO Atlas, AO Foundry | Recovery provenance only; no scheduling, execution, approval, provider, credential, release, direct-main, or concurrent mutation authority. |
 | `covenant.scheduler-recovery-authority-denial.v1` | AO Covenant | AO Mission, AO Command, AO Atlas, AO Foundry | Schema-backed denial that scheduler recovery does not schedule, execute, approve, mutate, call providers, use credentials, publish, or widen concurrency/direct-main authority. |
 | `ao.mission.ledger-compaction-readback.v0.1` | AO Mission | AO Command, AO Atlas, AO Foundry | Ledger compaction provenance only; no scheduling, execution, approval, or repository mutation authority. |
-| `ao.command.mission-evidence.v0.1` | AO Command | Operators | Read-only scheduler recovery and ledger compaction summary; no work authority is granted. |
+| `ao.mission.timeline-compaction-readback.v0.1` | AO Mission | AO Command, AO Atlas, AO Foundry | Timeline compaction provenance only; no scheduling, execution, approval, or repository mutation authority. |
+| A2A fixture server readback | AO Mission | AO Atlas, AO Foundry, operators | Local Agent Card and JSON-RPC path readiness only; no execution authority is granted. |
+| Telegram freshness classification | AO Mission | AO Atlas, AO Foundry, AO Command | Gateway replay freshness readback only; fresh, stale, and unknown states do not grant authority. |
+| `ao.command.mission-evidence.v0.1` | AO Command | Operators | Read-only scheduler recovery, ledger compaction, and timeline compaction summary; no work authority is granted. |
 | `ao.command.mission-status.v0.1` | AO Mission | AO Command, AO Atlas | Operator status readback only; no scheduling, execution, or approval. |
 | `ao.mission.artifact-manifest.v0.1` | AO Mission | AO Command, AO Atlas, AO Foundry | Artifact refs and digests only; no repository mutation authority. |
 | `ao.atlas.ao-mission-import.v0.1` | AO Atlas | AO Atlas workgraph compiler | Digest-bound Mission import only; artifact-ref digest mismatch blocks import; Atlas still cannot execute work. |

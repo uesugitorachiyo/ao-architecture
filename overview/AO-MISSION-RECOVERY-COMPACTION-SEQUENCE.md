@@ -1,6 +1,6 @@
 # AO Mission Recovery And Compaction Sequence
 
-AO Mission scheduler recovery and ledger compaction are readback/provenance
+AO Mission scheduler recovery, ledger compaction, and timeline compaction are readback/provenance
 flows. They preserve mission continuity evidence, but they do not grant work
 authority.
 
@@ -16,6 +16,7 @@ sequenceDiagram
   Cron->>Mission: wakeup readback
   Mission->>Ledger: record ao.mission.scheduler-recovery-readback.v0.1
   Mission->>Ledger: record ao.mission.ledger-compaction-readback.v0.1
+  Mission->>Ledger: record ao.mission.timeline-compaction-readback.v0.1
   Mission->>Command: expose ao.command.mission-evidence.v0.1
   Mission->>Atlas: provide optional recovery/compaction provenance
   Atlas->>Atlas: bind readbacks into ao.atlas.ao-mission-import.v0.1
@@ -35,6 +36,10 @@ Boundary rules:
 - `ao.mission.ledger-compaction-readback.v0.1` records compaction of local
   continuation evidence.
 - Ledger compaction preserves digest-bound provenance and does not widen
+  authority.
+- `ao.mission.timeline-compaction-readback.v0.1` records retained route and
+  continuation-step timeline digests.
+- Timeline compaction preserves digest-bound provenance and does not widen
   authority.
 - AO Atlas may import recovery and compaction readbacks only as provenance.
 - AO Foundry may bind recovery and compaction readbacks only as e2e smoke

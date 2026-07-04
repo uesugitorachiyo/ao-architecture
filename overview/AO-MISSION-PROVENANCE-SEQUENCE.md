@@ -1,6 +1,6 @@
 # AO Mission Provenance Sequence
 
-AO Mission gateway, scheduler recovery, and ledger compaction outputs are
+AO Mission gateway, scheduler recovery, ledger compaction, and timeline compaction outputs are
 readback/provenance surfaces. They can be bound into Atlas and Foundry evidence,
 then inspected by AO Command, but they do not schedule, execute, approve, mutate
 repositories, call providers, use credentials, publish releases, widen direct-main
@@ -20,6 +20,7 @@ sequenceDiagram
   Mission->>Ledger: record ao.mission.gateway-intent-ledger.v0.1
   Mission->>Ledger: record ao.mission.scheduler-recovery-readback.v0.1
   Mission->>Ledger: record ao.mission.ledger-compaction-readback.v0.1
+  Mission->>Ledger: record ao.mission.timeline-compaction-readback.v0.1
   Covenant->>Mission: enforce gateway/recovery denial schemas
   Mission->>Atlas: provide digest-bound provenance inputs
   Atlas->>Atlas: compile ao.atlas.ao-mission-import.v0.1
@@ -36,3 +37,7 @@ path. AO Mission records provenance and next-action evidence; Atlas compiles
 context and workgraph metadata; Foundry validates agreement and implementation
 gates; Command reads the result. None of those readbacks grant execution
 authority.
+
+Timeline compaction readback adds a retained-timeline digest to the same
+provenance chain; it does not add scheduling, execution, approval, or repository
+mutation authority.
