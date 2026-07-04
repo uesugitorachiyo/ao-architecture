@@ -36,6 +36,7 @@ REQUIRED_IMAGES = [
     "images/ao-sentinel-regression-monitor.svg",
     "images/ao-promoter-gated-promotion.svg",
     "images/ao-mission-pipeline.svg",
+    "images/ao-mission-gateway-authority-map.svg",
 ]
 
 REQUIRED_RSI_MAP_FILES = [
