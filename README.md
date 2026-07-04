@@ -107,12 +107,17 @@ readback and routing evidence, not execution authority:
   and exact next action for read-only Command inspection.
 - AO Mission route-history exports are read-only ordered
   `ao.mission.route-decision.v0.1` lists for AO Command history inspection.
+- `ao.mission.gateway-intent-ledger.v0.1` records Telegram and A2A gateway
+  intents as readback only. AO Command can inspect the ledger through
+  `ao.command.mission-gateway.v0.1`; the ledger does not schedule, execute,
+  approve, or mutate repositories.
 - `ao.command.mission-status.v0.1` exposes AO Mission status to AO Command as
   read-only operator evidence.
 - `ao.atlas.ao-mission-import.v0.1` binds AO Mission record, Command status,
-  and artifact-manifest digests before Atlas compiles workgraphs. When the
-  manifest includes artifact refs, Atlas verifies each referenced file against
-  its declared `sha256:` digest and blocks on mismatch.
+  artifact-manifest digests, and optional AO Mission route-history provenance
+  before Atlas compiles workgraphs. When the manifest includes artifact refs,
+  Atlas verifies each referenced file against its declared `sha256:` digest and
+  blocks on mismatch.
 - `ao.atlas.ao-mission-workgraph-metadata.v0.1` binds an imported Mission
   context to a validated Atlas workgraph and node-count readback.
 - `ao.foundry.ao-mission-smoke-readback.v0.1` validates route and governance
@@ -130,6 +135,8 @@ readback and routing evidence, not execution authority:
 | --- | --- | --- | --- |
 | `ao.mission.route-decision.v0.1` | AO Mission | AO Command, AO Atlas | Next-route readback only; does not execute the route. |
 | AO Mission route history | AO Mission | AO Command | Ordered route-decision readback only; no scheduling, execution, or approval. |
+| `ao.mission.gateway-intent-ledger.v0.1` | AO Mission | AO Command, AO Atlas | Gateway intent ledger only; no scheduling, execution, approval, or repository mutation. |
+| `ao.command.mission-gateway.v0.1` | AO Command | Operators | Read-only gateway ledger summary; no mutation authority is granted from Telegram or A2A. |
 | `ao.command.mission-status.v0.1` | AO Mission | AO Command, AO Atlas | Operator status readback only; no scheduling, execution, or approval. |
 | `ao.mission.artifact-manifest.v0.1` | AO Mission | AO Command, AO Atlas, AO Foundry | Artifact refs and digests only; no repository mutation authority. |
 | `ao.atlas.ao-mission-import.v0.1` | AO Atlas | AO Atlas workgraph compiler | Digest-bound Mission import only; artifact-ref digest mismatch blocks import; Atlas still cannot execute work. |
@@ -140,6 +147,8 @@ Telegram and A2A gateways remain intent/readback only. They do not approve
 policy, execute mutation, call providers, publish releases, widen repository
 authority, or bypass Blueprint, Atlas, Foundry, Forge/AO2, Covenant, Sentinel,
 Promoter, Command, CI, rollback, eval/regression, or Architecture wording gates.
+See [AO Mission Gateway Sequence](overview/AO-MISSION-GATEWAY-SEQUENCE.md) for
+the gateway -> ledger -> Atlas provenance path.
 
 ## Oversized Task Control Path
 
