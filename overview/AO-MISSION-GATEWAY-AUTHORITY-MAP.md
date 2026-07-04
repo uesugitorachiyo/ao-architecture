@@ -14,6 +14,7 @@ Blueprint -> Atlas -> Foundry -> Forge/AO2 gate chain.
 | --- | --- | --- |
 | AO Mission CLI | Create mission records, route objectives, continue the zero-wait event loop, emit governance snapshots, and expose artifact refs. | Does not approve policy, execute provider calls, mutate repositories outside governed gates, publish releases, change dependencies, or widen denied mutation classes. |
 | Mission archive validation | Validate digest-bound Mission archives as provenance for Atlas and Foundry. | Mission archive validation is provenance only; it cannot approve, execute, schedule, mutate repositories, call providers, publish, or widen authority. |
+| Gateway readiness rollup | Bind replay, compatibility, archive-validation, and snapshot-diff readbacks with an optional `correlation_id`. | Gateway readiness rollup is provenance only; it cannot approve, execute, schedule, mutate repositories, call providers, publish, or widen authority. |
 | Telegram gateway | Create allowlisted operator intents and status/readback requests. | Cannot directly execute mutation, approve work, call providers, publish, mutate repositories, or bypass AO Mission routing. |
 | A2A gateway | Expose an Agent Card, readback-only skills, task status, messages, cancellation, and artifact refs for external agents. | External agents receive no direct mutation authority and cannot approve policy, execute work, or bypass Foundry/Forge/AO2 gates. |
 | codex-cron adapter | Durable scheduler wakeup substrate for mission continuation. | Not the mission brain; cannot decide authority, execute mutation, approve work, or mutate repositories. |
@@ -40,6 +41,8 @@ Mission archive validation is provenance only. Archive validation can prove that
 `ao.mission.archive.v0.1` and `ao.mission.archive-validation.v0.1` evidence is
 public-safe and digest-bound, but it does not schedule, approve, execute, mutate
 repositories, publish, call providers, or bypass downstream gates.
+
+Gateway readiness rollup is provenance only. Replay correlation IDs connect gateway readbacks to rollups so Atlas, Foundry, and Command can inspect one chain of evidence without treating that chain as approval or execution authority.
 
 ## Covenant Denial Contracts
 

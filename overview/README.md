@@ -93,6 +93,7 @@ read-only, inspectable mission state before Blueprint, Atlas, or Foundry work:
 | `ao.command.mission-evidence.v0.1` | AO Command | Operators | Read-only scheduler recovery and ledger compaction summary; no work authority is granted. |
 | `ao.command.mission-status.v0.1` | AO Mission | AO Command, AO Atlas | Operator status readback only; no scheduling, execution, or approval. |
 | `ao.mission.artifact-manifest.v0.1` | AO Mission | AO Command, AO Atlas | Artifact refs and digests only; no repository mutation authority. |
+| `ao.mission.gateway-readiness-rollup.v0.1` | AO Mission | AO Atlas, AO Foundry, AO Command | Gateway readiness rollup is provenance only; Replay correlation IDs connect gateway readbacks to rollups without granting scheduling, execution, approval, or repository mutation authority. |
 | `ao.mission.archive.v0.1` | AO Mission | AO Atlas, AO Foundry | Digest-bound Mission archive evidence only; no scheduling, execution, approval, or repository mutation. |
 | `ao.mission.archive-validation.v0.1` | AO Mission | AO Atlas, AO Foundry | Mission archive validation provenance only; no execution, approval, provider, release, credential, direct-main, or concurrent mutation authority. |
 | `ao.atlas.ao-mission-import.v0.1` | AO Atlas | AO Atlas workgraph compiler | Digest-bound Mission import only; Atlas still cannot execute work. |
@@ -102,6 +103,11 @@ read-only, inspectable mission state before Blueprint, Atlas, or Foundry work:
 Telegram and A2A gateways are intent/readback only. External chat or agent
 clients can request status, next action, and continuation intents, but cannot
 receive direct mutation authority or bypass the AO gate chain.
+
+Gateway readiness rollup provenance may carry a `correlation_id` to connect
+gateway replay readbacks to Atlas, Foundry, and Command rollups. That
+correlation is readback evidence only and does not approve, execute, schedule,
+or mutate repositories.
 
 See [AO Mission Provenance Sequence](AO-MISSION-PROVENANCE-SEQUENCE.md) for the
 combined gateway/recovery/compaction -> Atlas -> Foundry -> Command readback path.
