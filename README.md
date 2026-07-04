@@ -119,11 +119,15 @@ readback and routing evidence, not execution authority:
   intents as readback only. AO Command can inspect the ledger through
   `ao.command.mission-gateway.v0.1`; the ledger does not schedule, execute,
   approve, or mutate repositories.
+- `ao.mission.archive.v0.1` records a digest-bound public-safe Mission archive
+  without changing Mission authority.
+- `ao.mission.archive-validation.v0.1` records Mission archive validation provenance
+  before Atlas or Foundry treats archive material as readback evidence.
 - `ao.command.mission-status.v0.1` exposes AO Mission status to AO Command as
   read-only operator evidence.
 - `ao.atlas.ao-mission-import.v0.1` binds AO Mission record, Command status,
   artifact-manifest digests, and optional AO Mission route-history,
-  scheduler-recovery, and ledger-compaction provenance before Atlas compiles
+  scheduler-recovery, ledger-compaction, and Mission archive validation provenance before Atlas compiles
   workgraphs. When the manifest includes artifact refs, Atlas verifies each
   referenced file against its declared `sha256:` digest and blocks on mismatch.
 - `ao.atlas.ao-mission-workgraph-metadata.v0.1` binds an imported Mission
@@ -136,8 +140,8 @@ readback and routing evidence, not execution authority:
   readiness-only Foundry evidence.
 - `ao.foundry.ao-mission-e2e-smoke.v0.1` binds Mission route/snapshot, Atlas
   workgraph metadata, Mission/Foundry final rollups, optional scheduler-recovery
-  readbacks, optional ledger-compaction readbacks, and optional artifact-manifest
-  digest checks without granting execution authority. Foundry fails closed on
+  readbacks, optional ledger-compaction readbacks, optional Mission archive validation
+  provenance, and optional artifact-manifest digest checks without granting execution authority. Foundry fails closed on
   schema mismatch, mission mismatch, authority drift, or ref digest mismatch.
 
 | Contract | Producer | Consumer | Authority boundary |
@@ -145,6 +149,8 @@ readback and routing evidence, not execution authority:
 | `ao.mission.route-decision.v0.1` | AO Mission | AO Command, AO Atlas | Next-route readback only; does not execute the route. |
 | AO Mission route history | AO Mission | AO Command | Ordered route-decision readback only; no scheduling, execution, or approval. |
 | `ao.mission.gateway-intent-ledger.v0.1` | AO Mission | AO Command, AO Atlas | Gateway intent ledger only; no scheduling, execution, approval, or repository mutation. |
+| `ao.mission.archive.v0.1` | AO Mission | AO Atlas, AO Foundry | Digest-bound Mission archive evidence only; no scheduling, execution, approval, or repository mutation. |
+| `ao.mission.archive-validation.v0.1` | AO Mission | AO Atlas, AO Foundry | Mission archive validation provenance only; no execution, approval, provider, release, credential, direct-main, or concurrent mutation authority. |
 | `ao.command.mission-gateway.v0.1` | AO Command | Operators | Read-only gateway ledger summary; no mutation authority is granted from Telegram or A2A. |
 | `ao.mission.scheduler-recovery-readback.v0.1` | AO Mission | AO Command, AO Atlas, AO Foundry | Recovery provenance only; no scheduling, execution, approval, provider, credential, release, direct-main, or concurrent mutation authority. |
 | `covenant.scheduler-recovery-authority-denial.v1` | AO Covenant | AO Mission, AO Command, AO Atlas, AO Foundry | Schema-backed denial that scheduler recovery does not schedule, execute, approve, mutate, call providers, use credentials, publish, or widen concurrency/direct-main authority. |
