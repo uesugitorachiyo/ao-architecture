@@ -1,5 +1,7 @@
 # AO Mission Gateway Authority Map
 
+![AO Mission gateway authority map](../images/ao-mission-gateway-authority-map.svg)
+
 AO Mission is the central user entry point and continuation ledger, but gateway
 clients are not execution authorities. Telegram, A2A, and codex-cron can create
 or wake readback flows; they cannot approve policy, mutate repositories, call
