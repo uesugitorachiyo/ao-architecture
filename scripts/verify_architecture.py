@@ -444,6 +444,7 @@ REQUIRED_AO_MISSION_CONTRACT_MAP_TERMS = [
     "ao.mission.gateway-intent-ledger.v0.1",
     "ao.command.mission-gateway.v0.1",
     "ao.command.mission-evidence.v0.1",
+    "covenant.scheduler-recovery-authority-denial.v1",
     "gateway -> ledger -> Atlas provenance path",
     "scheduler recovery -> ledger compaction -> Atlas/Foundry provenance path",
     "ao.command.mission-status.v0.1",

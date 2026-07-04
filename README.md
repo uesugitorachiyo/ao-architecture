@@ -106,6 +106,8 @@ readback and routing evidence, not execution authority:
 - `ao.mission.scheduler-recovery-readback.v0.1` records missed and recovered
   wakeups as read-only recovery evidence. It can recommend governed
   continuation but does not schedule, execute, approve, or mutate repositories.
+  Covenant publishes `covenant.scheduler-recovery-authority-denial.v1` to keep
+  recovery readbacks from becoming scheduling or execution authority.
 - `ao.mission.ledger-compaction-readback.v0.1` records continuation-ledger
   compaction as read-only provenance. It preserves digest-bound evidence but
   does not alter authority.
@@ -145,6 +147,7 @@ readback and routing evidence, not execution authority:
 | `ao.mission.gateway-intent-ledger.v0.1` | AO Mission | AO Command, AO Atlas | Gateway intent ledger only; no scheduling, execution, approval, or repository mutation. |
 | `ao.command.mission-gateway.v0.1` | AO Command | Operators | Read-only gateway ledger summary; no mutation authority is granted from Telegram or A2A. |
 | `ao.mission.scheduler-recovery-readback.v0.1` | AO Mission | AO Command, AO Atlas, AO Foundry | Recovery provenance only; no scheduling, execution, approval, provider, credential, release, direct-main, or concurrent mutation authority. |
+| `covenant.scheduler-recovery-authority-denial.v1` | AO Covenant | AO Mission, AO Command, AO Atlas, AO Foundry | Schema-backed denial that scheduler recovery does not schedule, execute, approve, mutate, call providers, use credentials, publish, or widen concurrency/direct-main authority. |
 | `ao.mission.ledger-compaction-readback.v0.1` | AO Mission | AO Command, AO Atlas, AO Foundry | Ledger compaction provenance only; no scheduling, execution, approval, or repository mutation authority. |
 | `ao.command.mission-evidence.v0.1` | AO Command | Operators | Read-only scheduler recovery and ledger compaction summary; no work authority is granted. |
 | `ao.command.mission-status.v0.1` | AO Mission | AO Command, AO Atlas | Operator status readback only; no scheduling, execution, or approval. |
