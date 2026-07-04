@@ -17,6 +17,8 @@ Blueprint -> Atlas -> Foundry -> Forge/AO2 gate chain.
 | Gateway readiness rollup | Bind replay, compatibility, archive-validation, and snapshot-diff readbacks with an optional `correlation_id`. | Gateway readiness rollup is provenance only; it cannot approve, execute, schedule, mutate repositories, call providers, publish, or widen authority. |
 | Telegram gateway | Create allowlisted operator intents and status/readback requests. | Cannot directly execute mutation, approve work, call providers, publish, mutate repositories, or bypass AO Mission routing. |
 | A2A gateway | Expose an Agent Card, readback-only skills, task status, messages, cancellation, and artifact refs for external agents. | External agents receive no direct mutation authority and cannot approve policy, execute work, or bypass Foundry/Forge/AO2 gates. |
+| A2A fixture server readback | Report local `/.well-known/agent-card.json` and JSON-RPC `/` fixture paths for interoperability tests. | Fixture server readback is readiness evidence only; it does not start execution authority, approve mutation, or bypass Mission routing. |
+| Telegram freshness classification | Classify Telegram replay timestamps as fresh, stale, or unknown. | Freshness classification is readback only; stale or unknown states require attention and fresh states still grant no authority. |
 | codex-cron adapter | Durable scheduler wakeup substrate for mission continuation. | Not the mission brain; cannot decide authority, execute mutation, approve work, or mutate repositories. |
 | AO Blueprint | Requirements and build-authorization front door. | Does not execute generated slices or hand oversized, mutation-class, context-heavy, or long-running work directly to Foundry. |
 | AO Atlas | Workgraph, context-pack, candidate, rollback, and Foundry-import compiler. | Does not execute or approve live mutation and emits only one ready Foundry import node at a time. |
@@ -43,6 +45,11 @@ public-safe and digest-bound, but it does not schedule, approve, execute, mutate
 repositories, publish, call providers, or bypass downstream gates.
 
 Gateway readiness rollup is provenance only. Replay correlation IDs connect gateway readbacks to rollups so Atlas, Foundry, and Command can inspect one chain of evidence without treating that chain as approval or execution authority.
+
+A2A fixture server readback is a local compatibility check, not a gateway
+approval. Telegram freshness classification prevents stale replay artifacts from
+being treated as always fresh; fresh, stale, and unknown states remain
+intent/readback evidence only.
 
 ## Covenant Denial Contracts
 
