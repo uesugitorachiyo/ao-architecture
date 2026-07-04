@@ -98,6 +98,9 @@ Telegram and A2A gateways are intent/readback only. External chat or agent
 clients can request status, next action, and continuation intents, but cannot
 receive direct mutation authority or bypass the AO gate chain.
 
+See [AO Mission Provenance Sequence](AO-MISSION-PROVENANCE-SEQUENCE.md) for the
+combined gateway/recovery/compaction -> Atlas -> Foundry -> Command readback path.
+
 ![Authority boundaries](../images/authority-boundaries.svg)
 
 ## How A Run Moves Through The Stack

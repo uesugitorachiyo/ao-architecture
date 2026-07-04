@@ -164,6 +164,8 @@ See [AO Mission Gateway Sequence](overview/AO-MISSION-GATEWAY-SEQUENCE.md) for
 the gateway -> ledger -> Atlas provenance path.
 See [AO Mission Recovery And Compaction Sequence](overview/AO-MISSION-RECOVERY-COMPACTION-SEQUENCE.md)
 for the scheduler recovery -> ledger compaction -> Atlas/Foundry provenance path.
+See [AO Mission Provenance Sequence](overview/AO-MISSION-PROVENANCE-SEQUENCE.md)
+for the combined gateway/recovery/compaction -> Atlas -> Foundry -> Command readback path.
 
 ## Oversized Task Control Path
 
