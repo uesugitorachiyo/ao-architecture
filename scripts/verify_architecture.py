@@ -467,6 +467,8 @@ REQUIRED_AO_MISSION_CONTRACT_MAP_TERMS = [
     "Ledger compaction provenance only",
     "artifact-ref digest mismatch blocks import",
     "Mission archive validation provenance",
+    "Gateway readiness rollup provenance",
+    "correlation_id",
     "optional scheduler-recovery",
     "optional ledger-compaction",
 ]
@@ -487,6 +489,8 @@ REQUIRED_AO_MISSION_GATEWAY_AUTHORITY_TERMS = [
     "External agents receive no direct mutation authority",
     "Artifact refs are digest-bound readbacks",
     "Mission archive validation is provenance only",
+    "Gateway readiness rollup is provenance only",
+    "Replay correlation IDs connect gateway readbacks to rollups",
     "No gateway implementation should add a shortcut",
 ]
 

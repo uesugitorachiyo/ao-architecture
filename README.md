@@ -119,6 +119,11 @@ readback and routing evidence, not execution authority:
   intents as readback only. AO Command can inspect the ledger through
   `ao.command.mission-gateway.v0.1`; the ledger does not schedule, execute,
   approve, or mutate repositories.
+- `ao.mission.gateway-readiness-rollup.v0.1` records gateway replay,
+  compatibility, archive-validation, and snapshot-diff readbacks as
+  provenance-only evidence. Gateway readiness rollup provenance may include a
+  `correlation_id` so replay artifacts can be connected to downstream Atlas and
+  Foundry rollups without creating authority.
 - `ao.mission.archive.v0.1` records a digest-bound public-safe Mission archive
   without changing Mission authority.
 - `ao.mission.archive-validation.v0.1` records Mission archive validation provenance
@@ -127,7 +132,8 @@ readback and routing evidence, not execution authority:
   read-only operator evidence.
 - `ao.atlas.ao-mission-import.v0.1` binds AO Mission record, Command status,
   artifact-manifest digests, and optional AO Mission route-history,
-  scheduler-recovery, ledger-compaction, and Mission archive validation provenance before Atlas compiles
+  scheduler-recovery, ledger-compaction, Mission archive validation provenance,
+  and Gateway readiness rollup provenance before Atlas compiles
   workgraphs. When the manifest includes artifact refs, Atlas verifies each
   referenced file against its declared `sha256:` digest and blocks on mismatch.
 - `ao.atlas.ao-mission-workgraph-metadata.v0.1` binds an imported Mission
@@ -149,6 +155,7 @@ readback and routing evidence, not execution authority:
 | `ao.mission.route-decision.v0.1` | AO Mission | AO Command, AO Atlas | Next-route readback only; does not execute the route. |
 | AO Mission route history | AO Mission | AO Command | Ordered route-decision readback only; no scheduling, execution, or approval. |
 | `ao.mission.gateway-intent-ledger.v0.1` | AO Mission | AO Command, AO Atlas | Gateway intent ledger only; no scheduling, execution, approval, or repository mutation. |
+| `ao.mission.gateway-readiness-rollup.v0.1` | AO Mission | AO Atlas, AO Foundry, AO Command | Gateway readiness rollup is provenance only; Replay correlation IDs connect gateway readbacks to rollups without granting scheduling, execution, approval, or repository mutation authority. |
 | `ao.mission.archive.v0.1` | AO Mission | AO Atlas, AO Foundry | Digest-bound Mission archive evidence only; no scheduling, execution, approval, or repository mutation. |
 | `ao.mission.archive-validation.v0.1` | AO Mission | AO Atlas, AO Foundry | Mission archive validation provenance only; no execution, approval, provider, release, credential, direct-main, or concurrent mutation authority. |
 | `ao.command.mission-gateway.v0.1` | AO Command | Operators | Read-only gateway ledger summary; no mutation authority is granted from Telegram or A2A. |
