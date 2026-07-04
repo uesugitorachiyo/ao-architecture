@@ -55,12 +55,18 @@ read-only, inspectable mission state before Blueprint, Atlas, or Foundry work:
   the zero-wait event loop; it is not execution approval.
 - `ao.mission.scheduler-readback.v0.1`: codex-cron wakeup readback; codex-cron
   remains scheduler wakeup substrate only.
+- `ao.mission.scheduler-recovery-readback.v0.1`: missed/recovered wakeup
+  readback; recovery can recommend governed continuation but cannot schedule or
+  execute work.
+- `ao.mission.ledger-compaction-readback.v0.1`: continuation-ledger compaction
+  readback; compaction preserves provenance but grants no authority.
 - `ao.mission.route-decision.v0.1`: read-only next-route evidence for Command
   inspection.
 - `ao.command.mission-status.v0.1`: AO Command operator readback over mission
   route, phase, next action, and denied authority flags.
 - `ao.atlas.ao-mission-import.v0.1`: digest-bound import of Mission, Command,
-  and artifact-manifest readbacks before Atlas workgraph compilation.
+  artifact-manifest, route-history, scheduler-recovery, and ledger-compaction
+  readbacks before Atlas workgraph compilation.
 - `ao.atlas.ao-mission-workgraph-metadata.v0.1`: digest-bound binding between
   an imported Mission context and a validated Atlas workgraph.
 - `ao.foundry.ao-mission-smoke-readback.v0.1`: Foundry fixture smoke over route
@@ -70,11 +76,15 @@ read-only, inspectable mission state before Blueprint, Atlas, or Foundry work:
 - `ao.foundry.ao-mission-readiness-ledger.v0.1`: readiness-only ledger entry
   derived from final-rollup smoke.
 - `ao.foundry.ao-mission-e2e-smoke.v0.1`: cross-artifact smoke binding Mission,
-  Atlas, and Foundry readbacks without granting authority.
+  Atlas, Foundry, scheduler-recovery, and ledger-compaction readbacks without
+  granting authority.
 
 | Contract | Producer | Consumer | Authority boundary |
 | --- | --- | --- | --- |
 | `ao.mission.route-decision.v0.1` | AO Mission | AO Command, AO Atlas | Next-route readback only; does not execute the route. |
+| `ao.mission.scheduler-recovery-readback.v0.1` | AO Mission | AO Command, AO Atlas, AO Foundry | Recovery provenance only; no scheduling, execution, approval, provider, credential, release, direct-main, or concurrent mutation authority. |
+| `ao.mission.ledger-compaction-readback.v0.1` | AO Mission | AO Command, AO Atlas, AO Foundry | Ledger compaction provenance only; no scheduling, execution, approval, or repository mutation authority. |
+| `ao.command.mission-evidence.v0.1` | AO Command | Operators | Read-only scheduler recovery and ledger compaction summary; no work authority is granted. |
 | `ao.command.mission-status.v0.1` | AO Mission | AO Command, AO Atlas | Operator status readback only; no scheduling, execution, or approval. |
 | `ao.mission.artifact-manifest.v0.1` | AO Mission | AO Command, AO Atlas | Artifact refs and digests only; no repository mutation authority. |
 | `ao.atlas.ao-mission-import.v0.1` | AO Atlas | AO Atlas workgraph compiler | Digest-bound Mission import only; Atlas still cannot execute work. |
