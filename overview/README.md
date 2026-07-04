@@ -119,6 +119,8 @@ combined gateway/recovery/compaction -> Atlas -> Foundry -> Command readback pat
 See [AO Mission Gateway Authority Map](AO-MISSION-GATEWAY-AUTHORITY-MAP.md) for
 the Telegram, A2A, codex-cron, Mission, Atlas, Foundry, and Command authority
 boundary.
+See [AO Mission v0.2 Capability Map](AO-MISSION-V0.2-CAPABILITY-MAP.md) for
+the Mission-led operator loop and bounded hardening capability map.
 
 ![Authority boundaries](../images/authority-boundaries.svg)
 
