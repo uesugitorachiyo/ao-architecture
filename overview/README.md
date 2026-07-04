@@ -100,6 +100,9 @@ receive direct mutation authority or bypass the AO gate chain.
 
 See [AO Mission Provenance Sequence](AO-MISSION-PROVENANCE-SEQUENCE.md) for the
 combined gateway/recovery/compaction -> Atlas -> Foundry -> Command readback path.
+See [AO Mission Gateway Authority Map](AO-MISSION-GATEWAY-AUTHORITY-MAP.md) for
+the Telegram, A2A, codex-cron, Mission, Atlas, Foundry, and Command authority
+boundary.
 
 ![Authority boundaries](../images/authority-boundaries.svg)
 
