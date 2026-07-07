@@ -176,37 +176,51 @@ def simple_flow(name: str, title: str, desc: str, subtitle: str, cards: list[tup
 def stack_overview() -> Svg:
     s = Svg(
         "ao-stack-overview.svg",
-        1600,
-        1080,
+        1500,
+        920,
         "AO agent orchestration stack",
         "Current AO architecture with Mission intake, Blueprint authorization, Atlas workgraph compilation, Foundry scheduling, Forge planning, Covenant gates, AO2 execution, read-only observers, and assurance gates.",
     )
-    s.header("Mission records intent; Blueprint and Atlas shape work; Foundry, Forge, Covenant, and AO2 run governed work; Command and control-plane only read back evidence.")
-    s.band(48, 124, 1504, "Repository authority map")
-    positions = {
-        "AO Mission": (64, 190, "teal", ["User entry, route decision", "Gateway and recovery readbacks", "No execution or approval"]),
-        "AO Blueprint": (414, 190, "amber", ["Requirements interview", "Blueprint pack", "Build authorization"]),
-        "AO Atlas": (764, 190, "blue", ["Stack-instance compiler", "Workgraphs and context packs", "Foundry import material"]),
-        "AO Foundry": (1114, 190, "orange", ["Portfolio scheduler", "Readiness and PR lifecycle", "One ready node at a time"]),
-        "AO Forge": (414, 445, "violet", ["One governed GoalRun", "Factory plan and packets", "Retained evidence"]),
-        "AO Covenant": (764, 445, "amber", ["Policy and trust kernel", "Approval tickets", "Claim vocabulary"]),
-        "AO2": (1114, 445, "blue", ["Bounded local execution", "Adapters and artifacts", "Evaluator closure"]),
-        "ao2-control-plane": (414, 700, "green", ["Read-only observer", "Signed ingest", "Dashboards and APIs"]),
-        "AO Command": (764, 700, "teal", ["Read-only operator view", "Status and next actions", "Validation without mutation"]),
-        "Assurance gates": (1114, 700, "rose", ["Arena scores", "Crucible probes", "Sentinel holds, Promoter dry-runs"]),
+    s.header("Mission records intent; Blueprint authorizes; Atlas compiles; Foundry schedules; Forge plans; Covenant gates; AO2 executes; observers read back.")
+    s.text(56, 128, "Intake and decomposition", "smallStrong")
+    s.text(896, 128, "Factory path", "smallStrong")
+    cards = {
+        "AO Mission": (56, 154, "teal", ["Mission record and route", "Gateway/recovery readback"]),
+        "AO Blueprint": (336, 154, "amber", ["Requirements interview", "Build authorization gate"]),
+        "AO Atlas": (616, 154, "blue", ["Stack-instance compiler", "Workgraphs and context packs"]),
+        "AO Foundry": (896, 154, "orange", ["Portfolio scheduling", "Readiness and PR lifecycle"]),
+        "AO Forge": (1176, 154, "violet", ["One governed run", "GoalRun, plans, packets"]),
+        "AO Covenant": (1176, 330, "violet", ["Policy and trust gates", "Approvals, contracts, claims"]),
+        "AO2": (812, 500, "blue", ["Governed execution", "Adapters, evidence, closure"]),
+        "ao2-control-plane": (448, 500, "green", ["Observer readback", "Signed ingest and dashboards"]),
+        "AO Command": (84, 500, "teal", ["Read-only operator view", "Status, evidence, next actions"]),
     }
-    for title, (x, y, fill, lines) in positions.items():
-        s.card(x, y, 280, 150, title, lines, fill)
-    s.arrow("M344 265 L406 265")
-    s.arrow("M694 265 L756 265")
-    s.arrow("M1044 265 L1106 265")
-    s.arrow("M1254 340 C1254 398 574 390 554 437")
-    s.arrow("M694 520 L756 520")
-    s.arrow("M1044 520 L1106 520")
-    s.arrow("M1254 595 C1254 656 574 646 554 692", cls="dash")
-    s.arrow("M694 775 L756 775", cls="dash")
-    s.arrow("M1044 775 L1106 775", cls="dash")
-    s.note(64, 930, 1392, 82, "Invariant: Atlas does not schedule, execute, approve, publish, call providers, or mutate sibling repositories. Command and control-plane report evidence only; they do not approve or execute work.")
+    for title, (x, y, fill, lines) in cards.items():
+        s.card(x, y, 220, 112, title, lines, fill)
+
+    s.arrow("M276 210 L328 210", label="route", lx=284, ly=196)
+    s.arrow("M556 210 L608 210", label="authorize", lx=558, ly=196)
+    s.arrow("M836 210 L888 210", label="compile", lx=842, ly=196)
+    s.arrow("M1116 210 L1168 210", label="delegate", lx=1120, ly=196)
+    s.arrow("M1286 266 V322", label="gate", lx=1302, ly=306)
+    s.arrow("M1176 392 C1068 410 956 448 922 492", label="allowed side effects", lx=1008, ly=434)
+    s.arrow("M812 556 L676 556", label="evidence", lx=704, ly=542)
+    s.arrow("M448 556 L304 556", label="readback", lx=334, ly=542)
+
+    s.text(56, 682, "Assurance and promotion gates", "smallStrong")
+    gates = [
+        ("AO Arena", 56, ["Benchmark scoring"]),
+        ("AO Crucible", 336, ["Adversarial hardening"]),
+        ("AO Sentinel", 616, ["Regression holds"]),
+        ("AO Promoter", 896, ["Gated activation"]),
+    ]
+    for title, x, lines in gates:
+        s.card(x, 706, 220, 78, title, lines, "panel")
+    s.arrow("M922 612 C900 654 752 684 166 698", cls="dash")
+    s.arrow("M922 612 C888 662 720 690 446 698", cls="dash")
+    s.arrow("M922 612 C862 668 746 690 726 698", cls="dash")
+    s.arrow("M922 612 C930 654 978 688 1006 698", cls="dash")
+    s.note(56, 828, 1184, 46, "Atlas does not schedule, execute, approve, publish, call providers, or mutate sibling repositories. Command and control-plane remain read-only observers.")
     return s
 
 
