@@ -1,61 +1,74 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="700" viewBox="0 0 1120 700" role="img" aria-labelledby="title desc">
-  <title id="title">AO Foundry portfolio loop</title>
-  <desc id="desc">Shows Blueprint and Atlas feeding Foundry, then Foundry coordinating registry, readiness, one-slice PR lifecycle, delegated Forge runs, CI evidence, and release handoff.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800" role="img" aria-labelledby="title desc">
+  <title id="title">AO Foundry active-stack portfolio loop</title>
+  <desc id="desc">AO Foundry coordinates the current 13-repository active stack with registry validation, readiness gates, PR lifecycle evidence, Forge delegation, and stop conditions.</desc>
+
   <defs>
     <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
       <path d="M2,2 L10,6 L2,10 Z" fill="#334155"/>
     </marker>
     <style>
-      .title { font: 700 30px Arial, sans-serif; fill: #2c1c05; }
-      .box { stroke-width: 2; rx: 10; }
-      .repo { font: 700 17px Arial, sans-serif; fill: #111827; }
-      .small { font: 400 13px Arial, sans-serif; fill: #475569; }
-      .arrow { stroke: #334155; stroke-width: 2.3; fill: none; marker-end: url(#arrow); }
+      .bg { fill: #f6f8fb; }
+      .title { font: 700 34px Inter, Arial, sans-serif; fill: #162033; }
+      .subtitle { font: 400 16px Inter, Arial, sans-serif; fill: #526070; }
+      .band { rx: 8; }
+      .bandText { font: 700 14px Inter, Arial, sans-serif; fill: #ffffff; letter-spacing: 0; }
+      .card { stroke-width: 2; rx: 8; }
+      .note { stroke-width: 1.6; rx: 8; }
+      .cardTitle { font: 700 18px Inter, Arial, sans-serif; fill: #162033; }
+      .body { font: 500 15px Inter, Arial, sans-serif; fill: #162033; }
+      .small { font: 400 13px Inter, Arial, sans-serif; fill: #3a4758; }
+      .smallStrong { font: 700 13px Inter, Arial, sans-serif; fill: #253244; }
+      .label { font: 700 11px Inter, Arial, sans-serif; fill: #263447; }
+      .chip { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1; rx: 7; }
+      .arrow { stroke: #334155; stroke-width: 2.2; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #64748b; stroke-width: 2; stroke-dasharray: 7 7; fill: none; marker-end: url(#arrow); }
+      .soft { stroke: #94a3b8; stroke-width: 1.7; fill: none; marker-end: url(#arrow); }
+      .cell { stroke: #cbd5e1; stroke-width: 1.4; }
+      .cellHead { font: 700 14px Inter, Arial, sans-serif; fill: #162033; }
+      .cellText { font: 400 12px Inter, Arial, sans-serif; fill: #39485a; }
     </style>
   </defs>
-  <rect width="1120" height="700" fill="#fffaf0"/>
-  <text class="title" x="48" y="56">AO Foundry: active-stack portfolio loop</text>
-
-  <rect class="box" x="58" y="120" width="190" height="82" fill="#fef3c7" stroke="#b7791f"/>
-  <text class="repo" x="99" y="153">AO Blueprint</text>
-  <text class="small" x="88" y="178">build authorization</text>
-
-  <rect class="box" x="58" y="258" width="190" height="82" fill="#e0f2fe" stroke="#0369a1"/>
-  <text class="repo" x="112" y="291">AO Atlas</text>
-  <text class="small" x="84" y="316">workgraph/context packs</text>
-
-  <rect class="box" x="398" y="260" width="292" height="120" fill="#fff1d6" stroke="#c9811d" stroke-width="3"/>
-  <text class="repo" x="493" y="307">AO Foundry</text>
-  <text class="small" x="426" y="334">registry, readiness, intake/start gates, PR lifecycle</text>
-
-  <rect class="box" x="832" y="120" width="210" height="78" fill="#ffffff" stroke="#c9811d"/>
-  <text class="repo" x="881" y="153">Repo registry</text>
-  <text class="small" x="862" y="178">7 active repositories</text>
-
-  <rect class="box" x="832" y="240" width="210" height="78" fill="#ffffff" stroke="#c9811d"/>
-  <text class="repo" x="884" y="273">Readiness</text>
-  <text class="small" x="858" y="298">evidence and CI runs</text>
-
-  <rect class="box" x="832" y="360" width="210" height="78" fill="#e8ecff" stroke="#5967c9"/>
-  <text class="repo" x="890" y="393">AO Forge</text>
-  <text class="small" x="865" y="418">one governed factory run</text>
-
-  <rect class="box" x="832" y="480" width="210" height="78" fill="#e7f6ee" stroke="#4d8d52"/>
-  <text class="repo" x="871" y="513">Release handoff</text>
-  <text class="small" x="865" y="538">manual promotion gate</text>
-
-  <rect class="box" x="398" y="510" width="292" height="78" fill="#ffffff" stroke="#c9811d"/>
-  <text class="repo" x="463" y="543">Stop condition</text>
-  <text class="small" x="430" y="568">no blocking readiness tasks or open PRs</text>
-
-  <path class="arrow" d="M248 161 C318 176 358 230 398 292"/>
-  <path class="arrow" d="M248 299 L398 316"/>
-  <path class="arrow" d="M690 300 C748 258 790 194 832 159"/>
-  <path class="arrow" d="M690 320 L832 279"/>
-  <path class="arrow" d="M690 340 L832 399"/>
-  <path class="arrow" d="M937 438 L937 480"/>
-  <path class="arrow" d="M832 519 C760 538 720 548 690 549"/>
-  <path class="arrow" d="M398 549 C310 512 232 410 153 340"/>
-
-  <text class="small" x="58" y="646">Foundry schedules and coordinates. It does not execute, approve policy, publish releases, call providers, or treat raw ideas as ready implementation work.</text>
+  <rect class="bg" width="1280" height="800"/>
+  <text class="title" x="48" y="58">AO Foundry active-stack portfolio loop</text>
+  <text class="subtitle" x="48" y="88">Foundry schedules and coordinates; it does not execute or approve policy.</text>
+  <rect class="band" x="48" y="118" width="1184" height="36" fill="#172033"/>
+  <text class="bandText" x="66" y="142">Portfolio control loop</text>
+  <rect class="card" x="72" y="186" width="224" height="126" fill="#fff2cf" stroke="#64748b"/>
+  <text class="cardTitle" x="90" y="217">Blueprint</text>
+  <text class="small" x="90" y="244">Build authorization</text>
+  <rect class="card" x="376" y="186" width="224" height="126" fill="#e4f1ff" stroke="#64748b"/>
+  <text class="cardTitle" x="394" y="217">Atlas</text>
+  <text class="small" x="394" y="244"><tspan x="394" dy="0">Workgraph and context</tspan><tspan x="394" dy="16">packs</tspan></text>
+  <rect class="card" x="680" y="186" width="224" height="126" fill="#ffe9d2" stroke="#64748b"/>
+  <text class="cardTitle" x="698" y="217">Foundry</text>
+  <text class="small" x="698" y="244"><tspan x="698" dy="0">Registry, intake/start</tspan><tspan x="698" dy="16">gates</tspan></text>
+  <text class="small" x="698" y="276">PR lifecycle</text>
+  <rect class="card" x="984" y="186" width="224" height="126" fill="#e9f7df" stroke="#64748b"/>
+  <text class="cardTitle" x="1002" y="217">Repo registry</text>
+  <text class="small" x="1002" y="244">13 active repositories</text>
+  <rect class="card" x="984" y="432" width="224" height="126" fill="#e8edf3" stroke="#64748b"/>
+  <text class="cardTitle" x="1002" y="463">Readiness</text>
+  <text class="small" x="1002" y="490">Evidence and CI runs</text>
+  <rect class="card" x="680" y="432" width="224" height="126" fill="#eee8ff" stroke="#64748b"/>
+  <text class="cardTitle" x="698" y="463">Forge</text>
+  <text class="small" x="698" y="490">One governed factory run</text>
+  <rect class="card" x="376" y="432" width="224" height="126" fill="#ffe7ec" stroke="#64748b"/>
+  <text class="cardTitle" x="394" y="463">Release handoff</text>
+  <text class="small" x="394" y="490">Manual promotion gate</text>
+  <rect class="card" x="72" y="432" width="224" height="126" fill="#e1f5ef" stroke="#64748b"/>
+  <text class="cardTitle" x="90" y="463">Stop condition</text>
+  <text class="small" x="90" y="490"><tspan x="90" dy="0">No blocking readiness</tspan><tspan x="90" dy="16">tasks</tspan></text>
+  <text class="small" x="90" y="522">No open PRs</text>
+  <path class="arrow" d="M296 249 L376 249"/>
+  <path class="arrow" d="M600 249 L680 249"/>
+  <path class="arrow" d="M904 249 L984 249"/>
+  <path class="arrow" d="M1096 312 L1096 432"/>
+  <path class="arrow" d="M984 495 L904 495"/>
+  <path class="arrow" d="M680 495 L600 495"/>
+  <path class="arrow" d="M376 495 L296 495"/>
+  <path class="dash" d="M72 495 C20 495 20 249 72 249"/>
+  <rect class="chip" x="20" y="359" width="86" height="23"/>
+  <text class="label" x="28" y="376">next slice</text>
+  <rect class="note" x="72" y="668" width="1136" height="66" fill="#e8edf3" stroke="#94a3b8"/>
+  <text class="smallStrong" x="90" y="697">Foundry does not execute providers, approve policy, publish releases, call providers, or treat raw ideas as ready implementation work.</text>
 </svg>

@@ -1,96 +1,97 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="680" viewBox="0 0 1280 680" role="img" aria-labelledby="title desc">
-  <title id="title">Evidence-first factory flow</title>
-  <desc id="desc">Shows the lifecycle from AO Blueprint intake through AO Atlas context compilation, Foundry scheduling, Forge planning, Covenant policy, AO2 execution, control-plane readback, Command status, and assurance gates.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="840" viewBox="0 0 1440 840" role="img" aria-labelledby="title desc">
+  <title id="title">Evidence-first orchestration workflow</title>
+  <desc id="desc">Shows execution and evidence lanes from intent through Blueprint, Atlas, Foundry, Forge, Covenant, AO2, control-plane readback, Command status, and assurance gates.</desc>
+
   <defs>
     <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
       <path d="M2,2 L10,6 L2,10 Z" fill="#334155"/>
     </marker>
     <style>
-      .bg { fill: #fbfcfe; }
-      .title { font: 700 32px Arial, sans-serif; fill: #172033; }
-      .step { fill: #ffffff; stroke: #60708a; stroke-width: 2; rx: 10; }
-      .gate { fill: #fff6df; stroke: #c98216; stroke-width: 2; rx: 10; }
-      .evidence { fill: #eaf7ed; stroke: #4d8d52; stroke-width: 2; rx: 10; }
-      .text { font: 700 15px Arial, sans-serif; fill: #172033; }
-      .small { font: 400 12px Arial, sans-serif; fill: #475569; }
-      .arrow { stroke: #334155; stroke-width: 2.1; fill: none; marker-end: url(#arrow); }
-      .lane { font: 700 14px Arial, sans-serif; fill: #334155; }
+      .bg { fill: #f6f8fb; }
+      .title { font: 700 34px Inter, Arial, sans-serif; fill: #162033; }
+      .subtitle { font: 400 16px Inter, Arial, sans-serif; fill: #526070; }
+      .band { rx: 8; }
+      .bandText { font: 700 14px Inter, Arial, sans-serif; fill: #ffffff; letter-spacing: 0; }
+      .card { stroke-width: 2; rx: 8; }
+      .note { stroke-width: 1.6; rx: 8; }
+      .cardTitle { font: 700 18px Inter, Arial, sans-serif; fill: #162033; }
+      .body { font: 500 15px Inter, Arial, sans-serif; fill: #162033; }
+      .small { font: 400 13px Inter, Arial, sans-serif; fill: #3a4758; }
+      .smallStrong { font: 700 13px Inter, Arial, sans-serif; fill: #253244; }
+      .label { font: 700 11px Inter, Arial, sans-serif; fill: #263447; }
+      .chip { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1; rx: 7; }
+      .arrow { stroke: #334155; stroke-width: 2.2; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #64748b; stroke-width: 2; stroke-dasharray: 7 7; fill: none; marker-end: url(#arrow); }
+      .soft { stroke: #94a3b8; stroke-width: 1.7; fill: none; marker-end: url(#arrow); }
+      .cell { stroke: #cbd5e1; stroke-width: 1.4; }
+      .cellHead { font: 700 14px Inter, Arial, sans-serif; fill: #162033; }
+      .cellText { font: 400 12px Inter, Arial, sans-serif; fill: #39485a; }
     </style>
   </defs>
-  <rect class="bg" width="1280" height="680"/>
-  <text class="title" x="48" y="54">Evidence-first orchestration workflow</text>
-
-  <rect class="step" x="48" y="110" width="150" height="86"/>
-  <text class="text" x="85" y="146">Intent</text>
-  <text class="small" x="75" y="172">operator goal</text>
-
-  <rect class="gate" x="236" y="110" width="150" height="86"/>
-  <text class="text" x="258" y="146">AO Blueprint</text>
-  <text class="small" x="258" y="172">authorization</text>
-
-  <rect class="step" x="424" y="110" width="150" height="86"/>
-  <text class="text" x="456" y="146">AO Atlas</text>
-  <text class="small" x="444" y="172">workgraph pack</text>
-
-  <rect class="step" x="612" y="110" width="150" height="86"/>
-  <text class="text" x="650" y="146">Foundry</text>
-  <text class="small" x="642" y="172">schedule next</text>
-
-  <rect class="step" x="800" y="110" width="150" height="86"/>
-  <text class="text" x="842" y="146">Forge</text>
-  <text class="small" x="824" y="172">GoalRun plan</text>
-
-  <rect class="gate" x="988" y="110" width="150" height="86"/>
-  <text class="text" x="1028" y="146">Covenant</text>
-  <text class="small" x="1016" y="172">policy decision</text>
-
-  <path class="arrow" d="M198 153 L236 153"/>
-  <path class="arrow" d="M386 153 L424 153"/>
-  <path class="arrow" d="M574 153 L612 153"/>
-  <path class="arrow" d="M762 153 L800 153"/>
-  <path class="arrow" d="M950 153 L988 153"/>
-
-  <rect class="step" x="988" y="300" width="150" height="86"/>
-  <text class="text" x="1047" y="336">AO2</text>
-  <text class="small" x="1016" y="362">governed run</text>
-
-  <rect class="evidence" x="800" y="300" width="150" height="86"/>
-  <text class="text" x="846" y="336">Pack</text>
-  <text class="small" x="822" y="362">events + digests</text>
-
-  <rect class="evidence" x="612" y="300" width="150" height="86"/>
-  <text class="text" x="638" y="336">Readback</text>
-  <text class="small" x="631" y="362">control-plane</text>
-
-  <rect class="evidence" x="424" y="300" width="150" height="86"/>
-  <text class="text" x="459" y="336">Command</text>
-  <text class="small" x="448" y="362">read-only status</text>
-
-  <path class="arrow" d="M1063 196 L1063 300"/>
-  <path class="arrow" d="M988 343 L950 343"/>
-  <path class="arrow" d="M800 343 L762 343"/>
-  <path class="arrow" d="M612 343 L574 343"/>
-
-  <text class="lane" x="48" y="250">Execution lane: scope must be authorized and gated before side effects.</text>
-  <text class="lane" x="48" y="442">Evidence lane: every meaningful decision leaves a durable, schema-backed record.</text>
-
-  <rect class="evidence" x="138" y="500" width="210" height="82"/>
-  <text class="text" x="185" y="534">AO Arena</text>
-  <text class="small" x="174" y="560">benchmark score gate</text>
-  <rect class="evidence" x="390" y="500" width="210" height="82"/>
-  <text class="text" x="427" y="534">AO Crucible</text>
-  <text class="small" x="424" y="560">adversarial hardening</text>
-  <rect class="evidence" x="642" y="500" width="210" height="82"/>
-  <text class="text" x="685" y="534">AO Sentinel</text>
-  <text class="small" x="680" y="560">regression monitor</text>
-  <rect class="evidence" x="894" y="500" width="210" height="82"/>
-  <text class="text" x="936" y="534">AO Promoter</text>
-  <text class="small" x="922" y="560">gated activation plan</text>
-
-  <path class="arrow" d="M875 386 C825 460 760 488 747 500"/>
-  <path class="arrow" d="M875 386 C720 464 535 488 495 500"/>
-  <path class="arrow" d="M875 386 C610 466 290 488 243 500"/>
-  <path class="arrow" d="M875 386 C930 450 982 482 999 500"/>
-
-  <text class="small" x="48" y="642">Full autonomous RSI publication remains denied unless separate Covenant-approved mutation authority, rollback evidence, live self-change evidence, and observer readback exist.</text>
+  <rect class="bg" width="1440" height="840"/>
+  <text class="title" x="48" y="58">Evidence-first orchestration workflow</text>
+  <text class="subtitle" x="48" y="88">Every meaningful decision leaves a durable, schema-backed record.</text>
+  <rect class="band" x="48" y="118" width="1344" height="36" fill="#172033"/>
+  <text class="bandText" x="66" y="142">Execution lane: scope must be authorized and gated before side effects</text>
+  <rect class="card" x="64" y="184" width="164" height="108" fill="#e1f5ef" stroke="#64748b"/>
+  <text class="cardTitle" x="82" y="215">Intent</text>
+  <text class="small" x="82" y="242">Operator goal</text>
+  <rect class="card" x="258" y="184" width="164" height="108" fill="#fff2cf" stroke="#64748b"/>
+  <text class="cardTitle" x="276" y="215">Blueprint</text>
+  <text class="small" x="276" y="242">Authorization</text>
+  <path class="arrow" d="M228 238 L258 238"/>
+  <rect class="card" x="452" y="184" width="164" height="108" fill="#e4f1ff" stroke="#64748b"/>
+  <text class="cardTitle" x="470" y="215">Atlas</text>
+  <text class="small" x="470" y="242">Workgraph pack</text>
+  <path class="arrow" d="M422 238 L452 238"/>
+  <rect class="card" x="646" y="184" width="164" height="108" fill="#ffe9d2" stroke="#64748b"/>
+  <text class="cardTitle" x="664" y="215">Foundry</text>
+  <text class="small" x="664" y="242">Schedule next</text>
+  <path class="arrow" d="M616 238 L646 238"/>
+  <rect class="card" x="840" y="184" width="164" height="108" fill="#eee8ff" stroke="#64748b"/>
+  <text class="cardTitle" x="858" y="215">Forge</text>
+  <text class="small" x="858" y="242">GoalRun plan</text>
+  <path class="arrow" d="M810 238 L840 238"/>
+  <rect class="card" x="1034" y="184" width="164" height="108" fill="#fff2cf" stroke="#64748b"/>
+  <text class="cardTitle" x="1052" y="215">Covenant</text>
+  <text class="small" x="1052" y="242">Policy decision</text>
+  <path class="arrow" d="M1004 238 L1034 238"/>
+  <rect class="card" x="1228" y="184" width="164" height="108" fill="#e4f1ff" stroke="#64748b"/>
+  <text class="cardTitle" x="1246" y="215">AO2</text>
+  <text class="small" x="1246" y="242">Governed run</text>
+  <path class="arrow" d="M1198 238 L1228 238"/>
+  <rect class="band" x="48" y="354" width="1344" height="36" fill="#172033"/>
+  <text class="bandText" x="66" y="378">Evidence lane: decisions are exported, retained, and read back</text>
+  <rect class="card" x="64" y="420" width="164" height="108" fill="#e9f7df" stroke="#64748b"/>
+  <text class="cardTitle" x="82" y="451">Pack</text>
+  <text class="small" x="82" y="478"><tspan x="82" dy="0">Events and</tspan><tspan x="82" dy="16">digests</tspan></text>
+  <rect class="card" x="258" y="420" width="164" height="108" fill="#e9f7df" stroke="#64748b"/>
+  <text class="cardTitle" x="276" y="451">Control-plane</text>
+  <text class="small" x="276" y="478">Read-only ingest</text>
+  <path class="dash" d="M228 474 L258 474"/>
+  <rect class="card" x="452" y="420" width="164" height="108" fill="#e1f5ef" stroke="#64748b"/>
+  <text class="cardTitle" x="470" y="451">Command</text>
+  <text class="small" x="470" y="478">Operator status</text>
+  <path class="dash" d="M422 474 L452 474"/>
+  <rect class="card" x="646" y="420" width="164" height="108" fill="#e8edf3" stroke="#64748b"/>
+  <text class="cardTitle" x="664" y="451">Arena</text>
+  <text class="small" x="664" y="478">Benchmark score</text>
+  <path class="dash" d="M616 474 L646 474"/>
+  <rect class="card" x="840" y="420" width="164" height="108" fill="#e8edf3" stroke="#64748b"/>
+  <text class="cardTitle" x="858" y="451">Crucible</text>
+  <text class="small" x="858" y="478"><tspan x="858" dy="0">Hardening</tspan><tspan x="858" dy="16">evidence</tspan></text>
+  <path class="dash" d="M810 474 L840 474"/>
+  <rect class="card" x="1034" y="420" width="164" height="108" fill="#ffe7ec" stroke="#64748b"/>
+  <text class="cardTitle" x="1052" y="451">Sentinel</text>
+  <text class="small" x="1052" y="478"><tspan x="1052" dy="0">Regression</tspan><tspan x="1052" dy="16">verdict</tspan></text>
+  <path class="dash" d="M1004 474 L1034 474"/>
+  <rect class="card" x="1228" y="420" width="164" height="108" fill="#ffe9d2" stroke="#64748b"/>
+  <text class="cardTitle" x="1246" y="451">Promoter</text>
+  <text class="small" x="1246" y="478"><tspan x="1246" dy="0">Gated activation</tspan><tspan x="1246" dy="16">plan</tspan></text>
+  <path class="dash" d="M1198 474 L1228 474"/>
+  <path class="dash" d="M1310 292 V326 H32 V474 H64"/>
+  <rect class="chip" x="1002" y="301" width="121" height="23"/>
+  <text class="label" x="1010" y="318">evidence export</text>
+  <rect class="note" x="64" y="612" width="1312" height="92" fill="#e8edf3" stroke="#94a3b8"/>
+  <text class="smallStrong" x="82" y="641"><tspan x="82" dy="0">Publication boundary: full autonomous RSI claims remain denied unless separate Covenant-approved mutation authority, rollback evidence, live self-change evidence, observer readback,</tspan><tspan x="82" dy="18">public-safety review, and promotion evidence exist.</tspan></text>
 </svg>

@@ -60,7 +60,8 @@ Watch the video walkthrough: [AO Architecture on YouTube](https://youtu.be/P0Jbs
 3. [RSI Claim Evidence Map](overview/RSI-CLAIM-EVIDENCE-MAP.md) pins the bounded/full RSI claim boundary, source artifacts, known PRs, and out-of-scope repositories.
 4. [Live Mutation Documentation Consistency Proof](overview/LIVE-MUTATION-DOCUMENTATION-CONSISTENCY.md) verifies the first-live-docs public boundary across stack docs.
 5. [AO Skills Integration SDD](overview/AO-SKILLS-INTEGRATION-SDD.md) records which Codex and Claude Code skill patterns became enforceable AO contracts and which ones remain deferred.
-6. Read individual repository guides when you need implementation detail:
+6. [AO Mission v0.2 Capability Map](overview/AO-MISSION-V0.2-CAPABILITY-MAP.md) records the Mission-led operator loop and bounded hardening capabilities.
+7. Read individual repository guides when you need implementation detail:
 
 | Folder | Guide |
 | --- | --- |
@@ -195,6 +196,8 @@ See [AO Mission Recovery And Compaction Sequence](overview/AO-MISSION-RECOVERY-C
 for the scheduler recovery -> ledger compaction -> Atlas/Foundry provenance path.
 See [AO Mission Provenance Sequence](overview/AO-MISSION-PROVENANCE-SEQUENCE.md)
 for the combined gateway/recovery/compaction -> Atlas -> Foundry -> Command readback path.
+See [AO Mission v0.2 Capability Map](overview/AO-MISSION-V0.2-CAPABILITY-MAP.md)
+for the Mission-led hardening capability map and safety boundaries.
 
 ## Oversized Task Control Path
 

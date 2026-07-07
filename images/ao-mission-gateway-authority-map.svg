@@ -1,94 +1,90 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760" role="img" aria-labelledby="title desc">
   <title id="title">AO Mission gateway authority map</title>
-  <desc id="desc">Telegram, A2A, and codex-cron feed AO Mission readbacks without direct execution authority; A2A fixture-server readback, gateway readiness rollup, timeline compaction, and Mission archive validation remain provenance only; governed work continues through Blueprint, Atlas, Foundry, Forge/AO2, Covenant, Sentinel, Promoter, and Command.</desc>
+  <desc id="desc">Gateway, scheduler, archive, and readiness surfaces feed Mission readback and downstream provenance without granting execution, approval, provider, credential, release, or repository mutation authority.</desc>
+
   <defs>
-    <style>
-      text { font-family: Arial, sans-serif; fill: #172033; }
-      .box { fill: #f8fafc; stroke: #334155; stroke-width: 2; rx: 6; }
-      .input { fill: #eef6ff; stroke: #2563eb; }
-      .gate { fill: #fff7ed; stroke: #c2410c; }
-      .read { fill: #ecfdf5; stroke: #047857; }
-      .deny { fill: #fef2f2; stroke: #b91c1c; }
-      .label { font-size: 17px; font-weight: 700; }
-      .small { font-size: 13px; }
-      .arrow { stroke: #334155; stroke-width: 2; marker-end: url(#arrow); fill: none; }
-      .stop { stroke: #b91c1c; stroke-width: 2; stroke-dasharray: 6 5; fill: none; }
-    </style>
     <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
       <path d="M2,2 L10,6 L2,10 Z" fill="#334155"/>
     </marker>
+    <style>
+      .bg { fill: #f6f8fb; }
+      .title { font: 700 34px Inter, Arial, sans-serif; fill: #162033; }
+      .subtitle { font: 400 16px Inter, Arial, sans-serif; fill: #526070; }
+      .band { rx: 8; }
+      .bandText { font: 700 14px Inter, Arial, sans-serif; fill: #ffffff; letter-spacing: 0; }
+      .card { stroke-width: 2; rx: 8; }
+      .note { stroke-width: 1.6; rx: 8; }
+      .cardTitle { font: 700 18px Inter, Arial, sans-serif; fill: #162033; }
+      .body { font: 500 15px Inter, Arial, sans-serif; fill: #162033; }
+      .small { font: 400 13px Inter, Arial, sans-serif; fill: #3a4758; }
+      .smallStrong { font: 700 13px Inter, Arial, sans-serif; fill: #253244; }
+      .label { font: 700 11px Inter, Arial, sans-serif; fill: #263447; }
+      .chip { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1; rx: 7; }
+      .arrow { stroke: #334155; stroke-width: 2.2; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #64748b; stroke-width: 2; stroke-dasharray: 7 7; fill: none; marker-end: url(#arrow); }
+      .soft { stroke: #94a3b8; stroke-width: 1.7; fill: none; marker-end: url(#arrow); }
+      .cell { stroke: #cbd5e1; stroke-width: 1.4; }
+      .cellHead { font: 700 14px Inter, Arial, sans-serif; fill: #162033; }
+      .cellText { font: 400 12px Inter, Arial, sans-serif; fill: #39485a; }
+    </style>
   </defs>
-
-  <rect x="30" y="34" width="170" height="78" class="box input"/>
-  <text x="115" y="65" text-anchor="middle" class="label">Telegram</text>
-  <text x="115" y="88" text-anchor="middle" class="small">intent/readback only</text>
-
-  <rect x="30" y="138" width="170" height="78" class="box input"/>
-  <text x="115" y="169" text-anchor="middle" class="label">A2A</text>
-  <text x="115" y="192" text-anchor="middle" class="small">fixture server readback</text>
-
-  <rect x="30" y="242" width="170" height="78" class="box input"/>
-  <text x="115" y="273" text-anchor="middle" class="label">codex-cron</text>
-  <text x="115" y="296" text-anchor="middle" class="small">scheduler wakeup only</text>
-
-  <rect x="280" y="116" width="180" height="126" class="box read"/>
-  <text x="370" y="151" text-anchor="middle" class="label">AO Mission</text>
-  <text x="370" y="176" text-anchor="middle" class="small">mission record</text>
-  <text x="370" y="196" text-anchor="middle" class="small">route decision</text>
-  <text x="370" y="216" text-anchor="middle" class="small">gateway readiness rollup</text>
-  <text x="370" y="236" text-anchor="middle" class="small">timeline compaction</text>
-
-  <rect x="280" y="264" width="180" height="62" class="box read"/>
-  <text x="370" y="290" text-anchor="middle" class="label">Archive</text>
-  <text x="370" y="311" text-anchor="middle" class="small">digest-bound provenance</text>
-
-  <rect x="530" y="46" width="156" height="72" class="box gate"/>
-  <text x="608" y="77" text-anchor="middle" class="label">Blueprint</text>
-  <text x="608" y="99" text-anchor="middle" class="small">authorization</text>
-
-  <rect x="530" y="144" width="156" height="72" class="box gate"/>
-  <text x="608" y="175" text-anchor="middle" class="label">Atlas</text>
-  <text x="608" y="197" text-anchor="middle" class="small">workgraph compiler</text>
-
-  <rect x="530" y="242" width="156" height="72" class="box gate"/>
-  <text x="608" y="273" text-anchor="middle" class="label">Foundry</text>
-  <text x="608" y="295" text-anchor="middle" class="small">implementation gates</text>
-
-  <rect x="744" y="94" width="166" height="72" class="box gate"/>
-  <text x="827" y="125" text-anchor="middle" class="label">Forge / AO2</text>
-  <text x="827" y="147" text-anchor="middle" class="small">bounded execution</text>
-
-  <rect x="744" y="190" width="166" height="72" class="box gate"/>
-  <text x="827" y="221" text-anchor="middle" class="label">Covenant</text>
-  <text x="827" y="243" text-anchor="middle" class="small">authority denial/allow</text>
-
-  <rect x="744" y="286" width="166" height="72" class="box gate"/>
-  <text x="827" y="317" text-anchor="middle" class="label">Sentinel</text>
-  <text x="827" y="339" text-anchor="middle" class="small">public-risk guard</text>
-
-  <rect x="744" y="382" width="166" height="72" class="box read"/>
-  <text x="827" y="413" text-anchor="middle" class="label">Command</text>
-  <text x="827" y="435" text-anchor="middle" class="small">compact timeline readback</text>
-
-  <rect x="278" y="350" width="260" height="94" class="box deny"/>
-  <text x="408" y="382" text-anchor="middle" class="label">Denied At Gateway</text>
-  <text x="408" y="407" text-anchor="middle" class="small">execution, approval, provider calls</text>
-  <text x="408" y="427" text-anchor="middle" class="small">release, credentials, direct mutation</text>
-
-  <path d="M200 73 C230 73 250 134 280 150" class="arrow"/>
-  <path d="M200 177 H280" class="arrow"/>
-  <path d="M200 281 C235 281 250 221 280 205" class="arrow"/>
-  <path d="M370 242 V264" class="arrow"/>
-  <path d="M460 295 C498 292 502 224 530 196" class="arrow"/>
-  <path d="M460 306 C498 318 502 300 530 286" class="arrow"/>
-  <path d="M460 160 C500 128 500 94 530 82" class="arrow"/>
-  <path d="M460 180 H530" class="arrow"/>
-  <path d="M460 205 C502 225 502 264 530 278" class="arrow"/>
-  <path d="M686 278 C710 244 720 154 744 130" class="arrow"/>
-  <path d="M686 278 C716 266 720 238 744 226" class="arrow"/>
-  <path d="M686 278 H744" class="arrow"/>
-  <path d="M686 298 C716 322 720 404 744 418" class="arrow"/>
-  <path d="M200 73 C260 90 240 340 278 380" class="stop"/>
-  <path d="M200 177 C255 190 242 356 278 397" class="stop"/>
-  <path d="M200 281 C246 294 246 384 278 414" class="stop"/>
+  <rect class="bg" width="1280" height="760"/>
+  <text class="title" x="48" y="58">AO Mission gateway authority map</text>
+  <text class="subtitle" x="48" y="88">Gateway convenience is not work authority.</text>
+  <rect class="band" x="48" y="116" width="1184" height="36" fill="#172033"/>
+  <text class="bandText" x="66" y="140">Gateway and recovery inputs</text>
+  <rect class="card" x="64" y="176" width="236" height="120" fill="#e1f5ef" stroke="#64748b"/>
+  <text class="cardTitle" x="82" y="207">Telegram</text>
+  <text class="small" x="82" y="234">Allowlisted operator intent</text>
+  <text class="small" x="82" y="254">Freshness readback</text>
+  <path class="soft" d="M182 296 C182 328 640 318 640 354"/>
+  <rect class="card" x="364" y="176" width="236" height="120" fill="#e4f1ff" stroke="#64748b"/>
+  <text class="cardTitle" x="382" y="207">A2A</text>
+  <text class="small" x="382" y="234">Agent Card fixture</text>
+  <text class="small" x="382" y="254">Status and artifact refs</text>
+  <path class="soft" d="M482 296 C482 328 640 318 640 354"/>
+  <rect class="card" x="664" y="176" width="236" height="120" fill="#e8edf3" stroke="#64748b"/>
+  <text class="cardTitle" x="682" y="207">codex-cron</text>
+  <text class="small" x="682" y="234">Wakeup substrate</text>
+  <text class="small" x="682" y="254">No mission brain</text>
+  <path class="soft" d="M782 296 C782 328 640 318 640 354"/>
+  <rect class="card" x="964" y="176" width="236" height="120" fill="#e9f7df" stroke="#64748b"/>
+  <text class="cardTitle" x="982" y="207">Archive</text>
+  <text class="small" x="982" y="234">Digest-bound provenance</text>
+  <text class="small" x="982" y="254">Validation readback</text>
+  <path class="soft" d="M1082 296 C1082 328 640 318 640 354"/>
+  <rect class="card" x="520" y="354" width="240" height="146" fill="#e1f5ef" stroke="#64748b"/>
+  <text class="cardTitle" x="538" y="385">AO Mission</text>
+  <text class="small" x="538" y="412">Mission record</text>
+  <text class="small" x="538" y="432">Route decision</text>
+  <text class="small" x="538" y="452">Gateway readiness rollup</text>
+  <text class="small" x="538" y="472">Timeline compaction</text>
+  <rect class="card" x="64" y="570" width="236" height="118" fill="#fff2cf" stroke="#64748b"/>
+  <text class="cardTitle" x="82" y="601">Blueprint</text>
+  <text class="small" x="82" y="628">Authorization</text>
+  <path class="arrow" d="M640 500 C640 548 182 535 182 570"/>
+  <rect class="chip" x="477" y="518" width="51" height="23"/>
+  <text class="label" x="485" y="535">route</text>
+  <rect class="card" x="364" y="570" width="236" height="118" fill="#e4f1ff" stroke="#64748b"/>
+  <text class="cardTitle" x="382" y="601">Atlas</text>
+  <text class="small" x="382" y="628">Workgraph compiler</text>
+  <path class="arrow" d="M300 629 L364 629"/>
+  <rect class="card" x="664" y="570" width="236" height="118" fill="#ffe9d2" stroke="#64748b"/>
+  <text class="cardTitle" x="682" y="601">Foundry</text>
+  <text class="small" x="682" y="628">Implementation gates</text>
+  <path class="arrow" d="M600 629 L664 629"/>
+  <rect class="card" x="964" y="570" width="236" height="118" fill="#eee8ff" stroke="#64748b"/>
+  <text class="cardTitle" x="982" y="601">Forge / AO2</text>
+  <text class="small" x="982" y="628">Bounded execution</text>
+  <path class="arrow" d="M900 629 L964 629"/>
+  <rect class="card" x="980" y="354" width="236" height="146" fill="#ffe7ec" stroke="#64748b"/>
+  <text class="cardTitle" x="998" y="385"><tspan x="998" dy="0">Covenant / Sentinel /</tspan><tspan x="998" dy="19">Command</tspan></text>
+  <text class="small" x="998" y="434">Denial contracts</text>
+  <text class="small" x="998" y="454">Public-risk guard</text>
+  <text class="small" x="998" y="474">Compact readback</text>
+  <path class="dash" d="M760 427 L980 427"/>
+  <rect class="chip" x="797" y="395" width="128" height="23"/>
+  <text class="label" x="805" y="412">authority checks</text>
+  <rect class="note" x="64" y="704" width="1152" height="38" fill="#e8edf3" stroke="#94a3b8"/>
+  <text class="smallStrong" x="82" y="733">Denied at gateway: execution, approval, provider calls, release, credentials, direct mutation, direct-main mutation, and authority widening.</text>
 </svg>

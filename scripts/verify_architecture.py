@@ -854,6 +854,28 @@ def main() -> int:
         if term not in gateway_authority_text:
             fail(f"AO Mission gateway authority map missing term: {term}")
 
+    ao_mission_capability_map_text = read_text(ROOT / "overview" / "AO-MISSION-V0.2-CAPABILITY-MAP.md")
+    for term in [
+        "AO Mission v0.2 Capability Map",
+        "operator-facing loop",
+        "Durable mission event search/index",
+        "A2A streaming/SSE denial fixtures",
+        "ao-mission doctor",
+        "Scheduler replay recovery",
+        "Telegram command replay matrix",
+        "Atlas provenance rendering",
+        "Foundry rollup/readiness binding",
+        "Command compact mission timeline filters",
+        "Sentinel mission-risk stale wording scan",
+        "Covenant external-agent intent-only contract",
+        "Promoter promotion/no-promotion rollup summary",
+        "No direct main mutation",
+        "No provider calls",
+        "No credential use",
+    ]:
+        if term not in ao_mission_capability_map_text:
+            fail(f"AO Mission v0.2 capability map missing term: {term}")
+
     rsi_map_text = read_text(ROOT / "overview" / "RSI-CLAIM-EVIDENCE-MAP.md")
     for term in REQUIRED_RSI_MAP_TERMS:
         if term not in rsi_map_text:

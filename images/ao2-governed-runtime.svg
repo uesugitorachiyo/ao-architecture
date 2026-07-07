@@ -1,40 +1,59 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="620" viewBox="0 0 1080 620" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1360" height="640" viewBox="0 0 1360 640" role="img" aria-labelledby="title desc">
   <title id="title">AO2 governed runtime</title>
-  <desc id="desc">Shows AO2 workflow compile, role execution, policy gateway, adapter sandbox, artifact store, reviewer concern, evaluator closure, and evidence export.</desc>
-  <defs><marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M2,2 L10,6 L2,10 Z" fill="#334155"/></marker></defs>
-  <rect width="1080" height="620" fill="#f3f9ff"/>
-  <text x="52" y="58" font-family="Arial" font-size="30" font-weight="700" fill="#102338">AO2: governed execution runtime</text>
-  <g font-family="Arial">
-    <rect x="70" y="132" width="180" height="80" rx="12" fill="#ffffff" stroke="#2678bd" stroke-width="2"/>
-    <text x="112" y="166" font-size="17" font-weight="700">Workflow</text>
-    <text x="105" y="190" font-size="13" fill="#475569">compile run context</text>
-    <rect x="300" y="132" width="180" height="80" rx="12" fill="#fff6df" stroke="#c9811d" stroke-width="2"/>
-    <text x="344" y="166" font-size="17" font-weight="700">Policy gate</text>
-    <text x="327" y="190" font-size="13" fill="#475569">exact-digest approval</text>
-    <rect x="530" y="132" width="180" height="80" rx="12" fill="#ffffff" stroke="#2678bd" stroke-width="2"/>
-    <text x="575" y="166" font-size="17" font-weight="700">Adapter</text>
-    <text x="555" y="190" font-size="13" fill="#475569">scripted, Codex, Claude</text>
-    <rect x="760" y="132" width="180" height="80" rx="12" fill="#ffffff" stroke="#2678bd" stroke-width="2"/>
-    <text x="805" y="166" font-size="17" font-weight="700">Artifacts</text>
-    <text x="800" y="190" font-size="13" fill="#475569">digests + lineage</text>
-    <rect x="300" y="360" width="180" height="80" rx="12" fill="#ffffff" stroke="#2678bd" stroke-width="2"/>
-    <text x="342" y="394" font-size="17" font-weight="700">Reviewer</text>
-    <text x="323" y="418" font-size="13" fill="#475569">concerns + evidence</text>
-    <rect x="530" y="360" width="180" height="80" rx="12" fill="#e7f6ee" stroke="#4d8d52" stroke-width="2"/>
-    <text x="566" y="394" font-size="17" font-weight="700">Evaluator</text>
-    <text x="553" y="418" font-size="13" fill="#475569">accepts or rejects</text>
-    <rect x="760" y="360" width="180" height="80" rx="12" fill="#e7f6ee" stroke="#4d8d52" stroke-width="2"/>
-    <text x="800" y="394" font-size="17" font-weight="700">Evidence</text>
-    <text x="797" y="418" font-size="13" fill="#475569">pack, report, export</text>
-  </g>
-  <g stroke="#334155" stroke-width="2.4" fill="none" marker-end="url(#arrow)">
-    <path d="M250 172 L300 172"/>
-    <path d="M480 172 L530 172"/>
-    <path d="M710 172 L760 172"/>
-    <path d="M850 212 C820 300 748 350 710 390"/>
-    <path d="M530 400 L480 400"/>
-    <path d="M710 400 L760 400"/>
-    <path d="M390 360 C355 292 335 238 390 212"/>
-  </g>
-  <text x="70" y="538" font-family="Arial" font-size="15" fill="#334155">Key trust rule: adapters are replaceable clients; AO2 owns run state, policy gates, artifacts, replay, closure, and evidence export.</text>
+  <desc id="desc">AO2 executes bounded local workflows through replaceable adapters while preserving approvals, artifacts, replay, evaluator closure, and evidence export.</desc>
+
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .bg { fill: #f6f8fb; }
+      .title { font: 700 34px Inter, Arial, sans-serif; fill: #162033; }
+      .subtitle { font: 400 16px Inter, Arial, sans-serif; fill: #526070; }
+      .band { rx: 8; }
+      .bandText { font: 700 14px Inter, Arial, sans-serif; fill: #ffffff; letter-spacing: 0; }
+      .card { stroke-width: 2; rx: 8; }
+      .note { stroke-width: 1.6; rx: 8; }
+      .cardTitle { font: 700 18px Inter, Arial, sans-serif; fill: #162033; }
+      .body { font: 500 15px Inter, Arial, sans-serif; fill: #162033; }
+      .small { font: 400 13px Inter, Arial, sans-serif; fill: #3a4758; }
+      .smallStrong { font: 700 13px Inter, Arial, sans-serif; fill: #253244; }
+      .label { font: 700 11px Inter, Arial, sans-serif; fill: #263447; }
+      .chip { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1; rx: 7; }
+      .arrow { stroke: #334155; stroke-width: 2.2; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #64748b; stroke-width: 2; stroke-dasharray: 7 7; fill: none; marker-end: url(#arrow); }
+      .soft { stroke: #94a3b8; stroke-width: 1.7; fill: none; marker-end: url(#arrow); }
+      .cell { stroke: #cbd5e1; stroke-width: 1.4; }
+      .cellHead { font: 700 14px Inter, Arial, sans-serif; fill: #162033; }
+      .cellText { font: 400 12px Inter, Arial, sans-serif; fill: #39485a; }
+    </style>
+  </defs>
+  <rect class="bg" width="1360" height="640"/>
+  <text class="title" x="48" y="58">AO2 governed runtime</text>
+  <text class="subtitle" x="48" y="88">Adapters are clients; AO2 owns run state and evidence closure.</text>
+  <rect class="card" x="48" y="160" width="180" height="132" fill="#e4f1ff" stroke="#64748b"/>
+  <text class="cardTitle" x="66" y="191">Workflow</text>
+  <text class="small" x="66" y="218">Compile run context</text>
+  <rect class="card" x="260" y="160" width="180" height="132" fill="#fff2cf" stroke="#64748b"/>
+  <text class="cardTitle" x="278" y="191">Policy gate</text>
+  <text class="small" x="278" y="218"><tspan x="278" dy="0">Exact-digest</tspan><tspan x="278" dy="16">approval</tspan></text>
+  <path class="arrow" d="M228 226 L260 226"/>
+  <rect class="card" x="472" y="160" width="180" height="132" fill="#e1f5ef" stroke="#64748b"/>
+  <text class="cardTitle" x="490" y="191">Adapter</text>
+  <text class="small" x="490" y="218"><tspan x="490" dy="0">Scripted, Codex,</tspan><tspan x="490" dy="16">Claude</tspan></text>
+  <path class="arrow" d="M440 226 L472 226"/>
+  <rect class="card" x="684" y="160" width="180" height="132" fill="#e9f7df" stroke="#64748b"/>
+  <text class="cardTitle" x="702" y="191">Artifacts</text>
+  <text class="small" x="702" y="218">Digests and lineage</text>
+  <path class="arrow" d="M652 226 L684 226"/>
+  <rect class="card" x="896" y="160" width="180" height="132" fill="#eee8ff" stroke="#64748b"/>
+  <text class="cardTitle" x="914" y="191">Reviewer</text>
+  <text class="small" x="914" y="218"><tspan x="914" dy="0">Concerns and</tspan><tspan x="914" dy="16">evidence</tspan></text>
+  <path class="arrow" d="M864 226 L896 226"/>
+  <rect class="card" x="1108" y="160" width="180" height="132" fill="#ffe7ec" stroke="#64748b"/>
+  <text class="cardTitle" x="1126" y="191">Evaluator</text>
+  <text class="small" x="1126" y="218">Accepts or rejects</text>
+  <path class="arrow" d="M1076 226 L1108 226"/>
+  <rect class="note" x="48" y="360" width="1264" height="76" fill="#e8edf3" stroke="#94a3b8"/>
+  <text class="smallStrong" x="66" y="389">AO2 does not schedule cross-repository work or decide release promotion policy.</text>
 </svg>

@@ -1,58 +1,87 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="360" viewBox="0 0 1120 360" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="780" viewBox="0 0 1500 780" role="img" aria-labelledby="title desc">
   <title id="title">AO Mission pipeline</title>
-  <desc id="desc">AO Mission accepts user objectives, emits route-decision readback, routes to Blueprint, Atlas, Foundry, Forge and AO2, then records read-only governance and final smoke status through Command and control-plane surfaces.</desc>
-  <rect width="1120" height="360" fill="#f7f9fb"/>
-  <style>
-    .box { fill: #ffffff; stroke: #243447; stroke-width: 2; rx: 6; }
-    .guard { fill: #fff6e5; stroke: #8a5a00; stroke-width: 2; rx: 6; }
-    .deny { fill: #fceeee; stroke: #9b2c2c; stroke-width: 2; rx: 6; }
-    .text { font: 15px sans-serif; fill: #17202a; }
-    .small { font: 12px sans-serif; fill: #3a4a5b; }
-    .arrow { stroke: #243447; stroke-width: 2; fill: none; marker-end: url(#arrow); }
-  </style>
+  <desc id="desc">AO Mission accepts operator and gateway intent, emits route-decision and governance readback, then routes through Blueprint, Atlas, Foundry, Forge, AO2, assurance gates, and read-only Command status.</desc>
+
   <defs>
-    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
-      <path d="M0,0 L10,4 L0,8 Z" fill="#243447"/>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#334155"/>
     </marker>
+    <style>
+      .bg { fill: #f6f8fb; }
+      .title { font: 700 34px Inter, Arial, sans-serif; fill: #162033; }
+      .subtitle { font: 400 16px Inter, Arial, sans-serif; fill: #526070; }
+      .band { rx: 8; }
+      .bandText { font: 700 14px Inter, Arial, sans-serif; fill: #ffffff; letter-spacing: 0; }
+      .card { stroke-width: 2; rx: 8; }
+      .note { stroke-width: 1.6; rx: 8; }
+      .cardTitle { font: 700 18px Inter, Arial, sans-serif; fill: #162033; }
+      .body { font: 500 15px Inter, Arial, sans-serif; fill: #162033; }
+      .small { font: 400 13px Inter, Arial, sans-serif; fill: #3a4758; }
+      .smallStrong { font: 700 13px Inter, Arial, sans-serif; fill: #253244; }
+      .label { font: 700 11px Inter, Arial, sans-serif; fill: #263447; }
+      .chip { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1; rx: 7; }
+      .arrow { stroke: #334155; stroke-width: 2.2; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #64748b; stroke-width: 2; stroke-dasharray: 7 7; fill: none; marker-end: url(#arrow); }
+      .soft { stroke: #94a3b8; stroke-width: 1.7; fill: none; marker-end: url(#arrow); }
+      .cell { stroke: #cbd5e1; stroke-width: 1.4; }
+      .cellHead { font: 700 14px Inter, Arial, sans-serif; fill: #162033; }
+      .cellText { font: 400 12px Inter, Arial, sans-serif; fill: #39485a; }
+    </style>
   </defs>
-  <rect class="box" x="32" y="82" width="130" height="80"/>
-  <text class="text" x="54" y="116">User / CLI</text>
-  <text class="small" x="52" y="140">Telegram / A2A</text>
-  <rect class="box" x="202" y="62" width="150" height="120"/>
-  <text class="text" x="232" y="100">AO Mission</text>
-  <text class="small" x="220" y="126">mission ledger</text>
-  <text class="small" x="215" y="148">router and status</text>
-  <text class="small" x="214" y="170">route decision</text>
-  <rect class="box" x="392" y="40" width="140" height="80"/>
-  <text class="text" x="420" y="76">Blueprint</text>
-  <text class="small" x="410" y="100">authorization</text>
-  <rect class="box" x="392" y="154" width="140" height="80"/>
-  <text class="text" x="434" y="190">Atlas</text>
-  <text class="small" x="410" y="214">workgraph</text>
-  <text class="small" x="408" y="230">metadata</text>
-  <rect class="box" x="574" y="154" width="140" height="80"/>
-  <text class="text" x="616" y="190">Foundry</text>
-  <text class="small" x="604" y="214">PR lifecycle</text>
-  <text class="small" x="594" y="230">smoke + ledger</text>
-  <rect class="guard" x="756" y="126" width="150" height="110"/>
-  <text class="text" x="782" y="166">Forge / AO2</text>
-  <text class="small" x="782" y="190">bounded runs</text>
-  <text class="small" x="780" y="212">policy packet</text>
-  <rect class="guard" x="574" y="276" width="332" height="54"/>
-  <text class="text" x="596" y="309">Covenant, Sentinel, Promoter, Arena, Crucible</text>
-  <rect class="box" x="948" y="154" width="140" height="80"/>
-  <text class="text" x="976" y="188">Command</text>
-  <text class="small" x="968" y="212">read-only view</text>
-  <text class="small" x="966" y="228">status + next</text>
-  <rect class="deny" x="202" y="230" width="330" height="64"/>
-  <text class="text" x="224" y="258">Denied authority stays denied</text>
-  <text class="small" x="224" y="280">no direct main, credentials, release, deploy, hidden mutation</text>
-  <path class="arrow" d="M162 122 H202"/>
-  <path class="arrow" d="M352 112 L392 82"/>
-  <path class="arrow" d="M352 146 L392 186"/>
-  <path class="arrow" d="M532 194 H574"/>
-  <path class="arrow" d="M714 194 H756"/>
-  <path class="arrow" d="M906 194 H948"/>
-  <path class="arrow" d="M1018 154 V72 H278 V62"/>
-  <path class="arrow" d="M740 276 V236"/>
+  <rect class="bg" width="1500" height="780"/>
+  <text class="title" x="48" y="58">AO Mission pipeline</text>
+  <text class="subtitle" x="48" y="88">Intent and readback stay separate from execution authority.</text>
+  <rect class="band" x="48" y="120" width="1404" height="36" fill="#172033"/>
+  <text class="bandText" x="66" y="144">Mission-led route and governance path</text>
+  <rect class="card" x="64" y="178" width="190" height="140" fill="#e1f5ef" stroke="#64748b"/>
+  <text class="cardTitle" x="82" y="209"><tspan x="82" dy="0">User and</tspan><tspan x="82" dy="19">gateways</tspan></text>
+  <text class="small" x="82" y="258">CLI, Telegram, A2A</text>
+  <text class="small" x="82" y="278">Intent/readback only</text>
+  <rect class="card" x="296" y="178" width="190" height="140" fill="#e1f5ef" stroke="#64748b"/>
+  <text class="cardTitle" x="314" y="209">AO Mission</text>
+  <text class="small" x="314" y="236">Mission record</text>
+  <text class="small" x="314" y="256">Route decision</text>
+  <text class="small" x="314" y="276">Governance snapshot</text>
+  <path class="arrow" d="M254 248 L288 248"/>
+  <rect class="card" x="528" y="178" width="190" height="140" fill="#fff2cf" stroke="#64748b"/>
+  <text class="cardTitle" x="546" y="209">Blueprint</text>
+  <text class="small" x="546" y="236">Requirements</text>
+  <text class="small" x="546" y="256">Build authorization</text>
+  <path class="arrow" d="M486 248 L520 248"/>
+  <rect class="card" x="760" y="178" width="190" height="140" fill="#e4f1ff" stroke="#64748b"/>
+  <text class="cardTitle" x="778" y="209">Atlas</text>
+  <text class="small" x="778" y="236">Workgraph metadata</text>
+  <text class="small" x="778" y="256">Context packs</text>
+  <path class="arrow" d="M718 248 L752 248"/>
+  <rect class="card" x="992" y="178" width="190" height="140" fill="#ffe9d2" stroke="#64748b"/>
+  <text class="cardTitle" x="1010" y="209">Foundry</text>
+  <text class="small" x="1010" y="236">PR lifecycle</text>
+  <text class="small" x="1010" y="256"><tspan x="1010" dy="0">Smoke and readiness</tspan><tspan x="1010" dy="16">ledger</tspan></text>
+  <path class="arrow" d="M950 248 L984 248"/>
+  <rect class="card" x="1224" y="178" width="190" height="140" fill="#eee8ff" stroke="#64748b"/>
+  <text class="cardTitle" x="1242" y="209">Forge / AO2</text>
+  <text class="small" x="1242" y="236">Bounded runs</text>
+  <text class="small" x="1242" y="256">Policy packet</text>
+  <text class="small" x="1242" y="276">Evidence export</text>
+  <path class="arrow" d="M1182 248 L1216 248"/>
+  <rect class="band" x="48" y="398" width="1404" height="36" fill="#172033"/>
+  <text class="bandText" x="66" y="422">Readback, gates, and denied authority</text>
+  <rect class="card" x="92" y="476" width="300" height="132" fill="#ffe7ec" stroke="#64748b"/>
+  <text class="cardTitle" x="110" y="507">Assurance gates</text>
+  <text class="small" x="110" y="534">Covenant policy</text>
+  <text class="small" x="110" y="554">Arena, Crucible, Sentinel</text>
+  <text class="small" x="110" y="574">Promoter dry-run activation</text>
+  <rect class="card" x="600" y="476" width="300" height="132" fill="#e1f5ef" stroke="#64748b"/>
+  <text class="cardTitle" x="618" y="507">AO Command</text>
+  <text class="small" x="618" y="534">Read-only status</text>
+  <text class="small" x="618" y="554">Next action display</text>
+  <text class="small" x="618" y="574">No scheduling or mutation</text>
+  <rect class="card" x="1010" y="476" width="300" height="132" fill="#e8edf3" stroke="#64748b"/>
+  <text class="cardTitle" x="1028" y="507"><tspan x="1028" dy="0">Denied authority remains</tspan><tspan x="1028" dy="19">denied</tspan></text>
+  <text class="small" x="1028" y="556">No direct main</text>
+  <text class="small" x="1028" y="576">No credentials or deploy</text>
+  <text class="small" x="1028" y="596">No hidden mutation</text>
+  <path class="dash" d="M1319 318 V360 H1360 V456 H242 V468"/>
+  <path class="dash" d="M392 542 L592 542"/>
+  <path class="dash" d="M900 542 L1002 542"/>
 </svg>

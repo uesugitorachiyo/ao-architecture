@@ -1,34 +1,60 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="620" viewBox="0 0 1080 620" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1360" height="640" viewBox="0 0 1360 640" role="img" aria-labelledby="title desc">
   <title id="title">AO Forge factory loop</title>
-  <desc id="desc">Shows objective to factory brief, workcell plan, Covenant gate, AO2 execution, evidence readback, and operator packet.</desc>
-  <defs><marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M2,2 L10,6 L2,10 Z" fill="#334155"/></marker></defs>
-  <rect width="1080" height="620" fill="#f8f9ff"/>
-  <text x="52" y="58" font-family="Arial" font-size="30" font-weight="700" fill="#172033">AO Forge: trusted factory brain</text>
-  <circle cx="540" cy="322" r="168" fill="#e8ecff" stroke="#5967c9" stroke-width="3"/>
-  <text x="475" y="314" font-family="Arial" font-size="24" font-weight="700" fill="#172033">GoalRun</text>
-  <text x="440" y="344" font-family="Arial" font-size="15" fill="#334155">durable objective, phase, evidence, next action</text>
-  <g font-family="Arial" font-size="16" font-weight="700" fill="#111827">
-    <rect x="450" y="94" width="180" height="64" rx="12" fill="#ffffff" stroke="#5967c9" stroke-width="2"/>
-    <text x="492" y="133">Objective</text>
-    <rect x="754" y="188" width="200" height="64" rx="12" fill="#fff6df" stroke="#c9811d" stroke-width="2"/>
-    <text x="796" y="227">Covenant gate</text>
-    <rect x="754" y="394" width="200" height="64" rx="12" fill="#e1f0ff" stroke="#2678bd" stroke-width="2"/>
-    <text x="810" y="433">AO2 run</text>
-    <rect x="450" y="492" width="180" height="64" rx="12" fill="#e7f6ee" stroke="#4d8d52" stroke-width="2"/>
-    <text x="487" y="531">Evidence</text>
-    <rect x="126" y="394" width="210" height="64" rx="12" fill="#ffffff" stroke="#5967c9" stroke-width="2"/>
-    <text x="177" y="433">Operator packet</text>
-    <rect x="126" y="188" width="210" height="64" rx="12" fill="#ffffff" stroke="#5967c9" stroke-width="2"/>
-    <text x="173" y="227">Factory plan</text>
-  </g>
-  <g stroke="#334155" stroke-width="2.4" fill="none" marker-end="url(#arrow)">
-    <path d="M540 158 L540 154"/>
-    <path d="M630 188 C675 178 718 188 754 220"/>
-    <path d="M854 252 L854 394"/>
-    <path d="M754 426 C698 486 665 516 630 524"/>
-    <path d="M450 524 C383 502 348 462 336 426"/>
-    <path d="M231 394 L231 252"/>
-    <path d="M336 220 C386 188 420 172 450 158"/>
-  </g>
-  <text x="72" y="582" font-family="Arial" font-size="15" fill="#334155">Forge decides the next factory step, but it does not execute providers or become the evidence archive UI.</text>
+  <desc id="desc">AO Forge owns one governed GoalRun and coordinates plans, gates, AO2 delegation, evidence, and operator packets.</desc>
+
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .bg { fill: #f6f8fb; }
+      .title { font: 700 34px Inter, Arial, sans-serif; fill: #162033; }
+      .subtitle { font: 400 16px Inter, Arial, sans-serif; fill: #526070; }
+      .band { rx: 8; }
+      .bandText { font: 700 14px Inter, Arial, sans-serif; fill: #ffffff; letter-spacing: 0; }
+      .card { stroke-width: 2; rx: 8; }
+      .note { stroke-width: 1.6; rx: 8; }
+      .cardTitle { font: 700 18px Inter, Arial, sans-serif; fill: #162033; }
+      .body { font: 500 15px Inter, Arial, sans-serif; fill: #162033; }
+      .small { font: 400 13px Inter, Arial, sans-serif; fill: #3a4758; }
+      .smallStrong { font: 700 13px Inter, Arial, sans-serif; fill: #253244; }
+      .label { font: 700 11px Inter, Arial, sans-serif; fill: #263447; }
+      .chip { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1; rx: 7; }
+      .arrow { stroke: #334155; stroke-width: 2.2; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #64748b; stroke-width: 2; stroke-dasharray: 7 7; fill: none; marker-end: url(#arrow); }
+      .soft { stroke: #94a3b8; stroke-width: 1.7; fill: none; marker-end: url(#arrow); }
+      .cell { stroke: #cbd5e1; stroke-width: 1.4; }
+      .cellHead { font: 700 14px Inter, Arial, sans-serif; fill: #162033; }
+      .cellText { font: 400 12px Inter, Arial, sans-serif; fill: #39485a; }
+    </style>
+  </defs>
+  <rect class="bg" width="1360" height="640"/>
+  <text class="title" x="48" y="58">AO Forge factory loop</text>
+  <text class="subtitle" x="48" y="88">Trusted factory brain for one governed run.</text>
+  <rect class="card" x="48" y="160" width="180" height="132" fill="#eee8ff" stroke="#64748b"/>
+  <text class="cardTitle" x="66" y="191">GoalRun</text>
+  <text class="small" x="66" y="218">Durable objective</text>
+  <text class="small" x="66" y="238"><tspan x="66" dy="0">Phase and next</tspan><tspan x="66" dy="16">action</tspan></text>
+  <rect class="card" x="260" y="160" width="180" height="132" fill="#e4f1ff" stroke="#64748b"/>
+  <text class="cardTitle" x="278" y="191">Factory plan</text>
+  <text class="small" x="278" y="218"><tspan x="278" dy="0">Exact step and</tspan><tspan x="278" dy="16">constraints</tspan></text>
+  <path class="arrow" d="M228 226 L260 226"/>
+  <rect class="card" x="472" y="160" width="180" height="132" fill="#fff2cf" stroke="#64748b"/>
+  <text class="cardTitle" x="490" y="191">Covenant gate</text>
+  <text class="small" x="490" y="218">Policy and approvals</text>
+  <path class="arrow" d="M440 226 L472 226"/>
+  <rect class="card" x="684" y="160" width="180" height="132" fill="#e1f5ef" stroke="#64748b"/>
+  <text class="cardTitle" x="702" y="191">AO2 run</text>
+  <text class="small" x="702" y="218">Bounded execution</text>
+  <path class="arrow" d="M652 226 L684 226"/>
+  <rect class="card" x="896" y="160" width="180" height="132" fill="#e9f7df" stroke="#64748b"/>
+  <text class="cardTitle" x="914" y="191">Evidence</text>
+  <text class="small" x="914" y="218"><tspan x="914" dy="0">Artifacts and</tspan><tspan x="914" dy="16">closure</tspan></text>
+  <path class="arrow" d="M864 226 L896 226"/>
+  <rect class="card" x="1108" y="160" width="180" height="132" fill="#e8edf3" stroke="#64748b"/>
+  <text class="cardTitle" x="1126" y="191">Operator packet</text>
+  <text class="small" x="1126" y="218"><tspan x="1126" dy="0">Readback and</tspan><tspan x="1126" dy="16">blockers</tspan></text>
+  <path class="arrow" d="M1076 226 L1108 226"/>
+  <rect class="note" x="48" y="360" width="1264" height="76" fill="#e8edf3" stroke="#94a3b8"/>
+  <text class="smallStrong" x="66" y="389">Forge decides the next governed factory step, but provider execution and final policy authority remain outside Forge.</text>
 </svg>
