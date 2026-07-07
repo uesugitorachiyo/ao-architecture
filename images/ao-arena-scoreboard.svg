@@ -1,45 +1,61 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="620" viewBox="0 0 1080 620" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1360" height="640" viewBox="0 0 1360 640" role="img" aria-labelledby="title desc">
   <title id="title">AO Arena deterministic scoreboard</title>
-  <desc id="desc">Shows fixture-mode benchmark evidence flowing into deterministic scorecards, comparison reports, and promotion gates.</desc>
+  <desc id="desc">AO Arena converts fixture benchmark evidence into deterministic scorecards and promotion-gate input.</desc>
+
   <defs>
     <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
       <path d="M2,2 L10,6 L2,10 Z" fill="#334155"/>
     </marker>
     <style>
-      .bg { fill: #f8fafc; }
-      .title { font: 700 32px Arial, sans-serif; fill: #111827; }
-      .box { fill: #ffffff; stroke: #475569; stroke-width: 2; rx: 12; }
-      .score { fill: #e0f2fe; stroke: #0369a1; stroke-width: 2; rx: 12; }
-      .gate { fill: #ecfdf5; stroke: #047857; stroke-width: 2; rx: 12; }
-      .text { font: 700 17px Arial, sans-serif; fill: #111827; }
-      .small { font: 400 13px Arial, sans-serif; fill: #475569; }
+      .bg { fill: #f6f8fb; }
+      .title { font: 700 34px Inter, Arial, sans-serif; fill: #162033; }
+      .subtitle { font: 400 16px Inter, Arial, sans-serif; fill: #526070; }
+      .band { rx: 8; }
+      .bandText { font: 700 14px Inter, Arial, sans-serif; fill: #ffffff; letter-spacing: 0; }
+      .card { stroke-width: 2; rx: 8; }
+      .note { stroke-width: 1.6; rx: 8; }
+      .cardTitle { font: 700 18px Inter, Arial, sans-serif; fill: #162033; }
+      .body { font: 500 15px Inter, Arial, sans-serif; fill: #162033; }
+      .small { font: 400 13px Inter, Arial, sans-serif; fill: #3a4758; }
+      .smallStrong { font: 700 13px Inter, Arial, sans-serif; fill: #253244; }
+      .label { font: 700 11px Inter, Arial, sans-serif; fill: #263447; }
+      .chip { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1; rx: 7; }
       .arrow { stroke: #334155; stroke-width: 2.2; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #64748b; stroke-width: 2; stroke-dasharray: 7 7; fill: none; marker-end: url(#arrow); }
+      .soft { stroke: #94a3b8; stroke-width: 1.7; fill: none; marker-end: url(#arrow); }
+      .cell { stroke: #cbd5e1; stroke-width: 1.4; }
+      .cellHead { font: 700 14px Inter, Arial, sans-serif; fill: #162033; }
+      .cellText { font: 400 12px Inter, Arial, sans-serif; fill: #39485a; }
     </style>
   </defs>
-  <rect class="bg" width="1080" height="620"/>
-  <text class="title" x="56" y="58">AO Arena: fixture evidence becomes promotion-grade scores</text>
-  <rect class="box" x="70" y="140" width="220" height="110"/>
-  <text class="text" x="118" y="182">Benchmark suite</text>
-  <text class="small" x="104" y="212">eight canonical tasks</text>
-  <rect class="box" x="70" y="340" width="220" height="110"/>
-  <text class="text" x="118" y="382">Competitors</text>
-  <text class="small" x="101" y="412">baseline and challenger</text>
-  <rect class="box" x="370" y="240" width="230" height="110"/>
-  <text class="text" x="413" y="282">Fixture attempts</text>
-  <text class="small" x="413" y="312">evidence bundles only</text>
-  <rect class="score" x="680" y="140" width="240" height="110"/>
-  <text class="text" x="737" y="182">Scorecards</text>
-  <text class="small" x="720" y="212">deterministic 100-point math</text>
-  <rect class="score" x="680" y="340" width="240" height="110"/>
-  <text class="text" x="730" y="382">Comparison report</text>
-  <text class="small" x="721" y="412">winner, evidence, safety</text>
-  <rect class="gate" x="430" y="480" width="260" height="86"/>
-  <text class="text" x="493" y="516">Promotion gate</text>
-  <text class="small" x="462" y="544">score at least 85 and plus five</text>
-  <path class="arrow" d="M290 195 C335 210 347 247 370 275"/>
-  <path class="arrow" d="M290 395 C337 378 350 335 370 310"/>
-  <path class="arrow" d="M600 272 C632 232 650 202 680 190"/>
-  <path class="arrow" d="M600 320 C634 354 650 382 680 395"/>
-  <path class="arrow" d="M800 450 C760 496 720 520 690 523"/>
-  <path class="arrow" d="M680 523 L690 523"/>
+  <rect class="bg" width="1360" height="640"/>
+  <text class="title" x="48" y="58">AO Arena deterministic scoreboard</text>
+  <text class="subtitle" x="48" y="88">Fixture evidence becomes promotion-grade scores.</text>
+  <rect class="card" x="48" y="160" width="180" height="132" fill="#e4f1ff" stroke="#64748b"/>
+  <text class="cardTitle" x="66" y="191">Benchmark suite</text>
+  <text class="small" x="66" y="218">Canonical tasks</text>
+  <text class="small" x="66" y="238">Stable fixtures</text>
+  <rect class="card" x="260" y="160" width="180" height="132" fill="#e8edf3" stroke="#64748b"/>
+  <text class="cardTitle" x="278" y="191">Competitors</text>
+  <text class="small" x="278" y="218"><tspan x="278" dy="0">Baseline and</tspan><tspan x="278" dy="16">challenger</tspan></text>
+  <path class="arrow" d="M228 226 L260 226"/>
+  <rect class="card" x="472" y="160" width="180" height="132" fill="#e9f7df" stroke="#64748b"/>
+  <text class="cardTitle" x="490" y="191"><tspan x="490" dy="0">Fixture</tspan><tspan x="490" dy="19">attempts</tspan></text>
+  <text class="small" x="490" y="240"><tspan x="490" dy="0">Evidence bundles</tspan><tspan x="490" dy="16">only</tspan></text>
+  <path class="arrow" d="M440 226 L472 226"/>
+  <rect class="card" x="684" y="160" width="180" height="132" fill="#fff2cf" stroke="#64748b"/>
+  <text class="cardTitle" x="702" y="191">Scorecards</text>
+  <text class="small" x="702" y="218"><tspan x="702" dy="0">100-point</tspan><tspan x="702" dy="16">deterministic math</tspan></text>
+  <path class="arrow" d="M652 226 L684 226"/>
+  <rect class="card" x="896" y="160" width="180" height="132" fill="#eee8ff" stroke="#64748b"/>
+  <text class="cardTitle" x="914" y="191"><tspan x="914" dy="0">Comparison</tspan><tspan x="914" dy="19">report</tspan></text>
+  <text class="small" x="914" y="240"><tspan x="914" dy="0">Winner, evidence,</tspan><tspan x="914" dy="16">safety</tspan></text>
+  <path class="arrow" d="M864 226 L896 226"/>
+  <rect class="card" x="1108" y="160" width="180" height="132" fill="#ffe9d2" stroke="#64748b"/>
+  <text class="cardTitle" x="1126" y="191">Promotion gate</text>
+  <text class="small" x="1126" y="218">Score &gt;= 85</text>
+  <text class="small" x="1126" y="238">Improvement &gt;= 5</text>
+  <path class="arrow" d="M1076 226 L1108 226"/>
+  <rect class="note" x="48" y="360" width="1264" height="76" fill="#e8edf3" stroke="#94a3b8"/>
+  <text class="smallStrong" x="66" y="389">Arena does not promote candidates by itself; it supplies benchmark evidence to the gated promotion chain.</text>
 </svg>

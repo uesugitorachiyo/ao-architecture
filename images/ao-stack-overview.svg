@@ -1,102 +1,101 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="820" viewBox="0 0 1280 820" role="img" aria-labelledby="title desc">
-  <title id="title">AO stack repository interaction overview</title>
-  <desc id="desc">Shows AO Blueprint, AO Atlas, AO Foundry, AO Forge, AO Covenant, AO2, ao2-control-plane, AO Command, AO Arena, AO Crucible, AO Sentinel, and AO Promoter with their responsibilities and evidence flow.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1040" viewBox="0 0 1440 1040" role="img" aria-labelledby="title desc">
+  <title id="title">AO agent orchestration stack</title>
+  <desc id="desc">Current AO architecture with Mission intake, Blueprint authorization, Atlas workgraph compilation, Foundry scheduling, Forge planning, Covenant gates, AO2 execution, read-only observers, and assurance gates.</desc>
+
   <defs>
     <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
-      <path d="M2,2 L10,6 L2,10 Z" fill="#2f3a4a"/>
+      <path d="M2,2 L10,6 L2,10 Z" fill="#334155"/>
     </marker>
     <style>
-      .bg { fill: #f7f8fb; }
-      .title { font: 700 34px Arial, sans-serif; fill: #18202f; }
-      .subtitle { font: 400 18px Arial, sans-serif; fill: #4b5567; }
-      .box { stroke-width: 2; rx: 10; }
-      .repo { font: 700 20px Arial, sans-serif; fill: #101828; }
-      .role { font: 400 14px Arial, sans-serif; fill: #263445; }
-      .small { font: 400 12px Arial, sans-serif; fill: #425066; }
-      .arrow { stroke: #2f3a4a; stroke-width: 2.3; marker-end: url(#arrow); fill: none; }
-      .dash { stroke: #667085; stroke-width: 2; stroke-dasharray: 6 6; marker-end: url(#arrow); fill: none; }
-      .label { font: 700 12px Arial, sans-serif; fill: #223047; }
-      .section { font: 700 14px Arial, sans-serif; fill: #334155; }
+      .bg { fill: #f6f8fb; }
+      .title { font: 700 34px Inter, Arial, sans-serif; fill: #162033; }
+      .subtitle { font: 400 16px Inter, Arial, sans-serif; fill: #526070; }
+      .band { rx: 8; }
+      .bandText { font: 700 14px Inter, Arial, sans-serif; fill: #ffffff; letter-spacing: 0; }
+      .card { stroke-width: 2; rx: 8; }
+      .note { stroke-width: 1.6; rx: 8; }
+      .cardTitle { font: 700 18px Inter, Arial, sans-serif; fill: #162033; }
+      .body { font: 500 15px Inter, Arial, sans-serif; fill: #162033; }
+      .small { font: 400 13px Inter, Arial, sans-serif; fill: #3a4758; }
+      .smallStrong { font: 700 13px Inter, Arial, sans-serif; fill: #253244; }
+      .label { font: 700 11px Inter, Arial, sans-serif; fill: #263447; }
+      .chip { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1; rx: 7; }
+      .arrow { stroke: #334155; stroke-width: 2.2; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #64748b; stroke-width: 2; stroke-dasharray: 7 7; fill: none; marker-end: url(#arrow); }
+      .soft { stroke: #94a3b8; stroke-width: 1.7; fill: none; marker-end: url(#arrow); }
+      .cell { stroke: #cbd5e1; stroke-width: 1.4; }
+      .cellHead { font: 700 14px Inter, Arial, sans-serif; fill: #162033; }
+      .cellText { font: 400 12px Inter, Arial, sans-serif; fill: #39485a; }
     </style>
   </defs>
-  <rect class="bg" width="1280" height="820"/>
-  <text class="title" x="56" y="56">AO agent orchestration stack</text>
-  <text class="subtitle" x="56" y="86">Blueprint authorizes, Atlas compiles, Foundry schedules, Forge plans, Covenant gates, AO2 executes, observers read back.</text>
-
-  <text class="section" x="60" y="126">Intake and decomposition</text>
-  <rect class="box" x="60" y="150" width="220" height="104" fill="#fef3c7" stroke="#b7791f"/>
-  <text class="repo" x="92" y="188">AO Blueprint</text>
-  <text class="role" x="88" y="216">Requirements interview</text>
-  <text class="small" x="88" y="238">Build authorization gate</text>
-
-  <rect class="box" x="330" y="150" width="220" height="104" fill="#e0f2fe" stroke="#0369a1"/>
-  <text class="repo" x="382" y="188">AO Atlas</text>
-  <text class="role" x="366" y="216">Stack instances</text>
-  <text class="small" x="366" y="238">Workgraphs and context packs</text>
-
-  <text class="section" x="600" y="126">Factory path</text>
-  <rect class="box" x="600" y="150" width="220" height="104" fill="#fff1d6" stroke="#c9811d"/>
-  <text class="repo" x="648" y="188">AO Foundry</text>
-  <text class="role" x="636" y="216">Portfolio scheduling</text>
-  <text class="small" x="636" y="238">Readiness and release trains</text>
-
-  <rect class="box" x="870" y="150" width="220" height="104" fill="#e8ecff" stroke="#5967c9"/>
-  <text class="repo" x="928" y="188">AO Forge</text>
-  <text class="role" x="910" y="216">One governed run</text>
-  <text class="small" x="910" y="238">GoalRun, plans, packets</text>
-
-  <rect class="box" x="870" y="320" width="220" height="104" fill="#f2e8ff" stroke="#8557c5"/>
-  <text class="repo" x="918" y="358">AO Covenant</text>
-  <text class="role" x="910" y="386">Policy and trust gates</text>
-  <text class="small" x="910" y="408">Approvals, contracts, claims</text>
-
-  <rect class="box" x="600" y="490" width="220" height="104" fill="#e1f0ff" stroke="#2678bd"/>
-  <text class="repo" x="693" y="528">AO2</text>
-  <text class="role" x="636" y="556">Governed execution</text>
-  <text class="small" x="636" y="578">Adapters, evidence, closure</text>
-
-  <rect class="box" x="330" y="490" width="220" height="104" fill="#e8f7df" stroke="#5a923c"/>
-  <text class="repo" x="358" y="528">ao2-control-plane</text>
-  <text class="role" x="366" y="556">Observer readback</text>
-  <text class="small" x="366" y="578">Signed ingest and dashboards</text>
-
-  <rect class="box" x="60" y="490" width="220" height="104" fill="#dff4f0" stroke="#1b7f79"/>
-  <text class="repo" x="103" y="528">AO Command</text>
-  <text class="role" x="96" y="556">Read-only operator view</text>
-  <text class="small" x="96" y="578">Status, evidence, next actions</text>
-
-  <text class="section" x="60" y="670">Assurance and promotion gates</text>
-  <rect class="box" x="60" y="692" width="190" height="72" fill="#ffffff" stroke="#64748b"/>
-  <text class="repo" x="107" y="724">AO Arena</text>
-  <text class="small" x="93" y="746">Benchmark scoring</text>
-  <rect class="box" x="282" y="692" width="190" height="72" fill="#ffffff" stroke="#64748b"/>
-  <text class="repo" x="322" y="724">AO Crucible</text>
-  <text class="small" x="306" y="746">Adversarial hardening</text>
-  <rect class="box" x="504" y="692" width="190" height="72" fill="#ffffff" stroke="#64748b"/>
-  <text class="repo" x="547" y="724">AO Sentinel</text>
-  <text class="small" x="535" y="746">Regression holds</text>
-  <rect class="box" x="726" y="692" width="190" height="72" fill="#ffffff" stroke="#64748b"/>
-  <text class="repo" x="769" y="724">AO Promoter</text>
-  <text class="small" x="755" y="746">Gated activation</text>
-
-  <path class="arrow" d="M280 202 L330 202"/>
-  <text class="label" x="292" y="190">authorized scope</text>
-  <path class="arrow" d="M550 202 L600 202"/>
-  <text class="label" x="558" y="190">handoff</text>
-  <path class="arrow" d="M820 202 L870 202"/>
-  <text class="label" x="830" y="190">delegate</text>
-  <path class="arrow" d="M980 254 L980 320"/>
-  <text class="label" x="998" y="292">gate</text>
-  <path class="arrow" d="M870 372 C780 390 720 430 710 490"/>
-  <text class="label" x="770" y="416">allowed side effects</text>
-  <path class="arrow" d="M600 542 L550 542"/>
-  <text class="label" x="558" y="530">evidence</text>
-  <path class="arrow" d="M330 542 L280 542"/>
-  <text class="label" x="292" y="530">readback</text>
-  <path class="dash" d="M710 594 C718 640 760 670 821 692"/>
-  <path class="dash" d="M710 594 C660 640 610 670 599 692"/>
-  <path class="dash" d="M710 594 C580 642 435 670 377 692"/>
-  <path class="dash" d="M710 594 C480 642 210 670 155 692"/>
-
-  <text class="small" x="56" y="800">Atlas does not schedule, execute, approve, publish, call providers, or mutate sibling repositories. Command and control-plane remain read-only observers.</text>
+  <rect class="bg" width="1440" height="1040"/>
+  <text class="title" x="48" y="58">AO agent orchestration stack</text>
+  <text class="subtitle" x="48" y="88"><tspan x="48" dy="0">Mission records intent; Blueprint and Atlas shape work; Foundry, Forge, Covenant, and AO2 run governed work; Command and control-</tspan><tspan x="48" dy="19">plane only read back evidence.</tspan></text>
+  <rect class="band" x="48" y="124" width="1344" height="36" fill="#172033"/>
+  <text class="bandText" x="66" y="148">Repository authority map</text>
+  <rect class="card" x="64" y="190" width="240" height="150" fill="#e1f5ef" stroke="#64748b"/>
+  <text class="cardTitle" x="82" y="221">AO Mission</text>
+  <text class="small" x="82" y="248">User entry, route decision</text>
+  <text class="small" x="82" y="268"><tspan x="82" dy="0">Gateway and recovery</tspan><tspan x="82" dy="16">readbacks</tspan></text>
+  <text class="small" x="82" y="300">No execution or approval</text>
+  <rect class="card" x="348" y="190" width="240" height="150" fill="#fff2cf" stroke="#64748b"/>
+  <text class="cardTitle" x="366" y="221">AO Blueprint</text>
+  <text class="small" x="366" y="248">Requirements interview</text>
+  <text class="small" x="366" y="268">Blueprint pack</text>
+  <text class="small" x="366" y="288">Build authorization</text>
+  <rect class="card" x="632" y="190" width="240" height="150" fill="#e4f1ff" stroke="#64748b"/>
+  <text class="cardTitle" x="650" y="221">AO Atlas</text>
+  <text class="small" x="650" y="248">Stack-instance compiler</text>
+  <text class="small" x="650" y="268">Workgraphs and context packs</text>
+  <text class="small" x="650" y="288">Foundry import material</text>
+  <rect class="card" x="916" y="190" width="240" height="150" fill="#ffe9d2" stroke="#64748b"/>
+  <text class="cardTitle" x="934" y="221">AO Foundry</text>
+  <text class="small" x="934" y="248">Portfolio scheduler</text>
+  <text class="small" x="934" y="268">Readiness and PR lifecycle</text>
+  <text class="small" x="934" y="288">One ready node at a time</text>
+  <rect class="card" x="348" y="430" width="240" height="150" fill="#eee8ff" stroke="#64748b"/>
+  <text class="cardTitle" x="366" y="461">AO Forge</text>
+  <text class="small" x="366" y="488">One governed GoalRun</text>
+  <text class="small" x="366" y="508">Factory plan and packets</text>
+  <text class="small" x="366" y="528">Retained evidence</text>
+  <rect class="card" x="632" y="430" width="240" height="150" fill="#fff2cf" stroke="#64748b"/>
+  <text class="cardTitle" x="650" y="461">AO Covenant</text>
+  <text class="small" x="650" y="488">Policy and trust kernel</text>
+  <text class="small" x="650" y="508">Approval tickets</text>
+  <text class="small" x="650" y="528">Claim vocabulary</text>
+  <rect class="card" x="916" y="430" width="240" height="150" fill="#e4f1ff" stroke="#64748b"/>
+  <text class="cardTitle" x="934" y="461">AO2</text>
+  <text class="small" x="934" y="488">Bounded local execution</text>
+  <text class="small" x="934" y="508">Adapters and artifacts</text>
+  <text class="small" x="934" y="528">Evaluator closure</text>
+  <rect class="card" x="348" y="670" width="240" height="150" fill="#e9f7df" stroke="#64748b"/>
+  <text class="cardTitle" x="366" y="701">ao2-control-plane</text>
+  <text class="small" x="366" y="728">Read-only observer</text>
+  <text class="small" x="366" y="748">Signed ingest</text>
+  <text class="small" x="366" y="768">Dashboards and APIs</text>
+  <rect class="card" x="632" y="670" width="240" height="150" fill="#e1f5ef" stroke="#64748b"/>
+  <text class="cardTitle" x="650" y="701">AO Command</text>
+  <text class="small" x="650" y="728">Read-only operator view</text>
+  <text class="small" x="650" y="748">Status and next actions</text>
+  <text class="small" x="650" y="768">Validation without mutation</text>
+  <rect class="card" x="916" y="670" width="240" height="150" fill="#ffe7ec" stroke="#64748b"/>
+  <text class="cardTitle" x="934" y="701">Assurance gates</text>
+  <text class="small" x="934" y="728">Arena scores</text>
+  <text class="small" x="934" y="748">Crucible probes</text>
+  <text class="small" x="934" y="768"><tspan x="934" dy="0">Sentinel holds, Promoter</tspan><tspan x="934" dy="16">dry-runs</tspan></text>
+  <path class="arrow" d="M304 265 L348 265"/>
+  <path class="arrow" d="M588 265 L632 265"/>
+  <path class="arrow" d="M872 265 L916 265"/>
+  <path class="arrow" d="M1036 340 C1036 385 488 385 468 430"/>
+  <rect class="chip" x="822" y="356" width="72" height="23"/>
+  <text class="label" x="830" y="373">delegate</text>
+  <path class="arrow" d="M588 505 L632 505"/>
+  <path class="arrow" d="M872 505 L916 505"/>
+  <path class="dash" d="M1036 580 C1036 626 488 626 468 670"/>
+  <rect class="chip" x="800" y="599" width="72" height="23"/>
+  <text class="label" x="808" y="616">evidence</text>
+  <path class="dash" d="M588 745 L632 745"/>
+  <path class="dash" d="M872 745 L916 745"/>
+  <rect class="note" x="64" y="890" width="1264" height="82" fill="#e8edf3" stroke="#94a3b8"/>
+  <text class="smallStrong" x="82" y="919"><tspan x="82" dy="0">Invariant: Atlas does not schedule, execute, approve, publish, call providers, or mutate sibling repositories. Command and control-plane report evidence only; they do not</tspan><tspan x="82" dy="18">approve or execute work.</tspan></text>
 </svg>
