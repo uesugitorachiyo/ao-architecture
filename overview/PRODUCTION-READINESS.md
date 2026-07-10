@@ -10,7 +10,7 @@ This checklist defines what "production-ready documentation" means for the `ao-a
 | --- | --- | --- |
 | Top-level entrypoint exists | Complete | `../README.md` |
 | Cross-repository overview exists | Complete | `README.md` |
-| Every target repository folder has documentation | Complete | `../ao-atlas`, `../ao-command`, `../ao-covenant`, `../ao-forge`, `../ao-foundry`, `../ao2`, `../ao2-control-plane`, `../ao-arena`, `../ao-crucible`, `../ao-sentinel`, `../ao-promoter` |
+| Every target repository folder has documentation | Complete | `../ao-mission`, `../ao-blueprint`, `../ao-atlas`, `../ao-command`, `../ao-covenant`, `../ao-forge`, `../ao-foundry`, `../ao2`, `../ao2-control-plane`, `../ao-arena`, `../ao-crucible`, `../ao-sentinel`, `../ao-promoter` |
 | Every document contains or references an image | Complete | Each README includes an SVG from `../images` or `images` |
 | Shared images live in the requested images folder | Complete | `../images/*.svg` |
 | Overview explains repository interaction | Complete | `README.md` repository map, practical rule, workflows, and agent roles |
