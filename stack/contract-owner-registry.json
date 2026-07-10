@@ -1,0 +1,121 @@
+{
+  "schema": "ao.architecture.contract-owner-registry.v0.1",
+  "status": "proposed",
+  "snapshot_date": "2026-07-10",
+  "registry_authority": "ao-covenant",
+  "inventory_snapshot": "stack/contract-inventory.json",
+  "source_of_truth": "proposed owner map; activation requires the compatibility matrix and canonical vectors",
+  "assignments": [
+    {
+      "repository": "ao-architecture",
+      "contract_domain": "architecture_topology_and_adr",
+      "owner": "ao-architecture",
+      "consumer_boundary": "all_active_repositories",
+      "assignment_status": "recorded_pending_compatibility_gate"
+    },
+    {
+      "repository": "ao-mission",
+      "contract_domain": "mission_lifecycle_and_continuation",
+      "owner": "ao-mission",
+      "consumer_boundary": "ao-control",
+      "assignment_status": "recorded_pending_compatibility_gate"
+    },
+    {
+      "repository": "ao-blueprint",
+      "contract_domain": "requirements_and_authorization_pack",
+      "owner": "ao-blueprint",
+      "consumer_boundary": "ao-control",
+      "assignment_status": "recorded_pending_compatibility_gate"
+    },
+    {
+      "repository": "ao-atlas",
+      "contract_domain": "workgraph_and_context_pack",
+      "owner": "ao-atlas",
+      "consumer_boundary": "ao-control",
+      "assignment_status": "recorded_pending_compatibility_gate"
+    },
+    {
+      "repository": "ao-foundry",
+      "contract_domain": "portfolio_schedule_and_safe_next_work",
+      "owner": "ao-foundry",
+      "consumer_boundary": "ao-control",
+      "assignment_status": "recorded_pending_compatibility_gate"
+    },
+    {
+      "repository": "ao-forge",
+      "contract_domain": "goal_run_orchestration",
+      "owner": "ao-forge",
+      "consumer_boundary": "ao-control_and_ao2",
+      "assignment_status": "recorded_pending_compatibility_gate"
+    },
+    {
+      "repository": "ao-covenant",
+      "contract_domain": "policy_schema_registry_and_approval",
+      "owner": "ao-covenant",
+      "consumer_boundary": "all_sensitive_actions",
+      "assignment_status": "recorded_pending_compatibility_gate"
+    },
+    {
+      "repository": "ao2",
+      "contract_domain": "provider_runtime_and_execution_receipt",
+      "owner": "ao2",
+      "consumer_boundary": "ao-forge_and_ao2-control-plane",
+      "assignment_status": "recorded_pending_compatibility_gate"
+    },
+    {
+      "repository": "ao2-control-plane",
+      "contract_domain": "observation_storage_and_evidence_readback",
+      "owner": "ao2-control-plane",
+      "consumer_boundary": "ao-command_and_operators",
+      "assignment_status": "recorded_pending_compatibility_gate"
+    },
+    {
+      "repository": "ao-command",
+      "contract_domain": "operator_presentation_and_compact_readback",
+      "owner": "ao-command",
+      "consumer_boundary": "operators",
+      "assignment_status": "recorded_pending_compatibility_gate"
+    },
+    {
+      "repository": "ao-arena",
+      "contract_domain": "benchmark_task_and_score_evidence",
+      "owner": "ao-arena",
+      "consumer_boundary": "ao-assurance",
+      "assignment_status": "recorded_pending_compatibility_gate"
+    },
+    {
+      "repository": "ao-crucible",
+      "contract_domain": "adversarial_probe_and_failure_injection",
+      "owner": "ao-crucible",
+      "consumer_boundary": "ao-assurance",
+      "assignment_status": "recorded_pending_compatibility_gate"
+    },
+    {
+      "repository": "ao-sentinel",
+      "contract_domain": "safety_and_freshness_verdict",
+      "owner": "ao-sentinel",
+      "consumer_boundary": "ao-promoter_and_operators",
+      "assignment_status": "recorded_pending_compatibility_gate"
+    },
+    {
+      "repository": "ao-promoter",
+      "contract_domain": "promotion_decision_and_release_manifest",
+      "owner": "ao-promoter",
+      "consumer_boundary": "operators_and_release_process",
+      "assignment_status": "recorded_pending_compatibility_gate"
+    }
+  ],
+  "coverage": {
+    "repository_count": 14,
+    "unclassified_repository_count": 0,
+    "schema_document_count_from_inventory": 342,
+    "unclassified_schema_document_count": 0,
+    "owner_assignment_complete": true,
+    "compatibility_gate_complete": false
+  },
+  "safety": {
+    "promotion_granted": false,
+    "rsi_remains_denied": true,
+    "migration_started": false
+  }
+}
