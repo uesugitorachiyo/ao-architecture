@@ -1,0 +1,164 @@
+{
+  "schema": "ao.architecture.contract-inventory.v0.1",
+  "status": "baseline",
+  "snapshot_date": "2026-07-10",
+  "snapshot_source": "checked_out_repositories",
+  "source_of_truth": "baseline_only; ao-covenant registry ownership is proposed but not yet assigned",
+  "measurement_method": {
+    "schema_documents": "tracked files matching *.schema.json, *.schema.yaml, or *.schema.yml",
+    "schema_version_literals": "tracked JSON, Go, Rust, and Markdown files containing a schema_version string literal",
+    "distinct_schema_version_literals": "global union after normalizing the schema_version value from each literal"
+  },
+  "repositories": [
+    {
+      "repository": "ao-architecture",
+      "snapshot_commit": "fbfa1217db951336951a501032bd5a06fed5196e",
+      "branch": "main",
+      "schema_document_count": 0,
+      "schema_version_literal_count": 1,
+      "distinct_schema_version_count": 1,
+      "contract_owner_status": "pending_owner_assignment",
+      "proposed_registry_owner": "ao-covenant"
+    },
+    {
+      "repository": "ao-mission",
+      "snapshot_commit": "8055933d9eebdd12a01d9ccca6edcbbf9bc69c37",
+      "branch": "main",
+      "schema_document_count": 34,
+      "schema_version_literal_count": 0,
+      "distinct_schema_version_count": 0,
+      "contract_owner_status": "pending_owner_assignment",
+      "proposed_registry_owner": "ao-covenant"
+    },
+    {
+      "repository": "ao-blueprint",
+      "snapshot_commit": "011e4178b870219f7490857db3c73c346ca3f2de",
+      "branch": "main",
+      "schema_document_count": 12,
+      "schema_version_literal_count": 0,
+      "distinct_schema_version_count": 0,
+      "contract_owner_status": "pending_owner_assignment",
+      "proposed_registry_owner": "ao-covenant"
+    },
+    {
+      "repository": "ao-atlas",
+      "snapshot_commit": "75797a7e124efcd12a6f4783c68b01efe11c6e23",
+      "branch": "main",
+      "schema_document_count": 80,
+      "schema_version_literal_count": 7,
+      "distinct_schema_version_count": 5,
+      "contract_owner_status": "pending_owner_assignment",
+      "proposed_registry_owner": "ao-covenant"
+    },
+    {
+      "repository": "ao-foundry",
+      "snapshot_commit": "a610f10b09591416509c712313cd9021a2cb7da7",
+      "branch": "main",
+      "schema_document_count": 53,
+      "schema_version_literal_count": 1015,
+      "distinct_schema_version_count": 140,
+      "contract_owner_status": "pending_owner_assignment",
+      "proposed_registry_owner": "ao-covenant"
+    },
+    {
+      "repository": "ao-forge",
+      "snapshot_commit": "27c74bfa5713fe50c052e86a375afca27cc01469",
+      "branch": "main",
+      "schema_document_count": 29,
+      "schema_version_literal_count": 249,
+      "distinct_schema_version_count": 45,
+      "contract_owner_status": "pending_owner_assignment",
+      "proposed_registry_owner": "ao-covenant"
+    },
+    {
+      "repository": "ao-covenant",
+      "snapshot_commit": "ccfdd28751c5a5af9f00cf34950bcf6f439e0f24",
+      "branch": "codex/mission-v02-hardening",
+      "schema_document_count": 67,
+      "schema_version_literal_count": 189,
+      "distinct_schema_version_count": 63,
+      "contract_owner_status": "pending_owner_assignment",
+      "proposed_registry_owner": "ao-covenant"
+    },
+    {
+      "repository": "ao2",
+      "snapshot_commit": "541e766b5da00b65fa2c2e34b1d7ff0dc363eef6",
+      "branch": "main",
+      "schema_document_count": 16,
+      "schema_version_literal_count": 808,
+      "distinct_schema_version_count": 392,
+      "contract_owner_status": "pending_owner_assignment",
+      "proposed_registry_owner": "ao-covenant"
+    },
+    {
+      "repository": "ao2-control-plane",
+      "snapshot_commit": "6226dcc585d16871cd6ff9d7638628de465b6221",
+      "branch": "main",
+      "schema_document_count": 0,
+      "schema_version_literal_count": 523,
+      "distinct_schema_version_count": 177,
+      "contract_owner_status": "pending_owner_assignment",
+      "proposed_registry_owner": "ao-covenant"
+    },
+    {
+      "repository": "ao-command",
+      "snapshot_commit": "81e74349d44c768ab8dcadaa122302aa9fd24f4f",
+      "branch": "main",
+      "schema_document_count": 6,
+      "schema_version_literal_count": 108,
+      "distinct_schema_version_count": 42,
+      "contract_owner_status": "pending_owner_assignment",
+      "proposed_registry_owner": "ao-covenant"
+    },
+    {
+      "repository": "ao-arena",
+      "snapshot_commit": "97276a292f83776115621978e4e62e2df514c65d",
+      "branch": "main",
+      "schema_document_count": 8,
+      "schema_version_literal_count": 27,
+      "distinct_schema_version_count": 13,
+      "contract_owner_status": "pending_owner_assignment",
+      "proposed_registry_owner": "ao-covenant"
+    },
+    {
+      "repository": "ao-crucible",
+      "snapshot_commit": "26be45ee686abf2bb664175abdf66118fd3d8ead",
+      "branch": "main",
+      "schema_document_count": 10,
+      "schema_version_literal_count": 30,
+      "distinct_schema_version_count": 11,
+      "contract_owner_status": "pending_owner_assignment",
+      "proposed_registry_owner": "ao-covenant"
+    },
+    {
+      "repository": "ao-sentinel",
+      "snapshot_commit": "dcb4759682d2492877729ef6084c3356389b514e",
+      "branch": "codex/mission-v02-hardening",
+      "schema_document_count": 15,
+      "schema_version_literal_count": 166,
+      "distinct_schema_version_count": 46,
+      "contract_owner_status": "pending_owner_assignment",
+      "proposed_registry_owner": "ao-covenant"
+    },
+    {
+      "repository": "ao-promoter",
+      "snapshot_commit": "a2b3281711a1436aa46c34ca6c11b26d926ed57e",
+      "branch": "codex/mission-v02-hardening",
+      "schema_document_count": 12,
+      "schema_version_literal_count": 122,
+      "distinct_schema_version_count": 50,
+      "contract_owner_status": "pending_owner_assignment",
+      "proposed_registry_owner": "ao-covenant"
+    }
+  ],
+  "totals": {
+    "schema_document_count": 342,
+    "schema_version_literal_count": 3245,
+    "distinct_schema_version_count": 702
+  },
+  "safety": {
+    "promotion_granted": false,
+    "rsi_remains_denied": true,
+    "migration_started": false
+  }
+}
