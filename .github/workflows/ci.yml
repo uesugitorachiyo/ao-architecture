@@ -39,6 +39,12 @@ jobs:
       - name: Verify contract inventory unit tests
         run: python3 -m unittest scripts/test_verify_contract_inventory.py
 
+      - name: Verify contract owner registry
+        run: python3 scripts/verify_contract_owner_registry.py
+
+      - name: Verify contract owner registry unit tests
+        run: python3 -m unittest scripts/test_verify_contract_owner_registry.py
+
       - name: Verify stack lockfile
         run: python3 scripts/verify_stack_lock.py
 
