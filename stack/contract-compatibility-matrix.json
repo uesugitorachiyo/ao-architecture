@@ -1,0 +1,150 @@
+{
+  "schema": "ao.architecture.contract-compatibility-matrix.v0.1",
+  "status": "proposed",
+  "snapshot_date": "2026-07-10",
+  "registry_owner": "ao-covenant",
+  "owner_registry": "stack/contract-owner-registry.json",
+  "source_of_truth": "proposed edge map; compatibility activation requires canonical JSON vectors and consumer tests",
+  "edges": [
+    {
+      "producer": "ao-architecture",
+      "consumer": "ao-mission",
+      "contract_family": "authority_and_topology",
+      "producer_contract": "authority_inventory",
+      "consumer_contract": "mission_route_context",
+      "compatibility_status": "pending_canonical_vectors"
+    },
+    {
+      "producer": "ao-architecture",
+      "consumer": "ao-blueprint",
+      "contract_family": "authority_and_topology",
+      "producer_contract": "topology_adr",
+      "consumer_contract": "authorization_scope",
+      "compatibility_status": "pending_canonical_vectors"
+    },
+    {
+      "producer": "ao-blueprint",
+      "consumer": "ao-atlas",
+      "contract_family": "requirements_to_workgraph",
+      "producer_contract": "blueprint_pack",
+      "consumer_contract": "context_pack_and_workgraph",
+      "compatibility_status": "pending_canonical_vectors"
+    },
+    {
+      "producer": "ao-atlas",
+      "consumer": "ao-foundry",
+      "contract_family": "workgraph_to_schedule",
+      "producer_contract": "foundry_import",
+      "consumer_contract": "portfolio_task",
+      "compatibility_status": "pending_canonical_vectors"
+    },
+    {
+      "producer": "ao-foundry",
+      "consumer": "ao-forge",
+      "contract_family": "schedule_to_goal_run",
+      "producer_contract": "safe_next_work",
+      "consumer_contract": "goal_run_request",
+      "compatibility_status": "pending_canonical_vectors"
+    },
+    {
+      "producer": "ao-forge",
+      "consumer": "ao-covenant",
+      "contract_family": "goal_run_to_policy_gate",
+      "producer_contract": "goal_run",
+      "consumer_contract": "policy_ticket",
+      "compatibility_status": "pending_canonical_vectors"
+    },
+    {
+      "producer": "ao-covenant",
+      "consumer": "ao2",
+      "contract_family": "approval_to_execution",
+      "producer_contract": "approval_ticket",
+      "consumer_contract": "approved_execution_request",
+      "compatibility_status": "pending_canonical_vectors"
+    },
+    {
+      "producer": "ao2",
+      "consumer": "ao2-control-plane",
+      "contract_family": "execution_to_observation",
+      "producer_contract": "execution_receipt",
+      "consumer_contract": "evidence_event",
+      "compatibility_status": "pending_canonical_vectors"
+    },
+    {
+      "producer": "ao-mission",
+      "consumer": "ao-command",
+      "contract_family": "mission_to_operator_readback",
+      "producer_contract": "mission_readback",
+      "consumer_contract": "compact_mission_timeline",
+      "compatibility_status": "pending_canonical_vectors"
+    },
+    {
+      "producer": "ao2-control-plane",
+      "consumer": "ao-command",
+      "contract_family": "observer_to_operator_readback",
+      "producer_contract": "dashboard_readback",
+      "consumer_contract": "operator_status",
+      "compatibility_status": "pending_canonical_vectors"
+    },
+    {
+      "producer": "ao-arena",
+      "consumer": "ao-promoter",
+      "contract_family": "benchmark_to_promotion",
+      "producer_contract": "benchmark_result",
+      "consumer_contract": "assurance_input",
+      "compatibility_status": "pending_canonical_vectors"
+    },
+    {
+      "producer": "ao-crucible",
+      "consumer": "ao-promoter",
+      "contract_family": "adversarial_probe_to_promotion",
+      "producer_contract": "failure_injection_result",
+      "consumer_contract": "assurance_input",
+      "compatibility_status": "pending_canonical_vectors"
+    },
+    {
+      "producer": "ao-sentinel",
+      "consumer": "ao-promoter",
+      "contract_family": "safety_verdict_to_promotion",
+      "producer_contract": "sentinel_verdict",
+      "consumer_contract": "promotion_input",
+      "compatibility_status": "pending_canonical_vectors"
+    },
+    {
+      "producer": "ao-promoter",
+      "consumer": "ao-command",
+      "contract_family": "promotion_to_operator_readback",
+      "producer_contract": "promotion_verdict",
+      "consumer_contract": "promotion_status",
+      "compatibility_status": "pending_canonical_vectors"
+    },
+    {
+      "producer": "ao-covenant",
+      "consumer": "ao-command",
+      "contract_family": "policy_to_operator_explanation",
+      "producer_contract": "policy_decision",
+      "consumer_contract": "policy_readback",
+      "compatibility_status": "pending_canonical_vectors"
+    },
+    {
+      "producer": "ao-forge",
+      "consumer": "ao-command",
+      "contract_family": "goal_run_to_operator_readback",
+      "producer_contract": "run_status",
+      "consumer_contract": "run_timeline",
+      "compatibility_status": "pending_canonical_vectors"
+    }
+  ],
+  "coverage": {
+    "edge_count": 16,
+    "uncovered_owner_pairs": 0,
+    "compatibility_gate_complete": false,
+    "canonical_vector_count": 0,
+    "consumer_test_count": 0
+  },
+  "safety": {
+    "promotion_granted": false,
+    "rsi_remains_denied": true,
+    "migration_started": false
+  }
+}

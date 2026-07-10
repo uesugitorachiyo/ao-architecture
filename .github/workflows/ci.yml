@@ -45,6 +45,12 @@ jobs:
       - name: Verify contract owner registry unit tests
         run: python3 -m unittest scripts/test_verify_contract_owner_registry.py
 
+      - name: Verify compatibility matrix
+        run: python3 scripts/verify_compatibility_matrix.py
+
+      - name: Verify compatibility matrix unit tests
+        run: python3 -m unittest scripts/test_verify_compatibility_matrix.py
+
       - name: Verify stack lockfile
         run: python3 scripts/verify_stack_lock.py
 
