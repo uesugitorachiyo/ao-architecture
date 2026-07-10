@@ -1,0 +1,46 @@
+{
+  "schema": "ao.architecture.authority-inventory.v0.1",
+  "status": "current",
+  "generated_from": "docs/adr/2026-07-10-consolidation-topology.md",
+  "repositories": [
+    {"repository": "ao-architecture", "current_boundary": "independent_repository", "proposed_boundary": "ao-control", "primary_authority": "architecture_truth", "non_authority": ["execution", "approval", "promotion"], "migration_status": "not_started"},
+    {"repository": "ao-mission", "current_boundary": "independent_repository", "proposed_boundary": "ao-control", "primary_authority": "mission_state", "non_authority": ["execution", "approval", "promotion"], "migration_status": "not_started"},
+    {"repository": "ao-blueprint", "current_boundary": "independent_repository", "proposed_boundary": "ao-control", "primary_authority": "requirements_authorization", "non_authority": ["execution", "promotion", "provider_calls"], "migration_status": "not_started"},
+    {"repository": "ao-atlas", "current_boundary": "independent_repository", "proposed_boundary": "ao-control", "primary_authority": "workgraph_context", "non_authority": ["approval", "execution", "promotion"], "migration_status": "not_started"},
+    {"repository": "ao-foundry", "current_boundary": "independent_repository", "proposed_boundary": "ao-control", "primary_authority": "portfolio_scheduling", "non_authority": ["approval", "execution", "promotion"], "migration_status": "not_started"},
+    {"repository": "ao-forge", "current_boundary": "independent_repository", "proposed_boundary": "ao-control", "primary_authority": "goal_run", "non_authority": ["policy_override", "unbounded_execution", "promotion"], "migration_status": "not_started"},
+    {"repository": "ao-covenant", "current_boundary": "independent_repository", "proposed_boundary": "ao-covenant", "primary_authority": "policy_contract_authority", "non_authority": ["operator_presentation", "execution", "promotion"], "migration_status": "not_started"},
+    {"repository": "ao2", "current_boundary": "independent_repository", "proposed_boundary": "ao2", "primary_authority": "execution", "non_authority": ["policy_authority", "promotion", "release"], "migration_status": "not_started"},
+    {"repository": "ao2-control-plane", "current_boundary": "independent_repository", "proposed_boundary": "ao2-control-plane", "primary_authority": "evidence_observation", "non_authority": ["approval", "execution", "promotion"], "migration_status": "not_started"},
+    {"repository": "ao-command", "current_boundary": "independent_repository", "proposed_boundary": "ao-control", "primary_authority": "operator_presentation", "non_authority": ["scheduling", "approval", "execution"], "migration_status": "not_started"},
+    {"repository": "ao-arena", "current_boundary": "independent_repository", "proposed_boundary": "ao-assurance", "primary_authority": "benchmark", "non_authority": ["execution", "approval", "promotion"], "migration_status": "not_started"},
+    {"repository": "ao-crucible", "current_boundary": "independent_repository", "proposed_boundary": "ao-assurance", "primary_authority": "adversarial_assurance", "non_authority": ["execution", "approval", "promotion"], "migration_status": "not_started"},
+    {"repository": "ao-sentinel", "current_boundary": "independent_repository", "proposed_boundary": "ao-assurance", "primary_authority": "monitoring", "non_authority": ["execution", "approval", "promotion"], "migration_status": "not_started"},
+    {"repository": "ao-promoter", "current_boundary": "independent_repository", "proposed_boundary": "ao-assurance", "primary_authority": "promotion_decision", "non_authority": ["activation", "execution", "policy_override"], "migration_status": "not_started"}
+  ],
+  "authority_domains": [
+    {"domain": "architecture_truth", "owner": "ao-architecture"},
+    {"domain": "mission_state", "owner": "ao-mission"},
+    {"domain": "requirements_authorization", "owner": "ao-blueprint"},
+    {"domain": "workgraph_context", "owner": "ao-atlas"},
+    {"domain": "portfolio_scheduling", "owner": "ao-foundry"},
+    {"domain": "goal_run", "owner": "ao-forge"},
+    {"domain": "policy_contract_authority", "owner": "ao-covenant"},
+    {"domain": "execution", "owner": "ao2"},
+    {"domain": "evidence_observation", "owner": "ao2-control-plane"},
+    {"domain": "operator_presentation", "owner": "ao-command"},
+    {"domain": "benchmark", "owner": "ao-arena"},
+    {"domain": "adversarial_assurance", "owner": "ao-crucible"},
+    {"domain": "monitoring", "owner": "ao-sentinel"},
+    {"domain": "promotion_decision", "owner": "ao-promoter"}
+  ],
+  "safety": {
+    "promotion_granted": false,
+    "rsi_remains_denied": true,
+    "migration_started": false,
+    "provider_calls": false,
+    "release_or_publish": false,
+    "direct_main_mutation": false,
+    "dependency_updates": false
+  }
+}
