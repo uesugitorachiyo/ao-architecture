@@ -27,6 +27,12 @@ jobs:
       - name: Verify topology unit tests
         run: python3 -m unittest scripts/test_verify_topology.py
 
+      - name: Verify stack lockfile
+        run: python3 scripts/verify_stack_lock.py
+
+      - name: Verify stack lockfile unit tests
+        run: python3 -m unittest scripts/test_verify_stack_lock.py
+
       - name: Public safety scan
         run: |
           pattern="ghp""_|github""_pat_|BEGIN ""RSA|BEGIN ""OPENSSH|ANTI""GRAVITY|private ""handoff|api""_key|access""_token"
