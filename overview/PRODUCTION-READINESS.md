@@ -4,6 +4,8 @@
 
 This checklist defines what "production-ready documentation" means for the `ao-architecture` repository. It is designed for colleagues who need to trust the docs as an explanation of the active AO orchestration stack.
 
+This is a documentation-readiness checklist. It does not certify runtime or product readiness. Runtime behavior, security, contract compatibility, and release readiness must be established by the owning repositories and integrated verification.
+
 ## Coverage Scorecard
 
 | Requirement | Status | Evidence |
