@@ -1,0 +1,24 @@
+{
+  "schema": "ao.architecture.readiness-inventory.v0.1",
+  "status": "current_observed",
+  "source_lockfile": "stack/ao-stack.lock.json",
+  "scope": "fourteen active AO repositories",
+  "promotion_granted": false,
+  "rsi_remains_denied": true,
+  "repositories": [
+    {"repository": "ao-architecture", "maturity": "documentation_source_of_truth", "evidence_class": "documentation_verification", "hosted_ci": true, "current_gate": "architecture verifier", "next_product_gate": "generated behavior status"},
+    {"repository": "ao-mission", "maturity": "alpha", "evidence_class": "local_ledger_and_readback", "hosted_ci": true, "current_gate": "native Go suite", "next_product_gate": "durable lifecycle metrics and recovery"},
+    {"repository": "ao-blueprint", "maturity": "early_alpha", "evidence_class": "deterministic_scaffold", "hosted_ci": true, "current_gate": "native Go suite", "next_product_gate": "semantic sufficiency calibrated on real projects"},
+    {"repository": "ao-atlas", "maturity": "late_alpha", "evidence_class": "offline_compiler_and_fixture_readback", "hosted_ci": true, "current_gate": "production readiness script", "next_product_gate": "graph performance and external evidence catalog"},
+    {"repository": "ao-foundry", "maturity": "pre_alpha", "evidence_class": "evidence_validator_and_local_orchestrator", "hosted_ci": true, "current_gate": "active stack readiness", "next_product_gate": "normal Pulse launching governed GoalRun"},
+    {"repository": "ao-forge", "maturity": "alpha", "evidence_class": "scheduler_and_scripted_provider_path", "hosted_ci": true, "current_gate": "native Go suite", "next_product_gate": "real GoalRun execution boundary"},
+    {"repository": "ao-covenant", "maturity": "local_beta", "evidence_class": "local_policy_kernel", "hosted_ci": true, "current_gate": "policy and contract tests", "next_product_gate": "integrity-bound policy evidence and approvals"},
+    {"repository": "ao2", "maturity": "advanced_alpha", "evidence_class": "provider_runtime_with_unsafe_mutation_edges", "hosted_ci": true, "current_gate": "Rust workspace tests", "next_product_gate": "content-bound approvals and transactional apply"},
+    {"repository": "ao2-control-plane", "maturity": "late_beta_single_node", "evidence_class": "observer_service_and_evidence_storage", "hosted_ci": true, "current_gate": "Rust workspace tests", "next_product_gate": "transactional storage, scoped auth, and migrations"},
+    {"repository": "ao-command", "maturity": "alpha_early_beta", "evidence_class": "local_readback_cli", "hosted_ci": true, "current_gate": "native Go suite", "next_product_gate": "thin client over canonical APIs"},
+    {"repository": "ao-arena", "maturity": "prototype", "evidence_class": "fixture_scoring", "hosted_ci": false, "current_gate": "local fixture checks", "next_product_gate": "real paired benchmark runs"},
+    {"repository": "ao-crucible", "maturity": "prototype", "evidence_class": "fixture_adversarial_checks", "hosted_ci": false, "current_gate": "local fixture checks", "next_product_gate": "sandboxed failure injection"},
+    {"repository": "ao-sentinel", "maturity": "alpha", "evidence_class": "structural_scan_and_dry_run", "hosted_ci": false, "current_gate": "local scanner checks", "next_product_gate": "continuous runtime and evidence-freshness monitoring"},
+    {"repository": "ao-promoter", "maturity": "alpha", "evidence_class": "dry_run_promotion_planner", "hosted_ci": true, "current_gate": "native Go suite", "next_product_gate": "signed assurance results and rollback journal"}
+  ]
+}
