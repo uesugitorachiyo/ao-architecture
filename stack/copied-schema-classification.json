@@ -1,0 +1,154 @@
+{
+  "schema": "ao.architecture.copied-schema-classification.v0.1",
+  "status": "classified_pending_covenant_registry",
+  "snapshot_date": "2026-07-12",
+  "registry_authority": "ao-covenant",
+  "inventory_snapshot": "stack/contract-inventory.json",
+  "source_of_truth": "classification overlay for copied or repo-local schema documents; covenant registry compatibility remains the promotion gate",
+  "classification_policy": {
+    "allowed_classes": ["stable", "experimental", "deprecated"],
+    "stable_rule": "canonical ao-covenant public schema authority",
+    "experimental_rule": "repo-local copied schema pending covenant compatibility gate",
+    "deprecated_rule": "retired copied schema retained only for compatibility readback"
+  },
+  "repositories": [
+    {
+      "repository": "ao-architecture",
+      "owner": "ao-architecture",
+      "schema_document_count_from_inventory": 0,
+      "stable_schema_document_count": 0,
+      "experimental_schema_document_count": 0,
+      "deprecated_schema_document_count": 0,
+      "classification_status": "no_schema_documents"
+    },
+    {
+      "repository": "ao-mission",
+      "owner": "ao-mission",
+      "schema_document_count_from_inventory": 34,
+      "stable_schema_document_count": 0,
+      "experimental_schema_document_count": 34,
+      "deprecated_schema_document_count": 0,
+      "classification_status": "experimental_pending_covenant_registry"
+    },
+    {
+      "repository": "ao-blueprint",
+      "owner": "ao-blueprint",
+      "schema_document_count_from_inventory": 12,
+      "stable_schema_document_count": 0,
+      "experimental_schema_document_count": 12,
+      "deprecated_schema_document_count": 0,
+      "classification_status": "experimental_pending_covenant_registry"
+    },
+    {
+      "repository": "ao-atlas",
+      "owner": "ao-atlas",
+      "schema_document_count_from_inventory": 80,
+      "stable_schema_document_count": 0,
+      "experimental_schema_document_count": 80,
+      "deprecated_schema_document_count": 0,
+      "classification_status": "experimental_pending_covenant_registry"
+    },
+    {
+      "repository": "ao-foundry",
+      "owner": "ao-foundry",
+      "schema_document_count_from_inventory": 53,
+      "stable_schema_document_count": 0,
+      "experimental_schema_document_count": 53,
+      "deprecated_schema_document_count": 0,
+      "classification_status": "experimental_pending_covenant_registry"
+    },
+    {
+      "repository": "ao-forge",
+      "owner": "ao-forge",
+      "schema_document_count_from_inventory": 29,
+      "stable_schema_document_count": 0,
+      "experimental_schema_document_count": 29,
+      "deprecated_schema_document_count": 0,
+      "classification_status": "experimental_pending_covenant_registry"
+    },
+    {
+      "repository": "ao-covenant",
+      "owner": "ao-covenant",
+      "schema_document_count_from_inventory": 67,
+      "stable_schema_document_count": 67,
+      "experimental_schema_document_count": 0,
+      "deprecated_schema_document_count": 0,
+      "classification_status": "stable_registry_authority"
+    },
+    {
+      "repository": "ao2",
+      "owner": "ao2",
+      "schema_document_count_from_inventory": 16,
+      "stable_schema_document_count": 0,
+      "experimental_schema_document_count": 16,
+      "deprecated_schema_document_count": 0,
+      "classification_status": "experimental_pending_covenant_registry"
+    },
+    {
+      "repository": "ao2-control-plane",
+      "owner": "ao2-control-plane",
+      "schema_document_count_from_inventory": 0,
+      "stable_schema_document_count": 0,
+      "experimental_schema_document_count": 0,
+      "deprecated_schema_document_count": 0,
+      "classification_status": "no_schema_documents"
+    },
+    {
+      "repository": "ao-command",
+      "owner": "ao-command",
+      "schema_document_count_from_inventory": 6,
+      "stable_schema_document_count": 0,
+      "experimental_schema_document_count": 6,
+      "deprecated_schema_document_count": 0,
+      "classification_status": "experimental_pending_covenant_registry"
+    },
+    {
+      "repository": "ao-arena",
+      "owner": "ao-arena",
+      "schema_document_count_from_inventory": 8,
+      "stable_schema_document_count": 0,
+      "experimental_schema_document_count": 8,
+      "deprecated_schema_document_count": 0,
+      "classification_status": "experimental_pending_covenant_registry"
+    },
+    {
+      "repository": "ao-crucible",
+      "owner": "ao-crucible",
+      "schema_document_count_from_inventory": 10,
+      "stable_schema_document_count": 0,
+      "experimental_schema_document_count": 10,
+      "deprecated_schema_document_count": 0,
+      "classification_status": "experimental_pending_covenant_registry"
+    },
+    {
+      "repository": "ao-sentinel",
+      "owner": "ao-sentinel",
+      "schema_document_count_from_inventory": 15,
+      "stable_schema_document_count": 0,
+      "experimental_schema_document_count": 15,
+      "deprecated_schema_document_count": 0,
+      "classification_status": "experimental_pending_covenant_registry"
+    },
+    {
+      "repository": "ao-promoter",
+      "owner": "ao-promoter",
+      "schema_document_count_from_inventory": 12,
+      "stable_schema_document_count": 0,
+      "experimental_schema_document_count": 12,
+      "deprecated_schema_document_count": 0,
+      "classification_status": "experimental_pending_covenant_registry"
+    }
+  ],
+  "totals": {
+    "schema_document_count_from_inventory": 342,
+    "stable_schema_document_count": 67,
+    "experimental_schema_document_count": 275,
+    "deprecated_schema_document_count": 0,
+    "unclassified_schema_document_count": 0
+  },
+  "safety": {
+    "promotion_granted": false,
+    "rsi_remains_denied": true,
+    "migration_started": false
+  }
+}

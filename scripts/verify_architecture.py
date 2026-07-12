@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import json
 import re
 import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
+
+from verify_copied_schema_classification import validate_document as validate_copied_schema_classification
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -875,6 +878,10 @@ def main() -> int:
     ]:
         if term not in ao_mission_capability_map_text:
             fail(f"AO Mission v0.2 capability map missing term: {term}")
+
+    copied_schema_classification = json.loads((ROOT / "stack" / "copied-schema-classification.json").read_text())
+    for error in validate_copied_schema_classification(copied_schema_classification):
+        fail(f"copied schema classification invalid: {error}")
 
     rsi_map_text = read_text(ROOT / "overview" / "RSI-CLAIM-EVIDENCE-MAP.md")
     for term in REQUIRED_RSI_MAP_TERMS:
