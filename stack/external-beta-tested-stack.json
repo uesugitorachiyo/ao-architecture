@@ -1,0 +1,46 @@
+{
+  "schema": "ao.architecture.external-beta-tested-stack.v0.1",
+  "status": "preflight_only",
+  "generated_at_utc": "2026-07-12T00:00:00Z",
+  "repository_count": 14,
+  "repositories": [
+    {"repository":"ao-architecture","tested_commit":"1c7b76ba5b275a5f760dd7190217aac85c15c3ae","month6_evidence_commit":"1c7b76ba5b275a5f760dd7190217aac85c15c3ae","maturity":"documentation_source_of_truth","capabilities":["implemented","executable-tested"],"role":"Canonical stack topology, status, diagrams, and compatibility documentation","architecture_page":"components/ao-architecture.md"},
+    {"repository":"ao-mission","tested_commit":"0e5f41457a3f2ee5c6061d5fb9f69da836e713fd","month6_evidence_commit":"0e5f41457a3f2ee5c6061d5fb9f69da836e713fd","maturity":"alpha","capabilities":["implemented","executable-tested","clean-room-rehearsed"],"role":"Durable mission state, routing, continuation, recovery, and lifecycle metrics","architecture_page":"components/ao-mission.md"},
+    {"repository":"ao-blueprint","tested_commit":"b85dc2e72592eea7509d3de779a269166b83deaa","month6_evidence_commit":"b85dc2e72592eea7509d3de779a269166b83deaa","maturity":"early_alpha","capabilities":["implemented","executable-tested","fixture-only"],"role":"Requirements sufficiency, traceability, and bounded implementation authorization","architecture_page":"components/ao-blueprint.md"},
+    {"repository":"ao-atlas","tested_commit":"ac163b26708e05ab152cc279ce2d8a1c9012566c","month6_evidence_commit":"ac163b26708e05ab152cc279ce2d8a1c9012566c","maturity":"late_alpha","capabilities":["implemented","executable-tested","clean-room-rehearsed"],"role":"Authorized workgraph compilation, context packs, and bounded handoff generation","architecture_page":"components/ao-atlas.md"},
+    {"repository":"ao-foundry","tested_commit":"59a1ef4bdf53c8355ec53f1940cb4cb81da021d3","month6_evidence_commit":"59a1ef4bdf53c8355ec53f1940cb4cb81da021d3","maturity":"pre_alpha_orchestrator","capabilities":["implemented","executable-tested","fixture-only"],"role":"Portfolio readiness, safe-next-work selection, and bounded execution imports","architecture_page":"components/ao-foundry.md"},
+    {"repository":"ao-forge","tested_commit":"4446e6c40536091a6c7ab332b79b35ac43d291b4","month6_evidence_commit":"4446e6c40536091a6c7ab332b79b35ac43d291b4","maturity":"alpha","capabilities":["implemented","executable-tested","clean-room-rehearsed"],"role":"Per-run GoalRun scheduling, leases, gates, and bounded delegation","architecture_page":"components/ao-forge.md"},
+    {"repository":"ao-covenant","tested_commit":"727abddcc44a1f5e1454b2b1dc4ec0f83d78cf68","month6_evidence_commit":"727abddcc44a1f5e1454b2b1dc4ec0f83d78cf68","maturity":"local_beta","capabilities":["implemented","executable-tested","clean-room-rehearsed"],"role":"Independent contract, policy, approval, trust, revocation, and key authority","architecture_page":"components/ao-covenant.md"},
+    {"repository":"ao2","tested_commit":"c23357478c8088de0476a2704fdfadf927422ed7","month6_evidence_commit":"c23357478c8088de0476a2704fdfadf927422ed7","maturity":"advanced_alpha","capabilities":["implemented","executable-tested","clean-room-rehearsed"],"role":"Governed local execution runtime and explicit provider adapters","architecture_page":"components/ao2.md"},
+    {"repository":"ao2-control-plane","tested_commit":"84d654c1c03c787b806ca3304ee97600ef0664cc","month6_evidence_commit":"84d654c1c03c787b806ca3304ee97600ef0664cc","maturity":"late_beta_single_node","capabilities":["implemented","executable-tested","clean-room-rehearsed"],"role":"Observer-only evidence ingest, indexed storage, verification, metrics, and read APIs","architecture_page":"components/ao2-control-plane.md"},
+    {"repository":"ao-command","tested_commit":"3357a90622feb49b5cc4bd119eec872aaec5c5e6","month6_evidence_commit":"3357a90622feb49b5cc4bd119eec872aaec5c5e6","maturity":"alpha_early_beta","capabilities":["implemented","executable-tested","clean-room-rehearsed"],"role":"Read-only operator presentation over Mission and control-plane evidence","architecture_page":"components/ao-command.md"},
+    {"repository":"ao-arena","tested_commit":"8d926890b1df472729750bd2c2129e4b73fc9de9","month6_evidence_commit":"8d926890b1df472729750bd2c2129e4b73fc9de9","maturity":"prototype","capabilities":["implemented","executable-tested","fixture-only"],"role":"Benchmark and paired-run evaluation package","architecture_page":"components/ao-arena.md"},
+    {"repository":"ao-crucible","tested_commit":"3fb2311ffa6efc2374089c5085b6b894236fcf21","month6_evidence_commit":"3fb2311ffa6efc2374089c5085b6b894236fcf21","maturity":"prototype","capabilities":["implemented","executable-tested","fixture-only"],"role":"Adversarial probes and controlled failure-injection package","architecture_page":"components/ao-crucible.md"},
+    {"repository":"ao-sentinel","tested_commit":"7e29ff08ae4af29d34a70a8f7fb324d5621c481c","month6_evidence_commit":"7e29ff08ae4af29d34a70a8f7fb324d5621c481c","maturity":"alpha","capabilities":["implemented","executable-tested","fixture-only"],"role":"Public-safety, evidence-freshness, regression, and risk wording monitor","architecture_page":"components/ao-sentinel.md"},
+    {"repository":"ao-promoter","tested_commit":"2c28dda171f27073d52bc3d5007ba55e2331c4c3","month6_evidence_commit":"2c28dda171f27073d52bc3d5007ba55e2331c4c3","maturity":"alpha","capabilities":["implemented","executable-tested","fixture-only"],"role":"Promotion-readiness evaluation without activation authority","architecture_page":"components/ao-promoter.md"}
+  ],
+  "month6_launch_readiness": {
+    "repository": "ao-atlas",
+    "commit": "ac163b26708e05ab152cc279ce2d8a1c9012566c",
+    "path": "docs/evidence/ao-stack-month6-beta-launch-v01/nodes/month6-recommendation-40-launch-readiness-workgraph/launch-readiness-workgraph.json",
+    "sha256": "dce1e81516500ac5e1d84254753a83c8714d7670b964ebb9d85c64fa3b0862ae",
+    "completed_nodes": 40,
+    "ready_nodes": 0,
+    "blocked_nodes": 0,
+    "failed_nodes": 0,
+    "final_response_allowed": true
+  },
+  "workspace_reconciliation": {
+    "architecture_helix_divergence": "preserved_excluded_from_external_beta",
+    "promoter_hardening_branch": "preserved_excluded_use_origin_main"
+  },
+  "safety": {
+    "external_beta_launched": false,
+    "promotion_requested": false,
+    "promotion_granted": false,
+    "provider_calls": false,
+    "release_or_publish": false,
+    "authority_widened": false,
+    "rsi_remains_denied": true
+  }
+}

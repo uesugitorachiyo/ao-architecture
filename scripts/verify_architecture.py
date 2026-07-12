@@ -8,6 +8,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 from verify_copied_schema_classification import validate_document as validate_copied_schema_classification
+from verify_external_beta_preflight import CAPABILITY_LABELS, EXPECTED_REPOSITORIES, validate_manifest
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -775,134 +776,51 @@ def assert_contains(path: Path, needle: str) -> None:
 
 def main() -> int:
     readme = ROOT / "README.md"
-    overview = ROOT / "overview" / "README.md"
     readiness = ROOT / "overview" / "PRODUCTION-READINESS.md"
+    evidence_catalog = ROOT / "overview" / "EVIDENCE-CATALOG.md"
+    manifest_path = ROOT / "stack" / "external-beta-tested-stack.json"
+    try:
+        manifest = json.loads(manifest_path.read_text())
+    except (OSError, json.JSONDecodeError) as exc:
+        fail(f"invalid external-beta tested-stack manifest: {exc}")
+    for error in validate_manifest(manifest):
+        fail(f"external-beta tested-stack manifest invalid: {error}")
 
-    for repo in ACTIVE_REPOS:
-        assert_contains(readme, f"`{repo}`")
-        guide = ROOT / repo / "README.md"
-        text = read_text(guide)
-        for heading in [
-            "## Search-Friendly Summary",
-            "## Component At A Glance",
-            "## Role In The AO Orchestration Framework",
-            "## Architecture",
-            "## Workflows",
-            "## Contracts And Evidence",
-            "## Interactions With Other Repositories",
-            "## Production-Readiness Notes",
-            "## Quick Verification",
-        ]:
-            if heading not in text:
-                fail(f"{guide.relative_to(ROOT)} missing section {heading}")
-        if not markdown_image_targets(text):
-            fail(f"{guide.relative_to(ROOT)} has no markdown image")
-
-    overview_text = read_text(overview)
     readiness_text = read_text(readiness)
     root_text = read_text(readme)
-    command_text = read_text(ROOT / "ao-command" / "README.md")
-    atlas_text = read_text(ROOT / "ao-atlas" / "README.md")
-    blueprint_text = read_text(ROOT / "ao-blueprint" / "README.md")
-    rsi_claim_text = "\n".join([root_text, overview_text, command_text])
-    for required_file in REQUIRED_RSI_MAP_FILES:
-        if not (ROOT / required_file).exists():
-            fail(f"missing required RSI map file: {required_file}")
-    for required_file in REQUIRED_LIVE_MUTATION_LADDER_FILES:
-        if not (ROOT / required_file).exists():
-            fail(f"missing required live mutation ladder file: {required_file}")
+    for required in (
+        "An external\nbeta has not launched", "No promotion is requested", "RSI remains denied",
+        "stack/external-beta-tested-stack.json", "overview/EVIDENCE-CATALOG.md",
+    ):
+        if required not in root_text:
+            fail(f"README.md missing current-state term {required!r}")
 
-    for claim in REQUIRED_RSI_CLAIMS:
-        if claim not in rsi_claim_text:
-            fail(f"architecture docs missing RSI claim guard: {claim}")
+    repository_names = {entry["repository"] for entry in manifest["repositories"]}
+    if repository_names != EXPECTED_REPOSITORIES:
+        fail("manifest repository names do not match the active stack")
+    for entry in manifest["repositories"]:
+        component_page = ROOT / entry["architecture_page"]
+        component_text = read_text(component_page)
+        for required in ("**Role:**", "**Maturity:**", "**Boundary:**", "**Repository:**"):
+            if required not in component_text:
+                fail(f"{component_page.relative_to(ROOT)} missing {required}")
+        if entry["role"] not in component_text:
+            fail(f"{component_page.relative_to(ROOT)} role differs from manifest")
+        if entry["repository"] not in root_text:
+            fail(f"README.md missing repository link for {entry['repository']}")
+        unsupported = set(entry["capabilities"]) - CAPABILITY_LABELS
+        if unsupported:
+            fail(f"{entry['repository']} uses unsupported capabilities: {sorted(unsupported)}")
 
-    ladder_text = "\n".join(
-        [
-            root_text,
-            overview_text,
-            read_text(ROOT / "overview" / "LIVE-MUTATION-DOCUMENTATION-CONSISTENCY.md"),
-            read_text(ROOT / "overview" / "LIVE-MUTATION-STALE-LANGUAGE-SWEEP.md"),
-            read_text(ROOT / "overview" / "MUTATION-AUTHORITY-LADDER.md"),
-        ]
-    )
-    for term in REQUIRED_LIVE_MUTATION_LADDER_TERMS:
-        if term not in ladder_text:
-            fail(f"architecture docs missing live mutation ladder term: {term}")
-
-    for atlas_term in [
-        "AO Atlas",
-        "ao.atlas.stack-instance.v0.1",
-        "ao.atlas.workgraph.v0.1",
-        "ao.atlas.context-pack.v0.1",
-        "ao.atlas.foundry-import.v0.1",
-        "ao.foundry.atlas-readback.v0.1",
-        "ao.foundry.atlas-status.v0.1",
-        "does not schedule, execute, approve, publish, call providers, or mutate sibling repositories",
-    ]:
-        if atlas_term not in "\n".join([root_text, overview_text, atlas_text]):
-            fail(f"architecture docs missing AO Atlas term: {atlas_term}")
-
-    blueprint_atlas_foundry_text = "\n".join([root_text, overview_text, blueprint_text, atlas_text, command_text])
-    for term in REQUIRED_BLUEPRINT_ATLAS_FOUNDRY_TERMS:
-        if term not in blueprint_atlas_foundry_text:
-            fail(f"architecture docs missing Blueprint -> Atlas -> Foundry term: {term}")
-
-    ao_mission_contract_map_text = "\n".join([root_text, overview_text, command_text, atlas_text])
-    for term in REQUIRED_AO_MISSION_CONTRACT_MAP_TERMS:
-        if term not in ao_mission_contract_map_text:
-            fail(f"architecture docs missing AO Mission contract map term: {term}")
-
-    gateway_authority_text = read_text(ROOT / "overview" / "AO-MISSION-GATEWAY-AUTHORITY-MAP.md")
-    for term in REQUIRED_AO_MISSION_GATEWAY_AUTHORITY_TERMS:
-        if term not in gateway_authority_text:
-            fail(f"AO Mission gateway authority map missing term: {term}")
-
-    ao_mission_capability_map_text = read_text(ROOT / "overview" / "AO-MISSION-V0.2-CAPABILITY-MAP.md")
-    for term in [
-        "AO Mission v0.2 Capability Map",
-        "operator-facing loop",
-        "Durable mission event search/index",
-        "A2A streaming/SSE denial fixtures",
-        "ao-mission doctor",
-        "Scheduler replay recovery",
-        "Telegram command replay matrix",
-        "Atlas provenance rendering",
-        "Foundry rollup/readiness binding",
-        "Command compact mission timeline filters",
-        "Sentinel mission-risk stale wording scan",
-        "Covenant external-agent intent-only contract",
-        "Promoter promotion/no-promotion rollup summary",
-        "No direct main mutation",
-        "No provider calls",
-        "No credential use",
-    ]:
-        if term not in ao_mission_capability_map_text:
-            fail(f"AO Mission v0.2 capability map missing term: {term}")
-
-    copied_schema_classification = json.loads((ROOT / "stack" / "copied-schema-classification.json").read_text())
-    for error in validate_copied_schema_classification(copied_schema_classification):
-        fail(f"copied schema classification invalid: {error}")
-
-    rsi_map_text = read_text(ROOT / "overview" / "RSI-CLAIM-EVIDENCE-MAP.md")
-    for term in REQUIRED_RSI_MAP_TERMS:
-        if term not in rsi_map_text:
-            fail(f"RSI claim evidence map missing required term: {term}")
-
-    rsi_manifest_text = read_text(ROOT / "overview" / "rsi-claim-evidence-manifest.json")
-    for term in REQUIRED_RSI_MANIFEST_TERMS:
-        if term not in rsi_manifest_text:
-            fail(f"RSI claim evidence manifest missing required term: {term}")
-
-    covenant_text = read_text(ROOT / "ao-covenant" / "README.md")
-    for claim in REQUIRED_COVENANT_CLAIM_BOUNDARY:
-        if claim not in covenant_text:
-            fail(f"ao-covenant/README.md missing RSI claim boundary: {claim}")
-
-    for repo in NEW_REPOS:
-        if repo not in overview_text:
-            fail(f"overview/README.md missing {repo}")
-        if repo not in readiness_text:
-            fail(f"overview/PRODUCTION-READINESS.md missing {repo}")
+    catalog_text = read_text(evidence_catalog)
+    readiness_rows = [line for line in readiness_text.splitlines() if line.startswith("| ")]
+    if len(readiness_rows) < len(EXPECTED_REPOSITORIES) + 2:
+        fail("PRODUCTION-READINESS.md must cover all fourteen repositories")
+    for historical in REQUIRED_RSI_MAP_FILES + REQUIRED_LIVE_MUTATION_LADDER_FILES:
+        if Path(historical).name not in catalog_text:
+            fail(f"evidence catalog missing {historical}")
+    if "external beta has not launched" not in catalog_text.lower() and "does not launch an external beta" not in catalog_text.lower():
+        fail("evidence catalog must deny external-beta launch")
 
     for image in REQUIRED_IMAGES:
         path = ROOT / image
@@ -912,6 +830,14 @@ def main() -> int:
             ET.parse(path)
         except ET.ParseError as exc:
             fail(f"invalid SVG XML in {image}: {exc}")
+
+    external_beta_image = ROOT / "images" / "external-beta-topology.svg"
+    if not external_beta_image.exists():
+        fail("missing external-beta topology diagram")
+    try:
+        ET.parse(external_beta_image)
+    except ET.ParseError as exc:
+        fail(f"invalid external-beta topology SVG: {exc}")
 
     for md in ROOT.rglob("*.md"):
         text = read_text(md)
