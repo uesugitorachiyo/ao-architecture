@@ -1,0 +1,15 @@
+{
+  "schema": "ao.architecture.external-beta-preflight-final-rollup.v0.1",
+  "status": "preflight_documentation_ready_no_launch",
+  "tested_stack_manifest_sha256": "de7e4475acc76d5c48afd9ed22d98ac13b81cb38bfb68d4a21d1dbddb26d795f",
+  "sentinel_readback": "sentinel.json",
+  "promoter_readback": "promoter.json",
+  "command_readback": "command.json",
+  "public_wording_clear": true,
+  "promotion_requested": false,
+  "promotion_granted": false,
+  "external_beta_launched": false,
+  "provider_calls": false,
+  "release_or_publish": false,
+  "rsi_remains_denied": true
+}

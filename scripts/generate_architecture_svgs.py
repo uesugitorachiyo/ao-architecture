@@ -596,6 +596,33 @@ def foundry_portfolio() -> Svg:
     return s
 
 
+def external_beta_topology() -> Svg:
+    s = Svg(
+        "external-beta-topology.svg",
+        1440,
+        820,
+        "AO external-beta preflight topology",
+        "Current five-boundary AO product topology, with thirteen component repositories and Architecture as the canonical documentation source. External beta has not launched.",
+    )
+    s.header("Current repositories remain separate. Consolidation boundaries are planned; no migration or beta launch is implied.")
+    boundaries = [
+        ("AO control", 48, 150, 590, 220, "teal", ["Mission, Blueprint, Atlas", "Foundry, Forge, Command", "Control lifecycle and readback"]),
+        ("AO2", 678, 150, 330, 220, "blue", ["Governed local runtime", "Explicit adapters", "Provider use unauthorized here"]),
+        ("AO Covenant", 1048, 150, 344, 220, "amber", ["Independent contracts", "Policy and approvals", "Trust and revocation"]),
+        ("AO2 Control Plane", 48, 430, 410, 210, "green", ["Observer-only evidence", "Indexed storage and APIs", "No approval authority"]),
+        ("AO assurance", 498, 430, 894, 210, "violet", ["Arena and Crucible evaluate", "Sentinel monitors", "Promoter decides; activation remains outside"]),
+    ]
+    for title, x, y, w, h, fill, lines in boundaries:
+        s.card(x, y, w, h, title, lines, fill)
+    s.arrow("M638 260 L670 260")
+    s.arrow("M1008 260 L1040 260")
+    s.arrow("M843 370 C760 405 490 405 253 422", cls="dash", label="evidence", lx=590, ly=402)
+    s.arrow("M1250 370 C1230 406 1100 414 950 422", cls="dash", label="policy verdicts", lx=1090, ly=404)
+    s.arrow("M458 535 L490 535", cls="dash", label="readback", lx=458, ly=518)
+    s.note(48, 700, 1344, 62, "Preflight only: no release, deployment, publication, provider call, credential use, authority widening, promotion, external-beta launch, or RSI claim.")
+    return s
+
+
 def main() -> int:
     OUT.mkdir(exist_ok=True)
     diagrams = [
@@ -606,6 +633,7 @@ def main() -> int:
         authority_boundaries(),
         evidence_flow(),
         foundry_portfolio(),
+        external_beta_topology(),
     ]
     diagrams.extend(repo_specific())
     for diagram in diagrams:

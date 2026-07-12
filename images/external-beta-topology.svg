@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="820" viewBox="0 0 1440 820" role="img" aria-labelledby="title desc">
+  <title id="title">AO external-beta preflight topology</title>
+  <desc id="desc">Current five-boundary AO product topology, with thirteen component repositories and Architecture as the canonical documentation source. External beta has not launched.</desc>
+
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#334155"/>
+    </marker>
+    <style>
+      .bg { fill: #f6f8fb; }
+      .title { font: 700 34px Inter, Arial, sans-serif; fill: #162033; }
+      .subtitle { font: 400 16px Inter, Arial, sans-serif; fill: #526070; }
+      .band { rx: 8; }
+      .bandText { font: 700 14px Inter, Arial, sans-serif; fill: #ffffff; letter-spacing: 0; }
+      .card { stroke-width: 2; rx: 8; }
+      .note { stroke-width: 1.6; rx: 8; }
+      .cardTitle { font: 700 18px Inter, Arial, sans-serif; fill: #162033; }
+      .body { font: 500 15px Inter, Arial, sans-serif; fill: #162033; }
+      .small { font: 400 13px Inter, Arial, sans-serif; fill: #3a4758; }
+      .smallStrong { font: 700 13px Inter, Arial, sans-serif; fill: #253244; }
+      .label { font: 700 11px Inter, Arial, sans-serif; fill: #263447; }
+      .chip { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1; rx: 7; }
+      .arrow { stroke: #334155; stroke-width: 2.2; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #64748b; stroke-width: 2; stroke-dasharray: 7 7; fill: none; marker-end: url(#arrow); }
+      .soft { stroke: #94a3b8; stroke-width: 1.7; fill: none; marker-end: url(#arrow); }
+      .cell { stroke: #cbd5e1; stroke-width: 1.4; }
+      .cellHead { font: 700 14px Inter, Arial, sans-serif; fill: #162033; }
+      .cellText { font: 400 12px Inter, Arial, sans-serif; fill: #39485a; }
+    </style>
+  </defs>
+  <rect class="bg" width="1440" height="820"/>
+  <text class="title" x="48" y="58">AO external-beta preflight topology</text>
+  <text class="subtitle" x="48" y="88">Current repositories remain separate. Consolidation boundaries are planned; no migration or beta launch is implied.</text>
+  <rect class="card" x="48" y="150" width="590" height="220" fill="#e1f5ef" stroke="#64748b"/>
+  <text class="cardTitle" x="66" y="181">AO control</text>
+  <text class="small" x="66" y="208">Mission, Blueprint, Atlas</text>
+  <text class="small" x="66" y="228">Foundry, Forge, Command</text>
+  <text class="small" x="66" y="248">Control lifecycle and readback</text>
+  <rect class="card" x="678" y="150" width="330" height="220" fill="#e4f1ff" stroke="#64748b"/>
+  <text class="cardTitle" x="696" y="181">AO2</text>
+  <text class="small" x="696" y="208">Governed local runtime</text>
+  <text class="small" x="696" y="228">Explicit adapters</text>
+  <text class="small" x="696" y="248">Provider use unauthorized here</text>
+  <rect class="card" x="1048" y="150" width="344" height="220" fill="#fff2cf" stroke="#64748b"/>
+  <text class="cardTitle" x="1066" y="181">AO Covenant</text>
+  <text class="small" x="1066" y="208">Independent contracts</text>
+  <text class="small" x="1066" y="228">Policy and approvals</text>
+  <text class="small" x="1066" y="248">Trust and revocation</text>
+  <rect class="card" x="48" y="430" width="410" height="210" fill="#e9f7df" stroke="#64748b"/>
+  <text class="cardTitle" x="66" y="461">AO2 Control Plane</text>
+  <text class="small" x="66" y="488">Observer-only evidence</text>
+  <text class="small" x="66" y="508">Indexed storage and APIs</text>
+  <text class="small" x="66" y="528">No approval authority</text>
+  <rect class="card" x="498" y="430" width="894" height="210" fill="#eee8ff" stroke="#64748b"/>
+  <text class="cardTitle" x="516" y="461">AO assurance</text>
+  <text class="small" x="516" y="488">Arena and Crucible evaluate</text>
+  <text class="small" x="516" y="508">Sentinel monitors</text>
+  <text class="small" x="516" y="528">Promoter decides; activation remains outside</text>
+  <path class="arrow" d="M638 260 L670 260"/>
+  <path class="arrow" d="M1008 260 L1040 260"/>
+  <path class="dash" d="M843 370 C760 405 490 405 253 422"/>
+  <rect class="chip" x="582" y="385" width="72" height="23"/>
+  <text class="label" x="590" y="402">evidence</text>
+  <path class="dash" d="M1250 370 C1230 406 1100 414 950 422"/>
+  <rect class="chip" x="1082" y="387" width="121" height="23"/>
+  <text class="label" x="1090" y="404">policy verdicts</text>
+  <path class="dash" d="M458 535 L490 535"/>
+  <rect class="chip" x="450" y="501" width="72" height="23"/>
+  <text class="label" x="458" y="518">readback</text>
+  <rect class="note" x="48" y="700" width="1344" height="62" fill="#e8edf3" stroke="#94a3b8"/>
+  <text class="smallStrong" x="66" y="729">Preflight only: no release, deployment, publication, provider call, credential use, authority widening, promotion, external-beta launch, or RSI claim.</text>
+</svg>
