@@ -63,6 +63,12 @@ jobs:
       - name: Verify beta install preflight matrix unit tests
         run: python3 -m unittest scripts/test_verify_beta_install_preflight_matrix.py
 
+      - name: Verify beta operations SLO draft
+        run: python3 scripts/verify_beta_operations_slo_draft.py
+
+      - name: Verify beta operations SLO draft unit tests
+        run: python3 -m unittest scripts/test_verify_beta_operations_slo_draft.py
+
       - name: Public safety scan
         run: |
           pattern="ghp""_|github""_pat_|BEGIN ""RSA|BEGIN ""OPENSSH|ANTI""GRAVITY|private ""handoff|api""_key|access""_token"

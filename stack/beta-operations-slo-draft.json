@@ -1,0 +1,61 @@
+{
+  "schema": "ao.architecture.beta-operations-slo-draft.v0.1",
+  "status": "draft_planning_only",
+  "scope": "ao-stack-month6-beta-operations",
+  "source_recommendation_rank": 37,
+  "source_recommendation_task": "Create beta operations SLO draft fixture",
+  "safety_gate": "planning_only_no_provider_no_release",
+  "slos": [
+    {
+      "id": "mission_restart_recovery",
+      "owner_repo": "ao-mission",
+      "objective": "Resume an interrupted mission without losing durable checkpoints.",
+      "target": "95_percent_resume_without_manual_state_repair",
+      "measurement": "replay fixture and mission event index readback",
+      "blocks_beta": true
+    },
+    {
+      "id": "approval_digest_integrity",
+      "owner_repo": "ao-covenant",
+      "objective": "Bind approval evidence to exact proposed bytes and base commit.",
+      "target": "100_percent_gate_critical_approvals_digest_bound",
+      "measurement": "contract registry compatibility and approval packet replay",
+      "blocks_beta": true
+    },
+    {
+      "id": "rollback_receipt_latency",
+      "owner_repo": "ao2",
+      "objective": "Produce rollback receipts for bounded dry-run mutations.",
+      "target": "rollback_receipt_under_5_minutes_in_rehearsal",
+      "measurement": "rollback receipt replay fixture",
+      "blocks_beta": true
+    },
+    {
+      "id": "evidence_freshness",
+      "owner_repo": "ao-sentinel",
+      "objective": "Warn when mission evidence is stale before promotion review.",
+      "target": "100_percent_stale_evidence_warning_on_expired_inputs",
+      "measurement": "Sentinel evidence freshness warning panel",
+      "blocks_beta": true
+    },
+    {
+      "id": "operator_timeline_readback",
+      "owner_repo": "ao-command",
+      "objective": "Show pilot readiness and terminal rollup status without duplicating domain authority.",
+      "target": "100_percent_operator_readbacks_match_mission_and_control_plane_sources",
+      "measurement": "Command timeline filter and terminal rollup card fixtures",
+      "blocks_beta": true
+    }
+  ],
+  "slo_count": 5,
+  "safety": {
+    "planning_only": true,
+    "provider_calls": false,
+    "credential_use": false,
+    "release_or_publish": false,
+    "promotion_granted": false,
+    "direct_main_mutation": false,
+    "hidden_instruction_change": false,
+    "rsi_remains_denied": true
+  }
+}
