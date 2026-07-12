@@ -1,0 +1,68 @@
+{
+  "schema": "ao.architecture.beta-install-preflight-matrix.v0.1",
+  "status": "planning_only",
+  "scope": "ao-stack",
+  "source_lockfile": "stack/ao-stack.lock.json",
+  "owner": "ao-architecture",
+  "purpose": "Define the minimum preflight checks a future v0.5 beta installer must satisfy on macOS, Linux, and Windows before installation can be considered operator-ready.",
+  "platforms": [
+    {
+      "platform": "macos",
+      "runner": "macos-latest",
+      "required_checks": [
+        "stack_lock_present",
+        "native_tests_available",
+        "contract_registry_available",
+        "operator_cli_available",
+        "evidence_store_writable"
+      ],
+      "operator_readback": "The installer can locate the stack lockfile, native verification commands, contract registry, operator CLI surface, and writable evidence store on macOS before any beta install proceeds.",
+      "blocks_beta_install": true,
+      "executes_install": false
+    },
+    {
+      "platform": "linux",
+      "runner": "ubuntu-latest",
+      "required_checks": [
+        "stack_lock_present",
+        "native_tests_available",
+        "contract_registry_available",
+        "operator_cli_available",
+        "evidence_store_writable"
+      ],
+      "operator_readback": "The installer can locate the stack lockfile, native verification commands, contract registry, operator CLI surface, and writable evidence store on Linux before any beta install proceeds.",
+      "blocks_beta_install": true,
+      "executes_install": false
+    },
+    {
+      "platform": "windows",
+      "runner": "windows-latest",
+      "required_checks": [
+        "stack_lock_present",
+        "native_tests_available",
+        "contract_registry_available",
+        "operator_cli_available",
+        "evidence_store_writable"
+      ],
+      "operator_readback": "The installer can locate the stack lockfile, native verification commands, contract registry, operator CLI surface, and writable evidence store on Windows before any beta install proceeds.",
+      "blocks_beta_install": true,
+      "executes_install": false
+    }
+  ],
+  "evidence_requirements": [
+    "platform",
+    "runner",
+    "required_checks",
+    "operator_readback",
+    "blocks_beta_install",
+    "executes_install"
+  ],
+  "safety": {
+    "planning_only": true,
+    "provider_calls": false,
+    "release_or_publish": false,
+    "credential_use": false,
+    "promotion_granted": false,
+    "rsi_remains_denied": true
+  }
+}
