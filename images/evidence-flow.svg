@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="840" viewBox="0 0 1440 840" role="img" aria-labelledby="title desc">
-  <title id="title">Evidence-first orchestration workflow</title>
-  <desc id="desc">Shows execution and evidence lanes from intent through Blueprint, Atlas, Foundry, Forge, Covenant, AO2, control-plane readback, Command status, and assurance gates.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="920" viewBox="0 0 1500 920" role="img" aria-labelledby="title desc">
+  <title id="title">AO execution and evidence flow</title>
+  <desc id="desc">Operator intent enters Mission. Blueprint authorizes scope. Atlas may compile a workgraph, Foundry selects safe next work, Forge orchestrates a GoalRun, Covenant evaluates policy and approval, AO2 executes, the control plane observes evidence, assurance components evaluate results, and Command presents read-only status.</desc>
 
   <defs>
     <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
@@ -28,70 +28,81 @@
       .cellText { font: 400 12px Inter, Arial, sans-serif; fill: #39485a; }
     </style>
   </defs>
-  <rect class="bg" width="1440" height="840"/>
-  <text class="title" x="48" y="58">Evidence-first orchestration workflow</text>
-  <text class="subtitle" x="48" y="88">Every meaningful decision leaves a durable, schema-backed record.</text>
-  <rect class="band" x="48" y="118" width="1344" height="36" fill="#172033"/>
-  <text class="bandText" x="66" y="142">Execution lane: scope must be authorized and gated before side effects</text>
-  <rect class="card" x="64" y="184" width="164" height="108" fill="#e1f5ef" stroke="#64748b"/>
-  <text class="cardTitle" x="82" y="215">Intent</text>
-  <text class="small" x="82" y="242">Operator goal</text>
-  <rect class="card" x="258" y="184" width="164" height="108" fill="#fff2cf" stroke="#64748b"/>
-  <text class="cardTitle" x="276" y="215">Blueprint</text>
-  <text class="small" x="276" y="242">Authorization</text>
-  <path class="arrow" d="M228 238 L258 238"/>
-  <rect class="card" x="452" y="184" width="164" height="108" fill="#e4f1ff" stroke="#64748b"/>
-  <text class="cardTitle" x="470" y="215">Atlas</text>
-  <text class="small" x="470" y="242">Workgraph pack</text>
-  <path class="arrow" d="M422 238 L452 238"/>
-  <rect class="card" x="646" y="184" width="164" height="108" fill="#ffe9d2" stroke="#64748b"/>
-  <text class="cardTitle" x="664" y="215">Foundry</text>
-  <text class="small" x="664" y="242">Schedule next</text>
-  <path class="arrow" d="M616 238 L646 238"/>
-  <rect class="card" x="840" y="184" width="164" height="108" fill="#eee8ff" stroke="#64748b"/>
-  <text class="cardTitle" x="858" y="215">Forge</text>
-  <text class="small" x="858" y="242">GoalRun plan</text>
-  <path class="arrow" d="M810 238 L840 238"/>
-  <rect class="card" x="1034" y="184" width="164" height="108" fill="#fff2cf" stroke="#64748b"/>
-  <text class="cardTitle" x="1052" y="215">Covenant</text>
-  <text class="small" x="1052" y="242">Policy decision</text>
-  <path class="arrow" d="M1004 238 L1034 238"/>
-  <rect class="card" x="1228" y="184" width="164" height="108" fill="#e4f1ff" stroke="#64748b"/>
-  <text class="cardTitle" x="1246" y="215">AO2</text>
-  <text class="small" x="1246" y="242">Governed run</text>
-  <path class="arrow" d="M1198 238 L1228 238"/>
-  <rect class="band" x="48" y="354" width="1344" height="36" fill="#172033"/>
-  <text class="bandText" x="66" y="378">Evidence lane: decisions are exported, retained, and read back</text>
-  <rect class="card" x="64" y="420" width="164" height="108" fill="#e9f7df" stroke="#64748b"/>
-  <text class="cardTitle" x="82" y="451">Pack</text>
-  <text class="small" x="82" y="478"><tspan x="82" dy="0">Events and</tspan><tspan x="82" dy="16">digests</tspan></text>
-  <rect class="card" x="258" y="420" width="164" height="108" fill="#e9f7df" stroke="#64748b"/>
-  <text class="cardTitle" x="276" y="451">Control-plane</text>
-  <text class="small" x="276" y="478">Read-only ingest</text>
-  <path class="dash" d="M228 474 L258 474"/>
-  <rect class="card" x="452" y="420" width="164" height="108" fill="#e1f5ef" stroke="#64748b"/>
-  <text class="cardTitle" x="470" y="451">Command</text>
-  <text class="small" x="470" y="478">Operator status</text>
-  <path class="dash" d="M422 474 L452 474"/>
-  <rect class="card" x="646" y="420" width="164" height="108" fill="#e8edf3" stroke="#64748b"/>
-  <text class="cardTitle" x="664" y="451">Arena</text>
-  <text class="small" x="664" y="478">Benchmark score</text>
-  <path class="dash" d="M616 474 L646 474"/>
-  <rect class="card" x="840" y="420" width="164" height="108" fill="#e8edf3" stroke="#64748b"/>
-  <text class="cardTitle" x="858" y="451">Crucible</text>
-  <text class="small" x="858" y="478"><tspan x="858" dy="0">Hardening</tspan><tspan x="858" dy="16">evidence</tspan></text>
-  <path class="dash" d="M810 474 L840 474"/>
-  <rect class="card" x="1034" y="420" width="164" height="108" fill="#ffe7ec" stroke="#64748b"/>
-  <text class="cardTitle" x="1052" y="451">Sentinel</text>
-  <text class="small" x="1052" y="478"><tspan x="1052" dy="0">Regression</tspan><tspan x="1052" dy="16">verdict</tspan></text>
-  <path class="dash" d="M1004 474 L1034 474"/>
-  <rect class="card" x="1228" y="420" width="164" height="108" fill="#ffe9d2" stroke="#64748b"/>
-  <text class="cardTitle" x="1246" y="451">Promoter</text>
-  <text class="small" x="1246" y="478"><tspan x="1246" dy="0">Gated activation</tspan><tspan x="1246" dy="16">plan</tspan></text>
-  <path class="dash" d="M1198 474 L1228 474"/>
-  <path class="dash" d="M1310 292 V326 H32 V474 H64"/>
-  <rect class="chip" x="1002" y="301" width="121" height="23"/>
-  <text class="label" x="1010" y="318">evidence export</text>
-  <rect class="note" x="64" y="612" width="1312" height="92" fill="#e8edf3" stroke="#94a3b8"/>
-  <text class="smallStrong" x="82" y="641"><tspan x="82" dy="0">Publication boundary: full autonomous RSI claims remain denied unless separate Covenant-approved mutation authority, rollback evidence, live self-change evidence, observer readback,</tspan><tspan x="82" dy="18">public-safety review, and promotion evidence exist.</tspan></text>
+  <rect class="bg" width="1500" height="920"/>
+  <text class="title" x="48" y="58">AO execution and evidence flow</text>
+  <text class="subtitle" x="48" y="88">Execution authority and evidence readback travel on distinct paths.</text>
+  <rect class="band" x="48" y="116" width="1404" height="36" fill="#172033"/>
+  <text class="bandText" x="66" y="140">Governed work path</text>
+  <rect class="card" x="54" y="180" width="162" height="106" fill="#e1f5ef" stroke="#64748b"/>
+  <text class="cardTitle" x="72" y="211">Operator</text>
+  <text class="small" x="72" y="238">Objective</text>
+  <rect class="card" x="254" y="180" width="162" height="106" fill="#e1f5ef" stroke="#64748b"/>
+  <text class="cardTitle" x="272" y="211">Mission</text>
+  <text class="small" x="272" y="238"><tspan x="272" dy="0">Lifecycle and</tspan><tspan x="272" dy="16">route</tspan></text>
+  <rect class="card" x="454" y="180" width="162" height="106" fill="#fff2cf" stroke="#64748b"/>
+  <text class="cardTitle" x="472" y="211">Blueprint</text>
+  <text class="small" x="472" y="238"><tspan x="472" dy="0">Requirements and</tspan><tspan x="472" dy="16">authorization</tspan></text>
+  <rect class="card" x="654" y="180" width="162" height="106" fill="#e4f1ff" stroke="#64748b"/>
+  <text class="cardTitle" x="672" y="211">Atlas</text>
+  <text class="small" x="672" y="238"><tspan x="672" dy="0">Optional</tspan><tspan x="672" dy="16">workgraph and</tspan><tspan x="672" dy="16">context</tspan></text>
+  <rect class="card" x="854" y="180" width="162" height="106" fill="#ffe9d2" stroke="#64748b"/>
+  <text class="cardTitle" x="872" y="211">Foundry</text>
+  <text class="small" x="872" y="238">Safe next work</text>
+  <rect class="card" x="1054" y="180" width="162" height="106" fill="#eee8ff" stroke="#64748b"/>
+  <text class="cardTitle" x="1072" y="211">Forge</text>
+  <text class="small" x="1072" y="238"><tspan x="1072" dy="0">GoalRun</tspan><tspan x="1072" dy="16">orchestration</tspan></text>
+  <rect class="card" x="1254" y="180" width="162" height="106" fill="#fff2cf" stroke="#64748b"/>
+  <text class="cardTitle" x="1272" y="211">Covenant</text>
+  <text class="small" x="1272" y="238"><tspan x="1272" dy="0">Policy and</tspan><tspan x="1272" dy="16">approval</tspan></text>
+  <path class="arrow" d="M216 233 L246 233"/>
+  <path class="arrow" d="M416 233 L446 233"/>
+  <path class="arrow" d="M616 233 L646 233"/>
+  <path class="arrow" d="M816 233 L846 233"/>
+  <path class="arrow" d="M1016 233 L1046 233"/>
+  <path class="arrow" d="M1216 233 L1246 233"/>
+  <path class="dash" d="M535 286 C535 330 935 326 935 294"/>
+  <rect class="chip" x="642" y="307" width="156" height="23"/>
+  <text class="label" x="650" y="324">bounded direct route</text>
+  <rect class="card" x="1254" y="358" width="162" height="106" fill="#e4f1ff" stroke="#64748b"/>
+  <text class="cardTitle" x="1272" y="389">AO2</text>
+  <text class="small" x="1272" y="416"><tspan x="1272" dy="0">Governed</tspan><tspan x="1272" dy="16">execution</tspan></text>
+  <text class="small" x="1272" y="448">Run evidence</text>
+  <path class="arrow" d="M1335 286 V350"/>
+  <rect class="chip" x="1340" y="315" width="72" height="23"/>
+  <text class="label" x="1348" y="332">decision</text>
+  <rect class="band" x="48" y="526" width="1404" height="36" fill="#172033"/>
+  <text class="bandText" x="66" y="550">Observer and assurance path</text>
+  <rect class="card" x="72" y="590" width="190" height="112" fill="#e9f7df" stroke="#64748b"/>
+  <text class="cardTitle" x="90" y="621"><tspan x="90" dy="0">AO2 Control</tspan><tspan x="90" dy="19">Plane</tspan></text>
+  <text class="small" x="90" y="670">Evidence storage</text>
+  <text class="small" x="90" y="690">Read APIs</text>
+  <rect class="card" x="326" y="590" width="190" height="112" fill="#e8edf3" stroke="#64748b"/>
+  <text class="cardTitle" x="344" y="621">AO Arena</text>
+  <text class="small" x="344" y="648">Benchmark comparison</text>
+  <rect class="card" x="550" y="590" width="190" height="112" fill="#e8edf3" stroke="#64748b"/>
+  <text class="cardTitle" x="568" y="621">AO Crucible</text>
+  <text class="small" x="568" y="648">Adversarial probes</text>
+  <rect class="card" x="774" y="590" width="190" height="112" fill="#ffe7ec" stroke="#64748b"/>
+  <text class="cardTitle" x="792" y="621">AO Sentinel</text>
+  <text class="small" x="792" y="648">Monitoring and holds</text>
+  <rect class="card" x="998" y="590" width="190" height="112" fill="#ffe9d2" stroke="#64748b"/>
+  <text class="cardTitle" x="1016" y="621">AO Promoter</text>
+  <text class="small" x="1016" y="648">Candidate decision</text>
+  <text class="small" x="1016" y="668">No activation</text>
+  <rect class="card" x="1242" y="590" width="190" height="112" fill="#e1f5ef" stroke="#64748b"/>
+  <text class="cardTitle" x="1260" y="621">AO Command</text>
+  <text class="small" x="1260" y="648"><tspan x="1260" dy="0">Read-only</tspan><tspan x="1260" dy="16">presentation</tspan></text>
+  <path class="dash" d="M1254 411 C1140 500 600 510 167 582"/>
+  <rect class="chip" x="752" y="485" width="121" height="23"/>
+  <text class="label" x="760" y="502">evidence export</text>
+  <path class="dash" d="M262 646 L318 646"/>
+  <path class="dash" d="M516 646 L542 646"/>
+  <path class="dash" d="M740 646 L766 646"/>
+  <path class="dash" d="M964 646 L990 646"/>
+  <path class="dash" d="M1188 646 L1234 646"/>
+  <path class="dash" d="M1337 702 V760 H20 V233 H246"/>
+  <rect class="chip" x="646" y="737" width="128" height="23"/>
+  <text class="label" x="654" y="754">mission readback</text>
+  <rect class="note" x="72" y="788" width="1360" height="68" fill="#e8edf3" stroke="#94a3b8"/>
+  <text class="smallStrong" x="90" y="817">The control plane observes evidence. Command presents it. Promoter evaluates candidate evidence and previews a decision and rollback plan; it does not perform activation.</text>
 </svg>
