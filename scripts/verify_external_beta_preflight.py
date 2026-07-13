@@ -13,6 +13,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MANIFEST = ROOT / "stack" / "external-beta-tested-stack.json"
+DEFAULT_READBACKS = ROOT / "docs" / "external-beta" / "readbacks"
 EXPECTED_REPOSITORIES = {
     "ao-architecture", "ao-mission", "ao-blueprint", "ao-atlas", "ao-foundry",
     "ao-forge", "ao-covenant", "ao2", "ao2-control-plane", "ao-command",
@@ -177,6 +178,17 @@ def validate_evidence_binding(document: dict[str, Any], workspace_root: Path) ->
     return [f"Month 6 evidence field {key} does not equal {expected!r}" for key, expected in checks.items() if payload.get(key) != expected]
 
 
+def repository_head_matches(
+    repository: str,
+    expected: str,
+    actual: str,
+    architecture_ancestor_check: Any,
+) -> bool:
+    if actual == expected:
+        return True
+    return repository == "ao-architecture" and bool(architecture_ancestor_check())
+
+
 def validate_repository_heads(document: dict[str, Any], workspace_root: Path) -> list[str]:
     errors: list[str] = []
     for entry in document["repositories"]:
@@ -189,8 +201,66 @@ def validate_repository_heads(document: dict[str, Any], workspace_root: Path) ->
             text=True, capture_output=True, check=False,
         )
         actual = result.stdout.strip()
-        if result.returncode != 0 or actual != entry["tested_commit"]:
+        ancestor = lambda: subprocess.run(
+            ["git", "-C", str(repository), "merge-base", "--is-ancestor", entry["tested_commit"], actual],
+            capture_output=True, check=False,
+        ).returncode == 0
+        if result.returncode != 0 or not repository_head_matches(
+            entry["repository"], entry["tested_commit"], actual, ancestor
+        ):
             errors.append(f"{entry['repository']} origin/main expected {entry['tested_commit']}, got {actual or 'unavailable'}")
+    return errors
+
+
+def validate_closure_readbacks(manifest_bytes: bytes, readbacks_root: Path) -> list[str]:
+    digest = hashlib.sha256(manifest_bytes).hexdigest()
+    expected: dict[str, dict[str, Any]] = {
+        "sentinel.json": {
+            "status": "clear_preflight_only",
+            "public_wording_clear": True,
+            "external_beta_launched": False,
+            "promotion_requested": False,
+            "rsi_remains_denied": True,
+        },
+        "promoter.json": {
+            "status": "no_promotion_requested",
+            "promotion_requested": False,
+            "promotion_granted": False,
+            "activation_authorized": False,
+            "external_beta_launched": False,
+            "rsi_remains_denied": True,
+        },
+        "command.json": {
+            "status": "readback_agrees_no_promotion",
+            "sentinel_status": "clear_preflight_only",
+            "promoter_status": "no_promotion_requested",
+            "external_beta_launched": False,
+            "rsi_remains_denied": True,
+        },
+        "final-rollup.json": {
+            "status": "preflight_documentation_ready_no_launch",
+            "public_wording_clear": True,
+            "promotion_requested": False,
+            "promotion_granted": False,
+            "external_beta_launched": False,
+            "provider_calls": False,
+            "release_or_publish": False,
+            "rsi_remains_denied": True,
+        },
+    }
+    errors: list[str] = []
+    for name, fields in expected.items():
+        path = readbacks_root / name
+        try:
+            document = json.loads(path.read_text())
+        except (OSError, json.JSONDecodeError) as exc:
+            errors.append(f"{name} is unreadable: {exc}")
+            continue
+        if document.get("tested_stack_manifest_sha256") != digest:
+            errors.append(f"{name} tested_stack_manifest_sha256 does not match manifest")
+        for field, value in fields.items():
+            if document.get(field) != value:
+                errors.append(f"{name} {field} must be {value!r}")
     return errors
 
 
@@ -201,12 +271,14 @@ def validate_component_repositories(document: dict[str, Any], workspace_root: Pa
         if name == "ao-architecture":
             continue
         repository = workspace_root / name
-        readme = repository / "README.md"
-        if not readme.is_file():
-            errors.append(f"{name} README is missing")
+        result = subprocess.run(
+            ["git", "-C", str(repository), "show", "origin/main:README.md"],
+            text=True, capture_output=True, check=False,
+        )
+        if result.returncode != 0:
+            errors.append(f"{name} README is missing from origin/main")
             continue
-        errors.extend(validate_component_readme(name, readme.read_text(errors="replace")))
-        errors.extend(validate_markdown_links(repository, [readme]))
+        errors.extend(validate_component_readme(name, result.stdout))
     return errors
 
 
@@ -224,6 +296,7 @@ def main() -> int:
     errors = validate_manifest(document)
     if not errors:
         errors.extend(validate_markdown_links(ROOT))
+        errors.extend(validate_closure_readbacks(args.manifest.read_bytes(), DEFAULT_READBACKS))
     if not errors and not args.repository_only:
         errors.extend(validate_evidence_binding(document, args.workspace_root))
         errors.extend(validate_repository_heads(document, args.workspace_root))

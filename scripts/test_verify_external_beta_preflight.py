@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import copy
+import hashlib
+import json
 import sys
 import tempfile
 import unittest
@@ -12,8 +14,10 @@ sys.path.insert(0, str(Path(__file__).parent))
 from verify_external_beta_preflight import (
     EXPECTED_REPOSITORIES,
     validate_component_readme,
+    validate_closure_readbacks,
     validate_manifest,
     validate_markdown_links,
+    repository_head_matches,
 )
 
 
@@ -127,6 +131,63 @@ External beta has not launched. No promotion is requested. RSI remains denied.
             root = Path(directory)
             (root / "README.md").write_text("[missing](docs/missing.md)\n")
             self.assertIn("missing local link", "\n".join(validate_markdown_links(root)))
+
+    def test_architecture_head_accepts_pinned_ancestor_only(self) -> None:
+        expected = "1" * 40
+        actual = "2" * 40
+        self.assertTrue(repository_head_matches("ao-architecture", expected, actual, lambda: True))
+        self.assertFalse(repository_head_matches("ao-architecture", expected, actual, lambda: False))
+        self.assertFalse(repository_head_matches("ao-mission", expected, actual, lambda: True))
+
+    def test_closure_readbacks_bind_manifest_and_denied_authority(self) -> None:
+        manifest_bytes = b'{"status":"preflight_only"}\n'
+        digest = hashlib.sha256(manifest_bytes).hexdigest()
+        documents = {
+            "sentinel.json": {
+                "status": "clear_preflight_only",
+                "tested_stack_manifest_sha256": digest,
+                "public_wording_clear": True,
+                "external_beta_launched": False,
+                "promotion_requested": False,
+                "rsi_remains_denied": True,
+            },
+            "promoter.json": {
+                "status": "no_promotion_requested",
+                "tested_stack_manifest_sha256": digest,
+                "promotion_requested": False,
+                "promotion_granted": False,
+                "activation_authorized": False,
+                "external_beta_launched": False,
+                "rsi_remains_denied": True,
+            },
+            "command.json": {
+                "status": "readback_agrees_no_promotion",
+                "tested_stack_manifest_sha256": digest,
+                "sentinel_status": "clear_preflight_only",
+                "promoter_status": "no_promotion_requested",
+                "external_beta_launched": False,
+                "rsi_remains_denied": True,
+            },
+            "final-rollup.json": {
+                "status": "preflight_documentation_ready_no_launch",
+                "tested_stack_manifest_sha256": digest,
+                "public_wording_clear": True,
+                "promotion_requested": False,
+                "promotion_granted": False,
+                "external_beta_launched": False,
+                "provider_calls": False,
+                "release_or_publish": False,
+                "rsi_remains_denied": True,
+            },
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for name, document in documents.items():
+                (root / name).write_text(json.dumps(document))
+            self.assertEqual(validate_closure_readbacks(manifest_bytes, root), [])
+            documents["promoter.json"]["promotion_requested"] = True
+            (root / "promoter.json").write_text(json.dumps(documents["promoter.json"]))
+            self.assertIn("promoter.json promotion_requested", "\n".join(validate_closure_readbacks(manifest_bytes, root)))
 
 
 if __name__ == "__main__":
