@@ -233,8 +233,6 @@ provider calls disabled, and repository mutation outside AO Command and Atlas.
 
 ## Governed Live-Mutation Boundary
 
-![First docs-only live mutation boundary](images/live-mutation-boundary.svg)
-
 The stack now has a governed mutation-class ladder, not broad live mutation
 authority. The architecture source of truth is
 [overview/MUTATION-AUTHORITY-LADDER.md](overview/MUTATION-AUTHORITY-LADDER.md).

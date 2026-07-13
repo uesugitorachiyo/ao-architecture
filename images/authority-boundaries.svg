@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1480" height="1120" viewBox="0 0 1480 1120" role="img" aria-labelledby="title desc">
-  <title id="title">Authority boundaries keep the factory auditable</title>
-  <desc id="desc">Repository ownership table showing what each AO repository owns and must not own.</desc>
+  <title id="title">Authority boundaries keep AO auditable</title>
+  <desc id="desc">Repository ownership table for the operator lifecycle, requirements, workgraph compilation, portfolio coordination, per-run orchestration, policy, execution, observation, presentation, and assurance components.</desc>
 
   <defs>
     <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
@@ -29,72 +29,72 @@
     </style>
   </defs>
   <rect class="bg" width="1480" height="1120"/>
-  <text class="title" x="48" y="58">Authority boundaries keep the factory auditable</text>
-  <text class="subtitle" x="48" y="88">No repository writes its own permission slip.</text>
+  <text class="title" x="48" y="58">Authority boundaries keep AO auditable</text>
+  <text class="subtitle" x="48" y="88">Each component owns one decision surface; no component writes its own permission slip.</text>
   <rect class="cell" x="48" y="130" width="1385" height="42" fill="#172033"/>
-  <text class="bandText" x="62" y="157">Repository</text>
+  <text class="bandText" x="62" y="157">Component</text>
   <text class="bandText" x="267" y="157">Owns</text>
-  <text class="bandText" x="822" y="157">Must not own</text>
+  <text class="bandText" x="822" y="157">Does not own</text>
   <rect class="cell" x="48" y="172" width="205" height="82" fill="#ffffff"/>
   <text class="cellHead" x="62" y="199">AO Mission</text>
   <rect class="cell" x="253" y="172" width="555" height="82" fill="#ffffff"/>
-  <text class="cellText" x="267" y="199"><tspan x="267" dy="0">Mission records, gateway intents, route decisions, governance snapshots,</tspan><tspan x="267" dy="16">archive/recovery/compaction readbacks</tspan></text>
+  <text class="cellText" x="267" y="199">Mission state, routing, continuation, recovery, operator lifecycle metrics</text>
   <rect class="cell" x="808" y="172" width="625" height="82" fill="#ffffff"/>
-  <text class="cellText" x="822" y="199">Execution, approval, provider calls, repository mutation, authority widening</text>
+  <text class="cellText" x="822" y="199">Requirements authorization, work execution, policy approval, provider calls</text>
   <rect class="cell" x="48" y="254" width="205" height="82" fill="#e8edf3"/>
   <text class="cellHead" x="62" y="281">AO Blueprint</text>
   <rect class="cell" x="253" y="254" width="555" height="82" fill="#e8edf3"/>
-  <text class="cellText" x="267" y="281"><tspan x="267" dy="0">Requirements interview, blueprint pack, sufficiency audit, build</tspan><tspan x="267" dy="16">authorization</tspan></text>
+  <text class="cellText" x="267" y="281">Requirements clarification and bounded build authorization</text>
   <rect class="cell" x="808" y="254" width="625" height="82" fill="#e8edf3"/>
-  <text class="cellText" x="822" y="281">Scheduling, execution, policy approval, provider calls, self-approving self-change</text>
+  <text class="cellText" x="822" y="281">Portfolio scheduling, execution, policy decisions, self-approval</text>
   <rect class="cell" x="48" y="336" width="205" height="82" fill="#ffffff"/>
   <text class="cellHead" x="62" y="363">AO Atlas</text>
   <rect class="cell" x="253" y="336" width="555" height="82" fill="#ffffff"/>
-  <text class="cellText" x="267" y="363"><tspan x="267" dy="0">Stack instances, workgraphs, context packs, Foundry handoff, run-link</tspan><tspan x="267" dy="16">readback</tspan></text>
+  <text class="cellText" x="267" y="363">Workgraph and context-pack compilation when required</text>
   <rect class="cell" x="808" y="336" width="625" height="82" fill="#ffffff"/>
-  <text class="cellText" x="822" y="363">Scheduling, execution, approval, publication, providers, sibling repository mutation</text>
+  <text class="cellText" x="822" y="363">Scheduling, execution, approvals, publication, sibling mutation</text>
   <rect class="cell" x="48" y="418" width="205" height="82" fill="#e8edf3"/>
   <text class="cellHead" x="62" y="445">AO Foundry</text>
   <rect class="cell" x="253" y="418" width="555" height="82" fill="#e8edf3"/>
-  <text class="cellText" x="267" y="445"><tspan x="267" dy="0">Portfolio queue, active-stack readiness, release trains, one-slice PR</tspan><tspan x="267" dy="16">lifecycle</tspan></text>
+  <text class="cellText" x="267" y="445">Portfolio coordination and safe-next-work selection</text>
   <rect class="cell" x="808" y="418" width="625" height="82" fill="#e8edf3"/>
-  <text class="cellText" x="822" y="445">Individual governed execution or side-effect approval</text>
+  <text class="cellText" x="822" y="445">Per-run execution, policy approval, activation</text>
   <rect class="cell" x="48" y="500" width="205" height="82" fill="#ffffff"/>
   <text class="cellHead" x="62" y="527">AO Forge</text>
   <rect class="cell" x="253" y="500" width="555" height="82" fill="#ffffff"/>
-  <text class="cellText" x="267" y="527">One governed factory run, GoalRun state, plans, gates, retained evidence</text>
+  <text class="cellText" x="267" y="527">Per-GoalRun orchestration, plans, delegation, retained run evidence</text>
   <rect class="cell" x="808" y="500" width="625" height="82" fill="#ffffff"/>
-  <text class="cellText" x="822" y="527">Provider execution, final policy authority, observer dashboard storage</text>
+  <text class="cellText" x="822" y="527">Provider execution, policy authority, observer storage</text>
   <rect class="cell" x="48" y="582" width="205" height="82" fill="#e8edf3"/>
   <text class="cellHead" x="62" y="609">AO Covenant</text>
   <rect class="cell" x="253" y="582" width="555" height="82" fill="#e8edf3"/>
-  <text class="cellText" x="267" y="609">Policy, trust, approval tickets, side-effect gates, claim vocabulary</text>
+  <text class="cellText" x="267" y="609">Contracts, policy, approvals, trust, revocation</text>
   <rect class="cell" x="808" y="582" width="625" height="82" fill="#e8edf3"/>
-  <text class="cellText" x="822" y="609">Whole-factory scheduling, all evidence storage, operator dashboard UX</text>
+  <text class="cellText" x="822" y="609">Portfolio scheduling, execution, operator presentation</text>
   <rect class="cell" x="48" y="664" width="205" height="82" fill="#ffffff"/>
   <text class="cellHead" x="62" y="691">AO2</text>
   <rect class="cell" x="253" y="664" width="555" height="82" fill="#ffffff"/>
-  <text class="cellText" x="267" y="691"><tspan x="267" dy="0">Governed local execution, adapters, exact-digest approvals, evaluator</tspan><tspan x="267" dy="16">closure</tspan></text>
+  <text class="cellText" x="267" y="691">Governed execution, adapters, exact-scope receipts, rollback evidence</text>
   <rect class="cell" x="808" y="664" width="625" height="82" fill="#ffffff"/>
-  <text class="cellText" x="822" y="691">Cross-repository scheduling, release promotion policy, observer storage</text>
+  <text class="cellText" x="822" y="691">Cross-repository scheduling, policy ownership, observer storage</text>
   <rect class="cell" x="48" y="746" width="205" height="82" fill="#e8edf3"/>
-  <text class="cellHead" x="62" y="773">Control plane</text>
+  <text class="cellHead" x="62" y="773">AO2 Control Plane</text>
   <rect class="cell" x="253" y="746" width="555" height="82" fill="#e8edf3"/>
-  <text class="cellText" x="267" y="773">Signed ingest, content-addressed storage, read APIs, dashboards</text>
+  <text class="cellText" x="267" y="773">Observer-only evidence storage, indexing, and read APIs</text>
   <rect class="cell" x="808" y="746" width="625" height="82" fill="#e8edf3"/>
-  <text class="cellText" x="822" y="773">Approving AO2 runs, executing providers, deciding release readiness</text>
+  <text class="cellText" x="822" y="773">Approving or executing work, deciding candidate acceptance</text>
   <rect class="cell" x="48" y="828" width="205" height="82" fill="#ffffff"/>
   <text class="cellHead" x="62" y="855">AO Command</text>
   <rect class="cell" x="253" y="828" width="555" height="82" fill="#ffffff"/>
-  <text class="cellText" x="267" y="855"><tspan x="267" dy="0">Read-only status, stack summaries, evidence validation, next-action</tspan><tspan x="267" dy="16">display</tspan></text>
+  <text class="cellText" x="267" y="855">Read-only operator presentation of status, evidence, and next actions</text>
   <rect class="cell" x="808" y="828" width="625" height="82" fill="#ffffff"/>
-  <text class="cellText" x="822" y="855">Policy replacement, provider execution, release mutation, repository mutation</text>
+  <text class="cellText" x="822" y="855">Scheduling, policy replacement, execution, repository mutation</text>
   <rect class="cell" x="48" y="910" width="205" height="82" fill="#e8edf3"/>
-  <text class="cellHead" x="62" y="937">Assurance</text>
+  <text class="cellHead" x="62" y="937">AO Assurance</text>
   <rect class="cell" x="253" y="910" width="555" height="82" fill="#e8edf3"/>
-  <text class="cellText" x="267" y="937">Arena scores, Crucible probes, Sentinel holds, Promoter dry-run activation</text>
+  <text class="cellText" x="267" y="937"><tspan x="267" dy="0">Arena comparisons, Crucible probes, Sentinel holds</tspan><tspan x="267" dy="16">Promoter decisions and plan previews</tspan></text>
   <rect class="cell" x="808" y="910" width="625" height="82" fill="#e8edf3"/>
-  <text class="cellText" x="822" y="937">Overriding Covenant policy, bypassing AO2, publishing without promotion gates</text>
+  <text class="cellText" x="822" y="937">Overriding Covenant, bypassing AO2, executing activation</text>
   <rect class="note" x="48" y="1018" width="1385" height="52" fill="#e8edf3" stroke="#94a3b8"/>
-  <text class="smallStrong" x="66" y="1047">Rule: readback surfaces report evidence; they do not approve, execute, mutate, call providers, publish, or widen denied authority.</text>
+  <text class="smallStrong" x="66" y="1047">Direct bounded work may route from Blueprint to Foundry; Atlas remains the compiler for workgraph and context-heavy missions.</text>
 </svg>
