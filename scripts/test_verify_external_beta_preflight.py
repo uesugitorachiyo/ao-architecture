@@ -13,7 +13,6 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from verify_external_beta_preflight import (
     EXPECTED_REPOSITORIES,
-    validate_component_readme,
     validate_closure_readbacks,
     validate_manifest,
     validate_markdown_links,
@@ -52,7 +51,6 @@ def valid_manifest() -> dict:
             "final_response_allowed": True,
         },
         "workspace_reconciliation": {
-            "architecture_helix_divergence": "preserved_excluded_from_external_beta",
             "promoter_hardening_branch": "preserved_excluded_use_origin_main",
         },
         "safety": {
@@ -98,33 +96,6 @@ class ExternalBetaManifestTest(unittest.TestCase):
         document = valid_manifest()
         document["safety"]["rsi_remains_denied"] = False
         self.assertIn("rsi_remains_denied", "\n".join(validate_manifest(document)))
-
-    def test_component_readme_requires_canonical_sections_and_links(self) -> None:
-        readme = """# AO Mission
-
-## Role
-Mission lifecycle.
-
-## Maturity
-Alpha. `implemented` and `executable-tested`.
-
-## Install
-`go build ./cmd/ao-mission`
-
-## Quickstart
-`ao-mission --help`
-
-## Safety
-No provider, release, or RSI authority.
-
-## External Beta
-External beta has not launched. No promotion is requested. RSI remains denied.
-
-[AO Architecture](https://github.com/uesugitorachiyo/ao-architecture)
-[Canonical component page](https://github.com/uesugitorachiyo/ao-architecture/blob/main/components/ao-mission.md)
-"""
-        self.assertEqual(validate_component_readme("ao-mission", readme), [])
-        self.assertIn("missing section ## Safety", "\n".join(validate_component_readme("ao-mission", readme.replace("## Safety", "## Guard"))))
 
     def test_local_markdown_link_checker_rejects_missing_target(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

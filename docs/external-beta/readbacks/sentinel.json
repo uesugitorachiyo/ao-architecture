@@ -1,7 +1,7 @@
 {
   "schema": "ao.sentinel.external-beta-preflight-wording.v0.1",
   "status": "clear_preflight_only",
-  "tested_stack_manifest_sha256": "19b6a0ef12ecf0ea108965381b92bf473d1884fbfd1eb6cdfe6557676f336299",
+  "tested_stack_manifest_sha256": "2fd6184e94b335a80e8251f9d65ddd9660eae0212eb251318a11579c7941587e",
   "public_wording_clear": true,
   "external_beta_launched": false,
   "promotion_requested": false,

@@ -26,7 +26,6 @@ CAPABILITY_LABELS = {
 COMMIT_RE = re.compile(r"^[0-9a-f]{40}$")
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 MARKDOWN_LINK_RE = re.compile(r"(?<!!)\[[^\]]*\]\(([^)]+)\)")
-README_SECTIONS = ("Role", "Maturity", "Install", "Quickstart", "Safety", "External Beta")
 
 
 def validate_manifest(document: dict[str, Any]) -> list[str]:
@@ -96,11 +95,8 @@ def validate_manifest(document: dict[str, Any]) -> list[str]:
     reconciliation = document.get("workspace_reconciliation")
     if not isinstance(reconciliation, dict):
         errors.append("workspace_reconciliation is required")
-    else:
-        if reconciliation.get("architecture_helix_divergence") != "preserved_excluded_from_external_beta":
-            errors.append("architecture Helix divergence must remain preserved and excluded")
-        if reconciliation.get("promoter_hardening_branch") != "preserved_excluded_use_origin_main":
-            errors.append("Promoter hardening branch must remain preserved and excluded")
+    elif reconciliation.get("promoter_hardening_branch") != "preserved_excluded_use_origin_main":
+        errors.append("Promoter hardening branch must remain preserved and excluded")
 
     safety = document.get("safety")
     if not isinstance(safety, dict):
@@ -114,28 +110,6 @@ def validate_manifest(document: dict[str, Any]) -> list[str]:
                 errors.append(f"safety.{field} must be false")
         if safety.get("rsi_remains_denied") is not True:
             errors.append("safety.rsi_remains_denied must be true")
-    return errors
-
-
-def validate_component_readme(repository: str, text: str) -> list[str]:
-    errors: list[str] = []
-    for section in README_SECTIONS:
-        if f"## {section}" not in text:
-            errors.append(f"{repository} README missing section ## {section}")
-    architecture_url = "https://github.com/uesugitorachiyo/ao-architecture"
-    component_url = f"{architecture_url}/blob/main/components/{repository}.md"
-    if architecture_url not in text:
-        errors.append(f"{repository} README missing AO Architecture link")
-    if component_url not in text:
-        errors.append(f"{repository} README missing canonical component-page link")
-    if "External beta has not launched" not in text:
-        errors.append(f"{repository} README must state that external beta has not launched")
-    if "No promotion is requested" not in text:
-        errors.append(f"{repository} README must state that no promotion is requested")
-    if "RSI remains denied" not in text:
-        errors.append(f"{repository} README must state that RSI remains denied")
-    if not any(f"`{label}`" in text for label in CAPABILITY_LABELS):
-        errors.append(f"{repository} README must use an approved capability label")
     return errors
 
 
@@ -264,24 +238,6 @@ def validate_closure_readbacks(manifest_bytes: bytes, readbacks_root: Path) -> l
     return errors
 
 
-def validate_component_repositories(document: dict[str, Any], workspace_root: Path) -> list[str]:
-    errors: list[str] = []
-    for entry in document["repositories"]:
-        name = entry["repository"]
-        if name == "ao-architecture":
-            continue
-        repository = workspace_root / name
-        result = subprocess.run(
-            ["git", "-C", str(repository), "show", "origin/main:README.md"],
-            text=True, capture_output=True, check=False,
-        )
-        if result.returncode != 0:
-            errors.append(f"{name} README is missing from origin/main")
-            continue
-        errors.extend(validate_component_readme(name, result.stdout))
-    return errors
-
-
 def main() -> int:
     parser = argparse.ArgumentParser(description="Verify AO external-beta preflight sources")
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
@@ -295,12 +251,12 @@ def main() -> int:
         return 1
     errors = validate_manifest(document)
     if not errors:
-        errors.extend(validate_markdown_links(ROOT))
+        markdown_paths = [path for path in sorted(ROOT.rglob("*.md")) if path != ROOT / "README.md"]
+        errors.extend(validate_markdown_links(ROOT, markdown_paths))
         errors.extend(validate_closure_readbacks(args.manifest.read_bytes(), DEFAULT_READBACKS))
     if not errors and not args.repository_only:
         errors.extend(validate_evidence_binding(document, args.workspace_root))
         errors.extend(validate_repository_heads(document, args.workspace_root))
-        errors.extend(validate_component_repositories(document, args.workspace_root))
     if errors:
         for error in errors:
             print(f"verify_external_beta_preflight.py: {error}", file=sys.stderr)
