@@ -31,7 +31,6 @@
     "final_response_allowed": true
   },
   "workspace_reconciliation": {
-    "architecture_helix_divergence": "preserved_excluded_from_external_beta",
     "promoter_hardening_branch": "preserved_excluded_use_origin_main"
   },
   "safety": {

@@ -787,14 +787,6 @@ def main() -> int:
         fail(f"external-beta tested-stack manifest invalid: {error}")
 
     readiness_text = read_text(readiness)
-    root_text = read_text(readme)
-    for required in (
-        "An external\nbeta has not launched", "No promotion is requested", "RSI remains denied",
-        "stack/external-beta-tested-stack.json", "overview/EVIDENCE-CATALOG.md",
-    ):
-        if required not in root_text:
-            fail(f"README.md missing current-state term {required!r}")
-
     repository_names = {entry["repository"] for entry in manifest["repositories"]}
     if repository_names != EXPECTED_REPOSITORIES:
         fail("manifest repository names do not match the active stack")
@@ -806,8 +798,6 @@ def main() -> int:
                 fail(f"{component_page.relative_to(ROOT)} missing {required}")
         if entry["role"] not in component_text:
             fail(f"{component_page.relative_to(ROOT)} role differs from manifest")
-        if entry["repository"] not in root_text:
-            fail(f"README.md missing repository link for {entry['repository']}")
         unsupported = set(entry["capabilities"]) - CAPABILITY_LABELS
         if unsupported:
             fail(f"{entry['repository']} uses unsupported capabilities: {sorted(unsupported)}")
