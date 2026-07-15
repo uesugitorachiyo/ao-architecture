@@ -8,6 +8,8 @@ AO Architecture documents a multi-repository AI agent orchestration stack for go
 
 Use this documentation to understand the AO stack's architecture, authority boundaries, agent workflows, contracts, production-readiness gates, and evidence trails. The focus is practical orchestration: how agent work moves from portfolio scheduling to governed factory planning, local execution, policy decisions, control-plane readback, and operator-facing status.
 
+Current public release pair: [AO2 v0.5.1 with AO2 Control Plane v0.1.15](docs/current-release.md). This release-pair readback does not mark the full compatibility matrix complete, launch external beta, request promotion, or change RSI boundaries.
+
 ## What Is The AO Stack?
 
 The AO stack is a set of open architecture documents for building and operating governed AI agent systems. Instead of treating agent automation as a single chat session or unbounded background worker, the stack splits responsibility across small tools with clear boundaries:
@@ -56,12 +58,13 @@ Watch the video walkthrough: [AO Architecture on YouTube](https://youtu.be/P0Jbs
 ## Start Here
 
 1. [Overview](overview/README.md) explains how all repositories interact.
-2. [Production Readiness Checklist](overview/PRODUCTION-READINESS.md) explains the quality bar for this documentation pack.
-3. [RSI Claim Evidence Map](overview/RSI-CLAIM-EVIDENCE-MAP.md) pins the bounded/full RSI claim boundary, source artifacts, known PRs, and out-of-scope repositories.
-4. [Live Mutation Documentation Consistency Proof](overview/LIVE-MUTATION-DOCUMENTATION-CONSISTENCY.md) verifies the first-live-docs public boundary across stack docs.
-5. [AO Skills Integration SDD](overview/AO-SKILLS-INTEGRATION-SDD.md) records which Codex and Claude Code skill patterns became enforceable AO contracts and which ones remain deferred.
-6. [AO Mission v0.2 Capability Map](overview/AO-MISSION-V0.2-CAPABILITY-MAP.md) records the Mission-led operator loop and bounded hardening capabilities.
-7. Read individual repository guides when you need implementation detail:
+2. [Current Public Release Pair](docs/current-release.md) records AO2 v0.5.1 and AO2 Control Plane v0.1.15 evidence.
+3. [Production Readiness Checklist](overview/PRODUCTION-READINESS.md) explains the quality bar for this documentation pack.
+4. [RSI Claim Evidence Map](overview/RSI-CLAIM-EVIDENCE-MAP.md) pins the bounded/full RSI claim boundary, source artifacts, known PRs, and out-of-scope repositories.
+5. [Live Mutation Documentation Consistency Proof](overview/LIVE-MUTATION-DOCUMENTATION-CONSISTENCY.md) verifies the first-live-docs public boundary across stack docs.
+6. [AO Skills Integration SDD](overview/AO-SKILLS-INTEGRATION-SDD.md) records which Codex and Claude Code skill patterns became enforceable AO contracts and which ones remain deferred.
+7. [AO Mission v0.2 Capability Map](overview/AO-MISSION-V0.2-CAPABILITY-MAP.md) records the Mission-led operator loop and bounded hardening capabilities.
+8. Read individual repository guides when you need implementation detail:
 
 | Folder | Guide |
 | --- | --- |
