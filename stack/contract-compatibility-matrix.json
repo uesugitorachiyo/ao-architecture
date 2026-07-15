@@ -96,7 +96,19 @@
       "contract_family": "observer_to_operator_readback",
       "producer_contract": "dashboard_readback",
       "consumer_contract": "operator_status",
-      "compatibility_status": "pending_canonical_vectors"
+      "compatibility_status": "tested_current_release_pair",
+      "canonical_vector": {
+        "repository": "ao2-control-plane",
+        "path": "crates/ao2-cp-server/tests/fixtures/compatibility/control-plane-readback-v0.1.15.json",
+        "pr": "https://github.com/uesugitorachiyo/ao2-control-plane/pull/101",
+        "merge_commit": "20ab8140db9a7c5c0db9f8a25bb32a6b86bb8807"
+      },
+      "consumer_test": {
+        "repository": "ao-command",
+        "path": "internal/cli/cli_test.go",
+        "pr": "https://github.com/uesugitorachiyo/ao-command/pull/118",
+        "merge_commit": "772da83382d4bff2bf3b6c2c2633d9505641b2b6"
+      }
     },
     {
       "producer": "ao-arena",
@@ -151,8 +163,8 @@
     "edge_count": 16,
     "uncovered_owner_pairs": 0,
     "compatibility_gate_complete": false,
-    "canonical_vector_count": 1,
-    "consumer_test_count": 1
+    "canonical_vector_count": 2,
+    "consumer_test_count": 2
   },
   "safety": {
     "promotion_granted": false,
