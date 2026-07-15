@@ -80,7 +80,19 @@
       "contract_family": "schedule_to_goal_run",
       "producer_contract": "safe_next_work",
       "consumer_contract": "goal_run_request",
-      "compatibility_status": "pending_canonical_vectors"
+      "compatibility_status": "tested_current_release_pair",
+      "canonical_vector": {
+        "repository": "ao-foundry",
+        "path": "examples/contract-fixtures/valid/foundry-safe-next-work-to-forge-goal-run-v0.1.json",
+        "pr": "https://github.com/uesugitorachiyo/ao-foundry/pull/263",
+        "merge_commit": "f77ab33826379880dd1ffd5fc0e8895075bee53c"
+      },
+      "consumer_test": {
+        "repository": "ao-forge",
+        "path": "internal/cli/cli_test.go",
+        "pr": "https://github.com/uesugitorachiyo/ao-forge/pull/159",
+        "merge_commit": "59718f1e3a9881cf8ede530347233b0990482e99"
+      }
     },
     {
       "producer": "ao-forge",
@@ -88,7 +100,19 @@
       "contract_family": "goal_run_to_policy_gate",
       "producer_contract": "goal_run",
       "consumer_contract": "policy_ticket",
-      "compatibility_status": "pending_canonical_vectors"
+      "compatibility_status": "tested_current_release_pair",
+      "canonical_vector": {
+        "repository": "ao-forge",
+        "path": "examples/compatibility/forge-goal-run-to-covenant-policy-ticket-v0.1.json",
+        "pr": "https://github.com/uesugitorachiyo/ao-forge/pull/159",
+        "merge_commit": "59718f1e3a9881cf8ede530347233b0990482e99"
+      },
+      "consumer_test": {
+        "repository": "ao-covenant",
+        "path": "internal/cli/cli_test.go",
+        "pr": "https://github.com/uesugitorachiyo/ao-covenant/pull/128",
+        "merge_commit": "57235d899041056c6f5532db74532a0d6b286999"
+      }
     },
     {
       "producer": "ao-covenant",
@@ -96,7 +120,19 @@
       "contract_family": "approval_to_execution",
       "producer_contract": "approval_ticket",
       "consumer_contract": "approved_execution_request",
-      "compatibility_status": "pending_canonical_vectors"
+      "compatibility_status": "tested_current_release_pair",
+      "canonical_vector": {
+        "repository": "ao-covenant",
+        "path": "examples/compatibility/covenant-approval-ticket-to-ao2-approved-execution-v0.1.json",
+        "pr": "https://github.com/uesugitorachiyo/ao-covenant/pull/128",
+        "merge_commit": "57235d899041056c6f5532db74532a0d6b286999"
+      },
+      "consumer_test": {
+        "repository": "ao2",
+        "path": "tests/test_compatibility_vectors.py",
+        "pr": "https://github.com/uesugitorachiyo/ao2/pull/289",
+        "merge_commit": "cd5608193fc0001fa907f302c32051630735d08c"
+      }
     },
     {
       "producer": "ao2",
@@ -211,8 +247,8 @@
     "edge_count": 16,
     "uncovered_owner_pairs": 0,
     "compatibility_gate_complete": false,
-    "canonical_vector_count": 6,
-    "consumer_test_count": 6
+    "canonical_vector_count": 9,
+    "consumer_test_count": 9
   },
   "safety": {
     "promotion_granted": false,
