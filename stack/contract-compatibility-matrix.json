@@ -88,7 +88,19 @@
       "contract_family": "mission_to_operator_readback",
       "producer_contract": "mission_readback",
       "consumer_contract": "compact_mission_timeline",
-      "compatibility_status": "pending_canonical_vectors"
+      "compatibility_status": "tested_current_release_pair",
+      "canonical_vector": {
+        "repository": "ao-mission",
+        "path": "examples/valid/mission-status-timeline-compatibility-vector.json",
+        "pr": "https://github.com/uesugitorachiyo/ao-mission/pull/86",
+        "merge_commit": "afac2b6c4976042fb2d5c0d28bf036de7cf0c2de"
+      },
+      "consumer_test": {
+        "repository": "ao-command",
+        "path": "internal/cli/cli_test.go",
+        "pr": "https://github.com/uesugitorachiyo/ao-command/pull/119",
+        "merge_commit": "ba2f25fdd75ee3e6a2b5996fb042e0b75a8460d8"
+      }
     },
     {
       "producer": "ao2-control-plane",
@@ -163,8 +175,8 @@
     "edge_count": 16,
     "uncovered_owner_pairs": 0,
     "compatibility_gate_complete": false,
-    "canonical_vector_count": 2,
-    "consumer_test_count": 2
+    "canonical_vector_count": 3,
+    "consumer_test_count": 3
   },
   "safety": {
     "promotion_granted": false,
