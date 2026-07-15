@@ -63,6 +63,12 @@ jobs:
       - name: Verify stack lockfile unit tests
         run: python3 -m unittest scripts/test_verify_stack_lock.py
 
+      - name: Verify current release manifest
+        run: python3 scripts/verify_current_release_manifest.py
+
+      - name: Verify current release manifest unit tests
+        run: python3 -m unittest scripts/test_verify_current_release_manifest.py
+
       - name: Verify beta install preflight matrix
         run: python3 scripts/verify_beta_install_preflight_matrix.py
 
