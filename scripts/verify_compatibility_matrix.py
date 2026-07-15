@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Any
@@ -25,6 +26,41 @@ ACTIVE_REPOSITORIES = {
     "ao-sentinel",
     "ao-promoter",
 }
+COMPATIBILITY_STATUSES = {"pending_canonical_vectors", "tested_current_release_pair"}
+COMMIT_RE = r"^[0-9a-f]{40}$"
+
+
+def validate_proof_block(
+    errors: list[str],
+    edge: dict[str, Any],
+    edge_index: int,
+    field: str,
+    expected_repository: str,
+) -> bool:
+    proof = edge.get(field)
+    if not isinstance(proof, dict):
+        errors.append(f"edges[{edge_index}].{field} is required for tested edges")
+        return False
+    ok = True
+    if proof.get("repository") != expected_repository:
+        errors.append(f"edges[{edge_index}].{field}.repository must be {expected_repository}")
+        ok = False
+    path = proof.get("path")
+    if not isinstance(path, str) or not path:
+        errors.append(f"edges[{edge_index}].{field}.path is required")
+        ok = False
+    elif path.startswith("/") or ".." in path.split("/"):
+        errors.append(f"edges[{edge_index}].{field}.path must be repository-relative")
+        ok = False
+    pr = proof.get("pr")
+    if not isinstance(pr, str) or not pr.startswith("https://github.com/uesugitorachiyo/"):
+        errors.append(f"edges[{edge_index}].{field}.pr must point to a public GitHub PR")
+        ok = False
+    merge_commit = proof.get("merge_commit")
+    if not isinstance(merge_commit, str) or not re.fullmatch(COMMIT_RE, merge_commit):
+        errors.append(f"edges[{edge_index}].{field}.merge_commit must be a 40-character commit")
+        ok = False
+    return ok
 
 
 def validate_document(document: dict[str, Any], expected_repositories: set[str] | None = None) -> list[str]:
@@ -44,6 +80,7 @@ def validate_document(document: dict[str, Any], expected_repositories: set[str] 
         errors.append("edges must be a non-empty array")
         edges = []
     pairs: set[tuple[str, str, str]] = set()
+    tested_edge_count = 0
     for index, edge in enumerate(edges):
         if not isinstance(edge, dict):
             errors.append(f"edges[{index}] must be an object")
@@ -59,8 +96,17 @@ def validate_document(document: dict[str, Any], expected_repositories: set[str] 
             errors.append(f"edges[{index}].consumer is not an active repository")
         if producer == consumer:
             errors.append(f"edges[{index}] producer and consumer must differ")
-        if edge.get("compatibility_status") != "pending_canonical_vectors":
-            errors.append(f"edges[{index}].compatibility_status must remain pending_canonical_vectors")
+        compatibility_status = edge.get("compatibility_status")
+        if compatibility_status not in COMPATIBILITY_STATUSES:
+            errors.append(
+                f"edges[{index}].compatibility_status must be pending_canonical_vectors or tested_current_release_pair"
+            )
+        if compatibility_status == "tested_current_release_pair":
+            tested_edge_count += 1
+            validate_proof_block(errors, edge, index, "canonical_vector", str(producer))
+            validate_proof_block(errors, edge, index, "consumer_test", str(consumer))
+        elif "canonical_vector" in edge or "consumer_test" in edge:
+            errors.append(f"edges[{index}] pending edges must not carry tested evidence blocks")
         key = (str(producer), str(consumer), str(edge.get("contract_family")))
         if key in pairs:
             errors.append(f"edges[{index}] duplicates a producer/consumer contract family")
@@ -76,6 +122,10 @@ def validate_document(document: dict[str, Any], expected_repositories: set[str] 
             errors.append("coverage.uncovered_owner_pairs must be zero")
         if coverage.get("compatibility_gate_complete") is not False:
             errors.append("coverage.compatibility_gate_complete must remain false")
+        if coverage.get("canonical_vector_count") != tested_edge_count:
+            errors.append("coverage.canonical_vector_count must equal tested edge count")
+        if coverage.get("consumer_test_count") != tested_edge_count:
+            errors.append("coverage.consumer_test_count must equal tested edge count")
 
     safety = document.get("safety")
     if not isinstance(safety, dict):
@@ -104,7 +154,11 @@ def main() -> int:
         for error in errors:
             print(f"verify_compatibility_matrix.py: {error}", file=sys.stderr)
         return 1
-    print(f"verify_compatibility_matrix.py: validated {len(document['edges'])} pending producer/consumer edges")
+    print(
+        "verify_compatibility_matrix.py: validated "
+        f"{len(document['edges'])} producer/consumer edges; "
+        f"{document['coverage']['canonical_vector_count']} tested"
+    )
     return 0
 
 
