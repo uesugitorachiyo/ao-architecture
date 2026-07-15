@@ -60,7 +60,19 @@
       "contract_family": "workgraph_to_schedule",
       "producer_contract": "foundry_import",
       "consumer_contract": "portfolio_task",
-      "compatibility_status": "pending_canonical_vectors"
+      "compatibility_status": "tested_current_release_pair",
+      "canonical_vector": {
+        "repository": "ao-atlas",
+        "path": "examples/valid/atlas-workgraph-to-foundry-safe-next-work-compatibility-vector.json",
+        "pr": "https://github.com/uesugitorachiyo/ao-atlas/pull/732",
+        "merge_commit": "4f03155ff683241fcce8f9203f702920786a01f4"
+      },
+      "consumer_test": {
+        "repository": "ao-foundry",
+        "path": "internal/cli/cli_test.go",
+        "pr": "https://github.com/uesugitorachiyo/ao-foundry/pull/262",
+        "merge_commit": "e63f341bd25d23a53e2d11db84e7d75083326680"
+      }
     },
     {
       "producer": "ao-foundry",
@@ -199,8 +211,8 @@
     "edge_count": 16,
     "uncovered_owner_pairs": 0,
     "compatibility_gate_complete": false,
-    "canonical_vector_count": 5,
-    "consumer_test_count": 5
+    "canonical_vector_count": 6,
+    "consumer_test_count": 6
   },
   "safety": {
     "promotion_granted": false,
