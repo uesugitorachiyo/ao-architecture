@@ -65,13 +65,13 @@
         "repository": "ao-atlas",
         "path": "examples/valid/atlas-workgraph-to-foundry-safe-next-work-compatibility-vector.json",
         "pr": "https://github.com/uesugitorachiyo/ao-atlas/pull/732",
-        "merge_commit": "4f03155ff683241fcce8f9203f702920786a01f4"
+        "merge_commit": "4f03155f6a76af8aa3c688d30a862fdb84b866d4"
       },
       "consumer_test": {
         "repository": "ao-foundry",
         "path": "internal/cli/cli_test.go",
         "pr": "https://github.com/uesugitorachiyo/ao-foundry/pull/262",
-        "merge_commit": "e63f341bd25d23a53e2d11db84e7d75083326680"
+        "merge_commit": "e63f341b0970d4844e0325924999e540bee229d4"
       }
     },
     {
