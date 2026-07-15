@@ -102,10 +102,12 @@ def validate_manifest(document: dict[str, Any]) -> list[str]:
             errors.append("pairing.full_stack_compatibility_complete must remain false")
         if pairing.get("compatibility_matrix_status") != "proposed":
             errors.append("pairing.compatibility_matrix_status must remain proposed")
-        if pairing.get("canonical_vector_count") != 0:
-            errors.append("pairing.canonical_vector_count must remain 0 until vectors are added")
-        if pairing.get("consumer_test_count") != 0:
-            errors.append("pairing.consumer_test_count must remain 0 until consumer tests are added")
+        canonical_vector_count = pairing.get("canonical_vector_count")
+        consumer_test_count = pairing.get("consumer_test_count")
+        if not isinstance(canonical_vector_count, int) or canonical_vector_count < 0:
+            errors.append("pairing.canonical_vector_count must be a non-negative integer")
+        if not isinstance(consumer_test_count, int) or consumer_test_count < 0:
+            errors.append("pairing.consumer_test_count must be a non-negative integer")
 
     boundaries = document.get("boundaries")
     if not isinstance(boundaries, dict):

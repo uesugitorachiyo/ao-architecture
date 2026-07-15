@@ -68,7 +68,19 @@
       "contract_family": "execution_to_observation",
       "producer_contract": "execution_receipt",
       "consumer_contract": "evidence_event",
-      "compatibility_status": "pending_canonical_vectors"
+      "compatibility_status": "tested_current_release_pair",
+      "canonical_vector": {
+        "repository": "ao2",
+        "path": "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.1.json",
+        "pr": "https://github.com/uesugitorachiyo/ao2/pull/288",
+        "merge_commit": "5b568830360baac6198a653737f60abab393eec7"
+      },
+      "consumer_test": {
+        "repository": "ao2-control-plane",
+        "path": "crates/ao2-cp-server/tests/compatibility_vectors.rs",
+        "pr": "https://github.com/uesugitorachiyo/ao2-control-plane/pull/100",
+        "merge_commit": "3e57d80c6be05490930294a7d3ab4664d2856b55"
+      }
     },
     {
       "producer": "ao-mission",
@@ -139,8 +151,8 @@
     "edge_count": 16,
     "uncovered_owner_pairs": 0,
     "compatibility_gate_complete": false,
-    "canonical_vector_count": 0,
-    "consumer_test_count": 0
+    "canonical_vector_count": 1,
+    "consumer_test_count": 1
   },
   "safety": {
     "promotion_granted": false,
