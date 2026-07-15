@@ -12,7 +12,19 @@
       "contract_family": "authority_and_topology",
       "producer_contract": "authority_inventory",
       "consumer_contract": "mission_route_context",
-      "compatibility_status": "pending_canonical_vectors"
+      "compatibility_status": "tested_current_release_pair",
+      "canonical_vector": {
+        "repository": "ao-architecture",
+        "path": "stack/fixtures/compatibility/architecture-route-context-v0.1.json",
+        "pr": "https://github.com/uesugitorachiyo/ao-architecture/pull/113",
+        "merge_commit": "417dc64b5805ab5aabc5e7d6a5a015e156ecf6b8"
+      },
+      "consumer_test": {
+        "repository": "ao-mission",
+        "path": "internal/mission/mission_test.go",
+        "pr": "https://github.com/uesugitorachiyo/ao-mission/pull/88",
+        "merge_commit": "6823f4eb82a89abe46ce484533d929649d09d8ad"
+      }
     },
     {
       "producer": "ao-architecture",
@@ -175,8 +187,8 @@
     "edge_count": 16,
     "uncovered_owner_pairs": 0,
     "compatibility_gate_complete": false,
-    "canonical_vector_count": 3,
-    "consumer_test_count": 3
+    "canonical_vector_count": 4,
+    "consumer_test_count": 4
   },
   "safety": {
     "promotion_granted": false,
