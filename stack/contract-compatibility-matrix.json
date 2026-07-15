@@ -40,7 +40,19 @@
       "contract_family": "requirements_to_workgraph",
       "producer_contract": "blueprint_pack",
       "consumer_contract": "context_pack_and_workgraph",
-      "compatibility_status": "pending_canonical_vectors"
+      "compatibility_status": "tested_current_release_pair",
+      "canonical_vector": {
+        "repository": "ao-blueprint",
+        "path": "examples/compatibility/blueprint-authorization-to-atlas-context-v0.1.json",
+        "pr": "https://github.com/uesugitorachiyo/ao-blueprint/pull/46",
+        "merge_commit": "2be0647f28b0ccc3222a5f6c4a4676dfd9bba946"
+      },
+      "consumer_test": {
+        "repository": "ao-atlas",
+        "path": "internal/atlas/atlas_test.go",
+        "pr": "https://github.com/uesugitorachiyo/ao-atlas/pull/731",
+        "merge_commit": "76303c122352b1deac63670e203bdb941ac4a3cc"
+      }
     },
     {
       "producer": "ao-atlas",
@@ -187,8 +199,8 @@
     "edge_count": 16,
     "uncovered_owner_pairs": 0,
     "compatibility_gate_complete": false,
-    "canonical_vector_count": 4,
-    "consumer_test_count": 4
+    "canonical_vector_count": 5,
+    "consumer_test_count": 5
   },
   "safety": {
     "promotion_granted": false,
