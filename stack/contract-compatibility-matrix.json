@@ -32,7 +32,19 @@
       "contract_family": "authority_and_topology",
       "producer_contract": "topology_adr",
       "consumer_contract": "authorization_scope",
-      "compatibility_status": "pending_canonical_vectors"
+      "compatibility_status": "tested_current_release_pair",
+      "canonical_vector": {
+        "repository": "ao-architecture",
+        "path": "stack/fixtures/compatibility/architecture-source-truth-to-blueprint-authorization-scope-v0.1.json",
+        "pr": "https://github.com/uesugitorachiyo/ao-architecture/pull/121",
+        "merge_commit": "10f749f315590a9f33961e98a93d75b4b04b27f3"
+      },
+      "consumer_test": {
+        "repository": "ao-blueprint",
+        "path": "internal/cli/cli_test.go",
+        "pr": "https://github.com/uesugitorachiyo/ao-blueprint/pull/47",
+        "merge_commit": "a4313b066cf3c9d969a9ed9a932c649ac5eda84e"
+      }
     },
     {
       "producer": "ao-blueprint",
@@ -319,8 +331,8 @@
     "edge_count": 16,
     "uncovered_owner_pairs": 0,
     "compatibility_gate_complete": false,
-    "canonical_vector_count": 15,
-    "consumer_test_count": 15
+    "canonical_vector_count": 16,
+    "consumer_test_count": 16
   },
   "safety": {
     "promotion_granted": false,
