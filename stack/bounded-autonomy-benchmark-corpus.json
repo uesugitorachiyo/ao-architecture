@@ -1,0 +1,63 @@
+{
+  "schema": "ao.architecture.bounded-autonomy-benchmark-corpus.v0.1",
+  "benchmark_version": "bounded-autonomy-month1-v0.1",
+  "current_public_pair": {
+    "ao2_version": "v0.5.1",
+    "ao2_tag_target": "80ec5321f42d4bab17d5e64fdae6aa099ba59d4a",
+    "control_plane_version": "v0.1.15",
+    "control_plane_tag_target": "f1702b387607566cac457458af9adb5871a5c412"
+  },
+  "task_classes": [
+    {
+      "id": "documentation_correction",
+      "fixture": "bounded docs or support correction",
+      "requires_pr": true
+    },
+    {
+      "id": "single_repo_code_fix",
+      "fixture": "deterministic single-repository code fix with failing test first",
+      "requires_pr": true
+    },
+    {
+      "id": "cross_repo_contract_update",
+      "fixture": "producer canonical vector and consumer test",
+      "requires_pr": true
+    },
+    {
+      "id": "approval_required_mutation",
+      "fixture": "Covenant approval and action digest readback",
+      "requires_pr": false
+    },
+    {
+      "id": "rollback_required_mutation",
+      "fixture": "rollback proof with before and after digest",
+      "requires_pr": false
+    },
+    {
+      "id": "failed_ci_diagnosis_repair",
+      "fixture": "failed hosted CI diagnosis and repair route",
+      "requires_pr": false
+    },
+    {
+      "id": "interrupted_mission_resume",
+      "fixture": "checkpointed mission resume without duplicate mutation",
+      "requires_pr": false
+    }
+  ],
+  "failure_classes": [
+    "product",
+    "workflow",
+    "environment",
+    "policy",
+    "provider",
+    "operator",
+    "evidence_integrity"
+  ],
+  "boundaries": {
+    "rsi_remains_denied": true,
+    "provider_pilot": false,
+    "external_beta_launched": false,
+    "promotion_requested": false,
+    "release_or_upload": false
+  }
+}

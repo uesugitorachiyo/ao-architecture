@@ -1,0 +1,29 @@
+{
+  "schema": "ao.architecture.bounded-autonomy-benchmark-result-schema.v0.1",
+  "benchmark_version": "bounded-autonomy-month1-v0.1",
+  "required_metrics": [
+    "completion_rate",
+    "first_pass_verification_rate",
+    "recovery_rate",
+    "human_approvals",
+    "human_interventions",
+    "duplicate_work_count",
+    "orphan_branch_count",
+    "ready_node_count",
+    "elapsed_seconds",
+    "retry_count",
+    "rollback_result",
+    "evidence_integrity_result",
+    "escaped_defect_count",
+    "unsupported_claim_count"
+  ],
+  "required_failure_classes": [
+    "product",
+    "workflow",
+    "environment",
+    "policy",
+    "provider",
+    "operator",
+    "evidence_integrity"
+  ]
+}
