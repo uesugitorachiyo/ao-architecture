@@ -200,7 +200,19 @@
       "contract_family": "benchmark_to_promotion",
       "producer_contract": "benchmark_result",
       "consumer_contract": "assurance_input",
-      "compatibility_status": "pending_canonical_vectors"
+      "compatibility_status": "tested_current_release_pair",
+      "canonical_vector": {
+        "repository": "ao-arena",
+        "path": "examples/compatibility/arena-benchmark-result-to-promoter-assurance-input-v0.1.json",
+        "pr": "https://github.com/uesugitorachiyo/ao-arena/pull/5",
+        "merge_commit": "fa013c1a82c63b4b83bba2e9b864c2eaacd6d5b1"
+      },
+      "consumer_test": {
+        "repository": "ao-promoter",
+        "path": "internal/cli/cli_test.go",
+        "pr": "https://github.com/uesugitorachiyo/ao-promoter/pull/53",
+        "merge_commit": "63594379499a873446dacb245c731688e9c91639"
+      }
     },
     {
       "producer": "ao-crucible",
@@ -208,7 +220,19 @@
       "contract_family": "adversarial_probe_to_promotion",
       "producer_contract": "failure_injection_result",
       "consumer_contract": "assurance_input",
-      "compatibility_status": "pending_canonical_vectors"
+      "compatibility_status": "tested_current_release_pair",
+      "canonical_vector": {
+        "repository": "ao-crucible",
+        "path": "examples/compatibility/crucible-failure-injection-to-promoter-assurance-input-v0.1.json",
+        "pr": "https://github.com/uesugitorachiyo/ao-crucible/pull/5",
+        "merge_commit": "e7d39d08dc0559331d84ec834394430d569255d1"
+      },
+      "consumer_test": {
+        "repository": "ao-promoter",
+        "path": "internal/cli/cli_test.go",
+        "pr": "https://github.com/uesugitorachiyo/ao-promoter/pull/53",
+        "merge_commit": "63594379499a873446dacb245c731688e9c91639"
+      }
     },
     {
       "producer": "ao-sentinel",
@@ -216,7 +240,19 @@
       "contract_family": "safety_verdict_to_promotion",
       "producer_contract": "sentinel_verdict",
       "consumer_contract": "promotion_input",
-      "compatibility_status": "pending_canonical_vectors"
+      "compatibility_status": "tested_current_release_pair",
+      "canonical_vector": {
+        "repository": "ao-sentinel",
+        "path": "examples/compatibility/sentinel-verdict-to-promoter-input-v0.1.json",
+        "pr": "https://github.com/uesugitorachiyo/ao-sentinel/pull/43",
+        "merge_commit": "e2cea8d2dfb1db782c08dad7d41e986bc73074d2"
+      },
+      "consumer_test": {
+        "repository": "ao-promoter",
+        "path": "internal/cli/cli_test.go",
+        "pr": "https://github.com/uesugitorachiyo/ao-promoter/pull/53",
+        "merge_commit": "63594379499a873446dacb245c731688e9c91639"
+      }
     },
     {
       "producer": "ao-promoter",
@@ -224,7 +260,19 @@
       "contract_family": "promotion_to_operator_readback",
       "producer_contract": "promotion_verdict",
       "consumer_contract": "promotion_status",
-      "compatibility_status": "pending_canonical_vectors"
+      "compatibility_status": "tested_current_release_pair",
+      "canonical_vector": {
+        "repository": "ao-promoter",
+        "path": "examples/compatibility/promoter-verdict-to-command-status-v0.1.json",
+        "pr": "https://github.com/uesugitorachiyo/ao-promoter/pull/53",
+        "merge_commit": "63594379499a873446dacb245c731688e9c91639"
+      },
+      "consumer_test": {
+        "repository": "ao-command",
+        "path": "internal/cli/cli_test.go",
+        "pr": "https://github.com/uesugitorachiyo/ao-command/pull/121",
+        "merge_commit": "cc68b68a7056457da7121805e09bd467bdc0374d"
+      }
     },
     {
       "producer": "ao-covenant",
@@ -271,8 +319,8 @@
     "edge_count": 16,
     "uncovered_owner_pairs": 0,
     "compatibility_gate_complete": false,
-    "canonical_vector_count": 11,
-    "consumer_test_count": 11
+    "canonical_vector_count": 15,
+    "consumer_test_count": 15
   },
   "safety": {
     "promotion_granted": false,
