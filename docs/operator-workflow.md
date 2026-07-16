@@ -10,8 +10,8 @@ The current public release pair is:
 
 - AO2 v0.5.1, tag target
   `80ec5321f42d4bab17d5e64fdae6aa099ba59d4a`.
-- AO2 Control Plane v0.1.15, tag target
-  `f1702b387607566cac457458af9adb5871a5c412`.
+- AO2 Control Plane v0.1.16, tag target
+  `f4f5fea9fefa1081cebcbabac550b0e08b9f0e3d`.
 
 The Architecture compatibility matrix records 16 tested current-release edges,
 16 canonical vectors, and 16 consumer tests. The compatibility gate is ready,

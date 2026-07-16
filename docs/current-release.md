@@ -9,10 +9,10 @@ This document records the current public AO2 and AO2 Control Plane release pair 
 - AO2 approved manifest digest: `bd8103e7a038f47e1b4fef1a2a19ae65cc221675ea11149d39cfb679ae2a08fc`
 - AO2 evidence anchor: `ao2-v0.5.1-stable-patch-release-20260715T174801Z/final-report.md`
 - AO2 Windows rollback evidence: https://github.com/uesugitorachiyo/ao2/actions/runs/29445275460/job/87454080941
-- AO2 Control Plane: [v0.1.15](https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.15)
-- AO2 Control Plane tag target: `f1702b387607566cac457458af9adb5871a5c412`
+- AO2 Control Plane: [v0.1.16](https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.16)
+- AO2 Control Plane tag target: `f4f5fea9fefa1081cebcbabac550b0e08b9f0e3d`
 
-AO2 v0.5.1 and AO2 Control Plane v0.1.15 are the current public release pair. AO2 v0.5.1 is public, not draft, not prerelease, and has 23 public assets. AO2 Control Plane v0.1.15 is public, not draft, not prerelease, and remains the expected companion release. No Control Plane release was required for AO2 v0.5.1.
+AO2 v0.5.1 and AO2 Control Plane v0.1.16 are the current public release pair. AO2 v0.5.1 is public, not draft, not prerelease, and has 23 public assets. AO2 Control Plane v0.1.16 is public, not draft, not prerelease, and remains the expected companion release. The Control Plane patch refreshes the companion artifact without requiring an AO2 release.
 
 ## Evidence Scope
 

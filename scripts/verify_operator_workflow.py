@@ -50,7 +50,7 @@ def validate_operator_workflow(document: str) -> list[str]:
 
     required_phrases = {
         "document must mention AO2 v0.5.1": "ao2 v0.5.1",
-        "document must mention AO2 Control Plane v0.1.15": "ao2 control plane v0.1.15",
+        "document must mention AO2 Control Plane v0.1.16": "ao2 control plane v0.1.16",
         "document must mention 16 tested compatibility edges": "16 tested",
         "document must state compatibility gate is ready, not active": "compatibility gate is ready, not active",
         "document must state RSI remains denied": "rsi remains denied",
