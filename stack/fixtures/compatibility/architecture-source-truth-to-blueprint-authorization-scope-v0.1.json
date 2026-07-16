@@ -1,0 +1,93 @@
+{
+  "schema_version": "ao.compatibility.architecture-source-truth-to-blueprint-authorization-scope-vector.v1",
+  "vector_id": "ao-architecture-source-truth-to-ao-blueprint-authorization-scope-v1",
+  "edge": "ao-architecture.source_of_truth -> ao-blueprint.authorization_scope",
+  "producer": {
+    "repository": "ao-architecture",
+    "source": "stack/current-release-manifest.json",
+    "matrix": "stack/contract-compatibility-matrix.json",
+    "producer_contract": "ao.architecture.topology-adr.v0.1"
+  },
+  "consumer": {
+    "repository": "ao-blueprint",
+    "expected_schema": "ao.blueprint.authorization-scope.v1",
+    "consumer_contract": "ao.blueprint.authorization-scope.v1"
+  },
+  "source_of_truth": {
+    "schema": "ao.architecture.current-release-manifest.v0.1",
+    "status": "current_public_release_pair",
+    "ao2_version": "v0.5.1",
+    "ao2_tag_target": "80ec5321f42d4bab17d5e64fdae6aa099ba59d4a",
+    "control_plane_version": "v0.1.15",
+    "control_plane_tag_target": "f1702b387607566cac457458af9adb5871a5c412",
+    "compatibility_matrix_status": "proposed",
+    "canonical_vector_count": 15,
+    "consumer_test_count": 15,
+    "full_stack_compatibility_complete": false,
+    "external_beta_launched": false,
+    "promotion_requested": false,
+    "promotion_granted": false,
+    "provider_pilot": false,
+    "rsi_remains_denied": true
+  },
+  "authorization_scope": {
+    "schema_version": "ao.blueprint.authorization-scope.v1",
+    "status": "ready",
+    "scope_boundary": "compatibility_evidence_only",
+    "source_manifest_schema": "ao.architecture.current-release-manifest.v0.1",
+    "source_matrix_schema": "ao.architecture.contract-compatibility-matrix.v0.1",
+    "authorized_repositories": [
+      "ao-mission",
+      "ao-atlas",
+      "ao-architecture",
+      "ao-blueprint",
+      "ao-foundry",
+      "ao-forge",
+      "ao-covenant",
+      "ao2",
+      "ao2-control-plane",
+      "ao-command",
+      "ao-arena",
+      "ao-crucible",
+      "ao-sentinel",
+      "ao-promoter"
+    ],
+    "current_release_pair": {
+      "ao2_version": "v0.5.1",
+      "ao2_release": "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.1",
+      "ao2_tag_target": "80ec5321f42d4bab17d5e64fdae6aa099ba59d4a",
+      "control_plane_version": "v0.1.15",
+      "control_plane_release": "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.15",
+      "control_plane_tag_target": "f1702b387607566cac457458af9adb5871a5c412"
+    },
+    "next_allowed_action": "ao-atlas-workgraph-readback",
+    "exact_next_action": "consume Architecture source-of-truth as read-only authorization scope evidence"
+  },
+  "expected_blueprint_authorization_scope": {
+    "schema_version": "ao.blueprint.authorization-scope-readback.v1",
+    "status": "ready",
+    "source_manifest_schema": "ao.architecture.current-release-manifest.v0.1",
+    "source_matrix_schema": "ao.architecture.contract-compatibility-matrix.v0.1",
+    "authorization_scope_status": "ready",
+    "full_stack_compatibility_complete": false
+  },
+  "compatibility": {
+    "matrix_status": "proposed",
+    "tested_edge_count_before_vector": 15,
+    "full_stack_compatibility_complete": false
+  },
+  "boundaries": {
+    "release_or_publish": false,
+    "creates_tag": false,
+    "uploads_assets": false,
+    "deploys": false,
+    "contacts_external_users": false,
+    "provider_pilot": false,
+    "promotion_requested": false,
+    "promotion_granted": false,
+    "rsi_remains_denied": true,
+    "executes_work": false,
+    "approves_work": false,
+    "mutates_repositories": false
+  }
+}
