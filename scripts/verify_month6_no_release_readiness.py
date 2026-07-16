@@ -12,13 +12,13 @@ DEFAULT_DOC = ROOT / "docs" / "release-readiness" / "month6-no-release-readiness
 REQUIRED_PHRASES = {
     "document must state no release is needed": "does not require a new stable release train",
     "document must mention AO2 v0.5.1": "AO2 v0.5.1",
-    "document must mention Control Plane v0.1.15": "AO2 Control Plane v0.1.15",
+    "document must mention Control Plane v0.1.16": "AO2 Control Plane v0.1.16",
     "document must state no AO2 release candidate": "No AO2 release candidate is selected",
-    "document must state no Control Plane release candidate": "No AO2 Control Plane release candidate is selected",
-    "document must state no tag release upload deployment or binary publication": "No tag, release, upload, deployment, or new binary publication is authorized",
+    "document must state no further Control Plane release is pending": "No additional Control Plane release is pending after the v0.1.16 patch",
+    "document must state no additional tag release upload deployment or binary publication": "No additional tag, release, upload, deployment, or new binary publication is authorized",
     "document must classify AO2 as no runtime source change": "AO2 has no runtime source change after v0.5.1",
-    "document must classify Control Plane as no runtime source change": "AO2 Control Plane has no runtime source change after v0.1.15",
-    "document must mention Control Plane lockfile hygiene": "lockfile hygiene",
+    "document must classify Control Plane as no runtime source change": "AO2 Control Plane has no runtime source change after v0.1.16",
+    "document must mention Control Plane compiled dependency refresh": "compiled dependency refresh",
     "document must mention 16 tested compatibility edges": "16 tested edges",
     "document must state compatibility gate is ready, not active": "Compatibility gate is ready, not active",
     "document must mention Month 4 fixture-only dry-run": "fixture-only dry-run",
@@ -34,7 +34,6 @@ REQUIRED_PHRASES = {
 }
 
 FORBIDDEN_PHRASES = [
-    "a release candidate is selected",
     "release candidate selected for publication",
     "external beta is launched",
     "promotion is requested",

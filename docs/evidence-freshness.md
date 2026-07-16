@@ -1,7 +1,7 @@
 # AO Stack Evidence Freshness And Compatibility Gate Readiness
 
 Status: Month 1 adoption/evidence cycle source of truth  
-Current public pair: AO2 `v0.5.1` and AO2 Control Plane `v0.1.15`
+Current public pair: AO2 `v0.5.1` and AO2 Control Plane `v0.1.16`
 
 ## Purpose
 
@@ -47,7 +47,7 @@ python3 scripts/verify_evidence_freshness.py
 
 The current gate state is `ready`.
 
-Reason: AO2 `v0.5.1`, AO2 Control Plane `v0.1.15`, and the 16 compatibility
+Reason: AO2 `v0.5.1`, AO2 Control Plane `v0.1.16`, and the 16 compatibility
 edges are fresh and internally consistent. Activation is not authorized in this
 task, so `compatibility_gate_complete` remains false in the matrix.
 

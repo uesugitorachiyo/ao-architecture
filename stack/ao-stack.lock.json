@@ -128,8 +128,8 @@
     {
       "repository": "ao2-control-plane",
       "branch": "main",
-      "commit": "a000cf9948ee1c43a4835c0bac48d12106de56bf",
-      "detected_version": "v0.1.15",
+      "commit": "90c6d90bc338038cc2fdbbdd6ae9fd10226a1a10",
+      "detected_version": "v0.1.16",
       "maturity": "stable_single_node_observer",
       "current_boundary": "independent_repository",
       "proposed_boundary": "ao2-control-plane",

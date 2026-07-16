@@ -85,7 +85,7 @@ def validate_manifest(document: dict[str, Any]) -> list[str]:
         if windows_smoke_job and "github.com/uesugitorachiyo/ao2/actions/runs/" not in windows_smoke_job:
             errors.append("ao2.windows_smoke_job must point to the AO2 hosted Windows smoke job")
 
-    errors.extend(validate_release_component(document, "control_plane", "ao2-control-plane", "v0.1.15", 6))
+    errors.extend(validate_release_component(document, "control_plane", "ao2-control-plane", "v0.1.16", 6))
     control_plane = document.get("control_plane", {})
     if isinstance(control_plane, dict) and control_plane.get("new_release_required") is not False:
         errors.append("control_plane.new_release_required must be false")

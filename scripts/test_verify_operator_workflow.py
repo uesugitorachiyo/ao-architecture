@@ -15,7 +15,7 @@ class VerifyOperatorWorkflowTest(unittest.TestCase):
         doc = "# Operator Workflow\n\nCompatibility evidence is present.\n"
         errors = validate_operator_workflow(doc)
         self.assertIn("document must mention AO2 v0.5.1", errors)
-        self.assertIn("document must mention AO2 Control Plane v0.1.15", errors)
+        self.assertIn("document must mention AO2 Control Plane v0.1.16", errors)
         self.assertIn("document must state compatibility gate is ready, not active", errors)
         self.assertIn("document must state RSI remains denied", errors)
         self.assertIn("document must state promotion is not requested or granted", errors)
@@ -24,7 +24,7 @@ class VerifyOperatorWorkflowTest(unittest.TestCase):
         doc = "\n".join(
             [
                 "AO2 v0.5.1",
-                "AO2 Control Plane v0.1.15",
+                "AO2 Control Plane v0.1.16",
                 "compatibility gate remains false",
                 "RSI remains denied",
                 "promotion is not requested or granted",
@@ -42,7 +42,7 @@ class VerifyOperatorWorkflowTest(unittest.TestCase):
         doc = "\n".join(
             [
                 "AO2 v0.5.1",
-                "AO2 Control Plane v0.1.15",
+                "AO2 Control Plane v0.1.16",
                 "16 tested compatibility edges",
                 "compatibility gate remains false",
                 "RSI remains denied",

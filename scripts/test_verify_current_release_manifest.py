@@ -34,11 +34,11 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
             },
             "control_plane": {
                 "repository": "ao2-control-plane",
-                "version": "v0.1.15",
-                "release_url": "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.15",
-                "tag": "v0.1.15",
-                "tag_target": "f1702b387607566cac457458af9adb5871a5c412",
-                "current_main_commit": "a000cf9948ee1c43a4835c0bac48d12106de56bf",
+                "version": "v0.1.16",
+                "release_url": "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.16",
+                "tag": "v0.1.16",
+                "tag_target": "f4f5fea9fefa1081cebcbabac550b0e08b9f0e3d",
+                "current_main_commit": "90c6d90bc338038cc2fdbbdd6ae9fd10226a1a10",
                 "is_draft": False,
                 "is_prerelease": False,
                 "asset_count": 6,
@@ -85,11 +85,11 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
             },
             "control_plane": {
                 "repository": "ao2-control-plane",
-                "version": "v0.1.15",
-                "release_url": "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.15",
-                "tag": "v0.1.15",
-                "tag_target": "f1702b387607566cac457458af9adb5871a5c412",
-                "current_main_commit": "a000cf9948ee1c43a4835c0bac48d12106de56bf",
+                "version": "v0.1.16",
+                "release_url": "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.16",
+                "tag": "v0.1.16",
+                "tag_target": "f4f5fea9fefa1081cebcbabac550b0e08b9f0e3d",
+                "current_main_commit": "90c6d90bc338038cc2fdbbdd6ae9fd10226a1a10",
                 "is_draft": False,
                 "is_prerelease": False,
                 "asset_count": 6,
@@ -138,11 +138,11 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
             },
             "control_plane": {
                 "repository": "ao2-control-plane",
-                "version": "v0.1.15",
-                "release_url": "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.15",
-                "tag": "v0.1.15",
-                "tag_target": "f1702b387607566cac457458af9adb5871a5c412",
-                "current_main_commit": "a000cf9948ee1c43a4835c0bac48d12106de56bf",
+                "version": "v0.1.16",
+                "release_url": "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.16",
+                "tag": "v0.1.16",
+                "tag_target": "f4f5fea9fefa1081cebcbabac550b0e08b9f0e3d",
+                "current_main_commit": "90c6d90bc338038cc2fdbbdd6ae9fd10226a1a10",
                 "is_draft": False,
                 "is_prerelease": False,
                 "asset_count": 6,
@@ -176,8 +176,8 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
             },
             "control_plane": {
                 "repository": "ao2-control-plane",
-                "version": "v0.1.15",
-                "current_main_commit": "a000cf9948ee1c43a4835c0bac48d12106de56bf",
+                "version": "v0.1.16",
+                "current_main_commit": "90c6d90bc338038cc2fdbbdd6ae9fd10226a1a10",
             },
         }
         lock = {
@@ -189,8 +189,8 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
                 },
                 {
                     "repository": "ao2-control-plane",
-                    "commit": "a000cf9948ee1c43a4835c0bac48d12106de56bf",
-                    "detected_version": "v0.1.15",
+                    "commit": "90c6d90bc338038cc2fdbbdd6ae9fd10226a1a10",
+                    "detected_version": "v0.1.16",
                 },
             ]
         }

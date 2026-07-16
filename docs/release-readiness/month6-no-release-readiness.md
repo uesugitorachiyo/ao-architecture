@@ -13,12 +13,12 @@ The current public release pair remains:
 
 - AO2 v0.5.1, tag target
   `80ec5321f42d4bab17d5e64fdae6aa099ba59d4a`.
-- AO2 Control Plane v0.1.15, tag target
-  `f1702b387607566cac457458af9adb5871a5c412`.
+- AO2 Control Plane v0.1.16, tag target
+  `f4f5fea9fefa1081cebcbabac550b0e08b9f0e3d`.
 
-No AO2 release candidate is selected. No AO2 Control Plane release candidate is
-selected. No tag, release, upload, deployment, or new binary publication is
-authorized by this Month 6 decision.
+No AO2 release candidate is selected. No additional Control Plane release is
+pending after the v0.1.16 patch. No additional tag, release, upload,
+deployment, or new binary publication is authorized by this current readback.
 
 ## Release-Impact Inventory
 
@@ -26,15 +26,14 @@ AO2 changes after v0.5.1 are docs, compatibility vectors, dry-run fixtures, and
 tests. AO2 has no runtime source change after v0.5.1 and no public artifact
 replacement gate is triggered.
 
-AO2 Control Plane changes after v0.1.15 are release-support docs and scripts,
-workflow/readback tests, compatibility vectors, dry-run observation fixtures,
-and one lockfile hygiene update. AO2 Control Plane has no runtime source change
-after v0.1.15 and no public artifact replacement gate is triggered.
+AO2 Control Plane changes after v0.1.16 are release-support docs and scripts,
+workflow/readback tests, compatibility vectors, and dry-run observation
+fixtures. AO2 Control Plane has no runtime source change after v0.1.16 and no
+additional public artifact replacement gate is triggered.
 
-The Control Plane lockfile hygiene update from PR #98 updates the yanked
-transitive `spin` lockfile entry to `0.9.9`. That verified change should be
-carried into the next Control Plane release, but the recorded audit disposition
-does not require replacing the current public v0.1.15 artifacts.
+The Control Plane lockfile hygiene update from PR #98 updated the yanked
+transitive `spin` lockfile entry to `0.9.9`. The v0.1.16 patch carries that
+compiled dependency refresh in the current public Control Plane artifact.
 
 ## Evidence State
 

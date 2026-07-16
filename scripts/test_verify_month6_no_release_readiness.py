@@ -21,7 +21,7 @@ class VerifyMonth6NoReleaseReadinessTest(unittest.TestCase):
         errors = validate_month6_no_release_readiness(doc)
         self.assertIn("document must state no release is needed", errors)
         self.assertIn("document must mention AO2 v0.5.1", errors)
-        self.assertIn("document must mention Control Plane v0.1.15", errors)
+        self.assertIn("document must mention Control Plane v0.1.16", errors)
         self.assertIn("document must state compatibility gate is ready, not active", errors)
 
     def test_rejects_overclaims(self):
@@ -29,13 +29,13 @@ class VerifyMonth6NoReleaseReadinessTest(unittest.TestCase):
             [
                 "Month 6 does not require a new stable release train.",
                 "AO2 v0.5.1",
-                "AO2 Control Plane v0.1.15",
+                "AO2 Control Plane v0.1.16",
                 "No AO2 release candidate is selected.",
-                "No AO2 Control Plane release candidate is selected.",
-                "No tag, release, upload, deployment, or new binary publication is authorized.",
+                "No additional Control Plane release is pending after the v0.1.16 patch.",
+                "No additional tag, release, upload, deployment, or new binary publication is authorized.",
                 "AO2 has no runtime source change after v0.5.1.",
-                "AO2 Control Plane has no runtime source change after v0.1.15.",
-                "lockfile hygiene",
+                "AO2 Control Plane has no runtime source change after v0.1.16.",
+                "compiled dependency refresh",
                 "16 tested edges",
                 "Compatibility gate is ready, not active",
                 "fixture-only dry-run",
@@ -59,13 +59,13 @@ class VerifyMonth6NoReleaseReadinessTest(unittest.TestCase):
             [
                 "Month 6 does not require a new stable release train.",
                 "AO2 v0.5.1",
-                "AO2 Control Plane v0.1.15",
+                "AO2 Control Plane v0.1.16",
                 "No AO2 release candidate is selected.",
-                "No AO2 Control Plane release candidate is selected.",
-                "No tag, release, upload, deployment, or new binary publication is authorized.",
+                "No additional Control Plane release is pending after the v0.1.16 patch.",
+                "No additional tag, release, upload, deployment, or new binary publication is authorized.",
                 "AO2 has no runtime source change after v0.5.1.",
-                "AO2 Control Plane has no runtime source change after v0.1.15.",
-                "lockfile hygiene",
+                "AO2 Control Plane has no runtime source change after v0.1.16.",
+                "compiled dependency refresh",
                 "16 tested edges",
                 "Compatibility gate remains false",
                 "fixture-only dry-run",
