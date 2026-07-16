@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CORPUS = ROOT / "stack" / "bounded-autonomy-benchmark-corpus.json"
 DEFAULT_SCHEMA = ROOT / "stack" / "bounded-autonomy-benchmark-result-schema.json"
 DEFAULT_RESULTS = ROOT / "stack" / "bounded-autonomy-month1-baseline-results.json"
+DEFAULT_COMMAND_VECTOR = ROOT / "stack" / "fixtures" / "bounded-autonomy" / "benchmark-to-command-readback-v0.1.json"
 
 REQUIRED_TASK_CLASSES = {
     "documentation_correction",
@@ -143,16 +144,92 @@ def validate_results(results: dict[str, Any], schema: dict[str, Any]) -> list[st
     return errors
 
 
+def validate_command_vector(vector: dict[str, Any]) -> list[str]:
+    errors: list[str] = []
+    if vector.get("schema") != "ao.architecture.bounded-autonomy-command-readback-vector.v0.1":
+        errors.append("schema must be ao.architecture.bounded-autonomy-command-readback-vector.v0.1")
+    if vector.get("edge") != "ao-architecture.bounded_autonomy_benchmark -> ao-command.operator_workflow_readback":
+        errors.append("edge must map Architecture benchmark to Command operator workflow readback")
+    producer = vector.get("producer")
+    if not isinstance(producer, dict) or producer.get("repository") != "ao-architecture":
+        errors.append("producer.repository must be ao-architecture")
+    consumer = vector.get("consumer")
+    if not isinstance(consumer, dict) or consumer.get("repository") != "ao-command":
+        errors.append("consumer.repository must be ao-command")
+    elif consumer.get("expected_test") != "TestConsumesBoundedAutonomyBenchmarkCommandVector":
+        errors.append("consumer.expected_test must be TestConsumesBoundedAutonomyBenchmarkCommandVector")
+
+    baseline = vector.get("source_baseline")
+    if not isinstance(baseline, dict):
+        errors.append("source_baseline is required")
+    else:
+        if baseline.get("benchmark_version") != "bounded-autonomy-month1-v0.1":
+            errors.append("source_baseline.benchmark_version must be bounded-autonomy-month1-v0.1")
+        if baseline.get("status") != "baseline_recorded":
+            errors.append("source_baseline.status must be baseline_recorded")
+        if baseline.get("task_classes") != 7:
+            errors.append("source_baseline.task_classes must be 7")
+        metrics = baseline.get("metrics")
+        if not isinstance(metrics, dict):
+            errors.append("source_baseline.metrics is required")
+        else:
+            for metric in [
+                "completion_rate",
+                "first_pass_verification_rate",
+                "recovery_rate",
+                "rollback_result",
+                "unsupported_claim_count",
+            ]:
+                if metric not in metrics:
+                    errors.append(f"source_baseline.metrics.{metric} is required")
+            if metrics.get("unsupported_claim_count") != 0:
+                errors.append("source_baseline.metrics.unsupported_claim_count must be 0")
+
+    readback = vector.get("expected_command_readback")
+    if not isinstance(readback, dict):
+        errors.append("expected_command_readback is required")
+    else:
+        expected = {
+            "schema": "ao.command.operator-workflow-readback.v0.1",
+            "benchmark_version": "bounded-autonomy-month1-v0.1",
+            "benchmark_status": "baseline_recorded",
+            "benchmark_task_classes": 7,
+            "unsupported_claim_count": 0,
+            "compatibility_gate_state": "ready",
+            "compatibility_gate_activation_authorized": False,
+            "operator_mode": "read_only",
+            "safe_to_execute": False,
+            "executes_work": False,
+            "approves_work": False,
+            "mutates_repositories": False,
+            "calls_providers": False,
+            "releases_or_deploys": False,
+        }
+        for key, value in expected.items():
+            if readback.get(key) is not value and readback.get(key) != value:
+                errors.append(f"expected_command_readback.{key} must be {value}")
+
+    boundaries = vector.get("boundaries") if isinstance(vector.get("boundaries"), dict) else None
+    validate_boundaries(errors, boundaries)
+    if isinstance(boundaries, dict):
+        for key in ["promotion_granted", "live_self_modification"]:
+            if boundaries.get(key) is not False:
+                errors.append(f"boundaries.{key} must remain false")
+    return errors
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Validate bounded-autonomy benchmark corpus, schema, and Month 1 baseline")
     parser.add_argument("--corpus", type=Path, default=DEFAULT_CORPUS)
     parser.add_argument("--schema", type=Path, default=DEFAULT_SCHEMA)
     parser.add_argument("--results", type=Path, default=DEFAULT_RESULTS)
+    parser.add_argument("--command-vector", type=Path, default=DEFAULT_COMMAND_VECTOR)
     args = parser.parse_args()
     try:
         corpus = read_json(args.corpus)
         schema = read_json(args.schema)
         results = read_json(args.results)
+        command_vector = read_json(args.command_vector)
     except (OSError, json.JSONDecodeError) as exc:
         print(f"verify_bounded_autonomy_benchmark.py: {exc}", file=sys.stderr)
         return 1
@@ -160,6 +237,7 @@ def main() -> int:
     errors.extend(validate_corpus(corpus))
     errors.extend(validate_schema(schema))
     errors.extend(validate_results(results, schema))
+    errors.extend(validate_command_vector(command_vector))
     if errors:
         for error in errors:
             print(f"verify_bounded_autonomy_benchmark.py: {error}", file=sys.stderr)

@@ -5,7 +5,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 
-from verify_bounded_autonomy_benchmark import validate_corpus, validate_results, validate_schema
+from verify_bounded_autonomy_benchmark import validate_command_vector, validate_corpus, validate_results, validate_schema
 
 
 def valid_corpus():
@@ -104,6 +104,56 @@ def valid_results():
     }
 
 
+def valid_command_vector():
+    return {
+        "schema": "ao.architecture.bounded-autonomy-command-readback-vector.v0.1",
+        "edge": "ao-architecture.bounded_autonomy_benchmark -> ao-command.operator_workflow_readback",
+        "producer": {"repository": "ao-architecture"},
+        "consumer": {"repository": "ao-command", "expected_test": "TestConsumesBoundedAutonomyBenchmarkCommandVector"},
+        "source_baseline": {
+            "benchmark_version": "bounded-autonomy-month1-v0.1",
+            "status": "baseline_recorded",
+            "task_classes": 7,
+            "metrics": {
+                "completion_rate": 1.0,
+                "first_pass_verification_rate": 0.93,
+                "recovery_rate": 1.0,
+                "rollback_result": "passed",
+                "unsupported_claim_count": 0,
+            },
+        },
+        "expected_command_readback": {
+            "schema": "ao.command.operator-workflow-readback.v0.1",
+            "benchmark_version": "bounded-autonomy-month1-v0.1",
+            "benchmark_status": "baseline_recorded",
+            "benchmark_task_classes": 7,
+            "completion_rate": 1.0,
+            "first_pass_verification_rate": 0.93,
+            "recovery_rate": 1.0,
+            "rollback_result": "passed",
+            "unsupported_claim_count": 0,
+            "compatibility_gate_state": "ready",
+            "compatibility_gate_activation_authorized": False,
+            "operator_mode": "read_only",
+            "safe_to_execute": False,
+            "executes_work": False,
+            "approves_work": False,
+            "mutates_repositories": False,
+            "calls_providers": False,
+            "releases_or_deploys": False,
+        },
+        "boundaries": {
+            "rsi_remains_denied": True,
+            "provider_pilot": False,
+            "external_beta_launched": False,
+            "promotion_requested": False,
+            "promotion_granted": False,
+            "release_or_upload": False,
+            "live_self_modification": False,
+        },
+    }
+
+
 class VerifyBoundedAutonomyBenchmarkTest(unittest.TestCase):
     def test_accepts_complete_corpus_schema_and_results(self):
         self.assertEqual(validate_corpus(valid_corpus()), [])
@@ -136,6 +186,15 @@ class VerifyBoundedAutonomyBenchmarkTest(unittest.TestCase):
         corpus["boundaries"]["rsi_remains_denied"] = False
         errors = validate_corpus(corpus)
         self.assertIn("boundaries.rsi_remains_denied must remain true", errors)
+
+    def test_accepts_command_readback_vector(self):
+        self.assertEqual(validate_command_vector(valid_command_vector()), [])
+
+    def test_rejects_command_vector_without_expected_consumer_test(self):
+        vector = valid_command_vector()
+        vector["consumer"].pop("expected_test")
+        errors = validate_command_vector(vector)
+        self.assertIn("consumer.expected_test must be TestConsumesBoundedAutonomyBenchmarkCommandVector", errors)
 
 
 if __name__ == "__main__":
