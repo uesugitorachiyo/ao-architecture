@@ -20,7 +20,7 @@ REQUIRED_PHRASES = {
     "document must classify Control Plane as no runtime source change": "AO2 Control Plane has no runtime source change after v0.1.15",
     "document must mention Control Plane lockfile hygiene": "lockfile hygiene",
     "document must mention 16 tested compatibility edges": "16 tested edges",
-    "document must state compatibility gate remains false": "Compatibility gate remains false",
+    "document must state compatibility gate is ready, not active": "Compatibility gate is ready, not active",
     "document must mention Month 4 fixture-only dry-run": "fixture-only dry-run",
     "document must mention Month 5 operator workflow": "Month 5 operator workflow",
     "document must state RSI remains denied": "RSI remains denied",
