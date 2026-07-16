@@ -69,6 +69,12 @@ jobs:
       - name: Verify current release manifest unit tests
         run: python3 -m unittest scripts/test_verify_current_release_manifest.py
 
+      - name: Verify Windows V3 manifest fixture
+        run: python3 scripts/verify_windows_v3_manifest.py
+
+      - name: Verify Windows V3 manifest fixture unit tests
+        run: python3 -m unittest scripts/test_verify_windows_v3_manifest.py
+
       - name: Verify beta install preflight matrix
         run: python3 scripts/verify_beta_install_preflight_matrix.py
 
