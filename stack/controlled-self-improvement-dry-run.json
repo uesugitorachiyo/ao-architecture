@@ -1,0 +1,70 @@
+{
+  "schema": "ao.architecture.controlled-self-improvement-dry-run.v0.1",
+  "status": "dry_run_only",
+  "generated_at_utc": "2026-07-16T01:34:42Z",
+  "current_public_release_pair": {
+    "ao2_version": "v0.5.1",
+    "ao2_tag_target": "80ec5321f42d4bab17d5e64fdae6aa099ba59d4a",
+    "control_plane_version": "v0.1.15",
+    "control_plane_tag_target": "f1702b387607566cac457458af9adb5871a5c412"
+  },
+  "rsi_authorized": false,
+  "live_self_modification_authorized": false,
+  "provider_execution_authorized": false,
+  "promotion_requested": false,
+  "promotion_granted": false,
+  "external_beta_launched": false,
+  "release_authorized": false,
+  "tag_authorized": false,
+  "upload_authorized": false,
+  "deployment_authorized": false,
+  "required_gates": [
+    "proposal",
+    "policy_classification",
+    "human_approval",
+    "fixture_dry_run",
+    "evidence_capture",
+    "rollback_proof",
+    "observation",
+    "operator_readback",
+    "sentinel_wording_check",
+    "promoter_no_rsi_verdict"
+  ],
+  "evidence_requirements": {
+    "proposal": true,
+    "policy_classification": true,
+    "human_approval": true,
+    "dry_run_trace": true,
+    "evidence_pack": true,
+    "rollback_proof": true,
+    "control_plane_observation": true,
+    "operator_readback": true,
+    "sentinel_wording": true,
+    "promoter_no_rsi_verdict": true
+  },
+  "workspace_boundaries": {
+    "fixture_workspace_only": true,
+    "temporary_or_evidence_scoped": true,
+    "live_repository_mutation": false,
+    "provider_execution": false,
+    "credential_inspection": false
+  },
+  "operator_decision_model": {
+    "human_approval_required": true,
+    "approval_scope": "fixture_dry_run_only",
+    "approval_does_not_grant_live_self_modification": true,
+    "approval_does_not_grant_rsi": true
+  },
+  "rollback_model": {
+    "rollback_required": true,
+    "rollback_scope": "fixture_workspace",
+    "rollback_must_restore_fixture": true,
+    "rollback_evidence_required": true
+  },
+  "next_state": {
+    "month5_recommendation": "multi_repo_product_coordination_and_operator_workflow_hardening",
+    "rsi_remains_denied": true,
+    "live_self_modification_remains_denied": true,
+    "provider_execution_remains_denied": true
+  }
+}

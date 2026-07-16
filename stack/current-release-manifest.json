@@ -38,8 +38,8 @@
     "control_plane_update_required": false,
     "full_stack_compatibility_complete": false,
     "compatibility_matrix_status": "proposed",
-    "canonical_vector_count": 3,
-    "consumer_test_count": 3
+    "canonical_vector_count": 16,
+    "consumer_test_count": 16
   },
   "boundaries": {
     "external_beta_launched": false,
