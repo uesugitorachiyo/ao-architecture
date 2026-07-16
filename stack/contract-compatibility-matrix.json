@@ -232,7 +232,19 @@
       "contract_family": "policy_to_operator_explanation",
       "producer_contract": "policy_decision",
       "consumer_contract": "policy_readback",
-      "compatibility_status": "pending_canonical_vectors"
+      "compatibility_status": "tested_current_release_pair",
+      "canonical_vector": {
+        "repository": "ao-covenant",
+        "path": "examples/compatibility/covenant-policy-decision-to-command-readback-v0.1.json",
+        "pr": "https://github.com/uesugitorachiyo/ao-covenant/pull/129",
+        "merge_commit": "034c5fe177b90ef3e373b3b6f30e187db13e4d5d"
+      },
+      "consumer_test": {
+        "repository": "ao-command",
+        "path": "internal/cli/cli_test.go",
+        "pr": "https://github.com/uesugitorachiyo/ao-command/pull/120",
+        "merge_commit": "3aa19431d6dcdf0f44e6f92c511fa86c946fac7f"
+      }
     },
     {
       "producer": "ao-forge",
@@ -240,15 +252,27 @@
       "contract_family": "goal_run_to_operator_readback",
       "producer_contract": "run_status",
       "consumer_contract": "run_timeline",
-      "compatibility_status": "pending_canonical_vectors"
+      "compatibility_status": "tested_current_release_pair",
+      "canonical_vector": {
+        "repository": "ao-forge",
+        "path": "examples/compatibility/forge-run-status-to-command-timeline-v0.1.json",
+        "pr": "https://github.com/uesugitorachiyo/ao-forge/pull/160",
+        "merge_commit": "5000b4635c5562ef7bbfa0c37b69266c3646b16d"
+      },
+      "consumer_test": {
+        "repository": "ao-command",
+        "path": "internal/cli/cli_test.go",
+        "pr": "https://github.com/uesugitorachiyo/ao-command/pull/120",
+        "merge_commit": "3aa19431d6dcdf0f44e6f92c511fa86c946fac7f"
+      }
     }
   ],
   "coverage": {
     "edge_count": 16,
     "uncovered_owner_pairs": 0,
     "compatibility_gate_complete": false,
-    "canonical_vector_count": 9,
-    "consumer_test_count": 9
+    "canonical_vector_count": 11,
+    "consumer_test_count": 11
   },
   "safety": {
     "promotion_granted": false,
