@@ -1,0 +1,224 @@
+{
+  "schema": "ao.architecture.github-issue-workflow-contracts.v0.1",
+  "status": "ready",
+  "workflow": {
+    "name": "github_issue_to_draft_pr",
+    "current_public_pair_required": true,
+    "single_issue_url_per_run": true,
+    "feature_generated_pr_must_be_draft": true,
+    "feature_generated_pr_auto_merge_authorized": false,
+    "issue_write_authorized": false
+  },
+  "schemas": [
+    {
+      "name": "issue_url_intake",
+      "owner": "ao-architecture",
+      "consumer": "ao2"
+    },
+    {
+      "name": "immutable_issue_snapshot",
+      "owner": "ao-architecture",
+      "consumer": "ao-blueprint"
+    },
+    {
+      "name": "repository_identity_target_revision",
+      "owner": "ao-architecture",
+      "consumer": "ao-forge"
+    },
+    {
+      "name": "issue_authenticity_assessment",
+      "owner": "ao-blueprint",
+      "consumer": "ao-foundry"
+    },
+    {
+      "name": "reproduction_plan_result",
+      "owner": "ao-blueprint",
+      "consumer": "ao2"
+    },
+    {
+      "name": "repair_plan_result",
+      "owner": "ao-foundry",
+      "consumer": "ao-forge"
+    },
+    {
+      "name": "fork_branch_routing",
+      "owner": "ao-covenant",
+      "consumer": "ao2"
+    },
+    {
+      "name": "action_digest_approval",
+      "owner": "ao2",
+      "consumer": "ao-covenant"
+    },
+    {
+      "name": "draft_pr_request_readback",
+      "owner": "ao2",
+      "consumer": "ao-command"
+    },
+    {
+      "name": "evidence_pack",
+      "owner": "ao2-control-plane",
+      "consumer": "ao-command"
+    },
+    {
+      "name": "terminal_state_next_action",
+      "owner": "ao-command",
+      "consumer": "operator"
+    }
+  ],
+  "canonical_issue_states": [
+    "intake_validated",
+    "invalid_url",
+    "repository_unavailable",
+    "issue_unavailable",
+    "unsupported_host",
+    "insufficient_evidence",
+    "duplicate_or_superseded",
+    "not_a_bug",
+    "cannot_reproduce",
+    "environment_blocked",
+    "policy_blocked",
+    "security_sensitive",
+    "authentic_bug",
+    "fix_in_progress",
+    "fix_verified",
+    "draft_pr_approval_required",
+    "draft_pr_opened",
+    "draft_pr_failed",
+    "operator_action_required",
+    "archived"
+  ],
+  "command_policy_classes": [
+    "safe_read_only_discovery",
+    "repository_native_sandboxed_verification",
+    "approval_required_dependency_or_network_operation",
+    "approval_required_github_write",
+    "permanently_denied_command_or_path"
+  ],
+  "url_canonicalization": {
+    "accepted_pattern": "github.com/<owner>/<repo>/issues/<number>",
+    "rejects": [
+      "pull_request_url",
+      "discussion_url",
+      "actions_url",
+      "unsupported_host",
+      "malformed_number",
+      "identity_changing_fragment",
+      "traversal",
+      "ambiguous_redirect"
+    ]
+  },
+  "trust_model": {
+    "untrusted_inputs": [
+      "issue_title",
+      "issue_body",
+      "issue_comments",
+      "linked_pages",
+      "repository_readme",
+      "repository_agents_file",
+      "repository_claude_file",
+      "repository_contributing_file",
+      "repository_security_policy",
+      "repository_workflows",
+      "build_scripts",
+      "tests",
+      "patches",
+      "logs",
+      "generated_pr_text",
+      "git_config",
+      "hooks",
+      "remotes",
+      "submodules",
+      "symlinks",
+      "archives",
+      "dependencies",
+      "package_scripts",
+      "downloaded_tools",
+      "github_api_cli_responses"
+    ],
+    "issue_text_can_authorize": false,
+    "repository_text_can_authorize": false,
+    "security_sensitive_stops_public_repair": true
+  },
+  "fixtures": [
+    {
+      "id": "valid_open_bug",
+      "expected_state": "intake_validated"
+    },
+    {
+      "id": "closed_relevant_bug",
+      "expected_state": "intake_validated"
+    },
+    {
+      "id": "malformed_url",
+      "expected_state": "invalid_url"
+    },
+    {
+      "id": "unsupported_host",
+      "expected_state": "unsupported_host"
+    },
+    {
+      "id": "pr_url_supplied_as_issue",
+      "expected_state": "invalid_url"
+    },
+    {
+      "id": "nonexistent_issue",
+      "expected_state": "issue_unavailable"
+    },
+    {
+      "id": "inaccessible_repository",
+      "expected_state": "repository_unavailable"
+    },
+    {
+      "id": "duplicate",
+      "expected_state": "duplicate_or_superseded"
+    },
+    {
+      "id": "feature_request",
+      "expected_state": "not_a_bug"
+    },
+    {
+      "id": "expected_behavior",
+      "expected_state": "not_a_bug"
+    },
+    {
+      "id": "insufficient_evidence",
+      "expected_state": "insufficient_evidence"
+    },
+    {
+      "id": "already_fixed_report",
+      "expected_state": "cannot_reproduce"
+    },
+    {
+      "id": "security_sensitive_report",
+      "expected_state": "security_sensitive"
+    },
+    {
+      "id": "issue_body_prompt_injection",
+      "expected_state": "policy_blocked"
+    },
+    {
+      "id": "repository_instruction_prompt_injection",
+      "expected_state": "policy_blocked"
+    }
+  ],
+  "baseline_metrics": {
+    "classification": true,
+    "injection_rejection": true,
+    "denied_action": true,
+    "evidence_integrity": true,
+    "elapsed_time": true,
+    "retries": true,
+    "operator_intervention": true
+  },
+  "boundaries": {
+    "fork_created": false,
+    "branch_pushed": false,
+    "draft_pr_opened": false,
+    "issue_write_performed": false,
+    "maintainer_contacted": false,
+    "security_disclosed_publicly": false,
+    "release_published": false,
+    "rsi_authorized": false
+  }
+}
