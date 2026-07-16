@@ -1,0 +1,69 @@
+{
+  "schema": "ao.architecture.evidence-freshness-readback.v0.1",
+  "status": "fresh",
+  "generated_at_utc": "2026-07-16T04:50:55Z",
+  "current_public_release_pair": {
+    "ao2": {
+      "version": "v0.5.1",
+      "release_url": "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.1",
+      "tag_target": "80ec5321f42d4bab17d5e64fdae6aa099ba59d4a",
+      "is_draft": false,
+      "is_prerelease": false,
+      "asset_count": 23
+    },
+    "control_plane": {
+      "version": "v0.1.15",
+      "release_url": "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.15",
+      "tag_target": "f1702b387607566cac457458af9adb5871a5c412",
+      "is_draft": false,
+      "is_prerelease": false,
+      "asset_count": 6
+    }
+  },
+  "compatibility_matrix": {
+    "matrix_status": "proposed",
+    "edge_count": 16,
+    "tested_edge_count": 16,
+    "canonical_vector_count": 16,
+    "consumer_test_count": 16,
+    "proposed_edge_count": 0,
+    "compatibility_gate_complete": false
+  },
+  "compatibility_gate": {
+    "state": "ready",
+    "activation_authorized": false,
+    "activation_evidence": "",
+    "reason": "The current release pair metadata and all 16 compatibility edges are fresh, but activation is not authorized by Month 1.",
+    "allowed_states": [
+      "false",
+      "ready",
+      "active",
+      "blocked",
+      "denied"
+    ],
+    "readiness_criteria": {
+      "release_metadata_matches_manifest": true,
+      "matrix_counts_match": true,
+      "tested_edges_have_vectors": true,
+      "tested_edges_have_consumer_tests": true,
+      "local_architecture_vectors_exist": true,
+      "external_beta_launched": false,
+      "promotion_requested": false,
+      "promotion_granted": false,
+      "provider_pilot": false,
+      "release_or_publish": false,
+      "rsi_remains_denied": true
+    }
+  },
+  "boundaries": {
+    "external_beta_launched": false,
+    "promotion_requested": false,
+    "promotion_granted": false,
+    "provider_pilot": false,
+    "release_or_publish": false,
+    "tag_or_upload": false,
+    "deployment": false,
+    "live_self_modification": false,
+    "rsi_remains_denied": true
+  }
+}
