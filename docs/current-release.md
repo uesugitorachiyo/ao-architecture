@@ -22,14 +22,17 @@ This is release-pair evidence. It does not mark the full AO Stack compatibility 
 
 ## Compatibility State
 
-The compatibility matrix remains proposed:
+The compatibility matrix remains proposed and fully evidenced:
 
 - `stack/contract-compatibility-matrix.json` status remains `proposed`.
-- Canonical vector count remains `0`.
-- Consumer test count remains `0`.
+- Canonical vector count is `16`.
+- Consumer test count is `16`.
 - `compatibility_gate_complete` remains `false`.
 
-The next compatibility task is to add canonical vectors and consumer tests for the AO2 execution receipt to AO2 Control Plane evidence-event path before broader stack compatibility claims.
+The Month 3 compatibility work closed every live matrix edge with canonical
+vectors and consumer tests. The compatibility gate remains false under the
+current proposed/gated Architecture model; external beta and promotion remain
+separate decisions.
 
 ## Boundaries
 
