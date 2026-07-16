@@ -1,0 +1,31 @@
+{
+  "schema": "ao.architecture.windows-v3-source-manifest.v0.1",
+  "scope": "ao-stack",
+  "source": "repository_controlled_fixture_only",
+  "note": "This fixture models the required AO Stack source-manifest shape for Windows V3 reconciliation. It does not authorize or mutate any Windows V3 instance.",
+  "repositories": [
+    {"repository": "ao-architecture"},
+    {"repository": "ao-mission"},
+    {"repository": "ao-blueprint"},
+    {"repository": "ao-atlas"},
+    {"repository": "ao-foundry"},
+    {"repository": "ao-forge"},
+    {"repository": "ao-covenant"},
+    {"repository": "ao2"},
+    {"repository": "ao2-control-plane"},
+    {"repository": "ao-command"},
+    {"repository": "ao-arena"},
+    {"repository": "ao-crucible"},
+    {"repository": "ao-sentinel"},
+    {"repository": "ao-promoter"}
+  ],
+  "current_public_pair": {
+    "ao2": "v0.5.1",
+    "ao2_control_plane": "v0.1.16"
+  },
+  "windows_v3_instance_access_authorized": false,
+  "windows_v3_manifest_mutation_authorized": false,
+  "external_beta_launched": false,
+  "promotion_granted": false,
+  "rsi_remains_denied": true
+}
