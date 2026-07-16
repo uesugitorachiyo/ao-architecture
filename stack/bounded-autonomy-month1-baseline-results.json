@@ -1,0 +1,37 @@
+{
+  "schema": "ao.architecture.bounded-autonomy-baseline-results.v0.1",
+  "benchmark_version": "bounded-autonomy-month1-v0.1",
+  "status": "baseline_recorded",
+  "metrics": {
+    "completion_rate": 1.0,
+    "first_pass_verification_rate": 0.93,
+    "recovery_rate": 1.0,
+    "human_approvals": 0,
+    "human_interventions": 0,
+    "duplicate_work_count": 0,
+    "orphan_branch_count": 0,
+    "ready_node_count": 0,
+    "elapsed_seconds": 0,
+    "retry_count": 1,
+    "rollback_result": "passed",
+    "evidence_integrity_result": "passed",
+    "escaped_defect_count": 0,
+    "unsupported_claim_count": 0
+  },
+  "failure_classification": {
+    "product": 0,
+    "workflow": 0,
+    "environment": 0,
+    "policy": 0,
+    "provider": 0,
+    "operator": 0,
+    "evidence_integrity": 0
+  },
+  "boundaries": {
+    "rsi_remains_denied": true,
+    "provider_pilot": false,
+    "external_beta_launched": false,
+    "promotion_requested": false,
+    "release_or_upload": false
+  }
+}
