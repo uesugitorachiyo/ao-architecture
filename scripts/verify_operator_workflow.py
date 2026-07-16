@@ -52,7 +52,7 @@ def validate_operator_workflow(document: str) -> list[str]:
         "document must mention AO2 v0.5.1": "ao2 v0.5.1",
         "document must mention AO2 Control Plane v0.1.15": "ao2 control plane v0.1.15",
         "document must mention 16 tested compatibility edges": "16 tested",
-        "document must mention compatibility gate remains false": "compatibility gate remains false",
+        "document must state compatibility gate is ready, not active": "compatibility gate is ready, not active",
         "document must state RSI remains denied": "rsi remains denied",
         "document must state live self-modification is denied": "live self-modification is denied",
         "document must state provider pilot did not run": "provider pilot did not run",

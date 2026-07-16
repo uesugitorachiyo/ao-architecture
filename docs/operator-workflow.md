@@ -14,9 +14,10 @@ The current public release pair is:
   `f1702b387607566cac457458af9adb5871a5c412`.
 
 The Architecture compatibility matrix records 16 tested current-release edges,
-16 canonical vectors, and 16 consumer tests. The compatibility gate remains
-false under the current gated Architecture model. That means the edge evidence
-is complete, but no external beta launch or promotion follows from it.
+16 canonical vectors, and 16 consumer tests. The compatibility gate is ready,
+not active. That means the edge evidence is complete and fresh enough for
+operator readback, but no external beta launch, promotion, or RSI authority
+follows from it.
 
 Month 4 dry-run evidence defines the controlled self-improvement boundary:
 fixture-only, human-approved, rollback-verified, observed, read back to the
@@ -44,8 +45,8 @@ Month 5 operator workflow item.
 ### Compatibility Evidence Gate
 
 The operator checks the Architecture matrix readback. The current matrix has 16
-tested edges and 0 remaining proposed edges, while the compatibility gate
-remains false.
+tested edges and 0 remaining proposed edges, while the compatibility gate is
+ready, not active.
 
 ### Policy Approval Gate
 

@@ -40,7 +40,8 @@ does not require replacing the current public v0.1.15 artifacts.
 
 - Month 3 compatibility matrix: 16 total edges, 16 tested edges, 16 canonical
   vectors, 16 consumer tests, and 0 remaining proposed edges.
-- Compatibility gate remains false under the current gated Architecture model.
+- Compatibility gate is ready, not active: evidence is complete and fresh, but
+  activation is not authorized.
 - Month 4 controlled self-improvement evidence remains fixture-only dry-run
   evidence.
 - Month 5 operator workflow source of truth remains current.
@@ -57,9 +58,9 @@ does not require replacing the current public v0.1.15 artifacts.
 ## Operator Readback Requirement
 
 Command readback should present `release_decision=no_release`, the current
-public pair, 16 tested compatibility edges, the false compatibility gate, the
-fixture-only dry-run boundary, and the denied release, provider, external beta,
-promotion, live self-modification, and RSI states.
+public pair, 16 tested compatibility edges, the ready/not-active
+compatibility gate, the fixture-only dry-run boundary, and the denied release,
+provider, external beta, promotion, live self-modification, and RSI states.
 
 ## Next Cycle
 

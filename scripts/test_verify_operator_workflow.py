@@ -16,6 +16,7 @@ class VerifyOperatorWorkflowTest(unittest.TestCase):
         errors = validate_operator_workflow(doc)
         self.assertIn("document must mention AO2 v0.5.1", errors)
         self.assertIn("document must mention AO2 Control Plane v0.1.15", errors)
+        self.assertIn("document must state compatibility gate is ready, not active", errors)
         self.assertIn("document must state RSI remains denied", errors)
         self.assertIn("document must state promotion is not requested or granted", errors)
 
@@ -24,6 +25,7 @@ class VerifyOperatorWorkflowTest(unittest.TestCase):
             [
                 "AO2 v0.5.1",
                 "AO2 Control Plane v0.1.15",
+                "compatibility gate remains false",
                 "RSI remains denied",
                 "promotion is not requested or granted",
                 "external beta is not launched",
@@ -35,6 +37,49 @@ class VerifyOperatorWorkflowTest(unittest.TestCase):
         self.assertIn("document must include gate release gate", errors)
         self.assertIn("document must include operator step choose safe next work", errors)
         self.assertIn("document must include support evidence field exact command", errors)
+
+    def test_rejects_stale_false_gate_language(self):
+        doc = "\n".join(
+            [
+                "AO2 v0.5.1",
+                "AO2 Control Plane v0.1.15",
+                "16 tested compatibility edges",
+                "compatibility gate remains false",
+                "RSI remains denied",
+                "live self-modification is denied",
+                "provider pilot did not run",
+                "external beta is not launched",
+                "promotion is not requested or granted",
+                "Month 4 dry-run",
+                "release gate",
+                "compatibility evidence gate",
+                "policy approval gate",
+                "dry-run/self-improvement gate",
+                "observation/readback gate",
+                "promotion/no-RSI gate",
+                "read current state",
+                "choose safe next work",
+                "inspect policy gates",
+                "run or read dry-run evidence",
+                "inspect rollback and observation",
+                "review Sentinel and Promoter boundaries",
+                "collect support evidence",
+                "AO2 version",
+                "platform",
+                "exact command",
+                "expected result",
+                "actual result",
+                "evidence path",
+                "approval status",
+                "manifest or checksum state",
+                "rollback status",
+                "observation status",
+                "sanitized logs",
+                "do not paste credentials",
+            ]
+        )
+        errors = validate_operator_workflow(doc)
+        self.assertIn("document must state compatibility gate is ready, not active", errors)
 
 
 if __name__ == "__main__":

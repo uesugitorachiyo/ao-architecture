@@ -30,9 +30,10 @@ The compatibility matrix remains proposed and fully evidenced:
 - `compatibility_gate_complete` remains `false`.
 
 The Month 3 compatibility work closed every live matrix edge with canonical
-vectors and consumer tests. The compatibility gate remains false under the
-current proposed/gated Architecture model; external beta and promotion remain
-separate decisions.
+vectors and consumer tests. The compatibility gate is ready, not active:
+evidence is complete and fresh, but activation is not authorized. External
+beta, promotion, and RSI authority remain separate denied or unrequested
+states.
 
 ## Boundaries
 
