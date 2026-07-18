@@ -75,6 +75,12 @@ jobs:
       - name: Verify Windows V3 manifest fixture unit tests
         run: python3 -m unittest scripts/test_verify_windows_v3_manifest.py
 
+      - name: Verify DSA measurement contract
+        run: python3 scripts/verify_dsa_measurement_contract.py
+
+      - name: Verify DSA measurement contract unit tests
+        run: python3 -m unittest scripts/test_verify_dsa_measurement_contract.py
+
       - name: Verify beta install preflight matrix
         run: python3 scripts/verify_beta_install_preflight_matrix.py
 
