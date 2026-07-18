@@ -1,0 +1,48 @@
+{
+  "schema": "ao.architecture.dsa-measurement-contract.v0.1",
+  "status": "active",
+  "standard_input_sizes": [100, 1000, 10000],
+  "status_values": ["pass", "regression", "inconclusive"],
+  "required_measurement_fields": [
+    "correctness_invariant",
+    "input_size_dimension",
+    "expected_complexity_class",
+    "operation_or_file_read_count_evidence",
+    "allocation_evidence",
+    "repeated_wall_clock_benchmark_evidence",
+    "deterministic_output_requirement",
+    "compatibility_requirement"
+  ],
+  "complexity_claim_rules": {
+    "requires_implementation_argument": true,
+    "requires_scale_evidence": true,
+    "prefers_operation_counts_over_single_timing": true
+  },
+  "measurement_rules": {
+    "operation_counts_preferred": true,
+    "single_noisy_timing_must_not_fail_ci": true,
+    "lower_bound_required_when_10000_items_is_unsafe": true,
+    "baseline_and_post_change_commits_required": true,
+    "no_credential_or_provider_dependency": true
+  },
+  "release_qualification_measurement": {
+    "records_cumulative_compute_time": true,
+    "records_operator_wall_time": true,
+    "records_external_wait_separately": true,
+    "requires_digest_bound_reuse": true,
+    "allows_coverage_reduction_for_speed": false
+  },
+  "digest_bound_reuse_keys": [
+    "repository_head",
+    "qualification_profile_digest",
+    "toolchain_fingerprint",
+    "fixture_digest",
+    "candidate_archive_digest",
+    "target_and_feature_digest"
+  ],
+  "safety": {
+    "promotion_granted": false,
+    "rsi_remains_denied": true,
+    "release_claim_made_by_contract": false
+  }
+}
