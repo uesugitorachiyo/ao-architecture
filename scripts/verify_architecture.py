@@ -8,6 +8,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 from verify_copied_schema_classification import validate_document as validate_copied_schema_classification
+from verify_component_release_classification import validate_manifest as validate_component_release_classification
 from verify_external_beta_preflight import CAPABILITY_LABELS, EXPECTED_REPOSITORIES, validate_manifest
 
 
@@ -824,12 +825,19 @@ def main() -> int:
     readiness = ROOT / "overview" / "PRODUCTION-READINESS.md"
     evidence_catalog = ROOT / "overview" / "EVIDENCE-CATALOG.md"
     manifest_path = ROOT / "stack" / "external-beta-tested-stack.json"
+    component_release_classification_path = ROOT / "stack" / "component-release-classification.json"
     try:
         manifest = json.loads(manifest_path.read_text())
     except (OSError, json.JSONDecodeError) as exc:
         fail(f"invalid external-beta tested-stack manifest: {exc}")
     for error in validate_manifest(manifest):
         fail(f"external-beta tested-stack manifest invalid: {error}")
+    try:
+        component_release_classification = json.loads(component_release_classification_path.read_text())
+    except (OSError, json.JSONDecodeError) as exc:
+        fail(f"invalid component release classification manifest: {exc}")
+    for error in validate_component_release_classification(component_release_classification):
+        fail(f"component release classification invalid: {error}")
 
     readiness_text = read_text(readiness)
     repository_names = {entry["repository"] for entry in manifest["repositories"]}
