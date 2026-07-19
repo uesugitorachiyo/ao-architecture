@@ -1,0 +1,84 @@
+{
+  "expected_profile_digest": "sha256:07c78c6edca532bb3580ee884fa6e17cd63a29a1efedd60d22d4cb3995bdccde",
+  "invariants": [
+    {
+      "canonical_owner": "hosted_native_windows",
+      "command_profile_shard_id": "hosted-windows:test-cli-release-readiness",
+      "description": "Broad portable Rust, Go, Python, documentation, schema, fixture, lint, and packaging regression coverage when executed on native Windows.",
+      "downstream_consumer": "AO2 stable release readiness gate",
+      "exact_head_bindings": {
+        "ao2": "f2c6a2242406232dd833ac826bc27f05ebaccf54"
+      },
+      "failure_semantics": "blocks release readiness until hosted native Windows CI is green",
+      "gate_status": "required",
+      "id": "portable-rust-go-python-regressions",
+      "producing_repository": "ao2",
+      "required_inputs": [
+        "hosted_ci_run_id=29657707939",
+        "head=ao2@f2c6a2242406232dd833ac826bc27f05ebaccf54"
+      ]
+    },
+    {
+      "canonical_owner": "physical_windows",
+      "command_profile_shard_id": "physical-windows:windows-worker-pytest",
+      "description": "Outbound task-board protocol, duplicate protection, result outbox, and actual worker lifecycle on the physical Windows host.",
+      "downstream_consumer": "physical Windows worker release qualification",
+      "exact_head_bindings": {
+        "ao2": "f2c6a2242406232dd833ac826bc27f05ebaccf54"
+      },
+      "failure_semantics": "blocks physical Windows qualification and final frozen-head reconciliation",
+      "gate_status": "required",
+      "id": "outbound-task-board-protocol",
+      "producing_repository": "ao2",
+      "required_inputs": [
+        "physical_request_id=windows-ao2-full-after-pr310-20260718T192515Z",
+        "worker_node=windows-hp255_g10"
+      ]
+    },
+    {
+      "canonical_owner": "physical_windows",
+      "command_profile_shard_id": "physical-windows:ao2-doctor",
+      "description": "Installed candidate archive, local toolchain discovery, Scheduled Task environment, and worker recovery probes on the physical Windows host.",
+      "downstream_consumer": "Windows installed candidate verification",
+      "exact_head_bindings": {
+        "ao2": "f2c6a2242406232dd833ac826bc27f05ebaccf54"
+      },
+      "failure_semantics": "blocks release qualification when physical host installation or recovery preconditions regress",
+      "gate_status": "required",
+      "id": "physical-installed-candidate-and-recovery",
+      "producing_repository": "ao2",
+      "required_inputs": [
+        "worker-recovery-ao2-doctor-pr310-20260718T220210Z",
+        "worker-recovery-timeout-fixture-pr310-20260718T220210Z"
+      ]
+    },
+    {
+      "canonical_owner": "both",
+      "command_profile_shard_id": "physical-windows:windows-file-locking-rollback",
+      "description": "Windows file locking, rollback, and path-length behavior that has both portable API coverage and physical-worker lifecycle risk.",
+      "downstream_consumer": "Windows installed candidate rollback verification",
+      "exact_head_bindings": {
+        "ao2": "f2c6a2242406232dd833ac826bc27f05ebaccf54"
+      },
+      "failure_semantics": "blocks final frozen-head reconciliation when either hosted API behavior or physical rollback behavior regresses",
+      "gate_status": "required",
+      "id": "windows-file-locking-rollback",
+      "non_duplicate_reason": "Hosted native Windows catches portable file-locking and path API regressions; physical Windows catches rollback behavior in the installed worker and local filesystem environment.",
+      "producing_repository": "ao2",
+      "required_inputs": [
+        "hosted-windows native CI",
+        "physical Windows worker qualification"
+      ]
+    }
+  ],
+  "known_commands": [
+    "hosted-windows:test-cli-release-readiness",
+    "physical-windows:windows-worker-pytest",
+    "physical-windows:ao2-doctor",
+    "physical-windows:windows-file-locking-rollback"
+  ],
+  "profile_digest": "sha256:07c78c6edca532bb3580ee884fa6e17cd63a29a1efedd60d22d4cb3995bdccde",
+  "profile_version": "ao2.windows-stack-qualification.profiles.v1",
+  "schema": "ao.architecture.windows-qualification-coverage-ownership.v0.1",
+  "status": "active"
+}
