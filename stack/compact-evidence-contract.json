@@ -1,0 +1,55 @@
+{
+  "schema": "ao.architecture.compact-evidence-contract.v0.1",
+  "status": "proposed",
+  "format_version": "v0.1",
+  "owner": "ao-architecture",
+  "requirements": [
+    "versioned_manifest",
+    "ordered_bounded_chunks",
+    "deterministic_canonical_serialization",
+    "chunk_and_total_record_counts",
+    "first_and_last_record_id_per_chunk",
+    "sha256_digest_per_chunk",
+    "aggregate_manifest_digest",
+    "unique_record_ids",
+    "stable_record_ordering",
+    "streaming_verification",
+    "deterministic_lookup",
+    "no_absolute_machine_local_paths",
+    "no_credentials_or_private_values"
+  ],
+  "standard_input_sizes": [100, 1000, 10000],
+  "high_cardinality_fixture_floor": 9000,
+  "bounded_chunk_max_records": 1000,
+  "canonical_serialization": {
+    "json": "sorted_keys_minified_utf8",
+    "chunk_record_encoding": "canonical_json_line_delimited"
+  },
+  "record_ordering": "stable_lexicographic_record_id",
+  "lookup": "ordered_chunk_ranges",
+  "manifest": {
+    "schema": "ao.architecture.compact-evidence-manifest.v0.1",
+    "digest_algorithm": "sha256",
+    "manifest_digest": "sha256 of canonical manifest JSON with manifest_digest set to empty string",
+    "chunk_paths": "repository-relative or artifact-relative safe paths only"
+  },
+  "compatibility": {
+    "legacy_per_file_evidence_supported": true,
+    "compact_and_legacy_records_equivalent": true,
+    "generators_compact_only_after_consumers_compatible": true
+  },
+  "measurement": {
+    "report_file_count_before_after": true,
+    "report_byte_count_before_after": true,
+    "report_verifier_memory_before_after": true,
+    "report_verification_time_before_after": true,
+    "generate_large_fixtures_in_excluded_evidence_directory": true
+  },
+  "safety": {
+    "allow_absolute_machine_local_paths": false,
+    "allow_credentials_or_private_values": false,
+    "promotion_granted": false,
+    "rsi_remains_denied": true,
+    "release_claim_made_by_contract": false
+  }
+}
