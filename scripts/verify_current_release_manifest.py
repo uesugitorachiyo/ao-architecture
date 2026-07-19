@@ -72,20 +72,23 @@ def validate_manifest(document: dict[str, Any]) -> list[str]:
     if source and "public GitHub releases" not in source:
         errors.append("source_of_truth must reference public GitHub releases")
 
-    errors.extend(validate_release_component(document, "ao2", "ao2", "v0.5.1", 23))
+    errors.extend(validate_release_component(document, "ao2", "ao2", "v0.5.2", 23))
     ao2 = document.get("ao2", {})
     if isinstance(ao2, dict):
         digest = require_string(errors, ao2, "approved_manifest_digest", "ao2")
         if digest and not DIGEST_RE.fullmatch(digest):
             errors.append("ao2.approved_manifest_digest must be a 64-character lowercase hexadecimal digest")
         evidence_path = require_string(errors, ao2, "evidence_path", "ao2")
-        if evidence_path and not evidence_path.endswith("/final-report.md"):
-            errors.append("ao2.evidence_path must point to the final report")
+        if evidence_path and not (
+            evidence_path.endswith("/final-report.md")
+            or evidence_path.endswith("/publish-ao2-v052-result.json")
+        ):
+            errors.append("ao2.evidence_path must point to the final report or publication result")
         windows_smoke_job = require_string(errors, ao2, "windows_smoke_job", "ao2")
         if windows_smoke_job and "github.com/uesugitorachiyo/ao2/actions/runs/" not in windows_smoke_job:
             errors.append("ao2.windows_smoke_job must point to the AO2 hosted Windows smoke job")
 
-    errors.extend(validate_release_component(document, "control_plane", "ao2-control-plane", "v0.1.16", 6))
+    errors.extend(validate_release_component(document, "control_plane", "ao2-control-plane", "v0.1.17", 6))
     control_plane = document.get("control_plane", {})
     if isinstance(control_plane, dict) and control_plane.get("new_release_required") is not False:
         errors.append("control_plane.new_release_required must be false")

@@ -8,6 +8,6 @@
 
 **Repository:** [uesugitorachiyo/ao2-control-plane](https://github.com/uesugitorachiyo/ao2-control-plane)
 
-**Current public release:** [v0.1.16](https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.16), tag target `f4f5fea9fefa1081cebcbabac550b0e08b9f0e3d`.
+**Current public release:** [v0.1.17](https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.17), tag target `6336801eedc4a8402d12b306b98603ce0a6fb6b5`.
 
-**Pairing:** AO2 Control Plane v0.1.16 is the expected companion for AO2 v0.5.1. The Control Plane patch refreshes the companion artifact without requiring an AO2 release.
+**Pairing:** AO2 Control Plane v0.1.17 is the expected companion for AO2 v0.5.2. The Control Plane publication is stable, not draft, not prerelease, and carries the six expected release assets.

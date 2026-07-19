@@ -8,7 +8,7 @@ AO Architecture documents a multi-repository AI agent orchestration stack for go
 
 Use this documentation to understand the AO stack's architecture, authority boundaries, agent workflows, contracts, production-readiness gates, and evidence trails. The focus is practical orchestration: how agent work moves from portfolio scheduling to governed factory planning, local execution, policy decisions, control-plane readback, and operator-facing status.
 
-Current public release pair: [AO2 v0.5.1 with AO2 Control Plane v0.1.16](docs/current-release.md). This release-pair readback does not mark the full compatibility matrix complete, launch external beta, request promotion, or change RSI boundaries.
+Current public release pair: [AO2 v0.5.2 with AO2 Control Plane v0.1.17](docs/current-release.md). This release-pair readback does not mark the full compatibility matrix complete, launch external beta, request promotion, or change RSI boundaries.
 
 ## What Is The AO Stack?
 
@@ -58,7 +58,7 @@ Watch the video walkthrough: [AO Architecture on YouTube](https://youtu.be/P0Jbs
 ## Start Here
 
 1. [Overview](overview/README.md) explains how all repositories interact.
-2. [Current Public Release Pair](docs/current-release.md) records AO2 v0.5.1 and AO2 Control Plane v0.1.16 evidence.
+2. [Current Public Release Pair](docs/current-release.md) records AO2 v0.5.2 and AO2 Control Plane v0.1.17 evidence.
 3. [Production Readiness Checklist](overview/PRODUCTION-READINESS.md) explains the quality bar for this documentation pack.
 4. [RSI Claim Evidence Map](overview/RSI-CLAIM-EVIDENCE-MAP.md) pins the bounded/full RSI claim boundary, source artifacts, known PRs, and out-of-scope repositories.
 5. [Live Mutation Documentation Consistency Proof](overview/LIVE-MUTATION-DOCUMENTATION-CONSISTENCY.md) verifies the first-live-docs public boundary across stack docs.
