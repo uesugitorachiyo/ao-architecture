@@ -751,6 +751,11 @@ SAFETY_PATTERNS = [
     r"AKIA[0-9A-Z]{16}",
 ]
 
+SAFETY_SCAN_SUFFIXES = {".md", ".svg", ".json", ".txt"}
+MAX_PUBLIC_SAFETY_SCAN_FILES = 4096
+MAX_PUBLIC_SAFETY_SCAN_FILE_BYTES = 1 * 1024 * 1024
+MAX_PUBLIC_SAFETY_SCAN_TOTAL_BYTES = 16 * 1024 * 1024
+
 
 def fail(message: str) -> None:
     print(f"verify_architecture.py: {message}", file=sys.stderr)
@@ -766,6 +771,46 @@ def read_text(path: Path) -> str:
 
 def markdown_image_targets(text: str) -> list[str]:
     return re.findall(r"!\[[^\]]*\]\(([^)]+)\)", text)
+
+
+def relative_display(root: Path, path: Path) -> str:
+    try:
+        return str(path.relative_to(root))
+    except ValueError:
+        return str(path)
+
+
+def public_safety_scan_paths(
+    root: Path,
+    suffixes: set[str] | None = None,
+    max_files: int = MAX_PUBLIC_SAFETY_SCAN_FILES,
+    max_file_bytes: int = MAX_PUBLIC_SAFETY_SCAN_FILE_BYTES,
+    max_total_bytes: int = MAX_PUBLIC_SAFETY_SCAN_TOTAL_BYTES,
+) -> list[Path]:
+    suffixes = suffixes or SAFETY_SCAN_SUFFIXES
+    root_info = root.lstat()
+    if root_info.st_mode & 0o170000 == 0o120000:
+        raise ValueError(f"public-safety scan symlink is not allowed: {relative_display(root, root)}")
+
+    paths: list[Path] = []
+    total_bytes = 0
+    for path in sorted(root.rglob("*")):
+        if ".git" in path.parts:
+            continue
+        info = path.lstat()
+        if path.is_symlink():
+            raise ValueError(f"public-safety scan symlink is not allowed: {relative_display(root, path)}")
+        if not path.is_file() or path.suffix not in suffixes:
+            continue
+        if info.st_size > max_file_bytes:
+            raise ValueError(f"public-safety scan file size limit exceeded for {relative_display(root, path)}")
+        paths.append(path)
+        if len(paths) > max_files:
+            raise ValueError("public-safety scan file count limit exceeded")
+        total_bytes += info.st_size
+        if total_bytes > max_total_bytes:
+            raise ValueError("public-safety scan total byte limit exceeded")
+    return paths
 
 
 def assert_contains(path: Path, needle: str) -> None:
@@ -829,7 +874,15 @@ def main() -> int:
     except ET.ParseError as exc:
         fail(f"invalid external-beta topology SVG: {exc}")
 
-    for md in ROOT.rglob("*.md"):
+    try:
+        markdown_paths = public_safety_scan_paths(ROOT, suffixes={".md"})
+        safety_paths = public_safety_scan_paths(ROOT)
+    except OSError as exc:
+        fail(f"public-safety scan failed to inspect path metadata: {exc}")
+    except ValueError as exc:
+        fail(str(exc))
+
+    for md in markdown_paths:
         text = read_text(md)
         for target in markdown_image_targets(text):
             if target.startswith("http://") or target.startswith("https://"):
@@ -838,10 +891,7 @@ def main() -> int:
             if not image_path.exists():
                 fail(f"{md.relative_to(ROOT)} references missing image {target}")
 
-    scan_suffixes = {".md", ".svg", ".json", ".txt"}
-    for path in ROOT.rglob("*"):
-        if not path.is_file() or ".git" in path.parts or path.suffix not in scan_suffixes:
-            continue
+    for path in safety_paths:
         text = path.read_text(errors="ignore")
         for pattern in SAFETY_PATTERNS:
             if re.search(pattern, text):
