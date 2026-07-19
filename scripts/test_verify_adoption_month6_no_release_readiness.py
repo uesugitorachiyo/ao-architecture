@@ -11,11 +11,11 @@ VALID_DOC = """
 # AO Stack Adoption Month 6 No-Release Readiness
 
 release_decision=no_release.
-AO2 v0.5.1 and AO2 Control Plane v0.1.16 remain the current public pair.
-AO2 changes since v0.5.1 are docs, tests, and fixtures only.
-Control Plane changes since v0.1.16 are workflows, scripts, docs, tests, and
+AO2 v0.5.2 and AO2 Control Plane v0.1.17 remain the current public pair.
+AO2 changes since v0.5.2 are docs, tests, and fixtures only.
+Control Plane changes since v0.1.17 are workflows, scripts, docs, tests, and
 fixtures only. No AO2 shipped binary behavior requires public artifact
-replacement. The Control Plane v0.1.16 patch is already the current companion
+replacement. The Control Plane v0.1.17 release is already the current companion
 artifact.
 
 The compatibility matrix remains 16 tested edges, 16 canonical vectors, and
