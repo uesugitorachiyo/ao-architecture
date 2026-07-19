@@ -11,28 +11,28 @@ Month 6 does not require a new stable release train.
 
 The current public release pair remains:
 
-- AO2 v0.5.1, tag target
-  `80ec5321f42d4bab17d5e64fdae6aa099ba59d4a`.
-- AO2 Control Plane v0.1.16, tag target
-  `f4f5fea9fefa1081cebcbabac550b0e08b9f0e3d`.
+- AO2 v0.5.2, tag target
+  `732a97950121321b3cfad29d86526df9c0b5fad5`.
+- AO2 Control Plane v0.1.17, tag target
+  `6336801eedc4a8402d12b306b98603ce0a6fb6b5`.
 
 No AO2 release candidate is selected. No additional Control Plane release is
-pending after the v0.1.16 patch. No additional tag, release, upload,
+pending after the v0.1.17 release. No additional tag, release, upload,
 deployment, or new binary publication is authorized by this current readback.
 
 ## Release-Impact Inventory
 
-AO2 changes after v0.5.1 are docs, compatibility vectors, dry-run fixtures, and
-tests. AO2 has no runtime source change after v0.5.1 and no public artifact
+AO2 changes after v0.5.2 are docs, compatibility vectors, dry-run fixtures, and
+tests. AO2 has no runtime source change after v0.5.2 and no public artifact
 replacement gate is triggered.
 
-AO2 Control Plane changes after v0.1.16 are release-support docs and scripts,
+AO2 Control Plane changes after v0.1.17 are release-support docs and scripts,
 workflow/readback tests, compatibility vectors, and dry-run observation
-fixtures. AO2 Control Plane has no runtime source change after v0.1.16 and no
+fixtures. AO2 Control Plane has no runtime source change after v0.1.17 and no
 additional public artifact replacement gate is triggered.
 
 The Control Plane lockfile hygiene update from PR #98 updated the yanked
-transitive `spin` lockfile entry to `0.9.9`. The v0.1.16 patch carries that
+transitive `spin` lockfile entry to `0.9.9`. The v0.1.17 release carries that
 compiled dependency refresh in the current public Control Plane artifact.
 
 ## Evidence State

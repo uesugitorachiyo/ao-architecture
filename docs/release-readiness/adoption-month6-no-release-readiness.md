@@ -5,18 +5,18 @@ readiness.
 
 `release_decision=no_release`.
 
-AO2 v0.5.1 and AO2 Control Plane v0.1.16 remain the current public pair.
+AO2 v0.5.2 and AO2 Control Plane v0.1.17 remain the current public pair.
 
 ## Change Classification
 
-AO2 changes since v0.5.1 are docs, tests, and fixtures only:
+AO2 changes since v0.5.2 are docs, tests, and fixtures only:
 
-- v0.5.1 support reference update;
+- v0.5.2 support reference update;
 - AO2 execution receipt compatibility vector;
 - Covenant approval compatibility vector;
 - controlled self-improvement dry-run fixture and tests.
 
-Control Plane changes since v0.1.16 are workflows, scripts, docs, tests, and
+Control Plane changes since v0.1.17 are workflows, scripts, docs, tests, and
 fixtures only:
 
 - release support workflow/script hardening;
@@ -25,7 +25,7 @@ fixtures only:
 - controlled self-improvement observation fixture and tests.
 
 No AO2 shipped binary behavior requires public artifact replacement. The
-Control Plane v0.1.16 patch is already the current companion artifact.
+Control Plane v0.1.17 release is already the current companion artifact.
 
 ## Readiness State
 

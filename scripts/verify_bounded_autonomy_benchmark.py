@@ -81,10 +81,10 @@ def validate_corpus(corpus: dict[str, Any]) -> list[str]:
     if not isinstance(pair, dict):
         errors.append("current_public_pair is required")
     else:
-        if pair.get("ao2_version") != "v0.5.1":
-            errors.append("current_public_pair.ao2_version must be v0.5.1")
-        if pair.get("control_plane_version") != "v0.1.16":
-            errors.append("current_public_pair.control_plane_version must be v0.1.16")
+        if pair.get("ao2_version") != "v0.5.2":
+            errors.append("current_public_pair.ao2_version must be v0.5.2")
+        if pair.get("control_plane_version") != "v0.1.17":
+            errors.append("current_public_pair.control_plane_version must be v0.1.17")
     task_ids = {
         task.get("id")
         for task in corpus.get("task_classes", [])

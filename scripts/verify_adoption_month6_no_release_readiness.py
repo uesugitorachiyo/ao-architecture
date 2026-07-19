@@ -17,10 +17,10 @@ def validate_adoption_month6_no_release_readiness(document: str) -> list[str]:
 
     required = {
         "document must record release_decision=no_release": "release_decision=no_release",
-        "document must mention AO2 v0.5.1": "ao2 v0.5.1",
-        "document must mention AO2 Control Plane v0.1.16": "ao2 control plane v0.1.16",
-        "document must classify AO2 changes as docs/tests/fixtures": "ao2 changes since v0.5.1 are docs, tests, and fixtures only",
-        "document must classify Control Plane changes as non-binary support work": "control plane changes since v0.1.16 are workflows, scripts, docs, tests, and fixtures only",
+        "document must mention AO2 v0.5.2": "ao2 v0.5.2",
+        "document must mention AO2 Control Plane v0.1.17": "ao2 control plane v0.1.17",
+        "document must classify AO2 changes as docs/tests/fixtures": "ao2 changes since v0.5.2 are docs, tests, and fixtures only",
+        "document must classify Control Plane changes as non-binary support work": "control plane changes since v0.1.17 are workflows, scripts, docs, tests, and fixtures only",
         "document must state no AO2 public artifact replacement is required": "no ao2 shipped binary behavior requires public artifact replacement",
         "document must mention 16 tested edges": "16 tested edges",
         "document must mention 16 canonical vectors": "16 canonical vectors",

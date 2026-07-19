@@ -13,10 +13,10 @@ def valid_corpus():
         "schema": "ao.architecture.bounded-autonomy-benchmark-corpus.v0.1",
         "benchmark_version": "bounded-autonomy-month1-v0.1",
         "current_public_pair": {
-            "ao2_version": "v0.5.1",
-            "ao2_tag_target": "80ec5321f42d4bab17d5e64fdae6aa099ba59d4a",
-            "control_plane_version": "v0.1.16",
-            "control_plane_tag_target": "f4f5fea9fefa1081cebcbabac550b0e08b9f0e3d",
+            "ao2_version": "v0.5.2",
+            "ao2_tag_target": "732a97950121321b3cfad29d86526df9c0b5fad5",
+            "control_plane_version": "v0.1.17",
+            "control_plane_tag_target": "6336801eedc4a8402d12b306b98603ce0a6fb6b5",
         },
         "task_classes": [
             {"id": "documentation_correction", "fixture": "docs/support correction", "requires_pr": True},
