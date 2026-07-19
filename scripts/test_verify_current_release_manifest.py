@@ -6,6 +6,18 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from verify_current_release_manifest import validate_manifest, validate_stack_lock_alignment
 
+AO2_VERSION = "v0.5.2"
+AO2_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.2"
+AO2_TAG_TARGET = "732a97950121321b3cfad29d86526df9c0b5fad5"
+AO2_MAIN_COMMIT = "a1728338277f076f9122bff2718617193199a623"
+AO2_APPROVED_MANIFEST_DIGEST = "8268de6f7ccf2f9a194b9123df7a3845cb4660bc10476f6da1df7a5859f48574"
+AO2_EVIDENCE_PATH = "ao-stack-qualification-release-dsa-20260718-20260718T224504Z/publish-ao2-v052-result.json"
+AO2_WINDOWS_SMOKE_JOB = "https://github.com/uesugitorachiyo/ao2/actions/runs/29690626068/job/88202569707"
+CONTROL_PLANE_VERSION = "v0.1.17"
+CONTROL_PLANE_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.17"
+CONTROL_PLANE_TAG_TARGET = "6336801eedc4a8402d12b306b98603ce0a6fb6b5"
+CONTROL_PLANE_MAIN_COMMIT = "2a2c4bfe6a65b2076e1e006639e661e14226e9d6"
+
 
 class VerifyCurrentReleaseManifestTest(unittest.TestCase):
     def test_accepts_current_public_release_pair_manifest(self):
@@ -13,32 +25,32 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
             "schema": "ao.architecture.current-release-manifest.v0.1",
             "status": "current_public_release_pair",
             "generated_at_utc": "2026-07-15T20:10:02Z",
-            "source_of_truth": "public GitHub releases plus AO2 v0.5.1 publication evidence",
+            "source_of_truth": "public GitHub releases plus AO2 v0.5.2 and Control Plane v0.1.17 publication evidence",
             "ao2": {
                 "repository": "ao2",
-                "version": "v0.5.1",
-                "release_url": "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.1",
-                "tag": "v0.5.1",
-                "tag_target": "80ec5321f42d4bab17d5e64fdae6aa099ba59d4a",
-                "current_main_commit": "d56d62199bac36800d55e426ac2049e1e21bdd7c",
-                "release_prep_pr": "https://github.com/uesugitorachiyo/ao2/pull/286",
-                "release_prep_merge_commit": "80ec5321f42d4bab17d5e64fdae6aa099ba59d4a",
-                "post_public_docs_pr": "https://github.com/uesugitorachiyo/ao2/pull/287",
-                "post_public_docs_commit": "d56d62199bac36800d55e426ac2049e1e21bdd7c",
+                "version": AO2_VERSION,
+                "release_url": AO2_RELEASE_URL,
+                "tag": AO2_VERSION,
+                "tag_target": AO2_TAG_TARGET,
+                "current_main_commit": AO2_MAIN_COMMIT,
+                "release_prep_pr": "https://github.com/uesugitorachiyo/ao2/pull/322",
+                "release_prep_merge_commit": AO2_TAG_TARGET,
+                "post_public_docs_pr": "https://github.com/uesugitorachiyo/ao2/pull/324",
+                "post_public_docs_commit": AO2_MAIN_COMMIT,
                 "is_draft": False,
                 "is_prerelease": False,
                 "asset_count": 23,
-                "approved_manifest_digest": "bd8103e7a038f47e1b4fef1a2a19ae65cc221675ea11149d39cfb679ae2a08fc",
-                "evidence_path": "ao2-v0.5.1-stable-patch-release-20260715T174801Z/final-report.md",
-                "windows_smoke_job": "https://github.com/uesugitorachiyo/ao2/actions/runs/29445275460/job/87454080941",
+                "approved_manifest_digest": AO2_APPROVED_MANIFEST_DIGEST,
+                "evidence_path": AO2_EVIDENCE_PATH,
+                "windows_smoke_job": AO2_WINDOWS_SMOKE_JOB,
             },
             "control_plane": {
                 "repository": "ao2-control-plane",
-                "version": "v0.1.16",
-                "release_url": "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.16",
-                "tag": "v0.1.16",
-                "tag_target": "f4f5fea9fefa1081cebcbabac550b0e08b9f0e3d",
-                "current_main_commit": "90c6d90bc338038cc2fdbbdd6ae9fd10226a1a10",
+                "version": CONTROL_PLANE_VERSION,
+                "release_url": CONTROL_PLANE_RELEASE_URL,
+                "tag": CONTROL_PLANE_VERSION,
+                "tag_target": CONTROL_PLANE_TAG_TARGET,
+                "current_main_commit": CONTROL_PLANE_MAIN_COMMIT,
                 "is_draft": False,
                 "is_prerelease": False,
                 "asset_count": 6,
@@ -68,28 +80,28 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
             "schema": "ao.architecture.current-release-manifest.v0.1",
             "status": "current_public_release_pair",
             "generated_at_utc": "2026-07-15T20:10:02Z",
-            "source_of_truth": "public GitHub releases plus AO2 v0.5.1 publication evidence",
+            "source_of_truth": "public GitHub releases plus AO2 v0.5.2 and Control Plane v0.1.17 publication evidence",
             "ao2": {
                 "repository": "ao2",
-                "version": "v0.5.1",
-                "release_url": "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.1",
-                "tag": "v0.5.1",
-                "tag_target": "80ec5321f42d4bab17d5e64fdae6aa099ba59d4a",
-                "current_main_commit": "d56d62199bac36800d55e426ac2049e1e21bdd7c",
+                "version": AO2_VERSION,
+                "release_url": AO2_RELEASE_URL,
+                "tag": AO2_VERSION,
+                "tag_target": AO2_TAG_TARGET,
+                "current_main_commit": AO2_MAIN_COMMIT,
                 "is_draft": False,
                 "is_prerelease": False,
                 "asset_count": 23,
-                "approved_manifest_digest": "bd8103e7a038f47e1b4fef1a2a19ae65cc221675ea11149d39cfb679ae2a08fc",
-                "evidence_path": "ao2-v0.5.1-stable-patch-release-20260715T174801Z/final-report.md",
-                "windows_smoke_job": "https://github.com/uesugitorachiyo/ao2/actions/runs/29445275460/job/87454080941",
+                "approved_manifest_digest": AO2_APPROVED_MANIFEST_DIGEST,
+                "evidence_path": AO2_EVIDENCE_PATH,
+                "windows_smoke_job": AO2_WINDOWS_SMOKE_JOB,
             },
             "control_plane": {
                 "repository": "ao2-control-plane",
-                "version": "v0.1.16",
-                "release_url": "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.16",
-                "tag": "v0.1.16",
-                "tag_target": "f4f5fea9fefa1081cebcbabac550b0e08b9f0e3d",
-                "current_main_commit": "90c6d90bc338038cc2fdbbdd6ae9fd10226a1a10",
+                "version": CONTROL_PLANE_VERSION,
+                "release_url": CONTROL_PLANE_RELEASE_URL,
+                "tag": CONTROL_PLANE_VERSION,
+                "tag_target": CONTROL_PLANE_TAG_TARGET,
+                "current_main_commit": CONTROL_PLANE_MAIN_COMMIT,
                 "is_draft": False,
                 "is_prerelease": False,
                 "asset_count": 6,
@@ -121,28 +133,28 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
             "schema": "ao.architecture.current-release-manifest.v0.1",
             "status": "current_public_release_pair",
             "generated_at_utc": "2026-07-15T20:10:02Z",
-            "source_of_truth": "public GitHub releases plus AO2 v0.5.1 publication evidence",
+            "source_of_truth": "public GitHub releases plus AO2 v0.5.2 and Control Plane v0.1.17 publication evidence",
             "ao2": {
                 "repository": "ao2",
-                "version": "v0.5.1",
-                "release_url": "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.1",
-                "tag": "v0.5.1",
-                "tag_target": "80ec5321f42d4bab17d5e64fdae6aa099ba59d4a",
-                "current_main_commit": "d56d62199bac36800d55e426ac2049e1e21bdd7c",
+                "version": AO2_VERSION,
+                "release_url": AO2_RELEASE_URL,
+                "tag": AO2_VERSION,
+                "tag_target": AO2_TAG_TARGET,
+                "current_main_commit": AO2_MAIN_COMMIT,
                 "is_draft": False,
                 "is_prerelease": False,
                 "asset_count": 23,
-                "approved_manifest_digest": "bd8103e7a038f47e1b4fef1a2a19ae65cc221675ea11149d39cfb679ae2a08fc",
-                "evidence_path": "ao2-v0.5.1-stable-patch-release-20260715T174801Z/final-report.md",
-                "windows_smoke_job": "https://github.com/uesugitorachiyo/ao2/actions/runs/29445275460/job/87454080941",
+                "approved_manifest_digest": AO2_APPROVED_MANIFEST_DIGEST,
+                "evidence_path": AO2_EVIDENCE_PATH,
+                "windows_smoke_job": AO2_WINDOWS_SMOKE_JOB,
             },
             "control_plane": {
                 "repository": "ao2-control-plane",
-                "version": "v0.1.16",
-                "release_url": "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.16",
-                "tag": "v0.1.16",
-                "tag_target": "f4f5fea9fefa1081cebcbabac550b0e08b9f0e3d",
-                "current_main_commit": "90c6d90bc338038cc2fdbbdd6ae9fd10226a1a10",
+                "version": CONTROL_PLANE_VERSION,
+                "release_url": CONTROL_PLANE_RELEASE_URL,
+                "tag": CONTROL_PLANE_VERSION,
+                "tag_target": CONTROL_PLANE_TAG_TARGET,
+                "current_main_commit": CONTROL_PLANE_MAIN_COMMIT,
                 "is_draft": False,
                 "is_prerelease": False,
                 "asset_count": 6,
@@ -171,13 +183,13 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
         manifest = {
             "ao2": {
                 "repository": "ao2",
-                "version": "v0.5.1",
-                "current_main_commit": "d56d62199bac36800d55e426ac2049e1e21bdd7c",
+                "version": AO2_VERSION,
+                "current_main_commit": AO2_MAIN_COMMIT,
             },
             "control_plane": {
                 "repository": "ao2-control-plane",
-                "version": "v0.1.16",
-                "current_main_commit": "90c6d90bc338038cc2fdbbdd6ae9fd10226a1a10",
+                "version": CONTROL_PLANE_VERSION,
+                "current_main_commit": CONTROL_PLANE_MAIN_COMMIT,
             },
         }
         lock = {
@@ -189,8 +201,8 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
                 },
                 {
                     "repository": "ao2-control-plane",
-                    "commit": "90c6d90bc338038cc2fdbbdd6ae9fd10226a1a10",
-                    "detected_version": "v0.1.16",
+                    "commit": CONTROL_PLANE_MAIN_COMMIT,
+                    "detected_version": CONTROL_PLANE_VERSION,
                 },
             ]
         }

@@ -21,8 +21,8 @@ class ArchitectureBlueprintVectorTest(unittest.TestCase):
         self.assertEqual(vector["consumer"]["repository"], "ao-blueprint")
 
         source = vector["source_of_truth"]
-        self.assertEqual(source["ao2_version"], "v0.5.1")
-        self.assertEqual(source["control_plane_version"], "v0.1.16")
+        self.assertEqual(source["ao2_version"], "v0.5.2")
+        self.assertEqual(source["control_plane_version"], "v0.1.17")
         self.assertEqual(source["canonical_vector_count"], 15)
         self.assertEqual(source["consumer_test_count"], 15)
         self.assertFalse(source["full_stack_compatibility_complete"])

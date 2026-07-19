@@ -8,25 +8,32 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from verify_evidence_freshness import validate_readback
 
+AO2_VERSION = "v0.5.2"
+AO2_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.2"
+AO2_TAG_TARGET = "732a97950121321b3cfad29d86526df9c0b5fad5"
+CONTROL_PLANE_VERSION = "v0.1.17"
+CONTROL_PLANE_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.17"
+CONTROL_PLANE_TAG_TARGET = "6336801eedc4a8402d12b306b98603ce0a6fb6b5"
+
 
 def valid_manifest():
     return {
         "schema": "ao.architecture.current-release-manifest.v0.1",
         "status": "current_public_release_pair",
         "ao2": {
-            "version": "v0.5.1",
-            "release_url": "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.1",
-            "tag": "v0.5.1",
-            "tag_target": "80ec5321f42d4bab17d5e64fdae6aa099ba59d4a",
+            "version": AO2_VERSION,
+            "release_url": AO2_RELEASE_URL,
+            "tag": AO2_VERSION,
+            "tag_target": AO2_TAG_TARGET,
             "is_draft": False,
             "is_prerelease": False,
             "asset_count": 23,
         },
         "control_plane": {
-            "version": "v0.1.16",
-            "release_url": "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.16",
-            "tag": "v0.1.16",
-            "tag_target": "f4f5fea9fefa1081cebcbabac550b0e08b9f0e3d",
+            "version": CONTROL_PLANE_VERSION,
+            "release_url": CONTROL_PLANE_RELEASE_URL,
+            "tag": CONTROL_PLANE_VERSION,
+            "tag_target": CONTROL_PLANE_TAG_TARGET,
             "is_draft": False,
             "is_prerelease": False,
             "asset_count": 6,
@@ -101,17 +108,17 @@ def valid_readback():
         "status": "fresh",
         "current_public_release_pair": {
             "ao2": {
-                "version": "v0.5.1",
-                "release_url": "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.1",
-                "tag_target": "80ec5321f42d4bab17d5e64fdae6aa099ba59d4a",
+                "version": AO2_VERSION,
+                "release_url": AO2_RELEASE_URL,
+                "tag_target": AO2_TAG_TARGET,
                 "is_draft": False,
                 "is_prerelease": False,
                 "asset_count": 23,
             },
             "control_plane": {
-                "version": "v0.1.16",
-                "release_url": "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.16",
-                "tag_target": "f4f5fea9fefa1081cebcbabac550b0e08b9f0e3d",
+                "version": CONTROL_PLANE_VERSION,
+                "release_url": CONTROL_PLANE_RELEASE_URL,
+                "tag_target": CONTROL_PLANE_TAG_TARGET,
                 "is_draft": False,
                 "is_prerelease": False,
                 "asset_count": 6,

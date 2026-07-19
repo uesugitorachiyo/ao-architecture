@@ -1,7 +1,7 @@
 {
   "schema": "ao.architecture.stack-lock.v0.1",
   "status": "current",
-  "generated_at_utc": "2026-07-10T14:09:03Z",
+  "generated_at_utc": "2026-07-19T14:57:00Z",
   "source_kind": "checked_out_git",
   "repository_count": 14,
   "repositories": [
@@ -114,8 +114,8 @@
     {
       "repository": "ao2",
       "branch": "main",
-      "commit": "d56d62199bac36800d55e426ac2049e1e21bdd7c",
-      "detected_version": "v0.5.1",
+      "commit": "a1728338277f076f9122bff2718617193199a623",
+      "detected_version": "v0.5.2",
       "maturity": "stable_public_release",
       "current_boundary": "independent_repository",
       "proposed_boundary": "ao2",
@@ -128,8 +128,8 @@
     {
       "repository": "ao2-control-plane",
       "branch": "main",
-      "commit": "90c6d90bc338038cc2fdbbdd6ae9fd10226a1a10",
-      "detected_version": "v0.1.16",
+      "commit": "2a2c4bfe6a65b2076e1e006639e661e14226e9d6",
+      "detected_version": "v0.1.17",
       "maturity": "stable_single_node_observer",
       "current_boundary": "independent_repository",
       "proposed_boundary": "ao2-control-plane",
