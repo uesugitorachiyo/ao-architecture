@@ -1,0 +1,41 @@
+{
+  "schema": "ao.architecture.compact-evidence-manifest.v0.1",
+  "format_version": "v0.1",
+  "chunk_order": [
+    "chunks/000001.jsonl",
+    "chunks/000002.jsonl"
+  ],
+  "total_record_count": 3,
+  "chunks": [
+    {
+      "path": "chunks/000001.jsonl",
+      "record_count": 2,
+      "first_record_id": "evidence-000001",
+      "last_record_id": "evidence-000002",
+      "sha256": "0f3778d27480fc5f4648a6ea14d587a297bb5e05f54b4b8963bc1cf9455827a3"
+    },
+    {
+      "path": "chunks/000002.jsonl",
+      "record_count": 1,
+      "first_record_id": "evidence-000003",
+      "last_record_id": "evidence-000003",
+      "sha256": "7ea04ef7403741de300cdb3d9913ef868be3f9813c010d30f8044157f48269b9"
+    }
+  ],
+  "lookup": {
+    "strategy": "ordered_chunk_ranges",
+    "ranges": [
+      {
+        "first_record_id": "evidence-000001",
+        "last_record_id": "evidence-000002",
+        "chunk": "chunks/000001.jsonl"
+      },
+      {
+        "first_record_id": "evidence-000003",
+        "last_record_id": "evidence-000003",
+        "chunk": "chunks/000002.jsonl"
+      }
+    ]
+  },
+  "manifest_digest": "69c7b71ff702ede7e8959cd8b1b49efc6d7dde4355216009eaa7ac6fc83f9831"
+}
