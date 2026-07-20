@@ -38,6 +38,7 @@ TOP_LEVEL_FIELDS = {
     "compatibility_matrix",
     "evidence_semantics",
     "rules",
+    "non_edge_change_sets",
     "edges",
     "coverage",
     "safety",
@@ -111,6 +112,37 @@ TRUSTED_EDGE_EVIDENCE_DIGESTS = {
 }
 # A declared change remains fail-closed until review pins its complete proof record here.
 TRUSTED_CHANGE_EVIDENCE_DIGESTS: dict[str, str] = {}
+NON_EDGE_CHANGE_SET_FIELDS = {
+    "id",
+    "repository",
+    "change_kind",
+    "old_commit",
+    "current_commit",
+    "status",
+    "predecessor",
+    "contracts",
+    "evidence_document",
+}
+TRUSTED_NON_EDGE_CHANGE_SET_DIGESTS = {
+    "mission-lifecycle-correlation-additive-b02666e": (
+        "73d570273540442e10c9b4eb55dae611f0cec390a6aa8698504bc8fef04d89ca"
+    ),
+    "mission-objective-workflow-contract-v0.1-introduction": (
+        "eee3264ccfc3d8b580298afc463c60fa8b9a5724332ec5a7a0e2c058d8431710"
+    ),
+    "ao2-github-draft-pr-v1-introduction": (
+        "fcb0faa309c22f5fa6bf95ce2202d66ae85909c7f8405f19c9d1eb2c2135f507"
+    ),
+    "mission-correlation-chain-v0.1-introduction": (
+        "1a4cff9933c9aa683ae91ce2b33d5ee703245361b22b4e4fb69b1cd61215e4e1"
+    ),
+    "mission-correlation-state-additive-7e7de94": (
+        "9fbf20cf0c8ec554ebbe5623ab64ccd5b5dc06d0fe6ed4442f06d376c1f85b29"
+    ),
+    "command-mission-status-correlation-additive-7cda85e": (
+        "230765b2ca80566834fd275ceb1a0c0e43dc7d7551b445e272c7476019320db5"
+    ),
+}
 COVERAGE_FIELDS = {
     "tracked_edge_count",
     "current_pair_evidence_count",
@@ -229,6 +261,51 @@ def validate_policy(policy: dict[str, Any], matrix: dict[str, Any]) -> list[str]
     ):
         if rules.get(field) is not True:
             errors.append(f"rules.{field} must be true")
+
+    change_sets = policy.get("non_edge_change_sets")
+    if not isinstance(change_sets, list):
+        errors.append("non_edge_change_sets is required")
+        change_sets = []
+    change_set_ids: list[str] = []
+    for index, record in enumerate(change_sets):
+        if not isinstance(record, dict):
+            errors.append(f"non_edge_change_sets[{index}] must be an object")
+            continue
+        _require_exact_fields(
+            errors,
+            f"non_edge_change_sets[{index}]",
+            record,
+            NON_EDGE_CHANGE_SET_FIELDS,
+        )
+        record_id = record.get("id")
+        if isinstance(record_id, str):
+            change_set_ids.append(record_id)
+        if record.get("evidence_document") != (
+            "stack/contract-migration-and-rollback-results.json"
+        ):
+            errors.append(
+                f"non_edge_change_sets[{index}].evidence_document must identify "
+                "the governed migration results"
+            )
+        contracts = record.get("contracts")
+        if (
+            not isinstance(contracts, list)
+            or not contracts
+            or any(not isinstance(contract, str) or not contract for contract in contracts)
+        ):
+            errors.append(f"non_edge_change_sets[{index}].contracts must be nonempty")
+        if (
+            not isinstance(record_id, str)
+            or TRUSTED_NON_EDGE_CHANGE_SET_DIGESTS.get(record_id)
+            != _canonical_digest(record)
+        ):
+            errors.append(
+                f"non_edge_change_sets {record_id} must match the trusted record"
+            )
+    if change_set_ids != list(TRUSTED_NON_EDGE_CHANGE_SET_DIGESTS):
+        errors.append(
+            "non_edge_change_sets must exactly list the six Month 3 records in order"
+        )
 
     matrix_edges = matrix.get("edges") if isinstance(matrix.get("edges"), list) else []
     policy_edges = policy.get("edges") if isinstance(policy.get("edges"), list) else []

@@ -63,6 +63,24 @@ jobs:
       - name: Verify contract evolution policy unit tests
         run: python3 -m unittest scripts/test_verify_contract_evolution_policy.py
 
+      - name: Verify contract compatibility window
+        run: python3 scripts/verify_contract_compatibility_window.py
+
+      - name: Verify contract compatibility window unit tests
+        run: python3 -m unittest scripts/test_verify_contract_compatibility_window.py
+
+      - name: Verify contract migration and rollback results
+        run: python3 scripts/verify_contract_migration_and_rollback_results.py
+
+      - name: Verify contract migration and rollback results unit tests
+        run: python3 -m unittest scripts/test_verify_contract_migration_and_rollback_results.py
+
+      - name: Verify GitHub issue workflow contracts
+        run: python3 scripts/verify_github_issue_workflow_contracts.py
+
+      - name: Verify GitHub issue workflow contract unit tests
+        run: python3 -m unittest scripts/test_verify_github_issue_workflow_contracts.py
+
       - name: Verify stack lockfile
         run: python3 scripts/verify_stack_lock.py
 

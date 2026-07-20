@@ -139,6 +139,18 @@ def valid_document():
             "release_published": False,
             "rsi_authorized": False,
         },
+        "draft_pr_contract_family": {
+            "status": "current_pair_only",
+            "public_contracts": [
+                "ao2.github-draft-pr-evidence.v1",
+                "ao2.github-draft-pr-action.v1",
+                "ao2.github-draft-pr-verification.v1",
+                "ao2.github-draft-pr-fixture-publish.v1",
+            ],
+            "private_executable_protocol_pattern": "ao2.local-draft-pr-fixture-*",
+            "private_protocols_are_public_stack_contracts": False,
+            "immutable_commit": "aaa36fb13675396b60ed9a63bd94aa665be9eb5c",
+        },
     }
 
 
@@ -179,6 +191,43 @@ class VerifyGitHubIssueWorkflowContractsTest(unittest.TestCase):
         document["command_policy_classes"].remove("approval_required_github_write")
         self.assertIn(
             "missing command policy class: approval_required_github_write",
+            validate_document(document),
+        )
+
+    def test_rejects_missing_public_draft_pr_contract(self):
+        document = valid_document()
+        document["draft_pr_contract_family"]["public_contracts"].pop()
+        self.assertIn(
+            "draft_pr_contract_family.public_contracts must exactly match the four "
+            "AO2 public contracts",
+            validate_document(document),
+        )
+
+    def test_rejects_private_fixture_protocol_as_public_contract(self):
+        document = valid_document()
+        document["draft_pr_contract_family"]["public_contracts"][0] = (
+            "ao2.local-draft-pr-fixture-request.v1"
+        )
+        document["draft_pr_contract_family"][
+            "private_protocols_are_public_stack_contracts"
+        ] = True
+        errors = validate_document(document)
+        self.assertIn(
+            "draft_pr_contract_family.public_contracts must exactly match the four "
+            "AO2 public contracts",
+            errors,
+        )
+        self.assertIn(
+            "draft_pr_contract_family.private_protocols_are_public_stack_contracts "
+            "must be false",
+            errors,
+        )
+
+    def test_rejects_wrong_ao2_immutable_commit(self):
+        document = valid_document()
+        document["draft_pr_contract_family"]["immutable_commit"] = "a" * 40
+        self.assertIn(
+            "draft_pr_contract_family.immutable_commit must bind the merged AO2 publisher",
             validate_document(document),
         )
 

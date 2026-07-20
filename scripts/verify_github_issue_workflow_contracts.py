@@ -104,6 +104,13 @@ MONTH1_FALSE_BOUNDARIES = (
     "release_published",
     "rsi_authorized",
 )
+AO2_PUBLIC_DRAFT_PR_CONTRACTS = (
+    "ao2.github-draft-pr-evidence.v1",
+    "ao2.github-draft-pr-action.v1",
+    "ao2.github-draft-pr-verification.v1",
+    "ao2.github-draft-pr-fixture-publish.v1",
+)
+AO2_DRAFT_PR_COMMIT = "aaa36fb13675396b60ed9a63bd94aa665be9eb5c"
 
 
 def _names(entries: Any, field: str) -> set[str]:
@@ -219,6 +226,48 @@ def validate_document(document: dict[str, Any]) -> list[str]:
         for boundary in MONTH1_FALSE_BOUNDARIES:
             if boundaries.get(boundary) is not False:
                 errors.append(f"boundaries.{boundary} must remain false for Month 1")
+
+    family = document.get("draft_pr_contract_family")
+    if not isinstance(family, dict):
+        errors.append("draft_pr_contract_family is required")
+    else:
+        expected_fields = {
+            "status",
+            "public_contracts",
+            "private_executable_protocol_pattern",
+            "private_protocols_are_public_stack_contracts",
+            "immutable_commit",
+        }
+        if set(family) != expected_fields:
+            errors.append(
+                "draft_pr_contract_family fields must exactly match the strict schema"
+            )
+        if family.get("status") != "current_pair_only":
+            errors.append(
+                "draft_pr_contract_family.status must be current_pair_only"
+            )
+        if family.get("public_contracts") != list(AO2_PUBLIC_DRAFT_PR_CONTRACTS):
+            errors.append(
+                "draft_pr_contract_family.public_contracts must exactly match the "
+                "four AO2 public contracts"
+            )
+        if (
+            family.get("private_executable_protocol_pattern")
+            != "ao2.local-draft-pr-fixture-*"
+        ):
+            errors.append(
+                "draft_pr_contract_family.private_executable_protocol_pattern "
+                "must identify the private fixture protocols"
+            )
+        if family.get("private_protocols_are_public_stack_contracts") is not False:
+            errors.append(
+                "draft_pr_contract_family.private_protocols_are_public_stack_contracts "
+                "must be false"
+            )
+        if family.get("immutable_commit") != AO2_DRAFT_PR_COMMIT:
+            errors.append(
+                "draft_pr_contract_family.immutable_commit must bind the merged AO2 publisher"
+            )
 
     return errors
 

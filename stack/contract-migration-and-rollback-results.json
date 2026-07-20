@@ -1,0 +1,288 @@
+{
+  "schema": "ao.architecture.contract-migration-and-rollback-results.v1",
+  "status": "current",
+  "policy": "stack/contract-evolution-policy.json",
+  "results": [
+    {
+      "id": "mission-lifecycle-correlation-additive-b02666e",
+      "repository": "ao-mission",
+      "old_commit": "d10bc1986fe1ea5d9ac58454db4fffc08ab76bdd",
+      "current_commit": "b02666e7df36ea1d8f325dacedcc22d2a95099e4",
+      "status": "directional_evidence_incomplete",
+      "failed_direction_count": 0,
+      "unproven_direction_count": 2,
+      "directional_evidence": {
+        "old_producer_to_new_consumer": {
+          "status": "not_demonstrated",
+          "evidence_type": "current_legacy_projection_only_not_old_artifact_compatibility",
+          "source_repository": "ao-mission",
+          "source_commit": "b02666e7df36ea1d8f325dacedcc22d2a95099e4",
+          "source_path": "internal/mission/objective_entry_test.go",
+          "source_sha256": "0ae9490e5243163ac7ef238e0b88528677e14e731492002b98f984476a0f57c7",
+          "test_selector": "TestLegacyStartOutputRemainsCompatible"
+        },
+        "new_producer_to_old_consumer": {
+          "status": "not_demonstrated",
+          "evidence_type": "legacy_projection_only_not_new_field_compatibility",
+          "source_repository": "ao-mission",
+          "source_commit": "b02666e7df36ea1d8f325dacedcc22d2a95099e4",
+          "source_path": "internal/mission/objective_entry_test.go",
+          "source_sha256": "0ae9490e5243163ac7ef238e0b88528677e14e731492002b98f984476a0f57c7",
+          "test_selector": "TestLegacyStartOutputRemainsCompatible"
+        },
+        "current_producer_to_current_consumer": {
+          "status": "passed",
+          "evidence_type": "executable_test_at_immutable_commit",
+          "source_repository": "ao-mission",
+          "source_commit": "b02666e7df36ea1d8f325dacedcc22d2a95099e4",
+          "source_path": "internal/mission/objective_entry_test.go",
+          "source_sha256": "0ae9490e5243163ac7ef238e0b88528677e14e731492002b98f984476a0f57c7",
+          "test_selector": "TestObjectiveCorrelationSurvivesCoreLifecycleAndEvidence"
+        },
+        "rollback_to_previous_supported_contract": {
+          "status": "passed",
+          "evidence_type": "executable_test_at_immutable_commit",
+          "source_repository": "ao-mission",
+          "source_commit": "b02666e7df36ea1d8f325dacedcc22d2a95099e4",
+          "source_path": "internal/mission/objective_entry_test.go",
+          "source_sha256": "0ae9490e5243163ac7ef238e0b88528677e14e731492002b98f984476a0f57c7",
+          "test_selector": "TestLegacyStartOutputRemainsCompatible"
+        }
+      },
+      "supplementary_current_pair_selectors": [
+        "TestCorrelatedImportRequiresExactCorrelationWithoutMutationOnReject",
+        "TestObjectiveCorrelationAppearsInDashboardAndVerificationBundle",
+        "TestObjectiveNextAndTerminalReadbacksPreserveWorkflowCorrelation"
+      ],
+      "fixture_bindings": {
+        "old_projection": {
+          "repository": "ao-mission",
+          "commit": "d10bc1986fe1ea5d9ac58454db4fffc08ab76bdd",
+          "path": "internal/mission/types.go",
+          "sha256": "87e41be0deffb54d5ada83e5d97ee4357422f4c26e26a2b35671ec7fb2aa10ac"
+        },
+        "current_projection": {
+          "repository": "ao-mission",
+          "commit": "b02666e7df36ea1d8f325dacedcc22d2a95099e4",
+          "path": "internal/mission/types.go",
+          "sha256": "a41cf4fd7542f40a52863d2ec614eacd4146d0674d8a913660cbe3672a67eeb8"
+        }
+      }
+    },
+    {
+      "id": "mission-objective-workflow-contract-v0.1-introduction",
+      "repository": "ao-mission",
+      "current_commit": "b02666e7df36ea1d8f325dacedcc22d2a95099e4",
+      "status": "current_pair_only",
+      "contract": "ao.mission.objective-workflow-contract.v0.1",
+      "current_pair_evidence": {
+        "status": "passed",
+        "repository": "ao-mission",
+        "commit": "b02666e7df36ea1d8f325dacedcc22d2a95099e4",
+        "path": "examples/valid/objective-workflow-contract.json",
+        "sha256": "ce77374849821110bf8bdeae43b2373d0098c32342e99c7c82851fefda1423dc",
+        "test_path": "internal/mission/objective_entry_test.go",
+        "test_sha256": "0ae9490e5243163ac7ef238e0b88528677e14e731492002b98f984476a0f57c7",
+        "test_selector": "TestObjectiveWorkflowContractFixtureValidatesStrictly"
+      },
+      "predecessor_results": {
+        "old_producer_to_new_consumer": "not_applicable_no_predecessor",
+        "new_producer_to_old_consumer": "not_applicable_no_predecessor",
+        "rollback_to_previous_supported_contract": "not_applicable_no_predecessor"
+      }
+    },
+    {
+      "id": "ao2-github-draft-pr-v1-introduction",
+      "repository": "ao2",
+      "status": "current_pair_only",
+      "current_commit": "aaa36fb13675396b60ed9a63bd94aa665be9eb5c",
+      "contracts": [
+        "ao2.github-draft-pr-evidence.v1",
+        "ao2.github-draft-pr-action.v1",
+        "ao2.github-draft-pr-verification.v1",
+        "ao2.github-draft-pr-fixture-publish.v1"
+      ],
+      "private_protocol_pattern": "ao2.local-draft-pr-fixture-*",
+      "predecessor_results": {
+        "old_producer_to_new_consumer": "not_applicable_no_predecessor",
+        "new_producer_to_old_consumer": "not_applicable_no_predecessor",
+        "rollback_to_previous_supported_contract": "not_applicable_no_predecessor"
+      },
+      "current_pair_evidence": {
+        "status": "passed",
+        "repository": "ao2",
+        "commit": "aaa36fb13675396b60ed9a63bd94aa665be9eb5c",
+        "source_path": "crates/ao2-cli/src/github_issue_draft.rs",
+        "source_sha256": "a92c25c94e47e8f7913f93dacf634a488d8b907062da2c211dcb74950a88ed17",
+        "test_path": "crates/ao2-cli/tests/github_issue_draft_publisher.rs",
+        "test_sha256": "1e84f90b3181921ef63826175a960d109d0d81ba914b66d7366fe474d0395c47",
+        "test_target": "cargo test -p ao2-cli --test github_issue_draft_publisher",
+        "test_count": 29
+      }
+    },
+    {
+      "id": "mission-correlation-chain-v0.1-introduction",
+      "repository": "ao-mission",
+      "status": "current_pair_only",
+      "current_commit": "7e7de94af5f2f463fb18a7d2fdf829e66787167f",
+      "contracts": [
+        "ao.mission.correlation-chain.v0.1",
+        "ao.mission.correlation-chain-validation.v0.1",
+        "ao.mission.correlation-chain-reference.v0.1"
+      ],
+      "predecessor_results": {
+        "old_producer_to_new_consumer": "not_applicable_no_predecessor",
+        "new_producer_to_old_consumer": "not_applicable_no_predecessor",
+        "rollback_to_previous_supported_contract": "not_applicable_no_predecessor"
+      },
+      "current_pair_evidence": {
+        "status": "passed",
+        "repository": "ao-mission",
+        "commit": "7e7de94af5f2f463fb18a7d2fdf829e66787167f",
+        "schemas": [
+          {
+            "path": "docs/contracts/correlation-chain-v0.1.schema.json",
+            "sha256": "e06d435ee8cce3da0d433ae4690b9de9394905e75430583da1e41cb153affa0d"
+          },
+          {
+            "path": "docs/contracts/correlation-chain-validation-v0.1.schema.json",
+            "sha256": "2c7c5a9aa81e23c2e72d627ede88b366e988e935d65307d13c8dbc1eb5167f6e"
+          },
+          {
+            "path": "docs/contracts/correlation-chain-reference-v0.1.schema.json",
+            "sha256": "513757262ad882dfbffb06df1119d6426bff56bbbd3c03d79f012b787e9dd954"
+          }
+        ],
+        "test_path": "internal/mission/correlation_chain_test.go",
+        "test_sha256": "257dc9f0c582ed4a6eca686263e90d2bf11e4e96ac730d115b93bb9fc6ad140d",
+        "test_selectors": [
+          "TestCorrelationChainBuildIsDeterministicAndValidatesArtifacts",
+          "TestCorrelationChainStrictContractRejectsMalformedInput",
+          "TestGenericSchemaValidationEnforcesCorrelationAlternatives",
+          "TestCorrelationReferenceAndMissionRecordSchemasAreStrict",
+          "TestCorrelationContractsValidateWithoutSourceTreeSchemaLookup",
+          "TestCorrelationEvidenceImportIsNeutralAndRoleBound",
+          "TestCompletePersistedCorrelationChainIsAcceptedAtFinal"
+        ]
+      }
+    },
+    {
+      "id": "mission-correlation-state-additive-7e7de94",
+      "repository": "ao-mission",
+      "old_commit": "b02666e7df36ea1d8f325dacedcc22d2a95099e4",
+      "current_commit": "7e7de94af5f2f463fb18a7d2fdf829e66787167f",
+      "status": "directional_evidence_incomplete",
+      "failed_direction_count": 0,
+      "unproven_direction_count": 2,
+      "directional_evidence": {
+        "old_producer_to_new_consumer": {
+          "status": "not_demonstrated",
+          "source_commit": "7e7de94af5f2f463fb18a7d2fdf829e66787167f",
+          "source_path": "internal/mission/correlation_chain_test.go",
+          "source_sha256": "257dc9f0c582ed4a6eca686263e90d2bf11e4e96ac730d115b93bb9fc6ad140d",
+          "test_selector": "TestLegacyUncorrelatedImportAndFinalReconciliationRemainCompatible"
+        },
+        "new_producer_to_old_consumer": {
+          "status": "not_demonstrated",
+          "source_commit": "7e7de94af5f2f463fb18a7d2fdf829e66787167f",
+          "source_path": "internal/mission/correlation_chain_test.go",
+          "source_sha256": "257dc9f0c582ed4a6eca686263e90d2bf11e4e96ac730d115b93bb9fc6ad140d",
+          "test_selector": "TestLegacyUncorrelatedImportAndFinalReconciliationRemainCompatible"
+        },
+        "current_producer_to_current_consumer": {
+          "status": "passed",
+          "source_commit": "7e7de94af5f2f463fb18a7d2fdf829e66787167f",
+          "source_path": "internal/mission/correlation_chain_test.go",
+          "source_sha256": "257dc9f0c582ed4a6eca686263e90d2bf11e4e96ac730d115b93bb9fc6ad140d",
+          "test_selector": "TestCorrelationStateSurvivesArchiveExportAndImport"
+        },
+        "rollback_to_previous_supported_contract": {
+          "status": "passed",
+          "source_commit": "7e7de94af5f2f463fb18a7d2fdf829e66787167f",
+          "source_path": "internal/mission/correlation_chain_test.go",
+          "source_sha256": "257dc9f0c582ed4a6eca686263e90d2bf11e4e96ac730d115b93bb9fc6ad140d",
+          "test_selector": "TestLegacyUncorrelatedImportAndFinalReconciliationRemainCompatible"
+        }
+      },
+      "fixture_bindings": {
+        "old_projection": {
+          "repository": "ao-mission",
+          "commit": "b02666e7df36ea1d8f325dacedcc22d2a95099e4",
+          "path": "internal/mission/types.go",
+          "sha256": "a41cf4fd7542f40a52863d2ec614eacd4146d0674d8a913660cbe3672a67eeb8"
+        },
+        "current_projection": {
+          "repository": "ao-mission",
+          "commit": "7e7de94af5f2f463fb18a7d2fdf829e66787167f",
+          "path": "internal/mission/types.go",
+          "sha256": "00c04e25f2097882120bbe5c90604c097af1442b4e1de28ca0c6156e9560e8f4"
+        }
+      }
+    },
+    {
+      "id": "command-mission-status-correlation-additive-7cda85e",
+      "repository": "ao-command",
+      "old_commit": "822345d718b1c660530ac91343b494a6c463a81f",
+      "current_commit": "7cda85e56c2aa0dbf2e3772a11a6d2c93ba86303",
+      "status": "directional_evidence_incomplete",
+      "failed_direction_count": 0,
+      "unproven_direction_count": 1,
+      "directional_evidence": {
+        "old_producer_to_new_consumer": {
+          "status": "passed",
+          "source_commit": "7cda85e56c2aa0dbf2e3772a11a6d2c93ba86303",
+          "source_path": "internal/cli/cli_test.go",
+          "source_sha256": "6823dab8c5f75832113eb32ad111c0f778e768213066639705dde9d5d42104f3",
+          "test_selector": "TestMissionStatusReadsAOMissionCommandStatus"
+        },
+        "new_producer_to_old_consumer": {
+          "status": "not_demonstrated",
+          "source_commit": "822345d718b1c660530ac91343b494a6c463a81f",
+          "source_path": "internal/cli/cli_test.go",
+          "source_sha256": "d9b0eab350ca4d346c6185a6a3f8ed67aae10fc42cf33dd7bfa77a015d4797bf",
+          "test_selector": "TestMissionStatusReadsAOMissionCommandStatus"
+        },
+        "current_producer_to_current_consumer": {
+          "status": "passed",
+          "source_commit": "7cda85e56c2aa0dbf2e3772a11a6d2c93ba86303",
+          "source_path": "internal/cli/cli_test.go",
+          "source_sha256": "6823dab8c5f75832113eb32ad111c0f778e768213066639705dde9d5d42104f3",
+          "test_selector": "TestMissionStatusPreservesCorrelationID"
+        },
+        "rollback_to_previous_supported_contract": {
+          "status": "passed",
+          "source_commit": "7cda85e56c2aa0dbf2e3772a11a6d2c93ba86303",
+          "source_path": "internal/cli/cli_test.go",
+          "source_sha256": "6823dab8c5f75832113eb32ad111c0f778e768213066639705dde9d5d42104f3",
+          "test_selector": "TestMissionStatusReadsAOMissionCommandStatus"
+        }
+      },
+      "current_pair_rejection_selectors": [
+        "TestMissionStatusRejectsInvalidCorrelationID",
+        "TestMissionStatusRejectsAmbiguousContractFields",
+        "TestMissionStatusRejectsUnknownFields",
+        "TestMissionStatusRejectsAuthorityDrift"
+      ],
+      "fixture_bindings": {
+        "old_projection": {
+          "repository": "ao-command",
+          "commit": "822345d718b1c660530ac91343b494a6c463a81f",
+          "path": "examples/mission/command-status.ready.json",
+          "sha256": "e542a9925dea18557b95dde0c3569f2382246ef133d7727f605259cc00a529c8"
+        },
+        "current_projection": {
+          "repository": "ao-command",
+          "commit": "7cda85e56c2aa0dbf2e3772a11a6d2c93ba86303",
+          "path": "examples/mission/command-status.ready.json",
+          "sha256": "e542a9925dea18557b95dde0c3569f2382246ef133d7727f605259cc00a529c8"
+        }
+      }
+    }
+  ],
+  "safety": {
+    "claims_unrun_tests": false,
+    "invents_predecessors": false,
+    "activates_compatibility_gate": false,
+    "grants_release_authority": false
+  }
+}

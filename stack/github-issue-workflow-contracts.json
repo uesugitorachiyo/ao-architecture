@@ -220,5 +220,17 @@
     "security_disclosed_publicly": false,
     "release_published": false,
     "rsi_authorized": false
+  },
+  "draft_pr_contract_family": {
+    "status": "current_pair_only",
+    "public_contracts": [
+      "ao2.github-draft-pr-evidence.v1",
+      "ao2.github-draft-pr-action.v1",
+      "ao2.github-draft-pr-verification.v1",
+      "ao2.github-draft-pr-fixture-publish.v1"
+    ],
+    "private_executable_protocol_pattern": "ao2.local-draft-pr-fixture-*",
+    "private_protocols_are_public_stack_contracts": false,
+    "immutable_commit": "aaa36fb13675396b60ed9a63bd94aa665be9eb5c"
   }
 }

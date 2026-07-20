@@ -24,6 +24,106 @@
       "rollback_to_previous_supported_contract"
     ]
   },
+  "non_edge_change_sets": [
+    {
+      "id": "mission-lifecycle-correlation-additive-b02666e",
+      "repository": "ao-mission",
+      "change_kind": "additive_optional_same_version",
+      "old_commit": "d10bc1986fe1ea5d9ac58454db4fffc08ab76bdd",
+      "current_commit": "b02666e7df36ea1d8f325dacedcc22d2a95099e4",
+      "status": "directional_evidence_incomplete",
+      "predecessor": "same_version_legacy_projection",
+      "contracts": [
+        "ao.mission.record.v0.1",
+        "ao.mission.continuation-step.v0.1",
+        "ao.mission.event-loop-decision.v0.1",
+        "ao.mission.checkpoint.v0.3",
+        "ao.mission.checkpoint-resume-bundle.v0.3",
+        "ao.mission.import-readback.v0.1",
+        "ao.mission.dashboard-readback.v0.1",
+        "ao.mission.verification-bundle-readback.v0.1",
+        "ao.command.status.v0.1",
+        "ao.mission.route-reconciliation.v0.3",
+        "ao.mission.final-reconciliation-packet.v0.1",
+        "ao.mission.final-rollup.v0.1",
+        "ao.mission.governance-snapshot.v0.1"
+      ],
+      "evidence_document": "stack/contract-migration-and-rollback-results.json"
+    },
+    {
+      "id": "mission-objective-workflow-contract-v0.1-introduction",
+      "repository": "ao-mission",
+      "change_kind": "new_contract_no_predecessor",
+      "old_commit": null,
+      "current_commit": "b02666e7df36ea1d8f325dacedcc22d2a95099e4",
+      "status": "current_pair_only",
+      "predecessor": "not_applicable_no_predecessor",
+      "contracts": [
+        "ao.mission.objective-workflow-contract.v0.1"
+      ],
+      "evidence_document": "stack/contract-migration-and-rollback-results.json"
+    },
+    {
+      "id": "ao2-github-draft-pr-v1-introduction",
+      "repository": "ao2",
+      "change_kind": "new_contract_family_no_predecessor",
+      "old_commit": null,
+      "current_commit": "aaa36fb13675396b60ed9a63bd94aa665be9eb5c",
+      "status": "current_pair_only",
+      "predecessor": "not_applicable_no_predecessor",
+      "contracts": [
+        "ao2.github-draft-pr-evidence.v1",
+        "ao2.github-draft-pr-action.v1",
+        "ao2.github-draft-pr-verification.v1",
+        "ao2.github-draft-pr-fixture-publish.v1"
+      ],
+      "evidence_document": "stack/contract-migration-and-rollback-results.json"
+    },
+    {
+      "id": "mission-correlation-chain-v0.1-introduction",
+      "repository": "ao-mission",
+      "change_kind": "new_contract_family_no_predecessor",
+      "old_commit": null,
+      "current_commit": "7e7de94af5f2f463fb18a7d2fdf829e66787167f",
+      "status": "current_pair_only",
+      "predecessor": "not_applicable_no_predecessor",
+      "contracts": [
+        "ao.mission.correlation-chain.v0.1",
+        "ao.mission.correlation-chain-validation.v0.1",
+        "ao.mission.correlation-chain-reference.v0.1"
+      ],
+      "evidence_document": "stack/contract-migration-and-rollback-results.json"
+    },
+    {
+      "id": "mission-correlation-state-additive-7e7de94",
+      "repository": "ao-mission",
+      "change_kind": "additive_optional_same_version",
+      "old_commit": "b02666e7df36ea1d8f325dacedcc22d2a95099e4",
+      "current_commit": "7e7de94af5f2f463fb18a7d2fdf829e66787167f",
+      "status": "directional_evidence_incomplete",
+      "predecessor": "same_version_legacy_projection",
+      "contracts": [
+        "ao.mission.record.v0.1",
+        "ao.mission.import-readback.v0.1",
+        "ao.mission.final-reconciliation-packet.v0.1",
+        "ao.mission.archive.v0.1"
+      ],
+      "evidence_document": "stack/contract-migration-and-rollback-results.json"
+    },
+    {
+      "id": "command-mission-status-correlation-additive-7cda85e",
+      "repository": "ao-command",
+      "change_kind": "additive_optional_same_version",
+      "old_commit": "822345d718b1c660530ac91343b494a6c463a81f",
+      "current_commit": "7cda85e56c2aa0dbf2e3772a11a6d2c93ba86303",
+      "status": "directional_evidence_incomplete",
+      "predecessor": "same_version_legacy_projection",
+      "contracts": [
+        "ao.command.mission-status.v0.1"
+      ],
+      "evidence_document": "stack/contract-migration-and-rollback-results.json"
+    }
+  ],
   "edges": [
     {
       "producer": "ao-architecture",
