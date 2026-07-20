@@ -1,0 +1,29 @@
+{
+  "schema": "ao.mission.record.v0.1",
+  "mission_id": "mission-2e9112a7e4aaa5c8",
+  "objective": "Verify deterministic legacy mission compatibility",
+  "objective_digest": "sha256:591a2236221e23c625279d76dff8ff4c63a3119250fc7f9507e6c02377e18923",
+  "status": "active",
+  "created_at_utc": "2026-07-20T17:52:25Z",
+  "updated_at_utc": "2026-07-20T17:52:25Z",
+  "current_route": "ao-atlas",
+  "current_phase": "routing",
+  "blockers": [],
+  "exact_next_action": "send objective to AO Atlas for workgraph sequencing",
+  "artifact_refs": [],
+  "steps": [],
+  "route_history": [
+    {
+      "schema": "ao.mission.route-decision.v0.1",
+      "mission_id": "mission-2e9112a7e4aaa5c8",
+      "route": "ao-atlas",
+      "reason": "specified objective should be sequenced by AO Atlas before Foundry execution",
+      "safe_to_request": true,
+      "safe_to_execute": false,
+      "safe_to_promote": false,
+      "exact_next_action": "send objective to AO Atlas for workgraph sequencing",
+      "generated_at_utc": "2026-07-20T17:52:25Z"
+    }
+  ],
+  "evidence": {}
+}

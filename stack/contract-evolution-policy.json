@@ -31,7 +31,7 @@
       "change_kind": "additive_optional_same_version",
       "old_commit": "d10bc1986fe1ea5d9ac58454db4fffc08ab76bdd",
       "current_commit": "b02666e7df36ea1d8f325dacedcc22d2a95099e4",
-      "status": "directional_evidence_incomplete",
+      "status": "four_direction_evidence_complete",
       "predecessor": "same_version_legacy_projection",
       "contracts": [
         "ao.mission.record.v0.1",
@@ -100,7 +100,7 @@
       "change_kind": "additive_optional_same_version",
       "old_commit": "b02666e7df36ea1d8f325dacedcc22d2a95099e4",
       "current_commit": "7e7de94af5f2f463fb18a7d2fdf829e66787167f",
-      "status": "directional_evidence_incomplete",
+      "status": "four_direction_evidence_complete",
       "predecessor": "same_version_legacy_projection",
       "contracts": [
         "ao.mission.record.v0.1",
@@ -116,7 +116,7 @@
       "change_kind": "additive_optional_same_version",
       "old_commit": "822345d718b1c660530ac91343b494a6c463a81f",
       "current_commit": "7cda85e56c2aa0dbf2e3772a11a6d2c93ba86303",
-      "status": "directional_evidence_incomplete",
+      "status": "four_direction_evidence_complete",
       "predecessor": "same_version_legacy_projection",
       "contracts": [
         "ao.command.mission-status.v0.1"

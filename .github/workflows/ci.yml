@@ -75,6 +75,30 @@ jobs:
       - name: Verify contract migration and rollback results unit tests
         run: python3 -m unittest scripts/test_verify_contract_migration_and_rollback_results.py
 
+      - name: Checkout AO Mission compatibility history
+        uses: actions/checkout@v7
+        with:
+          repository: uesugitorachiyo/ao-mission
+          ref: 7e7de94af5f2f463fb18a7d2fdf829e66787167f
+          path: tmp/ao-mission
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Checkout AO Command compatibility history
+        uses: actions/checkout@v7
+        with:
+          repository: uesugitorachiyo/ao-command
+          ref: 7cda85e56c2aa0dbf2e3772a11a6d2c93ba86303
+          path: tmp/ao-command
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Execute immutable cross-version fixtures
+        run: |
+          python3 scripts/run_contract_cross_version_fixtures.py \
+            --mission-repository tmp/ao-mission \
+            --command-repository tmp/ao-command
+
       - name: Verify GitHub issue workflow contracts
         run: python3 scripts/verify_github_issue_workflow_contracts.py
 
@@ -119,5 +143,56 @@ jobs:
 
       - name: Public safety scan
         run: |
-          pattern="ghp""_|github""_pat_|BEGIN ""RSA|BEGIN ""OPENSSH|ANTI""GRAVITY|private ""handoff|api""_key|access""_token"
-          ! rg -n "$pattern" README.md overview scripts
+          python3 - <<'PY'
+          import pathlib
+          import re
+          import subprocess
+          import sys
+
+          patterns = (
+              rb"ghp_",
+              rb"github_pat_",
+              rb"BEGIN RSA",
+              rb"BEGIN OPENSSH",
+              rb"ANTIGRAVITY",
+              rb"private handoff",
+              rb"api_key",
+              rb"access_token",
+          )
+          allowed_declarations = {
+              (
+                  pathlib.Path("scripts/verify_architecture.py"),
+                  b'    r"OPENAI_API_KEY",',
+                  rb"api_key",
+              ),
+              (
+                  pathlib.Path("scripts/verify_architecture.py"),
+                  b'    r"ANTHROPIC_API_KEY",',
+                  rb"api_key",
+              ),
+          }
+          tracked = subprocess.run(
+              ["git", "ls-files", "-z", "--", "README.md", "overview", "scripts", "stack"],
+              check=True,
+              capture_output=True,
+          ).stdout.split(b"\0")
+
+          findings = []
+          for encoded_path in filter(None, tracked):
+              path = pathlib.Path(encoded_path.decode("utf-8", errors="surrogateescape"))
+              content = path.read_bytes()
+              for line_number, line in enumerate(content.splitlines(), start=1):
+                  for pattern in patterns:
+                      if not re.search(pattern, line, flags=re.IGNORECASE):
+                          continue
+                      if (path, line, pattern) in allowed_declarations:
+                          continue
+                      findings.append(
+                          f"{path}:{line_number}: forbidden pattern {pattern.decode('ascii')!r}"
+                      )
+
+          if findings:
+              print("\n".join(findings), file=sys.stderr)
+              raise SystemExit(1)
+          print(f"public safety scan passed for {len(tracked) - 1} tracked files")
+          PY

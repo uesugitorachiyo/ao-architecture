@@ -1,0 +1,212 @@
+{
+  "schema": "ao.mission.record.v0.1",
+  "mission_id": "mission-9b97adca7698025f",
+  "correlation_id": "corr-productization-month3-reference-001",
+  "objective": "Implement and verify a disposable multi-file documentation repair with tests, interruption recovery, and evidence closure",
+  "objective_digest": "sha256:75eeaf9272a27a1d0c55b1d5339c4c6223ef1e59d22b8fdfa5bb05f54b9002fd",
+  "status": "active",
+  "created_at_utc": "2026-07-20T09:40:08Z",
+  "updated_at_utc": "2026-07-20T15:50:11Z",
+  "current_route": "ao-atlas",
+  "current_phase": "handoff_required",
+  "blockers": [],
+  "exact_next_action": "send accepted objective to AO Atlas for workgraph sequencing",
+  "artifact_refs": [
+    {
+      "schema": "ao.mission.artifact-ref.v0.1",
+      "ref": "evidence/month3/reference-run/correlation-evidence-commitments/ao2-action-digest.json",
+      "digest": "sha256:164900d699d3bf54298733c817931e8905a4cb814db0d927bcf7c3d0e84b26c4",
+      "kind": "correlation-evidence"
+    },
+    {
+      "schema": "ao.mission.artifact-ref.v0.1",
+      "ref": "evidence/month3/draft-pr-fixture-created.json",
+      "digest": "sha256:d6262c5409977b8d25e73abede5427e761e7dd6f174a159a45d557abffd879d6",
+      "kind": "correlation-evidence"
+    },
+    {
+      "schema": "ao.mission.artifact-ref.v0.1",
+      "ref": "evidence/month3/draft-pr-idempotency-readback.json",
+      "digest": "sha256:2867bfde0bbb881269089d9f53d802fca746805958c2f341dcc1932ccc78c92d",
+      "kind": "correlation-evidence"
+    },
+    {
+      "schema": "ao.mission.artifact-ref.v0.1",
+      "ref": "evidence/month3/draft-pr-verification.json",
+      "digest": "sha256:43e4fd44ae5db3317e6628a71872d84cd7b2bd8f3315c61813b97ca76b63b7d4",
+      "kind": "correlation-evidence"
+    },
+    {
+      "schema": "ao.mission.artifact-ref.v0.1",
+      "ref": "evidence/month3/reference-run/correlation-evidence-commitments/authority-and-approval.json",
+      "digest": "sha256:5543e655e5a7b33d6eff160639d95ba2a66604a0eaaea96a2b984834d930dfa0",
+      "kind": "correlation-evidence"
+    },
+    {
+      "schema": "ao.mission.artifact-ref.v0.1",
+      "ref": "evidence/month3/reference-run/correlation-evidence-commitments/draft-only-boundary.json",
+      "digest": "sha256:0ac8cf28343dddf6bdc3f50fd72510ea415a07614ebbafcdd29822bcf449a822",
+      "kind": "correlation-evidence"
+    },
+    {
+      "schema": "ao.mission.artifact-ref.v0.1",
+      "ref": "evidence/month3/reference-run/correlation-evidence-commitments/issue-route-contract.json",
+      "digest": "sha256:650f061140d0b006b4f25eac9e706877ca32837457b4cc71d8cc176b39c016f2",
+      "kind": "correlation-evidence"
+    }
+  ],
+  "steps": [
+    {
+      "schema": "ao.mission.continuation-step.v0.1",
+      "mission_id": "mission-9b97adca7698025f",
+      "correlation_id": "corr-productization-month3-reference-001",
+      "iteration": 1,
+      "route": "ao-atlas",
+      "result": "handoff_required",
+      "exact_next_action": "send accepted objective to AO Atlas for workgraph sequencing",
+      "generated_at_utc": "2026-07-20T09:43:37Z"
+    }
+  ],
+  "route_history": [
+    {
+      "schema": "ao.mission.route-decision.v0.1",
+      "mission_id": "mission-9b97adca7698025f",
+      "route": "ao-atlas",
+      "reason": "objective workflow classified as complex",
+      "safe_to_request": true,
+      "safe_to_execute": false,
+      "safe_to_promote": false,
+      "exact_next_action": "send accepted objective to AO Atlas for workgraph sequencing",
+      "generated_at_utc": "2026-07-20T09:40:08Z"
+    }
+  ],
+  "evidence": {},
+  "goal_lease": {
+    "schema": "ao.mission.goal-lease.v0.3",
+    "min_nodes": 10,
+    "min_minutes": 120,
+    "max_minutes": 180,
+    "max_iterations": 1,
+    "return_only_when": "mission_done_or_true_hard_blocker_or_no_ready_work_and_no_exact_next_action",
+    "checkpoint_policy": "after_each_node_or_timed_interval",
+    "created_at_utc": "2026-07-20T09:43:37Z",
+    "updated_at_utc": "2026-07-20T09:43:37Z"
+  },
+  "checkpoints": [
+    {
+      "schema": "ao.mission.checkpoint.v0.3",
+      "mission_id": "mission-9b97adca7698025f",
+      "correlation_id": "corr-productization-month3-reference-001",
+      "sequence": 1,
+      "iteration": 1,
+      "route": "ao-atlas",
+      "phase": "handoff_required",
+      "result": "handoff_required",
+      "exact_next_action": "send accepted objective to AO Atlas for workgraph sequencing",
+      "resume_command": "ao-mission continue --mission mission-9b97adca7698025f --until-done --max-iterations 10",
+      "generated_at_utc": "2026-07-20T09:43:37Z"
+    }
+  ],
+  "return_gate": {
+    "schema": "ao.mission.return-gate.v0.3",
+    "mission_id": "mission-9b97adca7698025f",
+    "status": "early_return_denied",
+    "final_response_allowed": false,
+    "reason": "lease minimum unmet: completed_nodes=0 min_nodes=10",
+    "completed_nodes": 0,
+    "min_nodes": 10,
+    "ready_nodes_remaining": 0,
+    "hard_blocker": false,
+    "exact_next_action": "continue mission: send accepted objective to AO Atlas for workgraph sequencing",
+    "generated_at_utc": "2026-07-20T09:43:37Z"
+  },
+  "route_reconciliation": {
+    "schema": "ao.mission.route-reconciliation.v0.3",
+    "mission_id": "mission-9b97adca7698025f",
+    "correlation_id": "corr-productization-month3-reference-001",
+    "status": "ready",
+    "current_route": "ao-atlas",
+    "latest_route": "ao-atlas",
+    "atlas_ready_nodes": 0,
+    "command_readback_bound": false,
+    "promoter_readback_bound": false,
+    "exact_next_action": "route and readback evidence reconciled; continue from latest exact next action",
+    "generated_at_utc": "2026-07-20T09:43:37Z"
+  },
+  "workflow_contract": {
+    "schema": "ao.mission.objective-workflow-contract.v0.1",
+    "status": "ready",
+    "mission_id": "mission-9b97adca7698025f",
+    "correlation_id": "corr-productization-month3-reference-001",
+    "objective_digest": "sha256:75eeaf9272a27a1d0c55b1d5339c4c6223ef1e59d22b8fdfa5bb05f54b9002fd",
+    "routing_class": "complex",
+    "acceptance_status": "accepted",
+    "initial_route": "ao-atlas",
+    "stages": [
+      {
+        "name": "ao-blueprint",
+        "status": "omitted",
+        "reason": "the accepted routing class does not require this stage"
+      },
+      {
+        "name": "ao-atlas",
+        "status": "required",
+        "reason": "the routing class requires this stage"
+      },
+      {
+        "name": "ao-foundry",
+        "status": "conditional",
+        "reason": "the stage is required only when the objective or resulting evidence activates it"
+      },
+      {
+        "name": "ao-forge",
+        "status": "conditional",
+        "reason": "the stage is required only when the objective or resulting evidence activates it"
+      },
+      {
+        "name": "ao-covenant",
+        "status": "conditional",
+        "reason": "the stage is required only when the objective or resulting evidence activates it"
+      },
+      {
+        "name": "ao2",
+        "status": "conditional",
+        "reason": "the stage is required only when the objective or resulting evidence activates it"
+      },
+      {
+        "name": "tests",
+        "status": "required",
+        "reason": "the routing class requires this stage"
+      },
+      {
+        "name": "ao-control-plane",
+        "status": "conditional",
+        "reason": "the stage is required only when the objective or resulting evidence activates it"
+      },
+      {
+        "name": "ao-command",
+        "status": "required",
+        "reason": "the routing class requires this stage"
+      },
+      {
+        "name": "ao-mission-reconciliation",
+        "status": "required",
+        "reason": "the routing class requires this stage"
+      }
+    ],
+    "lifecycle_commands": [
+      "ao-mission status --mission mission-9b97adca7698025f --json",
+      "ao-mission continue --mission mission-9b97adca7698025f",
+      "ao-mission pause --mission mission-9b97adca7698025f",
+      "ao-mission resume --mission mission-9b97adca7698025f",
+      "ao-mission mission verification-bundle --mission mission-9b97adca7698025f --json",
+      "ao-mission final reconcile --mission mission-9b97adca7698025f"
+    ],
+    "exact_next_action": "send accepted objective to AO Atlas for workgraph sequencing",
+    "safe_to_execute": false,
+    "executes_work": false,
+    "approves_work": false,
+    "mutates_repositories": false,
+    "generated_at_utc": "2026-07-20T09:40:08Z"
+  }
+}

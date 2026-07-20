@@ -28,12 +28,12 @@ CHANGE_IDS = (
 ADDITIVE_IDS = {CHANGE_IDS[0], CHANGE_IDS[4], CHANGE_IDS[5]}
 NO_PREDECESSOR_IDS = {CHANGE_IDS[1], CHANGE_IDS[2], CHANGE_IDS[3]}
 TRUSTED_CHANGE_SET_DIGESTS = {
-    CHANGE_IDS[0]: "2354db75f94e419b8ebe70e0bf2a3942b2f831e0ca37ec9c39bf62d396fa2582",
+    CHANGE_IDS[0]: "56988a1a2244fa68fd41ba84bf1e02cb43de1a527517ac9b5687cf26dfc8d874",
     CHANGE_IDS[1]: "11fe66ca8e85e9f11d96b2611489d6476f76a808698762fb38f1d09ad6dba0ca",
     CHANGE_IDS[2]: "6a7d03a74b047e3967bd1eb1eecc5a5bd53f60f7b3d2a86b42907ee83a7596f6",
     CHANGE_IDS[3]: "cb33e50d4bfbeb98fca52e15df9ae57c702ab2274e2366d11c6f15d25a2c8406",
-    CHANGE_IDS[4]: "9de3cb6b7e5f987be1d313ccb4c805355c63b3e41b9d9caac4ada58e5d0ef284",
-    CHANGE_IDS[5]: "69266053696b7465f394de3fcf6f6ddf86ed752d876e91a7820b68d0c1315581",
+    CHANGE_IDS[4]: "73319d2ef5d5001b8baf494632fc7718e9c04add06bfd31dfbcae92db4c094fb",
+    CHANGE_IDS[5]: "84763232018099c32b84e7bc12f935b4545c55436ef4e586157c3f7b372b7725",
 }
 TOP_FIELDS = {
     "schema",
@@ -123,20 +123,11 @@ def validate_document(document: dict[str, Any]) -> list[str]:
         if record_id in ADDITIVE_IDS:
             if record.get("kind") != "additive_optional_same_version":
                 errors.append(f"{record_id} kind must be additive_optional_same_version")
-            if record.get("status") != "directional_evidence_incomplete":
-                errors.append(f"{record_id} status must be directional_evidence_incomplete")
+            if record.get("status") != "four_direction_evidence_complete":
+                errors.append(f"{record_id} status must be four_direction_evidence_complete")
             for direction in DIRECTIONS:
-                expected = (
-                    "not_demonstrated"
-                    if direction == "new_producer_to_old_consumer"
-                    or (
-                        direction == "old_producer_to_new_consumer"
-                        and record_id != CHANGE_IDS[5]
-                    )
-                    else "passed"
-                )
-                if directions.get(direction, {}).get("status") != expected:
-                    errors.append(f"{record_id} {direction} must be {expected}")
+                if directions.get(direction, {}).get("status") != "passed":
+                    errors.append(f"{record_id} {direction} must be passed")
         elif record_id in NO_PREDECESSOR_IDS:
             expected_kind = (
                 "new_contract_no_predecessor"

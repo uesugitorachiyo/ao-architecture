@@ -12,6 +12,9 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_RESULTS = ROOT / "stack" / "contract-migration-and-rollback-results.json"
+DEFAULT_CROSS_VERSION_RESULTS = (
+    ROOT / "stack" / "contract-cross-version-fixture-results.json"
+)
 DIRECTIONS = (
     "old_producer_to_new_consumer",
     "new_producer_to_old_consumer",
@@ -59,7 +62,38 @@ ADDITIVE_RESULT_FIELDS = {
     "failed_direction_count",
     "unproven_direction_count",
     "directional_evidence",
+    "cross_version_fixture_ids",
     "fixture_bindings",
+}
+EXPECTED_CROSS_VERSION_FIXTURE_IDS = {
+    MISSION_CHANGE_ID: [
+        "mission-lifecycle-d10bc19-to-b02666e",
+        "mission-lifecycle-b02666e-to-d10bc19",
+    ],
+    MISSION_STATE_ID: [
+        "mission-correlation-state-7e7de94-to-b02666e",
+        "mission-correlation-state-b02666e-to-7e7de94",
+    ],
+    COMMAND_STATUS_ID: [
+        "command-correlation-status-7cda85e-to-822345d",
+    ],
+}
+TRUSTED_CROSS_VERSION_RESULTS_DIGEST = (
+    "579a647e242a818483595d586c9abdb032847e6621a3cfa3a58c989aa69e25a5"
+)
+CROSS_VERSION_FIXTURE_FIELDS = {
+    "id",
+    "direction",
+    "producer_repository",
+    "producer_commit",
+    "consumer_repository",
+    "consumer_commit",
+    "exit_code",
+    "result",
+    "fixture_path",
+    "fixture_sha256",
+    "readback_path",
+    "readback_sha256",
 }
 ADDITIVE_EVIDENCE_FIELDS = {
     "status",
@@ -80,7 +114,7 @@ def _digest(value: Any) -> str:
 # source paths and hashes. Update them only after reviewing new merged evidence.
 TRUSTED_RESULT_DIGESTS = {
     MISSION_CHANGE_ID: (
-        "93ff3d6707850c74b6b312a3ddd72b0ee41884b3bbb23e9044149fb990620e8a"
+        "3f7c00a6f1763416a5af575af02940b14bef988a1ec7a3782ed614428c87de74"
     ),
     MISSION_CONTRACT_ID: (
         "ffcedf5b54376d2a006f1d4cd5f131fcb93ad02e8caef0cb82e8e0b4f3337a37"
@@ -92,10 +126,10 @@ TRUSTED_RESULT_DIGESTS = {
         "a55c433fbb32c3ea72a00c6705ade0b380479f2647608040afee7c2a42a070c2"
     ),
     MISSION_STATE_ID: (
-        "57df8e8f9c24941aff8ac32ac3635f9f95f208e733cb11f53520202bbd9eb69a"
+        "a2d08bc68e993049b0fb29cc9742a31ba56727717542f247bfa3cafec50e7142"
     ),
     COMMAND_STATUS_ID: (
-        "fa54cc5ec0849046af14308ee700ba4d5d8b86665099c1344a67250b4206a67f"
+        "6e480e9d42bebea90e2c6daaf1b455d40b7f943fe753e18f297f72893663cb67"
     ),
 }
 
@@ -142,6 +176,7 @@ def validate_document(document: dict[str, Any]) -> list[str]:
                 "failed_direction_count",
                 "unproven_direction_count",
                 "directional_evidence",
+                "cross_version_fixture_ids",
                 "supplementary_current_pair_selectors",
                 "fixture_bindings",
             }
@@ -163,9 +198,11 @@ def validate_document(document: dict[str, Any]) -> list[str]:
                 result.get("repository") != "ao-mission"
                 or result.get("old_commit") != MISSION_OLD
                 or result.get("current_commit") != MISSION_CURRENT
-                or result.get("status") != "directional_evidence_incomplete"
+                or result.get("status") != "passed"
                 or result.get("failed_direction_count") != 0
-                or result.get("unproven_direction_count") != 2
+                or result.get("unproven_direction_count") != 0
+                or result.get("cross_version_fixture_ids")
+                != EXPECTED_CROSS_VERSION_FIXTURE_IDS[MISSION_CHANGE_ID]
                 or TRUSTED_RESULT_DIGESTS[result_id] != _digest(result)
             ):
                 errors.append(
@@ -279,15 +316,7 @@ def validate_document(document: dict[str, Any]) -> list[str]:
                     )
                 elif (
                     proof.get("status")
-                    != (
-                        "not_demonstrated"
-                        if direction == "new_producer_to_old_consumer"
-                        or (
-                            direction == "old_producer_to_new_consumer"
-                            and result_id == MISSION_STATE_ID
-                        )
-                        else "passed"
-                    )
+                    != "passed"
                     or not re.fullmatch(r"[0-9a-f]{40}", str(proof.get("source_commit", "")))
                     or not re.fullmatch(r"[0-9a-f]{64}", str(proof.get("source_sha256", "")))
                 ):
@@ -296,14 +325,13 @@ def validate_document(document: dict[str, Any]) -> list[str]:
                         "immutable status"
                     )
             if (
-                result.get("status") != "directional_evidence_incomplete"
+                result.get("status") != "passed"
                 or result.get("failed_direction_count") != 0
-                or result.get("unproven_direction_count")
-                != (2 if result_id == MISSION_STATE_ID else 1)
+                or result.get("unproven_direction_count") != 0
+                or result.get("cross_version_fixture_ids")
+                != EXPECTED_CROSS_VERSION_FIXTURE_IDS[result_id]
             ):
-                errors.append(
-                    f"{result_id} must retain the honest unproven direction count"
-                )
+                errors.append(f"{result_id} must pass all four bound directions")
             if TRUSTED_RESULT_DIGESTS[result_id] != _digest(result):
                 errors.append(
                     f"{result_id} evidence must match trusted immutable bindings"
@@ -322,14 +350,112 @@ def validate_document(document: dict[str, Any]) -> list[str]:
     return errors
 
 
+def validate_cross_version_document(document: dict[str, Any]) -> list[str]:
+    errors: list[str] = []
+    if document.get("schema") != (
+        "ao.architecture.contract-cross-version-fixture-results.v1"
+    ):
+        errors.append("cross-version fixture schema must match")
+    if document.get("status") != "passed" or document.get("credential_free") is not True:
+        errors.append("cross-version fixtures must be passed and credential-free")
+    fixtures = document.get("fixtures")
+    fixture_ids = [
+        fixture.get("id") for fixture in fixtures if isinstance(fixture, dict)
+    ] if isinstance(fixtures, list) else []
+    expected_ids = [
+        fixture_id
+        for result_id in (MISSION_CHANGE_ID, MISSION_STATE_ID, COMMAND_STATUS_ID)
+        for fixture_id in EXPECTED_CROSS_VERSION_FIXTURE_IDS[result_id]
+    ]
+    if fixture_ids != expected_ids:
+        errors.append("cross-version fixtures must exactly match the trusted order")
+    if isinstance(fixtures, list):
+        for fixture in fixtures:
+            if not isinstance(fixture, dict):
+                errors.append("cross-version fixture rows must be objects")
+                continue
+            fixture_id = fixture.get("id")
+            if set(fixture) != CROSS_VERSION_FIXTURE_FIELDS:
+                errors.append(f"{fixture_id} fields must match the strict schema")
+                continue
+            for role in ("producer", "consumer"):
+                if not re.fullmatch(
+                    r"[0-9a-f]{40}", str(fixture.get(f"{role}_commit", ""))
+                ):
+                    errors.append(f"{fixture_id} {role}_commit must be immutable")
+            if fixture.get("exit_code") != 0:
+                errors.append(f"{fixture_id} exit_code must be zero")
+            for path_field, digest_field in (
+                ("fixture_path", "fixture_sha256"),
+                ("readback_path", "readback_sha256"),
+            ):
+                relative = fixture.get(path_field)
+                if (
+                    not isinstance(relative, str)
+                    or not relative.startswith(
+                        "stack/fixtures/contract-cross-version/"
+                    )
+                    or Path(relative).is_absolute()
+                    or ".." in Path(relative).parts
+                ):
+                    errors.append(f"{fixture_id} {path_field} must be bounded")
+                    continue
+                path = ROOT / relative
+                try:
+                    actual = hashlib.sha256(path.read_bytes()).hexdigest()
+                except OSError as error:
+                    errors.append(f"{fixture_id} {path_field}: {error}")
+                    continue
+                if actual != fixture.get(digest_field):
+                    errors.append(f"{fixture_id} {digest_field} must match bytes")
+    boundaries = document.get("boundaries")
+    if boundaries != {
+        "network_used": False,
+        "credentials_used": False,
+        "source_repository_content_mutation_performed": False,
+        "temporary_worktree_metadata_used": True,
+        "public_write_performed": False,
+        "release_or_publication_performed": False,
+    }:
+        errors.append("cross-version fixture boundaries must remain bounded")
+    runner = document.get("runner")
+    if runner != {
+        "path": "scripts/run_contract_cross_version_fixtures.py",
+        "sha256": "8057718104e5a35f2fe92fa427e418206f32748735e989796529884a6721142f",
+        "local_status": "passed",
+        "hosted_ci_required": True,
+    }:
+        errors.append("cross-version fixture runner must match the trusted binding")
+    else:
+        runner_path = ROOT / runner["path"]
+        try:
+            runner_digest = hashlib.sha256(runner_path.read_bytes()).hexdigest()
+        except OSError as error:
+            errors.append(f"cross-version fixture runner: {error}")
+        else:
+            if runner_digest != runner["sha256"]:
+                errors.append("cross-version fixture runner digest must match bytes")
+    if _digest(document) != TRUSTED_CROSS_VERSION_RESULTS_DIGEST:
+        errors.append("cross-version fixture results must match the trusted digest")
+    return errors
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="Validate AO contract migration and rollback results"
     )
     parser.add_argument("--results", type=Path, default=DEFAULT_RESULTS)
+    parser.add_argument(
+        "--cross-version-results",
+        type=Path,
+        default=DEFAULT_CROSS_VERSION_RESULTS,
+    )
     args = parser.parse_args()
     try:
         document = json.loads(args.results.read_text(encoding="utf-8"))
+        cross_version_document = json.loads(
+            args.cross_version_results.read_text(encoding="utf-8")
+        )
     except (OSError, json.JSONDecodeError) as error:
         print(
             f"verify_contract_migration_and_rollback_results.py: {error}",
@@ -337,6 +463,7 @@ def main() -> int:
         )
         return 1
     errors = validate_document(document)
+    errors.extend(validate_cross_version_document(cross_version_document))
     if errors:
         for error in errors:
             print(
