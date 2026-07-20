@@ -57,6 +57,12 @@ jobs:
       - name: Verify compatibility matrix unit tests
         run: python3 -m unittest scripts/test_verify_compatibility_matrix.py
 
+      - name: Verify contract evolution policy
+        run: python3 scripts/verify_contract_evolution_policy.py
+
+      - name: Verify contract evolution policy unit tests
+        run: python3 -m unittest scripts/test_verify_contract_evolution_policy.py
+
       - name: Verify stack lockfile
         run: python3 scripts/verify_stack_lock.py
 
