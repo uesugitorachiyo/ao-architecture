@@ -1,0 +1,158 @@
+{
+  "schema": "ao.architecture.contract-compatibility-window.v1",
+  "status": "enforced",
+  "policy": "stack/contract-evolution-policy.json",
+  "minimum_supported_releases": 2,
+  "retirement_scheduled": false,
+  "change_sets": [
+    {
+      "id": "mission-lifecycle-correlation-additive-b02666e",
+      "kind": "additive_optional_same_version",
+      "status": "directional_evidence_incomplete",
+      "directions": {
+        "old_producer_to_new_consumer": {
+          "status": "not_demonstrated",
+          "meaning": "current Mission emits a legacy projection, but no immutable old-producer artifact is consumed by the current implementation"
+        },
+        "new_producer_to_old_consumer": {
+          "status": "not_demonstrated",
+          "meaning": "the legacy projection is tested, but no old consumer test accepts a record containing the new optional fields"
+        },
+        "current_producer_to_current_consumer": {
+          "status": "passed",
+          "meaning": "current correlated lifecycle records pass current executable tests"
+        },
+        "rollback_to_previous_supported_contract": {
+          "status": "passed",
+          "meaning": "the current implementation emits the legacy projection without correlation fields"
+        }
+      },
+      "removal_policy": "later_version_deprecation_notice_two_release_window_and_executable_migration_evidence"
+    },
+    {
+      "id": "mission-objective-workflow-contract-v0.1-introduction",
+      "kind": "new_contract_no_predecessor",
+      "status": "current_pair_only",
+      "directions": {
+        "old_producer_to_new_consumer": {
+          "status": "not_applicable_no_predecessor",
+          "meaning": "the contract has no predecessor"
+        },
+        "new_producer_to_old_consumer": {
+          "status": "not_applicable_no_predecessor",
+          "meaning": "the contract has no predecessor"
+        },
+        "current_producer_to_current_consumer": {
+          "status": "passed",
+          "meaning": "the strict current contract fixture passes the current Mission validator"
+        },
+        "rollback_to_previous_supported_contract": {
+          "status": "not_applicable_no_predecessor",
+          "meaning": "legacy ao-mission start is an operational fallback, not a predecessor contract"
+        }
+      },
+      "removal_policy": "later_version_deprecation_notice_two_release_window_and_executable_migration_evidence"
+    },
+    {
+      "id": "ao2-github-draft-pr-v1-introduction",
+      "kind": "new_contract_family_no_predecessor",
+      "status": "current_pair_only",
+      "directions": {
+        "old_producer_to_new_consumer": {
+          "status": "not_applicable_no_predecessor",
+          "meaning": "the public contract family has no predecessor"
+        },
+        "new_producer_to_old_consumer": {
+          "status": "not_applicable_no_predecessor",
+          "meaning": "the public contract family has no predecessor"
+        },
+        "current_producer_to_current_consumer": {
+          "status": "passed",
+          "meaning": "the merged AO2 publisher suite passes all 29 current contract tests"
+        },
+        "rollback_to_previous_supported_contract": {
+          "status": "not_applicable_no_predecessor",
+          "meaning": "no predecessor contract exists"
+        }
+      },
+      "removal_policy": "later_version_deprecation_notice_two_release_window_and_executable_migration_evidence"
+    },
+    {
+      "id": "mission-correlation-chain-v0.1-introduction",
+      "kind": "new_contract_family_no_predecessor",
+      "status": "current_pair_only",
+      "directions": {
+        "old_producer_to_new_consumer": {
+          "status": "not_applicable_no_predecessor",
+          "meaning": "the public correlation-chain family has no predecessor"
+        },
+        "new_producer_to_old_consumer": {
+          "status": "not_applicable_no_predecessor",
+          "meaning": "the public correlation-chain family has no predecessor"
+        },
+        "current_producer_to_current_consumer": {
+          "status": "passed",
+          "meaning": "the merged Mission implementation builds, validates, imports, and reconciles the strict current chain family"
+        },
+        "rollback_to_previous_supported_contract": {
+          "status": "not_applicable_no_predecessor",
+          "meaning": "no predecessor correlation-chain contract exists"
+        }
+      },
+      "removal_policy": "later_version_deprecation_notice_two_release_window_and_executable_migration_evidence"
+    },
+    {
+      "id": "mission-correlation-state-additive-7e7de94",
+      "kind": "additive_optional_same_version",
+      "status": "directional_evidence_incomplete",
+      "directions": {
+        "old_producer_to_new_consumer": {
+          "status": "not_demonstrated",
+          "meaning": "current Mission accepts an uncorrelated projection, but no immutable old-producer artifact is consumed by the current implementation"
+        },
+        "new_producer_to_old_consumer": {
+          "status": "not_demonstrated",
+          "meaning": "current Mission preserves an uncorrelated projection, but no old consumer test accepts populated correlation state"
+        },
+        "current_producer_to_current_consumer": {
+          "status": "passed",
+          "meaning": "current Mission preserves correlation state through import, final reconciliation, and archive round trips"
+        },
+        "rollback_to_previous_supported_contract": {
+          "status": "passed",
+          "meaning": "the same-version legacy projection remains executable without correlation fields"
+        }
+      },
+      "removal_policy": "later_version_deprecation_notice_two_release_window_and_executable_migration_evidence"
+    },
+    {
+      "id": "command-mission-status-correlation-additive-7cda85e",
+      "kind": "additive_optional_same_version",
+      "status": "directional_evidence_incomplete",
+      "directions": {
+        "old_producer_to_new_consumer": {
+          "status": "passed",
+          "meaning": "current Command accepts and renders the unchanged legacy Mission status projection"
+        },
+        "new_producer_to_old_consumer": {
+          "status": "not_demonstrated",
+          "meaning": "the old Command consumer accepts the unchanged fixture, but accepting a populated correlation_id is not demonstrated"
+        },
+        "current_producer_to_current_consumer": {
+          "status": "passed",
+          "meaning": "current Command preserves a valid correlation identifier and rejects malformed or ambiguous state"
+        },
+        "rollback_to_previous_supported_contract": {
+          "status": "passed",
+          "meaning": "omitting the optional correlation identifier produces the unchanged legacy readback"
+        }
+      },
+      "removal_policy": "later_version_deprecation_notice_two_release_window_and_executable_migration_evidence"
+    }
+  ],
+  "safety": {
+    "activates_compatibility_gate": false,
+    "grants_release_authority": false,
+    "invents_predecessors": false
+  }
+}
