@@ -125,7 +125,7 @@ NON_EDGE_CHANGE_SET_FIELDS = {
 }
 TRUSTED_NON_EDGE_CHANGE_SET_DIGESTS = {
     "mission-lifecycle-correlation-additive-b02666e": (
-        "73d570273540442e10c9b4eb55dae611f0cec390a6aa8698504bc8fef04d89ca"
+        "f72b4f83a23fd385fda20d6e846e325bcb60397a7c172b143099f8f8d08c5d0a"
     ),
     "mission-objective-workflow-contract-v0.1-introduction": (
         "eee3264ccfc3d8b580298afc463c60fa8b9a5724332ec5a7a0e2c058d8431710"
@@ -137,10 +137,10 @@ TRUSTED_NON_EDGE_CHANGE_SET_DIGESTS = {
         "1a4cff9933c9aa683ae91ce2b33d5ee703245361b22b4e4fb69b1cd61215e4e1"
     ),
     "mission-correlation-state-additive-7e7de94": (
-        "9fbf20cf0c8ec554ebbe5623ab64ccd5b5dc06d0fe6ed4442f06d376c1f85b29"
+        "3d73003f6230ff92b369d57856181bb73a40afd7cea1ddbec9f6cffb7ef3de67"
     ),
     "command-mission-status-correlation-additive-7cda85e": (
-        "230765b2ca80566834fd275ceb1a0c0e43dc7d7551b445e272c7476019320db5"
+        "4b0dfa853144d3110e3bab95dceb632039d8d3023d9cb8bebe154d6f2a5f76f2"
     ),
 }
 COVERAGE_FIELDS = {

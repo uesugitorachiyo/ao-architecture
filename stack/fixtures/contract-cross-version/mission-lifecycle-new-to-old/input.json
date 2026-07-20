@@ -1,0 +1,106 @@
+{
+  "schema": "ao.mission.record.v0.1",
+  "mission_id": "mission-597a66878e895ded",
+  "correlation_id": "corr-month3-compat-001",
+  "objective": "Verify deterministic compatibility fixture across multiple files and tests",
+  "objective_digest": "sha256:b20adf73395bd61ab8241bb10f23d31e659cd199dd8f5aee9f0b5139d8b28470",
+  "status": "active",
+  "created_at_utc": "2026-07-20T17:50:44Z",
+  "updated_at_utc": "2026-07-20T17:50:44Z",
+  "current_route": "ao-foundry",
+  "current_phase": "routing",
+  "blockers": [],
+  "exact_next_action": "send accepted reduced objective directly to AO Foundry",
+  "artifact_refs": [],
+  "steps": [],
+  "route_history": [
+    {
+      "schema": "ao.mission.route-decision.v0.1",
+      "mission_id": "mission-597a66878e895ded",
+      "route": "ao-foundry",
+      "reason": "objective workflow classified as reduced",
+      "safe_to_request": true,
+      "safe_to_execute": false,
+      "safe_to_promote": false,
+      "exact_next_action": "send accepted reduced objective directly to AO Foundry",
+      "generated_at_utc": "2026-07-20T17:50:44Z"
+    }
+  ],
+  "evidence": {},
+  "workflow_contract": {
+    "schema": "ao.mission.objective-workflow-contract.v0.1",
+    "status": "ready",
+    "mission_id": "mission-597a66878e895ded",
+    "correlation_id": "corr-month3-compat-001",
+    "objective_digest": "sha256:b20adf73395bd61ab8241bb10f23d31e659cd199dd8f5aee9f0b5139d8b28470",
+    "routing_class": "reduced",
+    "acceptance_status": "accepted",
+    "initial_route": "ao-foundry",
+    "stages": [
+      {
+        "name": "ao-blueprint",
+        "status": "omitted",
+        "reason": "the accepted routing class does not require this stage"
+      },
+      {
+        "name": "ao-atlas",
+        "status": "omitted",
+        "reason": "the accepted routing class does not require this stage"
+      },
+      {
+        "name": "ao-foundry",
+        "status": "required",
+        "reason": "the routing class requires this stage"
+      },
+      {
+        "name": "ao-forge",
+        "status": "conditional",
+        "reason": "the stage is required only when the objective or resulting evidence activates it"
+      },
+      {
+        "name": "ao-covenant",
+        "status": "conditional",
+        "reason": "the stage is required only when the objective or resulting evidence activates it"
+      },
+      {
+        "name": "ao2",
+        "status": "conditional",
+        "reason": "the stage is required only when the objective or resulting evidence activates it"
+      },
+      {
+        "name": "tests",
+        "status": "required",
+        "reason": "the routing class requires this stage"
+      },
+      {
+        "name": "ao-control-plane",
+        "status": "conditional",
+        "reason": "the stage is required only when the objective or resulting evidence activates it"
+      },
+      {
+        "name": "ao-command",
+        "status": "required",
+        "reason": "the routing class requires this stage"
+      },
+      {
+        "name": "ao-mission-reconciliation",
+        "status": "required",
+        "reason": "the routing class requires this stage"
+      }
+    ],
+    "lifecycle_commands": [
+      "ao-mission status --mission mission-597a66878e895ded --json",
+      "ao-mission continue --mission mission-597a66878e895ded",
+      "ao-mission pause --mission mission-597a66878e895ded",
+      "ao-mission resume --mission mission-597a66878e895ded",
+      "ao-mission mission verification-bundle --mission mission-597a66878e895ded --json",
+      "ao-mission final reconcile --mission mission-597a66878e895ded"
+    ],
+    "exact_next_action": "send accepted reduced objective directly to AO Foundry",
+    "safe_to_execute": false,
+    "executes_work": false,
+    "approves_work": false,
+    "mutates_repositories": false,
+    "generated_at_utc": "2026-07-20T17:50:44Z"
+  }
+}

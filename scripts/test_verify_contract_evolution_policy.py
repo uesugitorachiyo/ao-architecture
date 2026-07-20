@@ -48,7 +48,7 @@ class VerifyContractEvolutionPolicyTest(unittest.TestCase):
             mission["current_commit"],
             "b02666e7df36ea1d8f325dacedcc22d2a95099e4",
         )
-        self.assertEqual(mission["status"], "directional_evidence_incomplete")
+        self.assertEqual(mission["status"], "four_direction_evidence_complete")
         self.assertEqual(
             change_sets["mission-objective-workflow-contract-v0.1-introduction"][
                 "predecessor"
@@ -71,7 +71,7 @@ class VerifyContractEvolutionPolicyTest(unittest.TestCase):
             change_sets["command-mission-status-correlation-additive-7cda85e"][
                 "status"
             ],
-            "directional_evidence_incomplete",
+            "four_direction_evidence_complete",
         )
 
     def test_rejects_mutated_month3_commit_or_fictional_predecessor(self):
@@ -247,6 +247,7 @@ class VerifyContractEvolutionPolicyTest(unittest.TestCase):
             "python3 scripts/verify_contract_migration_and_rollback_results.py",
             "python3 -m unittest "
             "scripts/test_verify_contract_migration_and_rollback_results.py",
+            "python3 scripts/run_contract_cross_version_fixtures.py",
             "python3 scripts/verify_github_issue_workflow_contracts.py",
             "python3 -m unittest scripts/test_verify_github_issue_workflow_contracts.py",
         )

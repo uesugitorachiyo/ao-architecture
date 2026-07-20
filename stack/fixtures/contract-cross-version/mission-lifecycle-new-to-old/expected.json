@@ -1,0 +1,29 @@
+{
+  "schema": "ao.mission.record.v0.1",
+  "mission_id": "mission-597a66878e895ded",
+  "objective": "Verify deterministic compatibility fixture across multiple files and tests",
+  "objective_digest": "sha256:b20adf73395bd61ab8241bb10f23d31e659cd199dd8f5aee9f0b5139d8b28470",
+  "status": "active",
+  "created_at_utc": "2026-07-20T17:50:44Z",
+  "updated_at_utc": "2026-07-20T17:50:44Z",
+  "current_route": "ao-foundry",
+  "current_phase": "routing",
+  "blockers": [],
+  "exact_next_action": "send accepted reduced objective directly to AO Foundry",
+  "artifact_refs": [],
+  "steps": [],
+  "route_history": [
+    {
+      "schema": "ao.mission.route-decision.v0.1",
+      "mission_id": "mission-597a66878e895ded",
+      "route": "ao-foundry",
+      "reason": "objective workflow classified as reduced",
+      "safe_to_request": true,
+      "safe_to_execute": false,
+      "safe_to_promote": false,
+      "exact_next_action": "send accepted reduced objective directly to AO Foundry",
+      "generated_at_utc": "2026-07-20T17:50:44Z"
+    }
+  ],
+  "evidence": {}
+}

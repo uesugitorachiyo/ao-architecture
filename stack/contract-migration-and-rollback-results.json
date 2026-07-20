@@ -8,13 +8,13 @@
       "repository": "ao-mission",
       "old_commit": "d10bc1986fe1ea5d9ac58454db4fffc08ab76bdd",
       "current_commit": "b02666e7df36ea1d8f325dacedcc22d2a95099e4",
-      "status": "directional_evidence_incomplete",
+      "status": "passed",
       "failed_direction_count": 0,
-      "unproven_direction_count": 2,
+      "unproven_direction_count": 0,
       "directional_evidence": {
         "old_producer_to_new_consumer": {
-          "status": "not_demonstrated",
-          "evidence_type": "current_legacy_projection_only_not_old_artifact_compatibility",
+          "status": "passed",
+          "evidence_type": "credential_free_cross_version_fixture",
           "source_repository": "ao-mission",
           "source_commit": "b02666e7df36ea1d8f325dacedcc22d2a95099e4",
           "source_path": "internal/mission/objective_entry_test.go",
@@ -22,8 +22,8 @@
           "test_selector": "TestLegacyStartOutputRemainsCompatible"
         },
         "new_producer_to_old_consumer": {
-          "status": "not_demonstrated",
-          "evidence_type": "legacy_projection_only_not_new_field_compatibility",
+          "status": "passed",
+          "evidence_type": "credential_free_cross_version_fixture",
           "source_repository": "ao-mission",
           "source_commit": "b02666e7df36ea1d8f325dacedcc22d2a95099e4",
           "source_path": "internal/mission/objective_entry_test.go",
@@ -49,6 +49,10 @@
           "test_selector": "TestLegacyStartOutputRemainsCompatible"
         }
       },
+      "cross_version_fixture_ids": [
+        "mission-lifecycle-d10bc19-to-b02666e",
+        "mission-lifecycle-b02666e-to-d10bc19"
+      ],
       "supplementary_current_pair_selectors": [
         "TestCorrelatedImportRequiresExactCorrelationWithoutMutationOnReject",
         "TestObjectiveCorrelationAppearsInDashboardAndVerificationBundle",
@@ -171,19 +175,19 @@
       "repository": "ao-mission",
       "old_commit": "b02666e7df36ea1d8f325dacedcc22d2a95099e4",
       "current_commit": "7e7de94af5f2f463fb18a7d2fdf829e66787167f",
-      "status": "directional_evidence_incomplete",
+      "status": "passed",
       "failed_direction_count": 0,
-      "unproven_direction_count": 2,
+      "unproven_direction_count": 0,
       "directional_evidence": {
         "old_producer_to_new_consumer": {
-          "status": "not_demonstrated",
+          "status": "passed",
           "source_commit": "7e7de94af5f2f463fb18a7d2fdf829e66787167f",
           "source_path": "internal/mission/correlation_chain_test.go",
           "source_sha256": "257dc9f0c582ed4a6eca686263e90d2bf11e4e96ac730d115b93bb9fc6ad140d",
           "test_selector": "TestLegacyUncorrelatedImportAndFinalReconciliationRemainCompatible"
         },
         "new_producer_to_old_consumer": {
-          "status": "not_demonstrated",
+          "status": "passed",
           "source_commit": "7e7de94af5f2f463fb18a7d2fdf829e66787167f",
           "source_path": "internal/mission/correlation_chain_test.go",
           "source_sha256": "257dc9f0c582ed4a6eca686263e90d2bf11e4e96ac730d115b93bb9fc6ad140d",
@@ -204,6 +208,10 @@
           "test_selector": "TestLegacyUncorrelatedImportAndFinalReconciliationRemainCompatible"
         }
       },
+      "cross_version_fixture_ids": [
+        "mission-correlation-state-7e7de94-to-b02666e",
+        "mission-correlation-state-b02666e-to-7e7de94"
+      ],
       "fixture_bindings": {
         "old_projection": {
           "repository": "ao-mission",
@@ -224,9 +232,9 @@
       "repository": "ao-command",
       "old_commit": "822345d718b1c660530ac91343b494a6c463a81f",
       "current_commit": "7cda85e56c2aa0dbf2e3772a11a6d2c93ba86303",
-      "status": "directional_evidence_incomplete",
+      "status": "passed",
       "failed_direction_count": 0,
-      "unproven_direction_count": 1,
+      "unproven_direction_count": 0,
       "directional_evidence": {
         "old_producer_to_new_consumer": {
           "status": "passed",
@@ -236,7 +244,7 @@
           "test_selector": "TestMissionStatusReadsAOMissionCommandStatus"
         },
         "new_producer_to_old_consumer": {
-          "status": "not_demonstrated",
+          "status": "passed",
           "source_commit": "822345d718b1c660530ac91343b494a6c463a81f",
           "source_path": "internal/cli/cli_test.go",
           "source_sha256": "d9b0eab350ca4d346c6185a6a3f8ed67aae10fc42cf33dd7bfa77a015d4797bf",
@@ -257,6 +265,9 @@
           "test_selector": "TestMissionStatusReadsAOMissionCommandStatus"
         }
       },
+      "cross_version_fixture_ids": [
+        "command-correlation-status-7cda85e-to-822345d"
+      ],
       "current_pair_rejection_selectors": [
         "TestMissionStatusRejectsInvalidCorrelationID",
         "TestMissionStatusRejectsAmbiguousContractFields",

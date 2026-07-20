@@ -8,6 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 MODULE_PATH = ROOT / "scripts" / "verify_contract_migration_and_rollback_results.py"
 RESULTS_PATH = ROOT / "stack" / "contract-migration-and-rollback-results.json"
+CROSS_VERSION_PATH = ROOT / "stack" / "contract-cross-version-fixture-results.json"
 
 
 def load_module():
@@ -23,6 +24,7 @@ class VerifyContractMigrationAndRollbackResultsTest(unittest.TestCase):
     def setUp(self):
         self.module = load_module()
         self.document = json.loads(RESULTS_PATH.read_text())
+        self.cross_version = json.loads(CROSS_VERSION_PATH.read_text())
 
     def validate(self, document=None):
         return self.module.validate_document(
@@ -33,19 +35,33 @@ class VerifyContractMigrationAndRollbackResultsTest(unittest.TestCase):
         self.assertEqual(self.validate(), [])
         mission = self.document["results"][0]
         self.assertEqual(mission["failed_direction_count"], 0)
-        self.assertEqual(mission["unproven_direction_count"], 2)
+        self.assertEqual(mission["unproven_direction_count"], 0)
         self.assertEqual(len(mission["directional_evidence"]), 4)
         self.assertEqual(
             mission["directional_evidence"]["new_producer_to_old_consumer"][
                 "status"
             ],
-            "not_demonstrated",
+            "passed",
         )
         self.assertEqual(
             mission["directional_evidence"]["old_producer_to_new_consumer"][
                 "status"
             ],
-            "not_demonstrated",
+            "passed",
+        )
+
+    def test_accepts_bound_cross_version_fixture_results(self):
+        self.assertEqual(
+            self.module.validate_cross_version_document(self.cross_version),
+            [],
+        )
+
+    def test_rejects_cross_version_fixture_digest_drift(self):
+        document = copy.deepcopy(self.cross_version)
+        document["fixtures"][0]["readback_sha256"] = "a" * 64
+        self.assertIn(
+            "cross-version fixture results must match the trusted digest",
+            self.module.validate_cross_version_document(document),
         )
 
     def test_rejects_altered_external_source_digest(self):

@@ -1,0 +1,92 @@
+{
+  "schema": "ao.architecture.contract-cross-version-fixture-results.v1",
+  "status": "passed",
+  "verified_at": "2026-07-20T17:50:43Z",
+  "credential_free": true,
+  "runner": {
+    "path": "scripts/run_contract_cross_version_fixtures.py",
+    "sha256": "8057718104e5a35f2fe92fa427e418206f32748735e989796529884a6721142f",
+    "local_status": "passed",
+    "hosted_ci_required": true
+  },
+  "fixtures": [
+    {
+      "id": "mission-lifecycle-d10bc19-to-b02666e",
+      "direction": "old_producer_to_new_consumer",
+      "producer_repository": "ao-mission",
+      "producer_commit": "d10bc1986fe1ea5d9ac58454db4fffc08ab76bdd",
+      "consumer_repository": "ao-mission",
+      "consumer_commit": "b02666e7df36ea1d8f325dacedcc22d2a95099e4",
+      "exit_code": 0,
+      "result": "passed_legacy_record_accepted",
+      "fixture_path": "stack/fixtures/contract-cross-version/mission-lifecycle-old-to-new/input.json",
+      "fixture_sha256": "21fb329ee1165792027718c6892cabd4bc4192cc9bccee2a6ae774f65e0b91ea",
+      "readback_path": "stack/fixtures/contract-cross-version/mission-lifecycle-old-to-new/expected.json",
+      "readback_sha256": "21fb329ee1165792027718c6892cabd4bc4192cc9bccee2a6ae774f65e0b91ea"
+    },
+    {
+      "id": "mission-lifecycle-b02666e-to-d10bc19",
+      "direction": "new_producer_to_old_consumer",
+      "producer_repository": "ao-mission",
+      "producer_commit": "b02666e7df36ea1d8f325dacedcc22d2a95099e4",
+      "consumer_repository": "ao-mission",
+      "consumer_commit": "d10bc1986fe1ea5d9ac58454db4fffc08ab76bdd",
+      "exit_code": 0,
+      "result": "passed_unknown_optional_fields_ignored",
+      "fixture_path": "stack/fixtures/contract-cross-version/mission-lifecycle-new-to-old/input.json",
+      "fixture_sha256": "797b2cff8a9e54bd5646d8957e7fc3984e8cd62dd580b2cc65e68bba713eff1e",
+      "readback_path": "stack/fixtures/contract-cross-version/mission-lifecycle-new-to-old/expected.json",
+      "readback_sha256": "160496d4d9e63d115fe92e5bad98eed95dd35a0759428bd31942d16f303c21de"
+    },
+    {
+      "id": "mission-correlation-state-7e7de94-to-b02666e",
+      "direction": "new_producer_to_old_consumer",
+      "producer_repository": "ao-mission",
+      "producer_commit": "7e7de94af5f2f463fb18a7d2fdf829e66787167f",
+      "consumer_repository": "ao-mission",
+      "consumer_commit": "b02666e7df36ea1d8f325dacedcc22d2a95099e4",
+      "exit_code": 0,
+      "result": "passed_unknown_optional_fields_ignored",
+      "fixture_path": "stack/fixtures/contract-cross-version/mission-correlation-new-to-old/input.json",
+      "fixture_sha256": "f4675e238253521cb3b4fbf05620cd6dd6eed289fd19ce54325110f85e67dcdd",
+      "readback_path": "stack/fixtures/contract-cross-version/mission-correlation-new-to-old/expected.json",
+      "readback_sha256": "0c41c2025453882d397d1776a33450d100ebcf055b7fadc4b8f24a5c93056f17"
+    },
+    {
+      "id": "mission-correlation-state-b02666e-to-7e7de94",
+      "direction": "old_producer_to_new_consumer",
+      "producer_repository": "ao-mission",
+      "producer_commit": "b02666e7df36ea1d8f325dacedcc22d2a95099e4",
+      "consumer_repository": "ao-mission",
+      "consumer_commit": "7e7de94af5f2f463fb18a7d2fdf829e66787167f",
+      "exit_code": 0,
+      "result": "passed_legacy_projection_accepted",
+      "fixture_path": "stack/fixtures/contract-cross-version/mission-correlation-old-to-new/input.json",
+      "fixture_sha256": "797b2cff8a9e54bd5646d8957e7fc3984e8cd62dd580b2cc65e68bba713eff1e",
+      "readback_path": "stack/fixtures/contract-cross-version/mission-correlation-old-to-new/expected.json",
+      "readback_sha256": "797b2cff8a9e54bd5646d8957e7fc3984e8cd62dd580b2cc65e68bba713eff1e"
+    },
+    {
+      "id": "command-correlation-status-7cda85e-to-822345d",
+      "direction": "new_producer_to_old_consumer",
+      "producer_repository": "ao-command",
+      "producer_commit": "7cda85e56c2aa0dbf2e3772a11a6d2c93ba86303",
+      "consumer_repository": "ao-command",
+      "consumer_commit": "822345d718b1c660530ac91343b494a6c463a81f",
+      "exit_code": 0,
+      "result": "passed_unknown_optional_field_ignored",
+      "fixture_path": "stack/fixtures/contract-cross-version/command-new-to-old/input.json",
+      "fixture_sha256": "7351cdc010a78aec48fb4d2fea06a7bc0652984fcfda42758df30c978e3db2d0",
+      "readback_path": "stack/fixtures/contract-cross-version/command-new-to-old/expected.json",
+      "readback_sha256": "25ba363b2c1a85202e75bb1ce643d68e59e365cb48662d378fbca84f34d6ca0e"
+    }
+  ],
+  "boundaries": {
+    "network_used": false,
+    "credentials_used": false,
+    "source_repository_content_mutation_performed": false,
+    "temporary_worktree_metadata_used": true,
+    "public_write_performed": false,
+    "release_or_publication_performed": false
+  }
+}

@@ -75,6 +75,30 @@ jobs:
       - name: Verify contract migration and rollback results unit tests
         run: python3 -m unittest scripts/test_verify_contract_migration_and_rollback_results.py
 
+      - name: Checkout AO Mission compatibility history
+        uses: actions/checkout@v7
+        with:
+          repository: uesugitorachiyo/ao-mission
+          ref: 7e7de94af5f2f463fb18a7d2fdf829e66787167f
+          path: tmp/ao-mission
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Checkout AO Command compatibility history
+        uses: actions/checkout@v7
+        with:
+          repository: uesugitorachiyo/ao-command
+          ref: 7cda85e56c2aa0dbf2e3772a11a6d2c93ba86303
+          path: tmp/ao-command
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Execute immutable cross-version fixtures
+        run: |
+          python3 scripts/run_contract_cross_version_fixtures.py \
+            --mission-repository tmp/ao-mission \
+            --command-repository tmp/ao-command
+
       - name: Verify GitHub issue workflow contracts
         run: python3 scripts/verify_github_issue_workflow_contracts.py
 

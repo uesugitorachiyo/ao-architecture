@@ -35,17 +35,13 @@ class VerifyContractCompatibilityWindowTest(unittest.TestCase):
         self.assertEqual(len(self.document["change_sets"]), 6)
         for index in (0, 4, 5):
             self.assertEqual(
-                self.document["change_sets"][index]["directions"][
-                    "new_producer_to_old_consumer"
-                ]["status"],
-                "not_demonstrated",
-            )
-        for index in (0, 4):
-            self.assertEqual(
-                self.document["change_sets"][index]["directions"][
-                    "old_producer_to_new_consumer"
-                ]["status"],
-                "not_demonstrated",
+                {
+                    direction["status"]
+                    for direction in self.document["change_sets"][index][
+                        "directions"
+                    ].values()
+                },
+                {"passed"},
             )
 
     def test_rejects_missing_additive_direction(self):

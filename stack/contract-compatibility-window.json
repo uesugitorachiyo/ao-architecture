@@ -8,15 +8,15 @@
     {
       "id": "mission-lifecycle-correlation-additive-b02666e",
       "kind": "additive_optional_same_version",
-      "status": "directional_evidence_incomplete",
+      "status": "four_direction_evidence_complete",
       "directions": {
         "old_producer_to_new_consumer": {
-          "status": "not_demonstrated",
-          "meaning": "current Mission emits a legacy projection, but no immutable old-producer artifact is consumed by the current implementation"
+          "status": "passed",
+          "meaning": "the current Mission implementation accepts a record produced at the immutable old commit"
         },
         "new_producer_to_old_consumer": {
-          "status": "not_demonstrated",
-          "meaning": "the legacy projection is tested, but no old consumer test accepts a record containing the new optional fields"
+          "status": "passed",
+          "meaning": "the immutable old Mission consumer accepts the populated current optional fields"
         },
         "current_producer_to_current_consumer": {
           "status": "passed",
@@ -104,15 +104,15 @@
     {
       "id": "mission-correlation-state-additive-7e7de94",
       "kind": "additive_optional_same_version",
-      "status": "directional_evidence_incomplete",
+      "status": "four_direction_evidence_complete",
       "directions": {
         "old_producer_to_new_consumer": {
-          "status": "not_demonstrated",
-          "meaning": "current Mission accepts an uncorrelated projection, but no immutable old-producer artifact is consumed by the current implementation"
+          "status": "passed",
+          "meaning": "the current Mission implementation accepts the immutable old uncorrelated record projection"
         },
         "new_producer_to_old_consumer": {
-          "status": "not_demonstrated",
-          "meaning": "current Mission preserves an uncorrelated projection, but no old consumer test accepts populated correlation state"
+          "status": "passed",
+          "meaning": "the immutable old Mission consumer accepts the populated current correlation state"
         },
         "current_producer_to_current_consumer": {
           "status": "passed",
@@ -128,15 +128,15 @@
     {
       "id": "command-mission-status-correlation-additive-7cda85e",
       "kind": "additive_optional_same_version",
-      "status": "directional_evidence_incomplete",
+      "status": "four_direction_evidence_complete",
       "directions": {
         "old_producer_to_new_consumer": {
           "status": "passed",
           "meaning": "current Command accepts and renders the unchanged legacy Mission status projection"
         },
         "new_producer_to_old_consumer": {
-          "status": "not_demonstrated",
-          "meaning": "the old Command consumer accepts the unchanged fixture, but accepting a populated correlation_id is not demonstrated"
+          "status": "passed",
+          "meaning": "the immutable old Command consumer accepts a current status containing correlation_id"
         },
         "current_producer_to_current_consumer": {
           "status": "passed",

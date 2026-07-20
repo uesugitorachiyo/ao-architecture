@@ -33,9 +33,9 @@ producer-consumer edges:
   documents relative to
   `d10bc1986fe1ea5d9ac58454db4fffc08ab76bdd`. Its executable Mission tests
   preserve legacy output, exercise correlated current lifecycle output, and
-  bind the rollback projection. They neither consume an immutable old-producer
-  artifact nor prove that an old consumer accepts populated optional fields,
-  so both cross-version directions remain `not_demonstrated`.
+  bind the rollback projection. Credential-free exact-commit fixtures now
+  prove that the current consumer accepts an immutable old record and that
+  the immutable old consumer accepts the populated current optional fields.
   The evidence record pins the test source and the old and current projection
   source SHA-256 values.
 - `ao.mission.objective-workflow-contract.v0.1` is a new strict contract with
@@ -56,19 +56,15 @@ producer-consumer edges:
   Mission record, import readback, final reconciliation packet, and archive
   contracts. Four-direction evidence preserves the uncorrelated projection
   from `b02666e7df36ea1d8f325dacedcc22d2a95099e4` and exercises current
-  correlation state through archive export and import. The old-consumer
-  direction and old-producer direction remain `not_demonstrated`; a current
-  uncorrelated projection is not treated as an immutable old artifact, and
-  legacy projection evidence is not treated as proof that populated optional
-  state is accepted.
+  correlation state through archive export and import. Credential-free
+  exact-commit fixtures prove both cross-version directions.
 - Command commit `7cda85e56c2aa0dbf2e3772a11a6d2c93ba86303`
   adds optional `correlation_id` readback to
   `ao.command.mission-status.v0.1`. The unchanged legacy fixture is
   byte-identical at old commit `822345d718b1c660530ac91343b494a6c463a81f`
   and the merged tests prove legacy omission, current preservation, strict
-  validation, and rollback projection. The old consumer is only proven against
-  the unchanged fixture, so populated `correlation_id` compatibility remains
-  `not_demonstrated`.
+  validation, and rollback projection. An exact-commit fixture proves that the
+  immutable old consumer accepts populated `correlation_id`.
 
 These records live outside `edges`; they do not change the compatibility
 matrix, contract inventory, owner registry, trusted edge evidence, or
@@ -79,8 +75,9 @@ outcomes and the two-release retirement rule.
 `stack/contract-migration-and-rollback-results.json` binds executable evidence
 to immutable source paths and digests. New families explicitly use
 `not_applicable_no_predecessor` for predecessor directions. No old fixture is
-invented. An additive change cannot claim four-direction completeness until an
-old consumer executable accepts the populated new optional field.
+invented. `stack/contract-cross-version-fixture-results.json` binds the
+credential-free exact-commit producer/consumer probes and their fixture and
+readback digests.
 
 The verifier pins a trusted digest for every complete current-pair evidence
 record. Each record includes the vector metadata plus the exact consumer test
