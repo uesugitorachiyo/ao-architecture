@@ -1,0 +1,459 @@
+{
+  "schema": "ao.architecture.contract-evolution-policy.v1",
+  "status": "enforced",
+  "policy_owner": "ao-architecture",
+  "registry_authority": "ao-covenant",
+  "compatibility_matrix": "stack/contract-compatibility-matrix.json",
+  "evidence_semantics": {
+    "current_pair_status": "tested_current_release_pair proves only the recorded producer and consumer pair",
+    "two_version_status": "requires executable evidence for every required direction and an explicit predecessor",
+    "missing_predecessor": "must remain current_pair_only and must not be represented by an invented version",
+    "digest_scope": "sha256 and byte_length bind canonical-vector bytes at the matrix-recorded merge commit"
+  },
+  "rules": {
+    "minimum_supported_releases_after_version_change": 2,
+    "breaking_change_requires_new_major": true,
+    "additive_optional_unknown_fields_may_be_ignored": true,
+    "unknown_required_fields_fail_with_bounded_error": true,
+    "removal_requires_deprecation_notice": true,
+    "removal_requires_migration_and_rollback_evidence": true,
+    "declared_change_required_directions": [
+      "old_producer_to_new_consumer",
+      "new_producer_to_old_consumer",
+      "current_producer_to_current_consumer",
+      "rollback_to_previous_supported_contract"
+    ]
+  },
+  "edges": [
+    {
+      "producer": "ao-architecture",
+      "consumer": "ao-mission",
+      "contract_family": "authority_and_topology",
+      "producer_contract": "authority_inventory",
+      "consumer_contract": "mission_route_context",
+      "canonical_vector": {
+        "repository": "ao-architecture",
+        "path": "stack/fixtures/compatibility/architecture-route-context-v0.1.json",
+        "pr": "https://github.com/uesugitorachiyo/ao-architecture/pull/113",
+        "merge_commit": "417dc64b5805ab5aabc5e7d6a5a015e156ecf6b8",
+        "schema_identifier": "ao.compatibility.architecture-route-context-vector.v1",
+        "sha256": "50c6e5bb9c0a426d66e6dfec41b8728c6c913dd851fd19ea35424c655a2b13f8",
+        "byte_length": 2206
+      },
+      "consumer_test": {
+        "repository": "ao-mission",
+        "path": "internal/mission/mission_test.go",
+        "pr": "https://github.com/uesugitorachiyo/ao-mission/pull/88",
+        "merge_commit": "6823f4eb82a89abe46ce484533d929649d09d8ad",
+        "test_selector": "TestArchitectureRouteContextCompatibilityVector",
+        "sha256": "63f17a3da75ae861f14eda85fac6f4c62fc8111ef66da962b60203f9c1a1f09e",
+        "byte_length": 201426
+      },
+      "evolution": {"declared_change": false, "documented_predecessors": [], "status": "current_pair_only", "directional_evidence": {}}
+    },
+    {
+      "producer": "ao-architecture",
+      "consumer": "ao-blueprint",
+      "contract_family": "authority_and_topology",
+      "producer_contract": "topology_adr",
+      "consumer_contract": "authorization_scope",
+      "canonical_vector": {
+        "repository": "ao-architecture",
+        "path": "stack/fixtures/compatibility/architecture-source-truth-to-blueprint-authorization-scope-v0.1.json",
+        "pr": "https://github.com/uesugitorachiyo/ao-architecture/pull/121",
+        "merge_commit": "10f749f315590a9f33961e98a93d75b4b04b27f3",
+        "schema_identifier": "ao.compatibility.architecture-source-truth-to-blueprint-authorization-scope-vector.v1",
+        "sha256": "ef8ae7ee5c4109069b48c1747ae3ecc01061fc5ef329e874f5f4a6aec4c7756e",
+        "byte_length": 3555
+      },
+      "consumer_test": {
+        "repository": "ao-blueprint",
+        "path": "internal/cli/cli_test.go",
+        "pr": "https://github.com/uesugitorachiyo/ao-blueprint/pull/47",
+        "merge_commit": "a4313b066cf3c9d969a9ed9a932c649ac5eda84e",
+        "test_selector": "TestConsumesArchitectureSourceTruthAuthorizationScopeVector",
+        "sha256": "434fefc547dc3cf41637eaa04c71edeb243a788b09abb624ddeff10e8d835314",
+        "byte_length": 11400
+      },
+      "evolution": {"declared_change": false, "documented_predecessors": [], "status": "current_pair_only", "directional_evidence": {}}
+    },
+    {
+      "producer": "ao-blueprint",
+      "consumer": "ao-atlas",
+      "contract_family": "requirements_to_workgraph",
+      "producer_contract": "blueprint_pack",
+      "consumer_contract": "context_pack_and_workgraph",
+      "canonical_vector": {
+        "repository": "ao-blueprint",
+        "path": "examples/compatibility/blueprint-authorization-to-atlas-context-v0.1.json",
+        "pr": "https://github.com/uesugitorachiyo/ao-blueprint/pull/46",
+        "merge_commit": "2be0647f28b0ccc3222a5f6c4a4676dfd9bba946",
+        "schema_identifier": "ao.compatibility.blueprint-authorization-to-atlas-context-vector.v1",
+        "sha256": "36dd598d6d158c9c818a9146ac1754da4bdabe8d5fbd64765f6245b44b03bfe9",
+        "byte_length": 2065
+      },
+      "consumer_test": {
+        "repository": "ao-atlas",
+        "path": "internal/atlas/atlas_test.go",
+        "pr": "https://github.com/uesugitorachiyo/ao-atlas/pull/731",
+        "merge_commit": "76303c122352b1deac63670e203bdb941ac4a3cc",
+        "test_selector": "TestBlueprintAuthorizationCompatibilityVectorConsumesIntoContextPackWorkgraph",
+        "sha256": "aa5d151a85d051ef3e0092dc5ea26f8bf792a8fdaf32bec7c481e0e62c36ef13",
+        "byte_length": 150203
+      },
+      "evolution": {"declared_change": false, "documented_predecessors": [], "status": "current_pair_only", "directional_evidence": {}}
+    },
+    {
+      "producer": "ao-atlas",
+      "consumer": "ao-foundry",
+      "contract_family": "workgraph_to_schedule",
+      "producer_contract": "foundry_import",
+      "consumer_contract": "portfolio_task",
+      "canonical_vector": {
+        "repository": "ao-atlas",
+        "path": "examples/valid/atlas-workgraph-to-foundry-safe-next-work-compatibility-vector.json",
+        "pr": "https://github.com/uesugitorachiyo/ao-atlas/pull/732",
+        "merge_commit": "4f03155f6a76af8aa3c688d30a862fdb84b866d4",
+        "schema_identifier": "ao.compatibility.atlas-workgraph-to-foundry-safe-next-work-vector.v1",
+        "sha256": "3e1e135cb4a3a7542e575cdae2815df11d746e31a89889899a6bd29d8453af57",
+        "byte_length": 2153
+      },
+      "consumer_test": {
+        "repository": "ao-foundry",
+        "path": "internal/cli/cli_test.go",
+        "pr": "https://github.com/uesugitorachiyo/ao-foundry/pull/262",
+        "merge_commit": "e63f341b0970d4844e0325924999e540bee229d4",
+        "test_selector": "TestPulseAtlasSchedulerInputConsumesAtlasWorkgraphCompatibilityVector",
+        "sha256": "07c6ad12b5fd4f837444405872f8a04d22f6176b700c42008c8d1a82abacd366",
+        "byte_length": 545883
+      },
+      "evolution": {"declared_change": false, "documented_predecessors": [], "status": "current_pair_only", "directional_evidence": {}}
+    },
+    {
+      "producer": "ao-foundry",
+      "consumer": "ao-forge",
+      "contract_family": "schedule_to_goal_run",
+      "producer_contract": "safe_next_work",
+      "consumer_contract": "goal_run_request",
+      "canonical_vector": {
+        "repository": "ao-foundry",
+        "path": "examples/contract-fixtures/valid/foundry-safe-next-work-to-forge-goal-run-v0.1.json",
+        "pr": "https://github.com/uesugitorachiyo/ao-foundry/pull/263",
+        "merge_commit": "f77ab33826379880dd1ffd5fc0e8895075bee53c",
+        "schema_identifier": "ao.compatibility.foundry-safe-next-work-to-forge-goal-run-vector.v1",
+        "sha256": "d3b662eaba1e4fd87e2dc2d0c13350ce7bd7618dc899a77212f35be19c609f37",
+        "byte_length": 3632
+      },
+      "consumer_test": {
+        "repository": "ao-forge",
+        "path": "internal/cli/cli_test.go",
+        "pr": "https://github.com/uesugitorachiyo/ao-forge/pull/159",
+        "merge_commit": "59718f1e3a9881cf8ede530347233b0990482e99",
+        "test_selector": "TestConsumesFoundrySafeNextWorkCompatibilityVector",
+        "sha256": "f76214e04d750350bf558a2ab8f1ef4cb827e9289c0f3a8b37c3bbe011f3e605",
+        "byte_length": 527299
+      },
+      "evolution": {"declared_change": false, "documented_predecessors": [], "status": "current_pair_only", "directional_evidence": {}}
+    },
+    {
+      "producer": "ao-forge",
+      "consumer": "ao-covenant",
+      "contract_family": "goal_run_to_policy_gate",
+      "producer_contract": "goal_run",
+      "consumer_contract": "policy_ticket",
+      "canonical_vector": {
+        "repository": "ao-forge",
+        "path": "examples/compatibility/forge-goal-run-to-covenant-policy-ticket-v0.1.json",
+        "pr": "https://github.com/uesugitorachiyo/ao-forge/pull/159",
+        "merge_commit": "59718f1e3a9881cf8ede530347233b0990482e99",
+        "schema_identifier": "ao.compatibility.forge-goal-run-to-covenant-policy-ticket-vector.v1",
+        "sha256": "47b23dbf41b89104cbf6784c3e0d9cabdc7355f9cc373e096c13af7d0287bf75",
+        "byte_length": 2854
+      },
+      "consumer_test": {
+        "repository": "ao-covenant",
+        "path": "internal/cli/cli_test.go",
+        "pr": "https://github.com/uesugitorachiyo/ao-covenant/pull/128",
+        "merge_commit": "57235d899041056c6f5532db74532a0d6b286999",
+        "test_selector": "TestConsumesForgeGoalRunCompatibilityVectorAsPolicyTicket",
+        "sha256": "679ec7b9a02278602ccfc1cbcb045c2a089d0629a0287f9c4cfc97ca4435fe85",
+        "byte_length": 467015
+      },
+      "evolution": {"declared_change": false, "documented_predecessors": [], "status": "current_pair_only", "directional_evidence": {}}
+    },
+    {
+      "producer": "ao-covenant",
+      "consumer": "ao2",
+      "contract_family": "approval_to_execution",
+      "producer_contract": "approval_ticket",
+      "consumer_contract": "approved_execution_request",
+      "canonical_vector": {
+        "repository": "ao-covenant",
+        "path": "examples/compatibility/covenant-approval-ticket-to-ao2-approved-execution-v0.1.json",
+        "pr": "https://github.com/uesugitorachiyo/ao-covenant/pull/128",
+        "merge_commit": "57235d899041056c6f5532db74532a0d6b286999",
+        "schema_identifier": "ao.compatibility.covenant-approval-ticket-to-ao2-approved-execution-vector.v1",
+        "sha256": "668b7913a396cad0d36f418c933053858fc0923c5841d9458630e62488aed383",
+        "byte_length": 2210
+      },
+      "consumer_test": {
+        "repository": "ao2",
+        "path": "tests/test_compatibility_vectors.py",
+        "pr": "https://github.com/uesugitorachiyo/ao2/pull/289",
+        "merge_commit": "cd5608193fc0001fa907f302c32051630735d08c",
+        "test_selector": "test_covenant_approval_ticket_vector_maps_to_ao2_approved_execution_request",
+        "sha256": "f85f0bafdcdc2d139b91fb3e9027c9d75acf590b84e99abdbaaef09bfdeec131",
+        "byte_length": 6869
+      },
+      "evolution": {"declared_change": false, "documented_predecessors": [], "status": "current_pair_only", "directional_evidence": {}}
+    },
+    {
+      "producer": "ao2",
+      "consumer": "ao2-control-plane",
+      "contract_family": "execution_to_observation",
+      "producer_contract": "execution_receipt",
+      "consumer_contract": "evidence_event",
+      "canonical_vector": {
+        "repository": "ao2",
+        "path": "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.1.json",
+        "pr": "https://github.com/uesugitorachiyo/ao2/pull/288",
+        "merge_commit": "5b568830360baac6198a653737f60abab393eec7",
+        "schema_identifier": "ao.compatibility.execution-receipt-vector.v1",
+        "sha256": "8970836ee11fd89dbd91be640356364cdefa51c1f4b8d709cadd860c632e1870",
+        "byte_length": 2344
+      },
+      "consumer_test": {
+        "repository": "ao2-control-plane",
+        "path": "crates/ao2-cp-server/tests/compatibility_vectors.rs",
+        "pr": "https://github.com/uesugitorachiyo/ao2-control-plane/pull/100",
+        "merge_commit": "3e57d80c6be05490930294a7d3ab4664d2856b55",
+        "test_selector": "consumes_ao2_execution_receipt_as_expected_evidence_event",
+        "sha256": "86fa58c31368ea0261f783e6689d98bd3b287225b8422242ab44cbd6e0c4c3c8",
+        "byte_length": 3946
+      },
+      "evolution": {"declared_change": false, "documented_predecessors": [], "status": "current_pair_only", "directional_evidence": {}}
+    },
+    {
+      "producer": "ao-mission",
+      "consumer": "ao-command",
+      "contract_family": "mission_to_operator_readback",
+      "producer_contract": "mission_readback",
+      "consumer_contract": "compact_mission_timeline",
+      "canonical_vector": {
+        "repository": "ao-mission",
+        "path": "examples/valid/mission-status-timeline-compatibility-vector.json",
+        "pr": "https://github.com/uesugitorachiyo/ao-mission/pull/86",
+        "merge_commit": "afac2b6c4976042fb2d5c0d28bf036de7cf0c2de",
+        "schema_identifier": "ao.compatibility.mission-status-timeline-vector.v1",
+        "sha256": "f6019cd70d26b359f1b7923431e16cc83dd786bde58bd4c9e56787afa8f62394",
+        "byte_length": 3005
+      },
+      "consumer_test": {
+        "repository": "ao-command",
+        "path": "internal/cli/cli_test.go",
+        "pr": "https://github.com/uesugitorachiyo/ao-command/pull/119",
+        "merge_commit": "ba2f25fdd75ee3e6a2b5996fb042e0b75a8460d8",
+        "test_selector": "TestMissionTimelineConsumesStatusTimelineVector",
+        "sha256": "e1bbc3b83c3a4d815481472bb98d9d121361be0511f0c0ff5f9ec09c02a80dc5",
+        "byte_length": 217014
+      },
+      "evolution": {"declared_change": false, "documented_predecessors": [], "status": "current_pair_only", "directional_evidence": {}}
+    },
+    {
+      "producer": "ao2-control-plane",
+      "consumer": "ao-command",
+      "contract_family": "observer_to_operator_readback",
+      "producer_contract": "dashboard_readback",
+      "consumer_contract": "operator_status",
+      "canonical_vector": {
+        "repository": "ao2-control-plane",
+        "path": "crates/ao2-cp-server/tests/fixtures/compatibility/control-plane-readback-v0.1.16.json",
+        "pr": "https://github.com/uesugitorachiyo/ao2-control-plane/pull/104",
+        "merge_commit": "90c6d90bc338038cc2fdbbdd6ae9fd10226a1a10",
+        "schema_identifier": "ao.compatibility.control-plane-readback-vector.v1",
+        "sha256": "286aa88b96695b5443550a9f43d427fad6866127f1e5e749ce77c5af7b2165aa",
+        "byte_length": 2276
+      },
+      "consumer_test": {
+        "repository": "ao-command",
+        "path": "internal/cli/cli_test.go",
+        "pr": "https://github.com/uesugitorachiyo/ao-command/pull/133",
+        "merge_commit": "fdd97ed5857314e37ae5df6c359c9ecfd398dfdb",
+        "test_selector": "TestControlPlaneOperatorStatusReadback",
+        "sha256": "48ddea5f55659f40d4bceed7c7e7e50e7b59ed0422a1509f621f3b709fc40dd7",
+        "byte_length": 248845
+      },
+      "evolution": {"declared_change": false, "documented_predecessors": [], "status": "current_pair_only", "directional_evidence": {}}
+    },
+    {
+      "producer": "ao-arena",
+      "consumer": "ao-promoter",
+      "contract_family": "benchmark_to_promotion",
+      "producer_contract": "benchmark_result",
+      "consumer_contract": "assurance_input",
+      "canonical_vector": {
+        "repository": "ao-arena",
+        "path": "examples/compatibility/arena-benchmark-result-to-promoter-assurance-input-v0.1.json",
+        "pr": "https://github.com/uesugitorachiyo/ao-arena/pull/5",
+        "merge_commit": "fa013c1a82c63b4b83bba2e9b864c2eaacd6d5b1",
+        "schema_identifier": "ao.compatibility.arena-benchmark-result-to-promoter-assurance-input-vector.v1",
+        "sha256": "4417494033e6e23cd2de6a2d7612d9b3b074e038aec0d23200012017cffeecfa",
+        "byte_length": 1567
+      },
+      "consumer_test": {
+        "repository": "ao-promoter",
+        "path": "internal/cli/cli_test.go",
+        "pr": "https://github.com/uesugitorachiyo/ao-promoter/pull/53",
+        "merge_commit": "63594379499a873446dacb245c731688e9c91639",
+        "test_selector": "TestConsumesWaveEAssuranceCompatibilityVectors",
+        "sha256": "0cdeb09cc149627c869407be79aaa739d97565f3122cc9fc7934372ae6e5a3c3",
+        "byte_length": 62077
+      },
+      "evolution": {"declared_change": false, "documented_predecessors": [], "status": "current_pair_only", "directional_evidence": {}}
+    },
+    {
+      "producer": "ao-crucible",
+      "consumer": "ao-promoter",
+      "contract_family": "adversarial_probe_to_promotion",
+      "producer_contract": "failure_injection_result",
+      "consumer_contract": "assurance_input",
+      "canonical_vector": {
+        "repository": "ao-crucible",
+        "path": "examples/compatibility/crucible-failure-injection-to-promoter-assurance-input-v0.1.json",
+        "pr": "https://github.com/uesugitorachiyo/ao-crucible/pull/5",
+        "merge_commit": "e7d39d08dc0559331d84ec834394430d569255d1",
+        "schema_identifier": "ao.compatibility.crucible-failure-injection-to-promoter-assurance-input-vector.v1",
+        "sha256": "070ccd1d7f49f92589396e0411f5c31c4997edd23bd247e3303176e6d5187edc",
+        "byte_length": 1629
+      },
+      "consumer_test": {
+        "repository": "ao-promoter",
+        "path": "internal/cli/cli_test.go",
+        "pr": "https://github.com/uesugitorachiyo/ao-promoter/pull/53",
+        "merge_commit": "63594379499a873446dacb245c731688e9c91639",
+        "test_selector": "TestConsumesWaveEAssuranceCompatibilityVectors",
+        "sha256": "0cdeb09cc149627c869407be79aaa739d97565f3122cc9fc7934372ae6e5a3c3",
+        "byte_length": 62077
+      },
+      "evolution": {"declared_change": false, "documented_predecessors": [], "status": "current_pair_only", "directional_evidence": {}}
+    },
+    {
+      "producer": "ao-sentinel",
+      "consumer": "ao-promoter",
+      "contract_family": "safety_verdict_to_promotion",
+      "producer_contract": "sentinel_verdict",
+      "consumer_contract": "promotion_input",
+      "canonical_vector": {
+        "repository": "ao-sentinel",
+        "path": "examples/compatibility/sentinel-verdict-to-promoter-input-v0.1.json",
+        "pr": "https://github.com/uesugitorachiyo/ao-sentinel/pull/43",
+        "merge_commit": "e2cea8d2dfb1db782c08dad7d41e986bc73074d2",
+        "schema_identifier": "ao.compatibility.sentinel-verdict-to-promoter-input-vector.v1",
+        "sha256": "9a4e1c2facf3dcb4b40375276d9c16dce867952bcb6b71fe2cbaa0eb2f40b4b1",
+        "byte_length": 1414
+      },
+      "consumer_test": {
+        "repository": "ao-promoter",
+        "path": "internal/cli/cli_test.go",
+        "pr": "https://github.com/uesugitorachiyo/ao-promoter/pull/53",
+        "merge_commit": "63594379499a873446dacb245c731688e9c91639",
+        "test_selector": "TestConsumesWaveEAssuranceCompatibilityVectors",
+        "sha256": "0cdeb09cc149627c869407be79aaa739d97565f3122cc9fc7934372ae6e5a3c3",
+        "byte_length": 62077
+      },
+      "evolution": {"declared_change": false, "documented_predecessors": [], "status": "current_pair_only", "directional_evidence": {}}
+    },
+    {
+      "producer": "ao-promoter",
+      "consumer": "ao-command",
+      "contract_family": "promotion_to_operator_readback",
+      "producer_contract": "promotion_verdict",
+      "consumer_contract": "promotion_status",
+      "canonical_vector": {
+        "repository": "ao-promoter",
+        "path": "examples/compatibility/promoter-verdict-to-command-status-v0.1.json",
+        "pr": "https://github.com/uesugitorachiyo/ao-promoter/pull/53",
+        "merge_commit": "63594379499a873446dacb245c731688e9c91639",
+        "schema_identifier": "ao.compatibility.promoter-verdict-to-command-status-vector.v1",
+        "sha256": "2c8d08e5aa260a3bab2ad0dd2a19a7d76989daa6284a5427118b6cfaddde8d7f",
+        "byte_length": 1470
+      },
+      "consumer_test": {
+        "repository": "ao-command",
+        "path": "internal/cli/cli_test.go",
+        "pr": "https://github.com/uesugitorachiyo/ao-command/pull/121",
+        "merge_commit": "cc68b68a7056457da7121805e09bd467bdc0374d",
+        "test_selector": "TestPromoterStatusConsumesPromotionStatusVector",
+        "sha256": "8d6932379b4d6bd50fbe4404403e87856098c7697b4760056050ecb763d7bcf0",
+        "byte_length": 222354
+      },
+      "evolution": {"declared_change": false, "documented_predecessors": [], "status": "current_pair_only", "directional_evidence": {}}
+    },
+    {
+      "producer": "ao-covenant",
+      "consumer": "ao-command",
+      "contract_family": "policy_to_operator_explanation",
+      "producer_contract": "policy_decision",
+      "consumer_contract": "policy_readback",
+      "canonical_vector": {
+        "repository": "ao-covenant",
+        "path": "examples/compatibility/covenant-policy-decision-to-command-readback-v0.1.json",
+        "pr": "https://github.com/uesugitorachiyo/ao-covenant/pull/129",
+        "merge_commit": "034c5fe177b90ef3e373b3b6f30e187db13e4d5d",
+        "schema_identifier": "ao.compatibility.covenant-policy-decision-to-command-readback-vector.v1",
+        "sha256": "9791a4f77e692c32f24a69cd380771d11b4d956ffa3eac1c359bdad9a3b39142",
+        "byte_length": 1977
+      },
+      "consumer_test": {
+        "repository": "ao-command",
+        "path": "internal/cli/cli_test.go",
+        "pr": "https://github.com/uesugitorachiyo/ao-command/pull/120",
+        "merge_commit": "3aa19431d6dcdf0f44e6f92c511fa86c946fac7f",
+        "test_selector": "TestCovenantPolicyConsumesPolicyReadbackVector",
+        "sha256": "f70e5186dac82735455afdc8d259183578a826093ec05c445a9eebe1eed58ce7",
+        "byte_length": 220532
+      },
+      "evolution": {"declared_change": false, "documented_predecessors": [], "status": "current_pair_only", "directional_evidence": {}}
+    },
+    {
+      "producer": "ao-forge",
+      "consumer": "ao-command",
+      "contract_family": "goal_run_to_operator_readback",
+      "producer_contract": "run_status",
+      "consumer_contract": "run_timeline",
+      "canonical_vector": {
+        "repository": "ao-forge",
+        "path": "examples/compatibility/forge-run-status-to-command-timeline-v0.1.json",
+        "pr": "https://github.com/uesugitorachiyo/ao-forge/pull/160",
+        "merge_commit": "5000b4635c5562ef7bbfa0c37b69266c3646b16d",
+        "schema_identifier": "ao.compatibility.forge-run-status-to-command-timeline-vector.v1",
+        "sha256": "124e7a38300bd47d9b04762dbba57fdd525459d0e08c466cb2427a3347ef8ef9",
+        "byte_length": 2992
+      },
+      "consumer_test": {
+        "repository": "ao-command",
+        "path": "internal/cli/cli_test.go",
+        "pr": "https://github.com/uesugitorachiyo/ao-command/pull/120",
+        "merge_commit": "3aa19431d6dcdf0f44e6f92c511fa86c946fac7f",
+        "test_selector": "TestForgeTimelineConsumesRunStatusVector",
+        "sha256": "f70e5186dac82735455afdc8d259183578a826093ec05c445a9eebe1eed58ce7",
+        "byte_length": 220532
+      },
+      "evolution": {"declared_change": false, "documented_predecessors": [], "status": "current_pair_only", "directional_evidence": {}}
+    }
+  ],
+  "coverage": {
+    "tracked_edge_count": 16,
+    "current_pair_evidence_count": 16,
+    "declared_change_count": 0,
+    "two_version_evidence_count": 0,
+    "invented_predecessor_count": 0,
+    "compatibility_activation_complete": false
+  },
+  "safety": {
+    "read_only_policy": true,
+    "mutates_repositories": false,
+    "promotion_granted": false,
+    "rsi_remains_denied": true
+  }
+}
