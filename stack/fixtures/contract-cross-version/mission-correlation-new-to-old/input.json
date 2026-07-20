@@ -14,43 +14,43 @@
   "artifact_refs": [
     {
       "schema": "ao.mission.artifact-ref.v0.1",
-      "ref": "/Users/torachiyouesugi/Documents/canary-test/ao-stack-productization-adoption-month1-6-20260719T203430Z/month3/reference-run/correlation-evidence-commitments/ao2-action-digest.json",
+      "ref": "evidence/month3/reference-run/correlation-evidence-commitments/ao2-action-digest.json",
       "digest": "sha256:164900d699d3bf54298733c817931e8905a4cb814db0d927bcf7c3d0e84b26c4",
       "kind": "correlation-evidence"
     },
     {
       "schema": "ao.mission.artifact-ref.v0.1",
-      "ref": "/Users/torachiyouesugi/Documents/canary-test/ao-stack-productization-adoption-month1-6-20260719T203430Z/month3/draft-pr-fixture-created.json",
+      "ref": "evidence/month3/draft-pr-fixture-created.json",
       "digest": "sha256:d6262c5409977b8d25e73abede5427e761e7dd6f174a159a45d557abffd879d6",
       "kind": "correlation-evidence"
     },
     {
       "schema": "ao.mission.artifact-ref.v0.1",
-      "ref": "/Users/torachiyouesugi/Documents/canary-test/ao-stack-productization-adoption-month1-6-20260719T203430Z/month3/draft-pr-idempotency-readback.json",
+      "ref": "evidence/month3/draft-pr-idempotency-readback.json",
       "digest": "sha256:2867bfde0bbb881269089d9f53d802fca746805958c2f341dcc1932ccc78c92d",
       "kind": "correlation-evidence"
     },
     {
       "schema": "ao.mission.artifact-ref.v0.1",
-      "ref": "/Users/torachiyouesugi/Documents/canary-test/ao-stack-productization-adoption-month1-6-20260719T203430Z/month3/draft-pr-verification.json",
+      "ref": "evidence/month3/draft-pr-verification.json",
       "digest": "sha256:43e4fd44ae5db3317e6628a71872d84cd7b2bd8f3315c61813b97ca76b63b7d4",
       "kind": "correlation-evidence"
     },
     {
       "schema": "ao.mission.artifact-ref.v0.1",
-      "ref": "/Users/torachiyouesugi/Documents/canary-test/ao-stack-productization-adoption-month1-6-20260719T203430Z/month3/reference-run/correlation-evidence-commitments/authority-and-approval.json",
+      "ref": "evidence/month3/reference-run/correlation-evidence-commitments/authority-and-approval.json",
       "digest": "sha256:5543e655e5a7b33d6eff160639d95ba2a66604a0eaaea96a2b984834d930dfa0",
       "kind": "correlation-evidence"
     },
     {
       "schema": "ao.mission.artifact-ref.v0.1",
-      "ref": "/Users/torachiyouesugi/Documents/canary-test/ao-stack-productization-adoption-month1-6-20260719T203430Z/month3/reference-run/correlation-evidence-commitments/draft-only-boundary.json",
+      "ref": "evidence/month3/reference-run/correlation-evidence-commitments/draft-only-boundary.json",
       "digest": "sha256:0ac8cf28343dddf6bdc3f50fd72510ea415a07614ebbafcdd29822bcf449a822",
       "kind": "correlation-evidence"
     },
     {
       "schema": "ao.mission.artifact-ref.v0.1",
-      "ref": "/Users/torachiyouesugi/Documents/canary-test/ao-stack-productization-adoption-month1-6-20260719T203430Z/month3/reference-run/correlation-evidence-commitments/issue-route-contract.json",
+      "ref": "evidence/month3/reference-run/correlation-evidence-commitments/issue-route-contract.json",
       "digest": "sha256:650f061140d0b006b4f25eac9e706877ca32837457b4cc71d8cc176b39c016f2",
       "kind": "correlation-evidence"
     }
@@ -342,7 +342,7 @@
     {
       "role": "ao2-action-digest",
       "digest": "sha256:164900d699d3bf54298733c817931e8905a4cb814db0d927bcf7c3d0e84b26c4",
-      "artifact_path": "/Users/torachiyouesugi/Documents/canary-test/ao-stack-productization-adoption-month1-6-20260719T203430Z/month3/reference-run/correlation-evidence-commitments/ao2-action-digest.json",
+      "artifact_path": "evidence/month3/reference-run/correlation-evidence-commitments/ao2-action-digest.json",
       "locator_state": "live",
       "locator_digest": "sha256:9394c300a2e46e96935b257470386d1e290ec795af8ea4d6c7c33c2f58b45abb",
       "chain_digest": "sha256:c81bc089cabc8466ce43a8fe5052d864267316965bdaf44cd815b35ef5be7dfe",
@@ -351,7 +351,7 @@
     {
       "role": "ao2-fixture-created",
       "digest": "sha256:d6262c5409977b8d25e73abede5427e761e7dd6f174a159a45d557abffd879d6",
-      "artifact_path": "/Users/torachiyouesugi/Documents/canary-test/ao-stack-productization-adoption-month1-6-20260719T203430Z/month3/draft-pr-fixture-created.json",
+      "artifact_path": "evidence/month3/draft-pr-fixture-created.json",
       "locator_state": "live",
       "locator_digest": "sha256:05a1273f8b5fe19d904c2a99a4085ec47b9d57f8b62da87585de7498e65da4a7",
       "chain_digest": "sha256:c81bc089cabc8466ce43a8fe5052d864267316965bdaf44cd815b35ef5be7dfe",
@@ -360,7 +360,7 @@
     {
       "role": "ao2-idempotent-readback",
       "digest": "sha256:2867bfde0bbb881269089d9f53d802fca746805958c2f341dcc1932ccc78c92d",
-      "artifact_path": "/Users/torachiyouesugi/Documents/canary-test/ao-stack-productization-adoption-month1-6-20260719T203430Z/month3/draft-pr-idempotency-readback.json",
+      "artifact_path": "evidence/month3/draft-pr-idempotency-readback.json",
       "locator_state": "live",
       "locator_digest": "sha256:db6b5e1d9d847b2ad7f0a79797c72928d56bcd90196015d1850464ff09e48366",
       "chain_digest": "sha256:c81bc089cabc8466ce43a8fe5052d864267316965bdaf44cd815b35ef5be7dfe",
@@ -369,7 +369,7 @@
     {
       "role": "ao2-verification",
       "digest": "sha256:43e4fd44ae5db3317e6628a71872d84cd7b2bd8f3315c61813b97ca76b63b7d4",
-      "artifact_path": "/Users/torachiyouesugi/Documents/canary-test/ao-stack-productization-adoption-month1-6-20260719T203430Z/month3/draft-pr-verification.json",
+      "artifact_path": "evidence/month3/draft-pr-verification.json",
       "locator_state": "live",
       "locator_digest": "sha256:b7432a39e5921ce927ba91566d0630c8687a72968e56661658361418443e5221",
       "chain_digest": "sha256:c81bc089cabc8466ce43a8fe5052d864267316965bdaf44cd815b35ef5be7dfe",
@@ -378,7 +378,7 @@
     {
       "role": "authority-and-approval",
       "digest": "sha256:5543e655e5a7b33d6eff160639d95ba2a66604a0eaaea96a2b984834d930dfa0",
-      "artifact_path": "/Users/torachiyouesugi/Documents/canary-test/ao-stack-productization-adoption-month1-6-20260719T203430Z/month3/reference-run/correlation-evidence-commitments/authority-and-approval.json",
+      "artifact_path": "evidence/month3/reference-run/correlation-evidence-commitments/authority-and-approval.json",
       "locator_state": "live",
       "locator_digest": "sha256:78ed25a1d10028a355554ac8187845f30260488af7e45b799a675c12681ee9c7",
       "chain_digest": "sha256:c81bc089cabc8466ce43a8fe5052d864267316965bdaf44cd815b35ef5be7dfe",
@@ -387,7 +387,7 @@
     {
       "role": "draft-only-boundary",
       "digest": "sha256:0ac8cf28343dddf6bdc3f50fd72510ea415a07614ebbafcdd29822bcf449a822",
-      "artifact_path": "/Users/torachiyouesugi/Documents/canary-test/ao-stack-productization-adoption-month1-6-20260719T203430Z/month3/reference-run/correlation-evidence-commitments/draft-only-boundary.json",
+      "artifact_path": "evidence/month3/reference-run/correlation-evidence-commitments/draft-only-boundary.json",
       "locator_state": "live",
       "locator_digest": "sha256:4310de263c88d49d2a60019961c18d5a64ae883e1a0c65e8bb2596183211e58a",
       "chain_digest": "sha256:c81bc089cabc8466ce43a8fe5052d864267316965bdaf44cd815b35ef5be7dfe",
@@ -396,7 +396,7 @@
     {
       "role": "issue-route-contract",
       "digest": "sha256:650f061140d0b006b4f25eac9e706877ca32837457b4cc71d8cc176b39c016f2",
-      "artifact_path": "/Users/torachiyouesugi/Documents/canary-test/ao-stack-productization-adoption-month1-6-20260719T203430Z/month3/reference-run/correlation-evidence-commitments/issue-route-contract.json",
+      "artifact_path": "evidence/month3/reference-run/correlation-evidence-commitments/issue-route-contract.json",
       "locator_state": "live",
       "locator_digest": "sha256:4b5e02c588a3876067e53c7debe8b2ef56d3c1db77ab006c52d2e614b77ae9b2",
       "chain_digest": "sha256:c81bc089cabc8466ce43a8fe5052d864267316965bdaf44cd815b35ef5be7dfe",

@@ -48,9 +48,9 @@
       "exit_code": 0,
       "result": "passed_unknown_optional_fields_ignored",
       "fixture_path": "stack/fixtures/contract-cross-version/mission-correlation-new-to-old/input.json",
-      "fixture_sha256": "f4675e238253521cb3b4fbf05620cd6dd6eed289fd19ce54325110f85e67dcdd",
+      "fixture_sha256": "4023c6f36f5f0bc68865b1869a7100e9a781030a28f8f3e1825a2a68bba2fc72",
       "readback_path": "stack/fixtures/contract-cross-version/mission-correlation-new-to-old/expected.json",
-      "readback_sha256": "0c41c2025453882d397d1776a33450d100ebcf055b7fadc4b8f24a5c93056f17"
+      "readback_sha256": "072453701580277ce12045010a75f8c5389bc0bd4f8c73394cbe5a30a9d7e05c"
     },
     {
       "id": "mission-correlation-state-b02666e-to-7e7de94",
