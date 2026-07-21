@@ -1,14 +1,14 @@
 {
   "schema": "ao.architecture.stack-lock.v0.1",
   "status": "current",
-  "generated_at_utc": "2026-07-19T14:57:00Z",
+  "generated_at_utc": "2026-07-21T06:17:18Z",
   "source_kind": "checked_out_git",
   "repository_count": 14,
   "repositories": [
     {
       "repository": "ao-architecture",
       "branch": "main",
-      "commit": "1e052c1764fe352c5711b08ce630034c8e5163af",
+      "commit": "a52f851f14c2384bc84d23d8c6f843a631dd9c33",
       "detected_version": "unversioned",
       "maturity": "documentation_source_of_truth",
       "current_boundary": "architecture_repository",
@@ -22,27 +22,21 @@
     {
       "repository": "ao-mission",
       "branch": "main",
-      "commit": "8055933d9eebdd12a01d9ccca6edcbbf9bc69c37",
-      "detected_version": "unversioned",
+      "commit": "ab1f90b3da22799e15ef2c81583b836fe3672451",
+      "detected_version": "v0.1.0",
       "maturity": "alpha",
       "current_boundary": "independent_repository",
       "proposed_boundary": "ao-control",
       "primary_authority": "mission_state",
-      "clean": false,
-      "dirty_files": [
-        "internal/mission/mission_test.go",
-        ".ao-mission/",
-        "docs/ao-stack-productization-draft-pr-advancement-handoff.md",
-        "docs/ao-stack-productization-foundry-bridge-handoff.md",
-        "docs/ao-stack-six-month-roadmap-handoff-prompt.md"
-      ],
+      "clean": true,
+      "dirty_files": [],
       "ahead_of_origin_main": 0,
-      "behind_origin_main": 1
+      "behind_origin_main": 0
     },
     {
       "repository": "ao-blueprint",
       "branch": "main",
-      "commit": "011e4178b870219f7490857db3c73c346ca3f2de",
+      "commit": "56c60aaa18b177fc7d843b0a15b3fdb405180b10",
       "detected_version": "unversioned",
       "maturity": "early_alpha",
       "current_boundary": "independent_repository",
@@ -56,7 +50,7 @@
     {
       "repository": "ao-atlas",
       "branch": "main",
-      "commit": "44585d1a36e196f8d01633c9c1db2c7ee3407d4d",
+      "commit": "fcacfeea04d24e9d7d3bcb8190e23f4122c1c709",
       "detected_version": "v0.1.0",
       "maturity": "late_alpha",
       "current_boundary": "independent_repository",
@@ -70,23 +64,21 @@
     {
       "repository": "ao-foundry",
       "branch": "main",
-      "commit": "a610f10b09591416509c712313cd9021a2cb7da7",
+      "commit": "5c26db997f49fd22855740f4805aad59ecb6e131",
       "detected_version": "unversioned",
       "maturity": "pre_alpha",
       "current_boundary": "independent_repository",
       "proposed_boundary": "ao-control",
       "primary_authority": "portfolio_scheduling",
-      "clean": false,
-      "dirty_files": [
-        ".foundry-local/"
-      ],
+      "clean": true,
+      "dirty_files": [],
       "ahead_of_origin_main": 0,
       "behind_origin_main": 0
     },
     {
       "repository": "ao-forge",
       "branch": "main",
-      "commit": "27c74bfa5713fe50c052e86a375afca27cc01469",
+      "commit": "da1d3a5b8692f6a9121c4ad18a3643fab6ef9ef4",
       "detected_version": "v0.1.3",
       "maturity": "alpha",
       "current_boundary": "independent_repository",
@@ -99,8 +91,8 @@
     },
     {
       "repository": "ao-covenant",
-      "branch": "codex/mission-v02-hardening",
-      "commit": "ccfdd28751c5a5af9f00cf34950bcf6f439e0f24",
+      "branch": "main",
+      "commit": "8c245b1f35fc9ca0af212f801fe1a0a3991327ac",
       "detected_version": "v0.1.0",
       "maturity": "local_beta",
       "current_boundary": "independent_repository",
@@ -108,14 +100,14 @@
       "primary_authority": "policy_contract_authority",
       "clean": true,
       "dirty_files": [],
-      "ahead_of_origin_main": 1,
-      "behind_origin_main": 2
+      "ahead_of_origin_main": 0,
+      "behind_origin_main": 0
     },
     {
       "repository": "ao2",
       "branch": "main",
-      "commit": "a1728338277f076f9122bff2718617193199a623",
-      "detected_version": "v0.5.2",
+      "commit": "947e566bd3f54ed902f3c14fc0c90e21a24359bc",
+      "detected_version": "v0.5.3",
       "maturity": "stable_public_release",
       "current_boundary": "independent_repository",
       "proposed_boundary": "ao2",
@@ -128,8 +120,8 @@
     {
       "repository": "ao2-control-plane",
       "branch": "main",
-      "commit": "2a2c4bfe6a65b2076e1e006639e661e14226e9d6",
-      "detected_version": "v0.1.17",
+      "commit": "6257ec23fde726d4a0133c5b62231881fb6aaa9a",
+      "detected_version": "v0.1.18",
       "maturity": "stable_single_node_observer",
       "current_boundary": "independent_repository",
       "proposed_boundary": "ao2-control-plane",
@@ -142,8 +134,8 @@
     {
       "repository": "ao-command",
       "branch": "main",
-      "commit": "81e74349d44c768ab8dcadaa122302aa9fd24f4f",
-      "detected_version": "v0.1.0",
+      "commit": "0bcadf5701fdac88f9fd792cba3a9a6686de16e5",
+      "detected_version": "v0.1.1",
       "maturity": "alpha_early_beta",
       "current_boundary": "independent_repository",
       "proposed_boundary": "ao-control",
@@ -156,7 +148,7 @@
     {
       "repository": "ao-arena",
       "branch": "main",
-      "commit": "97276a292f83776115621978e4e62e2df514c65d",
+      "commit": "3f7f2ee75a62f672ac7566dd5d4606d8fde3d1be",
       "detected_version": "unversioned",
       "maturity": "prototype",
       "current_boundary": "independent_repository",
@@ -170,7 +162,7 @@
     {
       "repository": "ao-crucible",
       "branch": "main",
-      "commit": "26be45ee686abf2bb664175abdf66118fd3d8ead",
+      "commit": "d8cc02745a628502d81d8ca0f1fec1532883cde4",
       "detected_version": "unversioned",
       "maturity": "prototype",
       "current_boundary": "independent_repository",
@@ -183,8 +175,8 @@
     },
     {
       "repository": "ao-sentinel",
-      "branch": "codex/mission-v02-hardening",
-      "commit": "dcb4759682d2492877729ef6084c3356389b514e",
+      "branch": "main",
+      "commit": "a0703908d32c73bbf094bc0265ed47bd2b6e38bc",
       "detected_version": "unversioned",
       "maturity": "alpha",
       "current_boundary": "independent_repository",
@@ -192,13 +184,13 @@
       "primary_authority": "monitoring",
       "clean": true,
       "dirty_files": [],
-      "ahead_of_origin_main": 1,
+      "ahead_of_origin_main": 0,
       "behind_origin_main": 0
     },
     {
       "repository": "ao-promoter",
-      "branch": "codex/mission-v02-hardening",
-      "commit": "a2b3281711a1436aa46c34ca6c11b26d926ed57e",
+      "branch": "main",
+      "commit": "d097ab1bd206c50e20cc3562d3cfa99003052301",
       "detected_version": "unversioned",
       "maturity": "alpha",
       "current_boundary": "independent_repository",
@@ -206,7 +198,7 @@
       "primary_authority": "promotion_decision",
       "clean": true,
       "dirty_files": [],
-      "ahead_of_origin_main": 1,
+      "ahead_of_origin_main": 0,
       "behind_origin_main": 0
     }
   ],

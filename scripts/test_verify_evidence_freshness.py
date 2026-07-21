@@ -8,12 +8,12 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from verify_evidence_freshness import validate_readback
 
-AO2_VERSION = "v0.5.2"
-AO2_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.2"
-AO2_TAG_TARGET = "732a97950121321b3cfad29d86526df9c0b5fad5"
-CONTROL_PLANE_VERSION = "v0.1.17"
-CONTROL_PLANE_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.17"
-CONTROL_PLANE_TAG_TARGET = "6336801eedc4a8402d12b306b98603ce0a6fb6b5"
+AO2_VERSION = "v0.5.3"
+AO2_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.3"
+AO2_TAG_TARGET = "947e566bd3f54ed902f3c14fc0c90e21a24359bc"
+CONTROL_PLANE_VERSION = "v0.1.18"
+CONTROL_PLANE_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.18"
+CONTROL_PLANE_TAG_TARGET = "6257ec23fde726d4a0133c5b62231881fb6aaa9a"
 
 
 def valid_manifest():
@@ -27,7 +27,7 @@ def valid_manifest():
             "tag_target": AO2_TAG_TARGET,
             "is_draft": False,
             "is_prerelease": False,
-            "asset_count": 23,
+            "asset_count": 5,
         },
         "control_plane": {
             "version": CONTROL_PLANE_VERSION,
@@ -36,7 +36,7 @@ def valid_manifest():
             "tag_target": CONTROL_PLANE_TAG_TARGET,
             "is_draft": False,
             "is_prerelease": False,
-            "asset_count": 6,
+            "asset_count": 7,
         },
     }
 
@@ -113,7 +113,7 @@ def valid_readback():
                 "tag_target": AO2_TAG_TARGET,
                 "is_draft": False,
                 "is_prerelease": False,
-                "asset_count": 23,
+                "asset_count": 5,
             },
             "control_plane": {
                 "version": CONTROL_PLANE_VERSION,
@@ -121,7 +121,7 @@ def valid_readback():
                 "tag_target": CONTROL_PLANE_TAG_TARGET,
                 "is_draft": False,
                 "is_prerelease": False,
-                "asset_count": 6,
+                "asset_count": 7,
             },
         },
         "compatibility_matrix": {

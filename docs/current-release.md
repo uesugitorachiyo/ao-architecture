@@ -1,24 +1,31 @@
-# AO Stack Current Public Release Pair
+# AO Stack Current Public Releases
 
-This document records the current public AO2 and AO2 Control Plane release pair after AO2 v0.5.2 and AO2 Control Plane v0.1.17 publication.
+This document records the independently verified Month 6 public releases.
 
-## Current Pair
+## Current Core Pair
 
-- AO2: [v0.5.2](https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.2)
-- AO2 tag target: `732a97950121321b3cfad29d86526df9c0b5fad5`
-- AO2 approved manifest digest: `8268de6f7ccf2f9a194b9123df7a3845cb4660bc10476f6da1df7a5859f48574`
-- AO2 evidence anchor: `ao-stack-qualification-release-dsa-20260718-20260718T224504Z/publish-ao2-v052-result.json`
-- AO2 hosted Windows release smoke evidence: https://github.com/uesugitorachiyo/ao2/actions/runs/29690626068/job/88202569707
-- AO2 Control Plane: [v0.1.17](https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.17)
-- AO2 Control Plane tag target: `6336801eedc4a8402d12b306b98603ce0a6fb6b5`
+- AO2: [v0.5.3](https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.3)
+- AO2 tag target: `947e566bd3f54ed902f3c14fc0c90e21a24359bc`
+- AO2 promotion-plan digest: `5b91f3a8f643bb0c8f160f1718c25f94df31802c89d2d1d26eac5613097cb189`
+- AO2 physical-Windows evidence digest: `548992774ff4092c935cf934c82b80886a12dfd23640acfd3a46b3f508426be8`
+- AO2 live workflow: [run 29802133424](https://github.com/uesugitorachiyo/ao2/actions/runs/29802133424)
+- AO2 Control Plane: [v0.1.18](https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.18)
+- AO2 Control Plane tag target: `6257ec23fde726d4a0133c5b62231881fb6aaa9a`
+- AO2 Control Plane promotion-plan digest: `a2f159896eea954e43d6e19914f4ef6b43aa5686ace72016dffdf0ef0ed4f455`
+- AO2 Control Plane live workflow: [run 29805048315](https://github.com/uesugitorachiyo/ao2-control-plane/actions/runs/29805048315)
 
-AO2 v0.5.2 and AO2 Control Plane v0.1.17 are the current public release pair. AO2 v0.5.2 is public, not draft, not prerelease, and has 23 public assets. AO2 Control Plane v0.1.17 is public, not draft, not prerelease, and has the six expected public release assets.
+AO2 v0.5.3 is public, not draft, not prerelease, and has five approved public
+assets. AO2 Control Plane v0.1.18 is public, not draft, not prerelease, and has
+seven approved public assets. Each tag and downloaded asset was independently
+verified against its frozen source and promotion plan.
 
-## Evidence Scope
+## Tier 1 Operator Tools
 
-The AO2 v0.5.2 evidence verifies public asset download, `SHA256SUMS`, provenance, Docker Linux x86_64 substitution for unavailable native Ubuntu, macOS rollback, Windows rollback, release comparison, and Workbench comparison export smoke. The Control Plane v0.1.17 evidence verifies fresh public downloads, checksum closure, strict asset parity, and the AO2 v0.5.2 plus Control Plane v0.1.17 public release pair.
+- AO Mission: [v0.1.0](https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.0), tag target `2901a9cb887b72296a56b70a5a3be7350b28fe65`
+- AO Command: [v0.1.1](https://github.com/uesugitorachiyo/ao-command/releases/tag/v0.1.1), tag target `0bcadf5701fdac88f9fd792cba3a9a6686de16e5`
 
-This is release-pair evidence. It does not mark the full AO Stack compatibility matrix complete.
+Both operator tools are public, not draft, not prerelease, and each has three
+native archives independently matched to its immutable release plan.
 
 ## Compatibility State
 
@@ -29,16 +36,18 @@ The compatibility matrix remains proposed and fully evidenced:
 - Consumer test count is `16`.
 - `compatibility_gate_complete` remains `false`.
 
-The Month 3 compatibility work closed every live matrix edge with canonical
-vectors and consumer tests. The compatibility gate is ready, not active:
-evidence is complete and fresh, but activation is not authorized. External
-beta, promotion, and RSI authority remain separate denied or unrequested
-states.
+The compatibility evidence is complete and fresh, but activation is not
+authorized. External beta, promotion, provider execution, and RSI authority
+remain separate denied or unrequested states.
 
 ## Boundaries
 
+- Tier 2 components AO Blueprint, AO Atlas, AO Forge, and AO Covenant were
+  assessed independently as `no_release_needed`.
+- Tier 3 components remain artifact-only, and AO Architecture remains
+  binary-free.
 - External beta has not launched.
 - Promotion was not requested or granted.
 - No provider pilot was run.
-- No release, tag, upload, or deployment was performed by this Architecture coordination task.
+- This Architecture update creates no tag, release, upload, or deployment.
 - RSI remains denied.

@@ -1,8 +1,8 @@
 {
   "schema": "ao.architecture.component-release-classification.v0.1",
   "status": "active",
-  "generated_at_utc": "2026-07-19T20:44:00Z",
-  "source": "AO Stack Productization and Adoption Months 1-6 Month 2 release classification",
+  "generated_at_utc": "2026-07-21T06:17:18Z",
+  "source": "AO Stack Productization and Adoption Months 1-6 Month 6 reconciled release classification",
   "repositories": [
     {
       "repository": "ao2",
@@ -14,6 +14,9 @@
       "supported_platforms": ["linux", "macos", "windows"],
       "version_source": "package.json",
       "release_owner": "ao2",
+      "current_public_release": "v0.5.3",
+      "current_source_commit": "947e566bd3f54ed902f3c14fc0c90e21a24359bc",
+      "month6_decision": "release_recommended_published_and_verified",
       "install_promise": "public governed local execution runtime",
       "artifact_names": ["ao2-{version}-linux-aarch64.tar.gz", "ao2-{version}-linux-x86_64.tar.gz", "ao2-{version}-macos-aarch64.tar.gz", "ao2-{version}-windows-x86_64.tar.gz"]
     },
@@ -27,6 +30,9 @@
       "supported_platforms": ["linux", "macos", "windows"],
       "version_source": "Cargo.toml",
       "release_owner": "ao2-control-plane",
+      "current_public_release": "v0.1.18",
+      "current_source_commit": "6257ec23fde726d4a0133c5b62231881fb6aaa9a",
+      "month6_decision": "release_recommended_published_and_verified",
       "install_promise": "public observer and evidence publication surface",
       "artifact_names": ["ao2-control-plane-{version}-linux-aarch64.tar.gz", "ao2-control-plane-{version}-macos-aarch64.tar.gz", "ao2-control-plane-{version}-windows-x86_64.zip"]
     },
@@ -40,6 +46,10 @@
       "supported_platforms": ["linux", "macos", "windows"],
       "version_source": "go.mod plus release manifest",
       "release_owner": "ao-mission",
+      "current_public_release": "v0.1.0",
+      "current_source_commit": "ab1f90b3da22799e15ef2c81583b836fe3672451",
+      "month6_release_source_commit": "2901a9cb887b72296a56b70a5a3be7350b28fe65",
+      "month6_decision": "release_recommended_published_and_verified",
       "install_promise": "public mission entry and reconciliation command",
       "artifact_names": ["ao-mission-{version}-{platform}-{arch}.tar.gz"]
     },
@@ -53,6 +63,9 @@
       "supported_platforms": ["linux", "macos", "windows"],
       "version_source": "go.mod plus release manifest",
       "release_owner": "ao-command",
+      "current_public_release": "v0.1.1",
+      "current_source_commit": "0bcadf5701fdac88f9fd792cba3a9a6686de16e5",
+      "month6_decision": "release_recommended_published_and_verified",
       "install_promise": "public read-only operator status command",
       "artifact_names": ["ao-command-{version}-{platform}-{arch}.tar.gz"]
     },
@@ -66,6 +79,9 @@
       "supported_platforms": ["linux", "macos", "windows"],
       "version_source": "go.mod plus release manifest",
       "release_owner": "ao-blueprint",
+      "current_public_release": null,
+      "current_source_commit": "56c60aaa18b177fc7d843b0a15b3fdb405180b10",
+      "month6_decision": "no_release_needed",
       "install_promise": "specialist requirements and acceptance criteria command when standalone use is warranted",
       "artifact_names": ["ao-blueprint-{version}-{platform}-{arch}.tar.gz"]
     },
@@ -79,6 +95,9 @@
       "supported_platforms": ["linux", "macos", "windows"],
       "version_source": "go.mod plus release manifest",
       "release_owner": "ao-atlas",
+      "current_public_release": "v0.1.0",
+      "current_source_commit": "fcacfeea04d24e9d7d3bcb8190e23f4122c1c709",
+      "month6_decision": "no_release_needed",
       "install_promise": "specialist workgraph command when standalone use is warranted",
       "artifact_names": ["ao-atlas-{version}-{platform}-{arch}.tar.gz"]
     },
@@ -92,6 +111,9 @@
       "supported_platforms": ["linux", "macos", "windows"],
       "version_source": "go.mod plus release manifest",
       "release_owner": "ao-forge",
+      "current_public_release": "v0.1.3",
+      "current_source_commit": "da1d3a5b8692f6a9121c4ad18a3643fab6ef9ef4",
+      "month6_decision": "no_release_needed",
       "install_promise": "specialist GoalRun command when standalone use is warranted",
       "artifact_names": ["ao-forge-{version}-{platform}-{arch}.tar.gz"]
     },
@@ -105,6 +127,9 @@
       "supported_platforms": ["linux", "macos", "windows"],
       "version_source": "go.mod plus release manifest",
       "release_owner": "ao-covenant",
+      "current_public_release": "v0.1.0",
+      "current_source_commit": "8c245b1f35fc9ca0af212f801fe1a0a3991327ac",
+      "month6_decision": "no_release_needed",
       "install_promise": "specialist policy and authority command when standalone use is warranted",
       "artifact_names": ["ao-covenant-{version}-{platform}-{arch}.tar.gz"]
     },
