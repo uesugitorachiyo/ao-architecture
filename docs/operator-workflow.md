@@ -8,10 +8,10 @@ policy gates, support evidence, and next safe action readback.
 
 The current public release pair is:
 
-- AO2 v0.5.2, tag target
-  `732a97950121321b3cfad29d86526df9c0b5fad5`.
-- AO2 Control Plane v0.1.17, tag target
-  `6336801eedc4a8402d12b306b98603ce0a6fb6b5`.
+- AO2 v0.5.3, tag target
+  `947e566bd3f54ed902f3c14fc0c90e21a24359bc`.
+- AO2 Control Plane v0.1.18, tag target
+  `6257ec23fde726d4a0133c5b62231881fb6aaa9a`.
 
 The Architecture compatibility matrix records 16 tested current-release edges,
 16 canonical vectors, and 16 consumer tests. The compatibility gate is ready,

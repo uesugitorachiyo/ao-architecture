@@ -35,8 +35,8 @@ def validate_adoption_operator_drill(document: str) -> list[str]:
     lower = normalized.lower()
 
     required_phrases = {
-        "document must mention AO2 v0.5.2": "ao2 v0.5.2",
-        "document must mention AO2 Control Plane v0.1.17": "ao2 control plane v0.1.17",
+        "document must mention AO2 v0.5.3": "ao2 v0.5.3",
+        "document must mention AO2 Control Plane v0.1.18": "ao2 control plane v0.1.18",
         "document must mention 16 tested edges": "16 tested",
         "document must mention 16 canonical vectors": "16 canonical vectors",
         "document must mention 16 consumer tests": "16 consumer tests",

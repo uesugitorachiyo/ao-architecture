@@ -72,26 +72,52 @@ def validate_manifest(document: dict[str, Any]) -> list[str]:
     if source and "public GitHub releases" not in source:
         errors.append("source_of_truth must reference public GitHub releases")
 
-    errors.extend(validate_release_component(document, "ao2", "ao2", "v0.5.2", 23))
+    errors.extend(validate_release_component(document, "ao2", "ao2", "v0.5.3", 5))
     ao2 = document.get("ao2", {})
     if isinstance(ao2, dict):
         digest = require_string(errors, ao2, "approved_manifest_digest", "ao2")
         if digest and not DIGEST_RE.fullmatch(digest):
             errors.append("ao2.approved_manifest_digest must be a 64-character lowercase hexadecimal digest")
         evidence_path = require_string(errors, ao2, "evidence_path", "ao2")
-        if evidence_path and not (
-            evidence_path.endswith("/final-report.md")
-            or evidence_path.endswith("/publish-ao2-v052-result.json")
-        ):
-            errors.append("ao2.evidence_path must point to the final report or publication result")
+        if evidence_path and not evidence_path.endswith(".json"):
+            errors.append("ao2.evidence_path must point to a JSON publication verification result")
         windows_smoke_job = require_string(errors, ao2, "windows_smoke_job", "ao2")
         if windows_smoke_job and "github.com/uesugitorachiyo/ao2/actions/runs/" not in windows_smoke_job:
             errors.append("ao2.windows_smoke_job must point to the AO2 hosted Windows smoke job")
 
-    errors.extend(validate_release_component(document, "control_plane", "ao2-control-plane", "v0.1.17", 6))
+    errors.extend(validate_release_component(document, "control_plane", "ao2-control-plane", "v0.1.18", 7))
     control_plane = document.get("control_plane", {})
     if isinstance(control_plane, dict) and control_plane.get("new_release_required") is not False:
         errors.append("control_plane.new_release_required must be false")
+
+    tier1_tools = document.get("tier1_tools")
+    expected_tools = {
+        "ao-mission": ("v0.1.0", 3),
+        "ao-command": ("v0.1.1", 3),
+    }
+    if not isinstance(tier1_tools, list):
+        errors.append("tier1_tools must be an array")
+    else:
+        by_repository = {
+            entry.get("repository"): entry
+            for entry in tier1_tools
+            if isinstance(entry, dict) and isinstance(entry.get("repository"), str)
+        }
+        if set(by_repository) != set(expected_tools) or len(tier1_tools) != len(expected_tools):
+            errors.append("tier1_tools must contain exactly ao-command and ao-mission")
+        for repository, (version, asset_count) in expected_tools.items():
+            entry = by_repository.get(repository)
+            if entry is None:
+                continue
+            errors.extend(
+                validate_release_component(
+                    {"tier1_tool": entry},
+                    "tier1_tool",
+                    repository,
+                    version,
+                    asset_count,
+                )
+            )
 
     pairing = document.get("pairing")
     if not isinstance(pairing, dict):
@@ -157,6 +183,22 @@ def validate_stack_lock_alignment(document: dict[str, Any], lock: dict[str, Any]
             errors.append(f"{repository_name} stack lock version must match current release manifest")
         if lock_entry.get("commit") != manifest_entry.get("current_main_commit"):
             errors.append(f"{repository_name} stack lock commit must match current main commit")
+    tier1_tools = document.get("tier1_tools")
+    if isinstance(tier1_tools, list):
+        for manifest_entry in tier1_tools:
+            if not isinstance(manifest_entry, dict):
+                continue
+            repository_name = manifest_entry.get("repository")
+            if not isinstance(repository_name, str):
+                continue
+            lock_entry = lock_by_name.get(repository_name)
+            if not isinstance(lock_entry, dict):
+                errors.append(f"{repository_name} stack lock entry is required")
+                continue
+            if lock_entry.get("detected_version") != manifest_entry.get("version"):
+                errors.append(f"{repository_name} stack lock version must match current release manifest")
+            if lock_entry.get("commit") != manifest_entry.get("current_main_commit"):
+                errors.append(f"{repository_name} stack lock commit must match current main commit")
     return errors
 
 

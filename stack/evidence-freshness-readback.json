@@ -1,23 +1,23 @@
 {
   "schema": "ao.architecture.evidence-freshness-readback.v0.1",
   "status": "fresh",
-  "generated_at_utc": "2026-07-19T14:57:00Z",
+  "generated_at_utc": "2026-07-21T06:17:18Z",
   "current_public_release_pair": {
     "ao2": {
-      "version": "v0.5.2",
-      "release_url": "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.2",
-      "tag_target": "732a97950121321b3cfad29d86526df9c0b5fad5",
+      "version": "v0.5.3",
+      "release_url": "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.3",
+      "tag_target": "947e566bd3f54ed902f3c14fc0c90e21a24359bc",
       "is_draft": false,
       "is_prerelease": false,
-      "asset_count": 23
+      "asset_count": 5
     },
     "control_plane": {
-      "version": "v0.1.17",
-      "release_url": "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.17",
-      "tag_target": "6336801eedc4a8402d12b306b98603ce0a6fb6b5",
+      "version": "v0.1.18",
+      "release_url": "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.18",
+      "tag_target": "6257ec23fde726d4a0133c5b62231881fb6aaa9a",
       "is_draft": false,
       "is_prerelease": false,
-      "asset_count": 6
+      "asset_count": 7
     }
   },
   "compatibility_matrix": {
