@@ -10,6 +10,14 @@ Use this documentation to understand the AO stack's architecture, authority boun
 
 Current public release pair: [AO2 v0.5.3 with AO2 Control Plane v0.1.18](docs/current-release.md). AO Mission v0.1.0 and AO Command v0.1.1 are also published Tier 1 operator tools. This release readback does not mark the full compatibility matrix complete, launch external beta, request promotion, or change RSI boundaries.
 
+## OpenAI Build Week 2026
+
+AO Stack is entered in the Developer Tools category as a fourteen-repository
+agent orchestration stack. The judge package starts at
+[hackathon/README.md](hackathon/README.md) and includes a five-to-ten-minute
+released-binary quick test, an optional read-only Codex audit prompt, release
+checksums, Build Week delta evidence, and proof/non-proof boundaries.
+
 ## What Is The AO Stack?
 
 The AO stack is a set of open architecture documents for building and operating governed AI agent systems. Instead of treating agent automation as a single chat session or unbounded background worker, the stack splits responsibility across small tools with clear boundaries:
