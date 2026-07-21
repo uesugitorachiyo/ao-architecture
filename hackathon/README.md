@@ -33,20 +33,20 @@ all fourteen repositories or prove every production environment.
 
 | Repository | Role |
 |---|---|
-| `ao-architecture` | Source-of-truth contracts, release manifest, and compatibility map |
-| `ao-mission` | Supervises bounded goals and closure |
-| `ao-blueprint` | Converts objectives into structured specifications |
-| `ao-atlas` | Builds and tracks dependency-aware workgraphs |
-| `ao-foundry` | Selects safe next work from graph state |
-| `ao-forge` | Executes bounded implementation work |
-| `ao-covenant` | Evaluates authority and policy contracts |
-| `ao2` | Runs governed local workflows and records evidence |
-| `ao2-control-plane` | Observes and indexes evidence and task-board state |
-| `ao-command` | Presents operator-facing readback |
-| `ao-arena` | Supplies evaluation fixtures |
-| `ao-crucible` | Supplies adversarial and recovery fixtures |
-| `ao-sentinel` | Detects unsupported safety and readiness claims |
-| `ao-promoter` | Records promotion decisions without granting its own authority |
+| [ao-architecture](https://github.com/uesugitorachiyo/ao-architecture) | Source-of-truth contracts, release manifest, and compatibility map |
+| [ao-mission](https://github.com/uesugitorachiyo/ao-mission) | Supervises bounded goals and closure |
+| [ao-blueprint](https://github.com/uesugitorachiyo/ao-blueprint) | Converts objectives into structured specifications |
+| [ao-atlas](https://github.com/uesugitorachiyo/ao-atlas) | Builds and tracks dependency-aware workgraphs |
+| [ao-foundry](https://github.com/uesugitorachiyo/ao-foundry) | Selects safe next work from graph state |
+| [ao-forge](https://github.com/uesugitorachiyo/ao-forge) | Executes bounded implementation work |
+| [ao-covenant](https://github.com/uesugitorachiyo/ao-covenant) | Evaluates authority and policy contracts |
+| [ao2](https://github.com/uesugitorachiyo/ao2) | Runs governed local workflows and records evidence |
+| [ao2-control-plane](https://github.com/uesugitorachiyo/ao2-control-plane) | Observes and indexes evidence and task-board state |
+| [ao-command](https://github.com/uesugitorachiyo/ao-command) | Presents operator-facing readback |
+| [ao-arena](https://github.com/uesugitorachiyo/ao-arena) | Supplies evaluation fixtures |
+| [ao-crucible](https://github.com/uesugitorachiyo/ao-crucible) | Supplies adversarial and recovery fixtures |
+| [ao-sentinel](https://github.com/uesugitorachiyo/ao-sentinel) | Detects unsupported safety and readiness claims |
+| [ao-promoter](https://github.com/uesugitorachiyo/ao-promoter) | Records promotion decisions without granting its own authority |
 
 ## Build Week extension
 
