@@ -1,0 +1,82 @@
+# AO Stack
+
+AO Stack helps developers run Codex through explicit scope, policy gates,
+verification, evidence, and stop conditions.
+
+**OpenAI Build Week category:** Developer Tools
+
+## Why it exists
+
+Long-running software agents can produce useful code quickly, but operators
+still need a reliable answer to five questions: what was authorized, what ran,
+what changed, what passed, and why the system stopped. AO Stack turns those
+questions into executable contracts and durable evidence.
+
+## What judges can test
+
+1. **Five-to-ten-minute core test.** Download the released AO2
+   `0.5.3` archive, verify its checksum, run a credential-free
+   disposable fixture, and inspect the retained execution evidence. AO2
+   Control Plane `0.1.18` is an optional observer.
+2. **Optional full-stack audit.** Give Codex the read-only audit prompt and let
+   it inspect all fourteen public repositories, the current-release manifest,
+   sixteen compatibility vectors, and their consumer tests.
+
+The quick test exercises the execution-and-observation core. It does not start
+all fourteen repositories or prove every production environment.
+
+## Fourteen-repository platform
+
+| Repository | Role |
+|---|---|
+| `ao-architecture` | Source-of-truth contracts, release manifest, and compatibility map |
+| `ao-mission` | Supervises bounded goals and closure |
+| `ao-blueprint` | Converts objectives into structured specifications |
+| `ao-atlas` | Builds and tracks dependency-aware workgraphs |
+| `ao-foundry` | Selects safe next work from graph state |
+| `ao-forge` | Executes bounded implementation work |
+| `ao-covenant` | Evaluates authority and policy contracts |
+| `ao2` | Runs governed local workflows and records evidence |
+| `ao2-control-plane` | Observes and indexes evidence and task-board state |
+| `ao-command` | Presents operator-facing readback |
+| `ao-arena` | Supplies evaluation fixtures |
+| `ao-crucible` | Supplies adversarial and recovery fixtures |
+| `ao-sentinel` | Detects unsupported safety and readiness claims |
+| `ao-promoter` | Records promotion decisions without granting its own authority |
+
+## Build Week extension
+
+Since the official cutoff, the project has provisionally merged
+`304` pull requests and recorded
+`346` local mainline commits across the fourteen
+repositories. The finalizer recalculates both values against frozen public
+heads. Work includes stable releases, native Windows repair and qualification,
+cross-repository compatibility vectors, operator workflows, evidence
+maintenance, controlled dry-run and rollback fixtures, and an issue-to-draft-PR
+workflow.
+
+## Releases and platforms
+
+- AO2: `0.5.3` — [release](https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.3)
+- AO2 Control Plane: `0.1.18` —
+  [release](https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.18)
+- Supported judge archives: macOS aarch64, Linux x86_64, and Windows x86_64.
+  Linux aarch64 hosts may use the Linux x86_64 archive under explicit Docker
+  emulation; AO2 v0.5.3 does not publish a Linux aarch64 archive.
+- Quick test credentials: none.
+
+## Judge documents
+
+- [Quick test](JUDGE-QUICKSTART.md)
+- [Codex full-stack audit prompt](JUDGE-CODEX-PROMPT.md)
+- [Build Week delta](BUILD-WEEK-DELTA.md)
+- [How Codex and GPT-5.6 were used](CODEX-AND-GPT-5.6.md)
+- [Evidence index](EVIDENCE-INDEX.md)
+- [Rules checklist](RULES-CHECKLIST.md)
+
+## Limitations
+
+AO Stack does not independently authorize releases, credential access,
+deployment, policy expansion, or external contact. The compatibility evidence
+tests defined contracts; it is not a claim that every possible deployment has
+been tested. The project does not claim unrestricted self-improvement.
