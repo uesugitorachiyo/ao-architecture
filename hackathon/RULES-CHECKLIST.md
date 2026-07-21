@@ -13,8 +13,8 @@ Official source: <https://openai.devpost.com/rules>
 | README highlights Codex and GPT-5.6 use | satisfied | Dedicated drafted explanation |
 | Feedback Session ID | satisfied | Supplied session ID recorded in submission draft |
 | Developer-tool install, platforms, and testing instructions | release_bound | Platform quickstart awaits final asset binding |
-| Demonstration video under three minutes with English audio | release_bound | `OPERATOR_TO_ADD_PUBLIC_YOUTUBE_URL` must be verified |
-| Public YouTube video | operator_action_required | Operator publishes or confirms the final public URL |
+| Demonstration video under three minutes with English audio | satisfied | Final local media is 179 seconds; public URL: <https://youtu.be/pGhPooqC3hQ> |
+| Public YouTube video | satisfied | Operator supplied the updated public URL and finalizer verified that it resolves |
 | No unauthorized third-party assets or trademarks | satisfied | Selected media are project-created and wording-reviewed |
 | Testing remains available through judging | operator_action_required | Keep public releases and repositories available |
 | Submission and required form actions | operator_action_required | No live Devpost mutation is authorized in preparation |

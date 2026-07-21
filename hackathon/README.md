@@ -5,6 +5,8 @@ verification, evidence, and stop conditions.
 
 **OpenAI Build Week category:** Developer Tools
 
+**Demo video:** <https://youtu.be/pGhPooqC3hQ>
+
 ## Why it exists
 
 Long-running software agents can produce useful code quickly, but operators
