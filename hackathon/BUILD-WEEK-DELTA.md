@@ -3,35 +3,25 @@
 Cutoff: `2026-07-13T09:00:00-07:00`, equivalent to
 `2026-07-13T16:00:00Z`.
 
-The preparation audit counted public pull requests whose GitHub `mergedAt`
-timestamp is on or after the cutoff. It separately counted local mainline
-commits with Git author/commit time after the cutoff. These are different
-measures and are not added together.
+AO Stack existed before the submission period. The judged work is the
+meaningful extension created with Codex and GPT-5.6 after the cutoff and bound
+to the released versions and immutable repository snapshot supplied in the
+Devpost submission.
 
-## Provisional inventory
+## Submission boundary
 
-| Repository | Merged PRs | Local commits |
-|---|---:|---:|
-| ao-architecture | 29 | 33 |
-| ao-mission | 30 | 39 |
-| ao-blueprint | 4 | 5 |
-| ao-atlas | 7 | 8 |
-| ao-foundry | 6 | 6 |
-| ao-forge | 6 | 6 |
-| ao-covenant | 7 | 7 |
-| ao2 | 44 | 44 |
-| ao2-control-plane | 17 | 17 |
-| ao-command | 20 | 20 |
-| ao-arena | 3 | 4 |
-| ao-crucible | 3 | 4 |
-| ao-sentinel | 11 | 14 |
-| ao-promoter | 11 | 13 |
-| **Provisional total** | **198** | **220** |
+| Surface | Judged boundary | Public evidence |
+|---|---|---|
+| AO2 runtime | `v0.5.3` at `947e566bd3f54ed902f3c14fc0c90e21a24359bc` | [release](https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.3) |
+| AO2 Control Plane | `v0.1.18` at `6257ec23fde726d4a0133c5b62231881fb6aaa9a` | [release](https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.18) |
+| AO Mission | `v0.1.0` at `2901a9cb887b72296a56b70a5a3be7350b28fe65` | [release](https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.0) |
+| AO Command | `v0.1.1` at `0bcadf5701fdac88f9fd792cba3a9a6686de16e5` | [release](https://github.com/uesugitorachiyo/ao-command/releases/tag/v0.1.1) |
+| Judge documentation | Immutable AO Architecture commit linked from Devpost | [judge landing](README.md) |
+| Supporting repositories | Dated public commit and pull-request histories | [evidence index](EVIDENCE-INDEX.md) |
 
-The release finalizer must replace the totals with
-`304` and `346` after
-freezing all fourteen public heads. The active release lane may add valid
-work after this preparation snapshot.
+Repository heads are not frozen. Later development may continue normally, but
+post-package work, including the AO2 decomposition program, is not attributed
+to the submitted Build Week extension.
 
 ## Meaningful extensions
 
@@ -51,6 +41,7 @@ work after this preparation snapshot.
   reconciled, reverified, and superseded instead of being counted as a valid
   success.
 
-Finalizer method: repeat the GitHub query with `mergedAt >= cutoff`, capture
-the final repository heads, repeat the mainline commit query, and preserve
-the raw machine-readable inventory in the judge package.
+The submission does not rely on an aggregate pull-request or commit total.
+Those counts change as development continues and do not establish eligibility
+or quality. The public release tags, immutable judge snapshot, dated histories,
+and Codex session evidence define the submitted work instead.
