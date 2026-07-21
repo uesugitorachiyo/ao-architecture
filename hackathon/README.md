@@ -19,7 +19,9 @@ questions into executable contracts and durable evidence.
 1. **Five-to-ten-minute core test.** Download the released AO2
    `0.5.3` archive, verify its checksum, run a credential-free
    disposable fixture, and inspect the retained execution evidence. AO2
-   Control Plane `0.1.18` is an optional observer.
+   Control Plane `0.1.18`, AO Mission `0.1.0`, and AO Command
+   `0.1.1` are published Tier 1 companion tools; the shortest quick test
+   does not require installing them.
 2. **Optional full-stack audit.** Give Codex the read-only audit prompt and let
    it inspect all fourteen public repositories, the current-release manifest,
    sixteen compatibility vectors, and their consumer tests.
@@ -62,6 +64,10 @@ workflow.
 - AO2: `0.5.3` — [release](https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.3)
 - AO2 Control Plane: `0.1.18` —
   [release](https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.18)
+- AO Mission: `0.1.0` —
+  [release](https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.0)
+- AO Command: `0.1.1` —
+  [release](https://github.com/uesugitorachiyo/ao-command/releases/tag/v0.1.1)
 - Supported judge archives: macOS aarch64, Linux x86_64, and Windows x86_64.
   Linux aarch64 hosts may use the Linux x86_64 archive under explicit Docker
   emulation; AO2 v0.5.3 does not publish a Linux aarch64 archive.

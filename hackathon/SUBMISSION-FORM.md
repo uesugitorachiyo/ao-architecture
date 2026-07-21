@@ -27,8 +27,10 @@ all fourteen repositories and their compatibility contracts.
 AO2 `0.5.3` provides public archives for macOS aarch64, Linux
 x86_64, and Windows x86_64. Follow the platform block in
 `JUDGE-QUICKSTART.md`; it verifies published checksums before execution.
-AO2 Control Plane `0.1.18` is an optional observer and is
-not required for the shortest test.
+AO2 Control Plane `0.1.18` is an optional observer. AO Mission `0.1.0`
+and AO Command `0.1.1` are published Tier 1 companion tools for mission
+supervision and read-only operator status. They are not required for the
+shortest AO2 quick test.
 
 ## Credentials
 
