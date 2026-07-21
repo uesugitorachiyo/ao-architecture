@@ -25,6 +25,6 @@ it only in a newly created disposable directory.
 Cleanup: remove the complete disposable directory after reviewing or
 retaining its evidence.
 
-Finalizer requirement: run this copied fixture with the downloaded public
-AO2 archive on each supported quick-test path selected for publication. Do
-not claim success from a source build or an unpublished candidate.
+Verification requirement: run this copied fixture with the downloaded public
+AO2 archive. Do not claim success from a source build or an unpublished
+candidate.

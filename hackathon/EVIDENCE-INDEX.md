@@ -23,8 +23,8 @@ This short index favors representative public evidence over a raw log dump.
 - [Compatibility matrix](https://github.com/uesugitorachiyo/ao-architecture/blob/main/stack/contract-compatibility-matrix.json)
 - [Stack lock](https://github.com/uesugitorachiyo/ao-architecture/blob/main/stack/ao-stack.lock.json)
 
-The preparation snapshot contains sixteen compatibility edges with canonical
-vectors and consumer-test references. The top-level matrix status remains
+The public matrix contains sixteen compatibility edges with canonical vectors
+and consumer-test references. The top-level matrix status remains
 `proposed`; judges should read the exact fields rather than treating the
 count as a production-readiness claim.
 
@@ -39,10 +39,9 @@ count as a production-readiness claim.
 
 ## Judge-local evidence
 
-- Quick-test result: `macOS native passed; Linux x86_64 Docker emulation passed; hosted Ubuntu/macOS/Windows public release consumer smoke run 29809470476 passed`
-- Judge ZIP: `ao-stack-openai-build-week-judge-package.zip`
-- Judge ZIP SHA-256: `recorded in excluded finalizer evidence after deterministic ZIP build`
+- Release-consumer smoke result: `macOS native passed; Linux x86_64 Docker emulation passed; hosted Ubuntu/macOS/Windows public release consumer smoke run 29809470476 passed`
+- Disposable fixture: [judge fixture](fixtures/disposable-judge-demo/JUDGE-FIXTURE.md)
 - Public video: `https://youtu.be/pGhPooqC3hQ`
 
-The finalizer adds exact PR links for the final release, public verification
-runs, and the frozen Build Week inventory.
+The release anchors and dated public histories above define the submission
+evidence. Ongoing post-package development is outside the submitted delta.

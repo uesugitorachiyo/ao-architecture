@@ -51,14 +51,13 @@ all fourteen repositories or prove every production environment.
 
 ## Build Week extension
 
-Since the official cutoff, the project has provisionally merged
-`304` pull requests and recorded
-`346` local mainline commits across the fourteen
-repositories. The finalizer recalculates both values against frozen public
-heads. Work includes stable releases, native Windows repair and qualification,
-cross-repository compatibility vectors, operator workflows, evidence
-maintenance, controlled dry-run and rollback fixtures, and an issue-to-draft-PR
-workflow.
+AO Stack existed before the submission period. The submitted extension is
+bounded by the four released versions below and the immutable AO Architecture
+commit linked from Devpost. Work includes stable releases, native Windows
+repair and qualification, cross-repository compatibility vectors, operator
+workflows, evidence maintenance, controlled dry-run and rollback fixtures, and
+an issue-to-draft-PR workflow. Later repository development continues normally
+and is not retroactively included in the submitted Build Week delta.
 
 ## Releases and platforms
 
@@ -81,7 +80,6 @@ workflow.
 - [Build Week delta](BUILD-WEEK-DELTA.md)
 - [How Codex and GPT-5.6 were used](CODEX-AND-GPT-5.6.md)
 - [Evidence index](EVIDENCE-INDEX.md)
-- [Rules checklist](RULES-CHECKLIST.md)
 
 ## Limitations
 
