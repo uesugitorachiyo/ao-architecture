@@ -18,7 +18,8 @@ questions into executable contracts and durable evidence.
 
 1. **Five-to-ten-minute core test.** Download the released AO2
    `0.5.3` archive, verify its checksum, run a credential-free
-   disposable fixture, and inspect the retained execution evidence. AO2
+   [disposable fixture](fixtures/disposable-judge-demo), and inspect the
+   retained execution evidence. AO2
    Control Plane `0.1.18`, AO Mission `0.1.0`, and AO Command
    `0.1.1` are published Tier 1 companion tools; the shortest quick test
    does not require installing them.
