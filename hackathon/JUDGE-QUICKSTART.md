@@ -45,7 +45,9 @@ f0a14b739625f45ec2364681f82047a65381502f8d370952feaf7c17aa7c2c58
 
 AO2 v0.5.3 does not publish a Linux aarch64 archive. On Apple Silicon or
 other aarch64 hosts, use Docker with `--platform linux/amd64` for the Linux
-x86_64 archive and label the result as emulated.
+x86_64 archive and label the result as emulated. A minimal Ubuntu 24.04
+container also needs `git`, `python3`, and `python-is-python3` because the
+fixture verifier invokes `python -m pytest`.
 
 ## Windows x86_64 PowerShell
 
@@ -64,12 +66,13 @@ tar -xzf $Archive
 
 ## Run the bundled fixture
 
-Copy `fixture/disposable-judge-demo` from the judge package into the disposable
-root. Then run from that root, adjusting `AO2` to the extracted binary:
+Copy `hackathon/fixtures/disposable-judge-demo` from the judge package into the
+disposable root. Then run from that root, adjusting `AO2` to the extracted
+binary:
 
 ```sh
 AO2=/absolute/path/to/extracted/bin/ao2
-cp -R /absolute/path/to/judge-package/fixture/disposable-judge-demo ./fixture
+cp -R /absolute/path/to/judge-package/hackathon/fixtures/disposable-judge-demo ./fixture
 git -C fixture init -q
 git -C fixture add .
 git -C fixture -c user.name="AO Judge" -c user.email="judge@example.invalid" commit -qm baseline
@@ -78,10 +81,18 @@ git -C fixture -c user.name="AO Judge" -c user.email="judge@example.invalid" com
 "$AO2" report judge-demo --target fixture
 ```
 
-Expected final result: `macOS native passed; Linux x86_64 Docker emulation passed; hosted Ubuntu/macOS/Windows public release consumer smoke run 29809470476 passed`. The accepted run must
-report zero digest failures and retain local evidence. The workflow may stop
-at an exact-action-digest approval gate; follow the released CLI’s printed
-resume instruction only after reviewing the patch and digest.
+The exact packaged fixture was verified on 2026-07-21 with the public AO2
+`0.5.3` archives: macOS aarch64 passed natively and Linux x86_64 passed under
+Docker emulation. Both runs were accepted, changed only the two expected
+source/test files, passed all four fixture tests, retained local evidence, and
+reported zero replay digest failures. Separately, hosted Ubuntu/macOS/Windows
+public release consumer smoke run `29809470476` passed. See the
+[fixture verification receipt](FIXTURE-VERIFICATION.md).
+
+The credential-free fixture uses AO2's built-in scripted provider. Its run
+verdict is `accepted`; the optional provider-evidence scorecard remains
+`40/fail` because no external provider transcript exists. That scorecard is
+not the fixture verifier or replay verdict.
 
 Cleanup is `rm -rf "$ROOT"` on macOS/Linux or
 `Remove-Item -Recurse -Force $Root` on Windows.
