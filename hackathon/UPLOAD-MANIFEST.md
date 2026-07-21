@@ -27,5 +27,4 @@ Exclude:
 
 The finalizer must build the ZIP from a sanitized copy, confirm it is below
 35 MB, enumerate every file and SHA-256, scan extracted contents, and verify
-that every release binding except an explicitly operator-pending public video
-URL has been removed.
+that every release binding and the supplied public video URL is present.

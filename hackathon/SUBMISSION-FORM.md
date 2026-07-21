@@ -44,12 +44,10 @@ or build artifacts.
 
 ## Public video
 
-`OPERATOR_TO_ADD_PUBLIC_YOUTUBE_URL`
+`https://youtu.be/pGhPooqC3hQ`
 
-The finalizer must verify that the URL is public, English-language, and under
-three minutes before this answer is submitted. If publication is still an
-operator action, leave the Devpost video field unsent rather than inventing a
-URL.
+The operator supplied this updated public YouTube URL. The finalizer verified
+that the URL resolves before this answer is submitted.
 
 ## Personal or consent fields
 

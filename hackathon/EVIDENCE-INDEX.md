@@ -37,7 +37,7 @@ count as a production-readiness claim.
 - Quick-test result: `macOS native passed; Linux x86_64 Docker emulation passed; hosted Ubuntu/macOS/Windows public release consumer smoke run 29809470476 passed`
 - Judge ZIP: `ao-stack-openai-build-week-judge-package.zip`
 - Judge ZIP SHA-256: `recorded in excluded finalizer evidence after deterministic ZIP build`
-- Public video: `OPERATOR_TO_ADD_PUBLIC_YOUTUBE_URL`
+- Public video: `https://youtu.be/pGhPooqC3hQ`
 
 The finalizer adds exact PR links for the final release, public verification
 runs, and the frozen Build Week inventory.
