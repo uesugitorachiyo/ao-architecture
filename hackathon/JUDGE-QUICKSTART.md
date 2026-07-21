@@ -22,7 +22,7 @@ the platform archive before running anything.
 
 ```sh
 set -eu
-ROOT="$(mktemp -d /tmp/ao-stack-judge.XXXXXX)"
+ROOT="$(mktemp -d "${TMPDIR:-.}/ao-stack-judge.XXXXXX")"
 cd "$ROOT"
 curl -fL -O "https://github.com/uesugitorachiyo/ao2/releases/download/v0.5.3/ao2-0.5.3-macos-aarch64.tar.gz"
 test "$(shasum -a 256 ao2-0.5.3-macos-aarch64.tar.gz | awk '{print $1}')" = "ef89f159fd7d3521c89fe7588e7fee5d32664905c1a3bb1373ce5887a95140ad"
