@@ -11,6 +11,10 @@ This short index favors representative public evidence over a raw log dump.
   `https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.18`
 - Control Plane tag target: `6257ec23fde726d4a0133c5b62231881fb6aaa9a`
 - Control Plane approved manifest: `a2f159896eea954e43d6e19914f4ef6b43aa5686ace72016dffdf0ef0ed4f455`
+- AO Mission `0.1.0`: `https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.0`
+- AO Mission tag target: `2901a9cb887b72296a56b70a5a3be7350b28fe65`
+- AO Command `0.1.1`: `https://github.com/uesugitorachiyo/ao-command/releases/tag/v0.1.1`
+- AO Command tag target: `0bcadf5701fdac88f9fd792cba3a9a6686de16e5`
 
 ## Architecture and compatibility
 
@@ -29,6 +33,7 @@ count as a production-readiness claim.
 - [AO2 pull requests](https://github.com/uesugitorachiyo/ao2/pulls?q=is%3Apr+is%3Amerged)
 - [Control Plane pull requests](https://github.com/uesugitorachiyo/ao2-control-plane/pulls?q=is%3Apr+is%3Amerged)
 - [AO Mission pull requests](https://github.com/uesugitorachiyo/ao-mission/pulls?q=is%3Apr+is%3Amerged)
+- [AO Command pull requests](https://github.com/uesugitorachiyo/ao-command/pulls?q=is%3Apr+is%3Amerged)
 - [AO Atlas pull requests](https://github.com/uesugitorachiyo/ao-atlas/pulls?q=is%3Apr+is%3Amerged)
 - [AO Sentinel pull requests](https://github.com/uesugitorachiyo/ao-sentinel/pulls?q=is%3Apr+is%3Amerged)
 
