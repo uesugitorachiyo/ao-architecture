@@ -41,6 +41,7 @@ count as a production-readiness claim.
 
 - Release-consumer smoke result: `macOS native passed; Linux x86_64 Docker emulation passed; hosted Ubuntu/macOS/Windows public release consumer smoke run 29809470476 passed`
 - Disposable fixture: [judge fixture](fixtures/disposable-judge-demo/JUDGE-FIXTURE.md)
+- Exact packaged-fixture result: [verification receipt](FIXTURE-VERIFICATION.md)
 - Public video: `https://youtu.be/pGhPooqC3hQ`
 
 The release anchors and dated public histories above define the submission

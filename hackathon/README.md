@@ -76,6 +76,7 @@ and is not retroactively included in the submitted Build Week delta.
 ## Judge documents
 
 - [Quick test](JUDGE-QUICKSTART.md)
+- [Packaged fixture verification](FIXTURE-VERIFICATION.md)
 - [Codex full-stack audit prompt](JUDGE-CODEX-PROMPT.md)
 - [Build Week delta](BUILD-WEEK-DELTA.md)
 - [How Codex and GPT-5.6 were used](CODEX-AND-GPT-5.6.md)
