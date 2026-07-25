@@ -10,6 +10,7 @@ its original scope, gates, fixtures, and denied-authority wording.
 - [Live-Mutation Documentation Consistency](LIVE-MUTATION-DOCUMENTATION-CONSISTENCY.md)
 - [Live-Mutation Stale-Language Sweep](LIVE-MUTATION-STALE-LANGUAGE-SWEEP.md)
 - [AO Mission v0.2 Capability Map](AO-MISSION-V0.2-CAPABILITY-MAP.md)
+- [AO Mission Contract Map](AO-MISSION-CONTRACT-MAP.md)
 - [AO Mission provenance sequence](AO-MISSION-PROVENANCE-SEQUENCE.md)
 - [AO Mission recovery and compaction sequence](AO-MISSION-RECOVERY-COMPACTION-SEQUENCE.md)
 
