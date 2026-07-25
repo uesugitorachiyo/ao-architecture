@@ -33,19 +33,19 @@ with broad authority.
 
 | Component | Responsibility | Guide |
 | --- | --- | --- |
-| AO Mission | User entry, mission routing, continuation state, and governance snapshots | [AO Mission](ao-mission/README.md) |
-| AO Blueprint | Requirements interview, blueprint compilation, and build authorization | [AO Blueprint](ao-blueprint/README.md) |
-| AO Atlas | Workgraphs, context packs, and Foundry handoff for oversized work | [AO Atlas](ao-atlas/README.md) |
-| AO Foundry | Multi-repository engineering operations and readiness coordination | [AO Foundry](ao-foundry/README.md) |
-| AO Forge | GoalRun state, factory plans, and governed run coordination | [AO Forge](ao-forge/README.md) |
-| AO Covenant | Policy, trust, side-effect, and evidence-contract gates | [AO Covenant](ao-covenant/README.md) |
-| AO2 | Bounded local agent execution and evidence capture | [AO2](ao2/README.md) |
-| AO2 Control Plane | Read-only evidence observation and publication | [AO2 Control Plane](ao2-control-plane/README.md) |
-| AO Command | Read-only operator status and command surface | [AO Command](ao-command/README.md) |
-| AO Arena | Deterministic benchmark and comparison evidence | [AO Arena](ao-arena/README.md) |
-| AO Crucible | Adversarial hardening and remediation evidence | [AO Crucible](ao-crucible/README.md) |
-| AO Sentinel | Safety and regression monitoring | [AO Sentinel](ao-sentinel/README.md) |
-| AO Promoter | Evidence-gated activation and rollback planning | [AO Promoter](ao-promoter/README.md) |
+| [AO Mission](https://github.com/uesugitorachiyo/ao-mission) | User entry, mission routing, continuation state, and governance snapshots | [AO Mission](ao-mission/README.md) |
+| [AO Blueprint](https://github.com/uesugitorachiyo/ao-blueprint) | Requirements interview, blueprint compilation, and build authorization | [AO Blueprint](ao-blueprint/README.md) |
+| [AO Atlas](https://github.com/uesugitorachiyo/ao-atlas) | Workgraphs, context packs, and Foundry handoff for oversized work | [AO Atlas](ao-atlas/README.md) |
+| [AO Foundry](https://github.com/uesugitorachiyo/ao-foundry) | Multi-repository engineering operations and readiness coordination | [AO Foundry](ao-foundry/README.md) |
+| [AO Forge](https://github.com/uesugitorachiyo/ao-forge) | GoalRun state, factory plans, and governed run coordination | [AO Forge](ao-forge/README.md) |
+| [AO Covenant](https://github.com/uesugitorachiyo/ao-covenant) | Policy, trust, side-effect, and evidence-contract gates | [AO Covenant](ao-covenant/README.md) |
+| [AO2](https://github.com/uesugitorachiyo/ao2) | Bounded local agent execution and evidence capture | [AO2](ao2/README.md) |
+| [AO2 Control Plane](https://github.com/uesugitorachiyo/ao2-control-plane) | Read-only evidence observation and publication | [AO2 Control Plane](ao2-control-plane/README.md) |
+| [AO Command](https://github.com/uesugitorachiyo/ao-command) | Read-only operator status and command surface | [AO Command](ao-command/README.md) |
+| [AO Arena](https://github.com/uesugitorachiyo/ao-arena) | Deterministic benchmark and comparison evidence | [AO Arena](ao-arena/README.md) |
+| [AO Crucible](https://github.com/uesugitorachiyo/ao-crucible) | Adversarial hardening and remediation evidence | [AO Crucible](ao-crucible/README.md) |
+| [AO Sentinel](https://github.com/uesugitorachiyo/ao-sentinel) | Safety and regression monitoring | [AO Sentinel](ao-sentinel/README.md) |
+| [AO Promoter](https://github.com/uesugitorachiyo/ao-promoter) | Evidence-gated activation and rollback planning | [AO Promoter](ao-promoter/README.md) |
 
 ## Start Here
 
