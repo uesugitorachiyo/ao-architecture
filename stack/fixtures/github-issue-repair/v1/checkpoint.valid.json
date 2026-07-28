@@ -1,0 +1,22 @@
+{
+  "schema": "ao.architecture.autonomous-issue-repair.checkpoint.v1",
+  "run_id": "repair-run-20260728",
+  "run_envelope_digest": "1b2970bc69f2be7493dc2b4783fa9a5b169f6656d88c2aefb5557d8440a4b588",
+  "last_event_sequence": 2,
+  "last_event_digest": "9367e38c4214c9684aa6a3e200bdf2fc72a8ed5c8cc28cc9ce63654605f261aa",
+  "state_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "lease": {
+    "lease_id": "lease-run-20260728",
+    "owner": "ao-forge",
+    "status": "active",
+    "expires_at": "2026-07-27T23:50:00Z",
+    "ownership_verified_at": "2026-07-27T23:00:00Z",
+    "previous_worker_active": false,
+    "successor_resume_authorized": false,
+    "authorized_event_actors": [
+      "ao-forge"
+    ]
+  },
+  "checkpoint_digest": "c74b7571119710c4464be314cb1dbdb0f610d5da372d01481f695153e023f029",
+  "created_at": "2026-07-27T23:01:00Z"
+}

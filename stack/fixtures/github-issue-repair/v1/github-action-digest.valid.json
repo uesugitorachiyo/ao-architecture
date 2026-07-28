@@ -1,0 +1,33 @@
+{
+  "schema": "ao.architecture.autonomous-issue-repair.github-action-digest.v1",
+  "run_id": "repair-run-20260728",
+  "repository": "example/repair-fixture",
+  "issue_number": 101,
+  "base_sha": "1111111111111111111111111111111111111111",
+  "head_sha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "fork": "operator/repair-fixture",
+  "branch": "codex/repair-issue",
+  "pr_title_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "pr_body_digest": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "diff_digest": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+  "required_checks": [
+    {
+      "name": "test",
+      "conclusion": "success",
+      "head_sha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    {
+      "name": "lint",
+      "conclusion": "success",
+      "head_sha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  ],
+  "action": "open_upstream_draft_pr",
+  "approved_at": "2026-07-27T23:20:00Z",
+  "expires_at": "2026-07-28T00:00:00Z",
+  "run_envelope_digest": "1b2970bc69f2be7493dc2b4783fa9a5b169f6656d88c2aefb5557d8440a4b588",
+  "candidate_decision_digest": "706b3dd556fb8a76e20d90569c4b39e7843f396feba95bac279de4aac9540ca5",
+  "governance_decision_digest": "b045f632d3224a41612e11a7cc4b28faaf506da905d7aaa56c902903e2191fae",
+  "reviewer_independence_digest": "9ff295917b4d875f9b9daaa7f7d343857e13be950db0552c9a9d243d094b1c87",
+  "action_digest": "703d17b3f34c0099b70cf8070b7610c7a77812b98b631fd47fdea626f36def1f"
+}

@@ -7,6 +7,14 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from github_issue_autonomous_contracts import (
+    AUTONOMOUS_CONTRACTS,
+    validate_autonomous_family,
+    validate_checkpoint_event_linkage,
+    validate_contract_instance,
+    validate_successor_envelope,
+)
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CONTRACTS = ROOT / "stack" / "github-issue-workflow-contracts.json"
@@ -269,6 +277,7 @@ def validate_document(document: dict[str, Any]) -> list[str]:
                 "draft_pr_contract_family.immutable_commit must bind the merged AO2 publisher"
             )
 
+    errors.extend(validate_autonomous_family(document))
     return errors
 
 
@@ -288,7 +297,9 @@ def main() -> int:
         return 1
     print(
         "verify_github_issue_workflow_contracts.py: "
-        f"validated {len(document['schemas'])} schemas and {len(document['fixtures'])} fixtures"
+        f"validated {len(document['schemas'])} historical schemas, "
+        f"{len(AUTONOMOUS_CONTRACTS)} autonomous schemas, and "
+        f"{len(document['fixtures'])} fixtures"
     )
     return 0
 

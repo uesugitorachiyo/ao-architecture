@@ -1,0 +1,96 @@
+{
+  "schema": "ao.architecture.autonomous-issue-repair.run-envelope.v1",
+  "run_id": "repair-run-20260728",
+  "loop": {
+    "goal": "Repair at most one authentic public GitHub issue within the approved envelope.",
+    "trigger": "Use the canonical issue-list URL and pinned repository head.",
+    "discovery": "Snapshot at most 50 issues and evaluate at most 10 candidates.",
+    "action": "Prepare at most one bounded repair in isolation.",
+    "verification": "Require pre-patch failure, negative controls, and repository checks.",
+    "state": "Persist append-only events and digest-bound checkpoints.",
+    "human_gates": "External publication is draft-only and requires the exact action digest."
+  },
+  "trigger": {
+    "mode": "issue_list",
+    "canonical_url": "https://github.com/example/repair-fixture/issues",
+    "repository": "example/repair-fixture",
+    "default_branch": "master",
+    "pinned_base_commit": "1111111111111111111111111111111111111111"
+  },
+  "discovery": {
+    "snapshot_limit": 50,
+    "candidate_limit": 10,
+    "selected_limit": 1
+  },
+  "budgets": {
+    "wall_clock_seconds": 28800,
+    "clone_count": 1,
+    "test_runs": 20,
+    "retry_count": 3,
+    "repair_count": 1,
+    "publication_count": 1
+  },
+  "governance": {
+    "ownership_class": "external",
+    "allowed_actions": [
+      "read_public_metadata",
+      "clone_public_repository",
+      "push_operator_fork",
+      "open_upstream_draft_pr"
+    ],
+    "denied_actions": [
+      "push_upstream",
+      "open_ready_pr",
+      "mark_ready",
+      "approve_review",
+      "merge",
+      "mutate_issue",
+      "publish_release"
+    ],
+    "sole_control_auto_merge_opt_in": false
+  },
+  "routing": {
+    "default_branch": "master",
+    "pinned_base_commit": "1111111111111111111111111111111111111111",
+    "fork_owner": "operator",
+    "repair_branch": "codex/repair-issue",
+    "protected_path_classes": [
+      "workflow",
+      "credential",
+      "security_boundary",
+      "release"
+    ],
+    "required_checks": [
+      "test",
+      "lint"
+    ]
+  },
+  "created_at": "2026-07-27T16:00:00Z",
+  "expires_at": "2026-07-28T00:00:00Z",
+  "canonical_digest": "1b2970bc69f2be7493dc2b4783fa9a5b169f6656d88c2aefb5557d8440a4b588",
+  "predecessor_digest": null,
+  "lineage": {
+    "kind": "origin",
+    "predecessor_run_id": null,
+    "predecessor_digest": null
+  },
+  "stop_conditions": [
+    "policy_ambiguity",
+    "security_sensitive",
+    "credential_required",
+    "lease_conflict",
+    "digest_mismatch",
+    "required_check_conflict",
+    "budget_exhausted",
+    "unauthorized_external_write",
+    "concurrent_repository_mutation"
+  ],
+  "terminal_statuses": [
+    "completed",
+    "no_eligible_issue",
+    "operator_action_required",
+    "blocked",
+    "expired",
+    "cancelled"
+  ]
+}

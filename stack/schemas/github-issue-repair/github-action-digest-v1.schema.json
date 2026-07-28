@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ao.architecture.autonomous-issue-repair.github-action-digest.v1",
+  "title": "AO Autonomous Issue Repair GitHub Action Digest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "run_id", "repository", "issue_number", "base_sha", "head_sha", "fork", "branch", "pr_title_digest", "pr_body_digest", "diff_digest", "required_checks", "action", "approved_at", "expires_at", "run_envelope_digest", "candidate_decision_digest", "governance_decision_digest", "reviewer_independence_digest", "action_digest"],
+  "properties": {
+    "schema": {"const": "ao.architecture.autonomous-issue-repair.github-action-digest.v1"},
+    "run_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{7,127}$"},
+    "repository": {"type": "string", "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"},
+    "issue_number": {"type": "integer", "minimum": 1},
+    "base_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "head_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "fork": {"type": ["string", "null"], "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"},
+    "branch": {"type": "string", "pattern": "^[A-Za-z0-9._/-]{1,255}$"},
+    "pr_title_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "pr_body_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "diff_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "required_checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "conclusion", "head_sha"],
+        "properties": {
+          "name": {"type": "string", "minLength": 1, "maxLength": 256},
+          "conclusion": {"const": "success"},
+          "head_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+        }
+      }
+    },
+    "action": {"enum": ["push_operator_fork", "open_upstream_draft_pr", "open_ready_pr", "request_merge_queue", "auto_merge"]},
+    "approved_at": {"type": "string", "format": "date-time"},
+    "expires_at": {"type": "string", "format": "date-time"},
+    "run_envelope_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "candidate_decision_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "governance_decision_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "reviewer_independence_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "action_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

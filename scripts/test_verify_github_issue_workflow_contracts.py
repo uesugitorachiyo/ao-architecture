@@ -1,11 +1,40 @@
-import copy
 import sys
 import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 
-from verify_github_issue_workflow_contracts import validate_document
+import verify_github_issue_workflow_contracts as verifier
+
+
+def valid_autonomous_family():
+    return {
+        "status": "current_pair_only",
+        "predecessor": "not_applicable_no_predecessor",
+        "validation_reference_time": "2026-07-27T23:30:00Z",
+        "contracts": [
+            {
+                "name": name,
+                "schema_id": schema_id,
+                "path": path,
+                "canonical_vector": vector,
+                "owner": "ao-architecture",
+                "consumers": ["ao-mission", "ao-atlas", "ao-forge", "ao-covenant", "ao2", "ao-command"],
+            }
+            for name, (schema_id, path, vector) in verifier.AUTONOMOUS_CONTRACTS.items()
+        ],
+        "bounds": {
+            "issue_snapshot_limit": 50,
+            "reproduction_candidate_limit": 10,
+            "selected_candidate_limit": 1,
+        },
+        "safety": {
+            "issue_list_grants_mutation_authority": False,
+            "successor_may_widen_authority": False,
+            "unknown_governance_defaults_to_external_draft_only": True,
+            "external_merge_authorized": False,
+        },
+    }
 
 
 def valid_document():
@@ -151,28 +180,29 @@ def valid_document():
             "private_protocols_are_public_stack_contracts": False,
             "immutable_commit": "aaa36fb13675396b60ed9a63bd94aa665be9eb5c",
         },
+        "autonomous_repair_contract_family": valid_autonomous_family(),
     }
 
 
 class VerifyGitHubIssueWorkflowContractsTest(unittest.TestCase):
     def test_accepts_valid_contract(self):
-        self.assertEqual(validate_document(valid_document()), [])
+        self.assertEqual(verifier.validate_document(valid_document()), [])
 
     def test_rejects_missing_required_schema(self):
         document = valid_document()
         document["schemas"] = document["schemas"][1:]
-        self.assertIn("missing schema: issue_url_intake", validate_document(document))
+        self.assertIn("missing schema: issue_url_intake", verifier.validate_document(document))
 
     def test_rejects_missing_terminal_state(self):
         document = valid_document()
         document["canonical_issue_states"].remove("security_sensitive")
-        self.assertIn("missing canonical issue state: security_sensitive", validate_document(document))
+        self.assertIn("missing canonical issue state: security_sensitive", verifier.validate_document(document))
 
     def test_rejects_authority_overclaim(self):
         document = valid_document()
         document["trust_model"]["issue_text_can_authorize"] = True
         document["boundaries"]["draft_pr_opened"] = True
-        errors = validate_document(document)
+        errors = verifier.validate_document(document)
         self.assertIn("issue_text_can_authorize must be false", errors)
         self.assertIn("boundaries.draft_pr_opened must remain false for Month 1", errors)
 
@@ -183,7 +213,7 @@ class VerifyGitHubIssueWorkflowContractsTest(unittest.TestCase):
                 fixture["expected_state"] = "authentic_bug"
         self.assertIn(
             "fixture issue_body_prompt_injection must fail closed",
-            validate_document(document),
+            verifier.validate_document(document),
         )
 
     def test_rejects_missing_command_policy(self):
@@ -191,7 +221,7 @@ class VerifyGitHubIssueWorkflowContractsTest(unittest.TestCase):
         document["command_policy_classes"].remove("approval_required_github_write")
         self.assertIn(
             "missing command policy class: approval_required_github_write",
-            validate_document(document),
+            verifier.validate_document(document),
         )
 
     def test_rejects_missing_public_draft_pr_contract(self):
@@ -200,7 +230,7 @@ class VerifyGitHubIssueWorkflowContractsTest(unittest.TestCase):
         self.assertIn(
             "draft_pr_contract_family.public_contracts must exactly match the four "
             "AO2 public contracts",
-            validate_document(document),
+            verifier.validate_document(document),
         )
 
     def test_rejects_private_fixture_protocol_as_public_contract(self):
@@ -211,7 +241,7 @@ class VerifyGitHubIssueWorkflowContractsTest(unittest.TestCase):
         document["draft_pr_contract_family"][
             "private_protocols_are_public_stack_contracts"
         ] = True
-        errors = validate_document(document)
+        errors = verifier.validate_document(document)
         self.assertIn(
             "draft_pr_contract_family.public_contracts must exactly match the four "
             "AO2 public contracts",
@@ -228,9 +258,22 @@ class VerifyGitHubIssueWorkflowContractsTest(unittest.TestCase):
         document["draft_pr_contract_family"]["immutable_commit"] = "a" * 40
         self.assertIn(
             "draft_pr_contract_family.immutable_commit must bind the merged AO2 publisher",
-            validate_document(document),
+            verifier.validate_document(document),
         )
 
+    def test_rejects_missing_autonomous_contract_or_weakened_safety(self):
+        document = valid_document()
+        document["autonomous_repair_contract_family"]["contracts"].pop()
+        document["autonomous_repair_contract_family"]["safety"][
+            "successor_may_widen_authority"
+        ] = True
+        errors = verifier.validate_document(document)
+        self.assertTrue(any("missing autonomous repair contract" in error for error in errors))
+        self.assertIn(
+            "autonomous_repair_contract_family.safety.successor_may_widen_authority "
+            "must be false",
+            errors,
+        )
 
 if __name__ == "__main__":
     unittest.main()

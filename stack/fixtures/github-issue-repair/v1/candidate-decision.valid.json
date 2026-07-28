@@ -1,0 +1,29 @@
+{
+  "schema": "ao.architecture.autonomous-issue-repair.candidate-decision.v1",
+  "run_id": "repair-run-20260728",
+  "repository": "example/repair-fixture",
+  "base_sha": "1111111111111111111111111111111111111111",
+  "issue_number": 101,
+  "rank": 1,
+  "decision": "selected",
+  "eligibility": {
+    "open_bug": true,
+    "target_in_repository": true,
+    "no_existing_fix": true,
+    "current_head_unfixed": true,
+    "security_sensitive": false,
+    "public_reproduction_feasible": true,
+    "deterministic_local_reproduction": true,
+    "expected_behavior_grounded": true,
+    "bounded_policy_compatible": true
+  },
+  "reason_codes": [
+    "eligible_all_predicates_passed"
+  ],
+  "evidence_digests": [
+    "6666666666666666666666666666666666666666666666666666666666666666"
+  ],
+  "expected_behavior_source": "tests",
+  "decided_at": "2026-07-27T22:00:00Z",
+  "decision_digest": "706b3dd556fb8a76e20d90569c4b39e7843f396feba95bac279de4aac9540ca5"
+}
