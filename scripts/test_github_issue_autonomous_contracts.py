@@ -50,6 +50,69 @@ class GitHubIssueAutonomousContractsTest(unittest.TestCase):
         )
         return action, envelope, candidate, governance, reviewer
 
+    def test_autonomous_family_defines_bounded_github_write_semantics(self):
+        document = json.loads(
+            (ROOT / "stack/github-issue-workflow-contracts.json").read_text()
+        )
+        execution = document["autonomous_repair_contract_family"][
+            "github_action_execution"
+        ]
+
+        self.assertEqual(
+            execution["push_operator_fork"],
+            {
+                "fork_lookup": "required_before_write",
+                "fork_absent": "create_then_exact_readback",
+                "fork_present": "reuse_only_exact_owner_parent_and_default_branch",
+                "branch_absent": "create_at_exact_approved_head",
+                "branch_present": "reuse_only_at_exact_approved_head",
+                "force_update_allowed": False,
+                "upstream_push_allowed": False,
+            },
+        )
+        self.assertEqual(
+            execution["open_upstream_draft_pr"],
+            {
+                "lookup": "exact_base_head_open_pull_requests",
+                "absent": "create_once_then_exact_readback",
+                "present": "reuse_only_exact_draft_identity",
+                "update_allowed": False,
+                "ready_for_review_allowed": False,
+                "review_allowed": False,
+                "merge_allowed": False,
+            },
+        )
+        self.assertEqual(
+            execution["write_budget"],
+            {
+                "fork_creates": 1,
+                "branch_creates": 1,
+                "draft_pr_creates": 1,
+            },
+        )
+        self.assertEqual(
+            execution["credentials"],
+            {
+                "ambient_only": True,
+                "serialized": False,
+            },
+        )
+
+    def test_autonomous_family_rejects_github_write_semantic_drift(self):
+        document = json.loads(
+            (ROOT / "stack/github-issue-workflow-contracts.json").read_text()
+        )
+        document["autonomous_repair_contract_family"][
+            "github_action_execution"
+        ]["push_operator_fork"]["force_update_allowed"] = True
+
+        errors = contracts.validate_autonomous_family(document)
+
+        self.assertIn(
+            "autonomous repair GitHub action execution semantics must remain bounded",
+            errors,
+        )
+
     def non_fork_action_family(self, ownership_class, action_name):
         action, envelope, candidate, governance, reviewer = (
             self.coherent_action_family()

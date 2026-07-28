@@ -1181,6 +1181,7 @@ def validate_autonomous_family(
         "validation_reference_time",
         "contracts",
         "bounds",
+        "github_action_execution",
         "safety",
     }
     if set(family) != expected_fields:
@@ -1323,6 +1324,39 @@ def validate_autonomous_family(
         "selected_candidate_limit": 1,
     }:
         errors.append("autonomous_repair_contract_family.bounds must remain 50/10/1")
+    expected_execution = {
+        "push_operator_fork": {
+            "fork_lookup": "required_before_write",
+            "fork_absent": "create_then_exact_readback",
+            "fork_present": "reuse_only_exact_owner_parent_and_default_branch",
+            "branch_absent": "create_at_exact_approved_head",
+            "branch_present": "reuse_only_at_exact_approved_head",
+            "force_update_allowed": False,
+            "upstream_push_allowed": False,
+        },
+        "open_upstream_draft_pr": {
+            "lookup": "exact_base_head_open_pull_requests",
+            "absent": "create_once_then_exact_readback",
+            "present": "reuse_only_exact_draft_identity",
+            "update_allowed": False,
+            "ready_for_review_allowed": False,
+            "review_allowed": False,
+            "merge_allowed": False,
+        },
+        "write_budget": {
+            "fork_creates": 1,
+            "branch_creates": 1,
+            "draft_pr_creates": 1,
+        },
+        "credentials": {
+            "ambient_only": True,
+            "serialized": False,
+        },
+    }
+    if family.get("github_action_execution") != expected_execution:
+        errors.append(
+            "autonomous repair GitHub action execution semantics must remain bounded"
+        )
     expected_safety = {
         "issue_list_grants_mutation_authority": False,
         "successor_may_widen_authority": False,
