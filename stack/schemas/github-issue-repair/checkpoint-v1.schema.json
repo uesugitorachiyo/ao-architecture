@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ao.architecture.autonomous-issue-repair.checkpoint.v1",
+  "title": "AO Autonomous Issue Repair Checkpoint v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "run_id", "run_envelope_digest", "last_event_sequence", "last_event_digest", "state_digest", "lease", "checkpoint_digest", "created_at"],
+  "properties": {
+    "schema": {"const": "ao.architecture.autonomous-issue-repair.checkpoint.v1"},
+    "run_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{7,127}$"},
+    "run_envelope_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "last_event_sequence": {"type": "integer", "minimum": 1},
+    "last_event_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "state_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "lease": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lease_id", "owner", "status", "expires_at", "previous_worker_active"],
+      "properties": {
+        "lease_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{7,127}$"},
+        "owner": {"type": "string", "minLength": 1, "maxLength": 128},
+        "status": {"enum": ["active", "expired", "handed_off", "closed"]},
+        "expires_at": {"type": "string", "format": "date-time"},
+        "previous_worker_active": {"type": "boolean"}
+      }
+    },
+    "checkpoint_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "created_at": {"type": "string", "format": "date-time"}
+  }
+}

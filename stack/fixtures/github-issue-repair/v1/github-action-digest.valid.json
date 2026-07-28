@@ -1,0 +1,24 @@
+{
+  "schema": "ao.architecture.autonomous-issue-repair.github-action-digest.v1",
+  "run_id": "repair-run-20260728",
+  "repository": "example/repair-fixture",
+  "issue_number": 101,
+  "base_sha": "1111111111111111111111111111111111111111",
+  "head_sha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "fork": "operator/repair-fixture",
+  "branch": "codex/repair-101",
+  "pr_title_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "pr_body_digest": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "diff_digest": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+  "required_checks": [
+    {
+      "name": "test",
+      "conclusion": "success",
+      "head_sha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  ],
+  "action": "open_draft_pr",
+  "approved_at": "2026-07-27T23:20:00Z",
+  "expires_at": "2026-07-29T00:00:00Z",
+  "action_digest": "680a779aafc80c4e6aee9aea4b3c8d3c1444cac746445f6f0e0767dce7f33093"
+}

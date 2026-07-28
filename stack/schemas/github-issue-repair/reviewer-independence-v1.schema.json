@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ao.architecture.autonomous-issue-repair.reviewer-independence.v1",
+  "title": "AO Autonomous Issue Repair Reviewer Independence v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "run_id", "subject_digest", "reviewer_id", "status", "deterministic_tests_primary", "satisfies_team_merge_gate", "reviewed_at"],
+  "properties": {
+    "schema": {"const": "ao.architecture.autonomous-issue-repair.reviewer-independence.v1"},
+    "run_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{7,127}$"},
+    "subject_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "reviewer_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "status": {"enum": ["independent", "same_vendor", "unavailable", "unverified"]},
+    "deterministic_tests_primary": {"const": true},
+    "satisfies_team_merge_gate": {"type": "boolean"},
+    "reviewed_at": {"type": "string", "format": "date-time"}
+  }
+}

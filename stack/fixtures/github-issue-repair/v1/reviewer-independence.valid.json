@@ -1,0 +1,10 @@
+{
+  "schema": "ao.architecture.autonomous-issue-repair.reviewer-independence.v1",
+  "run_id": "repair-run-20260728",
+  "subject_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "reviewer_id": "independent-reviewer",
+  "status": "independent",
+  "deterministic_tests_primary": true,
+  "satisfies_team_merge_gate": false,
+  "reviewed_at": "2026-07-27T23:15:00Z"
+}

@@ -232,5 +232,87 @@
     "private_executable_protocol_pattern": "ao2.local-draft-pr-fixture-*",
     "private_protocols_are_public_stack_contracts": false,
     "immutable_commit": "aaa36fb13675396b60ed9a63bd94aa665be9eb5c"
+  },
+  "autonomous_repair_contract_family": {
+    "status": "current_pair_only",
+    "predecessor": "not_applicable_no_predecessor",
+    "validation_reference_time": "2026-07-28T00:00:00Z",
+    "contracts": [
+      {
+        "name": "immutable_run_envelope",
+        "schema_id": "ao.architecture.autonomous-issue-repair.run-envelope.v1",
+        "path": "stack/schemas/github-issue-repair/immutable-run-envelope-v1.schema.json",
+        "canonical_vector": "stack/fixtures/github-issue-repair/v1/immutable-run-envelope.valid.json",
+        "owner": "ao-architecture",
+        "consumers": ["ao-mission", "ao-atlas", "ao-forge", "ao-covenant", "ao2", "ao-command"]
+      },
+      {
+        "name": "bounded_discovery_result",
+        "schema_id": "ao.architecture.autonomous-issue-repair.discovery-result.v1",
+        "path": "stack/schemas/github-issue-repair/bounded-discovery-result-v1.schema.json",
+        "canonical_vector": "stack/fixtures/github-issue-repair/v1/bounded-discovery-result.valid.json",
+        "owner": "ao-architecture",
+        "consumers": ["ao-mission", "ao-atlas", "ao-forge", "ao-covenant", "ao2", "ao-command"]
+      },
+      {
+        "name": "candidate_decision",
+        "schema_id": "ao.architecture.autonomous-issue-repair.candidate-decision.v1",
+        "path": "stack/schemas/github-issue-repair/candidate-decision-v1.schema.json",
+        "canonical_vector": "stack/fixtures/github-issue-repair/v1/candidate-decision.valid.json",
+        "owner": "ao-architecture",
+        "consumers": ["ao-mission", "ao-atlas", "ao-forge", "ao-covenant", "ao2", "ao-command"]
+      },
+      {
+        "name": "append_only_event",
+        "schema_id": "ao.architecture.autonomous-issue-repair.event.v1",
+        "path": "stack/schemas/github-issue-repair/append-only-event-v1.schema.json",
+        "canonical_vector": "stack/fixtures/github-issue-repair/v1/append-only-event.valid.json",
+        "owner": "ao-architecture",
+        "consumers": ["ao-mission", "ao-atlas", "ao-forge", "ao-covenant", "ao2", "ao-command"]
+      },
+      {
+        "name": "checkpoint",
+        "schema_id": "ao.architecture.autonomous-issue-repair.checkpoint.v1",
+        "path": "stack/schemas/github-issue-repair/checkpoint-v1.schema.json",
+        "canonical_vector": "stack/fixtures/github-issue-repair/v1/checkpoint.valid.json",
+        "owner": "ao-architecture",
+        "consumers": ["ao-mission", "ao-atlas", "ao-forge", "ao-covenant", "ao2", "ao-command"]
+      },
+      {
+        "name": "governance_decision",
+        "schema_id": "ao.architecture.autonomous-issue-repair.governance-decision.v1",
+        "path": "stack/schemas/github-issue-repair/governance-decision-v1.schema.json",
+        "canonical_vector": "stack/fixtures/github-issue-repair/v1/governance-decision.valid.json",
+        "owner": "ao-architecture",
+        "consumers": ["ao-mission", "ao-atlas", "ao-forge", "ao-covenant", "ao2", "ao-command"]
+      },
+      {
+        "name": "reviewer_independence",
+        "schema_id": "ao.architecture.autonomous-issue-repair.reviewer-independence.v1",
+        "path": "stack/schemas/github-issue-repair/reviewer-independence-v1.schema.json",
+        "canonical_vector": "stack/fixtures/github-issue-repair/v1/reviewer-independence.valid.json",
+        "owner": "ao-architecture",
+        "consumers": ["ao-mission", "ao-atlas", "ao-forge", "ao-covenant", "ao2", "ao-command"]
+      },
+      {
+        "name": "github_action_digest",
+        "schema_id": "ao.architecture.autonomous-issue-repair.github-action-digest.v1",
+        "path": "stack/schemas/github-issue-repair/github-action-digest-v1.schema.json",
+        "canonical_vector": "stack/fixtures/github-issue-repair/v1/github-action-digest.valid.json",
+        "owner": "ao-architecture",
+        "consumers": ["ao-mission", "ao-atlas", "ao-forge", "ao-covenant", "ao2", "ao-command"]
+      }
+    ],
+    "bounds": {
+      "issue_snapshot_limit": 50,
+      "reproduction_candidate_limit": 10,
+      "selected_candidate_limit": 1
+    },
+    "safety": {
+      "issue_list_grants_mutation_authority": false,
+      "successor_may_widen_authority": false,
+      "unknown_governance_defaults_to_external_draft_only": true,
+      "external_merge_authorized": false
+    }
   }
 }

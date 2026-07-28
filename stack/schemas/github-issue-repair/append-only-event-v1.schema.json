@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ao.architecture.autonomous-issue-repair.event.v1",
+  "title": "AO Autonomous Issue Repair Append-Only Event v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "run_id", "run_envelope_digest", "sequence", "previous_event_digest", "event_digest", "actor", "lease_id", "event_type", "input_digests", "output_digests", "reason_code", "timestamp"],
+  "properties": {
+    "schema": {"const": "ao.architecture.autonomous-issue-repair.event.v1"},
+    "run_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{7,127}$"},
+    "run_envelope_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "sequence": {"type": "integer", "minimum": 1},
+    "previous_event_digest": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "event_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "actor": {"type": "string", "minLength": 1, "maxLength": 128},
+    "lease_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{7,127}$"},
+    "event_type": {"enum": ["run_started", "discovery_completed", "candidate_decided", "checkpoint_created", "handoff_started", "handoff_completed", "attention_required", "run_completed", "run_blocked"]},
+    "input_digests": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+    "output_digests": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+    "reason_code": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]{2,127}$"},
+    "timestamp": {"type": "string", "format": "date-time"}
+  }
+}

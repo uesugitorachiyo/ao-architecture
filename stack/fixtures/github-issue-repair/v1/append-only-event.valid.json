@@ -1,0 +1,19 @@
+{
+  "schema": "ao.architecture.autonomous-issue-repair.event.v1",
+  "run_id": "repair-run-20260728",
+  "run_envelope_digest": "fa0350c57eb61263a27c465df1e20eca28826c51376f3937a1bab11a6809c91a",
+  "sequence": 2,
+  "previous_event_digest": "9999999999999999999999999999999999999999999999999999999999999999",
+  "event_digest": "1dbb73ba7b9607a49f6383edb7e3858774e3ee7eb53c9f34e667fd6d132d204f",
+  "actor": "ao-forge",
+  "lease_id": "lease-run-20260728",
+  "event_type": "discovery_completed",
+  "input_digests": [
+    "2222222222222222222222222222222222222222222222222222222222222222"
+  ],
+  "output_digests": [
+    "5555555555555555555555555555555555555555555555555555555555555555"
+  ],
+  "reason_code": "DISCOVERY_COMPLETE",
+  "timestamp": "2026-07-27T23:00:00Z"
+}
