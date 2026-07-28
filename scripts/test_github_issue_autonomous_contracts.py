@@ -358,10 +358,13 @@ class GitHubIssueAutonomousContractsTest(unittest.TestCase):
                         checkpoint["lease"][
                             "successor_resume_authorized"
                         ] = successor_resume_authorized
+                        checkpoint["lease"][
+                            "ownership_verified_at"
+                        ] = "2026-07-27T23:00:00Z"
                         if status == "expired":
                             checkpoint["lease"][
                                 "expires_at"
-                            ] = "2026-07-27T23:20:00Z"
+                            ] = "2026-07-27T23:00:00Z"
                         checkpoint[
                             "checkpoint_digest"
                         ] = contracts._canonical_sha256(
@@ -443,6 +446,154 @@ class GitHubIssueAutonomousContractsTest(unittest.TestCase):
         self.assertEqual(
             checkpoint["lease"].get("authorized_event_actors"), ["ao-forge"]
         )
+        ownership_verified_at = contracts._parse_timestamp(
+            checkpoint["lease"].get("ownership_verified_at")
+        )
+        created_at = contracts._parse_timestamp(checkpoint["created_at"])
+        self.assertIsNotNone(ownership_verified_at)
+        self.assertLessEqual(ownership_verified_at, created_at)
+
+    def test_expired_resume_rejects_stale_pre_expiry_ownership_observation(self):
+        checkpoint = self.load_vector("checkpoint")
+        checkpoint["lease"]["status"] = "expired"
+        checkpoint["lease"]["expires_at"] = "2026-07-27T23:00:00Z"
+        checkpoint["lease"]["previous_worker_active"] = False
+        checkpoint["lease"]["successor_resume_authorized"] = True
+        checkpoint["lease"][
+            "ownership_verified_at"
+        ] = "2026-07-27T22:59:59Z"
+        checkpoint["checkpoint_digest"] = contracts._canonical_sha256(
+            checkpoint, "checkpoint_digest"
+        )
+
+        errors = contracts.validate_contract_instance(
+            "checkpoint",
+            checkpoint,
+            reference_time=datetime(2026, 7, 27, 23, 30, tzinfo=timezone.utc),
+        )
+
+        self.assertIn(
+            "expired recovery requires post-expiry ownership verification",
+            errors,
+        )
+
+    def test_expired_resume_accepts_post_expiry_ownership_observation(self):
+        checkpoint = self.load_vector("checkpoint")
+        checkpoint["lease"]["status"] = "expired"
+        checkpoint["lease"]["expires_at"] = "2026-07-27T23:00:00Z"
+        checkpoint["lease"]["previous_worker_active"] = False
+        checkpoint["lease"]["successor_resume_authorized"] = True
+        checkpoint["lease"][
+            "ownership_verified_at"
+        ] = "2026-07-27T23:00:00Z"
+        checkpoint["checkpoint_digest"] = contracts._canonical_sha256(
+            checkpoint, "checkpoint_digest"
+        )
+
+        errors = contracts.validate_contract_instance(
+            "checkpoint",
+            checkpoint,
+            reference_time=datetime(2026, 7, 27, 23, 30, tzinfo=timezone.utc),
+        )
+
+        self.assertEqual(errors, [])
+
+    def test_ownership_verification_must_precede_checkpoint_creation(self):
+        checkpoint = self.load_vector("checkpoint")
+        checkpoint["lease"][
+            "ownership_verified_at"
+        ] = "2026-07-27T23:01:01Z"
+        checkpoint["checkpoint_digest"] = contracts._canonical_sha256(
+            checkpoint, "checkpoint_digest"
+        )
+
+        errors = contracts.validate_contract_instance(
+            "checkpoint",
+            checkpoint,
+            reference_time=datetime(2026, 7, 27, 23, 30, tzinfo=timezone.utc),
+        )
+
+        self.assertIn(
+            "lease ownership verification must not follow checkpoint creation",
+            errors,
+        )
+
+    def test_ownership_verification_must_be_within_envelope_lifetime(self):
+        for ownership_verified_at in (
+            "2026-07-27T15:59:59Z",
+            "2026-07-28T00:00:00Z",
+        ):
+            with self.subTest(ownership_verified_at=ownership_verified_at):
+                checkpoint = self.load_vector("checkpoint")
+                envelope = self.load_vector("immutable_run_envelope")
+                checkpoint["lease"][
+                    "ownership_verified_at"
+                ] = ownership_verified_at
+                checkpoint["checkpoint_digest"] = contracts._canonical_sha256(
+                    checkpoint, "checkpoint_digest"
+                )
+
+                errors = contracts.validate_checkpoint_envelope_linkage(
+                    checkpoint,
+                    envelope,
+                    reference_time=datetime(
+                        2026, 7, 27, 23, 30, tzinfo=timezone.utc
+                    ),
+                )
+
+                self.assertIn(
+                    "lease ownership verification must be within run envelope lifetime",
+                    errors,
+                )
+
+    def test_handed_off_resume_requires_completed_handoff_event(self):
+        checkpoint = self.load_vector("checkpoint")
+        checkpoint["lease"]["status"] = "handed_off"
+        checkpoint["lease"]["previous_worker_active"] = False
+        checkpoint["lease"]["successor_resume_authorized"] = True
+        checkpoint["lease"][
+            "ownership_verified_at"
+        ] = "2026-07-27T23:00:00Z"
+        checkpoint["checkpoint_digest"] = contracts._canonical_sha256(
+            checkpoint, "checkpoint_digest"
+        )
+        event = self.load_vector("append_only_event")
+
+        errors = contracts.validate_checkpoint_event_linkage(
+            checkpoint,
+            event,
+            reference_time=datetime(2026, 7, 27, 23, 30, tzinfo=timezone.utc),
+        )
+
+        self.assertIn(
+            "handed-off resume requires a handoff_completed event", errors
+        )
+
+    def test_handed_off_resume_accepts_completed_handoff_event(self):
+        checkpoint = self.load_vector("checkpoint")
+        checkpoint["lease"]["status"] = "handed_off"
+        checkpoint["lease"]["previous_worker_active"] = False
+        checkpoint["lease"]["successor_resume_authorized"] = True
+        checkpoint["lease"][
+            "ownership_verified_at"
+        ] = "2026-07-27T23:00:00Z"
+        event = self.load_vector("append_only_event")
+        event["event_type"] = "handoff_completed"
+        event["event_digest"] = contracts._canonical_sha256(
+            event, "event_digest"
+        )
+        checkpoint["last_event_digest"] = event["event_digest"]
+        checkpoint["checkpoint_digest"] = contracts._canonical_sha256(
+            checkpoint, "checkpoint_digest"
+        )
+
+        errors = contracts.validate_checkpoint_event_linkage(
+            checkpoint,
+            event,
+            reference_time=datetime(2026, 7, 27, 23, 30, tzinfo=timezone.utc),
+        )
+
+        self.assertEqual(errors, [])
 
     def test_checkpoint_event_rejects_unrelated_actor(self):
         checkpoint = self.load_vector("checkpoint")

@@ -373,16 +373,37 @@ def validate_contract_instance(
         created_at = _parse_timestamp(instance["created_at"])
         lease = instance["lease"]
         lease_expires_at = _parse_timestamp(lease["expires_at"])
+        ownership_verified_at = _parse_timestamp(
+            lease["ownership_verified_at"]
+        )
         now = reference_time or datetime.now(timezone.utc)
         now_utc = now.astimezone(timezone.utc)
         if created_at is not None and created_at > now_utc:
             errors.append("checkpoint creation is in the future")
         if (
-            created_at is not None
+            lease["status"] == "active"
+            and created_at is not None
             and lease_expires_at is not None
             and lease_expires_at <= created_at
         ):
             errors.append("checkpoint lease expiry must follow creation")
+        if (
+            lease["status"] == "expired"
+            and created_at is not None
+            and lease_expires_at is not None
+            and lease_expires_at > created_at
+        ):
+            errors.append(
+                "expired checkpoint lease expiry must not follow checkpoint creation"
+            )
+        if (
+            created_at is not None
+            and ownership_verified_at is not None
+            and ownership_verified_at > created_at
+        ):
+            errors.append(
+                "lease ownership verification must not follow checkpoint creation"
+            )
         if (
             lease["status"] == "active"
             and lease_expires_at is not None
@@ -416,6 +437,16 @@ def validate_contract_instance(
             and lease["successor_resume_authorized"]
         ):
             errors.append("closed lease cannot authorize successor resume")
+        if (
+            lease["status"] == "expired"
+            and lease["successor_resume_authorized"]
+            and ownership_verified_at is not None
+            and lease_expires_at is not None
+            and ownership_verified_at < lease_expires_at
+        ):
+            errors.append(
+                "expired recovery requires post-expiry ownership verification"
+            )
     elif name == "bounded_discovery_result":
         if len(instance["issues"]) > instance["snapshot_limit"]:
             errors.append("discovery issues must not exceed snapshot_limit")
@@ -723,6 +754,15 @@ def validate_checkpoint_event_linkage(
     )
     if event.get("actor") not in authorized_actors:
         errors.append("event actor must be authorized by checkpoint lease")
+    lease = checkpoint["lease"]
+    if (
+        lease["status"] == "handed_off"
+        and lease["successor_resume_authorized"]
+        and event.get("event_type") != "handoff_completed"
+    ):
+        errors.append(
+            "handed-off resume requires a handoff_completed event"
+        )
     checkpoint_created_at = _parse_timestamp(checkpoint.get("created_at"))
     event_timestamp = _parse_timestamp(event.get("timestamp"))
     if (
@@ -817,6 +857,9 @@ def validate_checkpoint_envelope_linkage(
 
     checkpoint_created_at = _parse_timestamp(checkpoint["created_at"])
     lease_expires_at = _parse_timestamp(checkpoint["lease"]["expires_at"])
+    ownership_verified_at = _parse_timestamp(
+        checkpoint["lease"]["ownership_verified_at"]
+    )
     envelope_created_at = _parse_timestamp(envelope["created_at"])
     envelope_expires_at = _parse_timestamp(envelope["expires_at"])
     if (
@@ -838,6 +881,19 @@ def validate_checkpoint_envelope_linkage(
         and lease_expires_at > envelope_expires_at
     ):
         errors.append("checkpoint lease must not outlive run envelope")
+    if (
+        ownership_verified_at is not None
+        and envelope_created_at is not None
+        and envelope_expires_at is not None
+        and not (
+            envelope_created_at
+            <= ownership_verified_at
+            < envelope_expires_at
+        )
+    ):
+        errors.append(
+            "lease ownership verification must be within run envelope lifetime"
+        )
     return errors
 
 
