@@ -8,9 +8,9 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from verify_evidence_freshness import validate_readback
 
-AO2_VERSION = "v0.5.3"
-AO2_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.3"
-AO2_TAG_TARGET = "947e566bd3f54ed902f3c14fc0c90e21a24359bc"
+AO2_VERSION = "v0.5.5"
+AO2_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.5"
+AO2_TAG_TARGET = "dbaca8904564c4118b27a43356b7968725cd546e"
 CONTROL_PLANE_VERSION = "v0.1.18"
 CONTROL_PLANE_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.18"
 CONTROL_PLANE_TAG_TARGET = "6257ec23fde726d4a0133c5b62231881fb6aaa9a"

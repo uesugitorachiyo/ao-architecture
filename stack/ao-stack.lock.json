@@ -1,14 +1,14 @@
 {
   "schema": "ao.architecture.stack-lock.v0.1",
   "status": "current",
-  "generated_at_utc": "2026-07-21T06:17:18Z",
+  "generated_at_utc": "2026-07-28T01:41:27Z",
   "source_kind": "checked_out_git",
   "repository_count": 14,
   "repositories": [
     {
       "repository": "ao-architecture",
       "branch": "main",
-      "commit": "a52f851f14c2384bc84d23d8c6f843a631dd9c33",
+      "commit": "eab0f41328c64d99e80678b7bd803d64bb591371",
       "detected_version": "unversioned",
       "maturity": "documentation_source_of_truth",
       "current_boundary": "architecture_repository",
@@ -22,7 +22,7 @@
     {
       "repository": "ao-mission",
       "branch": "main",
-      "commit": "ab1f90b3da22799e15ef2c81583b836fe3672451",
+      "commit": "c39bfd6e2b185ae1934de0e907f206e842d66bf1",
       "detected_version": "v0.1.0",
       "maturity": "alpha",
       "current_boundary": "independent_repository",
@@ -50,7 +50,7 @@
     {
       "repository": "ao-atlas",
       "branch": "main",
-      "commit": "fcacfeea04d24e9d7d3bcb8190e23f4122c1c709",
+      "commit": "428d6daaa1e5d8ff5486f90f1b5e34b987a93af6",
       "detected_version": "v0.1.0",
       "maturity": "late_alpha",
       "current_boundary": "independent_repository",
@@ -64,7 +64,7 @@
     {
       "repository": "ao-foundry",
       "branch": "main",
-      "commit": "5c26db997f49fd22855740f4805aad59ecb6e131",
+      "commit": "7bd08c588dc8fcc8e091c07b1e9df073d5253d24",
       "detected_version": "unversioned",
       "maturity": "pre_alpha",
       "current_boundary": "independent_repository",
@@ -78,7 +78,7 @@
     {
       "repository": "ao-forge",
       "branch": "main",
-      "commit": "da1d3a5b8692f6a9121c4ad18a3643fab6ef9ef4",
+      "commit": "b1403cc47d254e5b9f5414dc3ef04ee8809d8466",
       "detected_version": "v0.1.3",
       "maturity": "alpha",
       "current_boundary": "independent_repository",
@@ -92,7 +92,7 @@
     {
       "repository": "ao-covenant",
       "branch": "main",
-      "commit": "8c245b1f35fc9ca0af212f801fe1a0a3991327ac",
+      "commit": "296e196bf83bab0567b2c9c410573d5014bf8ab6",
       "detected_version": "v0.1.0",
       "maturity": "local_beta",
       "current_boundary": "independent_repository",
@@ -106,8 +106,8 @@
     {
       "repository": "ao2",
       "branch": "main",
-      "commit": "947e566bd3f54ed902f3c14fc0c90e21a24359bc",
-      "detected_version": "v0.5.3",
+      "commit": "0598920c5f2712966c4ec8ae415f1bbb91e76209",
+      "detected_version": "v0.5.5",
       "maturity": "stable_public_release",
       "current_boundary": "independent_repository",
       "proposed_boundary": "ao2",
@@ -120,7 +120,7 @@
     {
       "repository": "ao2-control-plane",
       "branch": "main",
-      "commit": "6257ec23fde726d4a0133c5b62231881fb6aaa9a",
+      "commit": "78c4f70c3795da90751951fb69229d662c909a11",
       "detected_version": "v0.1.18",
       "maturity": "stable_single_node_observer",
       "current_boundary": "independent_repository",
@@ -134,7 +134,7 @@
     {
       "repository": "ao-command",
       "branch": "main",
-      "commit": "0bcadf5701fdac88f9fd792cba3a9a6686de16e5",
+      "commit": "cc6e91fc8d5c5226a41517024cb8a906e5f9c902",
       "detected_version": "v0.1.1",
       "maturity": "alpha_early_beta",
       "current_boundary": "independent_repository",
@@ -190,7 +190,7 @@
     {
       "repository": "ao-promoter",
       "branch": "main",
-      "commit": "d097ab1bd206c50e20cc3562d3cfa99003052301",
+      "commit": "4dedbbbc1eb65d75deed7f0857b40e2d75feffc1",
       "detected_version": "unversioned",
       "maturity": "alpha",
       "current_boundary": "independent_repository",

@@ -18,9 +18,9 @@ AO2_PROMOTION_PLAN_DIGEST = "fc0a50b716a2e6866fb442076ec83b0a119866effe3b9ed2cba
 AO2_PHYSICAL_WINDOWS_EVIDENCE_DIGEST = "107c49f3b0fd4921a4615b359fc4e3e7616dfdc37b8941ccf4a53ccd9242a5ab"
 AO2_EVIDENCE_PATH = "ao2-doctor-v0.5.5-release-20260727T174627Z/canonical-closure-regression-20260727T191907Z/canonical-summary.json"
 AO2_ASSET_SHA256 = {
-    "ao2-v0.5.5-linux-x86_64.tar.gz": "c34aa59f6abc9069d77e51632660a14116ebfad6a77ad8ef8e162fccaf13db95",
-    "ao2-v0.5.5-macos-aarch64.tar.gz": "05476d49d3036512aea4fa97ae17af96c84e99dcbb86b78500790112d9c2db3a",
-    "ao2-v0.5.5-windows-x86_64.zip": "58374127f50d80716a222f59491070fdf5e1882f088d448ddc90cb2c2a3b8ab0",
+    "ao2-0.5.5-linux-x86_64.tar.gz": "c34aa59f6abc9069d77e51632660a14116ebfad6a77ad8ef8e162fccaf13db95",
+    "ao2-0.5.5-macos-aarch64.tar.gz": "05476d49d3036512aea4fa97ae17af96c84e99dcbb86b78500790112d9c2db3a",
+    "ao2-0.5.5-windows-x86_64.tar.gz": "58374127f50d80716a222f59491070fdf5e1882f088d448ddc90cb2c2a3b8ab0",
     "promotion-plan.json": AO2_PROMOTION_PLAN_DIGEST,
     "SHA256SUMS": "152d991f0c15eb8c17996873b8849f3a2dc6d45557328f36aee32468b9423b78",
 }
