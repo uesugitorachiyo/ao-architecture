@@ -263,7 +263,10 @@ def validate_contract_instance(
             errors.append(
                 "github action approval lifetime must not exceed 24 hours"
             )
-        if expires_at is not None and expires_at <= now.astimezone(timezone.utc):
+        now_utc = now.astimezone(timezone.utc)
+        if approved_at is not None and approved_at > now_utc:
+            errors.append("github action approval is in the future")
+        if expires_at is not None and expires_at <= now_utc:
             errors.append("github action digest approval is stale")
         if any(
             check["head_sha"] != instance["head_sha"]
@@ -481,9 +484,12 @@ def validate_contract_instance(
         ):
             errors.append("run envelope expiry exceeds wall_clock_seconds")
         now = reference_time or datetime.now(timezone.utc)
+        now_utc = now.astimezone(timezone.utc)
+        if created_at is not None and created_at > now_utc:
+            errors.append("run envelope creation is in the future")
         if (
             expires_at is not None
-            and expires_at <= now.astimezone(timezone.utc)
+            and expires_at <= now_utc
         ):
             errors.append("run envelope is expired")
         lineage = instance["lineage"]
@@ -812,6 +818,49 @@ def validate_action_digest_links(
         errors.append("reviewer subject must match action diff digest")
     if reviewer["deterministic_tests_primary"] is not True:
         errors.append("action review must use deterministic tests as primary evidence")
+
+    envelope_created_at = _parse_timestamp(envelope["created_at"])
+    action_approved_at = _parse_timestamp(action["approved_at"])
+    evidence_timestamps = (
+        (
+            "candidate",
+            _parse_timestamp(candidate["decided_at"]),
+            "candidate decision",
+        ),
+        (
+            "governance",
+            _parse_timestamp(governance["decided_at"]),
+            "governance decision",
+        ),
+        (
+            "reviewer",
+            _parse_timestamp(reviewer["reviewed_at"]),
+            "reviewer decision",
+        ),
+    )
+    if (
+        envelope_created_at is not None
+        and action_approved_at is not None
+        and action_approved_at < envelope_created_at
+    ):
+        errors.append("action approval must not predate envelope creation")
+    for source, evidence_at, evidence_name in evidence_timestamps:
+        if (
+            envelope_created_at is not None
+            and evidence_at is not None
+            and evidence_at < envelope_created_at
+        ):
+            errors.append(
+                f"{evidence_name} must not predate envelope creation"
+            )
+        if (
+            action_approved_at is not None
+            and evidence_at is not None
+            and action_approved_at < evidence_at
+        ):
+            errors.append(
+                f"action approval must not predate {source} decision"
+            )
 
     merge = governance["merge"]
     if action_name == "push_operator_fork":

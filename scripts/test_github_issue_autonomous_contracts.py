@@ -384,6 +384,25 @@ class GitHubIssueAutonomousContractsTest(unittest.TestCase):
 
         self.assertIn("run envelope is expired", errors)
 
+    def test_envelope_rejects_future_creation_against_current_time(self):
+        envelope = self.load_vector("immutable_run_envelope")
+        now = datetime.now(timezone.utc)
+        envelope["created_at"] = (now + timedelta(hours=1)).isoformat().replace(
+            "+00:00", "Z"
+        )
+        envelope["expires_at"] = (now + timedelta(hours=2)).isoformat().replace(
+            "+00:00", "Z"
+        )
+        envelope["canonical_digest"] = contracts._canonical_sha256(
+            envelope, "canonical_digest"
+        )
+
+        errors = contracts.validate_contract_instance(
+            "immutable_run_envelope", envelope
+        )
+
+        self.assertIn("run envelope creation is in the future", errors)
+
     def test_envelope_binds_url_repository_and_trigger_mode(self):
         envelope = self.load_vector("immutable_run_envelope")
         envelope["trigger"]["repository"] = "other/repository"
@@ -1119,6 +1138,149 @@ class GitHubIssueAutonomousContractsTest(unittest.TestCase):
             ),
             errors,
         )
+
+    def test_action_rejects_future_approval_against_current_time(self):
+        action = self.load_vector("github_action_digest")
+        now = datetime.now(timezone.utc)
+        action["approved_at"] = (now + timedelta(hours=1)).isoformat().replace(
+            "+00:00", "Z"
+        )
+        action["expires_at"] = (now + timedelta(hours=2)).isoformat().replace(
+            "+00:00", "Z"
+        )
+        action["action_digest"] = contracts._canonical_sha256(
+            action, "action_digest"
+        )
+
+        errors = contracts.validate_contract_instance(
+            "github_action_digest", action
+        )
+
+        self.assertIn("github action approval is in the future", errors)
+
+    def test_action_approval_must_follow_each_authority_source(self):
+        cases = (
+            (
+                "envelope",
+                "2026-07-27T15:59:00Z",
+                "2026-07-28T15:59:00Z",
+                "action approval must not predate envelope creation",
+            ),
+            (
+                "candidate",
+                "2026-07-27T21:59:00Z",
+                "2026-07-28T21:59:00Z",
+                "action approval must not predate candidate decision",
+            ),
+            (
+                "governance",
+                "2026-07-27T23:09:00Z",
+                "2026-07-28T23:09:00Z",
+                "action approval must not predate governance decision",
+            ),
+            (
+                "reviewer",
+                "2026-07-27T23:14:00Z",
+                "2026-07-28T23:14:00Z",
+                "action approval must not predate reviewer decision",
+            ),
+        )
+        for source, approved_at, expires_at, expected in cases:
+            with self.subTest(source=source):
+                action, envelope, candidate, governance, reviewer = (
+                    self.coherent_action_family()
+                )
+                action["approved_at"] = approved_at
+                action["expires_at"] = expires_at
+                action["action_digest"] = contracts._canonical_sha256(
+                    action, "action_digest"
+                )
+
+                errors = contracts.validate_action_digest_links(
+                    action,
+                    envelope,
+                    candidate,
+                    governance,
+                    reviewer,
+                    reference_time=datetime(
+                        2026, 7, 27, 23, 30, tzinfo=timezone.utc
+                    ),
+                )
+
+                self.assertIn(expected, errors)
+
+    def test_authority_evidence_must_not_predate_envelope_creation(self):
+        cases = (
+            (
+                "candidate",
+                "decided_at",
+                "candidate decision must not predate envelope creation",
+            ),
+            (
+                "governance",
+                "decided_at",
+                "governance decision must not predate envelope creation",
+            ),
+            (
+                "reviewer",
+                "reviewed_at",
+                "reviewer decision must not predate envelope creation",
+            ),
+        )
+        for source, field, expected in cases:
+            with self.subTest(source=source):
+                action, envelope, candidate, governance, reviewer = (
+                    self.coherent_action_family()
+                )
+                documents = {
+                    "candidate": (candidate, "decision_digest"),
+                    "governance": (governance, "decision_digest"),
+                    "reviewer": (reviewer, "review_digest"),
+                }
+                document, digest_field = documents[source]
+                document[field] = "2026-07-27T15:59:00Z"
+                document[digest_field] = contracts._canonical_sha256(
+                    document, digest_field
+                )
+                action[
+                    {
+                        "candidate": "candidate_decision_digest",
+                        "governance": "governance_decision_digest",
+                        "reviewer": "reviewer_independence_digest",
+                    }[source]
+                ] = document[digest_field]
+                action["action_digest"] = contracts._canonical_sha256(
+                    action, "action_digest"
+                )
+
+                errors = contracts.validate_action_digest_links(
+                    action,
+                    envelope,
+                    candidate,
+                    governance,
+                    reviewer,
+                    reference_time=datetime(
+                        2026, 7, 27, 23, 30, tzinfo=timezone.utc
+                    ),
+                )
+
+                self.assertIn(expected, errors)
+
+    def test_valid_authority_chronology_accepts_reference_at_approval(self):
+        action, envelope, candidate, governance, reviewer = (
+            self.coherent_action_family()
+        )
+
+        errors = contracts.validate_action_digest_links(
+            action,
+            envelope,
+            candidate,
+            governance,
+            reviewer,
+            reference_time=datetime(2026, 7, 27, 23, 20, tzinfo=timezone.utc),
+        )
+
+        self.assertEqual(errors, [])
 
     def test_action_approval_lifetime_is_at_most_twenty_four_hours(self):
         action = self.load_vector("github_action_digest")
