@@ -13,7 +13,26 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MANIFEST = ROOT / "stack" / "current-release-manifest.json"
 DEFAULT_LOCK = ROOT / "stack" / "ao-stack.lock.json"
 COMMIT_RE = re.compile(r"^[0-9a-f]{40}$")
-DIGEST_RE = re.compile(r"^[0-9a-f]{64}$")
+VERIFIED_AO2_V055 = {
+    "release_url": "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.5",
+    "tag_target": "dbaca8904564c4118b27a43356b7968725cd546e",
+    "current_main_commit": "0598920c5f2712966c4ec8ae415f1bbb91e76209",
+    "release_workflow_run": "https://github.com/uesugitorachiyo/ao2/actions/runs/30293757188",
+    "post_release_workflow_run": "https://github.com/uesugitorachiyo/ao2/actions/runs/30294693422",
+    "consumer_smoke_workflow_run": "https://github.com/uesugitorachiyo/ao2/actions/runs/30294695399",
+    "approved_manifest_digest": "8268de6f7ccf2f9a194b9123df7a3845cb4660bc10476f6da1df7a5859f48574",
+    "promotion_plan_digest": "fc0a50b716a2e6866fb442076ec83b0a119866effe3b9ed2cbaab85b014c6c40",
+    "physical_windows_evidence_digest": "107c49f3b0fd4921a4615b359fc4e3e7616dfdc37b8941ccf4a53ccd9242a5ab",
+    "evidence_path": "ao2-doctor-v0.5.5-release-20260727T174627Z/canonical-closure-regression-20260727T191907Z/canonical-summary.json",
+    "asset_sha256": {
+        "ao2-0.5.5-linux-x86_64.tar.gz": "c34aa59f6abc9069d77e51632660a14116ebfad6a77ad8ef8e162fccaf13db95",
+        "ao2-0.5.5-macos-aarch64.tar.gz": "05476d49d3036512aea4fa97ae17af96c84e99dcbb86b78500790112d9c2db3a",
+        "ao2-0.5.5-windows-x86_64.tar.gz": "58374127f50d80716a222f59491070fdf5e1882f088d448ddc90cb2c2a3b8ab0",
+        "promotion-plan.json": "fc0a50b716a2e6866fb442076ec83b0a119866effe3b9ed2cbaab85b014c6c40",
+        "SHA256SUMS": "152d991f0c15eb8c17996873b8849f3a2dc6d45557328f36aee32468b9423b78",
+    },
+    "windows_smoke_job": "https://github.com/uesugitorachiyo/ao2/actions/runs/30293757188",
+}
 
 
 def require_string(errors: list[str], obj: dict[str, Any], field: str, prefix: str) -> str:
@@ -72,18 +91,12 @@ def validate_manifest(document: dict[str, Any]) -> list[str]:
     if source and "public GitHub releases" not in source:
         errors.append("source_of_truth must reference public GitHub releases")
 
-    errors.extend(validate_release_component(document, "ao2", "ao2", "v0.5.3", 5))
+    errors.extend(validate_release_component(document, "ao2", "ao2", "v0.5.5", 5))
     ao2 = document.get("ao2", {})
     if isinstance(ao2, dict):
-        digest = require_string(errors, ao2, "approved_manifest_digest", "ao2")
-        if digest and not DIGEST_RE.fullmatch(digest):
-            errors.append("ao2.approved_manifest_digest must be a 64-character lowercase hexadecimal digest")
-        evidence_path = require_string(errors, ao2, "evidence_path", "ao2")
-        if evidence_path and not evidence_path.endswith(".json"):
-            errors.append("ao2.evidence_path must point to a JSON publication verification result")
-        windows_smoke_job = require_string(errors, ao2, "windows_smoke_job", "ao2")
-        if windows_smoke_job and "github.com/uesugitorachiyo/ao2/actions/runs/" not in windows_smoke_job:
-            errors.append("ao2.windows_smoke_job must point to the AO2 hosted Windows smoke job")
+        for field, expected in VERIFIED_AO2_V055.items():
+            if ao2.get(field) != expected:
+                errors.append(f"ao2.{field} must match the verified v0.5.5 release")
 
     errors.extend(validate_release_component(document, "control_plane", "ao2-control-plane", "v0.1.18", 7))
     control_plane = document.get("control_plane", {})

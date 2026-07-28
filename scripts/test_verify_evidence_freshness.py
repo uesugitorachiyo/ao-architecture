@@ -8,12 +8,16 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from verify_evidence_freshness import validate_readback
 
-AO2_VERSION = "v0.5.3"
-AO2_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.3"
-AO2_TAG_TARGET = "947e566bd3f54ed902f3c14fc0c90e21a24359bc"
+AO2_VERSION = "v0.5.5"
+AO2_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.5"
+AO2_TAG_TARGET = "dbaca8904564c4118b27a43356b7968725cd546e"
 CONTROL_PLANE_VERSION = "v0.1.18"
 CONTROL_PLANE_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.18"
 CONTROL_PLANE_TAG_TARGET = "6257ec23fde726d4a0133c5b62231881fb6aaa9a"
+AO2_COMPATIBILITY_EVIDENCE_VERSION = "v0.5.1"
+AO2_COMPATIBILITY_EVIDENCE_PATH = "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.1.json"
+AO2_COMPATIBILITY_EVIDENCE_COMMIT = "5b568830360baac6198a653737f60abab393eec7"
+AO2_STALE_REASON_CODE = "AO2_COMPATIBILITY_EVIDENCE_VERSION_STALE"
 
 
 def valid_manifest():
@@ -86,13 +90,33 @@ def valid_matrix():
                     "merge_commit": "76303c122352b1deac63670e203bdb941ac4a3cc",
                 },
             },
+            {
+                "producer": "ao2",
+                "consumer": "ao2-control-plane",
+                "contract_family": "execution_to_observation",
+                "producer_contract": "execution_receipt",
+                "consumer_contract": "evidence_event",
+                "compatibility_status": "tested_current_release_pair",
+                "canonical_vector": {
+                    "repository": "ao2",
+                    "path": AO2_COMPATIBILITY_EVIDENCE_PATH,
+                    "pr": "https://github.com/uesugitorachiyo/ao2/pull/288",
+                    "merge_commit": AO2_COMPATIBILITY_EVIDENCE_COMMIT,
+                },
+                "consumer_test": {
+                    "repository": "ao2-control-plane",
+                    "path": "crates/ao2-cp-server/tests/compatibility_vectors.rs",
+                    "pr": "https://github.com/uesugitorachiyo/ao2-control-plane/pull/100",
+                    "merge_commit": "3e57d80c6be05490930294a7d3ab4664d2856b55",
+                },
+            },
         ],
         "coverage": {
-            "edge_count": 2,
+            "edge_count": 3,
             "uncovered_owner_pairs": 0,
             "compatibility_gate_complete": False,
-            "canonical_vector_count": 2,
-            "consumer_test_count": 2,
+            "canonical_vector_count": 3,
+            "consumer_test_count": 3,
         },
         "safety": {
             "promotion_granted": False,
@@ -105,7 +129,7 @@ def valid_matrix():
 def valid_readback():
     return {
         "schema": "ao.architecture.evidence-freshness-readback.v0.1",
-        "status": "fresh",
+        "status": "stale",
         "current_public_release_pair": {
             "ao2": {
                 "version": AO2_VERSION,
@@ -126,18 +150,29 @@ def valid_readback():
         },
         "compatibility_matrix": {
             "matrix_status": "proposed",
-            "edge_count": 2,
-            "tested_edge_count": 2,
-            "canonical_vector_count": 2,
-            "consumer_test_count": 2,
+            "edge_count": 3,
+            "tested_edge_count": 3,
+            "fresh_edge_count": 2,
+            "stale_edge_count": 1,
+            "canonical_vector_count": 3,
+            "consumer_test_count": 3,
             "proposed_edge_count": 0,
             "compatibility_gate_complete": False,
         },
         "compatibility_gate": {
-            "state": "ready",
+            "state": "blocked",
             "activation_authorized": False,
             "activation_evidence": "",
-            "reason": "fresh evidence is present; activation is not authorized in Month 1",
+            "reason_code": AO2_STALE_REASON_CODE,
+            "reason": "AO2 v0.5.5 is current, but execution-to-observation compatibility evidence remains pinned to v0.5.1.",
+            "details": {
+                "edge": "ao2->ao2-control-plane:execution_to_observation",
+                "current_ao2_version": AO2_VERSION,
+                "compatibility_evidence_version": AO2_COMPATIBILITY_EVIDENCE_VERSION,
+                "canonical_vector_path": AO2_COMPATIBILITY_EVIDENCE_PATH,
+                "canonical_vector_merge_commit": AO2_COMPATIBILITY_EVIDENCE_COMMIT,
+                "required_resolution": "separately_verified_unchanged_contract_bridge_or_refreshed_fixture",
+            },
             "allowed_states": ["false", "ready", "active", "blocked", "denied"],
             "readiness_criteria": {
                 "release_metadata_matches_manifest": True,
@@ -145,6 +180,8 @@ def valid_readback():
                 "tested_edges_have_vectors": True,
                 "tested_edges_have_consumer_tests": True,
                 "local_architecture_vectors_exist": True,
+                "compatibility_evidence_current": False,
+                "all_tested_edges_fresh": False,
                 "external_beta_launched": False,
                 "promotion_requested": False,
                 "promotion_granted": False,
@@ -168,7 +205,7 @@ def valid_readback():
 
 
 class VerifyEvidenceFreshnessTest(unittest.TestCase):
-    def test_accepts_fresh_gate_ready_readback(self):
+    def test_accepts_truthful_stale_blocked_readback(self):
         errors = validate_readback(
             valid_readback(),
             valid_manifest(),
@@ -176,6 +213,48 @@ class VerifyEvidenceFreshnessTest(unittest.TestCase):
             existing_paths={"stack/fixtures/compatibility/architecture-route-context-v0.1.json"},
         )
         self.assertEqual(errors, [])
+
+    def test_rejects_fresh_claim_when_current_ao2_outpaces_bound_evidence(self):
+        readback = valid_readback()
+        readback["status"] = "fresh"
+        readback["compatibility_gate"]["state"] = "ready"
+        readback["compatibility_gate"]["readiness_criteria"]["compatibility_evidence_current"] = True
+        readback["compatibility_gate"]["readiness_criteria"]["all_tested_edges_fresh"] = True
+        errors = validate_readback(
+            readback,
+            valid_manifest(),
+            valid_matrix(),
+            existing_paths={"stack/fixtures/compatibility/architecture-route-context-v0.1.json"},
+        )
+        self.assertIn(
+            "AO2 compatibility evidence v0.5.1 is stale for current release v0.5.5; readback must be stale and gate blocked",
+            errors,
+        )
+
+    def test_rejects_nonexistent_ao2_evidence_path_and_fabricated_commit(self):
+        matrix = valid_matrix()
+        edge = matrix["edges"][2]
+        edge["canonical_vector"]["path"] = "tests/fixtures/compatibility/ao2-execution-receipt-v0.0.1.json"
+        edge["canonical_vector"]["merge_commit"] = "f" * 40
+        errors = validate_readback(
+            valid_readback(),
+            valid_manifest(),
+            matrix,
+            existing_paths={"stack/fixtures/compatibility/architecture-route-context-v0.1.json"},
+        )
+        self.assertIn("AO2 compatibility canonical vector path is not the verified evidence path", errors)
+        self.assertIn("AO2 compatibility canonical vector merge commit is not the verified evidence commit", errors)
+
+    def test_rejects_ao2_compatibility_evidence_without_bound_version(self):
+        matrix = valid_matrix()
+        matrix["edges"][2]["canonical_vector"]["path"] = "tests/fixtures/compatibility/ao2-execution-receipt.json"
+        errors = validate_readback(
+            valid_readback(),
+            valid_manifest(),
+            matrix,
+            existing_paths={"stack/fixtures/compatibility/architecture-route-context-v0.1.json"},
+        )
+        self.assertIn("AO2 compatibility canonical vector path must bind an evidence version", errors)
 
     def test_rejects_public_metadata_drift(self):
         readback = valid_readback()

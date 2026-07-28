@@ -49,10 +49,12 @@ def validate_operator_workflow(document: str) -> list[str]:
     lower = normalized.lower()
 
     required_phrases = {
-        "document must mention AO2 v0.5.3": "ao2 v0.5.3",
+        "document must mention AO2 v0.5.5": "ao2 v0.5.5",
         "document must mention AO2 Control Plane v0.1.18": "ao2 control plane v0.1.18",
         "document must mention 16 tested compatibility edges": "16 tested",
-        "document must state compatibility gate is ready, not active": "compatibility gate is ready, not active",
+        "document must state compatibility gate is blocked, not active": "compatibility gate is blocked, not active",
+        "document must state 15 compatibility edges are fresh": "fifteen edges are fresh",
+        "document must state one AO2 edge is stale": "ao2 execution-to-observation edge is stale",
         "document must state RSI remains denied": "rsi remains denied",
         "document must state live self-modification is denied": "live self-modification is denied",
         "document must state provider pilot did not run": "provider pilot did not run",

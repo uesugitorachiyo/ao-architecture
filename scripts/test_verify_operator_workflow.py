@@ -14,16 +14,16 @@ class VerifyOperatorWorkflowTest(unittest.TestCase):
     def test_rejects_missing_current_release_pair_and_denied_states(self):
         doc = "# Operator Workflow\n\nCompatibility evidence is present.\n"
         errors = validate_operator_workflow(doc)
-        self.assertIn("document must mention AO2 v0.5.3", errors)
+        self.assertIn("document must mention AO2 v0.5.5", errors)
         self.assertIn("document must mention AO2 Control Plane v0.1.18", errors)
-        self.assertIn("document must state compatibility gate is ready, not active", errors)
+        self.assertIn("document must state compatibility gate is blocked, not active", errors)
         self.assertIn("document must state RSI remains denied", errors)
         self.assertIn("document must state promotion is not requested or granted", errors)
 
     def test_rejects_missing_operator_steps_and_gates(self):
         doc = "\n".join(
             [
-                "AO2 v0.5.3",
+                "AO2 v0.5.5",
                 "AO2 Control Plane v0.1.18",
                 "compatibility gate remains false",
                 "RSI remains denied",
@@ -38,13 +38,13 @@ class VerifyOperatorWorkflowTest(unittest.TestCase):
         self.assertIn("document must include operator step choose safe next work", errors)
         self.assertIn("document must include support evidence field exact command", errors)
 
-    def test_rejects_stale_false_gate_language(self):
+    def test_rejects_stale_ready_gate_language(self):
         doc = "\n".join(
             [
-                "AO2 v0.5.3",
+                "AO2 v0.5.5",
                 "AO2 Control Plane v0.1.18",
                 "16 tested compatibility edges",
-                "compatibility gate remains false",
+                "compatibility gate is ready, not active",
                 "RSI remains denied",
                 "live self-modification is denied",
                 "provider pilot did not run",
@@ -79,7 +79,7 @@ class VerifyOperatorWorkflowTest(unittest.TestCase):
             ]
         )
         errors = validate_operator_workflow(doc)
-        self.assertIn("document must state compatibility gate is ready, not active", errors)
+        self.assertIn("document must state compatibility gate is blocked, not active", errors)
 
 
 if __name__ == "__main__":

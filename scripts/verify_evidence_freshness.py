@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Any
@@ -13,6 +14,11 @@ DEFAULT_READBACK = ROOT / "stack" / "evidence-freshness-readback.json"
 DEFAULT_MANIFEST = ROOT / "stack" / "current-release-manifest.json"
 DEFAULT_MATRIX = ROOT / "stack" / "contract-compatibility-matrix.json"
 GATE_STATES = {"false", "ready", "active", "blocked", "denied"}
+AO2_COMPATIBILITY_EVIDENCE_VERSION = "v0.5.1"
+AO2_COMPATIBILITY_EVIDENCE_PATH = "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.1.json"
+AO2_COMPATIBILITY_EVIDENCE_COMMIT = "5b568830360baac6198a653737f60abab393eec7"
+AO2_STALE_REASON_CODE = "AO2_COMPATIBILITY_EVIDENCE_VERSION_STALE"
+AO2_EVIDENCE_VERSION_RE = re.compile(r"ao2-execution-receipt-(v[0-9]+\.[0-9]+\.[0-9]+)\.json$")
 FALSE_BOUNDARIES = (
     "external_beta_launched",
     "promotion_requested",
@@ -60,7 +66,11 @@ def compare_release_component(
             errors.append(f"{readback_key}.{field} must match current release manifest")
 
 
-def validate_gate(errors: list[str], gate: dict[str, Any] | None) -> None:
+def validate_gate(
+    errors: list[str],
+    gate: dict[str, Any] | None,
+    compatibility_gap: dict[str, str] | None = None,
+) -> None:
     if not isinstance(gate, dict):
         errors.append("compatibility_gate is required")
         return
@@ -107,6 +117,21 @@ def validate_gate(errors: list[str], gate: dict[str, Any] | None) -> None:
     for field in false_criteria:
         if criteria.get(field) is not False:
             errors.append(f"readiness_criteria.{field} must be false")
+    for field in ("compatibility_evidence_current", "all_tested_edges_fresh"):
+        if criteria.get(field) not in (True, False):
+            errors.append(f"readiness_criteria.{field} must be boolean")
+
+    if compatibility_gap is not None:
+        if state != "blocked":
+            errors.append("compatibility_gate.state must be blocked while AO2 compatibility evidence is stale")
+        if gate.get("reason_code") != AO2_STALE_REASON_CODE:
+            errors.append(f"compatibility_gate.reason_code must be {AO2_STALE_REASON_CODE}")
+        if gate.get("details") != compatibility_gap:
+            errors.append("compatibility_gate.details must bind the stale AO2 compatibility evidence")
+        if criteria.get("compatibility_evidence_current") is not False:
+            errors.append("readiness_criteria.compatibility_evidence_current must be false")
+        if criteria.get("all_tested_edges_fresh") is not False:
+            errors.append("readiness_criteria.all_tested_edges_fresh must be false")
 
 
 def validate_boundaries(errors: list[str], boundaries: dict[str, Any] | None) -> None:
@@ -125,6 +150,7 @@ def validate_matrix_readback(
     readback_matrix: dict[str, Any] | None,
     matrix: dict[str, Any],
     existing_paths: set[str],
+    ao2_evidence_stale: bool,
 ) -> None:
     if not isinstance(readback_matrix, dict):
         errors.append("compatibility_matrix readback is required")
@@ -135,6 +161,8 @@ def validate_matrix_readback(
     expected_counts = {
         "edge_count": len(edges),
         "tested_edge_count": len(tested),
+        "fresh_edge_count": len(tested) - (1 if ao2_evidence_stale else 0),
+        "stale_edge_count": 1 if ao2_evidence_stale else 0,
         "canonical_vector_count": len(tested),
         "consumer_test_count": len(tested),
         "proposed_edge_count": proposed,
@@ -163,6 +191,61 @@ def validate_matrix_readback(
                 errors.append(f"local architecture vector missing: {path}")
 
 
+def validate_ao2_compatibility_binding(
+    errors: list[str],
+    matrix: dict[str, Any],
+    manifest: dict[str, Any],
+) -> tuple[bool, dict[str, str] | None]:
+    edges = matrix.get("edges") if isinstance(matrix.get("edges"), list) else []
+    matches = [
+        edge
+        for edge in edges
+        if isinstance(edge, dict)
+        and edge.get("producer") == "ao2"
+        and edge.get("consumer") == "ao2-control-plane"
+        and edge.get("contract_family") == "execution_to_observation"
+    ]
+    if len(matches) != 1:
+        errors.append("matrix must contain exactly one AO2 execution-to-observation compatibility edge")
+        return True, None
+
+    vector = matches[0].get("canonical_vector")
+    if not isinstance(vector, dict):
+        errors.append("AO2 compatibility canonical vector is required")
+        return True, None
+
+    path = vector.get("path")
+    merge_commit = vector.get("merge_commit")
+    if path != AO2_COMPATIBILITY_EVIDENCE_PATH:
+        errors.append("AO2 compatibility canonical vector path is not the verified evidence path")
+    if merge_commit != AO2_COMPATIBILITY_EVIDENCE_COMMIT:
+        errors.append("AO2 compatibility canonical vector merge commit is not the verified evidence commit")
+
+    match = AO2_EVIDENCE_VERSION_RE.search(path) if isinstance(path, str) else None
+    if match is None:
+        errors.append("AO2 compatibility canonical vector path must bind an evidence version")
+        evidence_version = ""
+    else:
+        evidence_version = match.group(1)
+    if evidence_version and evidence_version != AO2_COMPATIBILITY_EVIDENCE_VERSION:
+        errors.append("AO2 compatibility evidence version is not the verified historical version")
+
+    ao2_manifest = manifest.get("ao2")
+    current_version = ao2_manifest.get("version") if isinstance(ao2_manifest, dict) else ""
+    stale = not current_version or current_version != evidence_version
+    if not stale:
+        return False, None
+
+    return True, {
+        "edge": "ao2->ao2-control-plane:execution_to_observation",
+        "current_ao2_version": current_version,
+        "compatibility_evidence_version": evidence_version,
+        "canonical_vector_path": path if isinstance(path, str) else "",
+        "canonical_vector_merge_commit": merge_commit if isinstance(merge_commit, str) else "",
+        "required_resolution": "separately_verified_unchanged_contract_bridge_or_refreshed_fixture",
+    }
+
+
 def validate_readback(
     readback: dict[str, Any],
     manifest: dict[str, Any],
@@ -183,8 +266,21 @@ def validate_readback(
         compare_release_component(errors, current_pair, manifest, "ao2", "ao2")
         compare_release_component(errors, current_pair, manifest, "control_plane", "control_plane")
 
-    validate_matrix_readback(errors, readback.get("compatibility_matrix"), matrix, paths)
-    validate_gate(errors, readback.get("compatibility_gate"))
+    ao2_evidence_stale, compatibility_gap = validate_ao2_compatibility_binding(errors, matrix, manifest)
+    validate_matrix_readback(
+        errors,
+        readback.get("compatibility_matrix"),
+        matrix,
+        paths,
+        ao2_evidence_stale,
+    )
+    if compatibility_gap is not None and readback.get("status") != "stale":
+        errors.append(
+            f"AO2 compatibility evidence {compatibility_gap['compatibility_evidence_version']} "
+            f"is stale for current release {compatibility_gap['current_ao2_version']}; "
+            "readback must be stale and gate blocked"
+        )
+    validate_gate(errors, readback.get("compatibility_gate"), compatibility_gap)
     validate_boundaries(errors, readback.get("boundaries"))
     return errors
 
@@ -213,7 +309,8 @@ def main() -> int:
         return 1
     gate = readback["compatibility_gate"]["state"]
     edge_count = readback["compatibility_matrix"]["edge_count"]
-    print(f"verify_evidence_freshness.py: evidence fresh; gate={gate}; edges={edge_count}")
+    status = readback["status"]
+    print(f"verify_evidence_freshness.py: evidence {status}; gate={gate}; edges={edge_count}")
     return 0
 
 
