@@ -308,6 +308,35 @@
       "reproduction_candidate_limit": 10,
       "selected_candidate_limit": 1
     },
+    "github_action_execution": {
+      "push_operator_fork": {
+        "fork_lookup": "required_before_write",
+        "fork_absent": "create_then_exact_readback",
+        "fork_present": "reuse_only_exact_owner_parent_and_default_branch",
+        "branch_absent": "create_at_exact_approved_head",
+        "branch_present": "reuse_only_at_exact_approved_head",
+        "force_update_allowed": false,
+        "upstream_push_allowed": false
+      },
+      "open_upstream_draft_pr": {
+        "lookup": "exact_base_head_open_pull_requests",
+        "absent": "create_once_then_exact_readback",
+        "present": "reuse_only_exact_draft_identity",
+        "update_allowed": false,
+        "ready_for_review_allowed": false,
+        "review_allowed": false,
+        "merge_allowed": false
+      },
+      "write_budget": {
+        "fork_creates": 1,
+        "branch_creates": 1,
+        "draft_pr_creates": 1
+      },
+      "credentials": {
+        "ambient_only": true,
+        "serialized": false
+      }
+    },
     "safety": {
       "issue_list_grants_mutation_authority": false,
       "successor_may_widen_authority": false,
