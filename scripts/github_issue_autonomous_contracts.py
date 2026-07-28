@@ -278,6 +278,11 @@ def validate_contract_instance(
             errors.append(
                 "GitHub write action requires nonempty all-success exact-head checks"
             )
+        action_check_names = [
+            check["name"] for check in instance["required_checks"]
+        ]
+        if len(action_check_names) != len(set(action_check_names)):
+            errors.append("github action required check names must be unique")
     elif name == "governance_decision":
         governance_class = instance["governance_class"]
         merge = instance["merge"]
@@ -348,6 +353,11 @@ def validate_contract_instance(
             for check in instance["required_checks"]
         ):
             errors.append("governance checks must bind the exact head SHA")
+        governance_check_names = [
+            check["name"] for check in instance["required_checks"]
+        ]
+        if len(governance_check_names) != len(set(governance_check_names)):
+            errors.append("governance required check names must be unique")
     elif name == "reviewer_independence":
         if (
             instance["status"] != "independent"
@@ -753,10 +763,22 @@ def validate_action_digest_links(
     if action["head_sha"] != governance["head_sha"]:
         errors.append("action head_sha must match governance")
 
-    repository_name = repository.split("/", 1)[1]
-    expected_fork = f"{envelope['routing']['fork_owner']}/{repository_name}"
-    if action["fork"] != expected_fork:
-        errors.append("action fork must match envelope fork destination")
+    fork_owner = envelope["routing"]["fork_owner"]
+    if governance["push_target"] == "operator_owned_fork":
+        repository_name = repository.split("/", 1)[1]
+        expected_fork = (
+            f"{fork_owner}/{repository_name}"
+            if isinstance(fork_owner, str)
+            else None
+        )
+        if fork_owner is None or action["fork"] != expected_fork:
+            errors.append(
+                "operator-owned fork governance requires a nonnull exact fork"
+            )
+    elif fork_owner is not None or action["fork"] is not None:
+        errors.append(
+            "non-fork governance requires null envelope and action fork"
+        )
     if action["branch"] != envelope["routing"]["repair_branch"]:
         errors.append("action branch must match envelope repair branch")
 
@@ -767,14 +789,14 @@ def validate_action_digest_links(
     if action_name not in envelope["governance"]["allowed_actions"]:
         errors.append("action must be allowed by the run envelope")
 
-    expected_check_names = envelope["routing"]["required_checks"]
+    expected_check_names = set(envelope["routing"]["required_checks"])
     action_check_names = [check["name"] for check in action["required_checks"]]
     governance_check_names = [
         check["name"] for check in governance["required_checks"]
     ]
     checks_are_bound = (
-        action_check_names == expected_check_names
-        and governance_check_names == expected_check_names
+        set(action_check_names) == expected_check_names
+        and set(governance_check_names) == expected_check_names
         and all(
             check["conclusion"] == "success"
             and check["head_sha"] == action["head_sha"]
@@ -824,6 +846,18 @@ def validate_action_digest_links(
             errors.append(
                 f"{action_name} requires governance authorization in "
                 f"{required_mode} mode"
+            )
+        if (
+            action_name == "request_merge_queue"
+            and ownership_class == "team"
+            and (
+                reviewer["status"] != "independent"
+                or reviewer["satisfies_team_merge_gate"] is not True
+            )
+        ):
+            errors.append(
+                "team request_merge_queue requires a linked independent "
+                "reviewer satisfying the team merge gate"
             )
     return errors
 

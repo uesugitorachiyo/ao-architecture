@@ -12,7 +12,7 @@
     "issue_number": {"type": "integer", "minimum": 1},
     "base_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
     "head_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
-    "fork": {"type": "string", "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"},
+    "fork": {"type": ["string", "null"], "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"},
     "branch": {"type": "string", "pattern": "^[A-Za-z0-9._/-]{1,255}$"},
     "pr_title_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
     "pr_body_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},

@@ -50,6 +50,57 @@ class GitHubIssueAutonomousContractsTest(unittest.TestCase):
         )
         return action, envelope, candidate, governance, reviewer
 
+    def non_fork_action_family(self, ownership_class, action_name):
+        action, envelope, candidate, governance, reviewer = (
+            self.coherent_action_family()
+        )
+        envelope["governance"]["ownership_class"] = ownership_class
+        envelope["governance"]["allowed_actions"] = [
+            "read_public_metadata",
+            "clone_public_repository",
+            action_name,
+        ]
+        envelope["governance"]["denied_actions"] = [
+            denied
+            for denied in envelope["governance"]["denied_actions"]
+            if denied not in {"open_ready_pr", "merge"}
+        ]
+        envelope["routing"]["fork_owner"] = None
+        envelope["canonical_digest"] = contracts._canonical_sha256(
+            envelope, "canonical_digest"
+        )
+
+        governance["governance_class"] = ownership_class
+        governance["push_target"] = (
+            "policy_authorized_branch"
+            if ownership_class == "team"
+            else "authorized_operator_repository"
+        )
+        governance["pull_request_mode"] = "draft_or_ready_by_policy"
+        if action_name == "request_merge_queue":
+            governance["merge"]["authorized"] = True
+            governance["merge"]["mode"] = "merge_queue"
+            governance["merge"]["approval_kind"] = "independent_human"
+            governance["merge"]["approval_head_sha"] = governance["head_sha"]
+            reviewer["status"] = "independent"
+            reviewer["satisfies_team_merge_gate"] = True
+        governance["decision_digest"] = contracts._canonical_sha256(
+            governance, "decision_digest"
+        )
+        reviewer["review_digest"] = contracts._canonical_sha256(
+            reviewer, "review_digest"
+        )
+
+        action["action"] = action_name
+        action["fork"] = None
+        action["run_envelope_digest"] = envelope["canonical_digest"]
+        action["governance_decision_digest"] = governance["decision_digest"]
+        action["reviewer_independence_digest"] = reviewer["review_digest"]
+        action["action_digest"] = contracts._canonical_sha256(
+            action, "action_digest"
+        )
+        return action, envelope, candidate, governance, reviewer
+
     def successor_envelope(self):
         predecessor = self.load_vector("immutable_run_envelope")
         successor = copy.deepcopy(predecessor)
@@ -675,7 +726,7 @@ class GitHubIssueAutonomousContractsTest(unittest.TestCase):
             ("issue_number", 999, "action issue_number must match selected candidate"),
             ("base_sha", "2" * 40, "action base_sha must match all authority documents"),
             ("head_sha", "3" * 40, "action head_sha must match governance"),
-            ("fork", "other/repair-fixture", "action fork must match envelope fork destination"),
+            ("fork", "other/repair-fixture", "operator-owned fork governance requires a nonnull exact fork"),
             ("branch", "codex/other", "action branch must match envelope repair branch"),
         )
         for field, value, expected in mutations:
@@ -843,6 +894,176 @@ class GitHubIssueAutonomousContractsTest(unittest.TestCase):
                     f"{governance_mode} mode",
                     errors,
                 )
+
+    def test_team_merge_queue_requires_linked_independent_reviewer_gate(self):
+        for status, satisfies_gate in (
+            ("unverified", False),
+            ("independent", False),
+        ):
+            with self.subTest(status=status, satisfies_gate=satisfies_gate):
+                action, envelope, candidate, governance, reviewer = (
+                    self.non_fork_action_family("team", "request_merge_queue")
+                )
+                envelope["routing"]["fork_owner"] = "operator"
+                envelope["canonical_digest"] = contracts._canonical_sha256(
+                    envelope, "canonical_digest"
+                )
+                governance["push_target"] = "operator_owned_fork"
+                governance["decision_digest"] = contracts._canonical_sha256(
+                    governance, "decision_digest"
+                )
+                action["fork"] = "operator/repair-fixture"
+                action["run_envelope_digest"] = envelope["canonical_digest"]
+                action["governance_decision_digest"] = governance["decision_digest"]
+                reviewer["status"] = status
+                reviewer["satisfies_team_merge_gate"] = satisfies_gate
+                reviewer["review_digest"] = contracts._canonical_sha256(
+                    reviewer, "review_digest"
+                )
+                action["reviewer_independence_digest"] = reviewer["review_digest"]
+                action["action_digest"] = contracts._canonical_sha256(
+                    action, "action_digest"
+                )
+
+                errors = contracts.validate_action_digest_links(
+                    action,
+                    envelope,
+                    candidate,
+                    governance,
+                    reviewer,
+                    reference_time=datetime(
+                        2026, 7, 27, 23, 30, tzinfo=timezone.utc
+                    ),
+                )
+
+                self.assertIn(
+                    "team request_merge_queue requires a linked independent "
+                    "reviewer satisfying the team merge gate",
+                    errors,
+                )
+
+    def test_required_check_names_are_unique_in_action_and_governance(self):
+        action = self.load_vector("github_action_digest")
+        action["required_checks"].append(copy.deepcopy(action["required_checks"][0]))
+        action["action_digest"] = contracts._canonical_sha256(
+            action, "action_digest"
+        )
+        errors = contracts.validate_contract_instance(
+            "github_action_digest",
+            action,
+            reference_time=datetime(2026, 7, 27, 23, 30, tzinfo=timezone.utc),
+        )
+        self.assertIn("github action required check names must be unique", errors)
+
+        governance = self.load_vector("governance_decision")
+        governance["required_checks"].append(
+            copy.deepcopy(governance["required_checks"][0])
+        )
+        governance["decision_digest"] = contracts._canonical_sha256(
+            governance, "decision_digest"
+        )
+        errors = contracts.validate_contract_instance(
+            "governance_decision", governance
+        )
+        self.assertIn("governance required check names must be unique", errors)
+
+    def test_required_check_cross_link_is_an_order_independent_exact_set(self):
+        action, envelope, candidate, governance, reviewer = (
+            self.coherent_action_family()
+        )
+        action["required_checks"].reverse()
+        governance["required_checks"].reverse()
+        governance["decision_digest"] = contracts._canonical_sha256(
+            governance, "decision_digest"
+        )
+        action["governance_decision_digest"] = governance["decision_digest"]
+        action["action_digest"] = contracts._canonical_sha256(
+            action, "action_digest"
+        )
+
+        errors = contracts.validate_action_digest_links(
+            action,
+            envelope,
+            candidate,
+            governance,
+            reviewer,
+            reference_time=datetime(2026, 7, 27, 23, 30, tzinfo=timezone.utc),
+        )
+
+        self.assertEqual(errors, [])
+
+    def test_sole_and_team_non_fork_actions_require_null_fork(self):
+        for ownership_class, action_name in (
+            ("sole_control", "open_ready_pr"),
+            ("team", "request_merge_queue"),
+        ):
+            with self.subTest(
+                ownership_class=ownership_class, action_name=action_name
+            ):
+                action, envelope, candidate, governance, reviewer = (
+                    self.non_fork_action_family(ownership_class, action_name)
+                )
+                errors = contracts.validate_action_digest_links(
+                    action,
+                    envelope,
+                    candidate,
+                    governance,
+                    reviewer,
+                    reference_time=datetime(
+                        2026, 7, 27, 23, 30, tzinfo=timezone.utc
+                    ),
+                )
+                self.assertEqual(errors, [])
+
+    def test_non_fork_action_rejects_literal_none_repository(self):
+        action, envelope, candidate, governance, reviewer = (
+            self.non_fork_action_family("team", "request_merge_queue")
+        )
+        action["fork"] = "None/repair-fixture"
+        action["action_digest"] = contracts._canonical_sha256(
+            action, "action_digest"
+        )
+
+        errors = contracts.validate_action_digest_links(
+            action,
+            envelope,
+            candidate,
+            governance,
+            reviewer,
+            reference_time=datetime(2026, 7, 27, 23, 30, tzinfo=timezone.utc),
+        )
+
+        self.assertIn(
+            "non-fork governance requires null envelope and action fork", errors
+        )
+
+    def test_operator_owned_fork_requires_nonnull_exact_fork(self):
+        action, envelope, candidate, governance, reviewer = (
+            self.coherent_action_family()
+        )
+        envelope["routing"]["fork_owner"] = None
+        envelope["canonical_digest"] = contracts._canonical_sha256(
+            envelope, "canonical_digest"
+        )
+        action["fork"] = None
+        action["run_envelope_digest"] = envelope["canonical_digest"]
+        action["action_digest"] = contracts._canonical_sha256(
+            action, "action_digest"
+        )
+
+        errors = contracts.validate_action_digest_links(
+            action,
+            envelope,
+            candidate,
+            governance,
+            reviewer,
+            reference_time=datetime(2026, 7, 27, 23, 30, tzinfo=timezone.utc),
+        )
+
+        self.assertIn(
+            "operator-owned fork governance requires a nonnull exact fork",
+            errors,
+        )
 
     def test_action_links_validate_all_five_documents(self):
         action, envelope, candidate, governance, reviewer = (
