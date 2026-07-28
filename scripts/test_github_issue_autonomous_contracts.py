@@ -335,62 +335,104 @@ class GitHubIssueAutonomousContractsTest(unittest.TestCase):
         )
 
     def test_checkpoint_lease_recovery_authorization_matrix(self):
-        terminal_statuses = {"expired", "handed_off", "closed"}
         for status in ("active", "expired", "handed_off", "closed"):
             for previous_worker_active in (False, True):
-                expected_resume = (
-                    status in terminal_statuses and not previous_worker_active
-                )
-                with self.subTest(
-                    status=status,
-                    previous_worker_active=previous_worker_active,
-                    expected_resume=expected_resume,
-                ):
-                    checkpoint = self.load_vector("checkpoint")
-                    checkpoint["lease"]["status"] = status
-                    checkpoint["lease"]["previous_worker_active"] = (
-                        previous_worker_active
+                for successor_resume_authorized in (False, True):
+                    resume_allowed = (
+                        successor_resume_authorized is False
+                        or (
+                            status in {"expired", "handed_off"}
+                            and previous_worker_active is False
+                        )
                     )
-                    checkpoint["lease"]["successor_resume_authorized"] = (
-                        expected_resume
-                    )
-                    checkpoint["lease"]["authorized_event_actors"] = [
-                        "ao-forge"
-                    ]
-                    if status == "expired":
+                    with self.subTest(
+                        status=status,
+                        previous_worker_active=previous_worker_active,
+                        successor_resume_authorized=successor_resume_authorized,
+                    ):
+                        checkpoint = self.load_vector("checkpoint")
+                        checkpoint["lease"]["status"] = status
+                        checkpoint["lease"]["previous_worker_active"] = (
+                            previous_worker_active
+                        )
                         checkpoint["lease"][
-                            "expires_at"
-                        ] = "2026-07-27T23:20:00Z"
-                    checkpoint["checkpoint_digest"] = contracts._canonical_sha256(
-                        checkpoint, "checkpoint_digest"
-                    )
+                            "successor_resume_authorized"
+                        ] = successor_resume_authorized
+                        if status == "expired":
+                            checkpoint["lease"][
+                                "expires_at"
+                            ] = "2026-07-27T23:20:00Z"
+                        checkpoint[
+                            "checkpoint_digest"
+                        ] = contracts._canonical_sha256(
+                            checkpoint, "checkpoint_digest"
+                        )
 
-                    errors = contracts.validate_contract_instance(
-                        "checkpoint",
-                        checkpoint,
-                        reference_time=datetime(
-                            2026, 7, 27, 23, 30, tzinfo=timezone.utc
-                        ),
-                    )
-                    self.assertEqual(errors, [])
+                        errors = contracts.validate_contract_instance(
+                            "checkpoint",
+                            checkpoint,
+                            reference_time=datetime(
+                                2026, 7, 27, 23, 30, tzinfo=timezone.utc
+                            ),
+                        )
+                        if resume_allowed:
+                            self.assertEqual(errors, [])
+                        else:
+                            self.assertTrue(
+                                any(
+                                    "successor resume" in error
+                                    for error in errors
+                                ),
+                                errors,
+                            )
 
-                    checkpoint["lease"]["successor_resume_authorized"] = (
-                        not expected_resume
-                    )
-                    checkpoint["checkpoint_digest"] = contracts._canonical_sha256(
-                        checkpoint, "checkpoint_digest"
-                    )
-                    errors = contracts.validate_contract_instance(
-                        "checkpoint",
-                        checkpoint,
-                        reference_time=datetime(
-                            2026, 7, 27, 23, 30, tzinfo=timezone.utc
-                        ),
-                    )
-                    self.assertTrue(
-                        any("successor resume" in error for error in errors),
-                        errors,
-                    )
+    def test_checkpoint_event_linkage_fails_closed_for_malformed_documents(self):
+        checkpoint = self.load_vector("checkpoint")
+        event = self.load_vector("append_only_event")
+        cases = (
+            (None, event, "checkpoint:"),
+            ("not-an-object", event, "checkpoint:"),
+            ({}, event, "checkpoint:"),
+            (checkpoint, None, "append_only_event:"),
+            (checkpoint, 7, "append_only_event:"),
+            (checkpoint, {}, "append_only_event:"),
+        )
+        for malformed_checkpoint, malformed_event, expected_prefix in cases:
+            with self.subTest(
+                checkpoint=malformed_checkpoint, event=malformed_event
+            ):
+                errors = contracts.validate_checkpoint_event_linkage(
+                    malformed_checkpoint,
+                    malformed_event,
+                    reference_time=datetime(
+                        2026, 7, 27, 23, 30, tzinfo=timezone.utc
+                    ),
+                )
+                self.assertTrue(
+                    any(
+                        error.startswith(expected_prefix) for error in errors
+                    ),
+                    errors,
+                )
+
+        for malformed_lease in (None, "not-an-object", 7):
+            with self.subTest(lease=malformed_lease):
+                malformed_checkpoint = self.load_vector("checkpoint")
+                malformed_checkpoint["lease"] = malformed_lease
+                errors = contracts.validate_checkpoint_event_linkage(
+                    malformed_checkpoint,
+                    event,
+                    reference_time=datetime(
+                        2026, 7, 27, 23, 30, tzinfo=timezone.utc
+                    ),
+                )
+                self.assertTrue(
+                    any(
+                        error.startswith("checkpoint: $.lease")
+                        for error in errors
+                    ),
+                    errors,
+                )
 
     def test_canonical_active_lease_denies_resume_and_names_event_actor(self):
         checkpoint = self.load_vector("checkpoint")

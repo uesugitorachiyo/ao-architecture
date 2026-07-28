@@ -412,13 +412,10 @@ def validate_contract_instance(
                 "previous worker conflict cannot authorize successor resume"
             )
         if (
-            lease["status"] in {"expired", "handed_off", "closed"}
-            and not lease["previous_worker_active"]
-            and not lease["successor_resume_authorized"]
+            lease["status"] == "closed"
+            and lease["successor_resume_authorized"]
         ):
-            errors.append(
-                "terminal clear lease must authorize successor resume"
-            )
+            errors.append("closed lease cannot authorize successor resume")
     elif name == "bounded_discovery_result":
         if len(instance["issues"]) > instance["snapshot_limit"]:
             errors.append("discovery issues must not exceed snapshot_limit")
@@ -684,26 +681,33 @@ def validate_successor_envelope(
 
 
 def validate_checkpoint_event_linkage(
-    checkpoint: dict[str, Any],
-    event: dict[str, Any],
+    checkpoint: Any,
+    event: Any,
     *,
     reference_time: datetime | None = None,
     root: Path = ROOT,
 ) -> list[str]:
     errors: list[str] = []
+    structurally_valid = True
     for name, instance in (
         ("checkpoint", checkpoint),
         ("append_only_event", event),
     ):
-        errors.extend(
-            f"{name}: {error}"
-            for error in validate_contract_instance(
-                name,
-                instance,
-                reference_time=reference_time,
-                root=root,
-            )
+        document_errors = validate_contract_instance(
+            name,
+            instance,
+            reference_time=reference_time,
+            root=root,
         )
+        errors.extend(f"{name}: {error}" for error in document_errors)
+        if any(
+            error.startswith("$") or "schema could not be loaded" in error
+            for error in document_errors
+        ):
+            structurally_valid = False
+    if not structurally_valid:
+        return errors
+
     if checkpoint.get("run_id") != event.get("run_id"):
         errors.append("checkpoint run_id must match event run_id")
     if checkpoint.get("run_envelope_digest") != event.get("run_envelope_digest"):
