@@ -9,9 +9,9 @@
     "lease_id": "lease-run-20260728",
     "owner": "ao-forge",
     "status": "active",
-    "expires_at": "2026-07-28T02:00:00Z",
+    "expires_at": "2026-07-27T23:50:00Z",
     "previous_worker_active": false
   },
-  "checkpoint_digest": "a8aedc8a2d5eacb76e10ff691e8b746f1557db5681294eae42f8a27498a3a03a",
+  "checkpoint_digest": "270afa853698ec21dc1e52f08b29f6fa163fd4c6915fcdfd64a092b20dd1fd9f",
   "created_at": "2026-07-27T23:01:00Z"
 }

@@ -206,6 +206,134 @@ class GitHubIssueAutonomousContractsTest(unittest.TestCase):
         )
         self.assertIn("checkpoint last_event_sequence must match event sequence", errors)
 
+    def test_checkpoint_active_lease_must_be_live_at_reference_time(self):
+        checkpoint = self.load_vector("checkpoint")
+        checkpoint["lease"]["expires_at"] = "2026-07-27T23:29:59Z"
+        checkpoint["checkpoint_digest"] = contracts._canonical_sha256(
+            checkpoint, "checkpoint_digest"
+        )
+
+        errors = contracts.validate_contract_instance(
+            "checkpoint",
+            checkpoint,
+            reference_time=datetime(2026, 7, 27, 23, 30, tzinfo=timezone.utc),
+        )
+
+        self.assertIn(
+            "active checkpoint lease must expire after reference time", errors
+        )
+
+    def test_checkpoint_expired_status_must_match_reference_time(self):
+        checkpoint = self.load_vector("checkpoint")
+        checkpoint["lease"]["status"] = "expired"
+        checkpoint["lease"]["expires_at"] = "2026-07-27T23:31:00Z"
+        checkpoint["checkpoint_digest"] = contracts._canonical_sha256(
+            checkpoint, "checkpoint_digest"
+        )
+
+        errors = contracts.validate_contract_instance(
+            "checkpoint",
+            checkpoint,
+            reference_time=datetime(2026, 7, 27, 23, 30, tzinfo=timezone.utc),
+        )
+
+        self.assertIn(
+            "expired checkpoint lease must not outlive reference time", errors
+        )
+
+    def test_checkpoint_creation_and_lease_order_are_strict(self):
+        checkpoint = self.load_vector("checkpoint")
+        checkpoint["created_at"] = "2026-07-27T23:31:00Z"
+        checkpoint["lease"]["expires_at"] = "2026-07-27T23:30:00Z"
+        checkpoint["checkpoint_digest"] = contracts._canonical_sha256(
+            checkpoint, "checkpoint_digest"
+        )
+
+        errors = contracts.validate_contract_instance(
+            "checkpoint",
+            checkpoint,
+            reference_time=datetime(2026, 7, 27, 23, 30, tzinfo=timezone.utc),
+        )
+
+        self.assertIn("checkpoint creation is in the future", errors)
+        self.assertIn("checkpoint lease expiry must follow creation", errors)
+
+    def test_checkpoint_lease_cannot_outlive_envelope(self):
+        checkpoint = self.load_vector("checkpoint")
+        envelope = self.load_vector("immutable_run_envelope")
+        checkpoint["lease"]["expires_at"] = "2026-07-28T00:00:01Z"
+        checkpoint["checkpoint_digest"] = contracts._canonical_sha256(
+            checkpoint, "checkpoint_digest"
+        )
+
+        errors = contracts.validate_checkpoint_envelope_linkage(
+            checkpoint,
+            envelope,
+            reference_time=datetime(2026, 7, 27, 23, 30, tzinfo=timezone.utc),
+        )
+
+        self.assertIn("checkpoint lease must not outlive run envelope", errors)
+
+    def test_checkpoint_creation_must_be_within_envelope_lifetime(self):
+        for created_at in (
+            "2026-07-27T15:59:59Z",
+            "2026-07-28T00:00:00Z",
+        ):
+            with self.subTest(created_at=created_at):
+                checkpoint = self.load_vector("checkpoint")
+                envelope = self.load_vector("immutable_run_envelope")
+                checkpoint["created_at"] = created_at
+                checkpoint["checkpoint_digest"] = contracts._canonical_sha256(
+                    checkpoint, "checkpoint_digest"
+                )
+
+                errors = contracts.validate_checkpoint_envelope_linkage(
+                    checkpoint,
+                    envelope,
+                    reference_time=datetime(
+                        2026, 7, 27, 23, 30, tzinfo=timezone.utc
+                    ),
+                )
+
+                self.assertIn(
+                    "checkpoint creation must be within run envelope lifetime",
+                    errors,
+                )
+
+    def test_checkpoint_event_linkage_requires_exact_lease(self):
+        checkpoint = self.load_vector("checkpoint")
+        event = self.load_vector("append_only_event")
+        event["lease_id"] = "lease-run-other"
+        event["event_digest"] = contracts._canonical_sha256(
+            event, "event_digest"
+        )
+
+        errors = contracts.validate_checkpoint_event_linkage(
+            checkpoint,
+            event,
+            reference_time=datetime(2026, 7, 27, 23, 30, tzinfo=timezone.utc),
+        )
+
+        self.assertIn("checkpoint lease_id must match event lease_id", errors)
+
+    def test_checkpoint_cannot_capture_a_future_event(self):
+        checkpoint = self.load_vector("checkpoint")
+        event = self.load_vector("append_only_event")
+        event["timestamp"] = "2026-07-27T23:01:01Z"
+        event["event_digest"] = contracts._canonical_sha256(
+            event, "event_digest"
+        )
+
+        errors = contracts.validate_checkpoint_event_linkage(
+            checkpoint,
+            event,
+            reference_time=datetime(2026, 7, 27, 23, 30, tzinfo=timezone.utc),
+        )
+
+        self.assertIn(
+            "event timestamp must not follow checkpoint creation", errors
+        )
+
     def test_candidate_selected_requires_all_authenticity_predicates(self):
         for field in (
             "open_bug",
@@ -736,6 +864,48 @@ class GitHubIssueAutonomousContractsTest(unittest.TestCase):
         self.assertIn(
             "auto_merge requires governance authorization in auto_merge mode",
             errors,
+        )
+
+    def test_action_expiry_cannot_outlive_envelope(self):
+        action, envelope, candidate, governance, reviewer = (
+            self.coherent_action_family()
+        )
+        action["expires_at"] = "2026-07-28T00:00:01Z"
+        action["action_digest"] = contracts._canonical_sha256(
+            action, "action_digest"
+        )
+
+        errors = contracts.validate_action_digest_links(
+            action,
+            envelope,
+            candidate,
+            governance,
+            reviewer,
+            reference_time=datetime(2026, 7, 27, 23, 30, tzinfo=timezone.utc),
+        )
+
+        self.assertIn("action expiry must not outlive run envelope", errors)
+
+    def test_action_family_rejects_execution_after_envelope_expiry(self):
+        action, envelope, candidate, governance, reviewer = (
+            self.coherent_action_family()
+        )
+        action["expires_at"] = "2026-07-28T01:00:00Z"
+        action["action_digest"] = contracts._canonical_sha256(
+            action, "action_digest"
+        )
+
+        errors = contracts.validate_action_digest_links(
+            action,
+            envelope,
+            candidate,
+            governance,
+            reviewer,
+            reference_time=datetime(2026, 7, 28, 0, 1, tzinfo=timezone.utc),
+        )
+
+        self.assertIn(
+            "immutable_run_envelope: run envelope is expired", errors
         )
 
     def test_action_links_reconcile_identity_destination_and_checks(self):

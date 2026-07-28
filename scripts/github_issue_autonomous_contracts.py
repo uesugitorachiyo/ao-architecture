@@ -369,6 +369,35 @@ def validate_contract_instance(
             errors.append(
                 "only an independent reviewer may satisfy the team merge gate"
             )
+    elif name == "checkpoint":
+        created_at = _parse_timestamp(instance["created_at"])
+        lease_expires_at = _parse_timestamp(instance["lease"]["expires_at"])
+        now = reference_time or datetime.now(timezone.utc)
+        now_utc = now.astimezone(timezone.utc)
+        if created_at is not None and created_at > now_utc:
+            errors.append("checkpoint creation is in the future")
+        if (
+            created_at is not None
+            and lease_expires_at is not None
+            and lease_expires_at <= created_at
+        ):
+            errors.append("checkpoint lease expiry must follow creation")
+        if (
+            instance["lease"]["status"] == "active"
+            and lease_expires_at is not None
+            and lease_expires_at <= now_utc
+        ):
+            errors.append(
+                "active checkpoint lease must expire after reference time"
+            )
+        if (
+            instance["lease"]["status"] == "expired"
+            and lease_expires_at is not None
+            and lease_expires_at > now_utc
+        ):
+            errors.append(
+                "expired checkpoint lease must not outlive reference time"
+            )
     elif name == "bounded_discovery_result":
         if len(instance["issues"]) > instance["snapshot_limit"]:
             errors.append("discovery issues must not exceed snapshot_limit")
@@ -634,9 +663,26 @@ def validate_successor_envelope(
 
 
 def validate_checkpoint_event_linkage(
-    checkpoint: dict[str, Any], event: dict[str, Any]
+    checkpoint: dict[str, Any],
+    event: dict[str, Any],
+    *,
+    reference_time: datetime | None = None,
+    root: Path = ROOT,
 ) -> list[str]:
     errors: list[str] = []
+    for name, instance in (
+        ("checkpoint", checkpoint),
+        ("append_only_event", event),
+    ):
+        errors.extend(
+            f"{name}: {error}"
+            for error in validate_contract_instance(
+                name,
+                instance,
+                reference_time=reference_time,
+                root=root,
+            )
+        )
     if checkpoint.get("run_id") != event.get("run_id"):
         errors.append("checkpoint run_id must match event run_id")
     if checkpoint.get("run_envelope_digest") != event.get("run_envelope_digest"):
@@ -645,6 +691,75 @@ def validate_checkpoint_event_linkage(
         errors.append("checkpoint last_event_sequence must match event sequence")
     if checkpoint.get("last_event_digest") != event.get("event_digest"):
         errors.append("checkpoint last_event_digest must match event digest")
+    if checkpoint.get("lease", {}).get("lease_id") != event.get("lease_id"):
+        errors.append("checkpoint lease_id must match event lease_id")
+    checkpoint_created_at = _parse_timestamp(checkpoint.get("created_at"))
+    event_timestamp = _parse_timestamp(event.get("timestamp"))
+    if (
+        checkpoint_created_at is not None
+        and event_timestamp is not None
+        and event_timestamp > checkpoint_created_at
+    ):
+        errors.append("event timestamp must not follow checkpoint creation")
+    return errors
+
+
+def validate_checkpoint_envelope_linkage(
+    checkpoint: dict[str, Any],
+    envelope: dict[str, Any],
+    *,
+    reference_time: datetime | None = None,
+    root: Path = ROOT,
+) -> list[str]:
+    errors: list[str] = []
+    structurally_valid = True
+    for name, instance in (
+        ("checkpoint", checkpoint),
+        ("immutable_run_envelope", envelope),
+    ):
+        document_errors = validate_contract_instance(
+            name,
+            instance,
+            reference_time=reference_time,
+            root=root,
+        )
+        errors.extend(f"{name}: {error}" for error in document_errors)
+        if any(
+            error.startswith("$") or "schema could not be loaded" in error
+            for error in document_errors
+        ):
+            structurally_valid = False
+    if not structurally_valid:
+        return errors
+
+    if checkpoint["run_id"] != envelope["run_id"]:
+        errors.append("checkpoint run_id must match run envelope")
+    if checkpoint["run_envelope_digest"] != envelope["canonical_digest"]:
+        errors.append("checkpoint digest must match canonical run envelope")
+
+    checkpoint_created_at = _parse_timestamp(checkpoint["created_at"])
+    lease_expires_at = _parse_timestamp(checkpoint["lease"]["expires_at"])
+    envelope_created_at = _parse_timestamp(envelope["created_at"])
+    envelope_expires_at = _parse_timestamp(envelope["expires_at"])
+    if (
+        checkpoint_created_at is not None
+        and envelope_created_at is not None
+        and envelope_expires_at is not None
+        and not (
+            envelope_created_at
+            <= checkpoint_created_at
+            < envelope_expires_at
+        )
+    ):
+        errors.append(
+            "checkpoint creation must be within run envelope lifetime"
+        )
+    if (
+        lease_expires_at is not None
+        and envelope_expires_at is not None
+        and lease_expires_at > envelope_expires_at
+    ):
+        errors.append("checkpoint lease must not outlive run envelope")
     return errors
 
 
@@ -820,7 +935,15 @@ def validate_action_digest_links(
         errors.append("action review must use deterministic tests as primary evidence")
 
     envelope_created_at = _parse_timestamp(envelope["created_at"])
+    envelope_expires_at = _parse_timestamp(envelope["expires_at"])
     action_approved_at = _parse_timestamp(action["approved_at"])
+    action_expires_at = _parse_timestamp(action["expires_at"])
+    if (
+        envelope_expires_at is not None
+        and action_expires_at is not None
+        and action_expires_at > envelope_expires_at
+    ):
+        errors.append("action expiry must not outlive run envelope")
     evidence_timestamps = (
         (
             "candidate",
@@ -1002,10 +1125,26 @@ def validate_autonomous_family(
 
     event = instances.get("append_only_event")
     checkpoint = instances.get("checkpoint")
+    envelope = instances.get("immutable_run_envelope")
     if event is not None and checkpoint is not None:
         errors.extend(
             f"checkpoint_event_linkage: {error}"
-            for error in validate_checkpoint_event_linkage(checkpoint, event)
+            for error in validate_checkpoint_event_linkage(
+                checkpoint,
+                event,
+                reference_time=reference_time,
+                root=root,
+            )
+        )
+    if checkpoint is not None and envelope is not None:
+        errors.extend(
+            f"checkpoint_envelope_linkage: {error}"
+            for error in validate_checkpoint_envelope_linkage(
+                checkpoint,
+                envelope,
+                reference_time=reference_time,
+                root=root,
+            )
         )
     discovery = instances.get("bounded_discovery_result")
     candidate = instances.get("candidate_decision")
@@ -1015,7 +1154,6 @@ def validate_autonomous_family(
             for error in validate_discovery_candidate_link(discovery, candidate)
         )
     action = instances.get("github_action_digest")
-    envelope = instances.get("immutable_run_envelope")
     governance = instances.get("governance_decision")
     reviewer = instances.get("reviewer_independence")
     if all(
