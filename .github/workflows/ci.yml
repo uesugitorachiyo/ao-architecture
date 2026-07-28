@@ -119,6 +119,7 @@ jobs:
         with:
           go-version: 1.26.4
           check-latest: false
+          cache: false
 
       - name: Prefetch lockfile-verified replay dependencies
         run: |
