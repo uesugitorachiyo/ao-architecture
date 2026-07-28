@@ -371,7 +371,8 @@ def validate_contract_instance(
             )
     elif name == "checkpoint":
         created_at = _parse_timestamp(instance["created_at"])
-        lease_expires_at = _parse_timestamp(instance["lease"]["expires_at"])
+        lease = instance["lease"]
+        lease_expires_at = _parse_timestamp(lease["expires_at"])
         now = reference_time or datetime.now(timezone.utc)
         now_utc = now.astimezone(timezone.utc)
         if created_at is not None and created_at > now_utc:
@@ -383,7 +384,7 @@ def validate_contract_instance(
         ):
             errors.append("checkpoint lease expiry must follow creation")
         if (
-            instance["lease"]["status"] == "active"
+            lease["status"] == "active"
             and lease_expires_at is not None
             and lease_expires_at <= now_utc
         ):
@@ -391,12 +392,32 @@ def validate_contract_instance(
                 "active checkpoint lease must expire after reference time"
             )
         if (
-            instance["lease"]["status"] == "expired"
+            lease["status"] == "expired"
             and lease_expires_at is not None
             and lease_expires_at > now_utc
         ):
             errors.append(
                 "expired checkpoint lease must not outlive reference time"
+            )
+        if (
+            lease["status"] == "active"
+            and lease["successor_resume_authorized"]
+        ):
+            errors.append("active lease cannot authorize successor resume")
+        if (
+            lease["previous_worker_active"]
+            and lease["successor_resume_authorized"]
+        ):
+            errors.append(
+                "previous worker conflict cannot authorize successor resume"
+            )
+        if (
+            lease["status"] in {"expired", "handed_off", "closed"}
+            and not lease["previous_worker_active"]
+            and not lease["successor_resume_authorized"]
+        ):
+            errors.append(
+                "terminal clear lease must authorize successor resume"
             )
     elif name == "bounded_discovery_result":
         if len(instance["issues"]) > instance["snapshot_limit"]:
@@ -693,6 +714,11 @@ def validate_checkpoint_event_linkage(
         errors.append("checkpoint last_event_digest must match event digest")
     if checkpoint.get("lease", {}).get("lease_id") != event.get("lease_id"):
         errors.append("checkpoint lease_id must match event lease_id")
+    authorized_actors = checkpoint.get("lease", {}).get(
+        "authorized_event_actors", []
+    )
+    if event.get("actor") not in authorized_actors:
+        errors.append("event actor must be authorized by checkpoint lease")
     checkpoint_created_at = _parse_timestamp(checkpoint.get("created_at"))
     event_timestamp = _parse_timestamp(event.get("timestamp"))
     if (
@@ -701,6 +727,54 @@ def validate_checkpoint_event_linkage(
         and event_timestamp > checkpoint_created_at
     ):
         errors.append("event timestamp must not follow checkpoint creation")
+    return errors
+
+
+def validate_event_envelope_linkage(
+    event: dict[str, Any],
+    envelope: dict[str, Any],
+    *,
+    reference_time: datetime | None = None,
+    root: Path = ROOT,
+) -> list[str]:
+    errors: list[str] = []
+    structurally_valid = True
+    for name, instance in (
+        ("append_only_event", event),
+        ("immutable_run_envelope", envelope),
+    ):
+        document_errors = validate_contract_instance(
+            name,
+            instance,
+            reference_time=reference_time,
+            root=root,
+        )
+        errors.extend(f"{name}: {error}" for error in document_errors)
+        if any(
+            error.startswith("$") or "schema could not be loaded" in error
+            for error in document_errors
+        ):
+            structurally_valid = False
+    if not structurally_valid:
+        return errors
+
+    if event["run_id"] != envelope["run_id"]:
+        errors.append("event run_id must match run envelope")
+    if event["run_envelope_digest"] != envelope["canonical_digest"]:
+        errors.append("event digest must match canonical run envelope")
+
+    event_timestamp = _parse_timestamp(event["timestamp"])
+    envelope_created_at = _parse_timestamp(envelope["created_at"])
+    envelope_expires_at = _parse_timestamp(envelope["expires_at"])
+    if (
+        event_timestamp is not None
+        and envelope_created_at is not None
+        and envelope_expires_at is not None
+        and not (
+            envelope_created_at <= event_timestamp < envelope_expires_at
+        )
+    ):
+        errors.append("event timestamp must be within run envelope lifetime")
     return errors
 
 
@@ -1141,6 +1215,16 @@ def validate_autonomous_family(
             f"checkpoint_envelope_linkage: {error}"
             for error in validate_checkpoint_envelope_linkage(
                 checkpoint,
+                envelope,
+                reference_time=reference_time,
+                root=root,
+            )
+        )
+    if event is not None and envelope is not None:
+        errors.extend(
+            f"event_envelope_linkage: {error}"
+            for error in validate_event_envelope_linkage(
+                event,
                 envelope,
                 reference_time=reference_time,
                 root=root,

@@ -10,8 +10,12 @@
     "owner": "ao-forge",
     "status": "active",
     "expires_at": "2026-07-27T23:50:00Z",
-    "previous_worker_active": false
+    "previous_worker_active": false,
+    "successor_resume_authorized": false,
+    "authorized_event_actors": [
+      "ao-forge"
+    ]
   },
-  "checkpoint_digest": "270afa853698ec21dc1e52f08b29f6fa163fd4c6915fcdfd64a092b20dd1fd9f",
+  "checkpoint_digest": "1603898e2496bf32b9e297225918720da1b26d0edf89c5bdd528f65b52e3f8e7",
   "created_at": "2026-07-27T23:01:00Z"
 }

@@ -334,6 +334,141 @@ class GitHubIssueAutonomousContractsTest(unittest.TestCase):
             "event timestamp must not follow checkpoint creation", errors
         )
 
+    def test_checkpoint_lease_recovery_authorization_matrix(self):
+        terminal_statuses = {"expired", "handed_off", "closed"}
+        for status in ("active", "expired", "handed_off", "closed"):
+            for previous_worker_active in (False, True):
+                expected_resume = (
+                    status in terminal_statuses and not previous_worker_active
+                )
+                with self.subTest(
+                    status=status,
+                    previous_worker_active=previous_worker_active,
+                    expected_resume=expected_resume,
+                ):
+                    checkpoint = self.load_vector("checkpoint")
+                    checkpoint["lease"]["status"] = status
+                    checkpoint["lease"]["previous_worker_active"] = (
+                        previous_worker_active
+                    )
+                    checkpoint["lease"]["successor_resume_authorized"] = (
+                        expected_resume
+                    )
+                    checkpoint["lease"]["authorized_event_actors"] = [
+                        "ao-forge"
+                    ]
+                    if status == "expired":
+                        checkpoint["lease"][
+                            "expires_at"
+                        ] = "2026-07-27T23:20:00Z"
+                    checkpoint["checkpoint_digest"] = contracts._canonical_sha256(
+                        checkpoint, "checkpoint_digest"
+                    )
+
+                    errors = contracts.validate_contract_instance(
+                        "checkpoint",
+                        checkpoint,
+                        reference_time=datetime(
+                            2026, 7, 27, 23, 30, tzinfo=timezone.utc
+                        ),
+                    )
+                    self.assertEqual(errors, [])
+
+                    checkpoint["lease"]["successor_resume_authorized"] = (
+                        not expected_resume
+                    )
+                    checkpoint["checkpoint_digest"] = contracts._canonical_sha256(
+                        checkpoint, "checkpoint_digest"
+                    )
+                    errors = contracts.validate_contract_instance(
+                        "checkpoint",
+                        checkpoint,
+                        reference_time=datetime(
+                            2026, 7, 27, 23, 30, tzinfo=timezone.utc
+                        ),
+                    )
+                    self.assertTrue(
+                        any("successor resume" in error for error in errors),
+                        errors,
+                    )
+
+    def test_canonical_active_lease_denies_resume_and_names_event_actor(self):
+        checkpoint = self.load_vector("checkpoint")
+
+        self.assertIs(
+            checkpoint["lease"].get("successor_resume_authorized"), False
+        )
+        self.assertEqual(
+            checkpoint["lease"].get("authorized_event_actors"), ["ao-forge"]
+        )
+
+    def test_checkpoint_event_rejects_unrelated_actor(self):
+        checkpoint = self.load_vector("checkpoint")
+        checkpoint["lease"]["successor_resume_authorized"] = False
+        checkpoint["lease"]["authorized_event_actors"] = ["ao-forge"]
+        checkpoint["checkpoint_digest"] = contracts._canonical_sha256(
+            checkpoint, "checkpoint_digest"
+        )
+        event = self.load_vector("append_only_event")
+        event["actor"] = "unrelated-worker"
+        event["event_digest"] = contracts._canonical_sha256(
+            event, "event_digest"
+        )
+
+        errors = contracts.validate_checkpoint_event_linkage(
+            checkpoint,
+            event,
+            reference_time=datetime(2026, 7, 27, 23, 30, tzinfo=timezone.utc),
+        )
+
+        self.assertIn(
+            "event actor must be authorized by checkpoint lease", errors
+        )
+
+    def test_event_timestamp_must_be_within_envelope_lifetime(self):
+        for timestamp in (
+            "2026-07-27T15:59:59Z",
+            "2026-07-28T00:00:00Z",
+        ):
+            with self.subTest(timestamp=timestamp):
+                event = self.load_vector("append_only_event")
+                envelope = self.load_vector("immutable_run_envelope")
+                event["timestamp"] = timestamp
+                event["event_digest"] = contracts._canonical_sha256(
+                    event, "event_digest"
+                )
+
+                errors = contracts.validate_event_envelope_linkage(
+                    event,
+                    envelope,
+                    reference_time=datetime(
+                        2026, 7, 27, 23, 30, tzinfo=timezone.utc
+                    ),
+                )
+
+                self.assertIn(
+                    "event timestamp must be within run envelope lifetime",
+                    errors,
+                )
+
+    def test_event_envelope_linkage_requires_exact_identity(self):
+        event = self.load_vector("append_only_event")
+        envelope = self.load_vector("immutable_run_envelope")
+        event["run_id"] = "repair-run-other"
+        event["run_envelope_digest"] = "0" * 64
+        event["event_digest"] = contracts._canonical_sha256(
+            event, "event_digest"
+        )
+
+        errors = contracts.validate_event_envelope_linkage(
+            event,
+            envelope,
+            reference_time=datetime(2026, 7, 27, 23, 30, tzinfo=timezone.utc),
+        )
+
+        self.assertIn("event run_id must match run envelope", errors)
+        self.assertIn("event digest must match canonical run envelope", errors)
+
     def test_candidate_selected_requires_all_authenticity_predicates(self):
         for field in (
             "open_bug",

@@ -15,13 +15,20 @@
     "lease": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["lease_id", "owner", "status", "expires_at", "previous_worker_active"],
+      "required": ["lease_id", "owner", "status", "expires_at", "previous_worker_active", "successor_resume_authorized", "authorized_event_actors"],
       "properties": {
         "lease_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{7,127}$"},
         "owner": {"type": "string", "minLength": 1, "maxLength": 128},
         "status": {"enum": ["active", "expired", "handed_off", "closed"]},
         "expires_at": {"type": "string", "format": "date-time"},
-        "previous_worker_active": {"type": "boolean"}
+        "previous_worker_active": {"type": "boolean"},
+        "successor_resume_authorized": {"type": "boolean"},
+        "authorized_event_actors": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1, "maxLength": 128}
+        }
       }
     },
     "checkpoint_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
