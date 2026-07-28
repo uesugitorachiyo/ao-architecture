@@ -13,6 +13,7 @@
     "budgets",
     "governance",
     "routing",
+    "created_at",
     "expires_at",
     "canonical_digest",
     "predecessor_digest",
@@ -75,7 +76,7 @@
     "governance": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["ownership_class", "allowed_actions", "denied_actions"],
+      "required": ["ownership_class", "allowed_actions", "denied_actions", "sole_control_auto_merge_opt_in"],
       "properties": {
         "ownership_class": {"enum": ["sole_control", "team", "external", "unknown"]},
         "allowed_actions": {
@@ -89,7 +90,8 @@
           "minItems": 1,
           "uniqueItems": true,
           "items": {"type": "string", "enum": ["push_upstream", "open_ready_pr", "mark_ready", "approve_review", "merge", "mutate_issue", "publish_release"]}
-        }
+        },
+        "sole_control_auto_merge_opt_in": {"type": "boolean"}
       }
     },
     "routing": {
@@ -105,6 +107,7 @@
         "required_checks": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 256}}
       }
     },
+    "created_at": {"type": "string", "format": "date-time"},
     "expires_at": {"type": "string", "format": "date-time"},
     "canonical_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
     "predecessor_digest": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
@@ -113,7 +116,7 @@
       "additionalProperties": false,
       "required": ["kind", "predecessor_run_id", "predecessor_digest"],
       "properties": {
-        "kind": {"enum": ["origin", "same_envelope_resume", "narrower_successor"]},
+        "kind": {"enum": ["origin", "narrower_successor"]},
         "predecessor_run_id": {"type": ["string", "null"], "pattern": "^[a-z0-9][a-z0-9-]{7,127}$"},
         "predecessor_digest": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"}
       }

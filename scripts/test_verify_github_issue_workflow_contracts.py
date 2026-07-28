@@ -11,7 +11,7 @@ def valid_autonomous_family():
     return {
         "status": "current_pair_only",
         "predecessor": "not_applicable_no_predecessor",
-        "validation_reference_time": "2026-07-28T00:00:00Z",
+        "validation_reference_time": "2026-07-27T16:00:00Z",
         "contracts": [
             {
                 "name": name,

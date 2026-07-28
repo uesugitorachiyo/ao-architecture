@@ -24,5 +24,6 @@
     "6666666666666666666666666666666666666666666666666666666666666666"
   ],
   "expected_behavior_source": "tests",
-  "decided_at": "2026-07-27T22:00:00Z"
+  "decided_at": "2026-07-27T22:00:00Z",
+  "decision_digest": "706b3dd556fb8a76e20d90569c4b39e7843f396feba95bac279de4aac9540ca5"
 }

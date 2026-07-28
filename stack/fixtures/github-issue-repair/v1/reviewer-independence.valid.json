@@ -6,5 +6,6 @@
   "status": "independent",
   "deterministic_tests_primary": true,
   "satisfies_team_merge_gate": false,
-  "reviewed_at": "2026-07-27T23:15:00Z"
+  "reviewed_at": "2026-07-27T23:15:00Z",
+  "review_digest": "4060da815087c687dfa43f88b67ff93acf99786808aca49582fe6140aa9381db"
 }

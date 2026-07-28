@@ -4,7 +4,7 @@
   "title": "AO Autonomous Issue Repair Reviewer Independence v1",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema", "run_id", "subject_digest", "reviewer_id", "status", "deterministic_tests_primary", "satisfies_team_merge_gate", "reviewed_at"],
+  "required": ["schema", "run_id", "subject_digest", "reviewer_id", "status", "deterministic_tests_primary", "satisfies_team_merge_gate", "reviewed_at", "review_digest"],
   "properties": {
     "schema": {"const": "ao.architecture.autonomous-issue-repair.reviewer-independence.v1"},
     "run_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{7,127}$"},
@@ -13,6 +13,7 @@
     "status": {"enum": ["independent", "same_vendor", "unavailable", "unverified"]},
     "deterministic_tests_primary": {"const": true},
     "satisfies_team_merge_gate": {"type": "boolean"},
-    "reviewed_at": {"type": "string", "format": "date-time"}
+    "reviewed_at": {"type": "string", "format": "date-time"},
+    "review_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
   }
 }

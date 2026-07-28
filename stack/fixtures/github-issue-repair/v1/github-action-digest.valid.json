@@ -19,6 +19,10 @@
   ],
   "action": "open_draft_pr",
   "approved_at": "2026-07-27T23:20:00Z",
-  "expires_at": "2026-07-29T00:00:00Z",
-  "action_digest": "680a779aafc80c4e6aee9aea4b3c8d3c1444cac746445f6f0e0767dce7f33093"
+  "expires_at": "2026-07-28T23:20:00Z",
+  "run_envelope_digest": "1b2970bc69f2be7493dc2b4783fa9a5b169f6656d88c2aefb5557d8440a4b588",
+  "candidate_decision_digest": "706b3dd556fb8a76e20d90569c4b39e7843f396feba95bac279de4aac9540ca5",
+  "governance_decision_digest": "511d2ed0547ecdc1e7f7dcb966481bbc84e0aba878c3d14339d3438505decdd8",
+  "reviewer_independence_digest": "4060da815087c687dfa43f88b67ff93acf99786808aca49582fe6140aa9381db",
+  "action_digest": "27501ab66fa2abdb17ac94b8d3a33d9c15ee64e5f3a645dd39a5e77f97264faa"
 }

@@ -18,6 +18,18 @@ class GitHubIssueAutonomousContractsTest(unittest.TestCase):
         vector = contracts.AUTONOMOUS_CONTRACTS[name][2]
         return json.loads((ROOT / vector).read_text())
 
+    def successor_envelope(self):
+        predecessor = self.load_vector("immutable_run_envelope")
+        successor = copy.deepcopy(predecessor)
+        successor["run_id"] = "repair-run-successor"
+        successor["predecessor_digest"] = predecessor["canonical_digest"]
+        successor["lineage"] = {
+            "kind": "narrower_successor",
+            "predecessor_run_id": predecessor["run_id"],
+            "predecessor_digest": predecessor["canonical_digest"],
+        }
+        return predecessor, successor
+
     def test_requires_all_eight_separately_versioned_strict_schemas(self):
         self.assertEqual(len(contracts.AUTONOMOUS_CONTRACTS), 8)
         for schema_id, schema_path, vector_path in contracts.AUTONOMOUS_CONTRACTS.values():
@@ -110,6 +122,478 @@ class GitHubIssueAutonomousContractsTest(unittest.TestCase):
             self.load_vector("checkpoint"), event
         )
         self.assertIn("checkpoint last_event_sequence must match event sequence", errors)
+
+    def test_candidate_selected_requires_all_authenticity_predicates(self):
+        for field in (
+            "open_bug",
+            "target_in_repository",
+            "no_existing_fix",
+            "current_head_unfixed",
+            "public_reproduction_feasible",
+            "deterministic_local_reproduction",
+            "expected_behavior_grounded",
+            "bounded_policy_compatible",
+        ):
+            candidate = self.load_vector("candidate_decision")
+            candidate["eligibility"][field] = False
+            errors = contracts.validate_contract_instance(
+                "candidate_decision", candidate
+            )
+            self.assertIn(
+                f"selected candidate requires eligibility.{field}=true", errors
+            )
+
+        candidate = self.load_vector("candidate_decision")
+        candidate["eligibility"]["security_sensitive"] = True
+        errors = contracts.validate_contract_instance("candidate_decision", candidate)
+        self.assertIn(
+            "selected candidate requires eligibility.security_sensitive=false",
+            errors,
+        )
+
+    def test_candidate_selected_requires_grounded_expected_behavior(self):
+        candidate = self.load_vector("candidate_decision")
+        candidate["expected_behavior_source"] = "unavailable"
+        errors = contracts.validate_contract_instance("candidate_decision", candidate)
+        self.assertIn(
+            "selected candidate requires a grounded expected_behavior_source",
+            errors,
+        )
+
+    def test_candidate_excluded_requires_a_failing_predicate(self):
+        candidate = self.load_vector("candidate_decision")
+        candidate["decision"] = "excluded"
+        errors = contracts.validate_contract_instance("candidate_decision", candidate)
+        self.assertIn("excluded candidate requires a failing predicate", errors)
+
+    def test_candidate_decision_has_a_bound_canonical_digest(self):
+        candidate = self.load_vector("candidate_decision")
+        self.assertRegex(candidate.get("decision_digest", ""), r"^[0-9a-f]{64}$")
+        candidate["rank"] = 2
+        errors = contracts.validate_contract_instance("candidate_decision", candidate)
+        self.assertIn(
+            "candidate decision digest does not match canonical fields", errors
+        )
+
+    def test_discovery_rejects_duplicate_or_unlinked_issue_numbers(self):
+        discovery = self.load_vector("bounded_discovery_result")
+        discovery["issues"][1]["number"] = discovery["issues"][0]["number"]
+        errors = contracts.validate_contract_instance(
+            "bounded_discovery_result", discovery
+        )
+        self.assertIn("discovery issue numbers must be unique", errors)
+
+        discovery = self.load_vector("bounded_discovery_result")
+        discovery["candidates"][0]["issue_number"] = 999
+        errors = contracts.validate_contract_instance(
+            "bounded_discovery_result", discovery
+        )
+        self.assertIn("discovery candidates must be a subset of snapshot issues", errors)
+
+    def test_discovery_rejects_duplicate_candidate_numbers_or_ranks(self):
+        discovery = self.load_vector("bounded_discovery_result")
+        duplicate = copy.deepcopy(discovery["candidates"][0])
+        duplicate["decision_digest"] = "1" * 64
+        discovery["candidates"].append(duplicate)
+        errors = contracts.validate_contract_instance(
+            "bounded_discovery_result", discovery
+        )
+        self.assertIn("discovery candidate numbers must be unique", errors)
+        self.assertIn("discovery candidate ranks must be unique", errors)
+
+    def test_discovery_requires_contiguous_deterministic_ranks(self):
+        discovery = self.load_vector("bounded_discovery_result")
+        discovery["candidates"][0]["rank"] = 2
+        errors = contracts.validate_contract_instance(
+            "bounded_discovery_result", discovery
+        )
+        self.assertIn("discovery candidate ranks must be contiguous from one", errors)
+
+    def test_discovery_exclusion_ledger_exactly_covers_unselected_snapshot(self):
+        discovery = self.load_vector("bounded_discovery_result")
+        discovery["exclusion_ledger"] = []
+        errors = contracts.validate_contract_instance(
+            "bounded_discovery_result", discovery
+        )
+        self.assertIn(
+            "discovery exclusion ledger must exactly cover unselected snapshot issues",
+            errors,
+        )
+
+        discovery = self.load_vector("bounded_discovery_result")
+        duplicate = copy.deepcopy(discovery["exclusion_ledger"][0])
+        duplicate["reason_codes"] = ["different_reason"]
+        discovery["exclusion_ledger"].append(duplicate)
+        errors = contracts.validate_contract_instance(
+            "bounded_discovery_result", discovery
+        )
+        self.assertIn("discovery exclusion issue numbers must be unique", errors)
+
+    def test_discovery_zero_selection_excludes_every_snapshot_issue(self):
+        discovery = self.load_vector("bounded_discovery_result")
+        discovery["selected_issue_number"] = None
+        errors = contracts.validate_contract_instance(
+            "bounded_discovery_result", discovery
+        )
+        self.assertIn(
+            "zero-selection discovery must exclude every snapshot issue", errors
+        )
+
+    def test_discovery_cross_links_canonical_candidate_decision(self):
+        discovery = self.load_vector("bounded_discovery_result")
+        candidate = self.load_vector("candidate_decision")
+        discovery["candidates"][0]["decision_digest"] = "0" * 64
+        errors = contracts.validate_discovery_candidate_link(discovery, candidate)
+        self.assertIn(
+            "discovery candidate digest must match canonical candidate decision",
+            errors,
+        )
+
+    def test_envelope_requires_created_at_and_bounded_future_expiry(self):
+        envelope = self.load_vector("immutable_run_envelope")
+        self.assertRegex(envelope.get("created_at", ""), r".+Z$")
+
+        envelope["created_at"] = "2026-07-27T20:00:00Z"
+        envelope["expires_at"] = "2026-07-27T19:59:59Z"
+        errors = contracts.validate_contract_instance(
+            "immutable_run_envelope",
+            envelope,
+            reference_time=datetime(2026, 7, 27, 19, tzinfo=timezone.utc),
+        )
+        self.assertIn("run envelope expiry must follow creation", errors)
+
+        envelope = self.load_vector("immutable_run_envelope")
+        envelope["created_at"] = "2026-07-27T20:00:00Z"
+        envelope["expires_at"] = "2026-07-28T04:00:01Z"
+        errors = contracts.validate_contract_instance(
+            "immutable_run_envelope",
+            envelope,
+            reference_time=datetime(2026, 7, 27, 19, tzinfo=timezone.utc),
+        )
+        self.assertIn("run envelope expiry exceeds wall_clock_seconds", errors)
+
+        envelope = self.load_vector("immutable_run_envelope")
+        envelope["created_at"] = "2026-07-27T20:00:00Z"
+        envelope["expires_at"] = "2026-07-27T20:00:00Z"
+        errors = contracts.validate_contract_instance(
+            "immutable_run_envelope",
+            envelope,
+            reference_time=datetime(2026, 7, 27, 20, tzinfo=timezone.utc),
+        )
+        self.assertIn("run envelope is expired", errors)
+
+    def test_envelope_binds_url_repository_and_trigger_mode(self):
+        envelope = self.load_vector("immutable_run_envelope")
+        envelope["trigger"]["repository"] = "other/repository"
+        errors = contracts.validate_contract_instance(
+            "immutable_run_envelope", envelope
+        )
+        self.assertIn("run envelope URL repository must match trigger repository", errors)
+
+        envelope = self.load_vector("immutable_run_envelope")
+        envelope["trigger"]["mode"] = "explicit_issue"
+        errors = contracts.validate_contract_instance(
+            "immutable_run_envelope", envelope
+        )
+        self.assertIn("explicit_issue mode requires a numbered issue URL", errors)
+
+        envelope = self.load_vector("immutable_run_envelope")
+        envelope["trigger"]["canonical_url"] += "/101"
+        errors = contracts.validate_contract_instance(
+            "immutable_run_envelope", envelope
+        )
+        self.assertIn("issue_list mode requires an issue-list URL", errors)
+
+    def test_envelope_lineage_is_strict_for_origin_and_successor(self):
+        envelope = self.load_vector("immutable_run_envelope")
+        envelope["predecessor_digest"] = "a" * 64
+        envelope["lineage"]["predecessor_digest"] = "a" * 64
+        envelope["lineage"]["predecessor_run_id"] = "repair-run-previous"
+        errors = contracts.validate_contract_instance(
+            "immutable_run_envelope", envelope
+        )
+        self.assertIn("origin envelope predecessor fields must be null", errors)
+
+        envelope = self.load_vector("immutable_run_envelope")
+        envelope["lineage"]["kind"] = "same_envelope_resume"
+        errors = contracts.validate_contract_instance(
+            "immutable_run_envelope", envelope
+        )
+        self.assertTrue(
+            any("lineage.kind" in error or "one of" in error for error in errors),
+            errors,
+        )
+
+        envelope = self.load_vector("immutable_run_envelope")
+        envelope["lineage"]["kind"] = "narrower_successor"
+        errors = contracts.validate_contract_instance(
+            "immutable_run_envelope", envelope
+        )
+        self.assertIn(
+            "narrower successor lineage requires bound predecessor fields", errors
+        )
+
+    def test_envelope_auto_merge_requires_explicit_sole_control_opt_in(self):
+        envelope = self.load_vector("immutable_run_envelope")
+        self.assertFalse(
+            envelope["governance"].get("sole_control_auto_merge_opt_in")
+        )
+
+        envelope["governance"]["allowed_actions"].append("auto_merge")
+        errors = contracts.validate_contract_instance(
+            "immutable_run_envelope", envelope
+        )
+        self.assertIn("auto_merge requires sole-control explicit opt-in", errors)
+
+        envelope = self.load_vector("immutable_run_envelope")
+        envelope["governance"]["sole_control_auto_merge_opt_in"] = True
+        errors = contracts.validate_contract_instance(
+            "immutable_run_envelope", envelope
+        )
+        self.assertIn(
+            "auto-merge opt-in is only valid for sole_control governance", errors
+        )
+
+    def test_successor_requires_exact_trigger_loop_and_routing_identity(self):
+        mutations = (
+            ("trigger", "mode", "explicit_issue", "successor trigger must exactly match predecessor"),
+            ("loop", "goal", "widened goal", "successor loop must exactly match predecessor"),
+            ("routing", "fork_owner", "other", "successor routing.fork_owner must match predecessor"),
+            ("routing", "repair_branch", "codex/other", "successor routing.repair_branch must match predecessor"),
+        )
+        for owner, field, value, expected in mutations:
+            predecessor, successor = self.successor_envelope()
+            successor[owner][field] = value
+            errors = contracts.validate_successor_envelope(predecessor, successor)
+            self.assertIn(expected, errors)
+
+    def test_successor_cannot_drop_guards_or_change_terminal_statuses(self):
+        predecessor, successor = self.successor_envelope()
+        successor["routing"]["protected_path_classes"].pop()
+        errors = contracts.validate_successor_envelope(predecessor, successor)
+        self.assertIn(
+            "successor protected_path_classes must include predecessor guards",
+            errors,
+        )
+
+        predecessor, successor = self.successor_envelope()
+        successor["routing"]["required_checks"].pop()
+        errors = contracts.validate_successor_envelope(predecessor, successor)
+        self.assertIn(
+            "successor required_checks must include predecessor checks", errors
+        )
+
+        predecessor, successor = self.successor_envelope()
+        successor["stop_conditions"].pop()
+        errors = contracts.validate_successor_envelope(predecessor, successor)
+        self.assertIn(
+            "successor stop_conditions must include predecessor conditions", errors
+        )
+
+        predecessor, successor = self.successor_envelope()
+        successor["terminal_statuses"].pop()
+        errors = contracts.validate_successor_envelope(predecessor, successor)
+        self.assertIn(
+            "successor terminal_statuses must exactly match predecessor", errors
+        )
+
+    def test_successor_cannot_move_creation_backward_or_extend_expiry(self):
+        predecessor, successor = self.successor_envelope()
+        predecessor["created_at"] = "2026-07-27T20:00:00Z"
+        successor["created_at"] = "2026-07-27T19:59:59Z"
+        errors = contracts.validate_successor_envelope(predecessor, successor)
+        self.assertIn("successor created_at must not move backward", errors)
+
+        predecessor, successor = self.successor_envelope()
+        successor["expires_at"] = "2026-07-30T00:00:00Z"
+        errors = contracts.validate_successor_envelope(predecessor, successor)
+        self.assertIn("successor expires_at must not extend predecessor", errors)
+
+    def test_governance_decision_has_a_bound_canonical_digest(self):
+        governance = self.load_vector("governance_decision")
+        self.assertRegex(governance.get("decision_digest", ""), r"^[0-9a-f]{64}$")
+        governance["head_sha"] = "c" * 40
+        errors = contracts.validate_contract_instance(
+            "governance_decision", governance
+        )
+        self.assertIn(
+            "governance decision digest does not match canonical fields", errors
+        )
+
+    def test_governance_unauthorized_merge_requires_never_mode(self):
+        governance = self.load_vector("governance_decision")
+        governance["merge"]["mode"] = "manual"
+        errors = contracts.validate_contract_instance(
+            "governance_decision", governance
+        )
+        self.assertIn("unauthorized governance merge mode must be never", errors)
+
+    def test_any_authorized_merge_requires_safe_exact_head_checks(self):
+        governance = self.load_vector("governance_decision")
+        governance["governance_class"] = "sole_control"
+        governance["push_target"] = "authorized_operator_repository"
+        governance["pull_request_mode"] = "draft_or_ready_by_policy"
+        governance["merge"]["authorized"] = True
+        governance["merge"]["mode"] = "manual"
+        governance["merge"]["auto_merge_opt_in"] = False
+
+        governance["protected_path_touched"] = True
+        governance["required_checks"] = []
+        errors = contracts.validate_contract_instance(
+            "governance_decision", governance
+        )
+        self.assertIn("authorized merge must not touch protected paths", errors)
+        self.assertIn(
+            "authorized merge requires nonempty all-success exact-head checks", errors
+        )
+
+        governance["protected_path_touched"] = False
+        governance["required_checks"] = [
+            {
+                "name": "test",
+                "conclusion": "pending",
+                "head_sha": governance["head_sha"],
+            }
+        ]
+        errors = contracts.validate_contract_instance(
+            "governance_decision", governance
+        )
+        self.assertIn(
+            "authorized merge requires nonempty all-success exact-head checks", errors
+        )
+
+    def test_sole_control_auto_merge_requires_explicit_opt_in(self):
+        governance = self.load_vector("governance_decision")
+        governance["governance_class"] = "sole_control"
+        governance["push_target"] = "authorized_operator_repository"
+        governance["pull_request_mode"] = "draft_or_ready_by_policy"
+        governance["merge"]["authorized"] = True
+        governance["merge"]["mode"] = "auto_merge"
+        governance["merge"]["auto_merge_opt_in"] = False
+        errors = contracts.validate_contract_instance(
+            "governance_decision", governance
+        )
+        self.assertIn("sole-control auto_merge requires explicit opt-in", errors)
+
+    def test_team_merge_requires_merge_queue_and_exact_independent_approval(self):
+        governance = self.load_vector("governance_decision")
+        governance["governance_class"] = "team"
+        governance["push_target"] = "policy_authorized_branch"
+        governance["pull_request_mode"] = "draft_or_ready_by_policy"
+        governance["merge"]["authorized"] = True
+        governance["merge"]["mode"] = "manual"
+        governance["merge"]["approval_kind"] = "independent_human"
+        governance["merge"]["approval_head_sha"] = governance["head_sha"]
+        errors = contracts.validate_contract_instance(
+            "governance_decision", governance
+        )
+        self.assertIn("team merge must use merge_queue", errors)
+
+        governance["merge"]["mode"] = "merge_queue"
+        governance["merge"]["approval_head_sha"] = "c" * 40
+        errors = contracts.validate_contract_instance(
+            "governance_decision", governance
+        )
+        self.assertIn(
+            "team merge requires independent approval on the exact head SHA",
+            errors,
+        )
+
+    def test_external_and_unknown_governance_have_permanent_denials(self):
+        for governance_class in ("external", "unknown"):
+            governance = self.load_vector("governance_decision")
+            governance["governance_class"] = governance_class
+            governance["merge"]["approval_kind"] = "independent_human"
+            governance["merge"]["approval_head_sha"] = governance["head_sha"]
+            governance["merge"]["auto_merge_opt_in"] = True
+            errors = contracts.validate_contract_instance(
+                "governance_decision", governance
+            )
+            self.assertIn(
+                f"{governance_class} governance must not carry merge approval",
+                errors,
+            )
+            self.assertIn(
+                f"{governance_class} governance must not opt into auto-merge",
+                errors,
+            )
+
+    def test_reviewer_result_has_a_bound_canonical_digest(self):
+        review = self.load_vector("reviewer_independence")
+        self.assertRegex(review.get("review_digest", ""), r"^[0-9a-f]{64}$")
+        review["reviewer_id"] = "different-reviewer"
+        errors = contracts.validate_contract_instance(
+            "reviewer_independence", review
+        )
+        self.assertIn(
+            "reviewer independence digest does not match canonical fields", errors
+        )
+
+    def test_action_digest_requires_nonempty_write_checks(self):
+        action = self.load_vector("github_action_digest")
+        action["required_checks"] = []
+        errors = contracts.validate_contract_instance(
+            "github_action_digest",
+            action,
+            reference_time=datetime(2026, 7, 28, tzinfo=timezone.utc),
+        )
+        self.assertTrue(
+            any("required_checks" in error for error in errors),
+            errors,
+        )
+
+    def test_action_digest_binds_all_upstream_decision_digests(self):
+        action = self.load_vector("github_action_digest")
+        expected_fields = (
+            "run_envelope_digest",
+            "candidate_decision_digest",
+            "governance_decision_digest",
+            "reviewer_independence_digest",
+        )
+        for field in expected_fields:
+            self.assertRegex(action.get(field, ""), r"^[0-9a-f]{64}$", field)
+
+        expected_errors = {
+            "run_envelope_digest": (
+                "action run_envelope_digest must match canonical envelope"
+            ),
+            "candidate_decision_digest": (
+                "action candidate_decision_digest must match canonical candidate"
+            ),
+            "governance_decision_digest": (
+                "action governance_decision_digest must match canonical governance"
+            ),
+            "reviewer_independence_digest": (
+                "action reviewer_independence_digest must match canonical review"
+            ),
+        }
+        for field, expected in expected_errors.items():
+            mutated = copy.deepcopy(action)
+            mutated[field] = "0" * 64
+            errors = contracts.validate_action_digest_links(
+                mutated,
+                self.load_vector("immutable_run_envelope"),
+                self.load_vector("candidate_decision"),
+                self.load_vector("governance_decision"),
+                self.load_vector("reviewer_independence"),
+            )
+            self.assertIn(expected, errors)
+
+    def test_action_approval_lifetime_is_at_most_twenty_four_hours(self):
+        action = self.load_vector("github_action_digest")
+        action["expires_at"] = "2026-07-29T23:20:01Z"
+        errors = contracts.validate_contract_instance(
+            "github_action_digest",
+            action,
+            reference_time=datetime(2026, 7, 28, tzinfo=timezone.utc),
+        )
+        self.assertIn("github action approval lifetime must not exceed 24 hours", errors)
+
+    def test_strict_rfc3339_rejects_spaces_and_second_offsets(self):
+        self.assertIsNone(contracts._parse_timestamp("2026-07-27 23:20:00Z"))
+        self.assertIsNone(
+            contracts._parse_timestamp("2026-07-27T23:20:00+00:00:30")
+        )
 
 
 if __name__ == "__main__":

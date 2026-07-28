@@ -1,9 +1,9 @@
 {
   "schema": "ao.architecture.autonomous-issue-repair.checkpoint.v1",
   "run_id": "repair-run-20260728",
-  "run_envelope_digest": "fa0350c57eb61263a27c465df1e20eca28826c51376f3937a1bab11a6809c91a",
+  "run_envelope_digest": "1b2970bc69f2be7493dc2b4783fa9a5b169f6656d88c2aefb5557d8440a4b588",
   "last_event_sequence": 2,
-  "last_event_digest": "1dbb73ba7b9607a49f6383edb7e3858774e3ee7eb53c9f34e667fd6d132d204f",
+  "last_event_digest": "9367e38c4214c9684aa6a3e200bdf2fc72a8ed5c8cc28cc9ce63654605f261aa",
   "state_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
   "lease": {
     "lease_id": "lease-run-20260728",
@@ -12,6 +12,6 @@
     "expires_at": "2026-07-28T02:00:00Z",
     "previous_worker_active": false
   },
-  "checkpoint_digest": "1671559dc068f0fed096d091c1bb988a0638bbf371820ae50e67871522daaa04",
+  "checkpoint_digest": "a8aedc8a2d5eacb76e10ff691e8b746f1557db5681294eae42f8a27498a3a03a",
   "created_at": "2026-07-27T23:01:00Z"
 }

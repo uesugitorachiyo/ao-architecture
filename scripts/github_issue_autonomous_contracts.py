@@ -10,6 +10,11 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA_DIALECT = "https://json-schema.org/draft/2020-12/schema"
+RFC3339_PATTERN = re.compile(
+    r"^[0-9]{4}-[0-9]{2}-[0-9]{2}T"
+    r"[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\.[0-9]+)?"
+    r"(?:Z|[+-][0-9]{2}:[0-9]{2})$"
+)
 AUTONOMOUS_CONTRACTS = {
     "immutable_run_envelope": (
         "ao.architecture.autonomous-issue-repair.run-envelope.v1",
@@ -65,7 +70,7 @@ def _canonical_sha256(document: dict[str, Any], excluded_field: str) -> str:
 
 
 def _parse_timestamp(value: Any) -> datetime | None:
-    if not isinstance(value, str):
+    if not isinstance(value, str) or RFC3339_PATTERN.fullmatch(value) is None:
         return None
     try:
         parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
@@ -222,6 +227,18 @@ def validate_contract_instance(
             "action_digest",
             "github action digest does not match canonical action fields",
         ),
+        "candidate_decision": (
+            "decision_digest",
+            "candidate decision digest does not match canonical fields",
+        ),
+        "governance_decision": (
+            "decision_digest",
+            "governance decision digest does not match canonical fields",
+        ),
+        "reviewer_independence": (
+            "review_digest",
+            "reviewer independence digest does not match canonical fields",
+        ),
     }
     if name in digest_fields:
         field, error = digest_fields[name]
@@ -238,6 +255,14 @@ def validate_contract_instance(
             and approved_at >= expires_at
         ):
             errors.append("github action digest expiry must follow approval")
+        if (
+            approved_at is not None
+            and expires_at is not None
+            and (expires_at - approved_at).total_seconds() > 24 * 60 * 60
+        ):
+            errors.append(
+                "github action approval lifetime must not exceed 24 hours"
+            )
         if expires_at is not None and expires_at <= now.astimezone(timezone.utc):
             errors.append("github action digest approval is stale")
         if any(
@@ -245,12 +270,42 @@ def validate_contract_instance(
             for check in instance["required_checks"]
         ):
             errors.append("github action digest checks must bind the exact head SHA")
+        if not instance["required_checks"] or any(
+            check["conclusion"] != "success"
+            or check["head_sha"] != instance["head_sha"]
+            for check in instance["required_checks"]
+        ):
+            errors.append(
+                "GitHub write action requires nonempty all-success exact-head checks"
+            )
     elif name == "governance_decision":
         governance_class = instance["governance_class"]
+        merge = instance["merge"]
+        if not merge["authorized"] and merge["mode"] != "never":
+            errors.append("unauthorized governance merge mode must be never")
+        if merge["authorized"]:
+            checks = instance["required_checks"]
+            checks_pass = bool(checks) and all(
+                check["conclusion"] == "success"
+                and check["head_sha"] == instance["head_sha"]
+                for check in checks
+            )
+            if instance["protected_path_touched"]:
+                errors.append("authorized merge must not touch protected paths")
+            if not checks_pass:
+                errors.append(
+                    "authorized merge requires nonempty all-success exact-head checks"
+                )
+        if (
+            governance_class == "sole_control"
+            and merge["mode"] == "auto_merge"
+            and not merge["auto_merge_opt_in"]
+        ):
+            errors.append("sole-control auto_merge requires explicit opt-in")
         if governance_class in {"external", "unknown"}:
             if (
-                instance["merge"]["authorized"] is not False
-                or instance["merge"]["mode"] != "never"
+                merge["authorized"] is not False
+                or merge["mode"] != "never"
             ):
                 errors.append(f"{governance_class} governance must deny merge")
             if instance["push_target"] != "operator_owned_fork":
@@ -261,16 +316,33 @@ def validate_contract_instance(
                 errors.append(
                     f"{governance_class} governance must remain upstream draft only"
                 )
+            if (
+                merge["approval_kind"] != "none"
+                or merge["approval_head_sha"] is not None
+            ):
+                errors.append(
+                    f"{governance_class} governance must not carry merge approval"
+                )
+            if merge["auto_merge_opt_in"]:
+                errors.append(
+                    f"{governance_class} governance must not opt into auto-merge"
+                )
         if (
             governance_class == "team"
-            and instance["merge"]["authorized"]
+            and merge["authorized"]
             and (
-                instance["merge"]["approval_kind"]
+                merge["approval_kind"]
                 not in {"independent_human", "codeowner"}
-                or instance["merge"]["approval_head_sha"] != instance["head_sha"]
+                or merge["approval_head_sha"] != instance["head_sha"]
             )
         ):
             errors.append("team merge requires independent approval on the exact head SHA")
+        if (
+            governance_class == "team"
+            and merge["authorized"]
+            and merge["mode"] != "merge_queue"
+        ):
+            errors.append("team merge must use merge_queue")
         if any(
             check["head_sha"] != instance["head_sha"]
             for check in instance["required_checks"]
@@ -294,10 +366,132 @@ def validate_contract_instance(
         candidate_numbers = {
             candidate["issue_number"] for candidate in instance["candidates"]
         }
+        issue_numbers = [issue["number"] for issue in instance["issues"]]
+        if len(issue_numbers) != len(set(issue_numbers)):
+            errors.append("discovery issue numbers must be unique")
+        candidate_number_list = [
+            candidate["issue_number"] for candidate in instance["candidates"]
+        ]
+        if len(candidate_number_list) != len(set(candidate_number_list)):
+            errors.append("discovery candidate numbers must be unique")
+        if not candidate_numbers.issubset(set(issue_numbers)):
+            errors.append("discovery candidates must be a subset of snapshot issues")
+        ranks = [candidate["rank"] for candidate in instance["candidates"]]
+        if len(ranks) != len(set(ranks)):
+            errors.append("discovery candidate ranks must be unique")
+        if ranks != list(range(1, len(ranks) + 1)):
+            errors.append("discovery candidate ranks must be contiguous from one")
         selected = instance["selected_issue_number"]
         if selected is not None and selected not in candidate_numbers:
             errors.append("selected issue must be present in candidates")
+        excluded = [
+            entry["issue_number"] for entry in instance["exclusion_ledger"]
+        ]
+        if len(excluded) != len(set(excluded)):
+            errors.append("discovery exclusion issue numbers must be unique")
+        expected_excluded = set(issue_numbers)
+        if selected is not None:
+            expected_excluded.discard(selected)
+        if set(excluded) != expected_excluded:
+            errors.append(
+                "discovery exclusion ledger must exactly cover unselected snapshot issues"
+            )
+        if selected is None and set(excluded) != set(issue_numbers):
+            errors.append("zero-selection discovery must exclude every snapshot issue")
+    elif name == "candidate_decision":
+        eligibility = instance["eligibility"]
+        positive_fields = (
+            "open_bug",
+            "target_in_repository",
+            "no_existing_fix",
+            "current_head_unfixed",
+            "public_reproduction_feasible",
+            "deterministic_local_reproduction",
+            "expected_behavior_grounded",
+            "bounded_policy_compatible",
+        )
+        failing_predicate = any(
+            eligibility[field] is not True for field in positive_fields
+        ) or eligibility["security_sensitive"] is True
+        grounded_source = instance["expected_behavior_source"] != "unavailable"
+        if instance["decision"] in {"eligible", "selected"}:
+            for field in positive_fields:
+                if eligibility[field] is not True:
+                    errors.append(
+                        f"{instance['decision']} candidate requires "
+                        f"eligibility.{field}=true"
+                    )
+            if eligibility["security_sensitive"] is not False:
+                errors.append(
+                    f"{instance['decision']} candidate requires "
+                    "eligibility.security_sensitive=false"
+                )
+            if not grounded_source:
+                errors.append(
+                    f"{instance['decision']} candidate requires a grounded "
+                    "expected_behavior_source"
+                )
+        elif not failing_predicate and grounded_source:
+            errors.append("excluded candidate requires a failing predicate")
     elif name == "immutable_run_envelope":
+        match = re.fullmatch(
+            r"https://github\.com/([A-Za-z0-9_.-]+)/"
+            r"([A-Za-z0-9_.-]+)/issues(?:/([1-9][0-9]*))?",
+            instance["trigger"]["canonical_url"],
+        )
+        if (
+            match is None
+            or f"{match.group(1)}/{match.group(2)}"
+            != instance["trigger"]["repository"]
+        ):
+            errors.append(
+                "run envelope URL repository must match trigger repository"
+            )
+        issue_number = match.group(3) if match is not None else None
+        if (
+            instance["trigger"]["mode"] == "explicit_issue"
+            and issue_number is None
+        ):
+            errors.append("explicit_issue mode requires a numbered issue URL")
+        if instance["trigger"]["mode"] == "issue_list" and issue_number is not None:
+            errors.append("issue_list mode requires an issue-list URL")
+        created_at = _parse_timestamp(instance["created_at"])
+        expires_at = _parse_timestamp(instance["expires_at"])
+        if (
+            created_at is not None
+            and expires_at is not None
+            and expires_at <= created_at
+        ):
+            errors.append("run envelope expiry must follow creation")
+        if (
+            created_at is not None
+            and expires_at is not None
+            and (expires_at - created_at).total_seconds()
+            > instance["budgets"]["wall_clock_seconds"]
+        ):
+            errors.append("run envelope expiry exceeds wall_clock_seconds")
+        if (
+            reference_time is not None
+            and expires_at is not None
+            and expires_at <= reference_time.astimezone(timezone.utc)
+        ):
+            errors.append("run envelope is expired")
+        lineage = instance["lineage"]
+        if lineage["kind"] == "origin" and (
+            instance["predecessor_digest"] is not None
+            or lineage["predecessor_run_id"] is not None
+            or lineage["predecessor_digest"] is not None
+        ):
+            errors.append("origin envelope predecessor fields must be null")
+        if lineage["kind"] == "narrower_successor" and (
+            instance["predecessor_digest"] is None
+            or lineage["predecessor_run_id"] is None
+            or lineage["predecessor_digest"] is None
+            or lineage["predecessor_digest"] != instance["predecessor_digest"]
+        ):
+            errors.append(
+                "narrower successor lineage requires bound predecessor fields"
+            )
         if (
             instance["routing"]["default_branch"]
             != instance["trigger"]["default_branch"]
@@ -311,6 +505,22 @@ def validate_contract_instance(
                 errors.append(
                     "external or unknown run envelope must remain draft-only"
                 )
+        opt_in = instance["governance"]["sole_control_auto_merge_opt_in"]
+        if (
+            opt_in
+            and instance["governance"]["ownership_class"] != "sole_control"
+        ):
+            errors.append(
+                "auto-merge opt-in is only valid for sole_control governance"
+            )
+        if (
+            "auto_merge" in instance["governance"]["allowed_actions"]
+            and (
+                instance["governance"]["ownership_class"] != "sole_control"
+                or not opt_in
+            )
+        ):
+            errors.append("auto_merge requires sole-control explicit opt-in")
     elif name == "append_only_event":
         if instance["sequence"] == 1 and instance["previous_event_digest"] is not None:
             errors.append("first event must not declare a predecessor")
@@ -323,14 +533,20 @@ def validate_successor_envelope(
     predecessor: dict[str, Any], successor: dict[str, Any]
 ) -> list[str]:
     errors: list[str] = []
-    for field in ("repository", "canonical_url", "pinned_base_commit"):
-        if successor["trigger"].get(field) != predecessor["trigger"].get(field):
-            errors.append(f"successor trigger.{field} must match predecessor")
+    if successor["trigger"] != predecessor["trigger"]:
+        errors.append("successor trigger must exactly match predecessor")
+    if successor["loop"] != predecessor["loop"]:
+        errors.append("successor loop must exactly match predecessor")
     if (
         successor["governance"]["ownership_class"]
         != predecessor["governance"]["ownership_class"]
     ):
         errors.append("successor governance.ownership_class must match predecessor")
+    if (
+        successor["governance"]["sole_control_auto_merge_opt_in"]
+        and not predecessor["governance"]["sole_control_auto_merge_opt_in"]
+    ):
+        errors.append("successor auto-merge opt-in must not widen predecessor")
     for field in ("snapshot_limit", "candidate_limit", "selected_limit"):
         if successor["discovery"][field] > predecessor["discovery"][field]:
             errors.append(f"successor discovery.{field} must not exceed predecessor")
@@ -345,6 +561,42 @@ def validate_successor_envelope(
     successor_denied = set(successor["governance"]["denied_actions"])
     if not successor_denied.issuperset(predecessor_denied):
         errors.append("successor denied_actions must include predecessor denials")
+    for field in (
+        "default_branch",
+        "pinned_base_commit",
+        "fork_owner",
+        "repair_branch",
+    ):
+        if successor["routing"][field] != predecessor["routing"][field]:
+            errors.append(f"successor routing.{field} must match predecessor")
+    if not set(successor["routing"]["protected_path_classes"]).issuperset(
+        predecessor["routing"]["protected_path_classes"]
+    ):
+        errors.append(
+            "successor protected_path_classes must include predecessor guards"
+        )
+    if not set(successor["routing"]["required_checks"]).issuperset(
+        predecessor["routing"]["required_checks"]
+    ):
+        errors.append("successor required_checks must include predecessor checks")
+    if not set(successor["stop_conditions"]).issuperset(
+        predecessor["stop_conditions"]
+    ):
+        errors.append(
+            "successor stop_conditions must include predecessor conditions"
+        )
+    if successor["terminal_statuses"] != predecessor["terminal_statuses"]:
+        errors.append(
+            "successor terminal_statuses must exactly match predecessor"
+        )
+    predecessor_created = _parse_timestamp(predecessor.get("created_at"))
+    successor_created = _parse_timestamp(successor.get("created_at"))
+    if (
+        predecessor_created is not None
+        and successor_created is not None
+        and successor_created < predecessor_created
+    ):
+        errors.append("successor created_at must not move backward")
     previous_expiry = _parse_timestamp(predecessor["expires_at"])
     successor_expiry = _parse_timestamp(successor["expires_at"])
     if (
@@ -377,6 +629,66 @@ def validate_checkpoint_event_linkage(
         errors.append("checkpoint last_event_sequence must match event sequence")
     if checkpoint.get("last_event_digest") != event.get("event_digest"):
         errors.append("checkpoint last_event_digest must match event digest")
+    return errors
+
+
+def validate_discovery_candidate_link(
+    discovery: dict[str, Any], candidate: dict[str, Any]
+) -> list[str]:
+    errors: list[str] = []
+    matching = [
+        entry
+        for entry in discovery.get("candidates", [])
+        if entry.get("issue_number") == candidate.get("issue_number")
+    ]
+    if len(matching) != 1:
+        errors.append(
+            "canonical candidate decision must appear exactly once in discovery"
+        )
+        return errors
+    if matching[0].get("decision_digest") != candidate.get("decision_digest"):
+        errors.append(
+            "discovery candidate digest must match canonical candidate decision"
+        )
+    if (
+        candidate.get("decision") == "selected"
+        and discovery.get("selected_issue_number") != candidate.get("issue_number")
+    ):
+        errors.append(
+            "selected canonical candidate must match discovery selected issue"
+        )
+    return errors
+
+
+def validate_action_digest_links(
+    action: dict[str, Any],
+    envelope: dict[str, Any],
+    candidate: dict[str, Any],
+    governance: dict[str, Any],
+    reviewer: dict[str, Any],
+) -> list[str]:
+    expected = {
+        "run_envelope_digest": (
+            envelope.get("canonical_digest"),
+            "action run_envelope_digest must match canonical envelope",
+        ),
+        "candidate_decision_digest": (
+            candidate.get("decision_digest"),
+            "action candidate_decision_digest must match canonical candidate",
+        ),
+        "governance_decision_digest": (
+            governance.get("decision_digest"),
+            "action governance_decision_digest must match canonical governance",
+        ),
+        "reviewer_independence_digest": (
+            reviewer.get("review_digest"),
+            "action reviewer_independence_digest must match canonical review",
+        ),
+    }
+    errors: list[str] = []
+    for field, (digest, error) in expected.items():
+        if action.get(field) != digest:
+            errors.append(error)
     return errors
 
 
@@ -475,6 +787,27 @@ def validate_autonomous_family(
         errors.extend(
             f"checkpoint_event_linkage: {error}"
             for error in validate_checkpoint_event_linkage(checkpoint, event)
+        )
+    discovery = instances.get("bounded_discovery_result")
+    candidate = instances.get("candidate_decision")
+    if discovery is not None and candidate is not None:
+        errors.extend(
+            f"discovery_candidate_link: {error}"
+            for error in validate_discovery_candidate_link(discovery, candidate)
+        )
+    action = instances.get("github_action_digest")
+    envelope = instances.get("immutable_run_envelope")
+    governance = instances.get("governance_decision")
+    reviewer = instances.get("reviewer_independence")
+    if all(
+        item is not None
+        for item in (action, envelope, candidate, governance, reviewer)
+    ):
+        errors.extend(
+            f"action_digest_link: {error}"
+            for error in validate_action_digest_links(
+                action, envelope, candidate, governance, reviewer
+            )
         )
 
     if family.get("bounds") != {

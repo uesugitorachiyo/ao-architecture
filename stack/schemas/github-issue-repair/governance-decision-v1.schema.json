@@ -4,7 +4,7 @@
   "title": "AO Autonomous Issue Repair Governance Decision v1",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema", "run_id", "repository", "base_sha", "head_sha", "governance_class", "classification_sources", "push_target", "pull_request_mode", "merge", "protected_path_touched", "required_checks", "action_digest_required", "decided_at"],
+  "required": ["schema", "run_id", "repository", "base_sha", "head_sha", "governance_class", "classification_sources", "push_target", "pull_request_mode", "merge", "protected_path_touched", "required_checks", "action_digest_required", "decided_at", "decision_digest"],
   "properties": {
     "schema": {"const": "ao.architecture.autonomous-issue-repair.governance-decision.v1"},
     "run_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{7,127}$"},
@@ -43,6 +43,7 @@
       }
     },
     "action_digest_required": {"const": true},
-    "decided_at": {"type": "string", "format": "date-time"}
+    "decided_at": {"type": "string", "format": "date-time"},
+    "decision_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
   }
 }
