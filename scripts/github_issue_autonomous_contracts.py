@@ -470,10 +470,10 @@ def validate_contract_instance(
             > instance["budgets"]["wall_clock_seconds"]
         ):
             errors.append("run envelope expiry exceeds wall_clock_seconds")
+        now = reference_time or datetime.now(timezone.utc)
         if (
-            reference_time is not None
-            and expires_at is not None
-            and expires_at <= reference_time.astimezone(timezone.utc)
+            expires_at is not None
+            and expires_at <= now.astimezone(timezone.utc)
         ):
             errors.append("run envelope is expired")
         lineage = instance["lineage"]
@@ -666,7 +666,36 @@ def validate_action_digest_links(
     candidate: dict[str, Any],
     governance: dict[str, Any],
     reviewer: dict[str, Any],
+    *,
+    reference_time: datetime | None = None,
+    root: Path = ROOT,
 ) -> list[str]:
+    documents = (
+        ("github_action_digest", action),
+        ("immutable_run_envelope", envelope),
+        ("candidate_decision", candidate),
+        ("governance_decision", governance),
+        ("reviewer_independence", reviewer),
+    )
+    errors: list[str] = []
+    structurally_valid = True
+    for name, instance in documents:
+        document_errors = validate_contract_instance(
+            name,
+            instance,
+            reference_time=reference_time,
+            root=root,
+        )
+        if document_errors:
+            errors.extend(f"{name}: {error}" for error in document_errors)
+            if any(
+                error.startswith("$") or "schema could not be loaded" in error
+                for error in document_errors
+            ):
+                structurally_valid = False
+    if not structurally_valid:
+        return errors
+
     expected = {
         "run_envelope_digest": (
             envelope.get("canonical_digest"),
@@ -685,10 +714,117 @@ def validate_action_digest_links(
             "action reviewer_independence_digest must match canonical review",
         ),
     }
-    errors: list[str] = []
     for field, (digest, error) in expected.items():
         if action.get(field) != digest:
             errors.append(error)
+
+    run_ids = {
+        action["run_id"],
+        envelope["run_id"],
+        candidate["run_id"],
+        governance["run_id"],
+        reviewer["run_id"],
+    }
+    if len(run_ids) != 1:
+        errors.append("action run_id must match all authority documents")
+
+    repository = action["repository"]
+    if {
+        repository,
+        envelope["trigger"]["repository"],
+        candidate["repository"],
+        governance["repository"],
+    } != {repository}:
+        errors.append("action repository must match all authority documents")
+    if action["issue_number"] != candidate["issue_number"]:
+        errors.append("action issue_number must match selected candidate")
+    if candidate["decision"] != "selected":
+        errors.append("action candidate must be selected")
+
+    base_sha = action["base_sha"]
+    if {
+        base_sha,
+        envelope["trigger"]["pinned_base_commit"],
+        envelope["routing"]["pinned_base_commit"],
+        candidate["base_sha"],
+        governance["base_sha"],
+    } != {base_sha}:
+        errors.append("action base_sha must match all authority documents")
+    if action["head_sha"] != governance["head_sha"]:
+        errors.append("action head_sha must match governance")
+
+    repository_name = repository.split("/", 1)[1]
+    expected_fork = f"{envelope['routing']['fork_owner']}/{repository_name}"
+    if action["fork"] != expected_fork:
+        errors.append("action fork must match envelope fork destination")
+    if action["branch"] != envelope["routing"]["repair_branch"]:
+        errors.append("action branch must match envelope repair branch")
+
+    ownership_class = envelope["governance"]["ownership_class"]
+    if governance["governance_class"] != ownership_class:
+        errors.append("governance class must match envelope ownership class")
+    action_name = action["action"]
+    if action_name not in envelope["governance"]["allowed_actions"]:
+        errors.append("action must be allowed by the run envelope")
+
+    expected_check_names = envelope["routing"]["required_checks"]
+    action_check_names = [check["name"] for check in action["required_checks"]]
+    governance_check_names = [
+        check["name"] for check in governance["required_checks"]
+    ]
+    checks_are_bound = (
+        action_check_names == expected_check_names
+        and governance_check_names == expected_check_names
+        and all(
+            check["conclusion"] == "success"
+            and check["head_sha"] == action["head_sha"]
+            for check in action["required_checks"] + governance["required_checks"]
+        )
+    )
+    if not checks_are_bound:
+        errors.append(
+            "action checks must exactly match successful governance and envelope checks"
+        )
+
+    if reviewer["subject_digest"] != action["diff_digest"]:
+        errors.append("reviewer subject must match action diff digest")
+    if reviewer["deterministic_tests_primary"] is not True:
+        errors.append("action review must use deterministic tests as primary evidence")
+
+    merge = governance["merge"]
+    if action_name == "push_operator_fork":
+        if governance["push_target"] != "operator_owned_fork":
+            errors.append(
+                "push_operator_fork requires operator-owned fork governance"
+            )
+    elif action_name == "open_upstream_draft_pr":
+        if ownership_class in {"external", "unknown"} and (
+            governance["push_target"] != "operator_owned_fork"
+            or governance["pull_request_mode"] != "upstream_draft_only"
+            or merge["authorized"] is not False
+            or merge["mode"] != "never"
+        ):
+            errors.append(
+                "external draft action requires fork-only governance and permanent merge denial"
+            )
+    elif action_name == "open_ready_pr":
+        if (
+            ownership_class in {"external", "unknown"}
+            or governance["pull_request_mode"] != "draft_or_ready_by_policy"
+        ):
+            errors.append(
+                "open_ready_pr requires non-external policy-ready governance"
+            )
+    elif action_name in {"request_merge_queue", "auto_merge"}:
+        required_mode = {
+            "request_merge_queue": "merge_queue",
+            "auto_merge": "auto_merge",
+        }[action_name]
+        if merge["authorized"] is not True or merge["mode"] != required_mode:
+            errors.append(
+                f"{action_name} requires governance authorization in "
+                f"{required_mode} mode"
+            )
     return errors
 
 
@@ -806,7 +942,13 @@ def validate_autonomous_family(
         errors.extend(
             f"action_digest_link: {error}"
             for error in validate_action_digest_links(
-                action, envelope, candidate, governance, reviewer
+                action,
+                envelope,
+                candidate,
+                governance,
+                reviewer,
+                reference_time=reference_time,
+                root=root,
             )
         )
 

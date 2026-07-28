@@ -2,7 +2,7 @@ import copy
 import json
 import sys
 import unittest
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -17,6 +17,38 @@ class GitHubIssueAutonomousContractsTest(unittest.TestCase):
     def load_vector(self, name):
         vector = contracts.AUTONOMOUS_CONTRACTS[name][2]
         return json.loads((ROOT / vector).read_text())
+
+    def coherent_action_family(self):
+        envelope = self.load_vector("immutable_run_envelope")
+        candidate = self.load_vector("candidate_decision")
+        governance = self.load_vector("governance_decision")
+        reviewer = self.load_vector("reviewer_independence")
+        action = self.load_vector("github_action_digest")
+
+        action["action"] = "open_upstream_draft_pr"
+        action["branch"] = envelope["routing"]["repair_branch"]
+        action["required_checks"] = [
+            {
+                "name": name,
+                "conclusion": "success",
+                "head_sha": action["head_sha"],
+            }
+            for name in envelope["routing"]["required_checks"]
+        ]
+        governance["required_checks"] = copy.deepcopy(action["required_checks"])
+        governance["decision_digest"] = contracts._canonical_sha256(
+            governance, "decision_digest"
+        )
+        reviewer["subject_digest"] = action["diff_digest"]
+        reviewer["review_digest"] = contracts._canonical_sha256(
+            reviewer, "review_digest"
+        )
+        action["governance_decision_digest"] = governance["decision_digest"]
+        action["reviewer_independence_digest"] = reviewer["review_digest"]
+        action["action_digest"] = contracts._canonical_sha256(
+            action, "action_digest"
+        )
+        return action, envelope, candidate, governance, reviewer
 
     def successor_envelope(self):
         predecessor = self.load_vector("immutable_run_envelope")
@@ -280,6 +312,25 @@ class GitHubIssueAutonomousContractsTest(unittest.TestCase):
             envelope,
             reference_time=datetime(2026, 7, 27, 20, tzinfo=timezone.utc),
         )
+        self.assertIn("run envelope is expired", errors)
+
+    def test_envelope_rejects_expiry_against_default_current_time(self):
+        envelope = self.load_vector("immutable_run_envelope")
+        now = datetime.now(timezone.utc)
+        envelope["created_at"] = (now - timedelta(hours=2)).isoformat().replace(
+            "+00:00", "Z"
+        )
+        envelope["expires_at"] = (now - timedelta(hours=1)).isoformat().replace(
+            "+00:00", "Z"
+        )
+        envelope["canonical_digest"] = contracts._canonical_sha256(
+            envelope, "canonical_digest"
+        )
+
+        errors = contracts.validate_contract_instance(
+            "immutable_run_envelope", envelope
+        )
+
         self.assertIn("run envelope is expired", errors)
 
     def test_envelope_binds_url_repository_and_trigger_mode(self):
@@ -578,6 +629,275 @@ class GitHubIssueAutonomousContractsTest(unittest.TestCase):
                 self.load_vector("reviewer_independence"),
             )
             self.assertIn(expected, errors)
+
+    def test_action_links_reject_reviewer_subject_substitution_exploit(self):
+        action, envelope, candidate, governance, reviewer = (
+            self.coherent_action_family()
+        )
+        reviewer["subject_digest"] = "c" * 64
+        reviewer["review_digest"] = contracts._canonical_sha256(
+            reviewer, "review_digest"
+        )
+        action["reviewer_independence_digest"] = reviewer["review_digest"]
+        action["action_digest"] = contracts._canonical_sha256(
+            action, "action_digest"
+        )
+
+        errors = contracts.validate_action_digest_links(
+            action, envelope, candidate, governance, reviewer
+        )
+
+        self.assertIn("reviewer subject must match action diff digest", errors)
+
+    def test_action_links_reject_unrelated_auto_merge_exploit(self):
+        action, envelope, candidate, governance, reviewer = (
+            self.coherent_action_family()
+        )
+        action["action"] = "auto_merge"
+        action["action_digest"] = contracts._canonical_sha256(
+            action, "action_digest"
+        )
+
+        errors = contracts.validate_action_digest_links(
+            action, envelope, candidate, governance, reviewer
+        )
+
+        self.assertIn("action must be allowed by the run envelope", errors)
+        self.assertIn(
+            "auto_merge requires governance authorization in auto_merge mode",
+            errors,
+        )
+
+    def test_action_links_reconcile_identity_destination_and_checks(self):
+        mutations = (
+            ("run_id", "other-repair-run", "action run_id must match all authority documents"),
+            ("repository", "other/repository", "action repository must match all authority documents"),
+            ("issue_number", 999, "action issue_number must match selected candidate"),
+            ("base_sha", "2" * 40, "action base_sha must match all authority documents"),
+            ("head_sha", "3" * 40, "action head_sha must match governance"),
+            ("fork", "other/repair-fixture", "action fork must match envelope fork destination"),
+            ("branch", "codex/other", "action branch must match envelope repair branch"),
+        )
+        for field, value, expected in mutations:
+            with self.subTest(field=field):
+                action, envelope, candidate, governance, reviewer = (
+                    self.coherent_action_family()
+                )
+                action[field] = value
+                action["action_digest"] = contracts._canonical_sha256(
+                    action, "action_digest"
+                )
+                errors = contracts.validate_action_digest_links(
+                    action, envelope, candidate, governance, reviewer
+                )
+                self.assertIn(expected, errors)
+
+        action, envelope, candidate, governance, reviewer = (
+            self.coherent_action_family()
+        )
+        candidate["decision"] = "eligible"
+        candidate["decision_digest"] = contracts._canonical_sha256(
+            candidate, "decision_digest"
+        )
+        action["candidate_decision_digest"] = candidate["decision_digest"]
+        action["action_digest"] = contracts._canonical_sha256(
+            action, "action_digest"
+        )
+        errors = contracts.validate_action_digest_links(
+            action, envelope, candidate, governance, reviewer
+        )
+        self.assertIn("action candidate must be selected", errors)
+
+        action, envelope, candidate, governance, reviewer = (
+            self.coherent_action_family()
+        )
+        action["required_checks"][0]["name"] = "other"
+        action["action_digest"] = contracts._canonical_sha256(
+            action, "action_digest"
+        )
+        errors = contracts.validate_action_digest_links(
+            action, envelope, candidate, governance, reviewer
+        )
+        self.assertIn(
+            "action checks must exactly match successful governance and envelope checks",
+            errors,
+        )
+
+    def test_action_names_are_direct_envelope_permissions(self):
+        schema_path = contracts.AUTONOMOUS_CONTRACTS["github_action_digest"][1]
+        schema = json.loads((ROOT / schema_path).read_text())
+        self.assertEqual(
+            schema["properties"]["action"]["enum"],
+            [
+                "push_operator_fork",
+                "open_upstream_draft_pr",
+                "open_ready_pr",
+                "request_merge_queue",
+                "auto_merge",
+            ],
+        )
+
+    def test_canonical_external_action_is_bound_to_draft_only_governance(self):
+        action, envelope, candidate, governance, reviewer = (
+            self.coherent_action_family()
+        )
+        errors = contracts.validate_action_digest_links(
+            action,
+            envelope,
+            candidate,
+            governance,
+            reviewer,
+            reference_time=datetime(2026, 7, 27, 23, 30, tzinfo=timezone.utc),
+        )
+        self.assertEqual(errors, [])
+        self.assertEqual(action["action"], "open_upstream_draft_pr")
+        self.assertIn(action["action"], envelope["governance"]["allowed_actions"])
+        self.assertEqual(governance["governance_class"], "external")
+        self.assertEqual(governance["push_target"], "operator_owned_fork")
+        self.assertEqual(governance["pull_request_mode"], "upstream_draft_only")
+        self.assertFalse(governance["merge"]["authorized"])
+        self.assertEqual(governance["merge"]["mode"], "never")
+
+    def test_action_links_enforce_action_specific_governance(self):
+        action, envelope, candidate, governance, reviewer = (
+            self.coherent_action_family()
+        )
+        action["action"] = "push_operator_fork"
+        governance["push_target"] = "policy_authorized_branch"
+        governance["decision_digest"] = contracts._canonical_sha256(
+            governance, "decision_digest"
+        )
+        action["governance_decision_digest"] = governance["decision_digest"]
+        action["action_digest"] = contracts._canonical_sha256(
+            action, "action_digest"
+        )
+        errors = contracts.validate_action_digest_links(
+            action, envelope, candidate, governance, reviewer
+        )
+        self.assertIn(
+            "push_operator_fork requires operator-owned fork governance", errors
+        )
+
+        action, envelope, candidate, governance, reviewer = (
+            self.coherent_action_family()
+        )
+        action["action"] = "open_ready_pr"
+        envelope["governance"]["ownership_class"] = "team"
+        envelope["governance"]["allowed_actions"].append("open_ready_pr")
+        envelope["canonical_digest"] = contracts._canonical_sha256(
+            envelope, "canonical_digest"
+        )
+        governance["governance_class"] = "team"
+        governance["pull_request_mode"] = "upstream_draft_only"
+        governance["decision_digest"] = contracts._canonical_sha256(
+            governance, "decision_digest"
+        )
+        action["run_envelope_digest"] = envelope["canonical_digest"]
+        action["governance_decision_digest"] = governance["decision_digest"]
+        action["action_digest"] = contracts._canonical_sha256(
+            action, "action_digest"
+        )
+        errors = contracts.validate_action_digest_links(
+            action, envelope, candidate, governance, reviewer
+        )
+        self.assertIn(
+            "open_ready_pr requires non-external policy-ready governance", errors
+        )
+
+        for action_name, governance_mode in (
+            ("request_merge_queue", "merge_queue"),
+            ("auto_merge", "auto_merge"),
+        ):
+            with self.subTest(action=action_name):
+                action, envelope, candidate, governance, reviewer = (
+                    self.coherent_action_family()
+                )
+                envelope["governance"]["ownership_class"] = "sole_control"
+                envelope["governance"]["allowed_actions"].append(action_name)
+                if action_name == "auto_merge":
+                    envelope["governance"][
+                        "sole_control_auto_merge_opt_in"
+                    ] = True
+                envelope["canonical_digest"] = contracts._canonical_sha256(
+                    envelope, "canonical_digest"
+                )
+                governance["governance_class"] = "sole_control"
+                governance["push_target"] = "authorized_operator_repository"
+                governance["pull_request_mode"] = "draft_or_ready_by_policy"
+                governance["merge"]["authorized"] = False
+                governance["merge"]["mode"] = "never"
+                governance["decision_digest"] = contracts._canonical_sha256(
+                    governance, "decision_digest"
+                )
+                action["action"] = action_name
+                action["run_envelope_digest"] = envelope["canonical_digest"]
+                action["governance_decision_digest"] = governance["decision_digest"]
+                action["action_digest"] = contracts._canonical_sha256(
+                    action, "action_digest"
+                )
+                errors = contracts.validate_action_digest_links(
+                    action, envelope, candidate, governance, reviewer
+                )
+                self.assertIn(
+                    f"{action_name} requires governance authorization in "
+                    f"{governance_mode} mode",
+                    errors,
+                )
+
+    def test_action_links_validate_all_five_documents(self):
+        action, envelope, candidate, governance, reviewer = (
+            self.coherent_action_family()
+        )
+        envelope["unknown_authority"] = True
+        candidate["decision_digest"] = "0" * 64
+        governance["required_checks"][0]["conclusion"] = "pending"
+        reviewer["deterministic_tests_primary"] = False
+        action["expires_at"] = action["approved_at"]
+
+        errors = contracts.validate_action_digest_links(
+            action,
+            envelope,
+            candidate,
+            governance,
+            reviewer,
+            reference_time=datetime(2026, 7, 27, 23, 30, tzinfo=timezone.utc),
+        )
+
+        for prefix in (
+            "immutable_run_envelope:",
+            "candidate_decision:",
+            "governance_decision:",
+            "reviewer_independence:",
+            "github_action_digest:",
+        ):
+            self.assertTrue(
+                any(error.startswith(prefix) for error in errors),
+                (prefix, errors),
+            )
+
+    def test_action_links_fail_closed_for_malformed_document(self):
+        action, envelope, candidate, governance, reviewer = (
+            self.coherent_action_family()
+        )
+        del action["repository"]
+
+        errors = contracts.validate_action_digest_links(
+            action,
+            envelope,
+            candidate,
+            governance,
+            reviewer,
+            reference_time=datetime(2026, 7, 27, 23, 30, tzinfo=timezone.utc),
+        )
+
+        self.assertTrue(
+            any(
+                error.startswith("github_action_digest:")
+                and "repository" in error
+                for error in errors
+            ),
+            errors,
+        )
 
     def test_action_approval_lifetime_is_at_most_twenty_four_hours(self):
         action = self.load_vector("github_action_digest")

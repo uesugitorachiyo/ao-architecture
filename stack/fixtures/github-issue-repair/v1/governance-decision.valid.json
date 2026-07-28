@@ -27,9 +27,14 @@
       "name": "test",
       "conclusion": "success",
       "head_sha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    {
+      "name": "lint",
+      "conclusion": "success",
+      "head_sha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
     }
   ],
   "action_digest_required": true,
   "decided_at": "2026-07-27T23:10:00Z",
-  "decision_digest": "511d2ed0547ecdc1e7f7dcb966481bbc84e0aba878c3d14339d3438505decdd8"
+  "decision_digest": "b045f632d3224a41612e11a7cc4b28faaf506da905d7aaa56c902903e2191fae"
 }
