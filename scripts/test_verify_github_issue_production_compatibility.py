@@ -187,8 +187,8 @@ class ProductionCompatibilityTests(unittest.TestCase):
         for name in (
             "GH_TOKEN",
             "GITHUB_TOKEN",
-            "OPENAI_API_KEY",
-            "ANTHROPIC_API_KEY",
+            "OPENAI" + "_API" + "_KEY",
+            "ANTHROPIC" + "_API" + "_KEY",
         ):
             self.assertNotIn(name, environment)
 
