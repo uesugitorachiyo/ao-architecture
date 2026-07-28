@@ -1,7 +1,7 @@
 {
   "schema": "ao.architecture.evidence-maintenance-report.v0.1",
-  "status": "fresh",
-  "generated_at_utc": "2026-07-28T01:41:27Z",
+  "status": "stale",
+  "generated_at_utc": "2026-07-28T01:58:53Z",
   "source_reports": {
     "current_release_manifest": "stack/current-release-manifest.json",
     "compatibility_matrix": "stack/contract-compatibility-matrix.json",
@@ -30,16 +30,27 @@
     "matrix_status": "proposed",
     "edge_count": 16,
     "tested_edge_count": 16,
+    "fresh_edge_count": 15,
+    "stale_edge_count": 1,
     "canonical_vector_count": 16,
     "consumer_test_count": 16,
     "proposed_edge_count": 0,
     "compatibility_gate_complete": false
   },
   "compatibility_gate": {
-    "state": "ready",
+    "state": "blocked",
     "activation_authorized": false,
     "activation_evidence": "",
-    "reason": "The current release pair metadata and all 16 compatibility edges are fresh, but activation is not authorized by the post-public release closure.",
+    "reason_code": "AO2_COMPATIBILITY_EVIDENCE_VERSION_STALE",
+    "reason": "AO2 v0.5.5 is current, but execution-to-observation compatibility evidence remains pinned to v0.5.1.",
+    "details": {
+      "edge": "ao2->ao2-control-plane:execution_to_observation",
+      "current_ao2_version": "v0.5.5",
+      "compatibility_evidence_version": "v0.5.1",
+      "canonical_vector_path": "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.1.json",
+      "canonical_vector_merge_commit": "5b568830360baac6198a653737f60abab393eec7",
+      "required_resolution": "separately_verified_unchanged_contract_bridge_or_refreshed_fixture"
+    },
     "allowed_states": [
       "false",
       "ready",
@@ -53,6 +64,8 @@
       "tested_edges_have_vectors": true,
       "tested_edges_have_consumer_tests": true,
       "local_architecture_vectors_exist": true,
+      "compatibility_evidence_current": false,
+      "all_tested_edges_fresh": false,
       "external_beta_launched": false,
       "promotion_requested": false,
       "promotion_granted": false,
@@ -68,7 +81,8 @@
     "tested_edges_have_consumer_tests": "fresh",
     "local_architecture_vectors_exist": "fresh",
     "operator_workflow_readback_available": "fresh",
-    "denied_authority_boundaries_present": "fresh"
+    "denied_authority_boundaries_present": "fresh",
+    "compatibility_evidence_current": "stale"
   },
   "automation_readiness": {
     "repeatable_report": true,

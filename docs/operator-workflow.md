@@ -13,11 +13,11 @@ The current public release pair is:
 - AO2 Control Plane v0.1.18, tag target
   `6257ec23fde726d4a0133c5b62231881fb6aaa9a`.
 
-The Architecture compatibility matrix records 16 tested current-release edges,
-16 canonical vectors, and 16 consumer tests. The compatibility gate is ready,
-not active. That means the edge evidence is complete and fresh enough for
-operator readback, but no external beta launch, promotion, or RSI authority
-follows from it.
+The Architecture compatibility matrix records 16 tested edges, 16 canonical
+vectors, and 16 consumer tests. Fifteen edges are fresh; the AO2
+execution-to-observation edge is stale because its evidence remains pinned to
+AO2 v0.5.1. The compatibility gate is blocked, not active. No external beta
+launch, promotion, or RSI authority follows from this evidence.
 
 Month 4 dry-run evidence defines the controlled self-improvement boundary:
 fixture-only, human-approved, rollback-verified, observed, read back to the
@@ -45,8 +45,8 @@ Month 5 operator workflow item.
 ### Compatibility Evidence Gate
 
 The operator checks the Architecture matrix readback. The current matrix has 16
-tested edges and 0 remaining proposed edges, while the compatibility gate is
-ready, not active.
+tested edges and 0 remaining proposed edges, but one stale AO2 edge keeps the
+compatibility gate blocked, not active.
 
 ### Policy Approval Gate
 

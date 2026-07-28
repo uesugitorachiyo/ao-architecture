@@ -12,7 +12,7 @@ from verify_evidence_maintenance import validate_report
 def valid_report():
     return {
         "schema": "ao.architecture.evidence-maintenance-report.v0.1",
-        "status": "fresh",
+        "status": "stale",
         "generated_at_utc": "2026-07-16T05:49:38Z",
         "source_reports": {
             "current_release_manifest": "stack/current-release-manifest.json",
@@ -31,6 +31,7 @@ def valid_report():
             "local_architecture_vectors_exist": "fresh",
             "operator_workflow_readback_available": "fresh",
             "denied_authority_boundaries_present": "fresh",
+            "compatibility_evidence_current": "stale",
         },
         "automation_readiness": {
             "repeatable_report": True,
@@ -47,7 +48,7 @@ def valid_report():
 
 
 class VerifyEvidenceMaintenanceTest(unittest.TestCase):
-    def test_accepts_fresh_maintenance_report(self):
+    def test_accepts_truthful_stale_maintenance_report(self):
         errors = validate_report(
             valid_report(),
             valid_manifest(),
@@ -99,7 +100,7 @@ class VerifyEvidenceMaintenanceTest(unittest.TestCase):
             existing_paths={"stack/fixtures/compatibility/architecture-route-context-v0.1.json"},
             existing_docs={"docs/adoption-operator-drill.md"},
         )
-        self.assertIn("compatibility_matrix.tested_edge_count must be 2", errors)
+        self.assertIn("compatibility_matrix.tested_edge_count must be 3", errors)
 
     def test_rejects_unsupported_gate_activation(self):
         report = valid_report()

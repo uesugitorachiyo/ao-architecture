@@ -35,6 +35,7 @@ REQUIRED_CHECKS = (
     "local_architecture_vectors_exist",
     "operator_workflow_readback_available",
     "denied_authority_boundaries_present",
+    "compatibility_evidence_current",
 )
 REQUIRED_AUTOMATION_FIELDS = (
     "repeatable_report",
@@ -131,7 +132,9 @@ def validate_maintenance_checks(errors: list[str], checks: dict[str, Any] | None
     for field in REQUIRED_CHECKS:
         if checks.get(field) not in CHECK_STATES:
             errors.append(f"maintenance_checks.{field} must be fresh, stale, blocked, or denied")
-        elif checks.get(field) != "fresh":
+        elif field == "compatibility_evidence_current" and checks.get(field) != "stale":
+            errors.append("maintenance_checks.compatibility_evidence_current must be stale")
+        elif field != "compatibility_evidence_current" and checks.get(field) != "fresh":
             errors.append(f"maintenance_checks.{field} must be fresh for the current readback")
 
 
@@ -159,8 +162,8 @@ def validate_report(
         errors.append("schema must be ao.architecture.evidence-maintenance-report.v0.1")
     if report.get("status") not in CHECK_STATES:
         errors.append("status must be fresh, stale, blocked, or denied")
-    elif report.get("status") != "fresh":
-        errors.append("status must be fresh for the current maintenance report")
+    elif report.get("status") != freshness.get("status"):
+        errors.append("status must match evidence freshness readback")
     if not isinstance(report.get("generated_at_utc"), str) or not report.get("generated_at_utc"):
         errors.append("generated_at_utc is required")
 
@@ -214,7 +217,8 @@ def main() -> int:
         return 1
     gate = report["compatibility_gate"]["state"]
     edge_count = report["compatibility_matrix"]["edge_count"]
-    print(f"verify_evidence_maintenance.py: maintenance fresh; gate={gate}; edges={edge_count}")
+    status = report["status"]
+    print(f"verify_evidence_maintenance.py: maintenance {status}; gate={gate}; edges={edge_count}")
     return 0
 
 

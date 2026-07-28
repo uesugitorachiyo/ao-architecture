@@ -45,16 +45,19 @@ native archives independently matched to its immutable release plan.
 
 ## Compatibility State
 
-The compatibility matrix remains proposed and fully evidenced:
+The compatibility matrix remains proposed:
 
 - `stack/contract-compatibility-matrix.json` status remains `proposed`.
-- Canonical vector count is `16`.
-- Consumer test count is `16`.
+- Canonical vector and consumer-test counts are both `16`.
+- Current freshness is `15` fresh edges and `1` stale edge.
+- The AO2 execution-to-observation evidence remains pinned to `v0.5.1` while
+  the current AO2 release is `v0.5.5`.
 - `compatibility_gate_complete` remains `false`.
 
-The compatibility evidence is complete and fresh, but activation is not
-authorized. External beta, promotion, provider execution, and RSI authority
-remain separate denied or unrequested states.
+The compatibility gate is blocked pending either a separately verified
+unchanged-contract bridge or refreshed AO2 compatibility evidence. External
+beta, promotion, provider execution, and RSI authority remain separate denied
+or unrequested states.
 
 ## Boundaries
 
