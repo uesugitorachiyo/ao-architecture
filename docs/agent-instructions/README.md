@@ -19,7 +19,7 @@ executable contracts, schemas, policy, tests, and CI
 
 ## Contract Files
 
-- `layout-v1.json` enumerates all 21 workspace repositories, lifecycle states, remote expectations, required root files, approved nested scopes, the excluded-stub fingerprint, and the pinned head of the excluded pre-AO-Stack legacy runtime.
+- `layout-v1.json` enumerates all 21 workspace repositories, lifecycle states, remote expectations, required root files, approved nested scopes, the excluded-stub fingerprint, and the pinned heads of the four excluded legacy repositories outside the maintained AO Stack.
 - `layout-v1.schema.json` describes the closed JSON shape.
 - `../../scripts/verify_agent_instruction_layout.py` performs the fail-closed static checks.
 - `../../scripts/test_verify_agent_instruction_layout.py` contains positive and negative fixtures for every rejection class.
@@ -53,6 +53,6 @@ The full-workspace command intentionally requires sibling checkouts. It is not p
 
 ## Conflict Semantics
 
-Output contains a stable top-level status, conflict count, sorted repository results, and sorted conflict records. Conflict codes distinguish manifest, lifecycle, path, pair, byte, size, ignore, secret/path safety, and excluded-repository failures. The local stub is content-fingerprinted; the excluded hosted legacy runtime must remain at its pinned head with no tracked index or working-tree changes. Consumers must treat any unknown or nonzero result as a failed gate.
+Output contains a stable top-level status, conflict count, sorted repository results, and sorted conflict records. Conflict codes distinguish manifest, lifecycle, path, pair, byte, size, ignore, secret/path safety, and excluded-repository failures. The local stub is content-fingerprinted; `ao-conductor`, `ao-control-plane`, `ao-operator`, and `ao-runtime` must remain at their pinned heads with no tracked index or working-tree changes. Consumers must treat any unknown or nonzero result as a failed gate.
 
 The manifest is strict: duplicate keys, unknown fields, malformed or trailing JSON, unknown repositories or lifecycles, unsafe paths, and unexpected instruction locations are rejected rather than ignored.

@@ -31,7 +31,7 @@ Multi-step, occasional procedures belong in skills or runbooks. Root instruction
 - Active hosted repositories require the root pair, local Claude-state ignores, verified commands, and normal pull-request CI.
 - Active local-only repositories require the same instruction shape but remain without remotes or publication authority.
 - Archived hosted repositories use short archive-first guidance, identify successors, forbid new product scope, and retain only archive-correction verification.
-- `ao-runtime` is a deprecated pre-AO-Stack legacy repository, not an archived AO Stack component. It receives no instruction rollout; the manifest pins its unchanged Git head and the validator rejects tracked drift.
+- `ao-conductor`, `ao-control-plane`, `ao-operator`, and `ao-runtime` are legacy repositories outside the maintained AO Stack, not archived AO Stack components. They receive no instruction rollout; the manifest pins their Git heads and the validator rejects tracked drift or reclassification.
 - `ao-covenant-stub-20260617` is an excluded historical local stub. The layout manifest records its exclusion reason and content fingerprint; the campaign must leave it byte-for-byte unchanged.
 
 ## Context And Drift Policy

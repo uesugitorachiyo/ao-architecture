@@ -154,7 +154,8 @@
               "type": "string"
             },
             "lifecycle": {
-              "const": "excluded_legacy_hosted"
+              "const": "excluded_legacy_hosted",
+              "description": "Reserved for ao-conductor, ao-control-plane, ao-operator, and ao-runtime; the validator enforces the exact name set."
             },
             "remote": {
               "const": "hosted"

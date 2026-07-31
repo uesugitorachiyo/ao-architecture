@@ -25,7 +25,7 @@ AO Architecture is the public documentation, topology, contract-map, and claim-b
 
 - Make the smallest coherent documentation or contract change and update every affected producer/consumer reference in the same pull request.
 - For instruction-layout changes, update the ADR, guide, manifest, schema, validator, and tests together. Add a nested scope only for a materially distinct authority boundary.
-- Preserve fail-closed parsing, deterministic output, read-only validation, the excluded local-repository fingerprint, and the excluded legacy-hosted head and tracked-state gate.
+- Preserve fail-closed parsing, deterministic output, read-only validation, the excluded local-repository fingerprint, and the pinned head, tracked-state, and exact-name classification gates for the four excluded legacy-hosted repositories.
 - If durable commands, authority, lifecycle, or architecture guidance changes, update this file in the same pull request.
 
 ## Verification
