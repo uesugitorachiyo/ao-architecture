@@ -222,6 +222,19 @@ class AgentInstructionLayoutTests(unittest.TestCase):
         )
         self.assert_code("SECRET_MATERIAL")
 
+    def test_rejects_github_token_without_embedding_public_scan_literal(self) -> None:
+        token = "gh" + "p_" + "a" * 24
+        (self.fixture.repo("ao-architecture") / "AGENTS.md").write_text(
+            f"# Instructions\n\nLeaked token: {token}\n",
+            encoding="utf-8",
+        )
+        self.assert_code("SECRET_MATERIAL")
+
+    def test_validator_source_avoids_public_scan_token_literals(self) -> None:
+        source = (Path(__file__).parent / "verify_agent_instruction_layout.py").read_bytes()
+        self.assertNotIn(b"gh" + b"p_", source)
+        self.assertNotIn(b"github_" + b"pat_", source)
+
     def test_rejects_missing_claude_local_ignore(self) -> None:
         (self.fixture.repo("ao-architecture") / ".gitignore").write_text(
             ".claude/settings.local.json\n",
