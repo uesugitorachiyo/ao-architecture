@@ -315,21 +315,21 @@
       "consumer_contract": "evidence_event",
       "canonical_vector": {
         "repository": "ao2",
-        "path": "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.1.json",
-        "pr": "https://github.com/uesugitorachiyo/ao2/pull/288",
-        "merge_commit": "5b568830360baac6198a653737f60abab393eec7",
+        "path": "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.6.json",
+        "pr": "https://github.com/uesugitorachiyo/ao2/pull/602",
+        "merge_commit": "5664ba778b263fa33e384cb8f45696cf34e0de5f",
         "schema_identifier": "ao.compatibility.execution-receipt-vector.v1",
-        "sha256": "8970836ee11fd89dbd91be640356364cdefa51c1f4b8d709cadd860c632e1870",
-        "byte_length": 2344
+        "sha256": "516b8652af77e2ee08992a7fee21b0d2c52961e86d2996e4a7e6842470208391",
+        "byte_length": 3063
       },
       "consumer_test": {
         "repository": "ao2-control-plane",
         "path": "crates/ao2-cp-server/tests/compatibility_vectors.rs",
-        "pr": "https://github.com/uesugitorachiyo/ao2-control-plane/pull/100",
-        "merge_commit": "3e57d80c6be05490930294a7d3ab4664d2856b55",
+        "pr": "https://github.com/uesugitorachiyo/ao2-control-plane/pull/131",
+        "merge_commit": "ded38643d7583e287db6af7b7782719bad5b3e69",
         "test_selector": "consumes_ao2_execution_receipt_as_expected_evidence_event",
-        "sha256": "86fa58c31368ea0261f783e6689d98bd3b287225b8422242ab44cbd6e0c4c3c8",
-        "byte_length": 3946
+        "sha256": "d394d7173d5609e614bdd5b55b53f8b763d2b19304997a1b3901a0c2f6970db3",
+        "byte_length": 11188
       },
       "evolution": {"declared_change": false, "documented_predecessors": [], "status": "current_pair_only", "directional_evidence": {}}
     },

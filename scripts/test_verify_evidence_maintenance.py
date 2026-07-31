@@ -12,7 +12,7 @@ from verify_evidence_maintenance import validate_report
 def valid_report():
     return {
         "schema": "ao.architecture.evidence-maintenance-report.v0.1",
-        "status": "stale",
+        "status": "fresh",
         "generated_at_utc": "2026-07-16T05:49:38Z",
         "source_reports": {
             "current_release_manifest": "stack/current-release-manifest.json",
@@ -31,7 +31,7 @@ def valid_report():
             "local_architecture_vectors_exist": "fresh",
             "operator_workflow_readback_available": "fresh",
             "denied_authority_boundaries_present": "fresh",
-            "compatibility_evidence_current": "stale",
+            "compatibility_evidence_current": "fresh",
         },
         "automation_readiness": {
             "repeatable_report": True,
@@ -48,7 +48,7 @@ def valid_report():
 
 
 class VerifyEvidenceMaintenanceTest(unittest.TestCase):
-    def test_accepts_truthful_stale_maintenance_report(self):
+    def test_accepts_truthful_current_maintenance_report(self):
         errors = validate_report(
             valid_report(),
             valid_manifest(),

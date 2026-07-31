@@ -125,15 +125,20 @@ def validate_edge_proofs(errors: list[str], matrix: dict[str, Any], existing_pat
             errors.append(f"edges[{index}] tested edge must reference consumer test path")
 
 
-def validate_maintenance_checks(errors: list[str], checks: dict[str, Any] | None) -> None:
+def validate_maintenance_checks(
+    errors: list[str], checks: dict[str, Any] | None, freshness: dict[str, Any]
+) -> None:
     if not isinstance(checks, dict):
         errors.append("maintenance_checks is required")
         return
     for field in REQUIRED_CHECKS:
         if checks.get(field) not in CHECK_STATES:
             errors.append(f"maintenance_checks.{field} must be fresh, stale, blocked, or denied")
-        elif field == "compatibility_evidence_current" and checks.get(field) != "stale":
-            errors.append("maintenance_checks.compatibility_evidence_current must be stale")
+        elif field == "compatibility_evidence_current":
+            criteria = freshness.get("compatibility_gate", {}).get("readiness_criteria", {})
+            expected = "fresh" if criteria.get("compatibility_evidence_current") is True else "stale"
+            if checks.get(field) != expected:
+                errors.append(f"maintenance_checks.compatibility_evidence_current must be {expected}")
         elif field != "compatibility_evidence_current" and checks.get(field) != "fresh":
             errors.append(f"maintenance_checks.{field} must be fresh for the current readback")
 
@@ -177,7 +182,7 @@ def validate_report(
     if isinstance(gate, dict) and gate != freshness.get("compatibility_gate"):
         errors.append("compatibility_gate must match evidence freshness readback")
 
-    validate_maintenance_checks(errors, report.get("maintenance_checks"))
+    validate_maintenance_checks(errors, report.get("maintenance_checks"), freshness)
     validate_automation_readiness(errors, report.get("automation_readiness"))
     validate_boundaries(errors, report.get("boundaries") if isinstance(report.get("boundaries"), dict) else None)
     if isinstance(report.get("boundaries"), dict) and report["boundaries"] != freshness.get("boundaries"):
