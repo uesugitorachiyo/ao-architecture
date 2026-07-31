@@ -11,7 +11,7 @@ from verify_adoption_operator_drill import validate_adoption_operator_drill
 VALID_DOC = """
 # AO Stack Adoption Month 2 Operator Drill
 
-The current public pair is AO2 v0.5.5 and AO2 Control Plane v0.1.18.
+The current public pair is AO2 v0.5.6 and AO2 Control Plane v0.1.18.
 The compatibility matrix has 16 tested edges, 16 canonical vectors, and
 16 consumer tests. Fifteen edges are fresh and the AO2
 execution-to-observation edge is stale. The compatibility gate is blocked, not

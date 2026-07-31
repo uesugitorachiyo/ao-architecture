@@ -43,7 +43,7 @@ def validate_adoption_support_readiness(document: str) -> list[str]:
     lower = normalized.lower()
 
     required_phrases = {
-        "document must mention AO2 v0.5.5": "ao2 v0.5.5",
+        "document must mention AO2 v0.5.6": "ao2 v0.5.6",
         "document must mention AO2 Control Plane v0.1.18": "ao2 control plane v0.1.18",
         "document must mention 16 tested edges": "16 tested",
         "document must mention 16 canonical vectors": "16 canonical vectors",

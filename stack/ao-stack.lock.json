@@ -106,8 +106,8 @@
     {
       "repository": "ao2",
       "branch": "main",
-      "commit": "0598920c5f2712966c4ec8ae415f1bbb91e76209",
-      "detected_version": "v0.5.5",
+      "commit": "bd61f2a1d7e541636bbc58c42a805f93011c5d7b",
+      "detected_version": "v0.5.6",
       "maturity": "stable_public_release",
       "current_boundary": "independent_repository",
       "proposed_boundary": "ao2",
@@ -120,7 +120,7 @@
     {
       "repository": "ao2-control-plane",
       "branch": "main",
-      "commit": "78c4f70c3795da90751951fb69229d662c909a11",
+      "commit": "7c66a24ae2b2611a67da68dc5bfd7b52886174a0",
       "detected_version": "v0.1.18",
       "maturity": "stable_single_node_observer",
       "current_boundary": "independent_repository",

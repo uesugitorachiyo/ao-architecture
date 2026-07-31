@@ -8,9 +8,9 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from verify_evidence_freshness import validate_readback
 
-AO2_VERSION = "v0.5.5"
-AO2_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.5"
-AO2_TAG_TARGET = "dbaca8904564c4118b27a43356b7968725cd546e"
+AO2_VERSION = "v0.5.6"
+AO2_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.6"
+AO2_TAG_TARGET = "5706ec9cf3a108d20984973975c2a56b905a8173"
 CONTROL_PLANE_VERSION = "v0.1.18"
 CONTROL_PLANE_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.18"
 CONTROL_PLANE_TAG_TARGET = "6257ec23fde726d4a0133c5b62231881fb6aaa9a"
@@ -164,7 +164,7 @@ def valid_readback():
             "activation_authorized": False,
             "activation_evidence": "",
             "reason_code": AO2_STALE_REASON_CODE,
-            "reason": "AO2 v0.5.5 is current, but execution-to-observation compatibility evidence remains pinned to v0.5.1.",
+            "reason": "AO2 v0.5.6 is current, but execution-to-observation compatibility evidence remains pinned to v0.5.1.",
             "details": {
                 "edge": "ao2->ao2-control-plane:execution_to_observation",
                 "current_ao2_version": AO2_VERSION,
@@ -227,7 +227,7 @@ class VerifyEvidenceFreshnessTest(unittest.TestCase):
             existing_paths={"stack/fixtures/compatibility/architecture-route-context-v0.1.json"},
         )
         self.assertIn(
-            "AO2 compatibility evidence v0.5.1 is stale for current release v0.5.5; readback must be stale and gate blocked",
+            "AO2 compatibility evidence v0.5.1 is stale for current release v0.5.6; readback must be stale and gate blocked",
             errors,
         )
 
