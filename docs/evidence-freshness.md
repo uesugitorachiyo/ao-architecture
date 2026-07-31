@@ -19,14 +19,19 @@ The evidence freshness verifier checks:
 - The compatibility matrix has 16 edges.
 - The matrix labels all 16 edges `tested_current_release_pair`, but freshness is
   evaluated separately against the current public versions.
-- 15 edges have current evidence. The AO2 execution-to-observation edge is
-  stale because its canonical vector remains pinned to AO2 `v0.5.1`.
+- All 16 edges have current evidence. The AO2 execution-to-observation edge is
+  bound to the released AO2 `v0.5.6` vector and the Control Plane `v0.1.18`
+  consumer regression.
 - Matrix vector and consumer-test counts match the tested edge count.
 - Tested edges include canonical vector references and consumer-test
   references.
 - Local AO Architecture vector files referenced by the matrix exist.
-- The AO2 canonical vector path and merge commit match the verified historical
+- The AO2 canonical vector path and merge commit match the verified current
   evidence binding; fabricated paths or commits fail validation.
+- `stack/execution-observation-version-skew.json` covers the predecessor public
+  pair, current public pair, and current source candidate with an explicit
+  freshness window. Schema, version, head, digest, skew, timestamp, and
+  authority mutations fail closed.
 - Boundary fields keep external beta, promotion, provider pilot, release, tag,
   upload, deployment, live self-modification, and RSI activation denied.
 
@@ -34,6 +39,7 @@ Run:
 
 ```sh
 python3 scripts/verify_evidence_freshness.py
+python3 scripts/verify_execution_observation_version_skew.py
 ```
 
 ## Gate States
@@ -50,19 +56,18 @@ python3 scripts/verify_evidence_freshness.py
 
 ## Current Gate State
 
-The current gate state is `blocked`, and the evidence freshness status is
-`stale`.
+The current gate state is `ready`, and the evidence freshness status is
+`fresh`. Ready does not activate the gate or grant downstream authority.
 
-Reason code: `AO2_COMPATIBILITY_EVIDENCE_VERSION_STALE`.
+Reason code: `AO2_COMPATIBILITY_EVIDENCE_CURRENT`.
 
-AO2 `v0.5.6` is current, but the AO2-to-Control-Plane
-execution-to-observation edge still uses
-`tests/fixtures/compatibility/ao2-execution-receipt-v0.5.1.json` from merge
-`5b568830360baac6198a653737f60abab393eec7`. That leaves 15 fresh edges and
-one stale edge. Fresh status requires either a separately verified
-unchanged-contract bridge from `v0.5.1` to `v0.5.6` or a refreshed fixture and
-consumer verification. No such bridge is inferred here, and
-`compatibility_gate_complete` remains false.
+AO2 `v0.5.6` uses
+`tests/fixtures/compatibility/ao2-execution-receipt-v0.5.6.json` from merge
+`5664ba778b263fa33e384cb8f45696cf34e0de5f`; AO2 Control Plane consumes those
+exact bytes through merge `ded38643d7583e287db6af7b7782719bad5b3e69`.
+The unchanged-contract bridge back to AO2 `v0.5.1` is executable and expires
+at `2026-08-30T22:40:00Z`. `compatibility_gate_complete` remains false because
+readiness is evidence, not activation authority.
 
 ## Boundaries
 

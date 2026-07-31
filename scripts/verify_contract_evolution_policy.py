@@ -100,7 +100,7 @@ TRUSTED_EDGE_EVIDENCE_DIGESTS = {
     "ao-foundry|ao-forge|schedule_to_goal_run": "d70238919b4a0239d05fca0575f6b8387b59db67affd0516fdd69c45e4cb1467",
     "ao-forge|ao-covenant|goal_run_to_policy_gate": "4f6a20f2fb0eb609a63808a3e7819c2c4ae878377e1b93f59874e619131b73cd",
     "ao-covenant|ao2|approval_to_execution": "277994cd40806bfef6ded2f8b9e340199a9efa299bad4071b57d10a0cdd75b0b",
-    "ao2|ao2-control-plane|execution_to_observation": "c3dabdf36bddb506163d466e5e59f30068a30775d410241358aeaef08a71ba3b",
+    "ao2|ao2-control-plane|execution_to_observation": "418f7ec902f89688250404f591a6c4c456eefb4269e5dbd48ae1e585ae5d4b92",
     "ao-mission|ao-command|mission_to_operator_readback": "15055ee470a2a39b14b1ce647f58b83e9f58b77393dc7553fcc10c8dc7842707",
     "ao2-control-plane|ao-command|observer_to_operator_readback": "1e6d0db64cd24ad2a0395c10486cf6ed0335680b40d97eb31b47a796b5f219d8",
     "ao-arena|ao-promoter|benchmark_to_promotion": "151d674dc9965231c82254e0b27999c46a2bf06a8c407b4c3c5221d33b46a012",

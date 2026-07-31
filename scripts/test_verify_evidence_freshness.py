@@ -14,9 +14,9 @@ AO2_TAG_TARGET = "5706ec9cf3a108d20984973975c2a56b905a8173"
 CONTROL_PLANE_VERSION = "v0.1.18"
 CONTROL_PLANE_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.18"
 CONTROL_PLANE_TAG_TARGET = "6257ec23fde726d4a0133c5b62231881fb6aaa9a"
-AO2_COMPATIBILITY_EVIDENCE_VERSION = "v0.5.1"
-AO2_COMPATIBILITY_EVIDENCE_PATH = "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.1.json"
-AO2_COMPATIBILITY_EVIDENCE_COMMIT = "5b568830360baac6198a653737f60abab393eec7"
+AO2_COMPATIBILITY_EVIDENCE_VERSION = "v0.5.6"
+AO2_COMPATIBILITY_EVIDENCE_PATH = "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.6.json"
+AO2_COMPATIBILITY_EVIDENCE_COMMIT = "5664ba778b263fa33e384cb8f45696cf34e0de5f"
 AO2_STALE_REASON_CODE = "AO2_COMPATIBILITY_EVIDENCE_VERSION_STALE"
 
 
@@ -100,14 +100,14 @@ def valid_matrix():
                 "canonical_vector": {
                     "repository": "ao2",
                     "path": AO2_COMPATIBILITY_EVIDENCE_PATH,
-                    "pr": "https://github.com/uesugitorachiyo/ao2/pull/288",
+                    "pr": "https://github.com/uesugitorachiyo/ao2/pull/602",
                     "merge_commit": AO2_COMPATIBILITY_EVIDENCE_COMMIT,
                 },
                 "consumer_test": {
                     "repository": "ao2-control-plane",
                     "path": "crates/ao2-cp-server/tests/compatibility_vectors.rs",
-                    "pr": "https://github.com/uesugitorachiyo/ao2-control-plane/pull/100",
-                    "merge_commit": "3e57d80c6be05490930294a7d3ab4664d2856b55",
+                    "pr": "https://github.com/uesugitorachiyo/ao2-control-plane/pull/131",
+                    "merge_commit": "ded38643d7583e287db6af7b7782719bad5b3e69",
                 },
             },
         ],
@@ -129,7 +129,7 @@ def valid_matrix():
 def valid_readback():
     return {
         "schema": "ao.architecture.evidence-freshness-readback.v0.1",
-        "status": "stale",
+        "status": "fresh",
         "current_public_release_pair": {
             "ao2": {
                 "version": AO2_VERSION,
@@ -152,27 +152,20 @@ def valid_readback():
             "matrix_status": "proposed",
             "edge_count": 3,
             "tested_edge_count": 3,
-            "fresh_edge_count": 2,
-            "stale_edge_count": 1,
+            "fresh_edge_count": 3,
+            "stale_edge_count": 0,
             "canonical_vector_count": 3,
             "consumer_test_count": 3,
             "proposed_edge_count": 0,
             "compatibility_gate_complete": False,
         },
         "compatibility_gate": {
-            "state": "blocked",
+            "state": "ready",
             "activation_authorized": False,
             "activation_evidence": "",
-            "reason_code": AO2_STALE_REASON_CODE,
-            "reason": "AO2 v0.5.6 is current, but execution-to-observation compatibility evidence remains pinned to v0.5.1.",
-            "details": {
-                "edge": "ao2->ao2-control-plane:execution_to_observation",
-                "current_ao2_version": AO2_VERSION,
-                "compatibility_evidence_version": AO2_COMPATIBILITY_EVIDENCE_VERSION,
-                "canonical_vector_path": AO2_COMPATIBILITY_EVIDENCE_PATH,
-                "canonical_vector_merge_commit": AO2_COMPATIBILITY_EVIDENCE_COMMIT,
-                "required_resolution": "separately_verified_unchanged_contract_bridge_or_refreshed_fixture",
-            },
+            "reason_code": "AO2_COMPATIBILITY_EVIDENCE_CURRENT",
+            "reason": "The AO2 v0.5.6 execution-to-observation vector and Control Plane consumer test are current and digest-bound.",
+            "details": {},
             "allowed_states": ["false", "ready", "active", "blocked", "denied"],
             "readiness_criteria": {
                 "release_metadata_matches_manifest": True,
@@ -180,8 +173,8 @@ def valid_readback():
                 "tested_edges_have_vectors": True,
                 "tested_edges_have_consumer_tests": True,
                 "local_architecture_vectors_exist": True,
-                "compatibility_evidence_current": False,
-                "all_tested_edges_fresh": False,
+                "compatibility_evidence_current": True,
+                "all_tested_edges_fresh": True,
                 "external_beta_launched": False,
                 "promotion_requested": False,
                 "promotion_granted": False,
@@ -205,7 +198,7 @@ def valid_readback():
 
 
 class VerifyEvidenceFreshnessTest(unittest.TestCase):
-    def test_accepts_truthful_stale_blocked_readback(self):
+    def test_accepts_truthful_current_ready_readback(self):
         errors = validate_readback(
             valid_readback(),
             valid_manifest(),
@@ -216,18 +209,16 @@ class VerifyEvidenceFreshnessTest(unittest.TestCase):
 
     def test_rejects_fresh_claim_when_current_ao2_outpaces_bound_evidence(self):
         readback = valid_readback()
-        readback["status"] = "fresh"
-        readback["compatibility_gate"]["state"] = "ready"
-        readback["compatibility_gate"]["readiness_criteria"]["compatibility_evidence_current"] = True
-        readback["compatibility_gate"]["readiness_criteria"]["all_tested_edges_fresh"] = True
+        matrix = valid_matrix()
+        matrix["edges"][2]["canonical_vector"]["path"] = "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.5.json"
         errors = validate_readback(
             readback,
             valid_manifest(),
-            valid_matrix(),
+            matrix,
             existing_paths={"stack/fixtures/compatibility/architecture-route-context-v0.1.json"},
         )
         self.assertIn(
-            "AO2 compatibility evidence v0.5.1 is stale for current release v0.5.6; readback must be stale and gate blocked",
+            "AO2 compatibility evidence v0.5.5 is stale for current release v0.5.6; readback must be stale and gate blocked",
             errors,
         )
 

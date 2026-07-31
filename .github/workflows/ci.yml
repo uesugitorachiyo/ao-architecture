@@ -63,6 +63,20 @@ jobs:
       - name: Verify contract evolution policy unit tests
         run: python3 -m unittest scripts/test_verify_contract_evolution_policy.py
 
+      - name: Verify execution-observation version skew
+        run: python3 scripts/verify_execution_observation_version_skew.py
+
+      - name: Verify execution-observation version skew unit tests
+        run: python3 -m unittest scripts/test_verify_execution_observation_version_skew.py
+
+      - name: Verify evidence freshness and maintenance
+        run: |
+          python3 scripts/verify_evidence_freshness.py
+          python3 scripts/verify_evidence_maintenance.py
+
+      - name: Verify evidence freshness and maintenance unit tests
+        run: python3 -m unittest scripts/test_verify_evidence_freshness.py scripts/test_verify_evidence_maintenance.py
+
       - name: Verify contract compatibility window
         run: python3 scripts/verify_contract_compatibility_window.py
 
