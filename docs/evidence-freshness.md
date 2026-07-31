@@ -1,7 +1,7 @@
 # AO Stack Evidence Freshness And Compatibility Gate Readiness
 
 Status: current operational source of truth using Month 1 compatibility evidence
-Current public pair: AO2 `v0.5.5` and AO2 Control Plane `v0.1.18`
+Current public pair: AO2 `v0.5.6` and AO2 Control Plane `v0.1.18`
 
 ## Purpose
 
@@ -55,12 +55,12 @@ The current gate state is `blocked`, and the evidence freshness status is
 
 Reason code: `AO2_COMPATIBILITY_EVIDENCE_VERSION_STALE`.
 
-AO2 `v0.5.5` is current, but the AO2-to-Control-Plane
+AO2 `v0.5.6` is current, but the AO2-to-Control-Plane
 execution-to-observation edge still uses
 `tests/fixtures/compatibility/ao2-execution-receipt-v0.5.1.json` from merge
 `5b568830360baac6198a653737f60abab393eec7`. That leaves 15 fresh edges and
 one stale edge. Fresh status requires either a separately verified
-unchanged-contract bridge from `v0.5.1` to `v0.5.5` or a refreshed fixture and
+unchanged-contract bridge from `v0.5.1` to `v0.5.6` or a refreshed fixture and
 consumer verification. No such bridge is inferred here, and
 `compatibility_gate_complete` remains false.
 

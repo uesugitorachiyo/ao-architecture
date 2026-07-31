@@ -49,7 +49,7 @@ def validate_operator_workflow(document: str) -> list[str]:
     lower = normalized.lower()
 
     required_phrases = {
-        "document must mention AO2 v0.5.5": "ao2 v0.5.5",
+        "document must mention AO2 v0.5.6": "ao2 v0.5.6",
         "document must mention AO2 Control Plane v0.1.18": "ao2 control plane v0.1.18",
         "document must mention 16 tested compatibility edges": "16 tested",
         "document must state compatibility gate is blocked, not active": "compatibility gate is blocked, not active",

@@ -4,36 +4,35 @@ This document records the current independently verified public releases.
 
 ## Current Core Pair
 
-- AO2: [v0.5.5](https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.5)
-- AO2 tag target: `dbaca8904564c4118b27a43356b7968725cd546e`
-- AO2 current main: `0598920c5f2712966c4ec8ae415f1bbb91e76209`
-- AO2 approved asset-manifest digest: `8268de6f7ccf2f9a194b9123df7a3845cb4660bc10476f6da1df7a5859f48574`
-- AO2 promotion-plan digest: `fc0a50b716a2e6866fb442076ec83b0a119866effe3b9ed2cbaab85b014c6c40`
-- AO2 physical-Windows evidence digest: `107c49f3b0fd4921a4615b359fc4e3e7616dfdc37b8941ccf4a53ccd9242a5ab`
-- AO2 live workflow: [run 30293757188](https://github.com/uesugitorachiyo/ao2/actions/runs/30293757188)
-- AO2 post-release verification: [run 30294693422](https://github.com/uesugitorachiyo/ao2/actions/runs/30294693422)
-- AO2 consumer smoke: [run 30294695399](https://github.com/uesugitorachiyo/ao2/actions/runs/30294695399)
+- AO2: [v0.5.6](https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.6)
+- AO2 tag target: `5706ec9cf3a108d20984973975c2a56b905a8173`
+- AO2 current main: `bd61f2a1d7e541636bbc58c42a805f93011c5d7b`
+- AO2 approved asset-manifest digest: `f3d7a5040de8e6fd2703791235fa67841db480d3401c7deadfb3288464d31a45`
+- AO2 promotion-plan digest: `5b1e1aec01a107d36a118265ba2a046a2995aa6a9e7be9048dc9d04320d60a67`
+- AO2 physical-Windows evidence digest: `00d102508ba75904aebc61962c19e63f74da95109437072f200e8cc806c8e6ba`
+- AO2 live workflow: [run 30402777601](https://github.com/uesugitorachiyo/ao2/actions/runs/30402777601)
+- AO2 post-release verification and consumer smoke: [run 30403560528](https://github.com/uesugitorachiyo/ao2/actions/runs/30403560528)
 - AO2 Control Plane: [v0.1.18](https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.18)
 - AO2 Control Plane tag target: `6257ec23fde726d4a0133c5b62231881fb6aaa9a`
 - AO2 Control Plane promotion-plan digest: `a2f159896eea954e43d6e19914f4ef6b43aa5686ace72016dffdf0ef0ed4f455`
 - AO2 Control Plane live workflow: [run 29805048315](https://github.com/uesugitorachiyo/ao2-control-plane/actions/runs/29805048315)
 
-AO2 v0.5.5 is public, not draft, not prerelease, and has five approved public
+AO2 v0.5.6 is public, not draft, not prerelease, and has five approved public
 assets. AO2 Control Plane v0.1.18 is public, not draft, not prerelease, and has
 seven approved public assets. Each tag and downloaded asset was independently
 verified against its frozen source and promotion plan.
 
 The five AO2 asset SHA-256 values are recorded in
 `stack/current-release-manifest.json`: Linux x86_64
-`c34aa59f6abc9069d77e51632660a14116ebfad6a77ad8ef8e162fccaf13db95`,
+`e20856c1bf09e2b4c781cd8c990c0edfc4f1e4fecf6fc977f7326de9de4fde77`,
 macOS aarch64
-`05476d49d3036512aea4fa97ae17af96c84e99dcbb86b78500790112d9c2db3a`,
+`1d647e69b25163cce60a76423ae28d11bcf567bc5f99e3cfe671f7026fbda10c`,
 Windows x86_64
-`58374127f50d80716a222f59491070fdf5e1882f088d448ddc90cb2c2a3b8ab0`,
+`7d0427a9acb491ded35dd45b15f5f0a618b1fbd5282316b5f7adbaa82c04bff2`,
 the promotion plan
-`fc0a50b716a2e6866fb442076ec83b0a119866effe3b9ed2cbaab85b014c6c40`,
+`5b1e1aec01a107d36a118265ba2a046a2995aa6a9e7be9048dc9d04320d60a67`,
 and `SHA256SUMS`
-`152d991f0c15eb8c17996873b8849f3a2dc6d45557328f36aee32468b9423b78`.
+`ee923316aa684bec8316aac410cf504a6e30bd1b820ac8eeaf532ad79a4ab66b`.
 
 ## Tier 1 Operator Tools
 
@@ -51,7 +50,7 @@ The compatibility matrix remains proposed:
 - Canonical vector and consumer-test counts are both `16`.
 - Current freshness is `15` fresh edges and `1` stale edge.
 - The AO2 execution-to-observation evidence remains pinned to `v0.5.1` while
-  the current AO2 release is `v0.5.5`.
+  the current AO2 release is `v0.5.6`.
 - `compatibility_gate_complete` remains `false`.
 
 The compatibility gate is blocked pending either a separately verified

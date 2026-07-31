@@ -14,8 +14,8 @@
       "supported_platforms": ["linux", "macos", "windows"],
       "version_source": "package.json",
       "release_owner": "ao2",
-      "current_public_release": "v0.5.5",
-      "current_source_commit": "0598920c5f2712966c4ec8ae415f1bbb91e76209",
+      "current_public_release": "v0.5.6",
+      "current_source_commit": "bd61f2a1d7e541636bbc58c42a805f93011c5d7b",
       "month6_decision": "release_recommended_published_and_verified",
       "install_promise": "public governed local execution runtime",
       "artifact_names": ["ao2-{version}-linux-x86_64.tar.gz", "ao2-{version}-macos-aarch64.tar.gz", "ao2-{version}-windows-x86_64.tar.gz"]
@@ -31,7 +31,7 @@
       "version_source": "Cargo.toml",
       "release_owner": "ao2-control-plane",
       "current_public_release": "v0.1.18",
-      "current_source_commit": "78c4f70c3795da90751951fb69229d662c909a11",
+      "current_source_commit": "7c66a24ae2b2611a67da68dc5bfd7b52886174a0",
       "month6_decision": "release_recommended_published_and_verified",
       "install_promise": "public observer and evidence publication surface",
       "artifact_names": ["ao2-control-plane-{version}-linux-aarch64.tar.gz", "ao2-control-plane-{version}-macos-aarch64.tar.gz", "ao2-control-plane-{version}-windows-x86_64.zip"]

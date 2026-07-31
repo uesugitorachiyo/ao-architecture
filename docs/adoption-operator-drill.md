@@ -4,7 +4,7 @@ Status: source of truth for Adoption/Evidence Cycle Month 2 operator drills.
 
 ## Current Stack State
 
-The current public pair is AO2 v0.5.5 and AO2 Control Plane v0.1.18.
+The current public pair is AO2 v0.5.6 and AO2 Control Plane v0.1.18.
 
 The compatibility matrix has 16 tested edges, 16 canonical vectors, and 16
 consumer tests. Fifteen edges are fresh; the AO2 execution-to-observation edge

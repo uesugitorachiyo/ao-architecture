@@ -8,8 +8,8 @@ policy gates, support evidence, and next safe action readback.
 
 The current public release pair is:
 
-- AO2 v0.5.5, tag target
-  `dbaca8904564c4118b27a43356b7968725cd546e`.
+- AO2 v0.5.6, tag target
+  `5706ec9cf3a108d20984973975c2a56b905a8173`.
 - AO2 Control Plane v0.1.18, tag target
   `6257ec23fde726d4a0133c5b62231881fb6aaa9a`.
 
