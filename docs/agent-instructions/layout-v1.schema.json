@@ -41,6 +41,11 @@
                 "required": [
                   "content_sha256"
                 ]
+              },
+              {
+                "required": [
+                  "expected_head"
+                ]
               }
             ]
           },
@@ -74,6 +79,11 @@
                 "required": [
                   "content_sha256"
                 ]
+              },
+              {
+                "required": [
+                  "expected_head"
+                ]
               }
             ]
           },
@@ -93,6 +103,11 @@
           }
         },
         {
+          "not": {
+            "required": [
+              "expected_head"
+            ]
+          },
           "properties": {
             "allowed_nested_scopes": {
               "maxItems": 0
@@ -119,6 +134,39 @@
             "exclusion_reason",
             "content_sha256"
           ]
+        },
+        {
+          "not": {
+            "required": [
+              "content_sha256"
+            ]
+          },
+          "properties": {
+            "allowed_nested_scopes": {
+              "maxItems": 0
+            },
+            "exclusion_reason": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "expected_head": {
+              "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$",
+              "type": "string"
+            },
+            "lifecycle": {
+              "const": "excluded_legacy_hosted"
+            },
+            "remote": {
+              "const": "hosted"
+            },
+            "required_root_files": {
+              "maxItems": 0
+            }
+          },
+          "required": [
+            "exclusion_reason",
+            "expected_head"
+          ]
         }
       ],
       "properties": {
@@ -137,11 +185,16 @@
           "minLength": 1,
           "type": "string"
         },
+        "expected_head": {
+          "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$",
+          "type": "string"
+        },
         "lifecycle": {
           "enum": [
             "active_hosted",
             "active_local_only",
             "archived_hosted",
+            "excluded_legacy_hosted",
             "excluded_local_stub"
           ]
         },
