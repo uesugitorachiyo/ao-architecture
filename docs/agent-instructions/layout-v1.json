@@ -1,0 +1,223 @@
+{
+  "repositories": [
+    {
+      "allowed_nested_scopes": [],
+      "lifecycle": "active_hosted",
+      "name": "ao-architecture",
+      "remote": "hosted",
+      "required_root_files": [
+        "AGENTS.md",
+        "CLAUDE.md"
+      ]
+    },
+    {
+      "allowed_nested_scopes": [],
+      "lifecycle": "active_hosted",
+      "name": "ao-arena",
+      "remote": "hosted",
+      "required_root_files": [
+        "AGENTS.md",
+        "CLAUDE.md"
+      ]
+    },
+    {
+      "allowed_nested_scopes": [],
+      "lifecycle": "active_hosted",
+      "name": "ao-atlas",
+      "remote": "hosted",
+      "required_root_files": [
+        "AGENTS.md",
+        "CLAUDE.md"
+      ]
+    },
+    {
+      "allowed_nested_scopes": [],
+      "lifecycle": "active_hosted",
+      "name": "ao-blueprint",
+      "remote": "hosted",
+      "required_root_files": [
+        "AGENTS.md",
+        "CLAUDE.md"
+      ]
+    },
+    {
+      "allowed_nested_scopes": [],
+      "lifecycle": "active_hosted",
+      "name": "ao-command",
+      "remote": "hosted",
+      "required_root_files": [
+        "AGENTS.md",
+        "CLAUDE.md"
+      ]
+    },
+    {
+      "allowed_nested_scopes": [],
+      "lifecycle": "archived_hosted",
+      "name": "ao-conductor",
+      "remote": "hosted",
+      "required_root_files": [
+        "AGENTS.md",
+        "CLAUDE.md"
+      ]
+    },
+    {
+      "allowed_nested_scopes": [],
+      "lifecycle": "archived_hosted",
+      "name": "ao-control-plane",
+      "remote": "hosted",
+      "required_root_files": [
+        "AGENTS.md",
+        "CLAUDE.md"
+      ]
+    },
+    {
+      "allowed_nested_scopes": [],
+      "lifecycle": "active_hosted",
+      "name": "ao-covenant",
+      "remote": "hosted",
+      "required_root_files": [
+        "AGENTS.md",
+        "CLAUDE.md"
+      ]
+    },
+    {
+      "allowed_nested_scopes": [],
+      "content_sha256": "e4d82c12d790125089c301414a35753a98d227667c0d1a48bd8282ca11ef6ffe",
+      "exclusion_reason": "Historical local AO Covenant stub; excluded from the maintained rollout and required to remain byte-for-byte unchanged.",
+      "lifecycle": "excluded_local_stub",
+      "name": "ao-covenant-stub-20260617",
+      "remote": "none",
+      "required_root_files": []
+    },
+    {
+      "allowed_nested_scopes": [],
+      "lifecycle": "active_hosted",
+      "name": "ao-crucible",
+      "remote": "hosted",
+      "required_root_files": [
+        "AGENTS.md",
+        "CLAUDE.md"
+      ]
+    },
+    {
+      "allowed_nested_scopes": [],
+      "lifecycle": "active_hosted",
+      "name": "ao-forge",
+      "remote": "hosted",
+      "required_root_files": [
+        "AGENTS.md",
+        "CLAUDE.md"
+      ]
+    },
+    {
+      "allowed_nested_scopes": [],
+      "lifecycle": "active_hosted",
+      "name": "ao-foundry",
+      "remote": "hosted",
+      "required_root_files": [
+        "AGENTS.md",
+        "CLAUDE.md"
+      ]
+    },
+    {
+      "allowed_nested_scopes": [],
+      "lifecycle": "active_local_only",
+      "name": "ao-hardening-runner",
+      "remote": "none",
+      "required_root_files": [
+        "AGENTS.md",
+        "CLAUDE.md"
+      ]
+    },
+    {
+      "allowed_nested_scopes": [],
+      "lifecycle": "active_hosted",
+      "name": "ao-mission",
+      "remote": "hosted",
+      "required_root_files": [
+        "AGENTS.md",
+        "CLAUDE.md"
+      ]
+    },
+    {
+      "allowed_nested_scopes": [],
+      "lifecycle": "archived_hosted",
+      "name": "ao-operator",
+      "remote": "hosted",
+      "required_root_files": [
+        "AGENTS.md",
+        "CLAUDE.md"
+      ]
+    },
+    {
+      "allowed_nested_scopes": [],
+      "lifecycle": "active_hosted",
+      "name": "ao-promoter",
+      "remote": "hosted",
+      "required_root_files": [
+        "AGENTS.md",
+        "CLAUDE.md"
+      ]
+    },
+    {
+      "allowed_nested_scopes": [],
+      "lifecycle": "archived_hosted",
+      "name": "ao-runtime",
+      "remote": "hosted",
+      "required_root_files": [
+        "AGENTS.md",
+        "CLAUDE.md"
+      ]
+    },
+    {
+      "allowed_nested_scopes": [],
+      "lifecycle": "active_hosted",
+      "name": "ao-sentinel",
+      "remote": "hosted",
+      "required_root_files": [
+        "AGENTS.md",
+        "CLAUDE.md"
+      ]
+    },
+    {
+      "allowed_nested_scopes": [],
+      "lifecycle": "active_local_only",
+      "name": "ao-stack-evaluation",
+      "remote": "none",
+      "required_root_files": [
+        "AGENTS.md",
+        "CLAUDE.md"
+      ]
+    },
+    {
+      "allowed_nested_scopes": [
+        ".github/workflows",
+        "crates/ao2-policy",
+        "crates/ao2-runtime",
+        "scripts"
+      ],
+      "lifecycle": "active_hosted",
+      "name": "ao2",
+      "remote": "hosted",
+      "required_root_files": [
+        "AGENTS.md",
+        "CLAUDE.md"
+      ]
+    },
+    {
+      "allowed_nested_scopes": [
+        "crates/ao2-cp-server",
+        "crates/ao2-cp-storage",
+        "deploy"
+      ],
+      "lifecycle": "active_hosted",
+      "name": "ao2-control-plane",
+      "remote": "hosted",
+      "required_root_files": [
+        "AGENTS.md",
+        "CLAUDE.md"
+      ]
+    }
+  ],
+  "schema_version": "1.0.0"
+}

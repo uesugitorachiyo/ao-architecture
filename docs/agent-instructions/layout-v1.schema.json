@@ -1,0 +1,179 @@
+{
+  "$id": "https://github.com/uesugitorachiyo/ao-architecture/blob/main/docs/agent-instructions/layout-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "repositories": {
+      "items": {
+        "$ref": "#/$defs/repository"
+      },
+      "minItems": 21,
+      "maxItems": 21,
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    }
+  },
+  "required": [
+    "schema_version",
+    "repositories"
+  ],
+  "title": "AO Stack Agent Instruction Layout v1",
+  "type": "object",
+  "$defs": {
+    "nestedScope": {
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?![A-Za-z]:[\\\\/])[A-Za-z0-9._/-]+$",
+      "type": "string"
+    },
+    "repository": {
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "exclusion_reason"
+                ]
+              },
+              {
+                "required": [
+                  "content_sha256"
+                ]
+              }
+            ]
+          },
+          "properties": {
+            "lifecycle": {
+              "enum": [
+                "active_hosted",
+                "archived_hosted"
+              ]
+            },
+            "remote": {
+              "const": "hosted"
+            },
+            "required_root_files": {
+              "const": [
+                "AGENTS.md",
+                "CLAUDE.md"
+              ]
+            }
+          }
+        },
+        {
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "exclusion_reason"
+                ]
+              },
+              {
+                "required": [
+                  "content_sha256"
+                ]
+              }
+            ]
+          },
+          "properties": {
+            "lifecycle": {
+              "const": "active_local_only"
+            },
+            "remote": {
+              "const": "none"
+            },
+            "required_root_files": {
+              "const": [
+                "AGENTS.md",
+                "CLAUDE.md"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "allowed_nested_scopes": {
+              "maxItems": 0
+            },
+            "content_sha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "exclusion_reason": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "lifecycle": {
+              "const": "excluded_local_stub"
+            },
+            "remote": {
+              "const": "none"
+            },
+            "required_root_files": {
+              "maxItems": 0
+            }
+          },
+          "required": [
+            "exclusion_reason",
+            "content_sha256"
+          ]
+        }
+      ],
+      "properties": {
+        "allowed_nested_scopes": {
+          "items": {
+            "$ref": "#/$defs/nestedScope"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "content_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "exclusion_reason": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "lifecycle": {
+          "enum": [
+            "active_hosted",
+            "active_local_only",
+            "archived_hosted",
+            "excluded_local_stub"
+          ]
+        },
+        "name": {
+          "pattern": "^[A-Za-z0-9._-]+$",
+          "type": "string"
+        },
+        "remote": {
+          "enum": [
+            "hosted",
+            "none"
+          ]
+        },
+        "required_root_files": {
+          "items": {
+            "enum": [
+              "AGENTS.md",
+              "CLAUDE.md"
+            ]
+          },
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "name",
+        "lifecycle",
+        "remote",
+        "required_root_files",
+        "allowed_nested_scopes"
+      ],
+      "type": "object"
+    }
+  }
+}
