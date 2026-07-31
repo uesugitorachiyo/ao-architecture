@@ -2,7 +2,7 @@
 
 - Status: Accepted
 - Date: 2026-07-30
-- Scope: Maintained AO repositories and the excluded historical local stub
+- Scope: Maintained AO repositories and explicitly excluded legacy checkouts
 
 ## Context
 
@@ -31,13 +31,14 @@ Multi-step, occasional procedures belong in skills or runbooks. Root instruction
 - Active hosted repositories require the root pair, local Claude-state ignores, verified commands, and normal pull-request CI.
 - Active local-only repositories require the same instruction shape but remain without remotes or publication authority.
 - Archived hosted repositories use short archive-first guidance, identify successors, forbid new product scope, and retain only archive-correction verification.
+- `ao-runtime` is a deprecated pre-AO-Stack legacy repository, not an archived AO Stack component. It receives no instruction rollout; the manifest pins its unchanged Git head and the validator rejects tracked drift.
 - `ao-covenant-stub-20260617` is an excluded historical local stub. The layout manifest records its exclusion reason and content fingerprint; the campaign must leave it byte-for-byte unchanged.
 
 ## Context And Drift Policy
 
 Active root `AGENTS.md` files are limited to 120 lines and 12 KiB. Archived roots are limited to 60 lines and 8 KiB. Nested files are limited to 80 lines and 8 KiB, and a root-to-nested chain is limited to 24 KiB. The exact budgets and scopes are enforced by the versioned layout validator.
 
-Durable command, authority, lifecycle, ownership, or architecture changes must update the applicable `AGENTS.md` in the same pull request. A changed `CLAUDE.md` must remain the exact import adapter. The stack validator rejects missing pairs, drift, unexpected scopes, unsafe paths, secret-like material, and excluded-stub modification.
+Durable command, authority, lifecycle, ownership, or architecture changes must update the applicable `AGENTS.md` in the same pull request. A changed `CLAUDE.md` must remain the exact import adapter. The stack validator rejects missing pairs, drift, unexpected scopes, unsafe paths, secret-like material, excluded-stub modification, and excluded legacy-hosted head or tracked-state changes.
 
 ## Consequences
 

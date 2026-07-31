@@ -3,6 +3,7 @@ from __future__ import annotations
 import copy
 import json
 import os
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -35,7 +36,7 @@ REPOSITORIES = [
     ("ao-mission", "active_hosted", "hosted"),
     ("ao-operator", "archived_hosted", "hosted"),
     ("ao-promoter", "active_hosted", "hosted"),
-    ("ao-runtime", "archived_hosted", "hosted"),
+    ("ao-runtime", "excluded_legacy_hosted", "hosted"),
     ("ao-sentinel", "active_hosted", "hosted"),
     ("ao-stack-evaluation", "active_local_only", "none"),
     ("ao2", "active_hosted", "hosted"),
@@ -55,13 +56,33 @@ class LayoutFixture:
                 "name": name,
                 "lifecycle": lifecycle,
                 "remote": remote,
-                "required_root_files": [] if lifecycle == "excluded_local_stub" else ["AGENTS.md", "CLAUDE.md"],
+                "required_root_files": (
+                    []
+                    if lifecycle in {"excluded_local_stub", "excluded_legacy_hosted"}
+                    else ["AGENTS.md", "CLAUDE.md"]
+                ),
                 "allowed_nested_scopes": [],
             }
             if lifecycle == "excluded_local_stub":
                 (repo / "README.md").write_text("Historical fixture.\n", encoding="utf-8")
                 entry["exclusion_reason"] = "Historical local stub excluded from rollout."
                 entry["content_sha256"] = content_fingerprint(repo)
+            elif lifecycle == "excluded_legacy_hosted":
+                (repo / "README.md").write_text("Pre-AO-Stack legacy fixture.\n", encoding="utf-8")
+                (repo / "AGENTS.md").write_text("# Legacy instructions\n", encoding="utf-8")
+                subprocess.run(["git", "init", "-q", "-b", "main"], cwd=repo, check=True)
+                subprocess.run(["git", "config", "user.email", "fixture@example.invalid"], cwd=repo, check=True)
+                subprocess.run(["git", "config", "user.name", "Fixture"], cwd=repo, check=True)
+                subprocess.run(["git", "add", "README.md", "AGENTS.md"], cwd=repo, check=True)
+                subprocess.run(["git", "commit", "-q", "-m", "fixture"], cwd=repo, check=True)
+                entry["exclusion_reason"] = "Pre-AO-Stack hosted legacy repository excluded from rollout."
+                entry["expected_head"] = subprocess.run(
+                    ["git", "rev-parse", "HEAD"],
+                    cwd=repo,
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                ).stdout.strip()
             else:
                 (repo / "AGENTS.md").write_text(f"# {name} Agent Instructions\n\nRepository guidance.\n", encoding="utf-8")
                 (repo / "CLAUDE.md").write_bytes(b"@AGENTS.md\n")
@@ -118,6 +139,7 @@ class AgentInstructionLayoutTests(unittest.TestCase):
         self.assertEqual(statuses["ao-conductor"], "ok")
         self.assertEqual(statuses["ao-hardening-runner"], "ok")
         self.assertEqual(statuses["ao-covenant-stub-20260617"], "excluded_unchanged")
+        self.assertEqual(statuses["ao-runtime"], "excluded_unchanged")
 
     def test_accepts_exact_claude_import_and_allowed_nested_pair(self) -> None:
         self.fixture.allow_nested("ao2", "crates/ao2-runtime")
@@ -321,6 +343,25 @@ class AgentInstructionLayoutTests(unittest.TestCase):
             encoding="utf-8",
         )
         self.assert_code("EXCLUDED_REPOSITORY_MODIFIED")
+
+    def test_rejects_modified_excluded_legacy_hosted_repository(self) -> None:
+        (self.fixture.repo("ao-runtime") / "README.md").write_text(
+            "Modified pre-AO-Stack legacy fixture.\n",
+            encoding="utf-8",
+        )
+        self.assert_code("EXCLUDED_REPOSITORY_MODIFIED")
+
+    def test_rejects_excluded_legacy_hosted_head_change(self) -> None:
+        repo = self.fixture.repo("ao-runtime")
+        (repo / "LATER.md").write_text("Later legacy commit.\n", encoding="utf-8")
+        subprocess.run(["git", "add", "LATER.md"], cwd=repo, check=True)
+        subprocess.run(["git", "commit", "-q", "-m", "later"], cwd=repo, check=True)
+        self.assert_code("EXCLUDED_REPOSITORY_HEAD_CHANGED")
+
+    def test_rejects_missing_excluded_legacy_hosted_head(self) -> None:
+        del self.fixture.entry("ao-runtime")["expected_head"]
+        self.fixture.write_manifest()
+        self.assert_code("MANIFEST_EXCLUDED_HEAD")
 
     def test_discovery_ignores_dependencies_caches_generated_and_evidence(self) -> None:
         repo = self.fixture.repo("ao-architecture")

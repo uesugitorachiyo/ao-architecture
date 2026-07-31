@@ -9,6 +9,7 @@ import json
 import os
 import re
 import stat
+import subprocess
 import sys
 from pathlib import Path, PurePosixPath
 from typing import Any, Iterable
@@ -45,6 +46,7 @@ LIFECYCLES = {
     "active_hosted",
     "active_local_only",
     "archived_hosted",
+    "excluded_legacy_hosted",
     "excluded_local_stub",
 }
 TOP_LEVEL_FIELDS = {"schema_version", "repositories"}
@@ -56,6 +58,7 @@ REPOSITORY_FIELDS = {
     "allowed_nested_scopes",
     "exclusion_reason",
     "content_sha256",
+    "expected_head",
 }
 DISCOVERY_EXCLUDED_NAMES = {
     ".cache",
@@ -251,7 +254,11 @@ def validate_manifest(document: dict[str, Any]) -> list[dict[str, object]]:
             )
 
         required = entry.get("required_root_files")
-        expected_required = [] if lifecycle == "excluded_local_stub" else ["AGENTS.md", "CLAUDE.md"]
+        expected_required = (
+            []
+            if lifecycle in {"excluded_local_stub", "excluded_legacy_hosted"}
+            else ["AGENTS.md", "CLAUDE.md"]
+        )
         if required != expected_required:
             conflicts.append(
                 conflict(
@@ -299,21 +306,12 @@ def validate_manifest(document: dict[str, Any]) -> list[dict[str, object]]:
                     )
                 )
 
-        if lifecycle == "excluded_local_stub":
+        if lifecycle in {"excluded_local_stub", "excluded_legacy_hosted"}:
             if not isinstance(entry.get("exclusion_reason"), str) or not entry["exclusion_reason"].strip():
                 conflicts.append(
                     conflict(
                         "MANIFEST_EXCLUSION_REASON",
                         "excluded repository requires an exclusion_reason",
-                        repository=name,
-                    )
-                )
-            fingerprint = entry.get("content_sha256")
-            if not isinstance(fingerprint, str) or not re.fullmatch(r"[0-9a-f]{64}", fingerprint):
-                conflicts.append(
-                    conflict(
-                        "MANIFEST_EXCLUDED_FINGERPRINT",
-                        "excluded repository requires a lowercase SHA-256 content fingerprint",
                         repository=name,
                     )
                 )
@@ -325,7 +323,43 @@ def validate_manifest(document: dict[str, Any]) -> list[dict[str, object]]:
                         repository=name,
                     )
                 )
-        elif "exclusion_reason" in entry or "content_sha256" in entry:
+            if lifecycle == "excluded_local_stub":
+                fingerprint = entry.get("content_sha256")
+                if not isinstance(fingerprint, str) or not re.fullmatch(r"[0-9a-f]{64}", fingerprint):
+                    conflicts.append(
+                        conflict(
+                            "MANIFEST_EXCLUDED_FINGERPRINT",
+                            "excluded local repository requires a lowercase SHA-256 content fingerprint",
+                            repository=name,
+                        )
+                    )
+                if "expected_head" in entry:
+                    conflicts.append(
+                        conflict(
+                            "MANIFEST_UNKNOWN_FIELD",
+                            "expected_head is valid only for an excluded hosted repository",
+                            repository=name,
+                        )
+                    )
+            else:
+                expected_head = entry.get("expected_head")
+                if not isinstance(expected_head, str) or not re.fullmatch(r"[0-9a-f]{40}|[0-9a-f]{64}", expected_head):
+                    conflicts.append(
+                        conflict(
+                            "MANIFEST_EXCLUDED_HEAD",
+                            "excluded hosted repository requires a lowercase 40- or 64-character Git head",
+                            repository=name,
+                        )
+                    )
+                if "content_sha256" in entry:
+                    conflicts.append(
+                        conflict(
+                            "MANIFEST_UNKNOWN_FIELD",
+                            "content_sha256 is valid only for an excluded local repository",
+                            repository=name,
+                        )
+                    )
+        elif any(field in entry for field in ("exclusion_reason", "content_sha256", "expected_head")):
             conflicts.append(
                 conflict(
                     "MANIFEST_UNKNOWN_FIELD",
@@ -513,6 +547,62 @@ def _validate_repository(
             )
         return conflicts
 
+    if lifecycle == "excluded_legacy_hosted":
+        git_environment = os.environ.copy()
+        git_environment["GIT_OPTIONAL_LOCKS"] = "0"
+        try:
+            head_result = subprocess.run(
+                ["git", "rev-parse", "--verify", "HEAD"],
+                cwd=repo,
+                check=False,
+                capture_output=True,
+                text=True,
+                env=git_environment,
+            )
+            status_result = subprocess.run(
+                ["git", "status", "--porcelain=v1", "--untracked-files=no"],
+                cwd=repo,
+                check=False,
+                capture_output=True,
+                text=True,
+                env=git_environment,
+            )
+        except OSError as exc:
+            return [
+                conflict(
+                    "EXCLUDED_REPOSITORY_UNREADABLE",
+                    f"cannot inspect excluded hosted repository: {exc}",
+                    repository=name,
+                )
+            ]
+        if head_result.returncode != 0 or status_result.returncode != 0:
+            return [
+                conflict(
+                    "EXCLUDED_REPOSITORY_UNREADABLE",
+                    "cannot inspect excluded hosted repository Git state",
+                    repository=name,
+                )
+            ]
+        actual_head = head_result.stdout.strip()
+        expected_head = entry.get("expected_head")
+        if actual_head != expected_head:
+            conflicts.append(
+                conflict(
+                    "EXCLUDED_REPOSITORY_HEAD_CHANGED",
+                    f"excluded repository head differs: expected {expected_head}, found {actual_head}",
+                    repository=name,
+                )
+            )
+        if status_result.stdout:
+            conflicts.append(
+                conflict(
+                    "EXCLUDED_REPOSITORY_MODIFIED",
+                    "excluded hosted repository has tracked working-tree or index changes",
+                    repository=name,
+                )
+            )
+        return conflicts
+
     root_sizes: dict[str, int] = {}
     for file_name, missing_code in (
         ("AGENTS.md", "MISSING_ROOT_AGENTS"),
@@ -669,7 +759,9 @@ def validate_workspace(
         entry = by_name[name]
         codes = sorted({item["code"] for item in conflicts if item.get("repository") == name})
         status = "conflict" if codes else (
-            "excluded_unchanged" if entry["lifecycle"] == "excluded_local_stub" else "ok"
+            "excluded_unchanged"
+            if entry["lifecycle"] in {"excluded_local_stub", "excluded_legacy_hosted"}
+            else "ok"
         )
         results.append(
             {

@@ -161,13 +161,12 @@
     },
     {
       "allowed_nested_scopes": [],
-      "lifecycle": "archived_hosted",
+      "exclusion_reason": "Deprecated pre-AO-Stack legacy runtime; outside the maintained AO Stack and excluded from this instruction rollout.",
+      "expected_head": "062bb21ba5e203d2556633aef311a12ae24c60bb",
+      "lifecycle": "excluded_legacy_hosted",
       "name": "ao-runtime",
       "remote": "hosted",
-      "required_root_files": [
-        "AGENTS.md",
-        "CLAUDE.md"
-      ]
+      "required_root_files": []
     },
     {
       "allowed_nested_scopes": [],
