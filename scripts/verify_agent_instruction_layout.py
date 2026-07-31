@@ -49,6 +49,12 @@ LIFECYCLES = {
     "excluded_legacy_hosted",
     "excluded_local_stub",
 }
+LEGACY_HOSTED_REPOSITORIES = {
+    "ao-conductor",
+    "ao-control-plane",
+    "ao-operator",
+    "ao-runtime",
+}
 TOP_LEVEL_FIELDS = {"schema_version", "repositories"}
 REPOSITORY_FIELDS = {
     "name",
@@ -238,6 +244,14 @@ def validate_manifest(document: dict[str, Any]) -> list[dict[str, object]]:
                 conflict(
                     "MANIFEST_UNKNOWN_LIFECYCLE",
                     f"unknown lifecycle state: {lifecycle!r}",
+                    repository=name,
+                )
+            )
+        if (name in LEGACY_HOSTED_REPOSITORIES) != (lifecycle == "excluded_legacy_hosted"):
+            conflicts.append(
+                conflict(
+                    "MANIFEST_LIFECYCLE_CLASSIFICATION",
+                    "excluded_legacy_hosted is reserved for the four named legacy repositories outside the maintained AO Stack",
                     repository=name,
                 )
             )

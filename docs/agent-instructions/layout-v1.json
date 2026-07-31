@@ -52,23 +52,21 @@
     },
     {
       "allowed_nested_scopes": [],
-      "lifecycle": "archived_hosted",
+      "exclusion_reason": "Legacy AO Conductor repository outside the maintained AO Stack; excluded from this instruction rollout.",
+      "expected_head": "31318decd485bbf75b1ff4b21c8400d875603626",
+      "lifecycle": "excluded_legacy_hosted",
       "name": "ao-conductor",
       "remote": "hosted",
-      "required_root_files": [
-        "AGENTS.md",
-        "CLAUDE.md"
-      ]
+      "required_root_files": []
     },
     {
       "allowed_nested_scopes": [],
-      "lifecycle": "archived_hosted",
+      "exclusion_reason": "Deprecated AO Control Plane legacy repository outside the maintained AO Stack; excluded from this instruction rollout.",
+      "expected_head": "db0171d6138af23b0d262b087b152ed4fdad6d25",
+      "lifecycle": "excluded_legacy_hosted",
       "name": "ao-control-plane",
       "remote": "hosted",
-      "required_root_files": [
-        "AGENTS.md",
-        "CLAUDE.md"
-      ]
+      "required_root_files": []
     },
     {
       "allowed_nested_scopes": [],
@@ -141,13 +139,12 @@
     },
     {
       "allowed_nested_scopes": [],
-      "lifecycle": "archived_hosted",
+      "exclusion_reason": "Deprecated AO Operator legacy repository outside the maintained AO Stack; excluded from this instruction rollout.",
+      "expected_head": "b65de9304681c18f504900c6cfc3f98ed2a83403",
+      "lifecycle": "excluded_legacy_hosted",
       "name": "ao-operator",
       "remote": "hosted",
-      "required_root_files": [
-        "AGENTS.md",
-        "CLAUDE.md"
-      ]
+      "required_root_files": []
     },
     {
       "allowed_nested_scopes": [],
