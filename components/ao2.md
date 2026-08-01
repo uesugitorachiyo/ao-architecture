@@ -8,6 +8,13 @@
 
 **Repository:** [uesugitorachiyo/ao2](https://github.com/uesugitorachiyo/ao2)
 
-**Current public release:** [v0.5.2](https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.2), tag target `732a97950121321b3cfad29d86526df9c0b5fad5`.
+**Current public release:** [v0.5.7](https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.7), tag target `a3d8d19cef8f3aa69ea14e46ef94cc9706a502a7`.
 
-**Release evidence:** AO2 v0.5.2 public assets, checksums, provenance, Docker Linux x86_64 smoke, macOS rollback, Windows rollback, release comparison, and Workbench comparison export smoke are recorded by evidence anchor `ao-stack-qualification-release-dsa-20260718-20260718T224504Z/publish-ao2-v052-result.json`.
+**First-use path:** [First 30 Minutes With AO2](https://github.com/uesugitorachiyo/ao2/blob/main/docs/FIRST-30-MINUTES.md)
+uses the published macOS aarch64, Linux x86_64, or Windows x86_64 archive and
+the release `SHA256SUMS`. Linux aarch64 hosts may use the Linux x86_64 archive
+only under explicit Docker emulation.
+
+**Release evidence:** AO2 v0.5.7 is public, stable, and paired with AO2 Control
+Plane v0.1.18. Source-owned release metadata and verification remain
+authoritative; this Architecture card does not authorize publication.

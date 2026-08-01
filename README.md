@@ -49,6 +49,10 @@ with broad authority.
 
 ## Start Here
 
+- **Canonical first-use path:** [First 30 Minutes With AO2](https://github.com/uesugitorachiyo/ao2/blob/main/docs/FIRST-30-MINUTES.md)
+  covers the supported public download, checksum verification, install, doctor,
+  and credential-free governed demo. New operators do not need to install or
+  run the other AO repositories before completing that path.
 - [Architecture Overview](overview/README.md) explains how the components work
   together.
 - [Operator Workflow](docs/operator-workflow.md) follows the normal path through
@@ -128,8 +132,9 @@ those artifacts instead of relying on terminal history.
 
 ### Where should I start?
 
-Read the [Architecture Overview](overview/README.md), then open the guide for
-the component that owns your question.
+Complete [First 30 Minutes With AO2](https://github.com/uesugitorachiyo/ao2/blob/main/docs/FIRST-30-MINUTES.md).
+Then use the [Architecture Overview](overview/README.md) only when you need a
+component-specific workflow or ownership boundary.
 
 ## License
 
