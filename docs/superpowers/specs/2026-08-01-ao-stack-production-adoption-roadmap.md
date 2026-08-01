@@ -1,10 +1,26 @@
 # AO Stack Production Adoption Roadmap
 
-- Status: design for review
+- Status: approved program design
 - Roadmap window: August 1, 2026 through January 31, 2027
 - Primary audience: platform and engineering teams
 - Execution model: sequential Codex-led campaigns
 - Release model: evidence-driven
+
+## Execution Ownership
+
+This document owns the portfolio design, active scope, success contract, and
+monthly product gates. The canonical executable program handoff and long-run
+operator procedure are owned by AO Mission:
+
+- [AO Stack Six-Month Production Adoption Handoff](https://github.com/uesugitorachiyo/ao-mission/blob/main/docs/ao-stack-six-month-roadmap-handoff-prompt.md)
+- [AO Mission Long-Run Operator Runbook](https://github.com/uesugitorachiyo/ao-mission/blob/main/docs/long-run-operator-runbook.md)
+
+Run the program from a clean AO Mission source context. Use the common parent
+workspace only to expose sibling repositories, and keep durable Mission state
+outside every source checkout. AO Mission owns the single six-month record and
+monthly checkpoints; AO Atlas owns one fresh workgraph per month. This roadmap
+does not duplicate the operational prompt and does not grant repository
+mutation, provider, pilot, deployment, or publication authority.
 
 ## Objective
 
