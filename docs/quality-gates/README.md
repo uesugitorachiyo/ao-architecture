@@ -21,4 +21,8 @@ python3 scripts/verify_quality_gate_registry.py --workspace-root .. --require-ad
 
 Planned entries make lifecycle scope explicit without fabricating a source-owned manifest. A planned manifest is optional, but any present manifest is validated. An adopted entry must have a valid manifest. Unknown versions, duplicate keys, symlinks, unsafe paths, oversized inputs, shell-evaluated command strings, or fast gates claiming network or source mutation fail closed.
 
+Result limits range from 4,096 through 1,048,576 bytes. The lower bound keeps
+the Architecture producer compatible with AO2's minimum structured identity
+and failure evidence contract.
+
 These declarations provide deterministic developer feedback. They do not authorize execution, provider access, repository mutation, approval, release, deployment, publication, or promotion.

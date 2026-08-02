@@ -17,7 +17,7 @@
     {"repository":"ao-promoter","lifecycle":"active_hosted","manifest_path":"ao-quality-gates.json","adoption_status":"planned","command_owner":"ao-promoter"},
     {"repository":"ao-sentinel","lifecycle":"active_hosted","manifest_path":"ao-quality-gates.json","adoption_status":"planned","command_owner":"ao-sentinel"},
     {"repository":"ao-stack-evaluation","lifecycle":"active_local_only","manifest_path":"ao-quality-gates.json","adoption_status":"planned","command_owner":"ao-stack-evaluation"},
-    {"repository":"ao2","lifecycle":"active_hosted","manifest_path":"ao-quality-gates.json","adoption_status":"planned","command_owner":"ao2"},
+    {"repository":"ao2","lifecycle":"active_hosted","manifest_path":"ao-quality-gates.json","adoption_status":"adopted","command_owner":"ao2"},
     {"repository":"ao2-control-plane","lifecycle":"active_hosted","manifest_path":"ao-quality-gates.json","adoption_status":"planned","command_owner":"ao2-control-plane"}
   ]
 }

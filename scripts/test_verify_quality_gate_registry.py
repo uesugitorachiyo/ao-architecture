@@ -216,6 +216,12 @@ class VerifyQualityGateRegistryTest(unittest.TestCase):
         self.assert_rejected("FAST_GATE_NETWORK_FORBIDDEN")
         self.assert_rejected("FAST_GATE_MUTATION_FORBIDDEN")
 
+    def test_rejects_result_limit_too_small_for_consumer_evidence(self) -> None:
+        document = valid_manifest("ao-architecture")
+        document["evidence"]["maximum_result_bytes"] = 4095
+        self.fixture.write_manifest("ao-architecture", document)
+        self.assert_rejected("EVIDENCE_SIZE_LIMIT_INVALID")
+
     def test_rejects_unsafe_path_pattern(self) -> None:
         document = valid_manifest("ao-architecture")
         document["generated_paths"] = ["../outside/**"]
