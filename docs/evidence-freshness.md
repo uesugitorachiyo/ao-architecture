@@ -1,7 +1,7 @@
 # AO Stack Evidence Freshness And Compatibility Gate Readiness
 
 Status: current operational source of truth using Month 1 compatibility evidence
-Current public pair: AO2 `v0.5.6` and AO2 Control Plane `v0.1.18`
+Current public pair: AO2 `v0.5.7` and AO2 Control Plane `v0.1.18`
 
 ## Purpose
 
@@ -20,8 +20,9 @@ The evidence freshness verifier checks:
 - The matrix labels all 16 edges `tested_current_release_pair`, but freshness is
   evaluated separately against the current public versions.
 - All 16 edges have current evidence. The AO2 execution-to-observation edge is
-  bound to the released AO2 `v0.5.6` vector and the Control Plane `v0.1.18`
-  consumer regression.
+  bound through the verified unchanged-contract bridge from the immutable AO2
+  `v0.5.6` vector to AO2 `v0.5.7` and the Control Plane `v0.1.18` consumer
+  regression.
 - Matrix vector and consumer-test counts match the tested edge count.
 - Tested edges include canonical vector references and consumer-test
   references.
@@ -61,12 +62,12 @@ The current gate state is `ready`, and the evidence freshness status is
 
 Reason code: `AO2_COMPATIBILITY_EVIDENCE_CURRENT`.
 
-AO2 `v0.5.6` uses
+AO2 `v0.5.7` uses the unchanged-contract bridge from
 `tests/fixtures/compatibility/ao2-execution-receipt-v0.5.6.json` from merge
 `5664ba778b263fa33e384cb8f45696cf34e0de5f`; AO2 Control Plane consumes those
 exact bytes through merge `ded38643d7583e287db6af7b7782719bad5b3e69`.
 The unchanged-contract bridge back to AO2 `v0.5.1` is executable and expires
-at `2026-08-30T22:40:00Z`. `compatibility_gate_complete` remains false because
+at `2026-09-01T02:45:00Z`. `compatibility_gate_complete` remains false because
 readiness is evidence, not activation authority.
 
 ## Boundaries

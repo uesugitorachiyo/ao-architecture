@@ -8,9 +8,9 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from verify_evidence_freshness import validate_readback
 
-AO2_VERSION = "v0.5.6"
-AO2_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.6"
-AO2_TAG_TARGET = "5706ec9cf3a108d20984973975c2a56b905a8173"
+AO2_VERSION = "v0.5.7"
+AO2_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.7"
+AO2_TAG_TARGET = "a3d8d19cef8f3aa69ea14e46ef94cc9706a502a7"
 CONTROL_PLANE_VERSION = "v0.1.18"
 CONTROL_PLANE_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.18"
 CONTROL_PLANE_TAG_TARGET = "6257ec23fde726d4a0133c5b62231881fb6aaa9a"
@@ -164,7 +164,7 @@ def valid_readback():
             "activation_authorized": False,
             "activation_evidence": "",
             "reason_code": "AO2_COMPATIBILITY_EVIDENCE_CURRENT",
-            "reason": "The AO2 v0.5.6 execution-to-observation vector and Control Plane consumer test are current and digest-bound.",
+            "reason": "The AO2 v0.5.6 execution-to-observation vector remains a verified unchanged-contract bridge for AO2 v0.5.7 and Control Plane v0.1.18.",
             "details": {},
             "allowed_states": ["false", "ready", "active", "blocked", "denied"],
             "readiness_criteria": {
@@ -218,9 +218,20 @@ class VerifyEvidenceFreshnessTest(unittest.TestCase):
             existing_paths={"stack/fixtures/compatibility/architecture-route-context-v0.1.json"},
         )
         self.assertIn(
-            "AO2 compatibility evidence v0.5.5 is stale for current release v0.5.6; readback must be stale and gate blocked",
+            "AO2 compatibility evidence v0.5.5 is stale for current release v0.5.7; readback must be stale and gate blocked",
             errors,
         )
+
+    def test_rejects_unbridged_future_ao2_release(self):
+        manifest = valid_manifest()
+        manifest["ao2"]["version"] = "v0.5.8"
+        errors = validate_readback(
+            valid_readback(),
+            manifest,
+            valid_matrix(),
+            existing_paths={"stack/fixtures/compatibility/architecture-route-context-v0.1.json"},
+        )
+        self.assertTrue(any("is stale for current release v0.5.8" in error for error in errors))
 
     def test_rejects_nonexistent_ao2_evidence_path_and_fabricated_commit(self):
         matrix = valid_matrix()

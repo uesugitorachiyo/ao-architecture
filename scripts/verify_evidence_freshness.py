@@ -17,6 +17,7 @@ GATE_STATES = {"false", "ready", "active", "blocked", "denied"}
 AO2_COMPATIBILITY_EVIDENCE_VERSION = "v0.5.6"
 AO2_COMPATIBILITY_EVIDENCE_PATH = "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.6.json"
 AO2_COMPATIBILITY_EVIDENCE_COMMIT = "5664ba778b263fa33e384cb8f45696cf34e0de5f"
+AO2_UNCHANGED_CONTRACT_BRIDGE_RELEASES = {"v0.5.6", "v0.5.7"}
 AO2_STALE_REASON_CODE = "AO2_COMPATIBILITY_EVIDENCE_VERSION_STALE"
 AO2_EVIDENCE_VERSION_RE = re.compile(r"ao2-execution-receipt-(v[0-9]+\.[0-9]+\.[0-9]+)\.json$")
 FALSE_BOUNDARIES = (
@@ -232,7 +233,11 @@ def validate_ao2_compatibility_binding(
 
     ao2_manifest = manifest.get("ao2")
     current_version = ao2_manifest.get("version") if isinstance(ao2_manifest, dict) else ""
-    stale = not current_version or current_version != evidence_version
+    stale = (
+        evidence_version != AO2_COMPATIBILITY_EVIDENCE_VERSION
+        or not current_version
+        or current_version not in AO2_UNCHANGED_CONTRACT_BRIDGE_RELEASES
+    )
     if not stale:
         return False, None
 

@@ -4,11 +4,12 @@ Status: source of truth for Adoption/Evidence Cycle Month 2 operator drills.
 
 ## Current Stack State
 
-The current public pair is AO2 v0.5.6 and AO2 Control Plane v0.1.18.
+The current public pair is AO2 v0.5.7 and AO2 Control Plane v0.1.18.
 
 The compatibility matrix has 16 tested edges, 16 canonical vectors, and 16
-consumer tests. Fifteen edges are fresh; the AO2 execution-to-observation edge
-is stale. The compatibility gate is blocked, not active. This drill does not
+consumer tests. All 16 edges are fresh; the AO2 v0.5.6 execution-to-observation
+vector is an unchanged-contract bridge for v0.5.7. The compatibility gate is
+ready, not active. This drill does not
 activate the gate or grant any broader state.
 
 ## Operator Drill

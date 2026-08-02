@@ -13,25 +13,25 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MANIFEST = ROOT / "stack" / "current-release-manifest.json"
 DEFAULT_LOCK = ROOT / "stack" / "ao-stack.lock.json"
 COMMIT_RE = re.compile(r"^[0-9a-f]{40}$")
-VERIFIED_AO2_V056 = {
-    "release_url": "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.6",
-    "tag_target": "5706ec9cf3a108d20984973975c2a56b905a8173",
-    "current_main_commit": "bd61f2a1d7e541636bbc58c42a805f93011c5d7b",
-    "release_workflow_run": "https://github.com/uesugitorachiyo/ao2/actions/runs/30402777601",
-    "post_release_workflow_run": "https://github.com/uesugitorachiyo/ao2/actions/runs/30403560528",
-    "consumer_smoke_workflow_run": "https://github.com/uesugitorachiyo/ao2/actions/runs/30403560528",
-    "approved_manifest_digest": "f3d7a5040de8e6fd2703791235fa67841db480d3401c7deadfb3288464d31a45",
-    "promotion_plan_digest": "5b1e1aec01a107d36a118265ba2a046a2995aa6a9e7be9048dc9d04320d60a67",
-    "physical_windows_evidence_digest": "00d102508ba75904aebc61962c19e63f74da95109437072f200e8cc806c8e6ba",
-    "evidence_path": "ao-stack-hardening-autonomous-repair-decomposition-20260727T210322Z/phase5/ao2-v056-live-release-summary.json",
+VERIFIED_AO2_V057 = {
+    "release_url": "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.7",
+    "tag_target": "a3d8d19cef8f3aa69ea14e46ef94cc9706a502a7",
+    "current_main_commit": "e7f8e391f57a57c0f8056426e7d3f696c1d093ac",
+    "release_workflow_run": "https://github.com/uesugitorachiyo/ao2/actions/runs/30684627433",
+    "post_release_workflow_run": "https://github.com/uesugitorachiyo/ao2/actions/runs/30688624711",
+    "consumer_smoke_workflow_run": "https://github.com/uesugitorachiyo/ao2/actions/runs/30688625596",
+    "approved_manifest_digest": "f726e2cac6581ee9422965faec4c9892ec508c6291c732cec8d48c4900908e55",
+    "promotion_plan_digest": "8e058f6a891d837db856916083a7b2ba9bc53f997b96c5522e8b0a552f6b7be7",
+    "physical_windows_evidence_digest": "18bf31d6aba7021ce30b5d5aeed22055f42712c5bd208bb31764c184509a26b8",
+    "evidence_path": "ao2-next-patch-qualified-live-release-20260801T021957Z/public-asset-verification.json",
     "asset_sha256": {
-        "ao2-0.5.6-linux-x86_64.tar.gz": "e20856c1bf09e2b4c781cd8c990c0edfc4f1e4fecf6fc977f7326de9de4fde77",
-        "ao2-0.5.6-macos-aarch64.tar.gz": "1d647e69b25163cce60a76423ae28d11bcf567bc5f99e3cfe671f7026fbda10c",
-        "ao2-0.5.6-windows-x86_64.tar.gz": "7d0427a9acb491ded35dd45b15f5f0a618b1fbd5282316b5f7adbaa82c04bff2",
-        "promotion-plan.json": "5b1e1aec01a107d36a118265ba2a046a2995aa6a9e7be9048dc9d04320d60a67",
-        "SHA256SUMS": "ee923316aa684bec8316aac410cf504a6e30bd1b820ac8eeaf532ad79a4ab66b",
+        "ao2-0.5.7-linux-x86_64.tar.gz": "4760705d9cedc32beaa7d3694731ed02eca8c9ec7adbc55ac187d3b9f86447ee",
+        "ao2-0.5.7-macos-aarch64.tar.gz": "2355fba5fa61fb078649534ef38c8cb0aa137d50e41df94b819822c0f8833910",
+        "ao2-0.5.7-windows-x86_64.tar.gz": "c5924999d89dd090579dc9f9851990afee8c8dbb61baccdb50c5a333b50cb7f8",
+        "promotion-plan.json": "8e058f6a891d837db856916083a7b2ba9bc53f997b96c5522e8b0a552f6b7be7",
+        "SHA256SUMS": "58e9a135f0e113a091dc9d7246b3596df7671f2e1273caee43e4937113fe1fc1",
     },
-    "windows_smoke_job": "https://github.com/uesugitorachiyo/ao2/actions/runs/30403560528",
+    "windows_smoke_job": "https://github.com/uesugitorachiyo/ao2/actions/runs/30688624711",
 }
 
 
@@ -91,12 +91,12 @@ def validate_manifest(document: dict[str, Any]) -> list[str]:
     if source and "public GitHub releases" not in source:
         errors.append("source_of_truth must reference public GitHub releases")
 
-    errors.extend(validate_release_component(document, "ao2", "ao2", "v0.5.6", 5))
+    errors.extend(validate_release_component(document, "ao2", "ao2", "v0.5.7", 5))
     ao2 = document.get("ao2", {})
     if isinstance(ao2, dict):
-        for field, expected in VERIFIED_AO2_V056.items():
+        for field, expected in VERIFIED_AO2_V057.items():
             if ao2.get(field) != expected:
-                errors.append(f"ao2.{field} must match the verified v0.5.6 release")
+                errors.append(f"ao2.{field} must match the verified v0.5.7 release")
 
     errors.extend(validate_release_component(document, "control_plane", "ao2-control-plane", "v0.1.18", 7))
     control_plane = document.get("control_plane", {})
