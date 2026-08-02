@@ -1,0 +1,74 @@
+{
+  "schema_version": "ao.quality-gates.v1",
+  "repository": "ao-architecture",
+  "lifecycle": "active_hosted",
+  "supported_platforms": ["linux", "macos", "windows"],
+  "required_tools": ["git", "python3"],
+  "generated_paths": ["tmp/**", "__pycache__/**", "scripts/__pycache__/**"],
+  "protected_paths": [".git/**", "stack/current-release-manifest.json", "docs/evidence/**"],
+  "compatibility": {
+    "minimum_consumer_version": "1.0.0",
+    "owner": "ao-architecture"
+  },
+  "evidence": {
+    "public_safe": true,
+    "local_artifact_root": "tmp/quality-gates",
+    "maximum_result_bytes": 262144
+  },
+  "levels": {
+    "commit": {
+      "snapshot": "staged_tree",
+      "maximum_duration_seconds": 10,
+      "network_allowed": false,
+      "mutates_source": false,
+      "steps": [
+        {
+          "id": "staged-diff-check",
+          "argv": ["git", "diff", "--cached", "--check"],
+          "timeout_seconds": 5,
+          "path_triggers": ["**"]
+        }
+      ]
+    },
+    "push": {
+      "snapshot": "outgoing_commits",
+      "maximum_duration_seconds": 120,
+      "network_allowed": false,
+      "mutates_source": false,
+      "steps": [
+        {
+          "id": "quality-registry-tests",
+          "argv": ["python3", "-m", "unittest", "scripts.test_verify_quality_gate_registry"],
+          "timeout_seconds": 30,
+          "path_triggers": ["ao-quality-gates.json", "docs/quality-gates/**", "docs/agent-instructions/**", "scripts/verify_quality_gate_registry.py", "scripts/test_verify_quality_gate_registry.py"]
+        },
+        {
+          "id": "architecture-verifier",
+          "argv": ["python3", "scripts/verify_architecture.py"],
+          "timeout_seconds": 90,
+          "path_triggers": ["**"]
+        }
+      ]
+    },
+    "full": {
+      "snapshot": "source_head",
+      "maximum_duration_seconds": 1800,
+      "network_allowed": false,
+      "mutates_source": false,
+      "steps": [
+        {
+          "id": "architecture-verifier",
+          "argv": ["python3", "scripts/verify_architecture.py"],
+          "timeout_seconds": 300,
+          "path_triggers": ["**"]
+        },
+        {
+          "id": "python-regressions",
+          "argv": ["python3", "-m", "unittest", "discover", "-s", "scripts", "-p", "test_*.py"],
+          "timeout_seconds": 1500,
+          "path_triggers": ["**"]
+        }
+      ]
+    }
+  }
+}

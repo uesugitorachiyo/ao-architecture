@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/uesugitorachiyo/ao-architecture/blob/main/docs/quality-gates/manifest-v1.schema.json",
+  "title": "AO Source-Owned Quality Gates V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "repository",
+    "lifecycle",
+    "supported_platforms",
+    "required_tools",
+    "generated_paths",
+    "protected_paths",
+    "compatibility",
+    "evidence",
+    "levels"
+  ],
+  "properties": {
+    "schema_version": {"const": "ao.quality-gates.v1"},
+    "repository": {"type": "string", "minLength": 1},
+    "lifecycle": {"enum": ["active_hosted", "active_local_only"]},
+    "supported_platforms": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"enum": ["linux", "macos", "windows"]}
+    },
+    "required_tools": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "generated_paths": {"$ref": "#/$defs/pathPatterns"},
+    "protected_paths": {"$ref": "#/$defs/pathPatterns"},
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["minimum_consumer_version", "owner"],
+      "properties": {
+        "minimum_consumer_version": {"const": "1.0.0"},
+        "owner": {"type": "string", "minLength": 1}
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["public_safe", "local_artifact_root", "maximum_result_bytes"],
+      "properties": {
+        "public_safe": {"const": true},
+        "local_artifact_root": {"type": "string", "minLength": 1},
+        "maximum_result_bytes": {"type": "integer", "minimum": 1, "maximum": 1048576}
+      }
+    },
+    "levels": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commit", "push", "full"],
+      "properties": {
+        "commit": {"$ref": "#/$defs/level"},
+        "push": {"$ref": "#/$defs/level"},
+        "full": {"$ref": "#/$defs/level"}
+      }
+    }
+  },
+  "$defs": {
+    "pathPatterns": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "level": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["snapshot", "maximum_duration_seconds", "network_allowed", "mutates_source", "steps"],
+      "properties": {
+        "snapshot": {"enum": ["staged_tree", "outgoing_commits", "source_head"]},
+        "maximum_duration_seconds": {"type": "integer", "minimum": 1},
+        "network_allowed": {"type": "boolean"},
+        "mutates_source": {"type": "boolean"},
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "argv", "timeout_seconds", "path_triggers"],
+            "properties": {
+              "id": {"type": "string", "minLength": 1},
+              "argv": {
+                "type": "array",
+                "minItems": 1,
+                "items": {"type": "string", "minLength": 1}
+              },
+              "timeout_seconds": {"type": "integer", "minimum": 1},
+              "path_triggers": {"$ref": "#/$defs/pathPatterns"}
+            }
+          }
+        }
+      }
+    }
+  }
+}
