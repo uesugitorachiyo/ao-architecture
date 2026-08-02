@@ -187,8 +187,8 @@ def validate_manifest(document: Any, expected_repository: str, expected_lifecycl
         if not _safe_relative_pattern(evidence.get("local_artifact_root")):
             errors.append(issue("PATH_PATTERN_UNSAFE", "local_artifact_root must be repository-relative", expected_repository))
         maximum_result_bytes = evidence.get("maximum_result_bytes")
-        if not isinstance(maximum_result_bytes, int) or isinstance(maximum_result_bytes, bool) or not 1 <= maximum_result_bytes <= 1024 * 1024:
-            errors.append(issue("EVIDENCE_SIZE_LIMIT_INVALID", "maximum_result_bytes must be between 1 and 1048576", expected_repository))
+        if not isinstance(maximum_result_bytes, int) or isinstance(maximum_result_bytes, bool) or not 4096 <= maximum_result_bytes <= 1024 * 1024:
+            errors.append(issue("EVIDENCE_SIZE_LIMIT_INVALID", "maximum_result_bytes must be between 4096 and 1048576", expected_repository))
 
     levels = document.get("levels")
     if not isinstance(levels, dict):
