@@ -16,8 +16,8 @@ DIGEST_RE = re.compile(r"^[0-9a-f]{64}$")
 EXPECTED_IDS = ["predecessor_public_pair", "current_public_pair", "current_source_candidate"]
 EXPECTED_PAIRS = {
     "predecessor_public_pair": ("v0.5.1", "80ec5321f42d4bab17d5e64fdae6aa099ba59d4a", "v0.1.16", "f4f5fea9fefa1081cebcbabac550b0e08b9f0e3d", "supported_by_unchanged_bridge"),
-    "current_public_pair": ("v0.5.6", "5706ec9cf3a108d20984973975c2a56b905a8173", "v0.1.18", "6257ec23fde726d4a0133c5b62231881fb6aaa9a", "supported"),
-    "current_source_candidate": ("v0.5.6", "5664ba778b263fa33e384cb8f45696cf34e0de5f", "v0.1.18", "ded38643d7583e287db6af7b7782719bad5b3e69", "supported"),
+    "current_public_pair": ("v0.5.7", "a3d8d19cef8f3aa69ea14e46ef94cc9706a502a7", "v0.1.18", "6257ec23fde726d4a0133c5b62231881fb6aaa9a", "supported_by_unchanged_bridge"),
+    "current_source_candidate": ("v0.5.7", "e7f8e391f57a57c0f8056426e7d3f696c1d093ac", "v0.1.18", "81ee1929450a00f16c25f192b888dff2179d884c", "supported_by_unchanged_bridge"),
 }
 EXPECTED_FIELDS = {
     "schema", "status", "generated_at", "valid_until", "contract", "evidence", "pairs", "boundaries"

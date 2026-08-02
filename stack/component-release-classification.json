@@ -14,8 +14,8 @@
       "supported_platforms": ["linux", "macos", "windows"],
       "version_source": "package.json",
       "release_owner": "ao2",
-      "current_public_release": "v0.5.6",
-      "current_source_commit": "bd61f2a1d7e541636bbc58c42a805f93011c5d7b",
+      "current_public_release": "v0.5.7",
+      "current_source_commit": "e7f8e391f57a57c0f8056426e7d3f696c1d093ac",
       "month6_decision": "release_recommended_published_and_verified",
       "install_promise": "public governed local execution runtime",
       "artifact_names": ["ao2-{version}-linux-x86_64.tar.gz", "ao2-{version}-macos-aarch64.tar.gz", "ao2-{version}-windows-x86_64.tar.gz"]

@@ -8,15 +8,15 @@ policy gates, support evidence, and next safe action readback.
 
 The current public release pair is:
 
-- AO2 v0.5.6, tag target
-  `5706ec9cf3a108d20984973975c2a56b905a8173`.
+- AO2 v0.5.7, tag target
+  `a3d8d19cef8f3aa69ea14e46ef94cc9706a502a7`.
 - AO2 Control Plane v0.1.18, tag target
   `6257ec23fde726d4a0133c5b62231881fb6aaa9a`.
 
 The Architecture compatibility matrix records 16 tested edges, 16 canonical
-vectors, and 16 consumer tests. Fifteen edges are fresh; the AO2
-execution-to-observation edge is stale because its evidence remains pinned to
-AO2 v0.5.1. The compatibility gate is blocked, not active. No external beta
+vectors, and 16 consumer tests. All 16 edges are fresh; the AO2 v0.5.6
+execution-to-observation vector is an unchanged-contract bridge for v0.5.7.
+The compatibility gate is ready, not active. No external beta
 launch, promotion, or RSI authority follows from this evidence.
 
 Month 4 dry-run evidence defines the controlled self-improvement boundary:
@@ -45,8 +45,8 @@ Month 5 operator workflow item.
 ### Compatibility Evidence Gate
 
 The operator checks the Architecture matrix readback. The current matrix has 16
-tested edges and 0 remaining proposed edges, but one stale AO2 edge keeps the
-compatibility gate blocked, not active.
+tested edges, 0 remaining proposed edges, and 0 stale edges. The compatibility
+gate is ready, not active.
 
 ### Policy Approval Gate
 

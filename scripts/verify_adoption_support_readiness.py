@@ -43,14 +43,14 @@ def validate_adoption_support_readiness(document: str) -> list[str]:
     lower = normalized.lower()
 
     required_phrases = {
-        "document must mention AO2 v0.5.6": "ao2 v0.5.6",
+        "document must mention AO2 v0.5.7": "ao2 v0.5.7",
         "document must mention AO2 Control Plane v0.1.18": "ao2 control plane v0.1.18",
         "document must mention 16 tested edges": "16 tested",
         "document must mention 16 canonical vectors": "16 canonical vectors",
         "document must mention 16 consumer tests": "16 consumer tests",
-        "document must state compatibility gate is blocked, not active": "compatibility gate is blocked, not active",
-        "document must state 15 edges are fresh": "fifteen edges are fresh",
-        "document must state one AO2 edge is stale": "ao2 execution-to-observation edge is stale",
+        "document must state compatibility gate is ready, not active": "compatibility gate is ready, not active",
+        "document must state all 16 edges are fresh": "all 16 edges are fresh",
+        "document must bind the v0.5.6 unchanged-contract bridge": "v0.5.6 execution-to-observation vector is an unchanged-contract bridge for v0.5.7",
         "document must state RSI remains denied": "rsi remains denied",
         "document must state live self-modification is denied": "live self-modification is denied",
         "document must state external beta is not launched": "external beta is not launched",
@@ -66,6 +66,7 @@ def validate_adoption_support_readiness(document: str) -> list[str]:
 
     forbidden_phrases = {
         "document must not claim compatibility gate active": "compatibility gate is active",
+        "document must not claim compatibility gate blocked": "compatibility gate is blocked",
         "document must not claim external beta launched": "external beta launched",
         "document must not claim promotion granted": "promotion granted",
         "document must not claim RSI authorized": "rsi authorized",

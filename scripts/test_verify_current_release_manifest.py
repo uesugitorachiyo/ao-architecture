@@ -6,23 +6,23 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from verify_current_release_manifest import validate_manifest, validate_stack_lock_alignment
 
-AO2_VERSION = "v0.5.6"
-AO2_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.6"
-AO2_TAG_TARGET = "5706ec9cf3a108d20984973975c2a56b905a8173"
-AO2_MAIN_COMMIT = "bd61f2a1d7e541636bbc58c42a805f93011c5d7b"
-AO2_RELEASE_WORKFLOW_RUN = "https://github.com/uesugitorachiyo/ao2/actions/runs/30402777601"
-AO2_POST_RELEASE_WORKFLOW_RUN = "https://github.com/uesugitorachiyo/ao2/actions/runs/30403560528"
-AO2_CONSUMER_SMOKE_WORKFLOW_RUN = "https://github.com/uesugitorachiyo/ao2/actions/runs/30403560528"
-AO2_APPROVED_MANIFEST_DIGEST = "f3d7a5040de8e6fd2703791235fa67841db480d3401c7deadfb3288464d31a45"
-AO2_PROMOTION_PLAN_DIGEST = "5b1e1aec01a107d36a118265ba2a046a2995aa6a9e7be9048dc9d04320d60a67"
-AO2_PHYSICAL_WINDOWS_EVIDENCE_DIGEST = "00d102508ba75904aebc61962c19e63f74da95109437072f200e8cc806c8e6ba"
-AO2_EVIDENCE_PATH = "ao-stack-hardening-autonomous-repair-decomposition-20260727T210322Z/phase5/ao2-v056-live-release-summary.json"
+AO2_VERSION = "v0.5.7"
+AO2_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.7"
+AO2_TAG_TARGET = "a3d8d19cef8f3aa69ea14e46ef94cc9706a502a7"
+AO2_MAIN_COMMIT = "e7f8e391f57a57c0f8056426e7d3f696c1d093ac"
+AO2_RELEASE_WORKFLOW_RUN = "https://github.com/uesugitorachiyo/ao2/actions/runs/30684627433"
+AO2_POST_RELEASE_WORKFLOW_RUN = "https://github.com/uesugitorachiyo/ao2/actions/runs/30688624711"
+AO2_CONSUMER_SMOKE_WORKFLOW_RUN = "https://github.com/uesugitorachiyo/ao2/actions/runs/30688625596"
+AO2_APPROVED_MANIFEST_DIGEST = "f726e2cac6581ee9422965faec4c9892ec508c6291c732cec8d48c4900908e55"
+AO2_PROMOTION_PLAN_DIGEST = "8e058f6a891d837db856916083a7b2ba9bc53f997b96c5522e8b0a552f6b7be7"
+AO2_PHYSICAL_WINDOWS_EVIDENCE_DIGEST = "18bf31d6aba7021ce30b5d5aeed22055f42712c5bd208bb31764c184509a26b8"
+AO2_EVIDENCE_PATH = "ao2-next-patch-qualified-live-release-20260801T021957Z/public-asset-verification.json"
 AO2_ASSET_SHA256 = {
-    "ao2-0.5.6-linux-x86_64.tar.gz": "e20856c1bf09e2b4c781cd8c990c0edfc4f1e4fecf6fc977f7326de9de4fde77",
-    "ao2-0.5.6-macos-aarch64.tar.gz": "1d647e69b25163cce60a76423ae28d11bcf567bc5f99e3cfe671f7026fbda10c",
-    "ao2-0.5.6-windows-x86_64.tar.gz": "7d0427a9acb491ded35dd45b15f5f0a618b1fbd5282316b5f7adbaa82c04bff2",
+    "ao2-0.5.7-linux-x86_64.tar.gz": "4760705d9cedc32beaa7d3694731ed02eca8c9ec7adbc55ac187d3b9f86447ee",
+    "ao2-0.5.7-macos-aarch64.tar.gz": "2355fba5fa61fb078649534ef38c8cb0aa137d50e41df94b819822c0f8833910",
+    "ao2-0.5.7-windows-x86_64.tar.gz": "c5924999d89dd090579dc9f9851990afee8c8dbb61baccdb50c5a333b50cb7f8",
     "promotion-plan.json": AO2_PROMOTION_PLAN_DIGEST,
-    "SHA256SUMS": "ee923316aa684bec8316aac410cf504a6e30bd1b820ac8eeaf532ad79a4ab66b",
+    "SHA256SUMS": "58e9a135f0e113a091dc9d7246b3596df7671f2e1273caee43e4937113fe1fc1",
 }
 AO2_WINDOWS_SMOKE_JOB = AO2_POST_RELEASE_WORKFLOW_RUN
 CONTROL_PLANE_VERSION = "v0.1.18"
@@ -64,7 +64,7 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
             "schema": "ao.architecture.current-release-manifest.v0.1",
             "status": "current_public_release_pair",
             "generated_at_utc": "2026-07-27T20:00:00Z",
-            "source_of_truth": "public GitHub releases plus AO2 v0.5.6 and Control Plane v0.1.18 publication evidence",
+            "source_of_truth": "public GitHub releases plus AO2 v0.5.7 and Control Plane v0.1.18 publication evidence",
             "ao2": ao2_release(),
             "control_plane": {
                 "repository": "ao2-control-plane",
@@ -136,9 +136,20 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
                 "release_url": "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.3",
             }
         )
-        self.assertIn("ao2.version must be v0.5.6", validate_manifest(document))
+        self.assertIn("ao2.version must be v0.5.7", validate_manifest(document))
 
-    def test_requires_exact_ao2_v055_publication_evidence(self):
+    def test_rejects_previous_ao2_v056_as_current_release(self):
+        document = {"ao2": ao2_release()}
+        document["ao2"].update(
+            {
+                "version": "v0.5.6",
+                "tag": "v0.5.6",
+                "release_url": "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.6",
+            }
+        )
+        self.assertIn("ao2.version must be v0.5.7", validate_manifest(document))
+
+    def test_requires_exact_ao2_v057_publication_evidence(self):
         exact_fields = {
             "release_url": AO2_RELEASE_URL,
             "tag_target": AO2_TAG_TARGET,
@@ -159,11 +170,11 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
                     "schema": "ao.architecture.current-release-manifest.v0.1",
                     "status": "current_public_release_pair",
                     "generated_at_utc": "2026-07-27T20:00:00Z",
-                    "source_of_truth": "public GitHub releases plus AO2 v0.5.6 publication evidence",
+                    "source_of_truth": "public GitHub releases plus AO2 v0.5.7 publication evidence",
                     "ao2": ao2_release(),
                 }
                 document["ao2"][field] = {} if isinstance(expected, dict) else "0" * len(expected)
-                self.assertIn(f"ao2.{field} must match the verified v0.5.6 release", validate_manifest(document))
+                self.assertIn(f"ao2.{field} must match the verified v0.5.7 release", validate_manifest(document))
 
     def test_requires_published_tier1_tool_records(self):
         errors = validate_manifest({"tier1_tools": []})
@@ -177,7 +188,7 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
             "schema": "ao.architecture.current-release-manifest.v0.1",
             "status": "current_public_release_pair",
             "generated_at_utc": "2026-07-27T20:00:00Z",
-            "source_of_truth": "public GitHub releases plus AO2 v0.5.6 and Control Plane v0.1.18 publication evidence",
+            "source_of_truth": "public GitHub releases plus AO2 v0.5.7 and Control Plane v0.1.18 publication evidence",
             "ao2": ao2_release(),
             "control_plane": {
                 "repository": "ao2-control-plane",
@@ -217,7 +228,7 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
             "schema": "ao.architecture.current-release-manifest.v0.1",
             "status": "current_public_release_pair",
             "generated_at_utc": "2026-07-27T20:00:00Z",
-            "source_of_truth": "public GitHub releases plus AO2 v0.5.6 and Control Plane v0.1.18 publication evidence",
+            "source_of_truth": "public GitHub releases plus AO2 v0.5.7 and Control Plane v0.1.18 publication evidence",
             "ao2": ao2_release(),
             "control_plane": {
                 "repository": "ao2-control-plane",

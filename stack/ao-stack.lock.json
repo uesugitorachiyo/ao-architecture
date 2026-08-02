@@ -106,8 +106,8 @@
     {
       "repository": "ao2",
       "branch": "main",
-      "commit": "bd61f2a1d7e541636bbc58c42a805f93011c5d7b",
-      "detected_version": "v0.5.6",
+      "commit": "e7f8e391f57a57c0f8056426e7d3f696c1d093ac",
+      "detected_version": "v0.5.7",
       "maturity": "stable_public_release",
       "current_boundary": "independent_repository",
       "proposed_boundary": "ao2",

@@ -4,35 +4,36 @@ This document records the current independently verified public releases.
 
 ## Current Core Pair
 
-- AO2: [v0.5.6](https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.6)
-- AO2 tag target: `5706ec9cf3a108d20984973975c2a56b905a8173`
-- AO2 current main: `bd61f2a1d7e541636bbc58c42a805f93011c5d7b`
-- AO2 approved asset-manifest digest: `f3d7a5040de8e6fd2703791235fa67841db480d3401c7deadfb3288464d31a45`
-- AO2 promotion-plan digest: `5b1e1aec01a107d36a118265ba2a046a2995aa6a9e7be9048dc9d04320d60a67`
-- AO2 physical-Windows evidence digest: `00d102508ba75904aebc61962c19e63f74da95109437072f200e8cc806c8e6ba`
-- AO2 live workflow: [run 30402777601](https://github.com/uesugitorachiyo/ao2/actions/runs/30402777601)
-- AO2 post-release verification and consumer smoke: [run 30403560528](https://github.com/uesugitorachiyo/ao2/actions/runs/30403560528)
+- AO2: [v0.5.7](https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.7)
+- AO2 tag target: `a3d8d19cef8f3aa69ea14e46ef94cc9706a502a7`
+- AO2 current main: `e7f8e391f57a57c0f8056426e7d3f696c1d093ac`
+- AO2 approved asset-manifest digest: `f726e2cac6581ee9422965faec4c9892ec508c6291c732cec8d48c4900908e55`
+- AO2 promotion-plan digest: `8e058f6a891d837db856916083a7b2ba9bc53f997b96c5522e8b0a552f6b7be7`
+- AO2 physical-Windows evidence digest: `18bf31d6aba7021ce30b5d5aeed22055f42712c5bd208bb31764c184509a26b8`
+- AO2 live workflow: [run 30684627433](https://github.com/uesugitorachiyo/ao2/actions/runs/30684627433)
+- AO2 post-release verification: [run 30688624711](https://github.com/uesugitorachiyo/ao2/actions/runs/30688624711)
+- AO2 public consumer smoke: [run 30688625596](https://github.com/uesugitorachiyo/ao2/actions/runs/30688625596)
 - AO2 Control Plane: [v0.1.18](https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.18)
 - AO2 Control Plane tag target: `6257ec23fde726d4a0133c5b62231881fb6aaa9a`
 - AO2 Control Plane promotion-plan digest: `a2f159896eea954e43d6e19914f4ef6b43aa5686ace72016dffdf0ef0ed4f455`
 - AO2 Control Plane live workflow: [run 29805048315](https://github.com/uesugitorachiyo/ao2-control-plane/actions/runs/29805048315)
 
-AO2 v0.5.6 is public, not draft, not prerelease, and has five approved public
+AO2 v0.5.7 is public, not draft, not prerelease, and has five approved public
 assets. AO2 Control Plane v0.1.18 is public, not draft, not prerelease, and has
 seven approved public assets. Each tag and downloaded asset was independently
 verified against its frozen source and promotion plan.
 
 The five AO2 asset SHA-256 values are recorded in
 `stack/current-release-manifest.json`: Linux x86_64
-`e20856c1bf09e2b4c781cd8c990c0edfc4f1e4fecf6fc977f7326de9de4fde77`,
+`4760705d9cedc32beaa7d3694731ed02eca8c9ec7adbc55ac187d3b9f86447ee`,
 macOS aarch64
-`1d647e69b25163cce60a76423ae28d11bcf567bc5f99e3cfe671f7026fbda10c`,
+`2355fba5fa61fb078649534ef38c8cb0aa137d50e41df94b819822c0f8833910`,
 Windows x86_64
-`7d0427a9acb491ded35dd45b15f5f0a618b1fbd5282316b5f7adbaa82c04bff2`,
+`c5924999d89dd090579dc9f9851990afee8c8dbb61baccdb50c5a333b50cb7f8`,
 the promotion plan
-`5b1e1aec01a107d36a118265ba2a046a2995aa6a9e7be9048dc9d04320d60a67`,
+`8e058f6a891d837db856916083a7b2ba9bc53f997b96c5522e8b0a552f6b7be7`,
 and `SHA256SUMS`
-`ee923316aa684bec8316aac410cf504a6e30bd1b820ac8eeaf532ad79a4ab66b`.
+`58e9a135f0e113a091dc9d7246b3596df7671f2e1273caee43e4937113fe1fc1`.
 
 ## Tier 1 Operator Tools
 
@@ -48,15 +49,14 @@ The compatibility matrix remains proposed:
 
 - `stack/contract-compatibility-matrix.json` status remains `proposed`.
 - Canonical vector and consumer-test counts are both `16`.
-- Current freshness is `15` fresh edges and `1` stale edge.
-- The AO2 execution-to-observation evidence remains pinned to `v0.5.1` while
-  the current AO2 release is `v0.5.6`.
+- Current freshness is `16` fresh edges and `0` stale edges.
+- The immutable AO2 v0.5.6 execution-to-observation vector remains valid for
+  v0.5.7 through the verified unchanged-contract bridge.
 - `compatibility_gate_complete` remains `false`.
 
-The compatibility gate is blocked pending either a separately verified
-unchanged-contract bridge or refreshed AO2 compatibility evidence. External
-beta, promotion, provider execution, and RSI authority remain separate denied
-or unrequested states.
+The compatibility gate is ready but not active. External beta, promotion,
+provider execution, and RSI authority remain separate denied or unrequested
+states.
 
 ## Boundaries
 
