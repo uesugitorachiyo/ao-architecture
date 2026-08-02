@@ -1,0 +1,23 @@
+{
+  "schema_version": "ao.stack.quality-gate-registry.v1",
+  "manifest_schema_version": "ao.quality-gates.v1",
+  "lifecycle_source": "docs/agent-instructions/layout-v1.json",
+  "repositories": [
+    {"repository":"ao-architecture","lifecycle":"active_hosted","manifest_path":"ao-quality-gates.json","adoption_status":"adopted","command_owner":"ao-architecture"},
+    {"repository":"ao-arena","lifecycle":"active_hosted","manifest_path":"ao-quality-gates.json","adoption_status":"planned","command_owner":"ao-arena"},
+    {"repository":"ao-atlas","lifecycle":"active_hosted","manifest_path":"ao-quality-gates.json","adoption_status":"planned","command_owner":"ao-atlas"},
+    {"repository":"ao-blueprint","lifecycle":"active_hosted","manifest_path":"ao-quality-gates.json","adoption_status":"planned","command_owner":"ao-blueprint"},
+    {"repository":"ao-command","lifecycle":"active_hosted","manifest_path":"ao-quality-gates.json","adoption_status":"planned","command_owner":"ao-command"},
+    {"repository":"ao-covenant","lifecycle":"active_hosted","manifest_path":"ao-quality-gates.json","adoption_status":"planned","command_owner":"ao-covenant"},
+    {"repository":"ao-crucible","lifecycle":"active_hosted","manifest_path":"ao-quality-gates.json","adoption_status":"planned","command_owner":"ao-crucible"},
+    {"repository":"ao-forge","lifecycle":"active_hosted","manifest_path":"ao-quality-gates.json","adoption_status":"planned","command_owner":"ao-forge"},
+    {"repository":"ao-foundry","lifecycle":"active_hosted","manifest_path":"ao-quality-gates.json","adoption_status":"planned","command_owner":"ao-foundry"},
+    {"repository":"ao-hardening-runner","lifecycle":"active_local_only","manifest_path":"ao-quality-gates.json","adoption_status":"planned","command_owner":"ao-hardening-runner"},
+    {"repository":"ao-mission","lifecycle":"active_hosted","manifest_path":"ao-quality-gates.json","adoption_status":"planned","command_owner":"ao-mission"},
+    {"repository":"ao-promoter","lifecycle":"active_hosted","manifest_path":"ao-quality-gates.json","adoption_status":"planned","command_owner":"ao-promoter"},
+    {"repository":"ao-sentinel","lifecycle":"active_hosted","manifest_path":"ao-quality-gates.json","adoption_status":"planned","command_owner":"ao-sentinel"},
+    {"repository":"ao-stack-evaluation","lifecycle":"active_local_only","manifest_path":"ao-quality-gates.json","adoption_status":"planned","command_owner":"ao-stack-evaluation"},
+    {"repository":"ao2","lifecycle":"active_hosted","manifest_path":"ao-quality-gates.json","adoption_status":"planned","command_owner":"ao2"},
+    {"repository":"ao2-control-plane","lifecycle":"active_hosted","manifest_path":"ao-quality-gates.json","adoption_status":"planned","command_owner":"ao2-control-plane"}
+  ]
+}

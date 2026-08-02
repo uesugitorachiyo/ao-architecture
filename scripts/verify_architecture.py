@@ -10,6 +10,7 @@ from pathlib import Path
 from verify_copied_schema_classification import validate_document as validate_copied_schema_classification
 from verify_component_release_classification import validate_manifest as validate_component_release_classification
 from verify_external_beta_preflight import CAPABILITY_LABELS, EXPECTED_REPOSITORIES, validate_manifest
+from verify_quality_gate_registry import validate_registry as validate_quality_gate_registry
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -826,6 +827,14 @@ def main() -> int:
     evidence_catalog = ROOT / "overview" / "EVIDENCE-CATALOG.md"
     manifest_path = ROOT / "stack" / "external-beta-tested-stack.json"
     component_release_classification_path = ROOT / "stack" / "component-release-classification.json"
+    quality_gate_result = validate_quality_gate_registry(
+        workspace_root=ROOT.parent,
+        repository="ao-architecture",
+        repository_root=ROOT,
+    )
+    if quality_gate_result["status"] != "passed":
+        first = quality_gate_result["errors"][0]
+        fail(f"quality-gate registry invalid: [{first['code']}] {first['message']}")
     try:
         manifest = json.loads(manifest_path.read_text())
     except (OSError, json.JSONDecodeError) as exc:

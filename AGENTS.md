@@ -10,6 +10,7 @@ AO Architecture is the public documentation, topology, contract-map, and claim-b
 - [stack/authority-inventory.json](stack/authority-inventory.json), [stack/contract-inventory.json](stack/contract-inventory.json), and [stack/contract-owner-registry.json](stack/contract-owner-registry.json) are the machine-readable authority and contract indexes.
 - [docs/contract-evolution-policy.md](docs/contract-evolution-policy.md) and [docs/adr](docs/adr/) record compatibility and architecture decisions.
 - [docs/agent-instructions/README.md](docs/agent-instructions/README.md) and its versioned manifest/schema define the repository-instruction layout.
+- [docs/quality-gates/README.md](docs/quality-gates/README.md), its versioned schema/registry, and root `ao-quality-gates.json` define the source-owned developer-quality contract.
 - [overview/PRODUCTION-READINESS.md](overview/PRODUCTION-READINESS.md) states the documentation readiness boundary; it is not a product release approval.
 
 ## Ownership And Boundaries
@@ -25,6 +26,7 @@ AO Architecture is the public documentation, topology, contract-map, and claim-b
 
 - Make the smallest coherent documentation or contract change and update every affected producer/consumer reference in the same pull request.
 - For instruction-layout changes, update the ADR, guide, manifest, schema, validator, and tests together. Add a nested scope only for a materially distinct authority boundary.
+- Keep repository-specific quality commands in each source repository. Architecture validates lifecycle coverage and contract compatibility but does not execute or invent sibling commands.
 - Preserve fail-closed parsing, deterministic output, read-only validation, the excluded local-repository fingerprint, and the pinned head, tracked-state, and exact-name classification gates for the four excluded legacy-hosted repositories.
 - If durable commands, authority, lifecycle, or architecture guidance changes, update this file in the same pull request.
 
@@ -33,6 +35,7 @@ AO Architecture is the public documentation, topology, contract-map, and claim-b
 - Instruction layout: `python3 -m unittest scripts.test_verify_agent_instruction_layout`, then `python3 scripts/verify_agent_instruction_layout.py --workspace-root .. --repository ao-architecture`.
 - Architecture or public-documentation changes: `python3 scripts/verify_architecture.py`.
 - Contract/schema changes: run the matching `scripts/verify_*.py` and `scripts/test_verify_*.py` pair, then the architecture verifier.
+- Quality-gate changes: `python3 -m unittest scripts.test_verify_quality_gate_registry`, then `python3 scripts/verify_quality_gate_registry.py --workspace-root .. --repository ao-architecture --repository-root .`.
 - Always run `git diff --check`. Report any skipped, failed, network-dependent, or unavailable check explicitly.
 
 ## Evidence And Completion
