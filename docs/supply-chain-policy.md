@@ -55,7 +55,9 @@ built binary, exact metadata emitted by
 `go run scripts/read_go_binary_metadata.go <binary>`, an exact dependency
 input, and a required root `LICENSE`; `NOTICE` is packaged when the producer
 owns one. The reader uses Go's `debug/buildinfo` API and remains compatible
-with supported toolchains that predate `go version -m -json`. The packager
+with supported toolchains that predate `go version -m -json`. It projects the
+runtime structs into an owned canonical JSON shape so independent readers on
+different supported Go versions produce byte-identical metadata. The packager
 rejects metadata whose Git revision, modified state, GOOS, or GOARCH does not
 match the declared source and target. Synthetic candidate versions are derived
 from that validated revision. It also rejects unbound module replacements,

@@ -51,7 +51,13 @@ class ReadGoBinaryMetadataTests(unittest.TestCase):
         metadata = json.loads(first.stdout)
         self.assertEqual(metadata["Path"], "example.com/ao-buildinfo-fixture")
         self.assertEqual(metadata["Main"]["Path"], "example.com/ao-buildinfo-fixture")
-        self.assertEqual(metadata.get("Deps", []), [])
+        self.assertIn("Deps", metadata)
+        self.assertEqual(metadata["Deps"], [])
+        self.assertIn("Settings", metadata)
+        self.assertIsInstance(metadata["Settings"], list)
+        self.assertEqual(
+            set(metadata["Main"]), {"Path", "Version", "Sum"}
+        )
 
     def test_rejects_missing_binary_argument(self) -> None:
         result = self.run_reader()

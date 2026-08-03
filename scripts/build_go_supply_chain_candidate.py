@@ -18,12 +18,14 @@ from urllib.parse import quote
 try:
     from scripts.go_binary_provenance import (
         BinaryProvenanceError,
+        normalize_binary_metadata,
         read_binary_metadata,
         validate_binary_provenance,
     )
 except ModuleNotFoundError:
     from go_binary_provenance import (
         BinaryProvenanceError,
+        normalize_binary_metadata,
         read_binary_metadata,
         validate_binary_provenance,
     )
@@ -278,6 +280,7 @@ def run(args: argparse.Namespace) -> None:
     if build_info is None:
         raise CandidateError("exact binary provenance is required")
     try:
+        build_info = normalize_binary_metadata(build_info)
         extracted_metadata = read_binary_metadata(binary)
         if extracted_metadata != build_info:
             raise CandidateError("module metadata does not match binary")

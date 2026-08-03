@@ -17,12 +17,14 @@ from urllib.parse import quote
 try:
     from scripts.go_binary_provenance import (
         BinaryProvenanceError,
+        normalize_binary_metadata,
         read_binary_metadata,
         validate_binary_provenance,
     )
 except ModuleNotFoundError:
     from go_binary_provenance import (
         BinaryProvenanceError,
+        normalize_binary_metadata,
         read_binary_metadata,
         validate_binary_provenance,
     )
@@ -539,7 +541,12 @@ def verify(
         evidence.get("module_metadata_sha256"),
         "module_metadata_sha256",
     )
-    module_metadata = load_json(module_metadata_path, "module metadata", 8 << 20)
+    try:
+        module_metadata = normalize_binary_metadata(
+            load_json(module_metadata_path, "module metadata", 8 << 20)
+        )
+    except BinaryProvenanceError as exc:
+        raise PolicyError(str(exc)) from exc
     sbom_path = resolve_regular_file(root, evidence.get("sbom_path"), "sbom_path")
     maximum_evidence_bytes = int(
         policy.get("maximum_evidence_bytes", DEFAULT_MAX_BYTES)
