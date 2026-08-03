@@ -56,9 +56,9 @@ class BuildGoSupplyChainCandidateTests(unittest.TestCase):
         self,
         output: str = "dist/one",
         dependency_lock: str = "go.sum",
+        include_notice: bool = True,
     ) -> subprocess.CompletedProcess:
-        return subprocess.run(
-            [
+        command = [
                 sys.executable,
                 str(SCRIPT),
                 "--workspace-root",
@@ -79,15 +79,17 @@ class BuildGoSupplyChainCandidateTests(unittest.TestCase):
                 dependency_lock,
                 "--license",
                 "LICENSE",
-                "--notice",
-                "NOTICE",
                 "--archive-name",
                 "ao-demo-0.0.0+git.aaaaaaaaaaaa-linux-x86_64.tar.gz",
                 "--generated-at-utc",
                 "2026-08-03T16:00:00Z",
                 "--out",
                 output,
-            ],
+            ]
+        if include_notice:
+            command.extend(["--notice", "NOTICE"])
+        return subprocess.run(
+            command,
             text=True,
             capture_output=True,
             check=False,
@@ -195,6 +197,18 @@ class BuildGoSupplyChainCandidateTests(unittest.TestCase):
         self.assertEqual(evidence["dependency_lock_path"], "dist/one/go.mod")
         with tarfile.open(output / evidence["archive_path"].split("/")[-1], "r:gz") as archive:
             self.assertIn("go.mod", archive.getnames())
+
+    def test_notice_is_optional_but_license_remains_packaged(self) -> None:
+        (self.workspace / "NOTICE").unlink()
+        result = self.run_builder(include_notice=False)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        output = self.workspace / "dist" / "one"
+        evidence = json.loads(
+            (output / "supply-chain-evidence.json").read_text(encoding="utf-8")
+        )
+        with tarfile.open(output / evidence["archive_path"].split("/")[-1], "r:gz") as archive:
+            self.assertIn("LICENSE", archive.getnames())
+            self.assertNotIn("NOTICE", archive.getnames())
 
 
 if __name__ == "__main__":
