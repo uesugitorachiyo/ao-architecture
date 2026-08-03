@@ -53,6 +53,8 @@ class ReadGoBinaryMetadataTests(unittest.TestCase):
         self.assertEqual(metadata["Main"]["Path"], "example.com/ao-buildinfo-fixture")
         self.assertIn("Deps", metadata)
         self.assertEqual(metadata["Deps"], [])
+        self.assertIn("Settings", metadata)
+        self.assertIsInstance(metadata["Settings"], list)
         self.assertEqual(
             set(metadata["Main"]), {"Path", "Version", "Sum"}
         )

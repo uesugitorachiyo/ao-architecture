@@ -19,6 +19,59 @@ class BinaryProvenanceError(ValueError):
     pass
 
 
+def _canonical_module(value: Any, label: str, allow_replace: bool = True) -> dict[str, Any]:
+    if not isinstance(value, dict):
+        raise BinaryProvenanceError(f"{label} must be an object")
+    allowed = {"Path", "Version", "Sum", "Replace"}
+    if set(value) - allowed:
+        raise BinaryProvenanceError(f"{label} contains unknown fields")
+    path = value.get("Path")
+    version = value.get("Version", "")
+    module_sum = value.get("Sum", "")
+    if not isinstance(path, str) or not isinstance(version, str) or not isinstance(module_sum, str):
+        raise BinaryProvenanceError(f"{label} fields are invalid")
+    result: dict[str, Any] = {"Path": path, "Version": version, "Sum": module_sum}
+    replacement = value.get("Replace")
+    if replacement is not None:
+        if not allow_replace:
+            raise BinaryProvenanceError(f"{label} replacement is nested")
+        result["Replace"] = _canonical_module(replacement, f"{label}.Replace", False)
+    return result
+
+
+def normalize_binary_metadata(metadata: dict[str, Any]) -> dict[str, Any]:
+    allowed = {"GoVersion", "Path", "Main", "Deps", "Settings"}
+    if set(metadata) - allowed:
+        raise BinaryProvenanceError("binary metadata contains unknown fields")
+    go_version = metadata.get("GoVersion")
+    path = metadata.get("Path")
+    dependencies = metadata.get("Deps", [])
+    settings = metadata.get("Settings", [])
+    if not isinstance(go_version, str) or not isinstance(path, str):
+        raise BinaryProvenanceError("binary metadata identity is invalid")
+    if not isinstance(dependencies, list) or not isinstance(settings, list):
+        raise BinaryProvenanceError("binary metadata collections are invalid")
+    canonical_settings: list[dict[str, str]] = []
+    for item in settings:
+        if not isinstance(item, dict) or set(item) != {"Key", "Value"}:
+            raise BinaryProvenanceError("binary provenance settings are invalid")
+        key = item.get("Key")
+        value = item.get("Value")
+        if not isinstance(key, str) or not isinstance(value, str):
+            raise BinaryProvenanceError("binary provenance settings are invalid")
+        canonical_settings.append({"Key": key, "Value": value})
+    return {
+        "GoVersion": go_version,
+        "Path": path,
+        "Main": _canonical_module(metadata.get("Main"), "binary metadata Main"),
+        "Deps": [
+            _canonical_module(item, f"binary metadata Deps[{index}]")
+            for index, item in enumerate(dependencies)
+        ],
+        "Settings": canonical_settings,
+    }
+
+
 def _strict_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
     result: dict[str, Any] = {}
     for key, value in pairs:
@@ -52,7 +105,7 @@ def read_binary_metadata(binary: Path) -> dict[str, Any]:
         raise BinaryProvenanceError(f"binary metadata is malformed: {exc}") from exc
     if not isinstance(metadata, dict):
         raise BinaryProvenanceError("binary metadata must be an object")
-    return metadata
+    return normalize_binary_metadata(metadata)
 
 
 def validate_binary_provenance(

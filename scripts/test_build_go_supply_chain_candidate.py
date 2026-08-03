@@ -17,7 +17,11 @@ from scripts.build_go_supply_chain_candidate import (
     portable_path,
     validate_modules_against_lock,
 )
-from scripts.go_binary_provenance import validate_binary_provenance
+from scripts.go_binary_provenance import (
+    BinaryProvenanceError,
+    normalize_binary_metadata,
+    validate_binary_provenance,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -50,6 +54,61 @@ def binary_metadata(
 
 
 class BuildGoSupplyChainCandidateTests(unittest.TestCase):
+    def test_previous_reader_shape_normalizes_to_canonical_metadata(self) -> None:
+        previous = {
+            "GoVersion": "go1.24.13",
+            "Path": "example.com/ao-demo",
+            "Main": {
+                "Path": "example.com/ao-demo",
+                "Version": "(devel)",
+                "Sum": "",
+                "Replace": None,
+            },
+            "Deps": [],
+            "Settings": [],
+        }
+        canonical = {
+            "GoVersion": "go1.24.13",
+            "Path": "example.com/ao-demo",
+            "Main": {
+                "Path": "example.com/ao-demo",
+                "Version": "(devel)",
+                "Sum": "",
+            },
+            "Deps": [],
+            "Settings": [],
+        }
+        self.assertEqual(
+            normalize_binary_metadata(previous),
+            normalize_binary_metadata(canonical),
+        )
+
+    def test_reader_shape_preserves_one_level_module_replacement(self) -> None:
+        metadata = binary_metadata(
+            dependencies=[
+                {
+                    "Path": "example.com/alpha",
+                    "Version": "v1.2.3",
+                    "Sum": "h1:alpha",
+                    "Replace": {
+                        "Path": "example.com/fork",
+                        "Version": "v1.2.4",
+                        "Sum": "h1:fork",
+                    },
+                }
+            ]
+        )
+        self.assertEqual(
+            normalize_binary_metadata(metadata)["Deps"][0]["Replace"]["Path"],
+            "example.com/fork",
+        )
+
+    def test_reader_shape_rejects_unknown_metadata_fields(self) -> None:
+        metadata = binary_metadata()
+        metadata["Untrusted"] = "claim"
+        with self.assertRaisesRegex(BinaryProvenanceError, "unknown fields"):
+            normalize_binary_metadata(metadata)
+
     def setUp(self) -> None:
         self.temp = tempfile.TemporaryDirectory()
         self.workspace = Path(self.temp.name)
