@@ -15,6 +15,37 @@ from typing import Any, Iterable
 from urllib.parse import quote
 
 try:
+    from scripts.build_rust_supply_chain_candidate import (
+        GENERATOR_NAME as RUST_GENERATOR_NAME,
+        GENERATOR_VERSION as RUST_GENERATOR_VERSION,
+        build_sbom as build_rust_sbom,
+        cargo_packages,
+        component_packages,
+        component_purl,
+    )
+    from scripts.rust_binary_provenance import (
+        RustProvenanceError,
+        normalize_rust_metadata,
+        read_rust_binary_metadata,
+        validate_rust_provenance,
+    )
+except ModuleNotFoundError:
+    from build_rust_supply_chain_candidate import (
+        GENERATOR_NAME as RUST_GENERATOR_NAME,
+        GENERATOR_VERSION as RUST_GENERATOR_VERSION,
+        build_sbom as build_rust_sbom,
+        cargo_packages,
+        component_packages,
+        component_purl,
+    )
+    from rust_binary_provenance import (
+        RustProvenanceError,
+        normalize_rust_metadata,
+        read_rust_binary_metadata,
+        validate_rust_provenance,
+    )
+
+try:
     from scripts.go_binary_provenance import (
         BinaryProvenanceError,
         normalize_binary_metadata,
@@ -361,6 +392,7 @@ def validate_contracts(inventory: dict[str, Any], policy: dict[str, Any]) -> Non
                 "supported_targets",
                 "root_license_policy",
                 "sbom_policy_applicable",
+                "sbom_evidence_kind",
             ),
             "inventory repository",
         )
@@ -385,6 +417,16 @@ def validate_contracts(inventory: dict[str, Any], policy: dict[str, Any]) -> Non
         applicable = bool(set(required_classes) & set(classes))
         if entry.get("sbom_policy_applicable") is not applicable:
             raise PolicyError(f"{repository} SBOM applicability mismatch")
+        evidence_kind = entry.get("sbom_evidence_kind")
+        if evidence_kind not in ("go", "rust", "none"):
+            raise PolicyError(f"{repository} SBOM evidence kind is invalid")
+        if (evidence_kind == "none") is not (not applicable):
+            raise PolicyError(f"{repository} SBOM evidence kind does not match applicability")
+        if repository in {"ao2", "ao2-control-plane"}:
+            if evidence_kind != "rust":
+                raise PolicyError(f"{repository} SBOM evidence kind must be rust")
+        elif applicable and evidence_kind != "go":
+            raise PolicyError(f"{repository} SBOM evidence kind must be go")
         targets = entry.get("supported_targets")
         artifacts = entry.get("artifact_names")
         if not isinstance(targets, list) or not isinstance(artifacts, list):
@@ -436,6 +478,131 @@ def validate_release_alignment(inventory: dict[str, Any], classification: dict[s
             raise PolicyError(f"{repository} distributable_classes must be a list")
         if ("public_release" in classes) != (publication_allowed is True or publication_allowed == "conditional"):
             raise PolicyError(f"{repository} public release applicability mismatch")
+
+
+def verify_rust_evidence(
+    evidence: dict[str, Any],
+    root: Path,
+    policy: dict[str, Any],
+    archive: Path,
+    binary_name: str,
+    metadata_path: Path,
+    metadata_digest: str,
+    expected_source_sha: str,
+    expected_version: str,
+    expected_target: str,
+) -> None:
+    if metadata_path.name != "rust-binary-metadata.json":
+        raise PolicyError("Rust module_metadata_path must name rust-binary-metadata.json")
+    try:
+        metadata = normalize_rust_metadata(load_json(metadata_path, "Rust binary metadata", 4096))
+    except RustProvenanceError as exc:
+        raise PolicyError(str(exc)) from exc
+    try:
+        validate_rust_provenance(
+            metadata,
+            evidence["repository"],
+            expected_source_sha,
+            expected_version,
+            expected_target,
+            metadata["cargo_lock_sha256"],
+        )
+    except RustProvenanceError as exc:
+        raise PolicyError(str(exc)) from exc
+
+    lock = resolve_regular_file(root, evidence.get("dependency_lock_path"), "dependency_lock_path")
+    if lock.name != "Cargo.lock" or lock.stat().st_size > MAX_DEPENDENCY_LOCK_BYTES:
+        raise PolicyError("Rust dependency lock must be a bounded Cargo.lock")
+    lock_digest = require_digest_match(lock, evidence.get("dependency_lock_sha256"), "dependency_lock_sha256")
+    if metadata["cargo_lock_sha256"] != lock_digest:
+        raise PolicyError("Rust binary Cargo.lock digest does not match evidence")
+    lock_bytes = lock.read_bytes()
+    try:
+        packages = cargo_packages(lock_bytes)
+    except ValueError as exc:
+        raise PolicyError(str(exc)) from exc
+    expected_components = [
+        component_purl(package)
+        for package in component_packages(evidence["repository"], expected_version, packages)
+    ]
+    if evidence.get("expected_components") != expected_components:
+        raise PolicyError("expected components do not match Cargo.lock")
+
+    sbom_path = resolve_regular_file(root, evidence.get("sbom_path"), "sbom_path")
+    maximum_evidence_bytes = int(policy.get("maximum_evidence_bytes", DEFAULT_MAX_BYTES))
+    if sbom_path.name != "SBOM.cdx.json" or sbom_path.stat().st_size > maximum_evidence_bytes:
+        raise PolicyError("Rust SBOM path or size is invalid")
+    sbom_digest = require_digest_match(sbom_path, evidence.get("sbom_sha256"), "sbom_sha256")
+    expected_sbom = build_rust_sbom(evidence["repository"], expected_version, packages)
+    if sbom_path.read_bytes() != expected_sbom:
+        raise PolicyError("Rust SBOM does not match deterministic Cargo.lock regeneration")
+    if evidence.get("generator") != {"name": RUST_GENERATOR_NAME, "version": RUST_GENERATOR_VERSION}:
+        raise PolicyError("Rust SBOM generator identity mismatch")
+    if evidence.get("deterministic_regeneration") is not True:
+        raise PolicyError("deterministic regeneration is required")
+    if validate_digest(evidence.get("regeneration_sha256"), "regeneration_sha256") != sbom_digest:
+        raise PolicyError("regeneration_sha256 does not match SBOM")
+
+    required_names = {
+        binary_name,
+        "rust-binary-metadata.json",
+        "SBOM.cdx.json",
+        "Cargo.lock",
+        "LICENSE",
+    }
+    extracted: dict[str, bytes] = {}
+    try:
+        with tarfile.open(archive, "r:gz") as candidate_archive:
+            aggregate_size = 0
+            seen: set[str] = set()
+            for count, member in enumerate(candidate_archive, start=1):
+                if count > 16 or member.name in seen:
+                    raise PolicyError("archive member count or uniqueness is invalid")
+                seen.add(member.name)
+                if not member.isfile() or Path(member.name).name != member.name:
+                    raise PolicyError("archive members must be regular basenames")
+                aggregate_size += member.size
+                if aggregate_size > MAX_ARCHIVE_EXPANDED_BYTES:
+                    raise PolicyError("archive exceeds expanded size limit")
+                limit = MAX_BINARY_BYTES if member.name == binary_name else MAX_DEPENDENCY_LOCK_BYTES if member.name == "Cargo.lock" else MAX_MODULE_METADATA_BYTES if member.name == "rust-binary-metadata.json" else DEFAULT_MAX_BYTES
+                if member.size < 0 or member.size > limit:
+                    raise PolicyError("archive member exceeds size limit")
+                source = candidate_archive.extractfile(member)
+                if source is None:
+                    raise PolicyError("archive member cannot be read")
+                value = source.read(limit + 1)
+                if len(value) != member.size:
+                    raise PolicyError("archive member size mismatch")
+                extracted[member.name] = value
+    except (tarfile.TarError, OSError) as exc:
+        raise PolicyError(f"archive is malformed: {exc}") from exc
+    if set(extracted) not in (required_names, required_names | {"NOTICE"}):
+        raise PolicyError("Rust archive member set is invalid")
+    if hashlib.sha256(extracted[binary_name]).hexdigest() != validate_digest(evidence.get("binary_sha256"), "binary_sha256"):
+        raise PolicyError("binary_sha256 mismatch")
+    if hashlib.sha256(extracted["rust-binary-metadata.json"]).hexdigest() != metadata_digest or extracted["rust-binary-metadata.json"] != metadata_path.read_bytes():
+        raise PolicyError("archive Rust metadata does not match evidence")
+    if hashlib.sha256(extracted["Cargo.lock"]).hexdigest() != lock_digest or extracted["Cargo.lock"] != lock_bytes:
+        raise PolicyError("archive Cargo.lock does not match evidence")
+    if extracted["SBOM.cdx.json"] != expected_sbom:
+        raise PolicyError("archive Rust SBOM does not match evidence")
+    with tempfile.TemporaryDirectory() as temporary:
+        extracted_binary = Path(temporary) / binary_name
+        extracted_binary.write_bytes(extracted[binary_name])
+        try:
+            embedded = read_rust_binary_metadata(extracted_binary)
+            provenance = validate_rust_provenance(
+                embedded,
+                evidence["repository"],
+                expected_source_sha,
+                expected_version,
+                expected_target,
+                lock_digest,
+            )
+        except RustProvenanceError as exc:
+            raise PolicyError(str(exc)) from exc
+    if embedded != metadata or evidence.get("binary_provenance") != provenance:
+        raise PolicyError("Rust binary provenance does not match metadata")
 
 
 def verify(
@@ -541,6 +708,27 @@ def verify(
         evidence.get("module_metadata_sha256"),
         "module_metadata_sha256",
     )
+    evidence_kind = entry.get("sbom_evidence_kind")
+    if evidence_kind not in {"go", "rust"}:
+        raise PolicyError("repository does not select an applicable supply-chain evidence kind")
+    if evidence_kind == "rust" and module_metadata_path.name != "rust-binary-metadata.json":
+        raise PolicyError("Rust inventory entry requires Rust binary metadata")
+    if evidence_kind == "go" and module_metadata_path.name != "go-modules.json":
+        raise PolicyError("Go inventory entry requires Go binary metadata")
+    if evidence_kind == "rust":
+        verify_rust_evidence(
+            evidence,
+            root,
+            policy,
+            archive,
+            binary_name,
+            module_metadata_path,
+            module_metadata_digest,
+            expected_source_sha,
+            expected_version,
+            expected_target,
+        )
+        return
     try:
         module_metadata = normalize_binary_metadata(
             load_json(module_metadata_path, "module metadata", 8 << 20)
