@@ -5,9 +5,11 @@ local-only repositories without changing lifecycle. Archive, container, and
 public-release classes require a deterministic CycloneDX 1.5 SBOM. Source-only
 and unpackaged local-only tools remain outside the SBOM producer requirement,
 but every maintained repository requires a root license.
+The inventory also binds each applicable producer to its `go` or `rust`
+evidence lane; evidence cannot select a different parser by renaming metadata.
 
 Candidate evidence is bound to the exact repository, source SHA, version,
-target, compiled-binary SHA-256, Go build-metadata SHA-256, clean Git revision,
+target, compiled-binary SHA-256, language-owned build-metadata SHA-256, clean Git revision,
 archive SHA-256, SBOM SHA-256, generator name and version, dependency lock
 SHA-256, completion timestamp, and deterministic regeneration digest.
 Version 2 evidence, emitted by generator version 1.2.0, is a self-contained
@@ -17,8 +19,9 @@ workspace layout.
 The verifier rejects malformed or duplicate-key JSON, stale evidence, path
 traversal, symlinks, non-regular files, digest substitution, unsupported
 targets, binary/metadata substitution, and unexpected components. Candidate
-archives carry the exact binary and `go-modules.json`; independent verification
-re-extracts build information from that archived binary with the trusted reader
+archives carry the exact binary and either `go-modules.json` or
+`rust-binary-metadata.json`; independent verification re-extracts build
+information from that archived binary with the trusted language reader
 and compares it with the digest-bound metadata. Archive member count, type,
 name, compressed size, and aggregate expanded size are bounded during streaming
 extraction. The archive must contain exactly the binary, metadata, SBOM,
@@ -64,6 +67,22 @@ from that validated revision. It also rejects unbound module replacements,
 unsummed modules, and dependencies absent from the lockfile. Producer workflows
 must compile and test the binary from a clean source tree before checking out
 policy tooling or creating other untracked workspace files.
+
+Rust producers use `scripts/read_rust_binary_metadata.py` and
+`scripts/build_rust_supply_chain_candidate.py`. Their release binaries must
+contain exactly one bounded `AO_RUST_BUILD_PROVENANCE_V1` marker with the
+repository, clean-source state, source SHA, version, target, `release` profile,
+and exact `Cargo.lock` SHA-256. The reader scans
+binary bytes and does not execute the artifact, so Linux, macOS, and Windows
+artifacts remain independently verifiable on a different host. The builder
+derives the component graph from the exact `Cargo.lock`, emits deterministic
+CycloneDX 1.5 bytes, and packages the lock, marker readback, SBOM, license,
+optional notice, and binary. Verification re-parses the archived marker and
+lock, checks its digest against the embedded marker, regenerates the SBOM, and
+rejects identity drift, duplicate markers,
+malformed lock data, unexpected components, unsafe members, or byte mismatch.
+This is a backward-compatible Version 2 evidence lane; existing canonical Go
+evidence remains valid and unchanged.
 
 This policy and its readbacks do not authorize release, publication,
 deployment, provider calls, credential use, or repository mutation.

@@ -157,6 +157,7 @@ class SupplyChainPolicyTests(unittest.TestCase):
             "supported_targets": ["linux-x86_64"],
             "root_license": "LICENSE",
             "sbom_policy_applicable": True,
+            "sbom_evidence_kind": "go",
         }
         entry.update(overrides)
         self.write_json(
@@ -326,6 +327,10 @@ class SupplyChainPolicyTests(unittest.TestCase):
     def test_module_metadata_digest_mismatch_is_rejected(self) -> None:
         self.write_evidence(module_metadata_sha256="f" * 64)
         self.assert_rejected("module_metadata_sha256 mismatch")
+
+    def test_inventory_language_lane_cannot_be_selected_by_evidence(self) -> None:
+        self.write_inventory(sbom_evidence_kind="rust")
+        self.assert_rejected("requires Rust binary metadata")
 
     def test_module_metadata_source_mismatch_is_rejected(self) -> None:
         metadata = json.loads(self.module_metadata.read_text(encoding="utf-8"))

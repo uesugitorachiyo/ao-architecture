@@ -284,6 +284,7 @@ class BuildGoSupplyChainCandidateTests(unittest.TestCase):
                 "repository": "ao-demo",
                 "distributable_classes": ["executable", "archive"],
                 "sbom_policy_applicable": True,
+                "sbom_evidence_kind": "go",
                 "supported_targets": ["linux-x86_64"],
             }
         )
