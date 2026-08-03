@@ -1,7 +1,7 @@
 {
   "schema": "ao.architecture.sbom-policy.v1",
   "status": "active",
-  "policy_version": 1,
+  "policy_version": 2,
   "format": "CycloneDX",
   "spec_version": "1.5",
   "required_for_classes": [
@@ -21,6 +21,9 @@
     "version",
     "target",
     "archive_sha256",
+    "binary_sha256",
+    "module_metadata_sha256",
+    "binary_provenance",
     "sbom_sha256",
     "generator_name",
     "generator_version",

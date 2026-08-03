@@ -15,9 +15,20 @@ from pathlib import Path, PurePath
 from typing import Any, Iterable
 from urllib.parse import quote
 
+try:
+    from scripts.go_binary_provenance import (
+        BinaryProvenanceError,
+        validate_binary_provenance,
+    )
+except ModuleNotFoundError:
+    from go_binary_provenance import (
+        BinaryProvenanceError,
+        validate_binary_provenance,
+    )
+
 
 GENERATOR_NAME = "ao-architecture-go-supply-chain-candidate"
-GENERATOR_VERSION = "1.0.0"
+GENERATOR_VERSION = "1.1.0"
 MAX_MODULE_JSON_BYTES = 8 << 20
 IDENTIFIER = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._+-]{0,127}$")
 
@@ -105,7 +116,9 @@ def resolve_output(root: Path, value: str) -> Path:
     return output
 
 
-def parse_module_stream(path: Path) -> tuple[str, list[dict[str, str]]]:
+def parse_module_stream(
+    path: Path,
+) -> tuple[str, list[dict[str, str]], dict[str, Any] | None]:
     if path.stat().st_size > MAX_MODULE_JSON_BYTES:
         raise CandidateError("module JSON exceeds size limit")
     text = path.read_text(encoding="utf-8")
@@ -126,6 +139,7 @@ def parse_module_stream(path: Path) -> tuple[str, list[dict[str, str]]]:
         values.append(value)
     if not values:
         raise CandidateError("module JSON is empty")
+    build_info: dict[str, Any] | None = None
     if len(values) == 1 and isinstance(values[0].get("Main"), dict):
         build_info = values[0]
         main_info = build_info["Main"]
@@ -163,7 +177,7 @@ def parse_module_stream(path: Path) -> tuple[str, list[dict[str, str]]]:
         component["sum"] = value["Sum"]
         components.append(component)
     components.sort(key=lambda item: (item["path"], item["version"]))
-    return main[0]["Path"], components
+    return main[0]["Path"], components, build_info
 
 
 def validate_modules_against_lock(modules: list[dict[str, str]], lock_bytes: bytes) -> None:
@@ -258,7 +272,18 @@ def run(args: argparse.Namespace) -> None:
     output = resolve_output(root, args.out)
 
     lock_bytes = dependency_lock.read_bytes()
-    main_module, modules = parse_module_stream(module_json)
+    main_module, modules, build_info = parse_module_stream(module_json)
+    if build_info is None:
+        raise CandidateError("exact binary provenance is required")
+    try:
+        binary_provenance = validate_binary_provenance(
+            build_info, args.source_sha, args.target
+        )
+    except BinaryProvenanceError as exc:
+        raise CandidateError(str(exc)) from exc
+    expected_version = f"0.0.0+git.{binary_provenance['vcs_revision'][:12]}"
+    if args.version != expected_version:
+        raise CandidateError("version does not match binary source revision")
     if dependency_lock.name == "go.mod" and modules:
         raise CandidateError("go.mod is allowed as the dependency lock only for a zero-dependency graph")
     validate_modules_against_lock(modules, lock_bytes)
@@ -285,12 +310,17 @@ def run(args: argparse.Namespace) -> None:
     evidence = {
         "archive_path": portable_path(output_relative / args.archive_name),
         "archive_sha256": sha256_bytes(archive),
+        "binary_path": portable_path(binary.relative_to(root)),
+        "binary_provenance": binary_provenance,
+        "binary_sha256": sha256_file(binary),
         "dependency_lock_path": portable_path(output_relative / dependency_lock.name),
         "dependency_lock_sha256": sha256_bytes(lock_bytes),
         "deterministic_regeneration": True,
         "expected_components": [module["path"] for module in modules],
         "generated_at_utc": generated_at,
         "generator": {"name": GENERATOR_NAME, "version": GENERATOR_VERSION},
+        "module_metadata_path": portable_path(module_json.relative_to(root)),
+        "module_metadata_sha256": sha256_file(module_json),
         "publication_attempted": False,
         "regeneration_sha256": sha256_bytes(sbom),
         "repository": args.repository,

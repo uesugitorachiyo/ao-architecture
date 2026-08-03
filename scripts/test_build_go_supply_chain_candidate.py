@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import hashlib
 import json
 import os
@@ -20,6 +22,29 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def binary_metadata(
+    *,
+    dependencies: list[dict[str, object]] | None = None,
+    goos: str = "linux",
+    goarch: str = "amd64",
+    revision: str = SOURCE_SHA,
+    modified: str = "false",
+) -> dict[str, object]:
+    return {
+        "GoVersion": "go1.26.4",
+        "Path": "example.com/ao-demo/cmd/ao-demo",
+        "Main": {"Path": "example.com/ao-demo", "Version": "(devel)"},
+        "Deps": dependencies if dependencies is not None else [],
+        "Settings": [
+            {"Key": "GOOS", "Value": goos},
+            {"Key": "GOARCH", "Value": goarch},
+            {"Key": "vcs", "Value": "git"},
+            {"Key": "vcs.revision", "Value": revision},
+            {"Key": "vcs.modified", "Value": modified},
+        ],
+    }
+
+
 class BuildGoSupplyChainCandidateTests(unittest.TestCase):
     def setUp(self) -> None:
         self.temp = tempfile.TemporaryDirectory()
@@ -36,14 +61,14 @@ class BuildGoSupplyChainCandidateTests(unittest.TestCase):
         )
         self.modules = self.workspace / "go-modules.json"
         self.modules.write_text(
-            json.dumps({"Path": "example.com/ao-demo", "Main": True})
-            + "\n"
-            + json.dumps(
-                {
+            json.dumps(
+                binary_metadata(
+                    dependencies=[{
                     "Path": "example.com/alpha",
                     "Version": "v1.2.3",
                     "Sum": "h1:alpha",
-                }
+                    }]
+                )
             )
             + "\n",
             encoding="utf-8",
@@ -122,6 +147,9 @@ class BuildGoSupplyChainCandidateTests(unittest.TestCase):
         )
         self.assertEqual(evidence["source_sha"], SOURCE_SHA)
         self.assertEqual(evidence["target"], "linux-x86_64")
+        self.assertEqual(evidence["generator"]["version"], "1.1.0")
+        self.assertEqual(evidence["binary_provenance"]["vcs_revision"], SOURCE_SHA)
+        self.assertFalse(evidence["binary_provenance"]["vcs_modified"])
         self.assertEqual(evidence["archive_sha256"], sha256(one / archive_name))
         self.assertEqual(evidence["sbom_sha256"], sha256(one / "SBOM.cdx.json"))
         self.assertEqual(evidence["regeneration_sha256"], evidence["sbom_sha256"])
@@ -154,10 +182,11 @@ class BuildGoSupplyChainCandidateTests(unittest.TestCase):
         self.assertIn("binary must be a regular non-symlink file", result.stderr)
 
     def test_rejects_duplicate_module_paths(self) -> None:
-        with self.modules.open("a", encoding="utf-8") as destination:
-            destination.write(
-                json.dumps({"Path": "example.com/alpha", "Version": "v9.9.9"}) + "\n"
-            )
+        metadata = json.loads(self.modules.read_text(encoding="utf-8"))
+        metadata["Deps"].append(
+            {"Path": "example.com/alpha", "Version": "v9.9.9", "Sum": "h1:other"}
+        )
+        self.modules.write_text(json.dumps(metadata) + "\n", encoding="utf-8")
         result = self.run_builder()
         self.assertNotEqual(result.returncode, 0, result.stdout)
         self.assertIn("duplicate module path", result.stderr)
@@ -169,19 +198,16 @@ class BuildGoSupplyChainCandidateTests(unittest.TestCase):
         self.assertIn("module is absent from dependency lock", result.stderr)
 
     def test_rejects_module_replacement(self) -> None:
-        values = [json.loads(line) for line in self.modules.read_text(encoding="utf-8").splitlines()]
-        values[1]["Replace"] = {"Path": "../local-alpha"}
-        self.modules.write_text(
-            "\n".join(json.dumps(value) for value in values) + "\n",
-            encoding="utf-8",
-        )
+        metadata = json.loads(self.modules.read_text(encoding="utf-8"))
+        metadata["Deps"][0]["Replace"] = {"Path": "../local-alpha"}
+        self.modules.write_text(json.dumps(metadata) + "\n", encoding="utf-8")
         result = self.run_builder()
         self.assertNotEqual(result.returncode, 0, result.stdout)
         self.assertIn("module replacements require an explicit producer contract", result.stderr)
 
     def test_accepts_go_mod_for_a_zero_dependency_graph(self) -> None:
         self.modules.write_text(
-            json.dumps({"Path": "example.com/ao-demo", "Main": True}) + "\n",
+            json.dumps(binary_metadata()) + "\n",
             encoding="utf-8",
         )
         (self.workspace / "go.mod").write_text(
@@ -213,19 +239,15 @@ class BuildGoSupplyChainCandidateTests(unittest.TestCase):
     def test_consumes_exact_binary_module_metadata(self) -> None:
         self.modules.write_text(
             json.dumps(
-                {
-                    "GoVersion": "go1.26.4",
-                    "Path": "example.com/ao-demo/cmd/ao-demo",
-                    "Main": {"Path": "example.com/ao-demo", "Version": "(devel)"},
-                    "Deps": [
+                binary_metadata(
+                    dependencies=[
                         {
                             "Path": "example.com/alpha",
                             "Version": "v1.2.3",
                             "Sum": "h1:alpha",
                         }
-                    ],
-                    "Settings": [{"Key": "GOOS", "Value": "darwin"}],
-                }
+                    ]
+                )
             )
             + "\n",
             encoding="utf-8",
@@ -254,14 +276,7 @@ class BuildGoSupplyChainCandidateTests(unittest.TestCase):
 
     def test_consumes_zero_dependency_binary_module_metadata(self) -> None:
         self.modules.write_text(
-            json.dumps(
-                {
-                    "GoVersion": "go1.26.4",
-                    "Path": "example.com/ao-demo/cmd/ao-demo",
-                    "Main": {"Path": "example.com/ao-demo", "Version": "(devel)"},
-                }
-            )
-            + "\n",
+            json.dumps(binary_metadata()) + "\n",
             encoding="utf-8",
         )
         (self.workspace / "go.mod").write_text(
@@ -280,17 +295,14 @@ class BuildGoSupplyChainCandidateTests(unittest.TestCase):
     def test_rejects_unsummed_binary_dependency(self) -> None:
         self.modules.write_text(
             json.dumps(
-                {
-                    "GoVersion": "go1.26.4",
-                    "Path": "example.com/ao-demo/cmd/ao-demo",
-                    "Main": {"Path": "example.com/ao-demo", "Version": "(devel)"},
-                    "Deps": [
+                binary_metadata(
+                    dependencies=[
                         {
                             "Path": "example.com/alpha",
                             "Version": "v1.2.3",
                         }
-                    ],
-                }
+                    ]
+                )
             )
             + "\n",
             encoding="utf-8",
@@ -298,6 +310,56 @@ class BuildGoSupplyChainCandidateTests(unittest.TestCase):
         result = self.run_builder()
         self.assertNotEqual(result.returncode, 0, result.stdout)
         self.assertIn("dependency module sum is required", result.stderr)
+
+    def test_rejects_binary_revision_mismatch(self) -> None:
+        self.modules.write_text(
+            json.dumps(binary_metadata(revision="b" * 40)) + "\n",
+            encoding="utf-8",
+        )
+        result = self.run_builder(dependency_lock="go.sum")
+        self.assertNotEqual(result.returncode, 0, result.stdout)
+        self.assertIn("binary source revision does not match source SHA", result.stderr)
+
+    def test_rejects_modified_binary_source(self) -> None:
+        self.modules.write_text(
+            json.dumps(binary_metadata(modified="true")) + "\n",
+            encoding="utf-8",
+        )
+        result = self.run_builder(dependency_lock="go.sum")
+        self.assertNotEqual(result.returncode, 0, result.stdout)
+        self.assertIn("binary source must be unmodified", result.stderr)
+
+    def test_rejects_binary_target_mismatch(self) -> None:
+        self.modules.write_text(
+            json.dumps(binary_metadata(goos="darwin", goarch="arm64")) + "\n",
+            encoding="utf-8",
+        )
+        result = self.run_builder(dependency_lock="go.sum")
+        self.assertNotEqual(result.returncode, 0, result.stdout)
+        self.assertIn("binary target does not match target", result.stderr)
+
+    def test_rejects_missing_binary_provenance(self) -> None:
+        self.modules.write_text(
+            json.dumps({"Path": "example.com/ao-demo", "Main": True}) + "\n",
+            encoding="utf-8",
+        )
+        result = self.run_builder(dependency_lock="go.sum")
+        self.assertNotEqual(result.returncode, 0, result.stdout)
+        self.assertIn("exact binary provenance is required", result.stderr)
+
+    def test_rejects_synthetic_version_mismatch(self) -> None:
+        result = self.run_builder(dependency_lock="go.sum")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        command = result.args.copy()
+        version_index = command.index("--version") + 1
+        command[version_index] = "0.0.0+git.bbbbbbbbbbbb"
+        archive_index = command.index("--archive-name") + 1
+        command[archive_index] = "ao-demo-0.0.0+git.bbbbbbbbbbbb-linux-x86_64.tar.gz"
+        output_index = command.index("--out") + 1
+        command[output_index] = "dist/version-mismatch"
+        mismatch = subprocess.run(command, text=True, capture_output=True, check=False)
+        self.assertNotEqual(mismatch.returncode, 0, mismatch.stdout)
+        self.assertIn("version does not match binary source revision", mismatch.stderr)
 
 
 if __name__ == "__main__":

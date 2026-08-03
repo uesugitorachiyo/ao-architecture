@@ -7,8 +7,9 @@ and unpackaged local-only tools remain outside the SBOM producer requirement,
 but every maintained repository requires a root license.
 
 Candidate evidence is bound to the exact repository, source SHA, version,
-target, archive SHA-256, SBOM SHA-256, generator name and version, dependency
-lock SHA-256, completion timestamp, and deterministic regeneration digest.
+target, compiled-binary SHA-256, Go build-metadata SHA-256, clean Git revision,
+archive SHA-256, SBOM SHA-256, generator name and version, dependency lock
+SHA-256, completion timestamp, and deterministic regeneration digest.
 The verifier rejects malformed or duplicate-key JSON, stale evidence, path
 traversal, symlinks, non-regular files, digest substitution, unsupported
 targets, and unexpected components.
@@ -35,9 +36,12 @@ built binary, exact metadata emitted by
 input, and a required root `LICENSE`; `NOTICE` is packaged when the producer
 owns one. The reader uses Go's `debug/buildinfo` API and remains compatible
 with supported toolchains that predate `go version -m -json`. The packager
-rejects unbound module replacements, unsummed modules, and dependencies absent
-from the lockfile. Producer workflows remain responsible for compiling and
-testing their binary.
+rejects metadata whose Git revision, modified state, GOOS, or GOARCH does not
+match the declared source and target. Synthetic candidate versions are derived
+from that validated revision. It also rejects unbound module replacements,
+unsummed modules, and dependencies absent from the lockfile. Producer workflows
+must compile and test the binary from a clean source tree before checking out
+policy tooling or creating other untracked workspace files.
 
 This policy and its readbacks do not authorize release, publication,
 deployment, provider calls, credential use, or repository mutation.

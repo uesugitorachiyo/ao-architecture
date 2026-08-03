@@ -25,6 +25,25 @@ class SupplyChainPolicyTests(unittest.TestCase):
         self.root = Path(self.temp.name)
         self.archive = self.root / "ao-demo-1.2.3-linux-x86_64.tar.gz"
         self.archive.write_bytes(b"bounded archive bytes\n")
+        self.binary = self.root / "ao-demo"
+        self.binary.write_bytes(b"bounded executable bytes\n")
+        self.module_metadata = self.root / "go-modules.json"
+        self.write_json(
+            self.module_metadata,
+            {
+                "GoVersion": "go1.26.4",
+                "Path": "example.com/ao-demo/cmd/ao-demo",
+                "Main": {"Path": "example.com/ao-demo", "Version": "(devel)"},
+                "Deps": [],
+                "Settings": [
+                    {"Key": "GOOS", "Value": "linux"},
+                    {"Key": "GOARCH", "Value": "amd64"},
+                    {"Key": "vcs", "Value": "git"},
+                    {"Key": "vcs.revision", "Value": SOURCE_SHA},
+                    {"Key": "vcs.modified", "Value": "false"},
+                ],
+            },
+        )
         self.lock = self.root / "dependencies.lock"
         self.lock.write_text("alpha=1.0.0\nbeta=2.0.0\n", encoding="utf-8")
         self.sbom = self.root / "SBOM.cdx.json"
@@ -102,6 +121,22 @@ class SupplyChainPolicyTests(unittest.TestCase):
                 "require_dependency_lock_sha256": True,
                 "require_deterministic_regeneration": True,
                 "reject_unexpected_components": True,
+                "required_bindings": [
+                    "repository",
+                    "source_sha",
+                    "version",
+                    "target",
+                    "archive_sha256",
+                    "binary_sha256",
+                    "module_metadata_sha256",
+                    "binary_provenance",
+                    "sbom_sha256",
+                    "generator_name",
+                    "generator_version",
+                    "dependency_lock_sha256",
+                    "generated_at_utc",
+                    "regeneration_sha256",
+                ],
                 "release_or_publication_authorized": False,
             },
         )
@@ -115,6 +150,17 @@ class SupplyChainPolicyTests(unittest.TestCase):
             "target": "linux-x86_64",
             "archive_path": self.archive.name,
             "archive_sha256": sha256(self.archive),
+            "binary_path": self.binary.name,
+            "binary_sha256": sha256(self.binary),
+            "binary_provenance": {
+                "goarch": "amd64",
+                "goos": "linux",
+                "vcs": "git",
+                "vcs_modified": False,
+                "vcs_revision": SOURCE_SHA,
+            },
+            "module_metadata_path": self.module_metadata.name,
+            "module_metadata_sha256": sha256(self.module_metadata),
             "sbom_path": self.sbom.name,
             "sbom_sha256": sha256(self.sbom),
             "dependency_lock_path": self.lock.name,
@@ -188,6 +234,61 @@ class SupplyChainPolicyTests(unittest.TestCase):
         )
         self.assertNotEqual(result.returncode, 0, result.stdout)
         self.assertIn("exact source, version, and target bindings are required", result.stderr)
+
+    def test_binary_digest_mismatch_is_rejected(self) -> None:
+        self.binary.write_bytes(b"altered executable bytes\n")
+        self.assert_rejected("binary_sha256 mismatch")
+
+    def test_module_metadata_digest_mismatch_is_rejected(self) -> None:
+        self.module_metadata.write_text("{}\n", encoding="utf-8")
+        self.assert_rejected("module_metadata_sha256 mismatch")
+
+    def test_module_metadata_source_mismatch_is_rejected(self) -> None:
+        metadata = json.loads(self.module_metadata.read_text(encoding="utf-8"))
+        next(item for item in metadata["Settings"] if item["Key"] == "vcs.revision")[
+            "Value"
+        ] = "b" * 40
+        self.write_json(self.module_metadata, metadata)
+        self.write_evidence(module_metadata_sha256=sha256(self.module_metadata))
+        self.assert_rejected("binary source revision does not match source SHA")
+
+    def test_modified_binary_source_is_rejected(self) -> None:
+        metadata = json.loads(self.module_metadata.read_text(encoding="utf-8"))
+        next(item for item in metadata["Settings"] if item["Key"] == "vcs.modified")[
+            "Value"
+        ] = "true"
+        self.write_json(self.module_metadata, metadata)
+        self.write_evidence(module_metadata_sha256=sha256(self.module_metadata))
+        self.assert_rejected("binary source must be unmodified")
+
+    def test_binary_target_mismatch_is_rejected(self) -> None:
+        metadata = json.loads(self.module_metadata.read_text(encoding="utf-8"))
+        next(item for item in metadata["Settings"] if item["Key"] == "GOOS")[
+            "Value"
+        ] = "darwin"
+        next(item for item in metadata["Settings"] if item["Key"] == "GOARCH")[
+            "Value"
+        ] = "arm64"
+        self.write_json(self.module_metadata, metadata)
+        self.write_evidence(module_metadata_sha256=sha256(self.module_metadata))
+        self.assert_rejected("binary target does not match target")
+
+    def test_binary_provenance_summary_mismatch_is_rejected(self) -> None:
+        provenance = {
+            "goarch": "amd64",
+            "goos": "linux",
+            "vcs": "git",
+            "vcs_modified": False,
+            "vcs_revision": "b" * 40,
+        }
+        self.write_evidence(binary_provenance=provenance)
+        self.assert_rejected("binary_provenance does not match module metadata")
+
+    def test_missing_binary_required_binding_is_rejected(self) -> None:
+        policy = json.loads(self.policy.read_text(encoding="utf-8"))
+        policy["required_bindings"].remove("binary_provenance")
+        self.write_json(self.policy, policy)
+        self.assert_rejected("policy.required_bindings mismatch")
 
     def test_repository_contracts_validate(self) -> None:
         result = subprocess.run(

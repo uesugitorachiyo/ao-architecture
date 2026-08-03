@@ -10,6 +10,17 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
 
+try:
+    from scripts.go_binary_provenance import (
+        BinaryProvenanceError,
+        validate_binary_provenance,
+    )
+except ModuleNotFoundError:
+    from go_binary_provenance import (
+        BinaryProvenanceError,
+        validate_binary_provenance,
+    )
+
 
 DEFAULT_MAX_BYTES = 1 << 20
 EXPECTED_HOSTED = {
@@ -29,6 +40,22 @@ EXPECTED_HOSTED = {
     "ao2-control-plane",
 }
 EXPECTED_LOCAL_ONLY = {"ao-hardening-runner", "ao-stack-evaluation"}
+REQUIRED_BINDINGS = [
+    "repository",
+    "source_sha",
+    "version",
+    "target",
+    "archive_sha256",
+    "binary_sha256",
+    "module_metadata_sha256",
+    "binary_provenance",
+    "sbom_sha256",
+    "generator_name",
+    "generator_version",
+    "dependency_lock_sha256",
+    "generated_at_utc",
+    "regeneration_sha256",
+]
 
 
 class PolicyError(ValueError):
@@ -152,6 +179,8 @@ def validate_contract_headers(inventory: dict[str, Any], policy: dict[str, Any])
     for field, expected in required_policy.items():
         if policy.get(field) != expected:
             raise PolicyError(f"policy.{field} must be {expected!r}")
+    if policy.get("required_bindings") != REQUIRED_BINDINGS:
+        raise PolicyError("policy.required_bindings mismatch")
     required_classes = policy.get("required_for_classes")
     if required_classes != ["archive", "container", "public_release"]:
         raise PolicyError("policy required_for_classes mismatch")
@@ -295,6 +324,11 @@ def verify(
             "target",
             "archive_path",
             "archive_sha256",
+            "binary_path",
+            "binary_sha256",
+            "binary_provenance",
+            "module_metadata_path",
+            "module_metadata_sha256",
             "sbom_path",
             "sbom_sha256",
             "dependency_lock_path",
@@ -336,6 +370,25 @@ def verify(
         raise PolicyError("target is not supported by inventory")
     if evidence.get("publication_attempted") is not False:
         raise PolicyError("publication_attempted must be false")
+    binary = resolve_regular_file(root, evidence.get("binary_path"), "binary_path")
+    require_digest_match(binary, evidence.get("binary_sha256"), "binary_sha256")
+    module_metadata_path = resolve_regular_file(
+        root, evidence.get("module_metadata_path"), "module_metadata_path"
+    )
+    require_digest_match(
+        module_metadata_path,
+        evidence.get("module_metadata_sha256"),
+        "module_metadata_sha256",
+    )
+    module_metadata = load_json(module_metadata_path, "module metadata", 8 << 20)
+    try:
+        binary_provenance = validate_binary_provenance(
+            module_metadata, expected_source_sha, expected_target
+        )
+    except BinaryProvenanceError as exc:
+        raise PolicyError(str(exc)) from exc
+    if evidence.get("binary_provenance") != binary_provenance:
+        raise PolicyError("binary_provenance does not match module metadata")
     generator = evidence.get("generator")
     if not isinstance(generator, dict) or not generator.get("name") or not generator.get("version"):
         raise PolicyError("generator name and version are required")
