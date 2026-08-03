@@ -28,5 +28,11 @@ Artifact verification additionally requires explicit `--expected-source-sha`,
 The stable inventory classifies repositories and supported targets; it does not
 pin a moving candidate identity.
 
+Go producers may build deterministic candidate archives and evidence with
+`scripts/build_go_supply_chain_candidate.py`. The tool consumes an already
+built binary, `go list -m -json all` output, `go.sum`, and legal files. It
+rejects unbound module replacements and dependencies absent from the lockfile;
+producer workflows remain responsible for compiling and testing their binary.
+
 This policy and its readbacks do not authorize release, publication,
 deployment, provider calls, credential use, or repository mutation.
