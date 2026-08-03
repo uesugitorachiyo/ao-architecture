@@ -210,6 +210,95 @@ class BuildGoSupplyChainCandidateTests(unittest.TestCase):
             self.assertIn("LICENSE", archive.getnames())
             self.assertNotIn("NOTICE", archive.getnames())
 
+    def test_consumes_exact_binary_module_metadata(self) -> None:
+        self.modules.write_text(
+            json.dumps(
+                {
+                    "GoVersion": "go1.26.4",
+                    "Path": "example.com/ao-demo/cmd/ao-demo",
+                    "Main": {"Path": "example.com/ao-demo", "Version": "(devel)"},
+                    "Deps": [
+                        {
+                            "Path": "example.com/alpha",
+                            "Version": "v1.2.3",
+                            "Sum": "h1:alpha",
+                        }
+                    ],
+                    "Settings": [{"Key": "GOOS", "Value": "darwin"}],
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        result = self.run_builder()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        sbom = json.loads(
+            (self.workspace / "dist" / "one" / "SBOM.cdx.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual([component["name"] for component in sbom["components"]], ["example.com/alpha"])
+
+    def test_rejects_incomplete_binary_module_metadata(self) -> None:
+        self.modules.write_text(
+            json.dumps(
+                {
+                    "GoVersion": "go1.26.4",
+                    "Main": {"Path": "example.com/ao-demo", "Version": "(devel)"},
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        result = self.run_builder()
+        self.assertNotEqual(result.returncode, 0, result.stdout)
+        self.assertIn("binary module metadata is incomplete", result.stderr)
+
+    def test_consumes_zero_dependency_binary_module_metadata(self) -> None:
+        self.modules.write_text(
+            json.dumps(
+                {
+                    "GoVersion": "go1.26.4",
+                    "Path": "example.com/ao-demo/cmd/ao-demo",
+                    "Main": {"Path": "example.com/ao-demo", "Version": "(devel)"},
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        (self.workspace / "go.mod").write_text(
+            "module example.com/ao-demo\n\ngo 1.24\n",
+            encoding="utf-8",
+        )
+        result = self.run_builder(dependency_lock="go.mod")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        sbom = json.loads(
+            (self.workspace / "dist" / "one" / "SBOM.cdx.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        self.assertEqual(sbom["components"], [])
+
+    def test_rejects_unsummed_binary_dependency(self) -> None:
+        self.modules.write_text(
+            json.dumps(
+                {
+                    "GoVersion": "go1.26.4",
+                    "Path": "example.com/ao-demo/cmd/ao-demo",
+                    "Main": {"Path": "example.com/ao-demo", "Version": "(devel)"},
+                    "Deps": [
+                        {
+                            "Path": "example.com/alpha",
+                            "Version": "v1.2.3",
+                        }
+                    ],
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        result = self.run_builder()
+        self.assertNotEqual(result.returncode, 0, result.stdout)
+        self.assertIn("dependency module sum is required", result.stderr)
+
 
 if __name__ == "__main__":
     unittest.main()
