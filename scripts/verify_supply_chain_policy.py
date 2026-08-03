@@ -6,6 +6,8 @@ import hashlib
 import json
 import stat
 import sys
+import tarfile
+import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
@@ -13,11 +15,13 @@ from typing import Any, Iterable
 try:
     from scripts.go_binary_provenance import (
         BinaryProvenanceError,
+        read_binary_metadata,
         validate_binary_provenance,
     )
 except ModuleNotFoundError:
     from go_binary_provenance import (
         BinaryProvenanceError,
+        read_binary_metadata,
         validate_binary_provenance,
     )
 
@@ -46,6 +50,7 @@ REQUIRED_BINDINGS = [
     "version",
     "target",
     "archive_sha256",
+    "binary_name",
     "binary_sha256",
     "module_metadata_sha256",
     "binary_provenance",
@@ -324,7 +329,7 @@ def verify(
             "target",
             "archive_path",
             "archive_sha256",
-            "binary_path",
+            "binary_name",
             "binary_sha256",
             "binary_provenance",
             "module_metadata_path",
@@ -370,25 +375,6 @@ def verify(
         raise PolicyError("target is not supported by inventory")
     if evidence.get("publication_attempted") is not False:
         raise PolicyError("publication_attempted must be false")
-    binary = resolve_regular_file(root, evidence.get("binary_path"), "binary_path")
-    require_digest_match(binary, evidence.get("binary_sha256"), "binary_sha256")
-    module_metadata_path = resolve_regular_file(
-        root, evidence.get("module_metadata_path"), "module_metadata_path"
-    )
-    require_digest_match(
-        module_metadata_path,
-        evidence.get("module_metadata_sha256"),
-        "module_metadata_sha256",
-    )
-    module_metadata = load_json(module_metadata_path, "module metadata", 8 << 20)
-    try:
-        binary_provenance = validate_binary_provenance(
-            module_metadata, expected_source_sha, expected_target
-        )
-    except BinaryProvenanceError as exc:
-        raise PolicyError(str(exc)) from exc
-    if evidence.get("binary_provenance") != binary_provenance:
-        raise PolicyError("binary_provenance does not match module metadata")
     generator = evidence.get("generator")
     if not isinstance(generator, dict) or not generator.get("name") or not generator.get("version"):
         raise PolicyError("generator name and version are required")
@@ -404,6 +390,65 @@ def verify(
         raise PolicyError("archive_sha256 is required")
     archive = resolve_regular_file(root, evidence.get("archive_path"), "archive_path")
     require_digest_match(archive, evidence.get("archive_sha256"), "archive_sha256")
+    binary_name = evidence.get("binary_name")
+    if not isinstance(binary_name, str) or Path(binary_name).name != binary_name:
+        raise PolicyError("binary_name must be a basename")
+    module_metadata_path = resolve_regular_file(
+        root, evidence.get("module_metadata_path"), "module_metadata_path"
+    )
+    module_metadata_digest = require_digest_match(
+        module_metadata_path,
+        evidence.get("module_metadata_sha256"),
+        "module_metadata_sha256",
+    )
+    module_metadata = load_json(module_metadata_path, "module metadata", 8 << 20)
+    try:
+        with tarfile.open(archive, "r:gz") as candidate_archive:
+            members = candidate_archive.getmembers()
+            names = [member.name for member in members]
+            if len(members) > 16 or len(names) != len(set(names)):
+                raise PolicyError("archive member set is invalid")
+            if any(
+                not member.isfile()
+                or Path(member.name).name != member.name
+                or member.size < 0
+                or member.size > (512 << 20)
+                for member in members
+            ):
+                raise PolicyError("archive members must be bounded regular basenames")
+            if binary_name not in names or "go-modules.json" not in names:
+                raise PolicyError("archive binary and module metadata are required")
+            binary_stream = candidate_archive.extractfile(binary_name)
+            metadata_stream = candidate_archive.extractfile("go-modules.json")
+            if binary_stream is None or metadata_stream is None:
+                raise PolicyError("archive binary and module metadata are required")
+            binary_bytes = binary_stream.read()
+            archive_metadata_bytes = metadata_stream.read()
+    except (tarfile.TarError, OSError) as exc:
+        raise PolicyError(f"archive is malformed: {exc}") from exc
+    if hashlib.sha256(binary_bytes).hexdigest() != validate_digest(
+        evidence.get("binary_sha256"), "binary_sha256"
+    ):
+        raise PolicyError("binary_sha256 mismatch")
+    if hashlib.sha256(archive_metadata_bytes).hexdigest() != module_metadata_digest:
+        raise PolicyError("archive module metadata digest mismatch")
+    if archive_metadata_bytes != module_metadata_path.read_bytes():
+        raise PolicyError("archive module metadata does not match evidence")
+    try:
+        with tempfile.TemporaryDirectory() as temporary:
+            extracted_binary = Path(temporary) / binary_name
+            extracted_binary.write_bytes(binary_bytes)
+            extracted_binary.chmod(0o755)
+            extracted_metadata = read_binary_metadata(extracted_binary)
+        if extracted_metadata != module_metadata:
+            raise PolicyError("module metadata does not match binary")
+        binary_provenance = validate_binary_provenance(
+            extracted_metadata, expected_source_sha, expected_target
+        )
+    except BinaryProvenanceError as exc:
+        raise PolicyError(str(exc)) from exc
+    if evidence.get("binary_provenance") != binary_provenance:
+        raise PolicyError("binary_provenance does not match module metadata")
     sbom_path = resolve_regular_file(root, evidence.get("sbom_path"), "sbom_path")
     sbom_digest = require_digest_match(sbom_path, evidence.get("sbom_sha256"), "sbom_sha256")
     if policy.get("require_dependency_lock_sha256") is not True:

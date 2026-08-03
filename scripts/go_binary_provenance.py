@@ -1,10 +1,15 @@
 from __future__ import annotations
 
+import json
+import os
+import subprocess
+from pathlib import Path
 from typing import Any
 
 
 TARGET_SETTINGS = {
     "linux-x86_64": ("linux", "amd64"),
+    "linux-aarch64": ("linux", "arm64"),
     "macos-aarch64": ("darwin", "arm64"),
     "windows-x86_64": ("windows", "amd64"),
 }
@@ -12,6 +17,42 @@ TARGET_SETTINGS = {
 
 class BinaryProvenanceError(ValueError):
     pass
+
+
+def _strict_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    result: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in result:
+            raise BinaryProvenanceError(f"duplicate binary metadata key: {key}")
+        result[key] = value
+    return result
+
+
+def read_binary_metadata(binary: Path) -> dict[str, Any]:
+    reader = Path(__file__).with_name("read_go_binary_metadata.go")
+    environment = os.environ.copy()
+    environment.update({"GOPROXY": "off", "GOSUMDB": "off", "GOTOOLCHAIN": "local"})
+    try:
+        result = subprocess.run(
+            ["go", "run", str(reader), str(binary)],
+            text=True,
+            capture_output=True,
+            check=False,
+            env=environment,
+            timeout=120,
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        raise BinaryProvenanceError(f"read Go build metadata: {exc}") from exc
+    if result.returncode != 0:
+        detail = result.stderr.strip() or f"reader exited {result.returncode}"
+        raise BinaryProvenanceError(detail)
+    try:
+        metadata = json.loads(result.stdout, object_pairs_hook=_strict_object)
+    except json.JSONDecodeError as exc:
+        raise BinaryProvenanceError(f"binary metadata is malformed: {exc}") from exc
+    if not isinstance(metadata, dict):
+        raise BinaryProvenanceError("binary metadata must be an object")
+    return metadata
 
 
 def validate_binary_provenance(

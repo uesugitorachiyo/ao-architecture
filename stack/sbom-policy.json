@@ -21,6 +21,7 @@
     "version",
     "target",
     "archive_sha256",
+    "binary_name",
     "binary_sha256",
     "module_metadata_sha256",
     "binary_provenance",

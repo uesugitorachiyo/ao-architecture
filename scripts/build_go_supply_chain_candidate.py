@@ -18,11 +18,13 @@ from urllib.parse import quote
 try:
     from scripts.go_binary_provenance import (
         BinaryProvenanceError,
+        read_binary_metadata,
         validate_binary_provenance,
     )
 except ModuleNotFoundError:
     from go_binary_provenance import (
         BinaryProvenanceError,
+        read_binary_metadata,
         validate_binary_provenance,
     )
 
@@ -276,8 +278,11 @@ def run(args: argparse.Namespace) -> None:
     if build_info is None:
         raise CandidateError("exact binary provenance is required")
     try:
+        extracted_metadata = read_binary_metadata(binary)
+        if extracted_metadata != build_info:
+            raise CandidateError("module metadata does not match binary")
         binary_provenance = validate_binary_provenance(
-            build_info, args.source_sha, args.target
+            extracted_metadata, args.source_sha, args.target
         )
     except BinaryProvenanceError as exc:
         raise CandidateError(str(exc)) from exc
@@ -294,6 +299,7 @@ def run(args: argparse.Namespace) -> None:
         ("LICENSE", license_file.read_bytes(), 0o644),
         ("SBOM.cdx.json", sbom, 0o644),
         (binary.name, binary.read_bytes(), 0o755),
+        ("go-modules.json", module_json.read_bytes(), 0o644),
         (dependency_lock.name, lock_bytes, 0o644),
     ]
     if notice_file is not None:
@@ -302,15 +308,17 @@ def run(args: argparse.Namespace) -> None:
     archive_path = output / args.archive_name
     sbom_path = output / "SBOM.cdx.json"
     lock_path = output / dependency_lock.name
+    module_metadata_path = output / "go-modules.json"
     archive_path.write_bytes(archive)
     sbom_path.write_bytes(sbom)
     lock_path.write_bytes(lock_bytes)
+    module_metadata_path.write_bytes(module_json.read_bytes())
 
     output_relative = output.relative_to(root)
     evidence = {
         "archive_path": portable_path(output_relative / args.archive_name),
         "archive_sha256": sha256_bytes(archive),
-        "binary_path": portable_path(binary.relative_to(root)),
+        "binary_name": binary.name,
         "binary_provenance": binary_provenance,
         "binary_sha256": sha256_file(binary),
         "dependency_lock_path": portable_path(output_relative / dependency_lock.name),
@@ -319,7 +327,7 @@ def run(args: argparse.Namespace) -> None:
         "expected_components": [module["path"] for module in modules],
         "generated_at_utc": generated_at,
         "generator": {"name": GENERATOR_NAME, "version": GENERATOR_VERSION},
-        "module_metadata_path": portable_path(module_json.relative_to(root)),
+        "module_metadata_path": portable_path(output_relative / "go-modules.json"),
         "module_metadata_sha256": sha256_file(module_json),
         "publication_attempted": False,
         "regeneration_sha256": sha256_bytes(sbom),

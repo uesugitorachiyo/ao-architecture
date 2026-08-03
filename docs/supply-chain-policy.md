@@ -12,7 +12,10 @@ archive SHA-256, SBOM SHA-256, generator name and version, dependency lock
 SHA-256, completion timestamp, and deterministic regeneration digest.
 The verifier rejects malformed or duplicate-key JSON, stale evidence, path
 traversal, symlinks, non-regular files, digest substitution, unsupported
-targets, and unexpected components.
+targets, binary/metadata substitution, and unexpected components. Candidate
+archives carry the exact binary and `go-modules.json`; independent verification
+re-extracts build information from that archived binary with the trusted reader
+and compares it with the digest-bound metadata.
 
 Validate the source contracts with:
 

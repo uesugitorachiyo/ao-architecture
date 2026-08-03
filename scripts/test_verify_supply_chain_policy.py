@@ -1,8 +1,10 @@
 import hashlib
 import json
 import os
+import shutil
 import subprocess
 import sys
+import tarfile
 import tempfile
 import unittest
 from pathlib import Path
@@ -12,9 +14,6 @@ from typing import Optional
 ROOT = Path(__file__).resolve().parents[1]
 VERIFIER = ROOT / "scripts" / "verify_supply_chain_policy.py"
 NOW = "2026-08-03T16:00:00Z"
-SOURCE_SHA = "a" * 40
-
-
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -23,27 +22,64 @@ class SupplyChainPolicyTests(unittest.TestCase):
     def setUp(self) -> None:
         self.temp = tempfile.TemporaryDirectory()
         self.root = Path(self.temp.name)
-        self.archive = self.root / "ao-demo-1.2.3-linux-x86_64.tar.gz"
-        self.archive.write_bytes(b"bounded archive bytes\n")
-        self.binary = self.root / "ao-demo"
-        self.binary.write_bytes(b"bounded executable bytes\n")
-        self.module_metadata = self.root / "go-modules.json"
-        self.write_json(
-            self.module_metadata,
-            {
-                "GoVersion": "go1.26.4",
-                "Path": "example.com/ao-demo/cmd/ao-demo",
-                "Main": {"Path": "example.com/ao-demo", "Version": "(devel)"},
-                "Deps": [],
-                "Settings": [
-                    {"Key": "GOOS", "Value": "linux"},
-                    {"Key": "GOARCH", "Value": "amd64"},
-                    {"Key": "vcs", "Value": "git"},
-                    {"Key": "vcs.revision", "Value": SOURCE_SHA},
-                    {"Key": "vcs.modified", "Value": "false"},
-                ],
-            },
+        (self.root / "go.mod").write_text(
+            "module example.com/ao-demo\n\ngo 1.24\n", encoding="utf-8"
         )
+        (self.root / "main.go").write_text(
+            "package main\n\nfunc main() {}\n", encoding="utf-8"
+        )
+        subprocess.run(["git", "init", "-q"], cwd=self.root, check=True)
+        subprocess.run(
+            ["git", "config", "user.name", "AO Test"], cwd=self.root, check=True
+        )
+        subprocess.run(
+            ["git", "config", "user.email", "ao-test@example.invalid"],
+            cwd=self.root,
+            check=True,
+        )
+        subprocess.run(["git", "add", "."], cwd=self.root, check=True)
+        commit_env = os.environ.copy()
+        commit_env.update(
+            {
+                "GIT_AUTHOR_DATE": "2026-08-03T16:00:00Z",
+                "GIT_COMMITTER_DATE": "2026-08-03T16:00:00Z",
+            }
+        )
+        subprocess.run(
+            ["git", "commit", "-q", "-m", "fixture"],
+            cwd=self.root,
+            env=commit_env,
+            check=True,
+        )
+        self.source_sha = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            cwd=self.root,
+            text=True,
+            capture_output=True,
+            check=True,
+        ).stdout.strip()
+        self.archive = self.root / "ao-demo-1.2.3-linux-x86_64.tar.gz"
+        self.binary = self.root / "ao-demo"
+        build_env = os.environ.copy()
+        build_env.update(
+            {"CGO_ENABLED": "0", "GOARCH": "amd64", "GOOS": "linux"}
+        )
+        subprocess.run(
+            ["go", "build", "-trimpath", "-o", str(self.binary), "."],
+            cwd=self.root,
+            env=build_env,
+            check=True,
+        )
+        self.module_metadata = self.root / "go-modules.json"
+        metadata = subprocess.run(
+            ["go", "run", str(ROOT / "scripts" / "read_go_binary_metadata.go"), str(self.binary)],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=True,
+        )
+        self.module_metadata.write_text(metadata.stdout, encoding="utf-8")
+        self.write_archive()
         self.lock = self.root / "dependencies.lock"
         self.lock.write_text("alpha=1.0.0\nbeta=2.0.0\n", encoding="utf-8")
         self.sbom = self.root / "SBOM.cdx.json"
@@ -60,6 +96,11 @@ class SupplyChainPolicyTests(unittest.TestCase):
 
     def write_json(self, path: Path, value: object) -> None:
         path.write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
+
+    def write_archive(self) -> None:
+        with tarfile.open(self.archive, "w:gz") as archive:
+            archive.add(self.binary, arcname="ao-demo")
+            archive.add(self.module_metadata, arcname="go-modules.json")
 
     def write_sbom(self, components: list[str]) -> None:
         self.write_json(
@@ -127,6 +168,7 @@ class SupplyChainPolicyTests(unittest.TestCase):
                     "version",
                     "target",
                     "archive_sha256",
+                    "binary_name",
                     "binary_sha256",
                     "module_metadata_sha256",
                     "binary_provenance",
@@ -145,19 +187,19 @@ class SupplyChainPolicyTests(unittest.TestCase):
         value = {
             "schema": "ao.supply-chain.sbom-evidence.v1",
             "repository": "ao-demo",
-            "source_sha": SOURCE_SHA,
+            "source_sha": self.source_sha,
             "version": "1.2.3",
             "target": "linux-x86_64",
             "archive_path": self.archive.name,
             "archive_sha256": sha256(self.archive),
-            "binary_path": self.binary.name,
+            "binary_name": self.binary.name,
             "binary_sha256": sha256(self.binary),
             "binary_provenance": {
                 "goarch": "amd64",
                 "goos": "linux",
                 "vcs": "git",
                 "vcs_modified": False,
-                "vcs_revision": SOURCE_SHA,
+                "vcs_revision": self.source_sha,
             },
             "module_metadata_path": self.module_metadata.name,
             "module_metadata_sha256": sha256(self.module_metadata),
@@ -189,7 +231,7 @@ class SupplyChainPolicyTests(unittest.TestCase):
                 "--workspace-root",
                 str(self.root),
                 "--expected-source-sha",
-                SOURCE_SHA,
+                self.source_sha,
                 "--expected-version",
                 "1.2.3",
                 "--expected-target",
@@ -236,11 +278,11 @@ class SupplyChainPolicyTests(unittest.TestCase):
         self.assertIn("exact source, version, and target bindings are required", result.stderr)
 
     def test_binary_digest_mismatch_is_rejected(self) -> None:
-        self.binary.write_bytes(b"altered executable bytes\n")
+        self.write_evidence(binary_sha256="f" * 64)
         self.assert_rejected("binary_sha256 mismatch")
 
     def test_module_metadata_digest_mismatch_is_rejected(self) -> None:
-        self.module_metadata.write_text("{}\n", encoding="utf-8")
+        self.write_evidence(module_metadata_sha256="f" * 64)
         self.assert_rejected("module_metadata_sha256 mismatch")
 
     def test_module_metadata_source_mismatch_is_rejected(self) -> None:
@@ -249,8 +291,12 @@ class SupplyChainPolicyTests(unittest.TestCase):
             "Value"
         ] = "b" * 40
         self.write_json(self.module_metadata, metadata)
-        self.write_evidence(module_metadata_sha256=sha256(self.module_metadata))
-        self.assert_rejected("binary source revision does not match source SHA")
+        self.write_archive()
+        self.write_evidence(
+            archive_sha256=sha256(self.archive),
+            module_metadata_sha256=sha256(self.module_metadata),
+        )
+        self.assert_rejected("module metadata does not match binary")
 
     def test_modified_binary_source_is_rejected(self) -> None:
         metadata = json.loads(self.module_metadata.read_text(encoding="utf-8"))
@@ -258,8 +304,12 @@ class SupplyChainPolicyTests(unittest.TestCase):
             "Value"
         ] = "true"
         self.write_json(self.module_metadata, metadata)
-        self.write_evidence(module_metadata_sha256=sha256(self.module_metadata))
-        self.assert_rejected("binary source must be unmodified")
+        self.write_archive()
+        self.write_evidence(
+            archive_sha256=sha256(self.archive),
+            module_metadata_sha256=sha256(self.module_metadata),
+        )
+        self.assert_rejected("module metadata does not match binary")
 
     def test_binary_target_mismatch_is_rejected(self) -> None:
         metadata = json.loads(self.module_metadata.read_text(encoding="utf-8"))
@@ -270,8 +320,52 @@ class SupplyChainPolicyTests(unittest.TestCase):
             "Value"
         ] = "arm64"
         self.write_json(self.module_metadata, metadata)
-        self.write_evidence(module_metadata_sha256=sha256(self.module_metadata))
-        self.assert_rejected("binary target does not match target")
+        self.write_archive()
+        self.write_evidence(
+            archive_sha256=sha256(self.archive),
+            module_metadata_sha256=sha256(self.module_metadata),
+        )
+        self.assert_rejected("module metadata does not match binary")
+
+    def test_downloaded_bundle_is_self_contained(self) -> None:
+        bundle = self.root / "downloaded"
+        bundle.mkdir()
+        for path in (
+            self.archive,
+            self.module_metadata,
+            self.lock,
+            self.sbom,
+            self.inventory,
+            self.policy,
+            self.evidence,
+        ):
+            shutil.copy2(path, bundle / path.name)
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(VERIFIER),
+                "--inventory",
+                str(bundle / self.inventory.name),
+                "--policy",
+                str(bundle / self.policy.name),
+                "--evidence",
+                str(bundle / self.evidence.name),
+                "--workspace-root",
+                str(bundle),
+                "--expected-source-sha",
+                self.source_sha,
+                "--expected-version",
+                "1.2.3",
+                "--expected-target",
+                "linux-x86_64",
+                "--now",
+                NOW,
+            ],
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
 
     def test_binary_provenance_summary_mismatch_is_rejected(self) -> None:
         provenance = {
