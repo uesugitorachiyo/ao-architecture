@@ -11,6 +11,12 @@ from verify_copied_schema_classification import validate_document as validate_co
 from verify_component_release_classification import validate_manifest as validate_component_release_classification
 from verify_external_beta_preflight import CAPABILITY_LABELS, EXPECTED_REPOSITORIES, validate_manifest
 from verify_quality_gate_registry import validate_registry as validate_quality_gate_registry
+from verify_supply_chain_policy import (
+    PolicyError as SupplyChainPolicyError,
+    load_json as load_supply_chain_json,
+    validate_contracts as validate_supply_chain_contracts,
+    validate_release_alignment as validate_supply_chain_release_alignment,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -827,6 +833,8 @@ def main() -> int:
     evidence_catalog = ROOT / "overview" / "EVIDENCE-CATALOG.md"
     manifest_path = ROOT / "stack" / "external-beta-tested-stack.json"
     component_release_classification_path = ROOT / "stack" / "component-release-classification.json"
+    distributable_inventory_path = ROOT / "stack" / "distributable-inventory.json"
+    sbom_policy_path = ROOT / "stack" / "sbom-policy.json"
     quality_gate_result = validate_quality_gate_registry(
         workspace_root=ROOT.parent,
         repository="ao-architecture",
@@ -847,6 +855,17 @@ def main() -> int:
         fail(f"invalid component release classification manifest: {exc}")
     for error in validate_component_release_classification(component_release_classification):
         fail(f"component release classification invalid: {error}")
+    try:
+        validate_supply_chain_contracts(
+            load_supply_chain_json(distributable_inventory_path, "inventory"),
+            load_supply_chain_json(sbom_policy_path, "policy"),
+        )
+        validate_supply_chain_release_alignment(
+            load_supply_chain_json(distributable_inventory_path, "inventory"),
+            component_release_classification,
+        )
+    except SupplyChainPolicyError as exc:
+        fail(f"supply-chain contract invalid: {exc}")
 
     readiness_text = read_text(readiness)
     repository_names = {entry["repository"] for entry in manifest["repositories"]}
