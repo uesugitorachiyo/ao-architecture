@@ -6,7 +6,9 @@ import sys
 import tarfile
 import tempfile
 import unittest
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
+
+from scripts.build_go_supply_chain_candidate import portable_path
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -130,6 +132,12 @@ class BuildGoSupplyChainCandidateTests(unittest.TestCase):
                 ["LICENSE", "NOTICE", "SBOM.cdx.json", "ao-demo", "go.sum"],
             )
             self.assertTrue(all(member.mtime == 0 for member in archive.getmembers()))
+
+    def test_evidence_paths_are_portable_across_windows_and_posix(self) -> None:
+        self.assertEqual(
+            portable_path(PureWindowsPath("target", "native", "SBOM.cdx.json")),
+            "target/native/SBOM.cdx.json",
+        )
 
     def test_rejects_symlinked_binary(self) -> None:
         target = self.workspace / "outside"

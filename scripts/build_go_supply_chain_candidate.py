@@ -11,7 +11,7 @@ import stat
 import sys
 import tarfile
 from datetime import datetime, timezone
-from pathlib import Path
+from pathlib import Path, PurePath
 from typing import Any, Iterable
 from urllib.parse import quote
 
@@ -37,6 +37,10 @@ def strict_object(pairs: Iterable[tuple[str, Any]]) -> dict[str, Any]:
 
 def json_bytes(value: Any) -> bytes:
     return (json.dumps(value, indent=2, sort_keys=True, ensure_ascii=True) + "\n").encode("utf-8")
+
+
+def portable_path(value: PurePath) -> str:
+    return str(value).replace("\\", "/")
 
 
 def sha256_bytes(value: bytes) -> str:
@@ -263,9 +267,9 @@ def run(args: argparse.Namespace) -> None:
 
     output_relative = output.relative_to(root)
     evidence = {
-        "archive_path": str(output_relative / args.archive_name),
+        "archive_path": portable_path(output_relative / args.archive_name),
         "archive_sha256": sha256_bytes(archive),
-        "dependency_lock_path": str(output_relative / dependency_lock.name),
+        "dependency_lock_path": portable_path(output_relative / dependency_lock.name),
         "dependency_lock_sha256": sha256_bytes(lock_bytes),
         "deterministic_regeneration": True,
         "expected_components": [module["path"] for module in modules],
@@ -274,7 +278,7 @@ def run(args: argparse.Namespace) -> None:
         "publication_attempted": False,
         "regeneration_sha256": sha256_bytes(sbom),
         "repository": args.repository,
-        "sbom_path": str(output_relative / "SBOM.cdx.json"),
+        "sbom_path": portable_path(output_relative / "SBOM.cdx.json"),
         "sbom_sha256": sha256_bytes(sbom),
         "schema": "ao.supply-chain.sbom-evidence.v1",
         "source_sha": args.source_sha,
