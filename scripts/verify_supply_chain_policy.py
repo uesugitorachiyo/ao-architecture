@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import stat
 import sys
 import tarfile
@@ -27,6 +28,11 @@ except ModuleNotFoundError:
 
 
 DEFAULT_MAX_BYTES = 1 << 20
+MAX_ARCHIVE_BYTES = 320 << 20
+MAX_ARCHIVE_EXPANDED_BYTES = 320 << 20
+MAX_BINARY_BYTES = 256 << 20
+MAX_MODULE_METADATA_BYTES = 8 << 20
+MAX_DEPENDENCY_LOCK_BYTES = 16 << 20
 EXPECTED_HOSTED = {
     "ao-architecture",
     "ao-arena",
@@ -165,6 +171,52 @@ def repository_entry(inventory: dict[str, Any], repository: Any) -> dict[str, An
     if len(matches) != 1:
         raise PolicyError("evidence repository must match exactly one inventory entry")
     return matches[0]
+
+
+def binary_modules(metadata: dict[str, Any]) -> list[dict[str, str]]:
+    dependencies = metadata.get("Deps", [])
+    if not isinstance(dependencies, list):
+        raise PolicyError("binary module dependencies must be a list")
+    modules: list[dict[str, str]] = []
+    seen: set[str] = set()
+    for dependency in dependencies:
+        if not isinstance(dependency, dict):
+            raise PolicyError("binary module dependencies must be objects")
+        if dependency.get("Replace") is not None:
+            raise PolicyError("binary module replacements are unsupported")
+        path = dependency.get("Path")
+        version = dependency.get("Version")
+        module_sum = dependency.get("Sum")
+        if (
+            not isinstance(path, str)
+            or not path
+            or path in seen
+            or not isinstance(version, str)
+            or not version
+            or not isinstance(module_sum, str)
+            or not module_sum
+        ):
+            raise PolicyError("binary module dependency metadata is invalid")
+        seen.add(path)
+        modules.append({"path": path, "version": version, "sum": module_sum})
+    return sorted(modules, key=lambda item: (item["path"], item["version"]))
+
+
+def validate_modules_against_lock(
+    modules: list[dict[str, str]], lock: Path
+) -> None:
+    try:
+        lines = lock.read_text(encoding="utf-8").splitlines()
+    except (OSError, UnicodeError) as exc:
+        raise PolicyError("dependency lock must be UTF-8") from exc
+    if lock.name == "go.mod" and modules:
+        raise PolicyError("go.mod cannot bind a non-empty dependency graph")
+    for module in modules:
+        expected = f"{module['path']} {module['version']} {module['sum']}"
+        if expected not in lines:
+            raise PolicyError(
+                f"binary module is absent from dependency lock: {module['path']}"
+            )
 
 
 def validate_contract_headers(inventory: dict[str, Any], policy: dict[str, Any]) -> list[str]:
@@ -397,6 +449,8 @@ def verify(
     if policy.get("require_archive_sha256") is not True or not evidence.get("archive_sha256"):
         raise PolicyError("archive_sha256 is required")
     archive = resolve_regular_file(root, evidence.get("archive_path"), "archive_path")
+    if archive.stat().st_size > MAX_ARCHIVE_BYTES:
+        raise PolicyError("archive exceeds compressed size limit")
     require_digest_match(archive, evidence.get("archive_sha256"), "archive_sha256")
     binary_name = evidence.get("binary_name")
     if not isinstance(binary_name, str) or Path(binary_name).name != binary_name:
@@ -404,20 +458,49 @@ def verify(
     module_metadata_path = resolve_regular_file(
         root, evidence.get("module_metadata_path"), "module_metadata_path"
     )
+    if module_metadata_path.stat().st_size > MAX_MODULE_METADATA_BYTES:
+        raise PolicyError("module metadata exceeds size limit")
     module_metadata_digest = require_digest_match(
         module_metadata_path,
         evidence.get("module_metadata_sha256"),
         "module_metadata_sha256",
     )
     module_metadata = load_json(module_metadata_path, "module metadata", 8 << 20)
+    sbom_path = resolve_regular_file(root, evidence.get("sbom_path"), "sbom_path")
+    maximum_evidence_bytes = int(
+        policy.get("maximum_evidence_bytes", DEFAULT_MAX_BYTES)
+    )
+    if sbom_path.stat().st_size > maximum_evidence_bytes:
+        raise PolicyError("SBOM exceeds size limit")
+    sbom_digest = require_digest_match(sbom_path, evidence.get("sbom_sha256"), "sbom_sha256")
+    if sbom_path.name != "SBOM.cdx.json":
+        raise PolicyError("sbom_path must name SBOM.cdx.json")
+    if policy.get("require_dependency_lock_sha256") is not True:
+        raise PolicyError("policy must require dependency lock SHA-256")
+    lock = resolve_regular_file(root, evidence.get("dependency_lock_path"), "dependency_lock_path")
+    if lock.stat().st_size > MAX_DEPENDENCY_LOCK_BYTES:
+        raise PolicyError("dependency lock exceeds size limit")
+    require_digest_match(lock, evidence.get("dependency_lock_sha256"), "dependency_lock_sha256")
+    required_archive_names = {
+        binary_name,
+        "go-modules.json",
+        "SBOM.cdx.json",
+        lock.name,
+        "LICENSE",
+    }
+    if len(required_archive_names) != 5:
+        raise PolicyError("archive member identities conflict")
     try:
         with tempfile.TemporaryDirectory() as temporary:
             extracted_binary = Path(temporary) / binary_name
             binary_digest = hashlib.sha256()
             archive_metadata_bytes: bytes | None = None
+            archive_sbom_bytes: bytes | None = None
+            archive_lock_bytes: bytes | None = None
             binary_found = False
             metadata_found = False
             seen: set[str] = set()
+            aggregate_size = 0
             try:
                 with tarfile.open(archive, "r:gz") as candidate_archive:
                     for count, member in enumerate(candidate_archive, start=1):
@@ -430,12 +513,19 @@ def verify(
                             raise PolicyError(
                                 "archive members must be regular basenames"
                             )
+                        aggregate_size += member.size
+                        if aggregate_size > MAX_ARCHIVE_EXPANDED_BYTES:
+                            raise PolicyError("archive exceeds expanded size limit")
                         limit = (
-                            256 << 20
+                            MAX_BINARY_BYTES
                             if member.name == binary_name
-                            else 8 << 20
+                            else MAX_MODULE_METADATA_BYTES
                             if member.name == "go-modules.json"
-                            else 64 << 20
+                            else DEFAULT_MAX_BYTES
+                            if member.name in ("SBOM.cdx.json", "LICENSE", "NOTICE")
+                            else MAX_DEPENDENCY_LOCK_BYTES
+                            if member.name == lock.name
+                            else DEFAULT_MAX_BYTES
                         )
                         if member.size < 0 or member.size > limit:
                             if member.name == "go-modules.json":
@@ -443,7 +533,7 @@ def verify(
                                     "archive module metadata exceeds size limit"
                                 )
                             raise PolicyError("archive member exceeds size limit")
-                        if member.name not in (binary_name, "go-modules.json"):
+                        if member.name not in required_archive_names | {"NOTICE"}:
                             continue
                         source = candidate_archive.extractfile(member)
                         if source is None:
@@ -463,14 +553,22 @@ def verify(
                                 raise PolicyError("archive binary size mismatch")
                             binary_found = True
                         else:
-                            archive_metadata_bytes = source.read(limit + 1)
-                            if len(archive_metadata_bytes) != member.size:
+                            value = source.read(limit + 1)
+                            if len(value) != member.size:
                                 raise PolicyError(
-                                    "archive module metadata size mismatch"
+                                    f"archive {member.name} size mismatch"
                                 )
-                            metadata_found = True
+                            if member.name == "go-modules.json":
+                                archive_metadata_bytes = value
+                                metadata_found = True
+                            elif member.name == "SBOM.cdx.json":
+                                archive_sbom_bytes = value
+                            elif member.name == lock.name:
+                                archive_lock_bytes = value
             except (tarfile.TarError, OSError) as exc:
                 raise PolicyError(f"archive is malformed: {exc}") from exc
+            if seen not in (required_archive_names, required_archive_names | {"NOTICE"}):
+                raise PolicyError("archive member set is invalid")
             if not binary_found or not metadata_found or archive_metadata_bytes is None:
                 raise PolicyError("archive binary and module metadata are required")
             if binary_digest.hexdigest() != validate_digest(
@@ -481,6 +579,10 @@ def verify(
                 raise PolicyError("archive module metadata digest mismatch")
             if archive_metadata_bytes != module_metadata_path.read_bytes():
                 raise PolicyError("archive module metadata does not match evidence")
+            if archive_sbom_bytes != sbom_path.read_bytes():
+                raise PolicyError("archive SBOM does not match evidence")
+            if archive_lock_bytes != lock.read_bytes():
+                raise PolicyError("archive dependency lock does not match evidence")
             extracted_binary.chmod(0o755)
             extracted_metadata = read_binary_metadata(extracted_binary)
         if extracted_metadata != module_metadata:
@@ -492,14 +594,13 @@ def verify(
         raise PolicyError(str(exc)) from exc
     if evidence.get("binary_provenance") != binary_provenance:
         raise PolicyError("binary_provenance does not match module metadata")
-    sbom_path = resolve_regular_file(root, evidence.get("sbom_path"), "sbom_path")
-    sbom_digest = require_digest_match(sbom_path, evidence.get("sbom_sha256"), "sbom_sha256")
-    if policy.get("require_dependency_lock_sha256") is not True:
-        raise PolicyError("policy must require dependency lock SHA-256")
-    lock = resolve_regular_file(root, evidence.get("dependency_lock_path"), "dependency_lock_path")
-    require_digest_match(lock, evidence.get("dependency_lock_sha256"), "dependency_lock_sha256")
+    modules = binary_modules(extracted_metadata)
+    expected_module_paths = [module["path"] for module in modules]
+    if evidence.get("expected_components") != expected_module_paths:
+        raise PolicyError("expected components do not match binary metadata")
+    validate_modules_against_lock(modules, lock)
 
-    sbom = load_json(sbom_path, "SBOM", int(policy.get("maximum_evidence_bytes", DEFAULT_MAX_BYTES)))
+    sbom = load_json(sbom_path, "SBOM", maximum_evidence_bytes)
     if sbom.get("bomFormat") != "CycloneDX" or sbom.get("specVersion") != "1.5":
         raise PolicyError("SBOM must be CycloneDX 1.5")
     component = sbom.get("metadata", {}).get("component", {})
@@ -509,11 +610,24 @@ def verify(
     expected_components = evidence.get("expected_components")
     if not isinstance(components, list) or not isinstance(expected_components, list):
         raise PolicyError("component lists are required")
-    actual_names = [item.get("name") for item in components if isinstance(item, dict)]
-    if len(actual_names) != len(components) or len(set(actual_names)) != len(actual_names):
+    if any(
+        not isinstance(item, dict) or not isinstance(item.get("name"), str)
+        for item in components
+    ):
         raise PolicyError("SBOM component names must be unique strings")
-    if policy.get("reject_unexpected_components") is not True or set(actual_names) != set(expected_components):
+    actual_names = [item["name"] for item in components]
+    if len(set(actual_names)) != len(actual_names):
+        raise PolicyError("SBOM component names must be unique strings")
+    if policy.get("reject_unexpected_components") is not True or actual_names != expected_components:
         raise PolicyError("SBOM component set does not match expected components")
+    by_path = {module["path"]: module for module in modules}
+    for component_entry in components:
+        module = by_path[component_entry["name"]]
+        if component_entry.get("version") != module["version"]:
+            raise PolicyError("SBOM component version does not match binary metadata")
+        properties = component_entry.get("properties")
+        if properties != [{"name": "ao:go-module-sum", "value": module["sum"]}]:
+            raise PolicyError("SBOM component sum does not match binary metadata")
     if policy.get("require_deterministic_regeneration") is not True or evidence.get("deterministic_regeneration") is not True:
         raise PolicyError("deterministic regeneration is required")
     regeneration = validate_digest(evidence.get("regeneration_sha256"), "regeneration_sha256")
@@ -555,7 +669,12 @@ def main() -> int:
         if not args.expected_source_sha or not args.expected_version or not args.expected_target:
             raise PolicyError("exact source, version, and target bindings are required")
         workspace_root = args.workspace_root.resolve(strict=True)
-        evidence_candidate = args.evidence.resolve(strict=True)
+        evidence_input = (
+            args.evidence
+            if args.evidence.is_absolute()
+            else Path(os.path.abspath(args.evidence))
+        )
+        evidence_candidate = evidence_input.parent.resolve(strict=True) / evidence_input.name
         try:
             evidence_relative = evidence_candidate.relative_to(workspace_root)
         except ValueError as exc:

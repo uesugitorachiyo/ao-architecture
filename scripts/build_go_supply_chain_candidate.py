@@ -188,8 +188,8 @@ def validate_modules_against_lock(modules: list[dict[str, str]], lock_bytes: byt
     except UnicodeDecodeError as exc:
         raise CandidateError("dependency lock must be UTF-8") from exc
     for module in modules:
-        prefix = f"{module['path']} {module['version']}"
-        if not any(line.startswith(prefix + " ") or line.startswith(prefix + "/go.mod ") for line in lock_lines):
+        expected = f"{module['path']} {module['version']} {module['sum']}"
+        if expected not in lock_lines:
             raise CandidateError(f"module is absent from dependency lock: {module['path']}")
 
 

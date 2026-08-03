@@ -298,6 +298,13 @@ class BuildGoSupplyChainCandidateTests(unittest.TestCase):
         with self.assertRaisesRegex(CandidateError, "module is absent from dependency lock"):
             validate_modules_against_lock(modules, b"")
 
+    def test_rejects_module_with_wrong_dependency_lock_sum(self) -> None:
+        modules = [{"path": "example.com/alpha", "version": "v1.2.3", "sum": "h1:alpha"}]
+        with self.assertRaisesRegex(CandidateError, "module is absent from dependency lock"):
+            validate_modules_against_lock(
+                modules, b"example.com/alpha v1.2.3 h1:altered\n"
+            )
+
     def test_rejects_module_replacement(self) -> None:
         metadata = binary_metadata(
             revision=self.source_sha,

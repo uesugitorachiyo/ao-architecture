@@ -1,4 +1,5 @@
 import hashlib
+import io
 import json
 import os
 import shutil
@@ -9,6 +10,11 @@ import tempfile
 import unittest
 from pathlib import Path
 from typing import Optional
+
+from scripts.verify_supply_chain_policy import (
+    PolicyError,
+    validate_modules_against_lock,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -79,11 +85,12 @@ class SupplyChainPolicyTests(unittest.TestCase):
             check=True,
         )
         self.module_metadata.write_text(metadata.stdout, encoding="utf-8")
-        self.write_archive()
-        self.lock = self.root / "dependencies.lock"
-        self.lock.write_text("alpha=1.0.0\nbeta=2.0.0\n", encoding="utf-8")
+        self.lock = self.root / "go.mod"
+        self.license = self.root / "LICENSE"
+        self.license.write_text("Test license\n", encoding="utf-8")
         self.sbom = self.root / "SBOM.cdx.json"
-        self.write_sbom(["alpha", "beta"])
+        self.write_sbom([])
+        self.write_archive()
         self.inventory = self.root / "inventory.json"
         self.policy = self.root / "policy.json"
         self.evidence = self.root / "evidence.json"
@@ -97,10 +104,17 @@ class SupplyChainPolicyTests(unittest.TestCase):
     def write_json(self, path: Path, value: object) -> None:
         path.write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
 
-    def write_archive(self) -> None:
+    def write_archive(self, extra_members: Optional[dict[str, bytes]] = None) -> None:
         with tarfile.open(self.archive, "w:gz") as archive:
             archive.add(self.binary, arcname="ao-demo")
             archive.add(self.module_metadata, arcname="go-modules.json")
+            archive.add(self.sbom, arcname="SBOM.cdx.json")
+            archive.add(self.lock, arcname="go.mod")
+            archive.add(self.license, arcname="LICENSE")
+            for name, value in (extra_members or {}).items():
+                info = tarfile.TarInfo(name)
+                info.size = len(value)
+                archive.addfile(info, io.BytesIO(value))
 
     def write_sbom(self, components: list[str]) -> None:
         self.write_json(
@@ -210,7 +224,7 @@ class SupplyChainPolicyTests(unittest.TestCase):
             "sbom_sha256": sha256(self.sbom),
             "dependency_lock_path": self.lock.name,
             "dependency_lock_sha256": sha256(self.lock),
-            "expected_components": ["alpha", "beta"],
+            "expected_components": [],
             "generator": {"name": "ao-test-generator", "version": "1.0.0"},
             "generated_at_utc": "2026-08-03T15:30:00Z",
             "regeneration_sha256": sha256(self.sbom),
@@ -401,6 +415,38 @@ class SupplyChainPolicyTests(unittest.TestCase):
         self.write_evidence(archive_sha256=sha256(self.archive))
         self.assert_rejected("archive module metadata exceeds size limit")
 
+    def test_archive_rejects_unexpected_payload(self) -> None:
+        self.write_archive({"unexpected.txt": b"surprise\n"})
+        self.write_evidence(archive_sha256=sha256(self.archive))
+        self.assert_rejected("archive member set is invalid")
+
+    def test_archive_sbom_must_match_downloaded_sbom(self) -> None:
+        original = self.sbom.read_bytes()
+        self.sbom.write_bytes(original.replace(b'"version": 1', b'"version": 2'))
+        self.write_archive()
+        self.sbom.write_bytes(original)
+        self.write_evidence(archive_sha256=sha256(self.archive))
+        self.assert_rejected("archive SBOM does not match evidence")
+
+    def test_dependency_lock_must_bind_binary_modules(self) -> None:
+        lock = self.root / "go.sum"
+        lock.write_text(
+            "example.com/required v1.2.3 h1:altered\n", encoding="utf-8"
+        )
+        with self.assertRaisesRegex(
+            PolicyError, "binary module is absent from dependency lock"
+        ):
+            validate_modules_against_lock(
+                [
+                    {
+                        "path": "example.com/required",
+                        "version": "v1.2.3",
+                        "sum": "h1:required",
+                    }
+                ],
+                lock,
+            )
+
     def test_binary_provenance_summary_mismatch_is_rejected(self) -> None:
         provenance = {
             "goarch": "amd64",
@@ -525,8 +571,24 @@ class SupplyChainPolicyTests(unittest.TestCase):
         self.write_evidence(sbom_sha256=sha256(target))
         self.assert_rejected("regular file")
 
+    def test_symlinked_evidence_document_is_rejected(self) -> None:
+        target = self.root / "actual-evidence.json"
+        self.evidence.replace(target)
+        try:
+            os.symlink(target, self.evidence)
+        except (OSError, NotImplementedError):
+            self.skipTest("symlink creation unavailable")
+        result = self.run_verifier()
+        self.assertNotEqual(result.returncode, 0, result.stdout)
+        self.assertIn("evidence must reference a regular file", result.stderr)
+
+    def test_expected_components_must_match_binary_metadata(self) -> None:
+        self.write_evidence(expected_components=["invented.example/module"])
+        self.assert_rejected("expected components do not match binary metadata")
+
     def test_unexpected_components_are_rejected(self) -> None:
-        self.write_sbom(["alpha", "beta", "surprise"])
+        self.write_sbom(["surprise"])
+        self.write_archive()
         self.write_evidence(sbom_sha256=sha256(self.sbom), regeneration_sha256=sha256(self.sbom))
         self.assert_rejected("component set does not match")
 
