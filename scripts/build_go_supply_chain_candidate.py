@@ -126,6 +126,20 @@ def parse_module_stream(path: Path) -> tuple[str, list[dict[str, str]]]:
         values.append(value)
     if not values:
         raise CandidateError("module JSON is empty")
+    if len(values) == 1 and isinstance(values[0].get("Main"), dict):
+        build_info = values[0]
+        main_info = build_info["Main"]
+        dependencies = build_info.get("Deps", [])
+        if (
+            not isinstance(build_info.get("GoVersion"), str)
+            or not isinstance(build_info.get("Path"), str)
+            or not isinstance(main_info.get("Path"), str)
+            or not isinstance(dependencies, list)
+        ):
+            raise CandidateError("binary module metadata is incomplete")
+        if not all(isinstance(dependency, dict) for dependency in dependencies):
+            raise CandidateError("binary module dependencies must be objects")
+        values = [{"Path": main_info["Path"], "Main": True}, *dependencies]
     main = [value for value in values if value.get("Main") is True]
     if len(main) != 1 or not isinstance(main[0].get("Path"), str):
         raise CandidateError("module JSON must contain one main module")
@@ -144,8 +158,9 @@ def parse_module_stream(path: Path) -> tuple[str, list[dict[str, str]]]:
             raise CandidateError(f"duplicate module path: {module_path}")
         seen.add(module_path)
         component = {"path": module_path, "version": version}
-        if isinstance(value.get("Sum"), str) and value["Sum"]:
-            component["sum"] = value["Sum"]
+        if not isinstance(value.get("Sum"), str) or not value["Sum"]:
+            raise CandidateError(f"dependency module sum is required: {module_path}")
+        component["sum"] = value["Sum"]
         components.append(component)
     components.sort(key=lambda item: (item["path"], item["version"]))
     return main[0]["Path"], components

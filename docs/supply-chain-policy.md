@@ -30,10 +30,11 @@ pin a moving candidate identity.
 
 Go producers may build deterministic candidate archives and evidence with
 `scripts/build_go_supply_chain_candidate.py`. The tool consumes an already
-built binary, `go list -m -json all` output, an exact dependency input, and a
-required root `LICENSE`; `NOTICE` is packaged when the producer owns one. It
-rejects unbound module replacements and dependencies absent from the lockfile;
-producer workflows remain responsible for compiling and testing their binary.
+built binary, `go version -m -json` metadata from that binary, an exact
+dependency input, and a required root `LICENSE`; `NOTICE` is packaged when the
+producer owns one. It rejects unbound module replacements, unsummed modules,
+and dependencies absent from the lockfile. Producer workflows remain
+responsible for compiling and testing their binary.
 
 This policy and its readbacks do not authorize release, publication,
 deployment, provider calls, credential use, or repository mutation.
