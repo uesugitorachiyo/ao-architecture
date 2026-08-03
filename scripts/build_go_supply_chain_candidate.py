@@ -239,7 +239,7 @@ def run(args: argparse.Namespace) -> None:
     module_json = resolve_regular(root, args.module_json, "module JSON")
     dependency_lock = resolve_regular(root, args.dependency_lock, "dependency lock")
     license_file = resolve_regular(root, args.license, "license")
-    notice_file = resolve_regular(root, args.notice, "notice")
+    notice_file = resolve_regular(root, args.notice, "notice") if args.notice else None
     output = resolve_output(root, args.out)
 
     lock_bytes = dependency_lock.read_bytes()
@@ -252,11 +252,12 @@ def run(args: argparse.Namespace) -> None:
         raise CandidateError("SBOM regeneration is not deterministic")
     archive_entries = [
         ("LICENSE", license_file.read_bytes(), 0o644),
-        ("NOTICE", notice_file.read_bytes(), 0o644),
         ("SBOM.cdx.json", sbom, 0o644),
         (binary.name, binary.read_bytes(), 0o755),
         (dependency_lock.name, lock_bytes, 0o644),
     ]
+    if notice_file is not None:
+        archive_entries.append(("NOTICE", notice_file.read_bytes(), 0o644))
     archive = build_archive(archive_entries)
     archive_path = output / args.archive_name
     sbom_path = output / "SBOM.cdx.json"
@@ -305,7 +306,7 @@ def main() -> int:
     parser.add_argument("--module-json", required=True)
     parser.add_argument("--dependency-lock", required=True)
     parser.add_argument("--license", required=True)
-    parser.add_argument("--notice", required=True)
+    parser.add_argument("--notice")
     parser.add_argument("--archive-name", required=True)
     parser.add_argument("--generated-at-utc", required=True)
     parser.add_argument("--out", required=True)
