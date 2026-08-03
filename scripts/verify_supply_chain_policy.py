@@ -12,6 +12,7 @@ import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
+from urllib.parse import quote
 
 try:
     from scripts.go_binary_provenance import (
@@ -217,6 +218,79 @@ def validate_modules_against_lock(
             raise PolicyError(
                 f"binary module is absent from dependency lock: {module['path']}"
             )
+
+
+def validate_sbom_identity(
+    sbom: dict[str, Any],
+    repository: str,
+    version: str,
+    metadata: dict[str, Any],
+    modules: list[dict[str, str]],
+    expected_components: Any,
+    generator: dict[str, Any],
+) -> None:
+    main = metadata.get("Main")
+    if not isinstance(main, dict) or not isinstance(main.get("Path"), str):
+        raise PolicyError("binary main module metadata is invalid")
+    main_purl = (
+        f"pkg:golang/{quote(main['Path'], safe='/')}@{quote(version, safe='')}"
+    )
+    component = sbom.get("metadata", {}).get("component", {})
+    expected_main = {
+        "bom-ref": main_purl,
+        "name": repository,
+        "purl": main_purl,
+        "type": "application",
+        "version": version,
+    }
+    if not isinstance(component, dict) or any(
+        component.get(key) != value for key, value in expected_main.items()
+    ):
+        raise PolicyError("SBOM application identity does not match binary metadata")
+    tools = sbom.get("metadata", {}).get("tools", {}).get("components")
+    expected_tool = {
+        "name": generator["name"],
+        "type": "application",
+        "version": generator["version"],
+    }
+    if tools != [expected_tool]:
+        raise PolicyError("SBOM generator identity does not match evidence")
+
+    components = sbom.get("components")
+    if not isinstance(components, list):
+        raise PolicyError("component lists are required")
+    if any(
+        not isinstance(item, dict) or not isinstance(item.get("name"), str)
+        for item in components
+    ):
+        raise PolicyError("SBOM component names must be unique strings")
+    actual_names = [item["name"] for item in components]
+    if len(set(actual_names)) != len(actual_names):
+        raise PolicyError("SBOM component names must be unique strings")
+    if actual_names != expected_components:
+        raise PolicyError("SBOM component set does not match expected components")
+    by_path = {module["path"]: module for module in modules}
+    for component_entry in components:
+        module = by_path[component_entry["name"]]
+        module_purl = (
+            f"pkg:golang/{quote(module['path'], safe='/')}@"
+            f"{quote(module['version'], safe='')}"
+        )
+        expected_identity = {
+            "bom-ref": module_purl,
+            "name": module["path"],
+            "purl": module_purl,
+            "type": "library",
+            "version": module["version"],
+        }
+        if any(
+            component_entry.get(key) != value
+            for key, value in expected_identity.items()
+        ):
+            raise PolicyError("SBOM component identity does not match binary metadata")
+        properties = component_entry.get("properties")
+        if properties != [{"name": "ao:go-module-sum", "value": module["sum"]}]:
+            raise PolicyError("SBOM component sum does not match binary metadata")
 
 
 def validate_contract_headers(inventory: dict[str, Any], policy: dict[str, Any]) -> list[str]:
@@ -603,31 +677,20 @@ def verify(
     sbom = load_json(sbom_path, "SBOM", maximum_evidence_bytes)
     if sbom.get("bomFormat") != "CycloneDX" or sbom.get("specVersion") != "1.5":
         raise PolicyError("SBOM must be CycloneDX 1.5")
-    component = sbom.get("metadata", {}).get("component", {})
-    if component.get("name") != evidence.get("repository") or component.get("version") != evidence.get("version"):
-        raise PolicyError("SBOM component identity mismatch")
-    components = sbom.get("components")
     expected_components = evidence.get("expected_components")
-    if not isinstance(components, list) or not isinstance(expected_components, list):
+    if not isinstance(expected_components, list):
         raise PolicyError("component lists are required")
-    if any(
-        not isinstance(item, dict) or not isinstance(item.get("name"), str)
-        for item in components
-    ):
-        raise PolicyError("SBOM component names must be unique strings")
-    actual_names = [item["name"] for item in components]
-    if len(set(actual_names)) != len(actual_names):
-        raise PolicyError("SBOM component names must be unique strings")
-    if policy.get("reject_unexpected_components") is not True or actual_names != expected_components:
-        raise PolicyError("SBOM component set does not match expected components")
-    by_path = {module["path"]: module for module in modules}
-    for component_entry in components:
-        module = by_path[component_entry["name"]]
-        if component_entry.get("version") != module["version"]:
-            raise PolicyError("SBOM component version does not match binary metadata")
-        properties = component_entry.get("properties")
-        if properties != [{"name": "ao:go-module-sum", "value": module["sum"]}]:
-            raise PolicyError("SBOM component sum does not match binary metadata")
+    if policy.get("reject_unexpected_components") is not True:
+        raise PolicyError("unexpected SBOM components must be rejected")
+    validate_sbom_identity(
+        sbom,
+        evidence["repository"],
+        evidence["version"],
+        extracted_metadata,
+        modules,
+        expected_components,
+        generator,
+    )
     if policy.get("require_deterministic_regeneration") is not True or evidence.get("deterministic_regeneration") is not True:
         raise PolicyError("deterministic regeneration is required")
     regeneration = validate_digest(evidence.get("regeneration_sha256"), "regeneration_sha256")

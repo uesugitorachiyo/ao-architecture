@@ -14,6 +14,7 @@ from typing import Optional
 from scripts.verify_supply_chain_policy import (
     PolicyError,
     validate_modules_against_lock,
+    validate_sbom_identity,
 )
 
 
@@ -125,10 +126,21 @@ class SupplyChainPolicyTests(unittest.TestCase):
                 "version": 1,
                 "metadata": {
                     "component": {
+                        "bom-ref": "pkg:golang/example.com/ao-demo@1.2.3",
                         "type": "application",
                         "name": "ao-demo",
+                        "purl": "pkg:golang/example.com/ao-demo@1.2.3",
                         "version": "1.2.3",
-                    }
+                    },
+                    "tools": {
+                        "components": [
+                            {
+                                "name": "ao-test-generator",
+                                "type": "application",
+                                "version": "1.0.0",
+                            }
+                        ]
+                    },
                 },
                 "components": [
                     {"type": "library", "name": name, "version": "1.0.0"}
@@ -447,6 +459,51 @@ class SupplyChainPolicyTests(unittest.TestCase):
                 lock,
             )
 
+    def test_sbom_dependency_purl_must_match_binary_metadata(self) -> None:
+        module = {
+            "path": "example.com/required",
+            "version": "v1.2.3",
+            "sum": "h1:required",
+        }
+        generator = {"name": "ao-test-generator", "version": "1.0.0"}
+        main_purl = "pkg:golang/example.com/ao-demo@1.2.3"
+        sbom = {
+            "metadata": {
+                "component": {
+                    "bom-ref": main_purl,
+                    "name": "ao-demo",
+                    "purl": main_purl,
+                    "type": "application",
+                    "version": "1.2.3",
+                },
+                "tools": {"components": [{"type": "application", **generator}]},
+            },
+            "components": [
+                {
+                    "bom-ref": "pkg:golang/example.com/required@v1.2.3",
+                    "name": module["path"],
+                    "purl": "pkg:golang/example.com/other@v1.2.3",
+                    "properties": [
+                        {"name": "ao:go-module-sum", "value": module["sum"]}
+                    ],
+                    "type": "library",
+                    "version": module["version"],
+                }
+            ],
+        }
+        with self.assertRaisesRegex(
+            PolicyError, "SBOM component identity does not match binary metadata"
+        ):
+            validate_sbom_identity(
+                sbom,
+                "ao-demo",
+                "1.2.3",
+                {"Main": {"Path": "example.com/ao-demo"}},
+                [module],
+                [module["path"]],
+                generator,
+            )
+
     def test_binary_provenance_summary_mismatch_is_rejected(self) -> None:
         provenance = {
             "goarch": "amd64",
@@ -585,6 +642,24 @@ class SupplyChainPolicyTests(unittest.TestCase):
     def test_expected_components_must_match_binary_metadata(self) -> None:
         self.write_evidence(expected_components=["invented.example/module"])
         self.assert_rejected("expected components do not match binary metadata")
+
+    def test_sbom_application_purl_must_match_binary_metadata(self) -> None:
+        sbom = json.loads(self.sbom.read_text(encoding="utf-8"))
+        sbom["metadata"]["component"]["purl"] = "pkg:golang/example.com/other@1.2.3"
+        self.write_json(self.sbom, sbom)
+        self.write_archive()
+        digest = sha256(self.sbom)
+        self.write_evidence(sbom_sha256=digest, regeneration_sha256=digest)
+        self.assert_rejected("SBOM application identity does not match binary metadata")
+
+    def test_sbom_generator_must_match_evidence(self) -> None:
+        sbom = json.loads(self.sbom.read_text(encoding="utf-8"))
+        sbom["metadata"]["tools"]["components"][0]["version"] = "9.9.9"
+        self.write_json(self.sbom, sbom)
+        self.write_archive()
+        digest = sha256(self.sbom)
+        self.write_evidence(sbom_sha256=digest, regeneration_sha256=digest)
+        self.assert_rejected("SBOM generator identity does not match evidence")
 
     def test_unexpected_components_are_rejected(self) -> None:
         self.write_sbom(["surprise"])
