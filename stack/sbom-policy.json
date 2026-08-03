@@ -1,0 +1,38 @@
+{
+  "schema": "ao.architecture.sbom-policy.v1",
+  "status": "active",
+  "policy_version": 1,
+  "format": "CycloneDX",
+  "spec_version": "1.5",
+  "required_for_classes": [
+    "archive",
+    "container",
+    "public_release"
+  ],
+  "maximum_evidence_bytes": 1048576,
+  "freshness_window_seconds": 86400,
+  "require_archive_sha256": true,
+  "require_dependency_lock_sha256": true,
+  "require_deterministic_regeneration": true,
+  "reject_unexpected_components": true,
+  "required_bindings": [
+    "repository",
+    "source_sha",
+    "version",
+    "target",
+    "archive_sha256",
+    "sbom_sha256",
+    "generator_name",
+    "generator_version",
+    "dependency_lock_sha256",
+    "generated_at_utc",
+    "regeneration_sha256"
+  ],
+  "path_policy": {
+    "workspace_relative": true,
+    "regular_files_only": true,
+    "symlinks_allowed": false,
+    "parent_traversal_allowed": false
+  },
+  "release_or_publication_authorized": false
+}
