@@ -170,8 +170,10 @@ class SupplyChainPolicyTests(unittest.TestCase):
                     "archive_sha256",
                     "binary_name",
                     "binary_sha256",
+                    "cryptographic_source_attestation",
                     "module_metadata_sha256",
                     "binary_provenance",
+                    "provenance_strength",
                     "sbom_sha256",
                     "generator_name",
                     "generator_version",
@@ -185,7 +187,7 @@ class SupplyChainPolicyTests(unittest.TestCase):
 
     def write_evidence(self, **overrides: object) -> None:
         value = {
-            "schema": "ao.supply-chain.sbom-evidence.v1",
+            "schema": "ao.supply-chain.sbom-evidence.v2",
             "repository": "ao-demo",
             "source_sha": self.source_sha,
             "version": "1.2.3",
@@ -194,6 +196,7 @@ class SupplyChainPolicyTests(unittest.TestCase):
             "archive_sha256": sha256(self.archive),
             "binary_name": self.binary.name,
             "binary_sha256": sha256(self.binary),
+            "cryptographic_source_attestation": False,
             "binary_provenance": {
                 "goarch": "amd64",
                 "goos": "linux",
@@ -213,6 +216,7 @@ class SupplyChainPolicyTests(unittest.TestCase):
             "regeneration_sha256": sha256(self.sbom),
             "deterministic_regeneration": True,
             "publication_attempted": False,
+            "provenance_strength": "embedded_build_metadata",
         }
         value.update(overrides)
         self.write_json(self.evidence, value)
@@ -276,6 +280,18 @@ class SupplyChainPolicyTests(unittest.TestCase):
         )
         self.assertNotEqual(result.returncode, 0, result.stdout)
         self.assertIn("exact source, version, and target bindings are required", result.stderr)
+
+    def test_v1_evidence_is_rejected(self) -> None:
+        self.write_evidence(schema="ao.supply-chain.sbom-evidence.v1")
+        self.assert_rejected("evidence schema mismatch")
+
+    def test_cryptographic_attestation_must_not_be_claimed(self) -> None:
+        self.write_evidence(cryptographic_source_attestation=True)
+        self.assert_rejected("cryptographic_source_attestation must be false")
+
+    def test_provenance_strength_must_be_scoped(self) -> None:
+        self.write_evidence(provenance_strength="cryptographic")
+        self.assert_rejected("provenance_strength mismatch")
 
     def test_binary_digest_mismatch_is_rejected(self) -> None:
         self.write_evidence(binary_sha256="f" * 64)
@@ -366,6 +382,24 @@ class SupplyChainPolicyTests(unittest.TestCase):
             check=False,
         )
         self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_archive_member_count_is_bounded_early(self) -> None:
+        with tarfile.open(self.archive, "w:gz") as archive:
+            for index in range(17):
+                path = self.root / f"member-{index}"
+                path.write_bytes(b"x")
+                archive.add(path, arcname=path.name)
+        self.write_evidence(archive_sha256=sha256(self.archive))
+        self.assert_rejected("archive member count exceeds limit")
+
+    def test_archive_module_metadata_size_is_bounded(self) -> None:
+        oversized = self.root / "oversized-metadata"
+        oversized.write_bytes(b"x" * ((8 << 20) + 1))
+        with tarfile.open(self.archive, "w:gz") as archive:
+            archive.add(self.binary, arcname="ao-demo")
+            archive.add(oversized, arcname="go-modules.json")
+        self.write_evidence(archive_sha256=sha256(self.archive))
+        self.assert_rejected("archive module metadata exceeds size limit")
 
     def test_binary_provenance_summary_mismatch_is_rejected(self) -> None:
         provenance = {
@@ -470,7 +504,7 @@ class SupplyChainPolicyTests(unittest.TestCase):
 
     def test_duplicate_json_keys_are_rejected(self) -> None:
         self.evidence.write_text(
-            '{"schema":"ao.supply-chain.sbom-evidence.v1",'
+            '{"schema":"ao.supply-chain.sbom-evidence.v2",'
             '"repository":"ao-demo","repository":"other"}\n',
             encoding="utf-8",
         )

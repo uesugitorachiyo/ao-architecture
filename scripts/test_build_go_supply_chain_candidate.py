@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import shutil
 import subprocess
 import sys
 import tarfile
@@ -194,9 +195,12 @@ class BuildGoSupplyChainCandidateTests(unittest.TestCase):
         )
         self.assertEqual(evidence["source_sha"], self.source_sha)
         self.assertEqual(evidence["target"], "linux-x86_64")
-        self.assertEqual(evidence["generator"]["version"], "1.1.0")
+        self.assertEqual(evidence["generator"]["version"], "1.2.0")
         self.assertEqual(evidence["binary_provenance"]["vcs_revision"], self.source_sha)
         self.assertFalse(evidence["binary_provenance"]["vcs_modified"])
+        self.assertEqual(evidence["schema"], "ao.supply-chain.sbom-evidence.v2")
+        self.assertEqual(evidence["provenance_strength"], "embedded_build_metadata")
+        self.assertFalse(evidence["cryptographic_source_attestation"])
         self.assertEqual(evidence["archive_sha256"], sha256(one / archive_name))
         self.assertEqual(evidence["sbom_sha256"], sha256(one / "SBOM.cdx.json"))
         self.assertEqual(evidence["regeneration_sha256"], evidence["sbom_sha256"])
@@ -209,6 +213,55 @@ class BuildGoSupplyChainCandidateTests(unittest.TestCase):
                 ["LICENSE", "NOTICE", "SBOM.cdx.json", "ao-demo", "go-modules.json", "go.mod"],
             )
             self.assertTrue(all(member.mtime == 0 for member in archive.getmembers()))
+
+    def test_builder_output_is_relocatable(self) -> None:
+        result = self.run_builder()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        inventory = json.loads(
+            (ROOT / "stack" / "distributable-inventory.json").read_text(encoding="utf-8")
+        )
+        inventory["repositories"].append(
+            {
+                "repository": "ao-demo",
+                "distributable_classes": ["executable", "archive"],
+                "sbom_policy_applicable": True,
+                "supported_targets": ["linux-x86_64"],
+            }
+        )
+        with tempfile.TemporaryDirectory() as download_temp:
+            download = Path(download_temp)
+            bundle = download / "bundle"
+            shutil.copytree(self.workspace / "dist" / "one", bundle)
+            inventory_path = download / "inventory.json"
+            inventory_path.write_text(
+                json.dumps(inventory) + "\n", encoding="utf-8"
+            )
+            verify = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "scripts" / "verify_supply_chain_policy.py"),
+                    "--inventory",
+                    str(inventory_path),
+                    "--policy",
+                    str(ROOT / "stack" / "sbom-policy.json"),
+                    "--evidence",
+                    str(bundle / "supply-chain-evidence.json"),
+                    "--workspace-root",
+                    str(bundle),
+                    "--expected-source-sha",
+                    self.source_sha,
+                    "--expected-version",
+                    f"0.0.0+git.{self.source_sha[:12]}",
+                    "--expected-target",
+                    "linux-x86_64",
+                    "--now",
+                    "2026-08-03T16:00:00Z",
+                ],
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+            self.assertEqual(verify.returncode, 0, verify.stderr)
 
     def test_evidence_paths_are_portable_across_windows_and_posix(self) -> None:
         self.assertEqual(
@@ -266,7 +319,7 @@ class BuildGoSupplyChainCandidateTests(unittest.TestCase):
         evidence = json.loads(
             (output / "supply-chain-evidence.json").read_text(encoding="utf-8")
         )
-        self.assertEqual(evidence["dependency_lock_path"], "dist/one/go.mod")
+        self.assertEqual(evidence["dependency_lock_path"], "go.mod")
         with tarfile.open(output / evidence["archive_path"].split("/")[-1], "r:gz") as archive:
             self.assertIn("go.mod", archive.getnames())
 

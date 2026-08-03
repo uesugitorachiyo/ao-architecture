@@ -52,8 +52,10 @@ REQUIRED_BINDINGS = [
     "archive_sha256",
     "binary_name",
     "binary_sha256",
+    "cryptographic_source_attestation",
     "module_metadata_sha256",
     "binary_provenance",
+    "provenance_strength",
     "sbom_sha256",
     "generator_name",
     "generator_version",
@@ -332,8 +334,10 @@ def verify(
             "binary_name",
             "binary_sha256",
             "binary_provenance",
+            "cryptographic_source_attestation",
             "module_metadata_path",
             "module_metadata_sha256",
+            "provenance_strength",
             "sbom_path",
             "sbom_sha256",
             "dependency_lock_path",
@@ -347,7 +351,7 @@ def verify(
         ),
         "evidence",
     )
-    if evidence.get("schema") != "ao.supply-chain.sbom-evidence.v1":
+    if evidence.get("schema") != "ao.supply-chain.sbom-evidence.v2":
         raise PolicyError("evidence schema mismatch")
     entry = repository_entry(inventory, evidence.get("repository"))
     required_classes = policy.get("required_for_classes")
@@ -375,6 +379,10 @@ def verify(
         raise PolicyError("target is not supported by inventory")
     if evidence.get("publication_attempted") is not False:
         raise PolicyError("publication_attempted must be false")
+    if evidence.get("cryptographic_source_attestation") is not False:
+        raise PolicyError("cryptographic_source_attestation must be false")
+    if evidence.get("provenance_strength") != "embedded_build_metadata":
+        raise PolicyError("provenance_strength mismatch")
     generator = evidence.get("generator")
     if not isinstance(generator, dict) or not generator.get("name") or not generator.get("version"):
         raise PolicyError("generator name and version are required")
@@ -403,41 +411,76 @@ def verify(
     )
     module_metadata = load_json(module_metadata_path, "module metadata", 8 << 20)
     try:
-        with tarfile.open(archive, "r:gz") as candidate_archive:
-            members = candidate_archive.getmembers()
-            names = [member.name for member in members]
-            if len(members) > 16 or len(names) != len(set(names)):
-                raise PolicyError("archive member set is invalid")
-            if any(
-                not member.isfile()
-                or Path(member.name).name != member.name
-                or member.size < 0
-                or member.size > (512 << 20)
-                for member in members
-            ):
-                raise PolicyError("archive members must be bounded regular basenames")
-            if binary_name not in names or "go-modules.json" not in names:
-                raise PolicyError("archive binary and module metadata are required")
-            binary_stream = candidate_archive.extractfile(binary_name)
-            metadata_stream = candidate_archive.extractfile("go-modules.json")
-            if binary_stream is None or metadata_stream is None:
-                raise PolicyError("archive binary and module metadata are required")
-            binary_bytes = binary_stream.read()
-            archive_metadata_bytes = metadata_stream.read()
-    except (tarfile.TarError, OSError) as exc:
-        raise PolicyError(f"archive is malformed: {exc}") from exc
-    if hashlib.sha256(binary_bytes).hexdigest() != validate_digest(
-        evidence.get("binary_sha256"), "binary_sha256"
-    ):
-        raise PolicyError("binary_sha256 mismatch")
-    if hashlib.sha256(archive_metadata_bytes).hexdigest() != module_metadata_digest:
-        raise PolicyError("archive module metadata digest mismatch")
-    if archive_metadata_bytes != module_metadata_path.read_bytes():
-        raise PolicyError("archive module metadata does not match evidence")
-    try:
         with tempfile.TemporaryDirectory() as temporary:
             extracted_binary = Path(temporary) / binary_name
-            extracted_binary.write_bytes(binary_bytes)
+            binary_digest = hashlib.sha256()
+            archive_metadata_bytes: bytes | None = None
+            binary_found = False
+            metadata_found = False
+            seen: set[str] = set()
+            try:
+                with tarfile.open(archive, "r:gz") as candidate_archive:
+                    for count, member in enumerate(candidate_archive, start=1):
+                        if count > 16:
+                            raise PolicyError("archive member count exceeds limit")
+                        if member.name in seen:
+                            raise PolicyError("archive member names must be unique")
+                        seen.add(member.name)
+                        if not member.isfile() or Path(member.name).name != member.name:
+                            raise PolicyError(
+                                "archive members must be regular basenames"
+                            )
+                        limit = (
+                            256 << 20
+                            if member.name == binary_name
+                            else 8 << 20
+                            if member.name == "go-modules.json"
+                            else 64 << 20
+                        )
+                        if member.size < 0 or member.size > limit:
+                            if member.name == "go-modules.json":
+                                raise PolicyError(
+                                    "archive module metadata exceeds size limit"
+                                )
+                            raise PolicyError("archive member exceeds size limit")
+                        if member.name not in (binary_name, "go-modules.json"):
+                            continue
+                        source = candidate_archive.extractfile(member)
+                        if source is None:
+                            raise PolicyError("archive member cannot be read")
+                        if member.name == binary_name:
+                            with extracted_binary.open("wb") as destination:
+                                total = 0
+                                for chunk in iter(lambda: source.read(1024 * 1024), b""):
+                                    total += len(chunk)
+                                    if total > limit:
+                                        raise PolicyError(
+                                            "archive member exceeds size limit"
+                                        )
+                                    binary_digest.update(chunk)
+                                    destination.write(chunk)
+                            if total != member.size:
+                                raise PolicyError("archive binary size mismatch")
+                            binary_found = True
+                        else:
+                            archive_metadata_bytes = source.read(limit + 1)
+                            if len(archive_metadata_bytes) != member.size:
+                                raise PolicyError(
+                                    "archive module metadata size mismatch"
+                                )
+                            metadata_found = True
+            except (tarfile.TarError, OSError) as exc:
+                raise PolicyError(f"archive is malformed: {exc}") from exc
+            if not binary_found or not metadata_found or archive_metadata_bytes is None:
+                raise PolicyError("archive binary and module metadata are required")
+            if binary_digest.hexdigest() != validate_digest(
+                evidence.get("binary_sha256"), "binary_sha256"
+            ):
+                raise PolicyError("binary_sha256 mismatch")
+            if hashlib.sha256(archive_metadata_bytes).hexdigest() != module_metadata_digest:
+                raise PolicyError("archive module metadata digest mismatch")
+            if archive_metadata_bytes != module_metadata_path.read_bytes():
+                raise PolicyError("archive module metadata does not match evidence")
             extracted_binary.chmod(0o755)
             extracted_metadata = read_binary_metadata(extracted_binary)
         if extracted_metadata != module_metadata:
@@ -511,12 +554,21 @@ def main() -> int:
             raise PolicyError("--evidence, --workspace-root, and --now are required for evidence verification")
         if not args.expected_source_sha or not args.expected_version or not args.expected_target:
             raise PolicyError("exact source, version, and target bindings are required")
-        evidence = load_json(args.evidence, "evidence", policy_limit)
+        workspace_root = args.workspace_root.resolve(strict=True)
+        evidence_candidate = args.evidence.resolve(strict=True)
+        try:
+            evidence_relative = evidence_candidate.relative_to(workspace_root)
+        except ValueError as exc:
+            raise PolicyError("evidence must be inside workspace root") from exc
+        evidence_path = resolve_regular_file(
+            workspace_root, str(evidence_relative), "evidence"
+        )
+        evidence = load_json(evidence_path, "evidence", policy_limit)
         verify(
             inventory,
             policy,
             evidence,
-            args.workspace_root,
+            evidence_path.parent,
             parse_utc(args.now, "now"),
             args.expected_source_sha,
             args.expected_version,

@@ -10,12 +10,24 @@ Candidate evidence is bound to the exact repository, source SHA, version,
 target, compiled-binary SHA-256, Go build-metadata SHA-256, clean Git revision,
 archive SHA-256, SBOM SHA-256, generator name and version, dependency lock
 SHA-256, completion timestamp, and deterministic regeneration digest.
+Version 2 evidence, emitted by generator version 1.2.0, is a self-contained
+download bundle: artifact paths are regular basenames resolved relative to the
+evidence file, so independent verification does not depend on the producer
+workspace layout.
 The verifier rejects malformed or duplicate-key JSON, stale evidence, path
 traversal, symlinks, non-regular files, digest substitution, unsupported
 targets, binary/metadata substitution, and unexpected components. Candidate
 archives carry the exact binary and `go-modules.json`; independent verification
 re-extracts build information from that archived binary with the trusted reader
-and compares it with the digest-bound metadata.
+and compares it with the digest-bound metadata. Archive member count, type,
+name, and size are bounded during streaming extraction.
+
+The resulting provenance strength is `embedded_build_metadata` and
+`cryptographic_source_attestation` is false. The verifier proves that the
+downloaded binary embeds the declared clean Git revision and target and that
+the evidence digests bind that binary. It does not claim that the source
+identity was cryptographically attested by the build platform. Adding such an
+attestation requires a separately governed permission and workflow decision.
 
 Validate the source contracts with:
 

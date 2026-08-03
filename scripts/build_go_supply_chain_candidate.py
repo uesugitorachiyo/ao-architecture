@@ -30,7 +30,7 @@ except ModuleNotFoundError:
 
 
 GENERATOR_NAME = "ao-architecture-go-supply-chain-candidate"
-GENERATOR_VERSION = "1.1.0"
+GENERATOR_VERSION = "1.2.0"
 MAX_MODULE_JSON_BYTES = 8 << 20
 IDENTIFIER = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._+-]{0,127}$")
 
@@ -314,27 +314,28 @@ def run(args: argparse.Namespace) -> None:
     lock_path.write_bytes(lock_bytes)
     module_metadata_path.write_bytes(module_json.read_bytes())
 
-    output_relative = output.relative_to(root)
     evidence = {
-        "archive_path": portable_path(output_relative / args.archive_name),
+        "archive_path": args.archive_name,
         "archive_sha256": sha256_bytes(archive),
         "binary_name": binary.name,
         "binary_provenance": binary_provenance,
         "binary_sha256": sha256_file(binary),
-        "dependency_lock_path": portable_path(output_relative / dependency_lock.name),
+        "cryptographic_source_attestation": False,
+        "dependency_lock_path": dependency_lock.name,
         "dependency_lock_sha256": sha256_bytes(lock_bytes),
         "deterministic_regeneration": True,
         "expected_components": [module["path"] for module in modules],
         "generated_at_utc": generated_at,
         "generator": {"name": GENERATOR_NAME, "version": GENERATOR_VERSION},
-        "module_metadata_path": portable_path(output_relative / "go-modules.json"),
+        "module_metadata_path": "go-modules.json",
         "module_metadata_sha256": sha256_file(module_json),
         "publication_attempted": False,
+        "provenance_strength": "embedded_build_metadata",
         "regeneration_sha256": sha256_bytes(sbom),
         "repository": args.repository,
-        "sbom_path": portable_path(output_relative / "SBOM.cdx.json"),
+        "sbom_path": "SBOM.cdx.json",
         "sbom_sha256": sha256_bytes(sbom),
-        "schema": "ao.supply-chain.sbom-evidence.v1",
+        "schema": "ao.supply-chain.sbom-evidence.v2",
         "source_sha": args.source_sha,
         "target": args.target,
         "version": args.version,
