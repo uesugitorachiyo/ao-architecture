@@ -220,8 +220,8 @@
       "archive_distributable": true,
       "container_distributable": false,
       "public_release_class": "allowed",
-      "artifact_names": ["ao2-control-plane-{version}-linux-aarch64.tar.gz", "ao2-control-plane-{version}-macos-aarch64.tar.gz", "ao2-control-plane-{version}-windows-x86_64.zip"],
-      "supported_targets": ["linux-aarch64", "macos-aarch64", "windows-x86_64"],
+      "artifact_names": ["ao2-control-plane-{version}-linux-x86_64.tar.gz", "ao2-control-plane-{version}-macos-aarch64.tar.gz", "ao2-control-plane-{version}-windows-x86_64.tar.gz"],
+      "supported_targets": ["linux-x86_64", "macos-aarch64", "windows-x86_64"],
       "root_license_policy": "required",
       "sbom_policy_applicable": true,
       "sbom_evidence_kind": "rust"
