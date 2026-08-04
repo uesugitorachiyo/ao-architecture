@@ -1,4 +1,5 @@
 import sys
+import json
 import unittest
 from pathlib import Path
 
@@ -41,6 +42,37 @@ class ComponentReleaseClassificationTests(unittest.TestCase):
         root = Path(__file__).resolve().parents[1]
         manifest = root / "stack" / "component-release-classification.json"
         self.assertEqual(validate_manifest_path(manifest), [])
+
+    def test_control_plane_release_contract_matches_public_archives(self) -> None:
+        root = Path(__file__).resolve().parents[1]
+        expected_artifacts = [
+            "ao2-control-plane-{version}-linux-x86_64.tar.gz",
+            "ao2-control-plane-{version}-macos-aarch64.tar.gz",
+            "ao2-control-plane-{version}-windows-x86_64.tar.gz",
+        ]
+        classification = json.loads(
+            (root / "stack" / "component-release-classification.json").read_text()
+        )
+        inventory = json.loads(
+            (root / "stack" / "distributable-inventory.json").read_text()
+        )
+        classified = next(
+            item
+            for item in classification["repositories"]
+            if item["repository"] == "ao2-control-plane"
+        )
+        distributable = next(
+            item
+            for item in inventory["repositories"]
+            if item["repository"] == "ao2-control-plane"
+        )
+
+        self.assertEqual(classified["artifact_names"], expected_artifacts)
+        self.assertEqual(distributable["artifact_names"], expected_artifacts)
+        self.assertEqual(
+            distributable["supported_targets"],
+            ["linux-x86_64", "macos-aarch64", "windows-x86_64"],
+        )
 
 
 def validate_manifest_path(path: Path) -> list[str]:

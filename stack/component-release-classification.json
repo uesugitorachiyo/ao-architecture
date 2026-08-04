@@ -34,7 +34,7 @@
       "current_source_commit": "7c66a24ae2b2611a67da68dc5bfd7b52886174a0",
       "month6_decision": "release_recommended_published_and_verified",
       "install_promise": "public observer and evidence publication surface",
-      "artifact_names": ["ao2-control-plane-{version}-linux-aarch64.tar.gz", "ao2-control-plane-{version}-macos-aarch64.tar.gz", "ao2-control-plane-{version}-windows-x86_64.zip"]
+      "artifact_names": ["ao2-control-plane-{version}-linux-x86_64.tar.gz", "ao2-control-plane-{version}-macos-aarch64.tar.gz", "ao2-control-plane-{version}-windows-x86_64.tar.gz"]
     },
     {
       "repository": "ao-mission",
