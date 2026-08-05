@@ -1,7 +1,7 @@
 {
   "schema": "ao.architecture.component-release-classification.v0.1",
   "status": "active",
-  "generated_at_utc": "2026-08-05T16:20:00Z",
+  "generated_at_utc": "2026-08-05T16:49:50Z",
   "source": "Current release metadata plus the Month 6 reconciled tier classification",
   "repositories": [
     {
@@ -73,7 +73,7 @@
       "version_source": "go.mod plus release manifest",
       "release_owner": "ao-mission",
       "current_public_release": "v0.1.1",
-      "current_source_commit": "8940b7cb319216ae66a8c660fed2948c5b2731b8",
+      "current_source_commit": "5891bbeb3b38be0fde4fcf010a590cf2c6acd05a",
       "month6_release_source_commit": "8940b7cb319216ae66a8c660fed2948c5b2731b8",
       "month6_decision": "release_recommended_published_and_verified",
       "install_promise": "public mission entry and reconciliation command",
@@ -98,7 +98,7 @@
       "version_source": "go.mod plus release manifest",
       "release_owner": "ao-command",
       "current_public_release": "v0.1.2",
-      "current_source_commit": "a728d90077c1340e295468e5017b5e166bc5bc7a",
+      "current_source_commit": "6fc2a26a0a62b4cc9d23ad039ac205f8f11fb3d9",
       "month6_decision": "release_recommended_published_and_verified",
       "install_promise": "public read-only operator status command",
       "artifact_names": [
@@ -194,7 +194,7 @@
       "version_source": "go.mod plus release manifest",
       "release_owner": "ao-covenant",
       "current_public_release": "v0.1.1",
-      "current_source_commit": "626f211691534dc4a3d630dcd16ca9b2cbf0db6e",
+      "current_source_commit": "7d2af0d3446757f096ebf3ce51e0918716daf7ff",
       "month6_decision": "release_recommended_published_and_verified",
       "install_promise": "specialist policy and authority command when standalone use is warranted",
       "artifact_names": [

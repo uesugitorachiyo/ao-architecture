@@ -9,7 +9,7 @@ from verify_current_release_manifest import validate_manifest, validate_stack_lo
 AO2_VERSION = "v0.5.8"
 AO2_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.8"
 AO2_TAG_TARGET = "a879ae7969a26d13432c7cc402174861b2444c05"
-AO2_MAIN_COMMIT = "50bde9832802adb3505bcf406566b934049f6778"
+AO2_MAIN_COMMIT = "3309137c762407862f20ed88e0469325fb187460"
 AO2_RELEASE_WORKFLOW_RUN = "https://github.com/uesugitorachiyo/ao2/actions/runs/30973441678"
 AO2_POST_RELEASE_WORKFLOW_RUN = "https://github.com/uesugitorachiyo/ao2/actions/runs/30973502699"
 AO2_CONSUMER_SMOKE_WORKFLOW_RUN = "https://github.com/uesugitorachiyo/ao2/actions/runs/30973503994"
@@ -30,9 +30,9 @@ CONTROL_PLANE_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2-control-plan
 CONTROL_PLANE_TAG_TARGET = "5de3541e9007e12d95b125e7f911c02932e21479"
 CONTROL_PLANE_MAIN_COMMIT = "128fc8b28be5bcc5b0f5d616ba02d016e84899ff"
 MISSION_TAG_TARGET = "8940b7cb319216ae66a8c660fed2948c5b2731b8"
-MISSION_MAIN_COMMIT = "8940b7cb319216ae66a8c660fed2948c5b2731b8"
+MISSION_MAIN_COMMIT = "5891bbeb3b38be0fde4fcf010a590cf2c6acd05a"
 COMMAND_TAG_TARGET = "a728d90077c1340e295468e5017b5e166bc5bc7a"
-COMMAND_MAIN_COMMIT = "a728d90077c1340e295468e5017b5e166bc5bc7a"
+COMMAND_MAIN_COMMIT = "6fc2a26a0a62b4cc9d23ad039ac205f8f11fb3d9"
 
 
 def ao2_release():

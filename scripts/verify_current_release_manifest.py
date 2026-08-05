@@ -16,7 +16,7 @@ COMMIT_RE = re.compile(r"^[0-9a-f]{40}$")
 VERIFIED_AO2_V058 = {
     "release_url": "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.8",
     "tag_target": "a879ae7969a26d13432c7cc402174861b2444c05",
-    "current_main_commit": "50bde9832802adb3505bcf406566b934049f6778",
+    "current_main_commit": "3309137c762407862f20ed88e0469325fb187460",
     "release_workflow_run": "https://github.com/uesugitorachiyo/ao2/actions/runs/30973441678",
     "post_release_workflow_run": "https://github.com/uesugitorachiyo/ao2/actions/runs/30973502699",
     "consumer_smoke_workflow_run": "https://github.com/uesugitorachiyo/ao2/actions/runs/30973503994",
