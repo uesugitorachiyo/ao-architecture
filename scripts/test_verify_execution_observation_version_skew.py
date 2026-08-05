@@ -38,7 +38,7 @@ class VersionSkewContractTest(unittest.TestCase):
                 self.assertTrue(validate_contract(candidate, NOW))
 
     def test_rejects_stale_timestamp(self):
-        stale = datetime(2026, 9, 2, tzinfo=timezone.utc)
+        stale = datetime(2026, 9, 5, tzinfo=timezone.utc)
         self.assertIn("compatibility evidence is stale", validate_contract(valid_contract(), stale))
 
     def test_rejects_malformed_and_unknown_fields(self):

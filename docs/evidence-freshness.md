@@ -62,13 +62,12 @@ The current gate state is `ready`, and the evidence freshness status is
 
 Reason code: `AO2_COMPATIBILITY_EVIDENCE_CURRENT`.
 
-AO2 `v0.5.7` uses the unchanged-contract bridge from
-`tests/fixtures/compatibility/ao2-execution-receipt-v0.5.6.json` from merge
-`5664ba778b263fa33e384cb8f45696cf34e0de5f`; AO2 Control Plane consumes those
-exact bytes through merge `ded38643d7583e287db6af7b7782719bad5b3e69`.
-The unchanged-contract bridge back to AO2 `v0.5.1` is executable and expires
-at `2026-09-01T02:45:00Z`. `compatibility_gate_complete` remains false because
-readiness is evidence, not activation authority.
+AO2 `v0.5.8` uses
+`tests/fixtures/compatibility/ao2-execution-receipt-v0.5.8.json` from merge
+`3309137c762407862f20ed88e0469325fb187460`; AO2 Control Plane consumes the
+current receipt contract through merge `ded38643d7583e287db6af7b7782719bad5b3e69`.
+`compatibility_gate_complete` remains false because readiness is evidence, not
+activation authority.
 
 ## Boundaries
 

@@ -1,17 +1,17 @@
 {
   "schema": "ao.architecture.execution-observation-version-skew.v1",
   "status": "current",
-  "generated_at": "2026-08-02T02:45:00Z",
-  "valid_until": "2026-09-01T02:45:00Z",
+  "generated_at": "2026-08-05T16:20:00Z",
+  "valid_until": "2026-09-04T16:20:00Z",
   "contract": {
     "producer_schema": "ao2.execution-receipt.v1",
     "consumer_schema": "ao2-control-plane.evidence-event.v1",
     "change": "unchanged"
   },
   "evidence": {
-    "producer_path": "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.6.json",
-    "producer_merge_commit": "5664ba778b263fa33e384cb8f45696cf34e0de5f",
-    "producer_sha256": "516b8652af77e2ee08992a7fee21b0d2c52961e86d2996e4a7e6842470208391",
+    "producer_path": "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.8.json",
+    "producer_merge_commit": "3309137c762407862f20ed88e0469325fb187460",
+    "producer_sha256": "4d774c5eef99637011339dad432f11ed95728f1bf81d4673307804efc96710ee",
     "consumer_test_path": "crates/ao2-cp-server/tests/compatibility_vectors.rs",
     "consumer_merge_commit": "ded38643d7583e287db6af7b7782719bad5b3e69",
     "consumer_test_sha256": "d394d7173d5609e614bdd5b55b53f8b763d2b19304997a1b3901a0c2f6970db3"
@@ -27,18 +27,18 @@
     },
     {
       "id": "current_public_pair",
-      "ao2_version": "v0.5.7",
-      "ao2_source_sha": "a3d8d19cef8f3aa69ea14e46ef94cc9706a502a7",
-      "control_plane_version": "v0.1.18",
-      "control_plane_source_sha": "6257ec23fde726d4a0133c5b62231881fb6aaa9a",
+      "ao2_version": "v0.5.8",
+      "ao2_source_sha": "a879ae7969a26d13432c7cc402174861b2444c05",
+      "control_plane_version": "v0.1.19",
+      "control_plane_source_sha": "5de3541e9007e12d95b125e7f911c02932e21479",
       "status": "supported_by_unchanged_bridge"
     },
     {
       "id": "current_source_candidate",
-      "ao2_version": "v0.5.7",
-      "ao2_source_sha": "e7f8e391f57a57c0f8056426e7d3f696c1d093ac",
-      "control_plane_version": "v0.1.18",
-      "control_plane_source_sha": "81ee1929450a00f16c25f192b888dff2179d884c",
+      "ao2_version": "v0.5.8",
+      "ao2_source_sha": "3309137c762407862f20ed88e0469325fb187460",
+      "control_plane_version": "v0.1.19",
+      "control_plane_source_sha": "128fc8b28be5bcc5b0f5d616ba02d016e84899ff",
       "status": "supported_by_unchanged_bridge"
     }
   ],
