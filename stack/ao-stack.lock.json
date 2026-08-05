@@ -1,7 +1,7 @@
 {
   "schema": "ao.architecture.stack-lock.v0.1",
   "status": "current",
-  "generated_at_utc": "2026-08-05T16:49:50Z",
+  "generated_at_utc": "2026-08-05T17:30:46Z",
   "source_kind": "checked_out_git",
   "repository_count": 14,
   "repositories": [
@@ -22,7 +22,7 @@
     {
       "repository": "ao-mission",
       "branch": "main",
-      "commit": "5891bbeb3b38be0fde4fcf010a590cf2c6acd05a",
+      "commit": "eb6ea4421cee1a5442cc804a2b835b7faa8e7113",
       "detected_version": "v0.1.1",
       "maturity": "alpha",
       "current_boundary": "independent_repository",

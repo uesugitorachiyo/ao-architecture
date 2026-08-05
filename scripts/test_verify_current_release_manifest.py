@@ -30,7 +30,7 @@ CONTROL_PLANE_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2-control-plan
 CONTROL_PLANE_TAG_TARGET = "5de3541e9007e12d95b125e7f911c02932e21479"
 CONTROL_PLANE_MAIN_COMMIT = "128fc8b28be5bcc5b0f5d616ba02d016e84899ff"
 MISSION_TAG_TARGET = "8940b7cb319216ae66a8c660fed2948c5b2731b8"
-MISSION_MAIN_COMMIT = "5891bbeb3b38be0fde4fcf010a590cf2c6acd05a"
+MISSION_MAIN_COMMIT = "eb6ea4421cee1a5442cc804a2b835b7faa8e7113"
 COMMAND_TAG_TARGET = "a728d90077c1340e295468e5017b5e166bc5bc7a"
 COMMAND_MAIN_COMMIT = "6fc2a26a0a62b4cc9d23ad039ac205f8f11fb3d9"
 
@@ -181,6 +181,38 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
         self.assertIn(
             "tier1_tools must contain exactly ao-command and ao-mission",
             errors,
+        )
+
+    def test_rejects_stale_mission_current_main_commit(self):
+        document = {
+            "tier1_tools": [
+                {
+                    "repository": "ao-mission",
+                    "version": "v0.1.1",
+                    "release_url": "https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.1",
+                    "tag": "v0.1.1",
+                    "tag_target": MISSION_TAG_TARGET,
+                    "current_main_commit": "0" * 40,
+                    "is_draft": False,
+                    "is_prerelease": False,
+                    "asset_count": 3,
+                },
+                {
+                    "repository": "ao-command",
+                    "version": "v0.1.2",
+                    "release_url": "https://github.com/uesugitorachiyo/ao-command/releases/tag/v0.1.2",
+                    "tag": "v0.1.2",
+                    "tag_target": COMMAND_TAG_TARGET,
+                    "current_main_commit": COMMAND_MAIN_COMMIT,
+                    "is_draft": False,
+                    "is_prerelease": False,
+                    "asset_count": 3,
+                },
+            ]
+        }
+        self.assertIn(
+            "ao-mission.current_main_commit must match the verified Mission current main",
+            validate_manifest(document),
         )
 
     def test_rejects_negative_compatibility_evidence_counts(self):

@@ -34,6 +34,11 @@ VERIFIED_AO2_V058 = {
     "windows_smoke_job": "https://github.com/uesugitorachiyo/ao2/actions/runs/30973502699",
 }
 
+VERIFIED_TIER1_CURRENT_MAIN = {
+    "ao-mission": "eb6ea4421cee1a5442cc804a2b835b7faa8e7113",
+    "ao-command": "6fc2a26a0a62b4cc9d23ad039ac205f8f11fb3d9",
+}
+
 
 def require_string(errors: list[str], obj: dict[str, Any], field: str, prefix: str) -> str:
     value = obj.get(field)
@@ -131,6 +136,8 @@ def validate_manifest(document: dict[str, Any]) -> list[str]:
                     asset_count,
                 )
             )
+            if entry.get("current_main_commit") != VERIFIED_TIER1_CURRENT_MAIN[repository]:
+                errors.append(f"{repository}.current_main_commit must match the verified {repository.removeprefix('ao-').title()} current main")
 
     pairing = document.get("pairing")
     if not isinstance(pairing, dict):

@@ -41,7 +41,7 @@ and `SHA256SUMS`
 - AO Mission: [v0.1.1](https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.1), tag target `8940b7cb319216ae66a8c660fed2948c5b2731b8`
 - AO Command: [v0.1.2](https://github.com/uesugitorachiyo/ao-command/releases/tag/v0.1.2), tag target `a728d90077c1340e295468e5017b5e166bc5bc7a`
 
-AO Mission current main is `5891bbeb3b38be0fde4fcf010a590cf2c6acd05a` and
+AO Mission current main is `eb6ea4421cee1a5442cc804a2b835b7faa8e7113` and
 AO Command current main is `6fc2a26a0a62b4cc9d23ad039ac205f8f11fb3d9`.
 
 Both operator tools are public, not draft, not prerelease, and each has three
