@@ -1,7 +1,7 @@
 {
   "schema": "ao.architecture.component-release-classification.v0.1",
   "status": "active",
-  "generated_at_utc": "2026-08-05T16:49:50Z",
+  "generated_at_utc": "2026-08-05T17:30:46Z",
   "source": "Current release metadata plus the Month 6 reconciled tier classification",
   "repositories": [
     {
@@ -73,7 +73,7 @@
       "version_source": "go.mod plus release manifest",
       "release_owner": "ao-mission",
       "current_public_release": "v0.1.1",
-      "current_source_commit": "5891bbeb3b38be0fde4fcf010a590cf2c6acd05a",
+      "current_source_commit": "eb6ea4421cee1a5442cc804a2b835b7faa8e7113",
       "month6_release_source_commit": "8940b7cb319216ae66a8c660fed2948c5b2731b8",
       "month6_decision": "release_recommended_published_and_verified",
       "install_promise": "public mission entry and reconciliation command",

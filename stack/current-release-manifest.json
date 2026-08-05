@@ -1,7 +1,7 @@
 {
   "schema": "ao.architecture.current-release-manifest.v0.1",
   "status": "current_public_release_pair",
-  "generated_at_utc": "2026-08-05T16:49:50Z",
+  "generated_at_utc": "2026-08-05T17:30:46Z",
   "source_of_truth": "public GitHub releases plus AO2 v0.5.8 and Control Plane v0.1.19 publication evidence",
   "ao2": {
     "repository": "ao2",
@@ -51,7 +51,7 @@
       "release_url": "https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.1",
       "tag": "v0.1.1",
       "tag_target": "8940b7cb319216ae66a8c660fed2948c5b2731b8",
-      "current_main_commit": "5891bbeb3b38be0fde4fcf010a590cf2c6acd05a",
+      "current_main_commit": "eb6ea4421cee1a5442cc804a2b835b7faa8e7113",
       "release_workflow_run": "https://github.com/uesugitorachiyo/ao-mission/actions/runs/31017887121",
       "is_draft": false,
       "is_prerelease": false,
