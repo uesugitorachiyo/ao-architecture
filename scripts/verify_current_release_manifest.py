@@ -13,25 +13,25 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MANIFEST = ROOT / "stack" / "current-release-manifest.json"
 DEFAULT_LOCK = ROOT / "stack" / "ao-stack.lock.json"
 COMMIT_RE = re.compile(r"^[0-9a-f]{40}$")
-VERIFIED_AO2_V057 = {
-    "release_url": "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.7",
-    "tag_target": "a3d8d19cef8f3aa69ea14e46ef94cc9706a502a7",
-    "current_main_commit": "e7f8e391f57a57c0f8056426e7d3f696c1d093ac",
-    "release_workflow_run": "https://github.com/uesugitorachiyo/ao2/actions/runs/30684627433",
-    "post_release_workflow_run": "https://github.com/uesugitorachiyo/ao2/actions/runs/30688624711",
-    "consumer_smoke_workflow_run": "https://github.com/uesugitorachiyo/ao2/actions/runs/30688625596",
-    "approved_manifest_digest": "f726e2cac6581ee9422965faec4c9892ec508c6291c732cec8d48c4900908e55",
-    "promotion_plan_digest": "8e058f6a891d837db856916083a7b2ba9bc53f997b96c5522e8b0a552f6b7be7",
-    "physical_windows_evidence_digest": "18bf31d6aba7021ce30b5d5aeed22055f42712c5bd208bb31764c184509a26b8",
-    "evidence_path": "ao2-next-patch-qualified-live-release-20260801T021957Z/public-asset-verification.json",
+VERIFIED_AO2_V058 = {
+    "release_url": "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.8",
+    "tag_target": "a879ae7969a26d13432c7cc402174861b2444c05",
+    "current_main_commit": "50bde9832802adb3505bcf406566b934049f6778",
+    "release_workflow_run": "https://github.com/uesugitorachiyo/ao2/actions/runs/30973441678",
+    "post_release_workflow_run": "https://github.com/uesugitorachiyo/ao2/actions/runs/30973502699",
+    "consumer_smoke_workflow_run": "https://github.com/uesugitorachiyo/ao2/actions/runs/30973503994",
+    "approved_manifest_digest": "7818def468eb212f949c38480c810cbd8c6e5717b43333767781fef96c2ee135",
+    "promotion_plan_digest": "9e988764ba7232663ba3ca23bcaabe229f0c915084cdc402fbc4202b624f5f6d",
+    "physical_windows_evidence_digest": "b0e64aeb386f5a1ca5884b52cb63b9e2bb1ebc98101cb2e0ce06e0bafccdd27c",
+    "evidence_path": "https://github.com/uesugitorachiyo/ao2/actions/runs/30973503994",
     "asset_sha256": {
-        "ao2-0.5.7-linux-x86_64.tar.gz": "4760705d9cedc32beaa7d3694731ed02eca8c9ec7adbc55ac187d3b9f86447ee",
-        "ao2-0.5.7-macos-aarch64.tar.gz": "2355fba5fa61fb078649534ef38c8cb0aa137d50e41df94b819822c0f8833910",
-        "ao2-0.5.7-windows-x86_64.tar.gz": "c5924999d89dd090579dc9f9851990afee8c8dbb61baccdb50c5a333b50cb7f8",
-        "promotion-plan.json": "8e058f6a891d837db856916083a7b2ba9bc53f997b96c5522e8b0a552f6b7be7",
-        "SHA256SUMS": "58e9a135f0e113a091dc9d7246b3596df7671f2e1273caee43e4937113fe1fc1",
+        "ao2-0.5.8-linux-x86_64.tar.gz": "d18574504e178a34f43b34336a1b6040716d68bceb3efc56a084570ff3b280e1",
+        "ao2-0.5.8-macos-aarch64.tar.gz": "a893fcf8eef7058fee020d8b3d5fb6f71988173d55d23b37f9deb93bcde31b98",
+        "ao2-0.5.8-windows-x86_64.tar.gz": "793d242ec3968e72a5e580a499b498408281836c57a028ebcb9f6d44a7e94543",
+        "promotion-plan.json": "9e988764ba7232663ba3ca23bcaabe229f0c915084cdc402fbc4202b624f5f6d",
+        "SHA256SUMS": "d086ce352ec8baea7e20567b58b776893569fe84da0e13eae5e03b481df16be4",
     },
-    "windows_smoke_job": "https://github.com/uesugitorachiyo/ao2/actions/runs/30688624711",
+    "windows_smoke_job": "https://github.com/uesugitorachiyo/ao2/actions/runs/30973502699",
 }
 
 
@@ -91,22 +91,22 @@ def validate_manifest(document: dict[str, Any]) -> list[str]:
     if source and "public GitHub releases" not in source:
         errors.append("source_of_truth must reference public GitHub releases")
 
-    errors.extend(validate_release_component(document, "ao2", "ao2", "v0.5.7", 5))
+    errors.extend(validate_release_component(document, "ao2", "ao2", "v0.5.8", 5))
     ao2 = document.get("ao2", {})
     if isinstance(ao2, dict):
-        for field, expected in VERIFIED_AO2_V057.items():
+        for field, expected in VERIFIED_AO2_V058.items():
             if ao2.get(field) != expected:
-                errors.append(f"ao2.{field} must match the verified v0.5.7 release")
+                errors.append(f"ao2.{field} must match the verified v0.5.8 release")
 
-    errors.extend(validate_release_component(document, "control_plane", "ao2-control-plane", "v0.1.18", 7))
+    errors.extend(validate_release_component(document, "control_plane", "ao2-control-plane", "v0.1.19", 7))
     control_plane = document.get("control_plane", {})
     if isinstance(control_plane, dict) and control_plane.get("new_release_required") is not False:
         errors.append("control_plane.new_release_required must be false")
 
     tier1_tools = document.get("tier1_tools")
     expected_tools = {
-        "ao-mission": ("v0.1.0", 3),
-        "ao-command": ("v0.1.1", 3),
+        "ao-mission": ("v0.1.1", 3),
+        "ao-command": ("v0.1.2", 3),
     }
     if not isinstance(tier1_tools, list):
         errors.append("tier1_tools must be an array")
