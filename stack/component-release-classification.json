@@ -1,7 +1,7 @@
 {
   "schema": "ao.architecture.component-release-classification.v0.1",
   "status": "active",
-  "generated_at_utc": "2026-07-28T01:41:27Z",
+  "generated_at_utc": "2026-08-05T16:20:00Z",
   "source": "Current release metadata plus the Month 6 reconciled tier classification",
   "repositories": [
     {
@@ -10,15 +10,25 @@
       "publication_allowed": true,
       "binary_free": false,
       "artifact_only": false,
-      "entry_points": ["ao2"],
-      "supported_platforms": ["linux", "macos", "windows"],
+      "entry_points": [
+        "ao2"
+      ],
+      "supported_platforms": [
+        "linux",
+        "macos",
+        "windows"
+      ],
       "version_source": "package.json",
       "release_owner": "ao2",
-      "current_public_release": "v0.5.7",
-      "current_source_commit": "e7f8e391f57a57c0f8056426e7d3f696c1d093ac",
+      "current_public_release": "v0.5.8",
+      "current_source_commit": "3309137c762407862f20ed88e0469325fb187460",
       "month6_decision": "release_recommended_published_and_verified",
       "install_promise": "public governed local execution runtime",
-      "artifact_names": ["ao2-{version}-linux-x86_64.tar.gz", "ao2-{version}-macos-aarch64.tar.gz", "ao2-{version}-windows-x86_64.tar.gz"]
+      "artifact_names": [
+        "ao2-{version}-linux-x86_64.tar.gz",
+        "ao2-{version}-macos-aarch64.tar.gz",
+        "ao2-{version}-windows-x86_64.tar.gz"
+      ]
     },
     {
       "repository": "ao2-control-plane",
@@ -26,15 +36,25 @@
       "publication_allowed": true,
       "binary_free": false,
       "artifact_only": false,
-      "entry_points": ["ao2-control-plane"],
-      "supported_platforms": ["linux", "macos", "windows"],
+      "entry_points": [
+        "ao2-control-plane"
+      ],
+      "supported_platforms": [
+        "linux",
+        "macos",
+        "windows"
+      ],
       "version_source": "Cargo.toml",
       "release_owner": "ao2-control-plane",
-      "current_public_release": "v0.1.18",
-      "current_source_commit": "7c66a24ae2b2611a67da68dc5bfd7b52886174a0",
+      "current_public_release": "v0.1.19",
+      "current_source_commit": "128fc8b28be5bcc5b0f5d616ba02d016e84899ff",
       "month6_decision": "release_recommended_published_and_verified",
       "install_promise": "public observer and evidence publication surface",
-      "artifact_names": ["ao2-control-plane-{version}-linux-x86_64.tar.gz", "ao2-control-plane-{version}-macos-aarch64.tar.gz", "ao2-control-plane-{version}-windows-x86_64.tar.gz"]
+      "artifact_names": [
+        "ao2-control-plane-{version}-linux-x86_64.tar.gz",
+        "ao2-control-plane-{version}-macos-aarch64.tar.gz",
+        "ao2-control-plane-{version}-windows-x86_64.tar.gz"
+      ]
     },
     {
       "repository": "ao-mission",
@@ -42,16 +62,24 @@
       "publication_allowed": true,
       "binary_free": false,
       "artifact_only": false,
-      "entry_points": ["ao-mission"],
-      "supported_platforms": ["linux", "macos", "windows"],
+      "entry_points": [
+        "ao-mission"
+      ],
+      "supported_platforms": [
+        "linux",
+        "macos",
+        "windows"
+      ],
       "version_source": "go.mod plus release manifest",
       "release_owner": "ao-mission",
-      "current_public_release": "v0.1.0",
-      "current_source_commit": "c39bfd6e2b185ae1934de0e907f206e842d66bf1",
-      "month6_release_source_commit": "2901a9cb887b72296a56b70a5a3be7350b28fe65",
+      "current_public_release": "v0.1.1",
+      "current_source_commit": "8940b7cb319216ae66a8c660fed2948c5b2731b8",
+      "month6_release_source_commit": "8940b7cb319216ae66a8c660fed2948c5b2731b8",
       "month6_decision": "release_recommended_published_and_verified",
       "install_promise": "public mission entry and reconciliation command",
-      "artifact_names": ["ao-mission-{version}-{platform}-{arch}.tar.gz"]
+      "artifact_names": [
+        "ao-mission-{version}-{platform}-{arch}.tar.gz"
+      ]
     },
     {
       "repository": "ao-command",
@@ -59,15 +87,23 @@
       "publication_allowed": true,
       "binary_free": false,
       "artifact_only": false,
-      "entry_points": ["ao-command"],
-      "supported_platforms": ["linux", "macos", "windows"],
+      "entry_points": [
+        "ao-command"
+      ],
+      "supported_platforms": [
+        "linux",
+        "macos",
+        "windows"
+      ],
       "version_source": "go.mod plus release manifest",
       "release_owner": "ao-command",
-      "current_public_release": "v0.1.1",
-      "current_source_commit": "cc6e91fc8d5c5226a41517024cb8a906e5f9c902",
+      "current_public_release": "v0.1.2",
+      "current_source_commit": "a728d90077c1340e295468e5017b5e166bc5bc7a",
       "month6_decision": "release_recommended_published_and_verified",
       "install_promise": "public read-only operator status command",
-      "artifact_names": ["ao-command-{version}-{platform}-{arch}.tar.gz"]
+      "artifact_names": [
+        "ao-command-{version}-{platform}-{arch}.tar.gz"
+      ]
     },
     {
       "repository": "ao-blueprint",
@@ -75,15 +111,23 @@
       "publication_allowed": "conditional",
       "binary_free": false,
       "artifact_only": false,
-      "entry_points": ["ao-blueprint"],
-      "supported_platforms": ["linux", "macos", "windows"],
+      "entry_points": [
+        "ao-blueprint"
+      ],
+      "supported_platforms": [
+        "linux",
+        "macos",
+        "windows"
+      ],
       "version_source": "go.mod plus release manifest",
       "release_owner": "ao-blueprint",
       "current_public_release": null,
       "current_source_commit": "56c60aaa18b177fc7d843b0a15b3fdb405180b10",
       "month6_decision": "no_release_needed",
       "install_promise": "specialist requirements and acceptance criteria command when standalone use is warranted",
-      "artifact_names": ["ao-blueprint-{version}-{platform}-{arch}.tar.gz"]
+      "artifact_names": [
+        "ao-blueprint-{version}-{platform}-{arch}.tar.gz"
+      ]
     },
     {
       "repository": "ao-atlas",
@@ -91,15 +135,23 @@
       "publication_allowed": "conditional",
       "binary_free": false,
       "artifact_only": false,
-      "entry_points": ["ao-atlas"],
-      "supported_platforms": ["linux", "macos", "windows"],
+      "entry_points": [
+        "ao-atlas"
+      ],
+      "supported_platforms": [
+        "linux",
+        "macos",
+        "windows"
+      ],
       "version_source": "go.mod plus release manifest",
       "release_owner": "ao-atlas",
       "current_public_release": "v0.1.0",
       "current_source_commit": "428d6daaa1e5d8ff5486f90f1b5e34b987a93af6",
       "month6_decision": "no_release_needed",
       "install_promise": "specialist workgraph command when standalone use is warranted",
-      "artifact_names": ["ao-atlas-{version}-{platform}-{arch}.tar.gz"]
+      "artifact_names": [
+        "ao-atlas-{version}-{platform}-{arch}.tar.gz"
+      ]
     },
     {
       "repository": "ao-forge",
@@ -107,15 +159,23 @@
       "publication_allowed": "conditional",
       "binary_free": false,
       "artifact_only": false,
-      "entry_points": ["ao-forge"],
-      "supported_platforms": ["linux", "macos", "windows"],
+      "entry_points": [
+        "ao-forge"
+      ],
+      "supported_platforms": [
+        "linux",
+        "macos",
+        "windows"
+      ],
       "version_source": "go.mod plus release manifest",
       "release_owner": "ao-forge",
-      "current_public_release": "v0.1.3",
-      "current_source_commit": "b1403cc47d254e5b9f5414dc3ef04ee8809d8466",
-      "month6_decision": "no_release_needed",
+      "current_public_release": "v0.1.4",
+      "current_source_commit": "4bf267bc7cbd9d6289728ebcaefa939135ddfb00",
+      "month6_decision": "release_recommended_published_and_verified",
       "install_promise": "specialist GoalRun command when standalone use is warranted",
-      "artifact_names": ["ao-forge-{version}-{platform}-{arch}.tar.gz"]
+      "artifact_names": [
+        "ao-forge-{version}-{platform}-{arch}.tar.gz"
+      ]
     },
     {
       "repository": "ao-covenant",
@@ -123,15 +183,23 @@
       "publication_allowed": "conditional",
       "binary_free": false,
       "artifact_only": false,
-      "entry_points": ["ao-covenant"],
-      "supported_platforms": ["linux", "macos", "windows"],
+      "entry_points": [
+        "ao-covenant"
+      ],
+      "supported_platforms": [
+        "linux",
+        "macos",
+        "windows"
+      ],
       "version_source": "go.mod plus release manifest",
       "release_owner": "ao-covenant",
-      "current_public_release": "v0.1.0",
-      "current_source_commit": "296e196bf83bab0567b2c9c410573d5014bf8ab6",
-      "month6_decision": "no_release_needed",
+      "current_public_release": "v0.1.1",
+      "current_source_commit": "626f211691534dc4a3d630dcd16ca9b2cbf0db6e",
+      "month6_decision": "release_recommended_published_and_verified",
       "install_promise": "specialist policy and authority command when standalone use is warranted",
-      "artifact_names": ["ao-covenant-{version}-{platform}-{arch}.tar.gz"]
+      "artifact_names": [
+        "ao-covenant-{version}-{platform}-{arch}.tar.gz"
+      ]
     },
     {
       "repository": "ao-foundry",
@@ -139,12 +207,20 @@
       "publication_allowed": false,
       "binary_free": false,
       "artifact_only": true,
-      "entry_points": ["ao-foundry"],
-      "supported_platforms": ["linux", "macos", "windows"],
+      "entry_points": [
+        "ao-foundry"
+      ],
+      "supported_platforms": [
+        "linux",
+        "macos",
+        "windows"
+      ],
       "version_source": "go.mod plus CI summary",
       "release_owner": "ao-foundry",
       "install_promise": "advanced-stack qualification artifact only",
-      "artifact_names": ["ao-foundry-{version}-{platform}-{arch}.tar.gz"]
+      "artifact_names": [
+        "ao-foundry-{version}-{platform}-{arch}.tar.gz"
+      ]
     },
     {
       "repository": "ao-arena",
@@ -152,12 +228,20 @@
       "publication_allowed": false,
       "binary_free": false,
       "artifact_only": true,
-      "entry_points": ["ao-arena"],
-      "supported_platforms": ["linux", "macos", "windows"],
+      "entry_points": [
+        "ao-arena"
+      ],
+      "supported_platforms": [
+        "linux",
+        "macos",
+        "windows"
+      ],
       "version_source": "go.mod plus CI summary",
       "release_owner": "ao-arena",
       "install_promise": "advanced-stack qualification artifact only",
-      "artifact_names": ["ao-arena-{version}-{platform}-{arch}.tar.gz"]
+      "artifact_names": [
+        "ao-arena-{version}-{platform}-{arch}.tar.gz"
+      ]
     },
     {
       "repository": "ao-crucible",
@@ -165,12 +249,20 @@
       "publication_allowed": false,
       "binary_free": false,
       "artifact_only": true,
-      "entry_points": ["ao-crucible"],
-      "supported_platforms": ["linux", "macos", "windows"],
+      "entry_points": [
+        "ao-crucible"
+      ],
+      "supported_platforms": [
+        "linux",
+        "macos",
+        "windows"
+      ],
       "version_source": "go.mod plus CI summary",
       "release_owner": "ao-crucible",
       "install_promise": "advanced-stack qualification artifact only",
-      "artifact_names": ["ao-crucible-{version}-{platform}-{arch}.tar.gz"]
+      "artifact_names": [
+        "ao-crucible-{version}-{platform}-{arch}.tar.gz"
+      ]
     },
     {
       "repository": "ao-sentinel",
@@ -178,12 +270,20 @@
       "publication_allowed": false,
       "binary_free": false,
       "artifact_only": true,
-      "entry_points": ["ao-sentinel"],
-      "supported_platforms": ["linux", "macos", "windows"],
+      "entry_points": [
+        "ao-sentinel"
+      ],
+      "supported_platforms": [
+        "linux",
+        "macos",
+        "windows"
+      ],
       "version_source": "go.mod plus CI summary",
       "release_owner": "ao-sentinel",
       "install_promise": "advanced-stack qualification artifact only",
-      "artifact_names": ["ao-sentinel-{version}-{platform}-{arch}.tar.gz"]
+      "artifact_names": [
+        "ao-sentinel-{version}-{platform}-{arch}.tar.gz"
+      ]
     },
     {
       "repository": "ao-promoter",
@@ -191,12 +291,20 @@
       "publication_allowed": false,
       "binary_free": false,
       "artifact_only": true,
-      "entry_points": ["ao-promoter"],
-      "supported_platforms": ["linux", "macos", "windows"],
+      "entry_points": [
+        "ao-promoter"
+      ],
+      "supported_platforms": [
+        "linux",
+        "macos",
+        "windows"
+      ],
       "version_source": "go.mod plus CI summary",
       "release_owner": "ao-promoter",
       "install_promise": "advanced-stack qualification artifact only",
-      "artifact_names": ["ao-promoter-{version}-{platform}-{arch}.tar.gz"]
+      "artifact_names": [
+        "ao-promoter-{version}-{platform}-{arch}.tar.gz"
+      ]
     },
     {
       "repository": "ao-architecture",

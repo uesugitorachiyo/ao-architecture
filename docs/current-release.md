@@ -51,8 +51,8 @@ The compatibility matrix remains proposed:
 - `stack/contract-compatibility-matrix.json` status remains `proposed`.
 - Canonical vector and consumer-test counts are both `16`.
 - Current freshness is `16` fresh edges and `0` stale edges.
-- The immutable AO2 v0.5.6 execution-to-observation vector remains valid for
-  v0.5.7 through the verified unchanged-contract bridge.
+- The AO2 v0.5.8 execution-to-observation vector binds the current public
+  AO2 and Control Plane release pair.
 - `compatibility_gate_complete` remains `false`.
 
 The compatibility gate is ready but not active. External beta, promotion,
