@@ -53,6 +53,9 @@ with broad authority.
   covers the supported public download, checksum verification, install, doctor,
   and credential-free governed demo. New operators do not need to install or
   run the other AO repositories before completing that path.
+- [Assemble The AO Stack](docs/stack-assembly.md) explains the supported release
+  matrix, installation order, component responsibilities, and package-level
+  verification path.
 - [Architecture Overview](overview/README.md) explains how the components work
   together.
 - [Operator Workflow](docs/operator-workflow.md) follows the normal path through
