@@ -22,8 +22,8 @@
     {
       "repository": "ao-mission",
       "branch": "main",
-      "commit": "c39bfd6e2b185ae1934de0e907f206e842d66bf1",
-      "detected_version": "v0.1.0",
+      "commit": "8940b7cb319216ae66a8c660fed2948c5b2731b8",
+      "detected_version": "v0.1.1",
       "maturity": "alpha",
       "current_boundary": "independent_repository",
       "proposed_boundary": "ao-control",
@@ -106,8 +106,8 @@
     {
       "repository": "ao2",
       "branch": "main",
-      "commit": "e7f8e391f57a57c0f8056426e7d3f696c1d093ac",
-      "detected_version": "v0.5.7",
+      "commit": "50bde9832802adb3505bcf406566b934049f6778",
+      "detected_version": "v0.5.8",
       "maturity": "stable_public_release",
       "current_boundary": "independent_repository",
       "proposed_boundary": "ao2",
@@ -120,8 +120,8 @@
     {
       "repository": "ao2-control-plane",
       "branch": "main",
-      "commit": "7c66a24ae2b2611a67da68dc5bfd7b52886174a0",
-      "detected_version": "v0.1.18",
+      "commit": "128fc8b28be5bcc5b0f5d616ba02d016e84899ff",
+      "detected_version": "v0.1.19",
       "maturity": "stable_single_node_observer",
       "current_boundary": "independent_repository",
       "proposed_boundary": "ao2-control-plane",
@@ -134,8 +134,8 @@
     {
       "repository": "ao-command",
       "branch": "main",
-      "commit": "cc6e91fc8d5c5226a41517024cb8a906e5f9c902",
-      "detected_version": "v0.1.1",
+      "commit": "a728d90077c1340e295468e5017b5e166bc5bc7a",
+      "detected_version": "v0.1.2",
       "maturity": "alpha_early_beta",
       "current_boundary": "independent_repository",
       "proposed_boundary": "ao-control",
