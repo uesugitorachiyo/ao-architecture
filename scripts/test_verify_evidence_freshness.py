@@ -8,15 +8,15 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from verify_evidence_freshness import validate_readback
 
-AO2_VERSION = "v0.5.7"
-AO2_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.7"
-AO2_TAG_TARGET = "a3d8d19cef8f3aa69ea14e46ef94cc9706a502a7"
-CONTROL_PLANE_VERSION = "v0.1.18"
-CONTROL_PLANE_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.18"
-CONTROL_PLANE_TAG_TARGET = "6257ec23fde726d4a0133c5b62231881fb6aaa9a"
-AO2_COMPATIBILITY_EVIDENCE_VERSION = "v0.5.6"
-AO2_COMPATIBILITY_EVIDENCE_PATH = "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.6.json"
-AO2_COMPATIBILITY_EVIDENCE_COMMIT = "5664ba778b263fa33e384cb8f45696cf34e0de5f"
+AO2_VERSION = "v0.5.8"
+AO2_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.8"
+AO2_TAG_TARGET = "a879ae7969a26d13432c7cc402174861b2444c05"
+CONTROL_PLANE_VERSION = "v0.1.19"
+CONTROL_PLANE_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.19"
+CONTROL_PLANE_TAG_TARGET = "5de3541e9007e12d95b125e7f911c02932e21479"
+AO2_COMPATIBILITY_EVIDENCE_VERSION = "v0.5.8"
+AO2_COMPATIBILITY_EVIDENCE_PATH = "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.8.json"
+AO2_COMPATIBILITY_EVIDENCE_COMMIT = "3309137c762407862f20ed88e0469325fb187460"
 AO2_STALE_REASON_CODE = "AO2_COMPATIBILITY_EVIDENCE_VERSION_STALE"
 
 
@@ -100,7 +100,7 @@ def valid_matrix():
                 "canonical_vector": {
                     "repository": "ao2",
                     "path": AO2_COMPATIBILITY_EVIDENCE_PATH,
-                    "pr": "https://github.com/uesugitorachiyo/ao2/pull/602",
+                    "pr": "https://github.com/uesugitorachiyo/ao2/pull/624",
                     "merge_commit": AO2_COMPATIBILITY_EVIDENCE_COMMIT,
                 },
                 "consumer_test": {
@@ -164,7 +164,7 @@ def valid_readback():
             "activation_authorized": False,
             "activation_evidence": "",
             "reason_code": "AO2_COMPATIBILITY_EVIDENCE_CURRENT",
-            "reason": "The AO2 v0.5.6 execution-to-observation vector remains a verified unchanged-contract bridge for AO2 v0.5.7 and Control Plane v0.1.18.",
+            "reason": "The AO2 v0.5.8 execution-to-observation vector binds the current AO2 v0.5.8 and Control Plane v0.1.19 public pair.",
             "details": {},
             "allowed_states": ["false", "ready", "active", "blocked", "denied"],
             "readiness_criteria": {
@@ -218,20 +218,20 @@ class VerifyEvidenceFreshnessTest(unittest.TestCase):
             existing_paths={"stack/fixtures/compatibility/architecture-route-context-v0.1.json"},
         )
         self.assertIn(
-            "AO2 compatibility evidence v0.5.5 is stale for current release v0.5.7; readback must be stale and gate blocked",
+            "AO2 compatibility evidence v0.5.5 is stale for current release v0.5.8; readback must be stale and gate blocked",
             errors,
         )
 
     def test_rejects_unbridged_future_ao2_release(self):
         manifest = valid_manifest()
-        manifest["ao2"]["version"] = "v0.5.8"
+        manifest["ao2"]["version"] = "v0.5.9"
         errors = validate_readback(
             valid_readback(),
             manifest,
             valid_matrix(),
             existing_paths={"stack/fixtures/compatibility/architecture-route-context-v0.1.json"},
         )
-        self.assertTrue(any("is stale for current release v0.5.8" in error for error in errors))
+        self.assertTrue(any("is stale for current release v0.5.9" in error for error in errors))
 
     def test_rejects_nonexistent_ao2_evidence_path_and_fabricated_commit(self):
         matrix = valid_matrix()
