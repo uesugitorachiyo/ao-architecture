@@ -1,7 +1,7 @@
 # AO Stack Evidence Freshness And Compatibility Gate Readiness
 
 Status: current operational source of truth using Month 1 compatibility evidence
-Current public pair: AO2 `v0.5.7` and AO2 Control Plane `v0.1.18`
+Current public pair: AO2 `v0.5.8` and AO2 Control Plane `v0.1.19`
 
 ## Purpose
 
