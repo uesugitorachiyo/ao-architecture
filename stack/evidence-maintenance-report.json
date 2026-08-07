@@ -1,7 +1,7 @@
 {
   "schema": "ao.architecture.evidence-maintenance-report.v0.1",
-  "status": "fresh",
-  "generated_at_utc": "2026-08-05T15:16:00Z",
+  "status": "stale",
+  "generated_at_utc": "2026-08-07T20:40:05Z",
   "source_reports": {
     "current_release_manifest": "stack/current-release-manifest.json",
     "compatibility_matrix": "stack/contract-compatibility-matrix.json",
@@ -10,9 +10,9 @@
   },
   "current_public_release_pair": {
     "ao2": {
-      "version": "v0.5.8",
-      "release_url": "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.8",
-      "tag_target": "a879ae7969a26d13432c7cc402174861b2444c05",
+      "version": "v0.5.9",
+      "release_url": "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.9",
+      "tag_target": "fec09515dfe4e550eeaddc7da497b1fe912012b4",
       "is_draft": false,
       "is_prerelease": false,
       "asset_count": 5
@@ -30,20 +30,27 @@
     "matrix_status": "proposed",
     "edge_count": 16,
     "tested_edge_count": 16,
-    "fresh_edge_count": 16,
-    "stale_edge_count": 0,
+    "fresh_edge_count": 15,
+    "stale_edge_count": 1,
     "canonical_vector_count": 16,
     "consumer_test_count": 16,
     "proposed_edge_count": 0,
     "compatibility_gate_complete": false
   },
   "compatibility_gate": {
-    "state": "ready",
+    "state": "blocked",
     "activation_authorized": false,
     "activation_evidence": "",
-    "reason_code": "AO2_COMPATIBILITY_EVIDENCE_CURRENT",
-    "reason": "The AO2 v0.5.8 execution-to-observation vector binds the current AO2 v0.5.8 and Control Plane v0.1.19 public pair.",
-    "details": {},
+    "reason_code": "AO2_COMPATIBILITY_EVIDENCE_VERSION_STALE",
+    "reason": "The AO2 execution-to-observation vector is bound to v0.5.8 and does not qualify the current AO2 v0.5.9 and Control Plane v0.1.19 public pair.",
+    "details": {
+      "edge": "ao2->ao2-control-plane:execution_to_observation",
+      "current_ao2_version": "v0.5.9",
+      "compatibility_evidence_version": "v0.5.8",
+      "canonical_vector_path": "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.8.json",
+      "canonical_vector_merge_commit": "3309137c762407862f20ed88e0469325fb187460",
+      "required_resolution": "separately_verified_unchanged_contract_bridge_or_refreshed_fixture"
+    },
     "allowed_states": [
       "false",
       "ready",
@@ -57,8 +64,8 @@
       "tested_edges_have_vectors": true,
       "tested_edges_have_consumer_tests": true,
       "local_architecture_vectors_exist": true,
-      "compatibility_evidence_current": true,
-      "all_tested_edges_fresh": true,
+      "compatibility_evidence_current": false,
+      "all_tested_edges_fresh": false,
       "external_beta_launched": false,
       "promotion_requested": false,
       "promotion_granted": false,
@@ -75,7 +82,7 @@
     "local_architecture_vectors_exist": "fresh",
     "operator_workflow_readback_available": "fresh",
     "denied_authority_boundaries_present": "fresh",
-    "compatibility_evidence_current": "fresh"
+    "compatibility_evidence_current": "stale"
   },
   "automation_readiness": {
     "repeatable_report": true,
@@ -97,5 +104,5 @@
     "live_self_modification": false,
     "rsi_remains_denied": true
   },
-  "next_action": "Compatibility evidence is current; continue only under separately authorized operator work."
+  "next_action": "Refresh the AO2 execution-to-observation fixture or separately verify an unchanged-contract bridge before compatibility qualification."
 }
