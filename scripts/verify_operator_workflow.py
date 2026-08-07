@@ -16,6 +16,8 @@ REQUIRED_GATES = [
     "dry-run/self-improvement gate",
     "observation/readback gate",
     "promotion/no-RSI gate",
+    "governed pool lifecycle gate",
+    "controlled external-beta gate",
 ]
 
 REQUIRED_STEPS = [
@@ -58,9 +60,15 @@ def validate_operator_workflow(document: str) -> list[str]:
         "document must state RSI remains denied": "rsi remains denied",
         "document must state live self-modification is denied": "live self-modification is denied",
         "document must state provider pilot did not run": "provider pilot did not run",
-        "document must state external beta is not launched": "external beta is not launched",
+        "document must deny a standing unrestricted external beta": "no standing or unrestricted external-beta program is launched",
         "document must state promotion is not requested or granted": "promotion is not requested or granted",
         "document must mention Month 4 dry-run evidence": "month 4 dry-run",
+        "document must identify the canonical V3 pool root": r"%userprofile%\ai agent teams\ao2-public-instances-v3",
+        "document must identify the public physical Windows worker role": "physical_windows_v3",
+        "document must require all five pool instances to be free": "require all five instances to be free",
+        "document must retain upstream as unchanged": "third-party upstream repository unchanged",
+        "document must bind restart to Mission and correlation identities": "same mission and correlation identities",
+        "document must identify the completed campaign evidence": "ao-mission-governed-pool-external-beta-20260807t011024z",
     }
     for error, phrase in required_phrases.items():
         if phrase.lower() not in lower:
@@ -84,7 +92,7 @@ def validate_operator_workflow(document: str) -> list[str]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Validate AO Architecture Month 5 operator workflow source of truth")
+    parser = argparse.ArgumentParser(description="Validate the AO Architecture operator workflow source of truth")
     parser.add_argument("--doc", type=Path, default=DEFAULT_DOC)
     args = parser.parse_args()
     try:
