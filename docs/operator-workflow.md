@@ -1,8 +1,10 @@
 # AO Stack Operator Workflow
 
-Status: current source of truth for Month 5 operator workflow hardening.  
-Scope: current public release pair, compatibility evidence, dry-run boundaries,
-policy gates, support evidence, and next safe action readback.
+Status: current operator workflow source of truth.
+
+Scope: current public release pair, compatibility evidence, governed-pool
+lifecycle, controlled external-beta boundaries, support evidence, and next safe
+action readback.
 
 ## Current Stack State
 
@@ -19,6 +21,19 @@ execution-to-observation vector binds the current public pair.
 The compatibility gate is ready, not active. No external beta
 launch, promotion, or RSI authority follows from this evidence.
 
+The governed Windows V3 pool consumes this pair at the operator-local root
+`%USERPROFILE%\AI Agent Teams\ao2-public-instances-v3`. Its public worker
+identity is the `physical_windows_v3` role on `windows/amd64`; private machine
+names and addresses are not public evidence. The accepted master prompt,
+instance overlay, operating mode, source pins, and accessory tree hashes must
+all pass the pool guard before a claim.
+
+One controlled external-beta canary completed under separate authority. It
+claimed and released one V3 instance, repaired one real third-party issue only
+on an operator-owned fork, opened one draft fork pull request, and left the
+third-party upstream repository unchanged. This result does not activate a
+standing external-beta program or widen future mutation authority.
+
 Month 4 dry-run evidence defines the controlled self-improvement boundary:
 fixture-only, human-approved, rollback-verified, observed, read back to the
 operator, and denied by Promoter for RSI or promotion activation.
@@ -28,7 +43,9 @@ operator, and denied by Promoter for RSI or promotion activation.
 - RSI remains denied.
 - Live self-modification is denied.
 - Provider pilot did not run.
-- External beta is not launched.
+- No standing or unrestricted external-beta program is launched. The completed
+  controlled canary does not authorize another issue, fork mutation, or upstream
+  submission.
 - Promotion is not requested or granted.
 - Release, tag, upload, deployment, and new binary publication are not part of
   the operator workflow.
@@ -72,6 +89,37 @@ Promoter readback must show `promotion_requested=false`,
 must reject any claim that changes the denied RSI, live self-modification,
 external beta, promotion, or provider-pilot states.
 
+### Governed Pool Lifecycle Gate
+
+1. Run the V3 guard and verify the accepted prompt, overlay, mode, source pins,
+   and accessory state.
+2. Read status and claim exactly one free instance. Keep the printed instance
+   root and lease identity through the complete task.
+3. Run only the authorized credential-free validation in that claimed instance.
+4. Release the exact lease, rerun status and hygiene, and require all five
+   instances to be free with zero violations.
+
+Readiness, a free instance, or a successful lifecycle canary does not authorize
+repository mutation.
+
+### Controlled External-Beta Gate
+
+A controlled beta uses a real public issue only after read-only eligibility and
+source-identity checks. Repair execution remains network-disabled and
+oracle-free until the candidate is digest-sealed. Mutation is limited to one
+operator-owned fork branch, one commit, and one draft pull request. No upstream
+issue comment, branch, pull request, release, deployment, or publication is
+allowed.
+
+The operator must checkpoint after the draft pull request, restart from the
+same Mission source, resume the same mission and correlation identities,
+compact and replay readbacks, and prove that restart created no duplicate
+lease, branch, commit, pull request, or issue interaction. The lifecycle canary
+has a 60-minute hard maximum; the repair segment has a 240-minute hard maximum.
+The completed campaign evidence identity is
+`ao-mission-governed-pool-external-beta-20260807T011024Z`; raw machine evidence
+remains operator-local and outside public repositories.
+
 ## Operator Workflow
 
 1. Read current state from Architecture current-release and compatibility
@@ -104,6 +152,6 @@ or raw private logs into support evidence.
 
 ## Next Safe Action
 
-Month 5 next safe action is multi-repo product coordination and operator
-workflow hardening. Month 6 is only a recommendation for next stable release
-train planning and readiness assessment; it is not started by this workflow.
+Review the retained draft fork pull request and campaign evidence. Any upstream
+submission, merge, additional issue, release, deployment, publication, or new
+beta requires separate authority and fresh exact-head qualification.

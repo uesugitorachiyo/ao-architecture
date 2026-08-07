@@ -7,7 +7,7 @@ from verify_operator_workflow import validate_operator_workflow
 
 
 class VerifyOperatorWorkflowTest(unittest.TestCase):
-    def test_accepts_month5_operator_workflow_doc(self):
+    def test_accepts_current_operator_workflow_doc(self):
         doc = (Path(__file__).resolve().parents[1] / "docs" / "operator-workflow.md").read_text()
         self.assertEqual(validate_operator_workflow(doc), [])
 
@@ -18,6 +18,7 @@ class VerifyOperatorWorkflowTest(unittest.TestCase):
         self.assertIn("document must mention AO2 Control Plane v0.1.19", errors)
         self.assertIn("document must state compatibility gate is ready, not active", errors)
         self.assertIn("document must state RSI remains denied", errors)
+        self.assertIn("document must deny a standing unrestricted external beta", errors)
         self.assertIn("document must state promotion is not requested or granted", errors)
 
     def test_rejects_missing_operator_steps_and_gates(self):
@@ -28,7 +29,7 @@ class VerifyOperatorWorkflowTest(unittest.TestCase):
                 "compatibility gate remains false",
                 "RSI remains denied",
                 "promotion is not requested or granted",
-                "external beta is not launched",
+                "No standing or unrestricted external-beta program is launched",
                 "live self-modification is denied",
                 "provider pilot did not run",
             ]
@@ -50,7 +51,7 @@ class VerifyOperatorWorkflowTest(unittest.TestCase):
                 "RSI remains denied",
                 "live self-modification is denied",
                 "provider pilot did not run",
-                "external beta is not launched",
+                "No standing or unrestricted external-beta program is launched",
                 "promotion is not requested or granted",
                 "Month 4 dry-run",
                 "release gate",
@@ -82,6 +83,15 @@ class VerifyOperatorWorkflowTest(unittest.TestCase):
         )
         errors = validate_operator_workflow(doc)
         self.assertIn("document must state compatibility gate is ready, not active", errors)
+
+    def test_rejects_legacy_external_beta_denial_without_controlled_boundary(self):
+        errors = validate_operator_workflow("External beta is not launched")
+        self.assertIn("document must deny a standing unrestricted external beta", errors)
+
+    def test_rejects_missing_governed_pool_and_controlled_beta_gates(self):
+        errors = validate_operator_workflow("No standing or unrestricted external-beta program is launched")
+        self.assertIn("document must include gate governed pool lifecycle gate", errors)
+        self.assertIn("document must include gate controlled external-beta gate", errors)
 
 
 if __name__ == "__main__":
