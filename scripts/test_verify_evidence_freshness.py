@@ -2,22 +2,24 @@ import copy
 import json
 import sys
 import unittest
+from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 
-from verify_evidence_freshness import validate_readback
+from verify_evidence_freshness import validate_live_readback, validate_readback
 
-AO2_VERSION = "v0.5.8"
-AO2_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.8"
-AO2_TAG_TARGET = "a879ae7969a26d13432c7cc402174861b2444c05"
+AO2_VERSION = "v0.5.9"
+AO2_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.9"
+AO2_TAG_TARGET = "fec09515dfe4e550eeaddc7da497b1fe912012b4"
 CONTROL_PLANE_VERSION = "v0.1.19"
 CONTROL_PLANE_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.19"
 CONTROL_PLANE_TAG_TARGET = "5de3541e9007e12d95b125e7f911c02932e21479"
-AO2_COMPATIBILITY_EVIDENCE_VERSION = "v0.5.8"
-AO2_COMPATIBILITY_EVIDENCE_PATH = "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.8.json"
-AO2_COMPATIBILITY_EVIDENCE_COMMIT = "3309137c762407862f20ed88e0469325fb187460"
+AO2_COMPATIBILITY_EVIDENCE_VERSION = "v0.5.9"
+AO2_COMPATIBILITY_EVIDENCE_PATH = "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.9.json"
+AO2_COMPATIBILITY_EVIDENCE_COMMIT = "09e8eae68f482faae4a1f8c9cd54b8080b4cc555"
 AO2_STALE_REASON_CODE = "AO2_COMPATIBILITY_EVIDENCE_VERSION_STALE"
+NOW = datetime(2026, 8, 7, 23, 5, tzinfo=timezone.utc)
 
 
 def valid_manifest():
@@ -100,14 +102,14 @@ def valid_matrix():
                 "canonical_vector": {
                     "repository": "ao2",
                     "path": AO2_COMPATIBILITY_EVIDENCE_PATH,
-                    "pr": "https://github.com/uesugitorachiyo/ao2/pull/624",
+                    "pr": "https://github.com/uesugitorachiyo/ao2/pull/630",
                     "merge_commit": AO2_COMPATIBILITY_EVIDENCE_COMMIT,
                 },
                 "consumer_test": {
                     "repository": "ao2-control-plane",
                     "path": "crates/ao2-cp-server/tests/compatibility_vectors.rs",
-                    "pr": "https://github.com/uesugitorachiyo/ao2-control-plane/pull/131",
-                    "merge_commit": "ded38643d7583e287db6af7b7782719bad5b3e69",
+                    "pr": "https://github.com/uesugitorachiyo/ao2-control-plane/pull/140",
+                    "merge_commit": "85e31c51e76950fd5cb36e5bbbb0f2b45418fd20",
                 },
             },
         ],
@@ -164,7 +166,7 @@ def valid_readback():
             "activation_authorized": False,
             "activation_evidence": "",
             "reason_code": "AO2_COMPATIBILITY_EVIDENCE_CURRENT",
-            "reason": "The AO2 v0.5.8 execution-to-observation vector binds the current AO2 v0.5.8 and Control Plane v0.1.19 public pair.",
+            "reason": "The AO2 v0.5.9 execution-to-observation vector binds the current AO2 v0.5.9 and Control Plane v0.1.19 public pair.",
             "details": {},
             "allowed_states": ["false", "ready", "active", "blocked", "denied"],
             "readiness_criteria": {
@@ -197,7 +199,36 @@ def valid_readback():
     }
 
 
+def valid_version_skew():
+    root = Path(__file__).resolve().parents[1]
+    return json.loads((root / "stack" / "execution-observation-version-skew.json").read_text())
+
+
 class VerifyEvidenceFreshnessTest(unittest.TestCase):
+    def test_live_readback_consumes_current_version_skew(self):
+        errors = validate_live_readback(
+            valid_readback(),
+            valid_manifest(),
+            valid_matrix(),
+            valid_version_skew(),
+            NOW,
+            existing_paths={"stack/fixtures/compatibility/architecture-route-context-v0.1.json"},
+        )
+        self.assertEqual(errors, [])
+
+    def test_live_readback_rejects_expired_version_skew(self):
+        expired = datetime(2026, 8, 8, 18, 58, 58, 48305, tzinfo=timezone.utc)
+        errors = validate_live_readback(
+            valid_readback(),
+            valid_manifest(),
+            valid_matrix(),
+            valid_version_skew(),
+            expired,
+            existing_paths={"stack/fixtures/compatibility/architecture-route-context-v0.1.json"},
+        )
+        self.assertIn("version_skew: compatibility evidence is stale", errors)
+        self.assertIn("fresh readback requires current version-skew evidence", errors)
+
     def test_accepts_truthful_current_ready_readback(self):
         errors = validate_readback(
             valid_readback(),
@@ -210,7 +241,7 @@ class VerifyEvidenceFreshnessTest(unittest.TestCase):
     def test_rejects_fresh_claim_when_current_ao2_outpaces_bound_evidence(self):
         readback = valid_readback()
         matrix = valid_matrix()
-        matrix["edges"][2]["canonical_vector"]["path"] = "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.5.json"
+        matrix["edges"][2]["canonical_vector"]["path"] = "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.8.json"
         errors = validate_readback(
             readback,
             valid_manifest(),
@@ -218,20 +249,36 @@ class VerifyEvidenceFreshnessTest(unittest.TestCase):
             existing_paths={"stack/fixtures/compatibility/architecture-route-context-v0.1.json"},
         )
         self.assertIn(
-            "AO2 compatibility evidence v0.5.5 is stale for current release v0.5.8; readback must be stale and gate blocked",
+            "AO2 compatibility evidence v0.5.8 is stale for current release v0.5.9; readback must be stale and gate blocked",
+            errors,
+        )
+
+    def test_rejects_blocked_claim_when_all_evidence_is_current(self):
+        readback = valid_readback()
+        readback["status"] = "stale"
+        readback["compatibility_gate"]["state"] = "blocked"
+        errors = validate_readback(
+            readback,
+            valid_manifest(),
+            valid_matrix(),
+            existing_paths={"stack/fixtures/compatibility/architecture-route-context-v0.1.json"},
+        )
+        self.assertIn("readback status must be fresh when all compatibility evidence is current", errors)
+        self.assertIn(
+            "compatibility_gate.state must be ready when all compatibility evidence is current",
             errors,
         )
 
     def test_rejects_unbridged_future_ao2_release(self):
         manifest = valid_manifest()
-        manifest["ao2"]["version"] = "v0.5.9"
+        manifest["ao2"]["version"] = "v0.5.10"
         errors = validate_readback(
             valid_readback(),
             manifest,
             valid_matrix(),
             existing_paths={"stack/fixtures/compatibility/architecture-route-context-v0.1.json"},
         )
-        self.assertTrue(any("is stale for current release v0.5.9" in error for error in errors))
+        self.assertTrue(any("is stale for current release v0.5.10" in error for error in errors))
 
     def test_rejects_nonexistent_ao2_evidence_path_and_fabricated_commit(self):
         matrix = valid_matrix()

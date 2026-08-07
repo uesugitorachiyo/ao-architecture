@@ -13,9 +13,9 @@ VALID_DOC = """
 
 The current public pair is AO2 v0.5.9 and AO2 Control Plane v0.1.19.
 The compatibility matrix has 16 tested edges, 16 canonical vectors, and
-16 consumer tests. Fifteen edges are fresh. The AO2 v0.5.8
-execution-to-observation vector is stale for AO2 v0.5.9.
-The compatibility gate is blocked, not active.
+16 consumer tests. All 16 edges are fresh. The AO2 v0.5.9
+execution-to-observation vector binds AO2 v0.5.9 and Control Plane v0.1.19.
+The compatibility gate is ready, not active.
 
 The operator reads current stack state, identifies the current public pair,
 checks the compatibility gate, chooses safe next work, inspects policy gates,
@@ -37,11 +37,11 @@ class AdoptionOperatorDrillVerifierTests(unittest.TestCase):
 
     def test_rejects_gate_activation_claim(self) -> None:
         doc = VALID_DOC.replace(
-            "The compatibility gate is blocked, not active.",
+            "The compatibility gate is ready, not active.",
             "The compatibility gate is active.",
         )
         errors = validate_adoption_operator_drill(doc)
-        self.assertIn("document must state compatibility gate is blocked, not active", errors)
+        self.assertIn("document must state compatibility gate is ready, not active", errors)
 
     def test_rejects_missing_support_category(self) -> None:
         doc = VALID_DOC.replace("manifest mismatch,\n", "")

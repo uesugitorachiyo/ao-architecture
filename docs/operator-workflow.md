@@ -16,9 +16,9 @@ The current public release pair is:
   `5de3541e9007e12d95b125e7f911c02932e21479`.
 
 The Architecture compatibility matrix records 16 tested edges, 16 canonical
-vectors, and 16 consumer tests. Fifteen edges are fresh; the AO2 v0.5.8
-execution-to-observation vector is stale for AO2 v0.5.9.
-The compatibility gate is blocked, not active. No external beta
+vectors, and 16 consumer tests. All 16 edges are fresh; the AO2 v0.5.9
+execution-to-observation vector binds AO2 v0.5.9 and Control Plane v0.1.19.
+The compatibility gate is ready, not active. No external beta
 launch, promotion, or RSI authority follows from this evidence.
 
 The governed Windows V3 pool consumes this pair at the operator-local root
@@ -62,8 +62,8 @@ Month 5 operator workflow item.
 ### Compatibility Evidence Gate
 
 The operator checks the Architecture matrix readback. The current matrix has 16
-tested edges, 0 remaining proposed edges, and 1 stale edge. The compatibility
-gate is blocked, not active.
+tested edges, 0 remaining proposed edges, and 0 stale edges. The compatibility
+gate is ready, not active.
 
 ### Policy Approval Gate
 

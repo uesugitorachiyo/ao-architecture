@@ -16,7 +16,7 @@ class VerifyOperatorWorkflowTest(unittest.TestCase):
         errors = validate_operator_workflow(doc)
         self.assertIn("document must mention AO2 v0.5.9", errors)
         self.assertIn("document must mention AO2 Control Plane v0.1.19", errors)
-        self.assertIn("document must state compatibility gate is blocked, not active", errors)
+        self.assertIn("document must state compatibility gate is ready, not active", errors)
         self.assertIn("document must state RSI remains denied", errors)
         self.assertIn("document must deny a standing unrestricted external beta", errors)
         self.assertIn("document must state promotion is not requested or granted", errors)
@@ -46,8 +46,8 @@ class VerifyOperatorWorkflowTest(unittest.TestCase):
                 "AO2 Control Plane v0.1.19",
                 "16 tested compatibility edges",
                 "compatibility gate is active",
-                "Fifteen edges are fresh",
-                "AO2 v0.5.8 execution-to-observation vector is stale for AO2 v0.5.9",
+                "All 16 edges are fresh",
+                "AO2 v0.5.9 execution-to-observation vector binds AO2 v0.5.9 and Control Plane v0.1.19",
                 "RSI remains denied",
                 "live self-modification is denied",
                 "provider pilot did not run",
@@ -82,7 +82,7 @@ class VerifyOperatorWorkflowTest(unittest.TestCase):
             ]
         )
         errors = validate_operator_workflow(doc)
-        self.assertIn("document must state compatibility gate is blocked, not active", errors)
+        self.assertIn("document must state compatibility gate is ready, not active", errors)
 
     def test_rejects_legacy_external_beta_denial_without_controlled_boundary(self):
         errors = validate_operator_workflow("External beta is not launched")

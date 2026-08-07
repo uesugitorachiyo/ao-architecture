@@ -16,9 +16,19 @@ DIGEST_RE = re.compile(r"^[0-9a-f]{64}$")
 EXPECTED_IDS = ["predecessor_public_pair", "current_public_pair", "current_source_candidate"]
 EXPECTED_PAIRS = {
     "predecessor_public_pair": ("v0.5.1", "80ec5321f42d4bab17d5e64fdae6aa099ba59d4a", "v0.1.16", "f4f5fea9fefa1081cebcbabac550b0e08b9f0e3d", "supported_by_unchanged_bridge"),
-    "current_public_pair": ("v0.5.8", "a879ae7969a26d13432c7cc402174861b2444c05", "v0.1.19", "5de3541e9007e12d95b125e7f911c02932e21479", "supported_by_unchanged_bridge"),
-    "current_source_candidate": ("v0.5.8", "3309137c762407862f20ed88e0469325fb187460", "v0.1.19", "128fc8b28be5bcc5b0f5d616ba02d016e84899ff", "supported_by_unchanged_bridge"),
+    "current_public_pair": ("v0.5.9", "fec09515dfe4e550eeaddc7da497b1fe912012b4", "v0.1.19", "5de3541e9007e12d95b125e7f911c02932e21479", "supported_by_unchanged_bridge"),
+    "current_source_candidate": ("v0.5.9", "09e8eae68f482faae4a1f8c9cd54b8080b4cc555", "v0.1.19", "85e31c51e76950fd5cb36e5bbbb0f2b45418fd20", "supported_by_unchanged_bridge"),
 }
+EXPECTED_EVIDENCE = {
+    "producer_path": "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.9.json",
+    "producer_merge_commit": "09e8eae68f482faae4a1f8c9cd54b8080b4cc555",
+    "producer_sha256": "00ee9978b5325bc40d5d5de8f63227716d2ca2fe88c81182fdf6e68448d15a7d",
+    "consumer_test_path": "crates/ao2-cp-server/tests/compatibility_vectors.rs",
+    "consumer_merge_commit": "85e31c51e76950fd5cb36e5bbbb0f2b45418fd20",
+    "consumer_test_sha256": "e2a353042474abd14bf993b676a4df8b0bd4ff3f22bb6454e8de4a701e3282ae",
+}
+EXPECTED_GENERATED_AT = "2026-08-07T20:40:05Z"
+EXPECTED_VALID_UNTIL = "2026-08-08T18:58:58.048305Z"
 EXPECTED_FIELDS = {
     "schema", "status", "generated_at", "valid_until", "contract", "evidence", "pairs", "boundaries"
 }
@@ -42,6 +52,8 @@ def reject_duplicate_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
 
 
 def read_strict_json(path: Path) -> dict[str, Any]:
+    if not path.is_file() or path.is_symlink():
+        raise ValueError("contract must be a regular non-symlink file")
     raw = path.read_bytes()
     if len(raw) > MAX_CONTRACT_BYTES:
         raise ValueError("contract exceeds the 1048576-byte limit")
@@ -73,9 +85,15 @@ def validate_contract(contract: dict[str, Any], now: datetime) -> list[str]:
 
     generated = parse_timestamp(contract.get("generated_at"), "generated_at", errors)
     expires = parse_timestamp(contract.get("valid_until"), "valid_until", errors)
+    if contract.get("generated_at") != EXPECTED_GENERATED_AT:
+        errors.append("generated_at must match the bound compatibility vector")
+    if contract.get("valid_until") != EXPECTED_VALID_UNTIL:
+        errors.append("valid_until must match the bound compatibility vector")
     if generated and expires and not generated < expires:
         errors.append("valid_until must be after generated_at")
-    if expires and now > expires:
+    if generated and generated > now:
+        errors.append("generated_at cannot be in the future")
+    if expires and now >= expires:
         errors.append("compatibility evidence is stale")
 
     schemas = contract.get("contract")
@@ -94,6 +112,8 @@ def validate_contract(contract: dict[str, Any], now: datetime) -> list[str]:
     if not isinstance(evidence, dict) or set(evidence) != required_evidence:
         errors.append("evidence fields must exactly match the strict schema")
     else:
+        if evidence != EXPECTED_EVIDENCE:
+            errors.append("evidence must match the exact current producer and consumer files")
         for field in ("producer_merge_commit", "consumer_merge_commit"):
             if not SHA_RE.fullmatch(str(evidence.get(field, ""))):
                 errors.append(f"evidence.{field} must be a full source SHA")

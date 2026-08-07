@@ -6,7 +6,7 @@ This document records the current independently verified public releases.
 
 - AO2: [v0.5.9](https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.9)
 - AO2 tag target: `fec09515dfe4e550eeaddc7da497b1fe912012b4`
-- AO2 current main: `1ea4c482ad105227a5701f6b8eafcd16c42d06e9`
+- AO2 current main: `09e8eae68f482faae4a1f8c9cd54b8080b4cc555`
 - AO2 approved asset-manifest digest: `5f82c24b239c50dadb72e2bfafe1a310b04724cfacff5acee88f5164ec3c59cd`
 - AO2 promotion-plan digest: `4e61e689432e9eddb7885448bd7bf2a70ccb46cc8ca5103be76ec9814d09c591`
 - AO2 physical-Windows evidence digest: `df4384874bb2f89c67fe0b5c588cfbcbb89d2e50b123595dd5d1ca4a5b38a8f0`
@@ -15,7 +15,7 @@ This document records the current independently verified public releases.
 - AO2 public-release consumer smoke: [run 31214325492](https://github.com/uesugitorachiyo/ao2/actions/runs/31214325492)
 - AO2 Control Plane: [v0.1.19](https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.19)
 - AO2 Control Plane tag target: `5de3541e9007e12d95b125e7f911c02932e21479`
-- AO2 Control Plane current main: `eb420864794ceb9ebadef8f3f551772095edb758`
+- AO2 Control Plane current main: `85e31c51e76950fd5cb36e5bbbb0f2b45418fd20`
 - AO2 Control Plane post-release verification: [run 30973505420](https://github.com/uesugitorachiyo/ao2-control-plane/actions/runs/30973505420)
 
 AO2 v0.5.9 is public, not draft, not prerelease, and has five approved public
@@ -56,13 +56,13 @@ The compatibility matrix remains proposed:
 
 - `stack/contract-compatibility-matrix.json` status remains `proposed`.
 - Canonical vector and consumer-test counts are both `16`.
-- Current freshness is `15` fresh edges and `1` stale edge.
+- Current freshness is `16` fresh edges and `0` stale edges.
 - AO2 v0.5.9 and Control Plane v0.1.19 are the current public pair. The AO2
-  execution-to-observation vector remains bound to v0.5.8, so the compatibility
-  gate is blocked pending a separately verified bridge or refreshed fixture.
+  execution-to-observation vector and consumer test bind that exact pair, so
+  the compatibility gate is ready but not active.
 - `compatibility_gate_complete` remains `false`.
 
-The compatibility gate is blocked and not active. External beta, promotion,
+The compatibility gate is ready and not active. External beta, promotion,
 provider execution, and RSI authority remain separate denied or unrequested
 states.
 

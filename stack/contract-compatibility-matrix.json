@@ -155,15 +155,15 @@
       "compatibility_status": "tested_current_release_pair",
       "canonical_vector": {
         "repository": "ao2",
-        "path": "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.8.json",
-        "pr": "https://github.com/uesugitorachiyo/ao2/pull/624",
-        "merge_commit": "3309137c762407862f20ed88e0469325fb187460"
+        "path": "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.9.json",
+        "pr": "https://github.com/uesugitorachiyo/ao2/pull/630",
+        "merge_commit": "09e8eae68f482faae4a1f8c9cd54b8080b4cc555"
       },
       "consumer_test": {
         "repository": "ao2-control-plane",
         "path": "crates/ao2-cp-server/tests/compatibility_vectors.rs",
-        "pr": "https://github.com/uesugitorachiyo/ao2-control-plane/pull/131",
-        "merge_commit": "ded38643d7583e287db6af7b7782719bad5b3e69"
+        "pr": "https://github.com/uesugitorachiyo/ao2-control-plane/pull/140",
+        "merge_commit": "85e31c51e76950fd5cb36e5bbbb0f2b45418fd20"
       }
     },
     {
