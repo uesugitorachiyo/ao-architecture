@@ -20,9 +20,8 @@ The evidence freshness verifier checks:
 - The matrix labels all 16 edges `tested_current_release_pair`, but freshness is
   evaluated separately against the current public versions.
 - All 16 edges have current evidence. The AO2 execution-to-observation edge is
-  bound through the verified unchanged-contract bridge from the immutable AO2
-  `v0.5.6` vector to AO2 `v0.5.7` and the Control Plane `v0.1.18` consumer
-  regression.
+  bound to the immutable AO2 `v0.5.8` vector and the AO2 Control Plane
+  `v0.1.19` consumer regression.
 - Matrix vector and consumer-test counts match the tested edge count.
 - Tested edges include canonical vector references and consumer-test
   references.

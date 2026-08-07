@@ -89,6 +89,12 @@ contract path. [Evidence Freshness](evidence-freshness.md) explains how to
 interpret current and historical evidence; the compatibility matrix remains a
 proposed gate until its own activation criteria are met.
 
+For a credential-free, offline check of a completed third-party repair bundle,
+follow [Replay A Repair Qualification](repair-qualification-replay.md). The
+procedure verifies exact source and evidence digests, RED/GREEN and full-suite
+results, independent review, draft state, AO2's strict verdict, and Mission's
+four terminal views. A passing verdict remains evidence only.
+
 ## Upgrade And Recovery
 
 Upgrade one pinned component at a time, rerun its source-owned verification,
