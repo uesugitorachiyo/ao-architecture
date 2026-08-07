@@ -12,9 +12,9 @@ full release evidence and asset digests are in [Current Public Releases](current
 
 | Package role | Repository | Release | What it provides |
 | --- | --- | --- | --- |
-| Execution | [AO2](https://github.com/uesugitorachiyo/ao2) | [v0.5.8](https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.8) | Bounded local workflows, approvals, verification, and evidence capture |
+| Execution | [AO2](https://github.com/uesugitorachiyo/ao2) | [v0.5.9](https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.9) | Bounded local workflows, approvals, verification, and evidence capture |
 | Observation | [AO2 Control Plane](https://github.com/uesugitorachiyo/ao2-control-plane) | [v0.1.19](https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.19) | Read-only evidence ingest, storage, metrics, and operator readback |
-| Mission control | [AO Mission](https://github.com/uesugitorachiyo/ao-mission) | [v0.1.1](https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.1) | Objective intake, routing, durable lifecycle state, and continuation |
+| Mission control | [AO Mission](https://github.com/uesugitorachiyo/ao-mission) | [v0.1.2](https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.2) | Objective intake, routing, durable lifecycle state, and continuation |
 | Operator status | [AO Command](https://github.com/uesugitorachiyo/ao-command) | [v0.1.2](https://github.com/uesugitorachiyo/ao-command/releases/tag/v0.1.2) | Read-only status and evidence inspection |
 | Run coordination | [AO Forge](https://github.com/uesugitorachiyo/ao-forge) | [v0.1.4](https://github.com/uesugitorachiyo/ao-forge/releases/tag/v0.1.4) | GoalRun state, factory plans, release gates, and retained run evidence |
 | Policy and trust | [AO Covenant](https://github.com/uesugitorachiyo/ao-covenant) | [v0.1.1](https://github.com/uesugitorachiyo/ao-covenant/releases/tag/v0.1.1) | Policy, approval, side-effect, and evidence-contract gates |
@@ -33,6 +33,8 @@ publish a binary.
 2. **Install AO2.** Follow [First 30 Minutes With AO2](https://github.com/uesugitorachiyo/ao2/blob/main/docs/FIRST-30-MINUTES.md).
    Download only the supported platform archive, verify `SHA256SUMS`, run the
    doctor check, and complete the credential-free fixture demo.
+   AO2 does not publish a Linux aarch64 archive. Linux aarch64 hosts may use
+   the Linux x86_64 archive only under explicit Docker emulation.
 3. **Add observation when needed.** Pair AO2 with AO2 Control Plane `v0.1.19`
    when durable evidence ingest, dashboards, or authenticated read-only APIs are
    required. Keep the Control Plane observer-only; it does not approve or apply
@@ -79,6 +81,8 @@ For a reproducible package setup:
 - Run the read-only Mission and Command status/readback paths described in their
   [source documentation](https://github.com/uesugitorachiyo/ao-mission) and
   [Command README](https://github.com/uesugitorachiyo/ao-command).
+- Use the credential-free AO2 fixture and the sealed Click repair-qualification
+  replay for a public, no-provider package check.
 - If using the Control Plane, verify imported evidence by digest and preserve
   the original artifact for audit.
 - Keep the package's version matrix and evidence manifest together with the

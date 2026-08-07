@@ -6,12 +6,10 @@ AO Mission's read-only terminal views. Download the public source inputs and
 the sanitized qualification directory before disconnecting the test
 environment from the network.
 
-The verifier was added after AO2 v0.5.8. Until a later release includes it,
-build AO2 from commit
-[`c1af3a972fe1f53fc1fc1aa3f04f411e38510d64`](https://github.com/uesugitorachiyo/ao2/commit/c1af3a972fe1f53fc1fc1aa3f04f411e38510d64).
-The terminal-projection fields require AO Mission commit
-[`9a98a8ea4a3a73ccb2392cba7623dd0fbdf01b29`](https://github.com/uesugitorachiyo/ao-mission/commit/9a98a8ea4a3a73ccb2392cba7623dd0fbdf01b29)
-or newer. Record both source SHAs in the replay evidence.
+Use the checksum-verified public archives for
+[AO2 v0.5.9](https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.9)
+and [AO Mission v0.1.2](https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.2).
+Record both release tags and tag-target SHAs in the replay evidence.
 
 ## Offline Replay
 
@@ -28,10 +26,10 @@ or newer. Record both source SHAs in the replay evidence.
 5. Verify the candidate seal, patch and tree digests, independent-review
    readback, and operator-fork draft capture. The draft must remain open,
    unmerged, and bound to the exact candidate head.
-6. From the AO2 checkout, run:
+6. Run the installed AO2 verifier:
 
    ```sh
-   cargo run -p ao2-cli -- issue repair-qualification verify \
+   ao2 issue repair-qualification verify \
      --bundle <qualification-directory>/bundle.json --json
    ```
 
