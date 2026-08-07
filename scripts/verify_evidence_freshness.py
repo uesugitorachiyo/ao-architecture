@@ -5,20 +5,29 @@ import argparse
 import json
 import re
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+from verify_execution_observation_version_skew import (
+    parse_timestamp,
+    read_strict_json,
+    validate_contract as validate_version_skew_contract,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_READBACK = ROOT / "stack" / "evidence-freshness-readback.json"
 DEFAULT_MANIFEST = ROOT / "stack" / "current-release-manifest.json"
 DEFAULT_MATRIX = ROOT / "stack" / "contract-compatibility-matrix.json"
+DEFAULT_VERSION_SKEW = ROOT / "stack" / "execution-observation-version-skew.json"
 GATE_STATES = {"false", "ready", "active", "blocked", "denied"}
-AO2_COMPATIBILITY_EVIDENCE_VERSION = "v0.5.8"
-AO2_COMPATIBILITY_EVIDENCE_PATH = "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.8.json"
-AO2_COMPATIBILITY_EVIDENCE_COMMIT = "3309137c762407862f20ed88e0469325fb187460"
-AO2_UNCHANGED_CONTRACT_BRIDGE_RELEASES = {"v0.5.8"}
+AO2_COMPATIBILITY_EVIDENCE_VERSION = "v0.5.9"
+AO2_COMPATIBILITY_EVIDENCE_PATH = "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.9.json"
+AO2_COMPATIBILITY_EVIDENCE_COMMIT = "09e8eae68f482faae4a1f8c9cd54b8080b4cc555"
+AO2_UNCHANGED_CONTRACT_BRIDGE_RELEASES = {"v0.5.9"}
 AO2_STALE_REASON_CODE = "AO2_COMPATIBILITY_EVIDENCE_VERSION_STALE"
+AO2_CURRENT_REASON_CODE = "AO2_COMPATIBILITY_EVIDENCE_CURRENT"
 AO2_EVIDENCE_VERSION_RE = re.compile(r"ao2-execution-receipt-(v[0-9]+\.[0-9]+\.[0-9]+)\.json$")
 FALSE_BOUNDARIES = (
     "external_beta_launched",
@@ -133,6 +142,17 @@ def validate_gate(
             errors.append("readiness_criteria.compatibility_evidence_current must be false")
         if criteria.get("all_tested_edges_fresh") is not False:
             errors.append("readiness_criteria.all_tested_edges_fresh must be false")
+    else:
+        if state != "ready":
+            errors.append("compatibility_gate.state must be ready when all compatibility evidence is current")
+        if gate.get("reason_code") != AO2_CURRENT_REASON_CODE:
+            errors.append(f"compatibility_gate.reason_code must be {AO2_CURRENT_REASON_CODE}")
+        if gate.get("details") != {}:
+            errors.append("compatibility_gate.details must be empty when compatibility evidence is current")
+        if criteria.get("compatibility_evidence_current") is not True:
+            errors.append("readiness_criteria.compatibility_evidence_current must be true")
+        if criteria.get("all_tested_edges_fresh") is not True:
+            errors.append("readiness_criteria.all_tested_edges_fresh must be true")
 
 
 def validate_boundaries(errors: list[str], boundaries: dict[str, Any] | None) -> None:
@@ -285,8 +305,26 @@ def validate_readback(
             f"is stale for current release {compatibility_gap['current_ao2_version']}; "
             "readback must be stale and gate blocked"
         )
+    if compatibility_gap is None and readback.get("status") != "fresh":
+        errors.append("readback status must be fresh when all compatibility evidence is current")
     validate_gate(errors, readback.get("compatibility_gate"), compatibility_gap)
     validate_boundaries(errors, readback.get("boundaries"))
+    return errors
+
+
+def validate_live_readback(
+    readback: dict[str, Any],
+    manifest: dict[str, Any],
+    matrix: dict[str, Any],
+    version_skew: dict[str, Any],
+    now: datetime,
+    existing_paths: set[str] | None = None,
+) -> list[str]:
+    errors = validate_readback(readback, manifest, matrix, existing_paths)
+    skew_errors = validate_version_skew_contract(version_skew, now)
+    errors.extend(f"version_skew: {error}" for error in skew_errors)
+    if skew_errors and readback.get("status") == "fresh":
+        errors.append("fresh readback requires current version-skew evidence")
     return errors
 
 
@@ -295,19 +333,30 @@ def main() -> int:
     parser.add_argument("--readback", type=Path, default=DEFAULT_READBACK)
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
     parser.add_argument("--matrix", type=Path, default=DEFAULT_MATRIX)
+    parser.add_argument("--version-skew", type=Path, default=DEFAULT_VERSION_SKEW)
+    parser.add_argument("--now", help="RFC3339 UTC timestamp for deterministic verification")
     args = parser.parse_args()
     try:
         readback = read_json(args.readback)
         manifest = read_json(args.manifest)
         matrix = read_json(args.matrix)
-    except (OSError, json.JSONDecodeError) as exc:
+        version_skew = read_strict_json(args.version_skew)
+    except (OSError, ValueError, json.JSONDecodeError) as exc:
         print(f"verify_evidence_freshness.py: {exc}", file=sys.stderr)
         return 1
+    now = datetime.now(timezone.utc)
+    if args.now:
+        timestamp_errors: list[str] = []
+        parsed = parse_timestamp(args.now, "now", timestamp_errors)
+        if timestamp_errors or parsed is None:
+            print("verify_evidence_freshness.py: now must be an RFC3339 UTC timestamp", file=sys.stderr)
+            return 1
+        now = parsed
     local_paths = {
         str(path.relative_to(ROOT))
         for path in (ROOT / "stack" / "fixtures" / "compatibility").glob("*.json")
     }
-    errors = validate_readback(readback, manifest, matrix, local_paths)
+    errors = validate_live_readback(readback, manifest, matrix, version_skew, now, local_paths)
     if errors:
         for error in errors:
             print(f"verify_evidence_freshness.py: {error}", file=sys.stderr)

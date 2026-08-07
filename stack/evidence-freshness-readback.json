@@ -1,7 +1,7 @@
 {
   "schema": "ao.architecture.evidence-freshness-readback.v0.1",
-  "status": "stale",
-  "generated_at_utc": "2026-08-07T20:40:05Z",
+  "status": "fresh",
+  "generated_at_utc": "2026-08-07T23:00:34Z",
   "current_public_release_pair": {
     "ao2": {
       "version": "v0.5.9",
@@ -24,27 +24,20 @@
     "matrix_status": "proposed",
     "edge_count": 16,
     "tested_edge_count": 16,
-    "fresh_edge_count": 15,
-    "stale_edge_count": 1,
+    "fresh_edge_count": 16,
+    "stale_edge_count": 0,
     "canonical_vector_count": 16,
     "consumer_test_count": 16,
     "proposed_edge_count": 0,
     "compatibility_gate_complete": false
   },
   "compatibility_gate": {
-    "state": "blocked",
+    "state": "ready",
     "activation_authorized": false,
     "activation_evidence": "",
-    "reason_code": "AO2_COMPATIBILITY_EVIDENCE_VERSION_STALE",
-    "reason": "The AO2 execution-to-observation vector is bound to v0.5.8 and does not qualify the current AO2 v0.5.9 and Control Plane v0.1.19 public pair.",
-    "details": {
-      "edge": "ao2->ao2-control-plane:execution_to_observation",
-      "current_ao2_version": "v0.5.9",
-      "compatibility_evidence_version": "v0.5.8",
-      "canonical_vector_path": "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.8.json",
-      "canonical_vector_merge_commit": "3309137c762407862f20ed88e0469325fb187460",
-      "required_resolution": "separately_verified_unchanged_contract_bridge_or_refreshed_fixture"
-    },
+    "reason_code": "AO2_COMPATIBILITY_EVIDENCE_CURRENT",
+    "reason": "The AO2 v0.5.9 execution-to-observation vector binds the current AO2 v0.5.9 and Control Plane v0.1.19 public pair.",
+    "details": {},
     "allowed_states": [
       "false",
       "ready",
@@ -58,8 +51,8 @@
       "tested_edges_have_vectors": true,
       "tested_edges_have_consumer_tests": true,
       "local_architecture_vectors_exist": true,
-      "compatibility_evidence_current": false,
-      "all_tested_edges_fresh": false,
+      "compatibility_evidence_current": true,
+      "all_tested_edges_fresh": true,
       "external_beta_launched": false,
       "promotion_requested": false,
       "promotion_granted": false,

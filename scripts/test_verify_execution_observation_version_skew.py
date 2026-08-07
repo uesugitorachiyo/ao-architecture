@@ -11,7 +11,7 @@ from verify_execution_observation_version_skew import read_strict_json, validate
 
 
 ROOT = Path(__file__).resolve().parents[1]
-NOW = datetime(2026, 7, 31, 23, 0, tzinfo=timezone.utc)
+NOW = datetime(2026, 8, 7, 23, 5, tzinfo=timezone.utc)
 
 
 def valid_contract():
@@ -27,7 +27,7 @@ class VersionSkewContractTest(unittest.TestCase):
             ("wrong schema", lambda value: value.update(schema="wrong")),
             ("wrong source head", lambda value: value["pairs"][2].update(ao2_source_sha="0" * 40)),
             ("wrong version", lambda value: value["pairs"][1].update(ao2_version="v0.5.5")),
-            ("altered digest", lambda value: value["evidence"].update(producer_sha256="altered")),
+            ("altered digest", lambda value: value["evidence"].update(producer_sha256="0" * 64)),
             ("unsupported skew", lambda value: value["pairs"][0].update(status="unsupported")),
             ("authority change", lambda value: value["boundaries"].update(permits_release=True)),
         ]
@@ -40,6 +40,25 @@ class VersionSkewContractTest(unittest.TestCase):
     def test_rejects_stale_timestamp(self):
         stale = datetime(2026, 9, 5, tzinfo=timezone.utc)
         self.assertIn("compatibility evidence is stale", validate_contract(valid_contract(), stale))
+
+    def test_rejects_extended_expiry(self):
+        candidate = valid_contract()
+        candidate["valid_until"] = "2100-01-01T00:00:00Z"
+        self.assertIn(
+            "valid_until must match the bound compatibility vector",
+            validate_contract(candidate, NOW),
+        )
+
+    def test_rejects_future_generation_time(self):
+        candidate = valid_contract()
+        candidate["generated_at"] = "2026-08-08T00:00:00Z"
+        errors = validate_contract(candidate, NOW)
+        self.assertIn("generated_at must match the bound compatibility vector", errors)
+        self.assertIn("generated_at cannot be in the future", errors)
+
+    def test_expires_at_exact_boundary(self):
+        boundary = datetime(2026, 8, 8, 18, 58, 58, 48305, tzinfo=timezone.utc)
+        self.assertIn("compatibility evidence is stale", validate_contract(valid_contract(), boundary))
 
     def test_rejects_malformed_and_unknown_fields(self):
         candidate = valid_contract()
@@ -60,6 +79,17 @@ class VersionSkewContractTest(unittest.TestCase):
             path.write_bytes(b" " * 1_048_577)
             with self.assertRaisesRegex(ValueError, "exceeds"):
                 read_strict_json(path)
+
+    def test_strict_reader_rejects_symlink(self):
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as directory:
+            target = Path(directory) / "target.json"
+            target.write_text("{}")
+            link = Path(directory) / "contract.json"
+            link.symlink_to(target)
+            with self.assertRaisesRegex(ValueError, "regular non-symlink"):
+                read_strict_json(link)
 
 
 if __name__ == "__main__":

@@ -12,9 +12,9 @@ VALID_DOC = """
 
 Current public pair: AO2 v0.5.9 and AO2 Control Plane v0.1.19.
 The compatibility matrix remains 16 tested edges, 16 canonical vectors, and
-16 consumer tests. Fifteen edges are fresh. The AO2 v0.5.8
-execution-to-observation vector is stale for AO2 v0.5.9.
-The compatibility gate is blocked, not active.
+16 consumer tests. All 16 edges are fresh. The AO2 v0.5.9
+execution-to-observation vector binds AO2 v0.5.9 and Control Plane v0.1.19.
+The compatibility gate is ready, not active.
 
 Support readiness states: fresh, stale, blocked, denied, unsupported.
 
