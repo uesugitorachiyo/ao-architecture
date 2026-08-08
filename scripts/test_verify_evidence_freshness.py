@@ -9,9 +9,9 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from verify_evidence_freshness import validate_live_readback, validate_readback
 
-AO2_VERSION = "v0.5.9"
-AO2_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.9"
-AO2_TAG_TARGET = "fec09515dfe4e550eeaddc7da497b1fe912012b4"
+AO2_VERSION = "v0.5.10"
+AO2_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.10"
+AO2_TAG_TARGET = "9f4f8a8cf596127a982627b4af25c90a9a842095"
 CONTROL_PLANE_VERSION = "v0.1.19"
 CONTROL_PLANE_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.19"
 CONTROL_PLANE_TAG_TARGET = "5de3541e9007e12d95b125e7f911c02932e21479"
@@ -19,7 +19,7 @@ AO2_COMPATIBILITY_EVIDENCE_VERSION = "v0.5.9"
 AO2_COMPATIBILITY_EVIDENCE_PATH = "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.9.json"
 AO2_COMPATIBILITY_EVIDENCE_COMMIT = "09e8eae68f482faae4a1f8c9cd54b8080b4cc555"
 AO2_STALE_REASON_CODE = "AO2_COMPATIBILITY_EVIDENCE_VERSION_STALE"
-NOW = datetime(2026, 8, 7, 23, 5, tzinfo=timezone.utc)
+NOW = datetime(2026, 8, 8, 23, 5, tzinfo=timezone.utc)
 
 
 def valid_manifest():
@@ -166,7 +166,7 @@ def valid_readback():
             "activation_authorized": False,
             "activation_evidence": "",
             "reason_code": "AO2_COMPATIBILITY_EVIDENCE_CURRENT",
-            "reason": "The AO2 v0.5.9 execution-to-observation vector binds the current AO2 v0.5.9 and Control Plane v0.1.19 public pair.",
+            "reason": "The retained AO2 v0.5.9 execution-to-observation vector plus the exact-head unchanged-contract bridge binds the current AO2 v0.5.10 and Control Plane v0.1.19 public pair.",
             "details": {},
             "allowed_states": ["false", "ready", "active", "blocked", "denied"],
             "readiness_criteria": {
@@ -217,7 +217,7 @@ class VerifyEvidenceFreshnessTest(unittest.TestCase):
         self.assertEqual(errors, [])
 
     def test_live_readback_rejects_expired_version_skew(self):
-        expired = datetime(2026, 8, 8, 18, 58, 58, 48305, tzinfo=timezone.utc)
+        expired = datetime(2026, 8, 9, 22, 30, tzinfo=timezone.utc)
         errors = validate_live_readback(
             valid_readback(),
             valid_manifest(),
@@ -249,7 +249,7 @@ class VerifyEvidenceFreshnessTest(unittest.TestCase):
             existing_paths={"stack/fixtures/compatibility/architecture-route-context-v0.1.json"},
         )
         self.assertIn(
-            "AO2 compatibility evidence v0.5.8 is stale for current release v0.5.9; readback must be stale and gate blocked",
+            "AO2 compatibility evidence v0.5.8 is stale for current release v0.5.10; readback must be stale and gate blocked",
             errors,
         )
 
@@ -271,14 +271,14 @@ class VerifyEvidenceFreshnessTest(unittest.TestCase):
 
     def test_rejects_unbridged_future_ao2_release(self):
         manifest = valid_manifest()
-        manifest["ao2"]["version"] = "v0.5.10"
+        manifest["ao2"]["version"] = "v0.5.11"
         errors = validate_readback(
             valid_readback(),
             manifest,
             valid_matrix(),
             existing_paths={"stack/fixtures/compatibility/architecture-route-context-v0.1.json"},
         )
-        self.assertTrue(any("is stale for current release v0.5.10" in error for error in errors))
+        self.assertTrue(any("is stale for current release v0.5.11" in error for error in errors))
 
     def test_rejects_nonexistent_ao2_evidence_path_and_fabricated_commit(self):
         matrix = valid_matrix()

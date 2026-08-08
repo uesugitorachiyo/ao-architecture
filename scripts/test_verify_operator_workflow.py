@@ -14,7 +14,7 @@ class VerifyOperatorWorkflowTest(unittest.TestCase):
     def test_rejects_missing_current_release_pair_and_denied_states(self):
         doc = "# Operator Workflow\n\nCompatibility evidence is present.\n"
         errors = validate_operator_workflow(doc)
-        self.assertIn("document must mention AO2 v0.5.9", errors)
+        self.assertIn("document must mention AO2 v0.5.10", errors)
         self.assertIn("document must mention AO2 Control Plane v0.1.19", errors)
         self.assertIn("document must state compatibility gate is ready, not active", errors)
         self.assertIn("document must state RSI remains denied", errors)
@@ -24,7 +24,7 @@ class VerifyOperatorWorkflowTest(unittest.TestCase):
     def test_rejects_missing_operator_steps_and_gates(self):
         doc = "\n".join(
             [
-                "AO2 v0.5.9",
+                "AO2 v0.5.10",
                 "AO2 Control Plane v0.1.19",
                 "compatibility gate remains false",
                 "RSI remains denied",
@@ -42,12 +42,12 @@ class VerifyOperatorWorkflowTest(unittest.TestCase):
     def test_rejects_active_gate_language(self):
         doc = "\n".join(
             [
-                "AO2 v0.5.9",
+                "AO2 v0.5.10",
                 "AO2 Control Plane v0.1.19",
                 "16 tested compatibility edges",
                 "compatibility gate is active",
                 "All 16 edges are fresh",
-                "AO2 v0.5.9 execution-to-observation vector binds AO2 v0.5.9 and Control Plane v0.1.19",
+                "AO2 v0.5.9 execution-to-observation vector and exact-head unchanged-contract bridge bind AO2 v0.5.10 and Control Plane v0.1.19",
                 "RSI remains denied",
                 "live self-modification is denied",
                 "provider pilot did not run",

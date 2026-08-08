@@ -16,8 +16,8 @@ DIGEST_RE = re.compile(r"^[0-9a-f]{64}$")
 EXPECTED_IDS = ["predecessor_public_pair", "current_public_pair", "current_source_candidate"]
 EXPECTED_PAIRS = {
     "predecessor_public_pair": ("v0.5.1", "80ec5321f42d4bab17d5e64fdae6aa099ba59d4a", "v0.1.16", "f4f5fea9fefa1081cebcbabac550b0e08b9f0e3d", "supported_by_unchanged_bridge"),
-    "current_public_pair": ("v0.5.9", "fec09515dfe4e550eeaddc7da497b1fe912012b4", "v0.1.19", "5de3541e9007e12d95b125e7f911c02932e21479", "supported_by_unchanged_bridge"),
-    "current_source_candidate": ("v0.5.9", "09e8eae68f482faae4a1f8c9cd54b8080b4cc555", "v0.1.19", "85e31c51e76950fd5cb36e5bbbb0f2b45418fd20", "supported_by_unchanged_bridge"),
+    "current_public_pair": ("v0.5.10", "9f4f8a8cf596127a982627b4af25c90a9a842095", "v0.1.19", "5de3541e9007e12d95b125e7f911c02932e21479", "supported_by_unchanged_bridge"),
+    "current_source_candidate": ("v0.5.10", "9f4f8a8cf596127a982627b4af25c90a9a842095", "v0.1.19", "85e31c51e76950fd5cb36e5bbbb0f2b45418fd20", "supported_by_unchanged_bridge"),
 }
 EXPECTED_EVIDENCE = {
     "producer_path": "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.9.json",
@@ -27,8 +27,8 @@ EXPECTED_EVIDENCE = {
     "consumer_merge_commit": "85e31c51e76950fd5cb36e5bbbb0f2b45418fd20",
     "consumer_test_sha256": "e2a353042474abd14bf993b676a4df8b0bd4ff3f22bb6454e8de4a701e3282ae",
 }
-EXPECTED_GENERATED_AT = "2026-08-07T20:40:05Z"
-EXPECTED_VALID_UNTIL = "2026-08-08T18:58:58.048305Z"
+EXPECTED_GENERATED_AT = "2026-08-08T22:30:00Z"
+EXPECTED_VALID_UNTIL = "2026-08-09T22:30:00Z"
 EXPECTED_FIELDS = {
     "schema", "status", "generated_at", "valid_until", "contract", "evidence", "pairs", "boundaries"
 }

@@ -12,9 +12,9 @@ full release evidence and asset digests are in [Current Public Releases](current
 
 | Package role | Repository | Release | What it provides |
 | --- | --- | --- | --- |
-| Execution | [AO2](https://github.com/uesugitorachiyo/ao2) | [v0.5.9](https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.9) | Bounded local workflows, approvals, verification, and evidence capture |
+| Execution | [AO2](https://github.com/uesugitorachiyo/ao2) | [v0.5.10](https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.10) | Bounded local workflows, approvals, verification, and evidence capture |
 | Observation | [AO2 Control Plane](https://github.com/uesugitorachiyo/ao2-control-plane) | [v0.1.19](https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.19) | Read-only evidence ingest, storage, metrics, and operator readback |
-| Mission control | [AO Mission](https://github.com/uesugitorachiyo/ao-mission) | [v0.1.2](https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.2) | Objective intake, routing, durable lifecycle state, and continuation |
+| Mission control | [AO Mission](https://github.com/uesugitorachiyo/ao-mission) | [v0.1.3](https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.3) | Objective intake, routing, durable lifecycle state, and continuation |
 | Operator status | [AO Command](https://github.com/uesugitorachiyo/ao-command) | [v0.1.2](https://github.com/uesugitorachiyo/ao-command/releases/tag/v0.1.2) | Read-only status and evidence inspection |
 | Run coordination | [AO Forge](https://github.com/uesugitorachiyo/ao-forge) | [v0.1.4](https://github.com/uesugitorachiyo/ao-forge/releases/tag/v0.1.4) | GoalRun state, factory plans, release gates, and retained run evidence |
 | Policy and trust | [AO Covenant](https://github.com/uesugitorachiyo/ao-covenant) | [v0.1.1](https://github.com/uesugitorachiyo/ao-covenant/releases/tag/v0.1.1) | Policy, approval, side-effect, and evidence-contract gates |
