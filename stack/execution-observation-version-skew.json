@@ -1,8 +1,8 @@
 {
   "schema": "ao.architecture.execution-observation-version-skew.v1",
   "status": "current",
-  "generated_at": "2026-08-07T20:40:05Z",
-  "valid_until": "2026-08-08T18:58:58.048305Z",
+  "generated_at": "2026-08-08T22:30:00Z",
+  "valid_until": "2026-08-09T22:30:00Z",
   "contract": {
     "producer_schema": "ao2.execution-receipt.v1",
     "consumer_schema": "ao2-control-plane.evidence-event.v1",
@@ -27,16 +27,16 @@
     },
     {
       "id": "current_public_pair",
-      "ao2_version": "v0.5.9",
-      "ao2_source_sha": "fec09515dfe4e550eeaddc7da497b1fe912012b4",
+      "ao2_version": "v0.5.10",
+      "ao2_source_sha": "9f4f8a8cf596127a982627b4af25c90a9a842095",
       "control_plane_version": "v0.1.19",
       "control_plane_source_sha": "5de3541e9007e12d95b125e7f911c02932e21479",
       "status": "supported_by_unchanged_bridge"
     },
     {
       "id": "current_source_candidate",
-      "ao2_version": "v0.5.9",
-      "ao2_source_sha": "09e8eae68f482faae4a1f8c9cd54b8080b4cc555",
+      "ao2_version": "v0.5.10",
+      "ao2_source_sha": "9f4f8a8cf596127a982627b4af25c90a9a842095",
       "control_plane_version": "v0.1.19",
       "control_plane_source_sha": "85e31c51e76950fd5cb36e5bbbb0f2b45418fd20",
       "status": "supported_by_unchanged_bridge"

@@ -1,7 +1,7 @@
 {
   "schema": "ao.architecture.component-release-classification.v0.1",
   "status": "active",
-  "generated_at_utc": "2026-08-07T20:13:07Z",
+  "generated_at_utc": "2026-08-08T22:30:00Z",
   "source": "Current release metadata plus the Month 6 reconciled tier classification",
   "repositories": [
     {
@@ -20,8 +20,8 @@
       ],
       "version_source": "package.json",
       "release_owner": "ao2",
-      "current_public_release": "v0.5.9",
-      "current_source_commit": "1ea4c482ad105227a5701f6b8eafcd16c42d06e9",
+      "current_public_release": "v0.5.10",
+      "current_source_commit": "9f4f8a8cf596127a982627b4af25c90a9a842095",
       "month6_decision": "release_recommended_published_and_verified",
       "install_promise": "public governed local execution runtime",
       "artifact_names": [
@@ -47,7 +47,7 @@
       "version_source": "Cargo.toml",
       "release_owner": "ao2-control-plane",
       "current_public_release": "v0.1.19",
-      "current_source_commit": "eb420864794ceb9ebadef8f3f551772095edb758",
+      "current_source_commit": "85e31c51e76950fd5cb36e5bbbb0f2b45418fd20",
       "month6_decision": "release_recommended_published_and_verified",
       "install_promise": "public observer and evidence publication surface",
       "artifact_names": [
@@ -72,9 +72,9 @@
       ],
       "version_source": "go.mod plus release manifest",
       "release_owner": "ao-mission",
-      "current_public_release": "v0.1.2",
-      "current_source_commit": "45747af3ca16e2ed596a57c8fbc25a49e78bbc6a",
-      "month6_release_source_commit": "582bdb830851039846ac5f760ef5f6774e453f17",
+      "current_public_release": "v0.1.3",
+      "current_source_commit": "2d4d24e6eb998066b537048516c9fb0c1bbc4f2a",
+      "month6_release_source_commit": "2d4d24e6eb998066b537048516c9fb0c1bbc4f2a",
       "month6_decision": "release_recommended_published_and_verified",
       "install_promise": "public mission entry and reconciliation command",
       "artifact_names": [

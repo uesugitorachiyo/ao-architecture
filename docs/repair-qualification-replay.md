@@ -7,8 +7,8 @@ the sanitized qualification directory before disconnecting the test
 environment from the network.
 
 Use the checksum-verified public archives for
-[AO2 v0.5.9](https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.9)
-and [AO Mission v0.1.2](https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.2).
+[AO2 v0.5.10](https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.10)
+and [AO Mission v0.1.3](https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.3).
 Record both release tags and tag-target SHAs in the replay evidence.
 
 ## Offline Replay
