@@ -22,6 +22,11 @@ current public pair.
 The compatibility gate is ready, not active. No external beta
 launch, promotion, or RSI authority follows from this evidence.
 
+Current tested source heads include AO2 `214f0648ec2b15df0729f90b26a4da258882dba1`,
+Control Plane `247719d219bb797e005358347c0269e69b3ea5d3`, and AO Mission
+`07d5009e9546fb81b2749499f92e4f3a8d218112`. They are unreleased deltas and do
+not replace the public versions listed above.
+
 The governed Windows V3 pool consumes this pair at the operator-local root
 `%USERPROFILE%\AI Agent Teams\ao2-public-instances-v3`. Its public worker
 identity is the `physical_windows_v3` role on `windows/amd64`; private machine

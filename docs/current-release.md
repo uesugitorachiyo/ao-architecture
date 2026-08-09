@@ -38,7 +38,7 @@ and `SHA256SUMS`
 - AO Mission: [v0.1.3](https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.3), tag target `2d4d24e6eb998066b537048516c9fb0c1bbc4f2a`
 - AO Command: [v0.1.2](https://github.com/uesugitorachiyo/ao-command/releases/tag/v0.1.2), tag target `a728d90077c1340e295468e5017b5e166bc5bc7a`
 
-AO Mission current tested main is `01da8da1ff546b73eb3d629eb85d5d4e3fb54e53` and
+AO Mission current tested main is `07d5009e9546fb81b2749499f92e4f3a8d218112` and
 AO Command current main is `6fc2a26a0a62b4cc9d23ad039ac205f8f11fb3d9`.
 
 Both operator tools are public, not draft, not prerelease, and each has three
@@ -64,6 +64,18 @@ The compatibility matrix remains proposed:
   consumer test bind the current pair, so
   the compatibility gate is ready but not active.
 - `compatibility_gate_complete` remains `false`.
+
+## Unreleased Tested Source Changes
+
+- AO2 `214f0648ec2b15df0729f90b26a4da258882dba1` and Control Plane
+  `247719d219bb797e005358347c0269e69b3ea5d3` add native v0.5.10/v0.1.19
+  compatibility fixtures and tests; they do not change the published runtime.
+- AO Mission `07d5009e9546fb81b2749499f92e4f3a8d218112` fixes stale Atlas
+  closure actions, adds immutable release-finalizer validation, and preserves
+  correlation identity in compaction readbacks. These changes are not part of
+  public v0.1.3 and require a separate release decision and authorization.
+- No unreleased source head, passing test, or ready readback changes the current
+  public versions or grants release, deployment, publication, or activation.
 
 The compatibility gate is ready and not active. External beta, promotion,
 provider execution, and RSI authority remain separate denied or unrequested
