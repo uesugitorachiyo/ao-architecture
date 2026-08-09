@@ -24,8 +24,10 @@ launch, promotion, or RSI authority follows from this evidence.
 
 Current tested source heads include AO2 `214f0648ec2b15df0729f90b26a4da258882dba1`,
 Control Plane `247719d219bb797e005358347c0269e69b3ea5d3`, and AO Mission
-`07d5009e9546fb81b2749499f92e4f3a8d218112`. They are unreleased deltas and do
-not replace the public versions listed above.
+`c2dc4791f59173ffc61dca4e4655e0301924406c`. Mission's tested head is the
+unreleased v0.1.4 candidate; its rehearsal and finalize dry run passed, but no
+tag, release, deployment, publication, or public upload was attempted. These
+unreleased deltas do not replace the public versions listed above.
 
 The governed Windows V3 pool consumes this pair at the operator-local root
 `%USERPROFILE%\AI Agent Teams\ao2-public-instances-v3`. Its public worker

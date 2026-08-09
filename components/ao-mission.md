@@ -8,3 +8,6 @@
 
 **Repository:** [uesugitorachiyo/ao-mission](https://github.com/uesugitorachiyo/ao-mission)
 
+**Release state:** Public `v0.1.3`; tested unreleased `v0.1.4` candidate at
+`c2dc4791f59173ffc61dca4e4655e0301924406c`. Qualification does not authorize
+publication.
