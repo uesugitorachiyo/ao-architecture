@@ -60,8 +60,8 @@ with broad authority.
   together.
 - [Operator Workflow](docs/operator-workflow.md) follows the normal path through
   Mission, Command, Blueprint, Atlas, Foundry, Forge, Covenant, and AO2.
-- [Current Public Releases](docs/current-release.md) records published versions
-  and their verification state.
+- [Current Public Releases](docs/current-release.md) records published versions,
+  tested unreleased source heads, and their verification state.
 - [Production Readiness](overview/PRODUCTION-READINESS.md) defines the quality
   bar for the documentation pack.
 - [AO Mission Contract Map](overview/AO-MISSION-CONTRACT-MAP.md) lists Mission
