@@ -22,7 +22,7 @@ current public pair.
 The compatibility gate is ready, not active. No external beta
 launch, promotion, or RSI authority follows from this evidence.
 
-Current tested source heads include AO2 `214f0648ec2b15df0729f90b26a4da258882dba1`,
+Current tested source heads include AO2 `8fd6d6867e5a29010673c931cb566a84b9c91fb2`,
 Control Plane `247719d219bb797e005358347c0269e69b3ea5d3`, and AO Mission
 `c2dc4791f59173ffc61dca4e4655e0301924406c`. Mission's tested head is the
 unreleased v0.1.4 candidate; its rehearsal and finalize dry run passed, but no
