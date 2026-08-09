@@ -32,6 +32,16 @@ mutating sibling repositories.
 | Does not own | Requirements authorization, portfolio scheduling, governed execution, policy approval, provider calls, release publication, sibling repository mutation |
 | Main consumers | AO Foundry, AO Forge, AO Blueprint, operators reviewing workgraph readiness |
 
+## Distribution Status
+
+The public `v0.1.0` tag is historical and has no downloadable release assets.
+Atlas runtime source `9a0814817ef54a34e99e2c6c1d41812b011e1661` was qualified as a
+source-only `v0.2.0` candidate by publication-disabled
+[rehearsal run 31321287357](https://github.com/uesugitorachiyo/ao-atlas/actions/runs/31321287357),
+including native macOS aarch64, Linux x86_64, hosted Windows x86_64, and
+physical Windows lifecycle checks. The candidate is not a public release;
+passing qualification does not authorize publication.
+
 ## Source Context
 
 Source repository: `../../ao-atlas`
