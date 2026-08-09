@@ -20,8 +20,7 @@ The evidence freshness verifier checks:
 - The matrix labels all 16 edges `tested_current_release_pair`, but freshness is
   evaluated separately against the current public versions.
 - All 16 edges have current evidence. The AO2 execution-to-observation edge is
-  bound through the retained immutable AO2 `v0.5.9` vector, the exact-head
-  unchanged-contract bridge for `v0.5.10`, and the Control Plane `v0.1.19`
+  bound through the native AO2 `v0.5.10` vector and the Control Plane `v0.1.19`
   consumer test.
 - Matrix vector and consumer-test counts match the tested edge count.
 - Tested edges include canonical vector references and consumer-test
@@ -62,10 +61,10 @@ The current gate state is `ready`, and the evidence freshness status is
 
 Reason code: `AO2_COMPATIBILITY_EVIDENCE_CURRENT`.
 
-AO2 `v0.5.10` uses the retained
-`tests/fixtures/compatibility/ao2-execution-receipt-v0.5.9.json` from merge
-`09e8eae68f482faae4a1f8c9cd54b8080b4cc555`; AO2 Control Plane consumes the
-unchanged receipt contract through merge `85e31c51e76950fd5cb36e5bbbb0f2b45418fd20`.
+AO2 `v0.5.10` uses the native
+`tests/fixtures/compatibility/ao2-execution-receipt-v0.5.10.json` from merge
+`214f0648ec2b15df0729f90b26a4da258882dba1`; AO2 Control Plane consumes the
+receipt contract through merge `247719d219bb797e005358347c0269e69b3ea5d3`.
 `compatibility_gate_complete` remains false because this readback establishes
 readiness, not activation.
 

@@ -50,7 +50,7 @@ def validate_adoption_support_readiness(document: str) -> list[str]:
         "document must mention 16 consumer tests": "16 consumer tests",
         "document must state compatibility gate is ready, not active": "compatibility gate is ready, not active",
         "document must state all 16 edges are fresh": "all 16 edges are fresh",
-        "document must state the retained vector and bridge bind the current pair": "v0.5.9 execution-to-observation vector and exact-head unchanged-contract bridge bind ao2 v0.5.10 and control plane v0.1.19",
+        "document must state the native vector binds the current pair": "native ao2 v0.5.10 execution-to-observation vector and control plane v0.1.19 consumer test bind the current public pair",
         "document must state RSI remains denied": "rsi remains denied",
         "document must state live self-modification is denied": "live self-modification is denied",
         "document must state external beta is not launched": "external beta is not launched",

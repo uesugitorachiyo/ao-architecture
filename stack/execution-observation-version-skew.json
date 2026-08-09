@@ -1,20 +1,20 @@
 {
   "schema": "ao.architecture.execution-observation-version-skew.v1",
   "status": "current",
-  "generated_at": "2026-08-08T22:30:00Z",
-  "valid_until": "2026-08-09T22:30:00Z",
+  "generated_at": "2026-08-09T04:05:00Z",
+  "valid_until": "2026-08-10T04:05:00Z",
   "contract": {
     "producer_schema": "ao2.execution-receipt.v1",
     "consumer_schema": "ao2-control-plane.evidence-event.v1",
     "change": "unchanged"
   },
   "evidence": {
-    "producer_path": "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.9.json",
-    "producer_merge_commit": "09e8eae68f482faae4a1f8c9cd54b8080b4cc555",
-    "producer_sha256": "00ee9978b5325bc40d5d5de8f63227716d2ca2fe88c81182fdf6e68448d15a7d",
+    "producer_path": "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.10.json",
+    "producer_merge_commit": "214f0648ec2b15df0729f90b26a4da258882dba1",
+    "producer_sha256": "fd7260329ea3c436436cd1572cba5abda72f5a9959b1157d5e61f595ae91857e",
     "consumer_test_path": "crates/ao2-cp-server/tests/compatibility_vectors.rs",
-    "consumer_merge_commit": "85e31c51e76950fd5cb36e5bbbb0f2b45418fd20",
-    "consumer_test_sha256": "e2a353042474abd14bf993b676a4df8b0bd4ff3f22bb6454e8de4a701e3282ae"
+    "consumer_merge_commit": "247719d219bb797e005358347c0269e69b3ea5d3",
+    "consumer_test_sha256": "d1c7fc2ada7634bb2e98eb4c885fab8d117c4f273793988a848ecba23860b365"
   },
   "pairs": [
     {
@@ -23,7 +23,7 @@
       "ao2_source_sha": "80ec5321f42d4bab17d5e64fdae6aa099ba59d4a",
       "control_plane_version": "v0.1.16",
       "control_plane_source_sha": "f4f5fea9fefa1081cebcbabac550b0e08b9f0e3d",
-      "status": "supported_by_unchanged_bridge"
+      "status": "supported"
     },
     {
       "id": "current_public_pair",
@@ -31,15 +31,15 @@
       "ao2_source_sha": "9f4f8a8cf596127a982627b4af25c90a9a842095",
       "control_plane_version": "v0.1.19",
       "control_plane_source_sha": "5de3541e9007e12d95b125e7f911c02932e21479",
-      "status": "supported_by_unchanged_bridge"
+      "status": "supported"
     },
     {
       "id": "current_source_candidate",
       "ao2_version": "v0.5.10",
-      "ao2_source_sha": "9f4f8a8cf596127a982627b4af25c90a9a842095",
+      "ao2_source_sha": "214f0648ec2b15df0729f90b26a4da258882dba1",
       "control_plane_version": "v0.1.19",
-      "control_plane_source_sha": "85e31c51e76950fd5cb36e5bbbb0f2b45418fd20",
-      "status": "supported_by_unchanged_bridge"
+      "control_plane_source_sha": "247719d219bb797e005358347c0269e69b3ea5d3",
+      "status": "supported"
     }
   ],
   "boundaries": {

@@ -15,11 +15,11 @@ AO2_TAG_TARGET = "9f4f8a8cf596127a982627b4af25c90a9a842095"
 CONTROL_PLANE_VERSION = "v0.1.19"
 CONTROL_PLANE_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.19"
 CONTROL_PLANE_TAG_TARGET = "5de3541e9007e12d95b125e7f911c02932e21479"
-AO2_COMPATIBILITY_EVIDENCE_VERSION = "v0.5.9"
-AO2_COMPATIBILITY_EVIDENCE_PATH = "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.9.json"
-AO2_COMPATIBILITY_EVIDENCE_COMMIT = "09e8eae68f482faae4a1f8c9cd54b8080b4cc555"
+AO2_COMPATIBILITY_EVIDENCE_VERSION = "v0.5.10"
+AO2_COMPATIBILITY_EVIDENCE_PATH = "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.10.json"
+AO2_COMPATIBILITY_EVIDENCE_COMMIT = "214f0648ec2b15df0729f90b26a4da258882dba1"
 AO2_STALE_REASON_CODE = "AO2_COMPATIBILITY_EVIDENCE_VERSION_STALE"
-NOW = datetime(2026, 8, 8, 23, 5, tzinfo=timezone.utc)
+NOW = datetime(2026, 8, 9, 4, 30, tzinfo=timezone.utc)
 
 
 def valid_manifest():
@@ -102,14 +102,14 @@ def valid_matrix():
                 "canonical_vector": {
                     "repository": "ao2",
                     "path": AO2_COMPATIBILITY_EVIDENCE_PATH,
-                    "pr": "https://github.com/uesugitorachiyo/ao2/pull/630",
+                    "pr": "https://github.com/uesugitorachiyo/ao2/pull/638",
                     "merge_commit": AO2_COMPATIBILITY_EVIDENCE_COMMIT,
                 },
                 "consumer_test": {
                     "repository": "ao2-control-plane",
                     "path": "crates/ao2-cp-server/tests/compatibility_vectors.rs",
-                    "pr": "https://github.com/uesugitorachiyo/ao2-control-plane/pull/140",
-                    "merge_commit": "85e31c51e76950fd5cb36e5bbbb0f2b45418fd20",
+                    "pr": "https://github.com/uesugitorachiyo/ao2-control-plane/pull/142",
+                    "merge_commit": "247719d219bb797e005358347c0269e69b3ea5d3",
                 },
             },
         ],
@@ -166,7 +166,7 @@ def valid_readback():
             "activation_authorized": False,
             "activation_evidence": "",
             "reason_code": "AO2_COMPATIBILITY_EVIDENCE_CURRENT",
-            "reason": "The retained AO2 v0.5.9 execution-to-observation vector plus the exact-head unchanged-contract bridge binds the current AO2 v0.5.10 and Control Plane v0.1.19 public pair.",
+            "reason": "The native AO2 v0.5.10 execution-to-observation vector and Control Plane v0.1.19 consumer test bind the current public pair.",
             "details": {},
             "allowed_states": ["false", "ready", "active", "blocked", "denied"],
             "readiness_criteria": {
@@ -217,7 +217,7 @@ class VerifyEvidenceFreshnessTest(unittest.TestCase):
         self.assertEqual(errors, [])
 
     def test_live_readback_rejects_expired_version_skew(self):
-        expired = datetime(2026, 8, 9, 22, 30, tzinfo=timezone.utc)
+        expired = datetime(2026, 8, 10, 4, 5, tzinfo=timezone.utc)
         errors = validate_live_readback(
             valid_readback(),
             valid_manifest(),

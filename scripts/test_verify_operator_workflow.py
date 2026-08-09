@@ -47,7 +47,7 @@ class VerifyOperatorWorkflowTest(unittest.TestCase):
                 "16 tested compatibility edges",
                 "compatibility gate is active",
                 "All 16 edges are fresh",
-                "AO2 v0.5.9 execution-to-observation vector and exact-head unchanged-contract bridge bind AO2 v0.5.10 and Control Plane v0.1.19",
+                "Native AO2 v0.5.10 execution-to-observation vector and Control Plane v0.1.19 consumer test bind the current public pair",
                 "RSI remains denied",
                 "live self-modification is denied",
                 "provider pilot did not run",

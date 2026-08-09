@@ -1,7 +1,7 @@
 {
   "schema": "ao.architecture.evidence-freshness-readback.v0.1",
   "status": "fresh",
-  "generated_at_utc": "2026-08-08T22:30:00Z",
+  "generated_at_utc": "2026-08-09T04:05:00Z",
   "current_public_release_pair": {
     "ao2": {
       "version": "v0.5.10",
@@ -36,7 +36,7 @@
     "activation_authorized": false,
     "activation_evidence": "",
     "reason_code": "AO2_COMPATIBILITY_EVIDENCE_CURRENT",
-    "reason": "The retained AO2 v0.5.9 execution-to-observation vector plus the exact-head unchanged-contract bridge binds the current AO2 v0.5.10 and Control Plane v0.1.19 public pair.",
+    "reason": "The native AO2 v0.5.10 execution-to-observation vector and Control Plane v0.1.19 consumer test bind the current public pair.",
     "details": {},
     "allowed_states": [
       "false",
