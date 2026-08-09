@@ -90,7 +90,19 @@ states.
 
 ## Tier 2 Releases And Boundaries
 
-- AO Blueprint and AO Atlas were assessed independently as `no_release_needed`.
+- AO Blueprint was assessed independently as `no_release_needed`.
+- AO Atlas [v0.1.0](https://github.com/uesugitorachiyo/ao-atlas/releases/tag/v0.1.0)
+  is a historical tag at `3e2027972760b66971714e1f27ab7689db07662e`
+  with no downloadable release assets. Current Atlas source
+  `e19acf2619588b6257b37ebd0fcf7219645284f3` documents the source-only
+  v0.2.0 candidate qualified from runtime source
+  `9a0814817ef54a34e99e2c6c1d41812b011e1661`. Publication-disabled
+  [rehearsal run 31321287357](https://github.com/uesugitorachiyo/ao-atlas/actions/runs/31321287357)
+  produced an immutable promotion plan with SHA-256
+  `347e69a926439d84edf16eb20f2c1ddb99306c690c40ca73e193e2add3232fdb`;
+  native macOS aarch64, Linux x86_64, hosted Windows x86_64, and physical
+  Windows lifecycle checks passed. This is not a public v0.2.0 release and
+  requires separate release authorization.
 - AO Forge: [v0.1.4](https://github.com/uesugitorachiyo/ao-forge/releases/tag/v0.1.4), tag target `e104b47c2e14b6c0927b885e137907ad227aeb5c`, current main `4bf267bc7cbd9d6289728ebcaefa939135ddfb00`.
 - AO Covenant: [v0.1.1](https://github.com/uesugitorachiyo/ao-covenant/releases/tag/v0.1.1), tag target `2fd72a0426a747868826581612fa1dc9727b53b9`, current main `7d2af0d3446757f096ebf3ce51e0918716daf7ff`.
 - These Tier 2 releases were independently published and verified; no further
