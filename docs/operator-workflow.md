@@ -16,9 +16,9 @@ The current public release pair is:
   `5de3541e9007e12d95b125e7f911c02932e21479`.
 
 The Architecture compatibility matrix records 16 tested edges, 16 canonical
-vectors, and 16 consumer tests. All 16 edges are fresh; the retained AO2 v0.5.9
-execution-to-observation vector and exact-head unchanged-contract bridge bind
-AO2 v0.5.10 and Control Plane v0.1.19.
+vectors, and 16 consumer tests. All 16 edges are fresh; the native AO2 v0.5.10
+execution-to-observation vector and Control Plane v0.1.19 consumer test bind the
+current public pair.
 The compatibility gate is ready, not active. No external beta
 launch, promotion, or RSI authority follows from this evidence.
 

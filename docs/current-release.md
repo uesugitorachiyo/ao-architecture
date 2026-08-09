@@ -5,14 +5,15 @@ This document records the current independently verified public releases.
 ## Current Core Pair
 
 - AO2: [v0.5.10](https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.10)
-- AO2 tag target and current main: `9f4f8a8cf596127a982627b4af25c90a9a842095`
+- AO2 tag target: `9f4f8a8cf596127a982627b4af25c90a9a842095`
+- AO2 current tested main: `214f0648ec2b15df0729f90b26a4da258882dba1`
 - AO2 approved asset-manifest digest: `a44bb65d59f46f3c3bf469dc7b26f0688fbf640f4f04ee9932a5a8fe186aeee3`
 - AO2 promotion-plan digest: `0e1ae4663eb09c3135b66326177855cb8d93bab84d776b130114c5d2c344dd21`
 - AO2 physical-Windows evidence digest: `a46f869c2c3512746ae686d65935b1612c1ef1ac0788f16bcd7de0d719268d81`
 - AO2 publication and independent verification: [run 31279647320](https://github.com/uesugitorachiyo/ao2/actions/runs/31279647320)
 - AO2 Control Plane: [v0.1.19](https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.19)
 - AO2 Control Plane tag target: `5de3541e9007e12d95b125e7f911c02932e21479`
-- AO2 Control Plane current main: `85e31c51e76950fd5cb36e5bbbb0f2b45418fd20`
+- AO2 Control Plane current tested main: `247719d219bb797e005358347c0269e69b3ea5d3`
 - AO2 Control Plane post-release verification: [run 30973505420](https://github.com/uesugitorachiyo/ao2-control-plane/actions/runs/30973505420)
 
 AO2 v0.5.10 is public, not draft, not prerelease, and has five approved public
@@ -37,7 +38,7 @@ and `SHA256SUMS`
 - AO Mission: [v0.1.3](https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.3), tag target `2d4d24e6eb998066b537048516c9fb0c1bbc4f2a`
 - AO Command: [v0.1.2](https://github.com/uesugitorachiyo/ao-command/releases/tag/v0.1.2), tag target `a728d90077c1340e295468e5017b5e166bc5bc7a`
 
-AO Mission current main is `2d4d24e6eb998066b537048516c9fb0c1bbc4f2a` and
+AO Mission current tested main is `01da8da1ff546b73eb3d629eb85d5d4e3fb54e53` and
 AO Command current main is `6fc2a26a0a62b4cc9d23ad039ac205f8f11fb3d9`.
 
 Both operator tools are public, not draft, not prerelease, and each has three
@@ -58,9 +59,9 @@ The compatibility matrix remains proposed:
 - `stack/contract-compatibility-matrix.json` status remains `proposed`.
 - Canonical vector and consumer-test counts are both `16`.
 - Current freshness is `16` fresh edges and `0` stale edges.
-- AO2 v0.5.10 and Control Plane v0.1.19 are the current public pair. The retained
-  AO2 v0.5.9 execution-to-observation vector, exact-head unchanged-contract
-  bridge, and consumer test bind the current pair, so
+- AO2 v0.5.10 and Control Plane v0.1.19 are the current public pair. The native
+  AO2 v0.5.10 execution-to-observation vector and Control Plane v0.1.19
+  consumer test bind the current pair, so
   the compatibility gate is ready but not active.
 - `compatibility_gate_complete` remains `false`.
 
