@@ -6,14 +6,14 @@ This document records the current independently verified public releases.
 
 - AO2: [v0.5.10](https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.10)
 - AO2 tag target: `9f4f8a8cf596127a982627b4af25c90a9a842095`
-- AO2 current tested main: `8fd6d6867e5a29010673c931cb566a84b9c91fb2`
+- AO2 current tested main: `f20ad081f3c7170fcf9cebcdde0a9c8920a31cc7`
 - AO2 approved asset-manifest digest: `a44bb65d59f46f3c3bf469dc7b26f0688fbf640f4f04ee9932a5a8fe186aeee3`
 - AO2 promotion-plan digest: `0e1ae4663eb09c3135b66326177855cb8d93bab84d776b130114c5d2c344dd21`
 - AO2 physical-Windows evidence digest: `a46f869c2c3512746ae686d65935b1612c1ef1ac0788f16bcd7de0d719268d81`
 - AO2 publication and independent verification: [run 31279647320](https://github.com/uesugitorachiyo/ao2/actions/runs/31279647320)
 - AO2 Control Plane: [v0.1.19](https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.19)
 - AO2 Control Plane tag target: `5de3541e9007e12d95b125e7f911c02932e21479`
-- AO2 Control Plane current tested main: `247719d219bb797e005358347c0269e69b3ea5d3`
+- AO2 Control Plane current tested main: `4e41da173dc9f1ee37f4ae99b85791e5f05ea453`
 - AO2 Control Plane post-release verification: [run 30973505420](https://github.com/uesugitorachiyo/ao2-control-plane/actions/runs/30973505420)
 
 AO2 v0.5.10 is public, not draft, not prerelease, and has five approved public
@@ -67,11 +67,16 @@ The compatibility matrix remains proposed:
 
 ## Unreleased Tested Source Changes
 
-- AO2 `8fd6d6867e5a29010673c931cb566a84b9c91fb2` includes native
-  v0.5.10/v0.1.19 compatibility fixtures and an unreleased repair-pack validator
-  fix that binds issue snapshot identity. Control Plane
-  `247719d219bb797e005358347c0269e69b3ea5d3` adds the matching compatibility
-  consumer. Neither source head changes the published versions above.
+- AO2 `f20ad081f3c7170fcf9cebcdde0a9c8920a31cc7` is the tested unreleased
+  v0.5.11 candidate paired with Control Plane v0.1.19. Its immutable promotion
+  plan has SHA-256
+  `8a739be7b0bf43d89452a912e6878301d621787bd4a2887b08812a43a8febebb`,
+  and its physical-Windows evidence has SHA-256
+  `d01d32d9b3c51d4b855ba39dbbf5072df36f54312eb08b5b1444420ac5506a3a`.
+  Control Plane current source
+  `4e41da173dc9f1ee37f4ae99b85791e5f05ea453` retains v0.1.19 as the
+  qualified companion. Neither source head changes the published versions
+  above, and v0.5.11 requires separate release authorization.
 - AO Mission `c2dc4791f59173ffc61dca4e4655e0301924406c` is the tested unreleased
   v0.1.4 candidate. It fixes stale Atlas closure actions, adds immutable
   release-finalizer validation, preserves correlation identity in compaction
