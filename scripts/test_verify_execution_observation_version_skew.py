@@ -11,7 +11,7 @@ from verify_execution_observation_version_skew import read_strict_json, validate
 
 
 ROOT = Path(__file__).resolve().parents[1]
-NOW = datetime(2026, 8, 9, 4, 30, tzinfo=timezone.utc)
+NOW = datetime(2026, 8, 10, 17, 10, tzinfo=timezone.utc)
 
 
 def valid_contract():
@@ -21,6 +21,14 @@ def valid_contract():
 class VersionSkewContractTest(unittest.TestCase):
     def test_accepts_current_three_pair_contract(self):
         self.assertEqual(validate_contract(valid_contract(), NOW), [])
+
+    def test_binds_final_v0511_candidate_heads(self):
+        candidate = valid_contract()["pairs"][2]
+        self.assertEqual(candidate["ao2_version"], "v0.5.11")
+        self.assertEqual(candidate["ao2_source_sha"], "f20ad081f3c7170fcf9cebcdde0a9c8920a31cc7")
+        self.assertEqual(candidate["control_plane_version"], "v0.1.19")
+        self.assertEqual(candidate["control_plane_source_sha"], "4e41da173dc9f1ee37f4ae99b85791e5f05ea453")
+        self.assertEqual(candidate["status"], "supported_by_unchanged_bridge")
 
     def test_rejects_required_negative_matrix(self):
         mutations = [
@@ -38,7 +46,7 @@ class VersionSkewContractTest(unittest.TestCase):
                 self.assertTrue(validate_contract(candidate, NOW))
 
     def test_rejects_stale_timestamp(self):
-        stale = datetime(2026, 9, 5, tzinfo=timezone.utc)
+        stale = datetime(2026, 8, 12, tzinfo=timezone.utc)
         self.assertIn("compatibility evidence is stale", validate_contract(valid_contract(), stale))
 
     def test_rejects_extended_expiry(self):
@@ -51,13 +59,13 @@ class VersionSkewContractTest(unittest.TestCase):
 
     def test_rejects_future_generation_time(self):
         candidate = valid_contract()
-        candidate["generated_at"] = "2026-08-09T05:00:00Z"
+        candidate["generated_at"] = "2026-08-10T18:00:00Z"
         errors = validate_contract(candidate, NOW)
         self.assertIn("generated_at must match the bound compatibility vector", errors)
         self.assertIn("generated_at cannot be in the future", errors)
 
     def test_expires_at_exact_boundary(self):
-        boundary = datetime(2026, 8, 10, 4, 5, tzinfo=timezone.utc)
+        boundary = datetime(2026, 8, 11, 17, 4, 28, tzinfo=timezone.utc)
         self.assertIn("compatibility evidence is stale", validate_contract(valid_contract(), boundary))
 
     def test_rejects_malformed_and_unknown_fields(self):
