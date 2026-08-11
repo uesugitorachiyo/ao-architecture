@@ -1,8 +1,8 @@
 {
   "schema": "ao.architecture.execution-observation-version-skew.v1",
   "status": "current",
-  "generated_at": "2026-08-10T17:04:28Z",
-  "valid_until": "2026-08-11T17:04:28Z",
+  "generated_at": "2026-08-11T11:46:00Z",
+  "valid_until": "2026-08-12T11:46:00Z",
   "contract": {
     "producer_schema": "ao2.execution-receipt.v1",
     "consumer_schema": "ao2-control-plane.evidence-event.v1",
@@ -10,7 +10,7 @@
   },
   "evidence": {
     "producer_path": "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.10.json",
-    "producer_merge_commit": "f20ad081f3c7170fcf9cebcdde0a9c8920a31cc7",
+    "producer_merge_commit": "269b7e8e5901f1984fae7f9d2c11144e67d958b3",
     "producer_sha256": "fd7260329ea3c436436cd1572cba5abda72f5a9959b1157d5e61f595ae91857e",
     "consumer_test_path": "crates/ao2-cp-server/tests/compatibility_vectors.rs",
     "consumer_merge_commit": "4e41da173dc9f1ee37f4ae99b85791e5f05ea453",
@@ -36,7 +36,7 @@
     {
       "id": "current_source_candidate",
       "ao2_version": "v0.5.11",
-      "ao2_source_sha": "f20ad081f3c7170fcf9cebcdde0a9c8920a31cc7",
+      "ao2_source_sha": "269b7e8e5901f1984fae7f9d2c11144e67d958b3",
       "control_plane_version": "v0.1.19",
       "control_plane_source_sha": "4e41da173dc9f1ee37f4ae99b85791e5f05ea453",
       "status": "supported_by_unchanged_bridge"
