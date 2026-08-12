@@ -1,0 +1,43 @@
+name: Public Stack Canary
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - .github/workflows/public-stack-canary.yml
+      - scripts/run_public_stack_canary.py
+      - scripts/test_run_public_stack_canary.py
+
+permissions:
+  contents: read
+
+jobs:
+  canary:
+    name: public-stack-canary (${{ matrix.target }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: ubuntu-latest
+            target: linux-x86_64
+          - runner: macos-latest
+            target: macos-aarch64
+          - runner: windows-latest
+            target: windows-x86_64
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run public binary stack canary
+        shell: bash
+        run: >-
+          python3 scripts/run_public_stack_canary.py
+          --target ${{ matrix.target }}
+          --output public-stack-canary-${{ matrix.target }}.json
+      - name: Upload canary result
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-stack-canary-${{ matrix.target }}
+          path: public-stack-canary-${{ matrix.target }}.json
+          if-no-files-found: error
+          retention-days: 14

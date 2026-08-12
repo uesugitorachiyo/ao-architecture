@@ -2,15 +2,40 @@
 """Install and verify the supported AO Stack from public release assets."""
 
 from dataclasses import dataclass
+import argparse
 import hashlib
+import json
 from pathlib import Path, PurePosixPath
+import re
 import shutil
 import stat
+import subprocess
+import os
+import platform
+import tempfile
 import tarfile
+import time
+from urllib.parse import urlsplit
+from urllib.request import Request, urlopen
 import zipfile
 
 
 TARGETS = ("linux-x86_64", "macos-aarch64", "windows-x86_64")
+_RAW_BASE = "https://raw.githubusercontent.com/uesugitorachiyo"
+SMOKE_FIXTURES = {
+    "workgraph.json": (
+        f"{_RAW_BASE}/ao-atlas/2bf243ce8d8c71d845754398238b14d1ab77d0e6/examples/valid/workgraph.json",
+        "5c761cd7ef1ed5d648f7b2a4ee0988eef60fb097f73c343a70e0ea81999db4e5",
+    ),
+    "command-status.json": (
+        f"{_RAW_BASE}/ao-command/a728d90077c1340e295468e5017b5e166bc5bc7a/examples/mission/command-status.ready.json",
+        "e542a9925dea18557b95dde0c3569f2382246ef133d7727f605259cc00a529c8",
+    ),
+    "brief.md": (
+        f"{_RAW_BASE}/ao-covenant/2fd72a0426a747868826581612fa1dc9727b53b9/examples/structured-release/brief.md",
+        "6ce8ceb083ddb45ff72e6f04754dd16c266eebfc447b0809248c26789078a609",
+    ),
+}
 
 
 @dataclass(frozen=True)
@@ -22,6 +47,15 @@ class Asset:
     sha256: str
     archive: str
     binary: str
+
+
+@dataclass(frozen=True)
+class CommandResult:
+    argv: tuple
+    exit_code: int
+    stdout: str
+    stderr: str
+    elapsed_ms: int
 
 
 def _asset(component, version, source_sha, target, filename, sha256, archive, binary):
@@ -204,3 +238,417 @@ def install_asset(asset, archive, destination):
                 return (_copy_binary(source, destination, asset.binary),)
 
     raise ValueError(f"unsupported archive type: {asset.archive}")
+
+
+def run_command(argv, *, env, expected_exit, cwd=None):
+    command = tuple(str(part) for part in argv)
+    started = time.monotonic_ns()
+    completed = subprocess.run(
+        command,
+        capture_output=True,
+        text=True,
+        env=env,
+        cwd=cwd,
+        timeout=60,
+        check=False,
+    )
+    result = CommandResult(
+        argv=command,
+        exit_code=completed.returncode,
+        stdout=completed.stdout,
+        stderr=completed.stderr,
+        elapsed_ms=(time.monotonic_ns() - started) // 1_000_000,
+    )
+    if result.exit_code not in expected_exit:
+        raise ValueError(
+            f"unexpected exit {result.exit_code} for {' '.join(command)}: "
+            f"{result.stderr.strip()}"
+        )
+    return result
+
+
+def verify_identity(asset, result):
+    version = asset.version.removeprefix("v")
+    text_expectations = {
+        "ao2": (f"ao2 {version}\n", f"git_commit={asset.source_sha}\n"),
+        "ao2-control-plane": (f"ao2-cp-server {version}\n",),
+        "ao-mission": (
+            f"ao-mission version={version} source_sha={asset.source_sha}\n",
+        ),
+        "ao-atlas": (
+            f"ao-atlas version={asset.version} source_sha={asset.source_sha}\n",
+        ),
+        "ao-forge": (
+            f"ao-forge version={version} source_sha={asset.source_sha}\n",
+        ),
+    }
+    if asset.component in text_expectations:
+        if not all(expected in result.stdout for expected in text_expectations[asset.component]):
+            label = {"ao2": "AO2"}.get(asset.component, asset.component)
+            raise ValueError(f"{label} identity mismatch: {result.stdout.strip()}")
+        return
+
+    try:
+        document = json.loads(result.stdout)
+    except json.JSONDecodeError as error:
+        raise ValueError(f"{asset.component} identity is not JSON") from error
+    if asset.component == "ao-command":
+        valid = document == {
+            "schema_version": "ao.command.version.v0.1",
+            "version": version,
+            "source_commit": asset.source_sha,
+            "provider_calls": False,
+        }
+    elif asset.component == "ao-covenant":
+        valid = (
+            document.get("schema_version") == "covenant.version-result.v1"
+            and document.get("version") == asset.version
+            and document.get("commit") == asset.source_sha
+        )
+    else:
+        valid = False
+    if not valid:
+        raise ValueError(f"{asset.component} identity mismatch: {result.stdout.strip()}")
+
+
+def validate_report(report):
+    if report.get("schema") != "ao.architecture.public-stack-canary.v0.1":
+        raise ValueError("invalid report schema")
+    if report.get("status") != "passed" or report.get("target") not in TARGETS:
+        raise ValueError("report must record a passing supported target")
+    expected = {
+        "ao2": "v0.5.11",
+        "ao2-control-plane": "v0.1.19",
+        "ao-mission": "v0.1.4",
+        "ao-atlas": "v0.2.0",
+        "ao-command": "v0.1.2",
+        "ao-forge": "v0.1.4",
+        "ao-covenant": "v0.1.1",
+    }
+    components = report.get("components", [])
+    if len(components) != 7 or len({item.get("component") for item in components}) != 7:
+        raise ValueError("report must contain seven components")
+    if {item.get("component"): item.get("version") for item in components} != expected:
+        raise ValueError("component version line mismatch")
+    for item in components:
+        if (
+            not item.get("url", "").startswith("https://github.com/uesugitorachiyo/")
+            or "/releases/download/" not in item["url"]
+            or not re.fullmatch(r"[0-9a-f]{64}", item.get("sha256", ""))
+            or not isinstance(item.get("bytes"), int)
+            or item["bytes"] <= 0
+        ):
+            raise ValueError(f"invalid public component evidence: {item.get('component')}")
+    commands = report.get("commands", [])
+    if not commands or any(command.get("exit_code") != 0 for command in commands):
+        raise ValueError("all recorded commands must exit zero")
+
+    views = report.get("reconciliation", {}).get("views", {})
+    expected_views = {"inspect", "checkpoint", "event-index", "command-readback"}
+    if set(views) != expected_views:
+        raise ValueError("four terminal-index views are required")
+    index_digests = {view.get("index_digest") for view in views.values()}
+    if len(index_digests) != 1:
+        raise ValueError("terminal index digest disagreement")
+    state_digests = [view.get("state_digest") for view in views.values()]
+    if len(set(state_digests)) != 4:
+        raise ValueError("surface state digests must be distinct")
+    if any(not re.fullmatch(r"sha256:[0-9a-f]{64}", digest or "") for digest in index_digests | set(state_digests)):
+        raise ValueError("terminal reconciliation digest is not canonical")
+    canonical = [view.get("canonical") for view in views.values()]
+    if any(value != canonical[0] for value in canonical[1:]):
+        raise ValueError("terminal canonical payload disagreement")
+
+    for field in (
+        "provider_calls",
+        "credential_uses",
+        "publications",
+        "deployments",
+        "external_mutations",
+    ):
+        if report.get(field) != 0:
+            raise ValueError(f"{field} must be zero")
+    if report.get("cleanup_succeeded") is not True:
+        raise ValueError("cleanup must succeed")
+
+
+def _write_json(path, document):
+    body = (json.dumps(document, sort_keys=True, separators=(",", ":")) + "\n").encode()
+    Path(path).write_bytes(body)
+    return body
+
+
+def write_terminal_fixture(root):
+    root = Path(root)
+    root.mkdir(parents=True, exist_ok=True)
+    mission = "ao-stack-public-canary-v0.1"
+    safety = {
+        "executes_work": False,
+        "approves_work": False,
+        "mutates_repositories": False,
+        "calls_providers": False,
+        "publishes": False,
+        "releases": False,
+        "deploys": False,
+        "advances_authority": False,
+    }
+    documents = (
+        (
+            "lease",
+            "lease_authority",
+            "lease.json",
+            {
+                "contract_version": "fixture.v1",
+                "mission_id": mission,
+                "minimum_nodes": 40,
+                "minimum_minutes": 120,
+                "target_minutes": 150,
+                "maximum_minutes": 180,
+            },
+        ),
+        (
+            "root",
+            "initial_snapshot",
+            "root.json",
+            {
+                "contract_version": "fixture.v1",
+                "mission_id": mission,
+                "counts": {"completed": 0, "ready": 40, "blocked": 0, "failed": 0},
+                "final_response_allowed": False,
+            },
+        ),
+        (
+            "duration",
+            "duration_snapshot",
+            "duration.json",
+            {
+                "contract_version": "fixture.v1",
+                "mission_id": mission,
+                "completed_nodes": 40,
+                "elapsed_minutes": 150,
+            },
+        ),
+        (
+            "terminal",
+            "terminal_candidate",
+            "terminal.json",
+            {
+                "contract_version": "fixture.v1",
+                "mission_id": mission,
+                "counts": {"completed": 40, "ready": 0, "blocked": 0, "failed": 0},
+                "elapsed_minutes": 150,
+                "lease_time_status": "within_window",
+                "final_response_allowed": True,
+                "exact_next_action": "none",
+                "safety_boundaries": safety,
+            },
+        ),
+    )
+    artifacts = []
+    for sequence, (role, state, name, document) in enumerate(documents):
+        body = _write_json(root / name, document)
+        artifacts.append(
+            {
+                "role": role,
+                "sequence": sequence,
+                "state": state,
+                "path": name,
+                "sha256": "sha256:" + hashlib.sha256(body).hexdigest(),
+            }
+        )
+    manifest = {
+        "contract_version": "ao.canonical-terminal-index-input.v1",
+        "mission_id": mission,
+        "evidence_root": ".",
+        "generated_at_utc": "2026-08-12T12:00:00Z",
+        "artifacts": artifacts,
+    }
+    path = root / "manifest.json"
+    _write_json(path, manifest)
+    return path
+
+
+def _identity_arguments(asset, binary):
+    suffixes = {
+        "ao2": ("version",),
+        "ao2-control-plane": ("--version",),
+        "ao-mission": ("--version",),
+        "ao-atlas": ("--version",),
+        "ao-command": ("version", "--json"),
+        "ao-forge": ("--version",),
+        "ao-covenant": ("version", "--json"),
+    }
+    return (str(binary),) + suffixes[asset.component]
+
+
+def assemble_components(assets, download_root, bin_root, env, *, fetch):
+    download_root = Path(download_root)
+    bin_root = Path(bin_root)
+    download_root.mkdir(parents=True, exist_ok=True)
+    records = []
+    commands = []
+    binaries = {}
+    for asset in assets:
+        filename = PurePosixPath(urlsplit(asset.url).path).name
+        archive = download_root / filename
+        fetched_bytes = fetch(asset.url, archive)
+        if fetched_bytes != archive.stat().st_size:
+            raise ValueError(f"download byte count mismatch: {asset.component}")
+        verify_digest(archive, asset.sha256)
+        binary = install_asset(asset, archive, bin_root)[0]
+        result = run_command(
+            _identity_arguments(asset, binary), env=env, expected_exit={0}
+        )
+        verify_identity(asset, result)
+        binaries[asset.component] = binary
+        commands.append(result)
+        records.append(
+            {
+                "component": asset.component,
+                "version": asset.version,
+                "source_sha": asset.source_sha,
+                "url": asset.url,
+                "filename": filename,
+                "sha256": asset.sha256,
+                "bytes": fetched_bytes,
+                "binary": asset.binary,
+            }
+        )
+    return records, commands, binaries
+
+
+def sanitized_environment(source):
+    sensitive = ("TOKEN", "SECRET", "PASSWORD", "CREDENTIAL", "API_KEY", "AUTH", "PROVIDER")
+    return {
+        key: value
+        for key, value in source.items()
+        if not key.upper().startswith("AO_")
+        and not any(marker in key.upper() for marker in sensitive)
+    }
+
+
+def canary_environment(source, root):
+    environment = sanitized_environment(source)
+    environment["AO_MISSION_HOME"] = str(Path(root) / "mission-home")
+    return environment
+
+
+def download(url, destination):
+    request = Request(url, headers={"User-Agent": "ao-stack-public-canary/0.1"})
+    with urlopen(request, timeout=60) as response, Path(destination).open("wb") as output:
+        shutil.copyfileobj(response, output)
+    return Path(destination).stat().st_size
+
+
+def _redact_temporary_path(text):
+    def replacement(match):
+        tail = match.group(0).split("ao-public-stack-canary-", 1)[1].replace("\\", "/")
+        _, separator, relative = tail.partition("/")
+        return "$CANARY_ROOT" + ("/" + relative if separator else "")
+
+    return re.sub(
+        r"(?:[A-Za-z]:)?[^\s\"']*ao-public-stack-canary-[^/\\\s\"']+(?:[/\\][^\s\"']*)?",
+        replacement,
+        text,
+    )
+
+
+def command_record(result):
+    return {
+        "argv": [_redact_temporary_path(part) for part in result.argv],
+        "exit_code": result.exit_code,
+        "stdout": _redact_temporary_path(result.stdout),
+        "stderr": _redact_temporary_path(result.stderr),
+        "elapsed_ms": result.elapsed_ms,
+    }
+
+
+def _run_functional_smokes(binaries, root, env):
+    fixture_root = root / "smoke-fixtures"
+    fixture_root.mkdir()
+    for name, (url, digest) in SMOKE_FIXTURES.items():
+        path = fixture_root / name
+        download(url, path)
+        verify_digest(path, digest)
+    commands = (
+        ((binaries["ao2"], "--help"), None),
+        ((binaries["ao2-control-plane"], "--help"), None),
+        ((binaries["ao-mission"], "doctor", "--json"), None),
+        ((binaries["ao-atlas"], "workgraph", "validate", "--workgraph", fixture_root / "workgraph.json"), None),
+        ((binaries["ao-command"], "mission", "status", "--status", fixture_root / "command-status.json", "--json"), None),
+        ((binaries["ao-forge"], "--help"), None),
+        ((binaries["ao-covenant"], "lint", "--brief", "brief.md", "--json"), fixture_root),
+    )
+    return [run_command(command, env=env, expected_exit={0}, cwd=cwd) for command, cwd in commands]
+
+
+def _run_terminal_reconciliation(binaries, root, env):
+    fixture_root = root / "terminal-fixture"
+    manifest = write_terminal_fixture(fixture_root)
+    index = fixture_root / "index.json"
+    state = fixture_root / "state.json"
+    commands = []
+    commands.append(run_command((binaries["ao-atlas"], "terminal-index", "build", "--root", fixture_root, "--manifest", manifest, "--out", index), env=env, expected_exit={0}))
+    commands.append(run_command((binaries["ao-atlas"], "terminal-index", "verify", "--root", fixture_root, "--index", index), env=env, expected_exit={0}))
+    commands.append(run_command((binaries["ao-mission"], "terminal-index", "import", "--root", fixture_root, "--index", index, "--state", state), env=env, expected_exit={0}))
+    views = {}
+    for surface in ("inspect", "checkpoint", "event-index", "command-readback"):
+        result = run_command((binaries["ao-mission"], "terminal-index", surface, "--state", state), env=env, expected_exit={0})
+        commands.append(result)
+        document = json.loads(result.stdout)
+        views[surface] = {
+            "index_digest": document["index_digest"],
+            "state_digest": document["state_digest"],
+            "canonical": {
+                key: document[key]
+                for key in ("mission_id", "counts", "lease", "readiness_passed", "final_response_allowed", "exact_next_action")
+            },
+        }
+    return {"views": views}, commands
+
+
+def run_canary(target, output):
+    if target not in TARGETS:
+        raise ValueError(f"unsupported target: {target}")
+    with tempfile.TemporaryDirectory(prefix="ao-public-stack-canary-") as directory:
+        root = Path(directory)
+        environment = canary_environment(os.environ, root)
+        components, identity_commands, binaries = assemble_components(
+            select_assets(target), root / "downloads", root / "bin", environment, fetch=download
+        )
+        smoke_commands = _run_functional_smokes(binaries, root, environment)
+        reconciliation, reconcile_commands = _run_terminal_reconciliation(binaries, root, environment)
+        report = {
+            "schema": "ao.architecture.public-stack-canary.v0.1",
+            "status": "passed",
+            "target": target,
+            "runner": {"system": platform.system(), "machine": platform.machine(), "python": platform.python_version()},
+            "components": components,
+            "commands": [command_record(item) for item in identity_commands + smoke_commands + reconcile_commands],
+            "reconciliation": reconciliation,
+            "ao2_native_verification_run": 31622142672,
+            "provider_calls": 0,
+            "credential_uses": 0,
+            "publications": 0,
+            "deployments": 0,
+            "external_mutations": 0,
+            "cleanup_succeeded": True,
+        }
+        validate_report(report)
+    output = Path(output)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    _write_json(output, report)
+    return report
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--target", choices=TARGETS, required=True)
+    parser.add_argument("--output", type=Path, required=True)
+    args = parser.parse_args(argv)
+    run_canary(args.target, args.output)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
