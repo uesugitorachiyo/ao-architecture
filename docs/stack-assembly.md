@@ -26,6 +26,13 @@ source heads and repository READMEs when assembling development or qualification
 workflows. AO Architecture is the documentation and contract map; it does not
 publish a binary.
 
+The currently tested, unpublished candidate set is AO2 v0.5.11 at
+`8307795b3434af920f6cef088e56ca8fcc76775b`, AO Mission v0.1.4 at
+`a90bfb08683e10fa5d20cbe2c11e670e7a84d93d`, and AO Atlas v0.2.0 at
+`e19acf2619588b6257b37ebd0fcf7219645284f3`, with Control Plane v0.1.19.
+These candidates passed three-platform, publication-disabled rehearsals but are
+not substitutes for the supported public releases above.
+
 ## Assembly Order
 
 1. **Choose immutable inputs.** Select the release tags above and record the

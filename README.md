@@ -54,8 +54,8 @@ with broad authority.
   and credential-free governed demo. New operators do not need to install or
   run the other AO repositories before completing that path.
 - [Assemble The AO Stack](docs/stack-assembly.md) explains the supported release
-  matrix, installation order, component responsibilities, and package-level
-  verification path.
+  matrix, tested candidate set, installation order, component responsibilities,
+  and package-level verification path.
 - [Architecture Overview](overview/README.md) explains how the components work
   together.
 - [Operator Workflow](docs/operator-workflow.md) follows the normal path through

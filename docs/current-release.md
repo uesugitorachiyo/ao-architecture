@@ -6,7 +6,7 @@ This document records the current independently verified public releases.
 
 - AO2: [v0.5.10](https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.10)
 - AO2 tag target: `9f4f8a8cf596127a982627b4af25c90a9a842095`
-- AO2 current tested main: `269b7e8e5901f1984fae7f9d2c11144e67d958b3`
+- AO2 current tested main: `8307795b3434af920f6cef088e56ca8fcc76775b`
 - AO2 approved asset-manifest digest: `a44bb65d59f46f3c3bf469dc7b26f0688fbf640f4f04ee9932a5a8fe186aeee3`
 - AO2 promotion-plan digest: `0e1ae4663eb09c3135b66326177855cb8d93bab84d776b130114c5d2c344dd21`
 - AO2 physical-Windows evidence digest: `a46f869c2c3512746ae686d65935b1612c1ef1ac0788f16bcd7de0d719268d81`
@@ -38,7 +38,7 @@ and `SHA256SUMS`
 - AO Mission: [v0.1.3](https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.3), tag target `2d4d24e6eb998066b537048516c9fb0c1bbc4f2a`
 - AO Command: [v0.1.2](https://github.com/uesugitorachiyo/ao-command/releases/tag/v0.1.2), tag target `a728d90077c1340e295468e5017b5e166bc5bc7a`
 
-AO Mission current tested main is `c2dc4791f59173ffc61dca4e4655e0301924406c` and
+AO Mission current tested main is `a90bfb08683e10fa5d20cbe2c11e670e7a84d93d` and
 AO Command current main is `6fc2a26a0a62b4cc9d23ad039ac205f8f11fb3d9`.
 
 Both operator tools are public, not draft, not prerelease, and each has three
@@ -67,24 +67,29 @@ The compatibility matrix remains proposed:
 
 ## Unreleased Tested Source Changes
 
-- AO2 `269b7e8e5901f1984fae7f9d2c11144e67d958b3` is the tested unreleased
+- AO2 `8307795b3434af920f6cef088e56ca8fcc76775b` is the tested unreleased
   v0.5.11 candidate paired with Control Plane v0.1.19. Its immutable promotion
   plan has SHA-256
-  `8a739be7b0bf43d89452a912e6878301d621787bd4a2887b08812a43a8febebb`,
+  `bc4ee1eeb8d920a0633bc6c9bd2b5f8bc5d210f80a9b4f2f10afbe68c377bf46`,
   and its physical-Windows evidence has SHA-256
-  `d01d32d9b3c51d4b855ba39dbbf5072df36f54312eb08b5b1444420ac5506a3a`.
+  `d2c05bb81a9d19ffe51e1a1c35e3e44073a5f464d31d1dc1c20f4163d9c5d37d`.
+  [Dry-run 31563617876](https://github.com/uesugitorachiyo/ao2/actions/runs/31563617876)
+  built and smoked native Linux, macOS, and Windows candidates and attempted no
+  publication. Its bounded physical-Windows evidence came from read-only
+  [import run 31563549078](https://github.com/uesugitorachiyo/ao2/actions/runs/31563549078).
   Control Plane current source
   `4e41da173dc9f1ee37f4ae99b85791e5f05ea453` retains v0.1.19 as the
   qualified companion. Neither source head changes the published versions
   above, and v0.5.11 requires separate release authorization.
-- AO Mission `c2dc4791f59173ffc61dca4e4655e0301924406c` is the tested unreleased
+- AO Mission `a90bfb08683e10fa5d20cbe2c11e670e7a84d93d` is the tested unreleased
   v0.1.4 candidate. It fixes stale Atlas closure actions, adds immutable
   release-finalizer validation, preserves correlation identity in compaction
   readbacks, and binds committed v0.1.4 release notes. Rehearsal run
-  [31297366031](https://github.com/uesugitorachiyo/ao-mission/actions/runs/31297366031)
-  and finalize dry run
-  [31297477754](https://github.com/uesugitorachiyo/ao-mission/actions/runs/31297477754)
-  passed without attempting publication. These changes are not part of public
+  [31551742569](https://github.com/uesugitorachiyo/ao-mission/actions/runs/31551742569)
+  passed on native Linux, macOS, and Windows without attempting publication.
+  Its immutable promotion-plan SHA-256 is
+  `2990c502ac67841c36662b4047d75d51ac4c376407b310c70f2da47da816833c`.
+  These changes are not part of public
   v0.1.3 and require separate release authorization.
 - No unreleased source head, passing test, or ready readback changes the current
   public versions or grants release, deployment, publication, or activation.
@@ -100,11 +105,10 @@ states.
   is a historical tag at `3e2027972760b66971714e1f27ab7689db07662e`
   with no downloadable release assets. Current Atlas source
   `e19acf2619588b6257b37ebd0fcf7219645284f3` documents the source-only
-  v0.2.0 candidate qualified from runtime source
-  `9a0814817ef54a34e99e2c6c1d41812b011e1661`. Publication-disabled
-  [rehearsal run 31321287357](https://github.com/uesugitorachiyo/ao-atlas/actions/runs/31321287357)
+  v0.2.0 candidate. Publication-disabled
+  [rehearsal run 31551988501](https://github.com/uesugitorachiyo/ao-atlas/actions/runs/31551988501)
   produced an immutable promotion plan with SHA-256
-  `347e69a926439d84edf16eb20f2c1ddb99306c690c40ca73e193e2add3232fdb`;
+  `56621bfaaa2d8e99d7a0fe4e486ae3f381e4caff380c4f43150109653ba6939a`;
   native macOS aarch64, Linux x86_64, hosted Windows x86_64, and physical
   Windows lifecycle checks passed. This is not a public v0.2.0 release and
   requires separate release authorization.
