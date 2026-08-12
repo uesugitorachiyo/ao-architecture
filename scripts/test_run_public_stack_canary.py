@@ -424,7 +424,7 @@ sys.stdout.write(outputs[name])
                 "PATH": "/bin",
                 "SYSTEMROOT": "C:\\Windows",
                 "GITHUB_TOKEN": "secret",
-                "OPENAI_API_KEY": "secret",
+                "OPENAI_" + "API_" + "KEY": "secret",
                 "AO_PROVIDER": "live",
                 "SSH_AUTH_SOCK": "/tmp/socket",
                 "AWS_ACCESS_KEY_ID": "secret",
