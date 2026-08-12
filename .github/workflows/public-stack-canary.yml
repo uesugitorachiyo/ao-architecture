@@ -20,7 +20,7 @@ jobs:
         include:
           - runner: ubuntu-latest
             target: linux-x86_64
-          - runner: macos-latest
+          - runner: macos-15
             target: macos-aarch64
           - runner: windows-latest
             target: windows-x86_64

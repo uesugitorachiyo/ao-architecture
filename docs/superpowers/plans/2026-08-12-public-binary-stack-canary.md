@@ -13,7 +13,8 @@
 - Pin AO2 `v0.5.11`, AO2 Control Plane `v0.1.19`, AO Mission `v0.1.4`, AO Atlas `v0.2.0`, AO Command `v0.1.2`, AO Forge `v0.1.4`, and AO Covenant `v0.1.1`.
 - Use public GitHub release assets and public source documentation only.
 - Add no dependency, credential, provider call, repository mutation, publication, deployment, or authority advance.
-- Verify SHA-256 before extraction and reject unsafe paths, links, duplicate identities, missing files, and wrong versions.
+- Verify SHA-256 before extraction and reject unsafe paths, links, duplicate identities, missing files, oversized downloads or expanded binaries, and wrong versions.
+- Run the macOS lane on arm64 and record Covenant's sole Darwin amd64 asset as Rosetta 2 translation; do not claim it is native arm64.
 - Keep generated reports and temporary installations out of source control.
 - Preserve AO2 native verification run `31622142672` as the full AO2 install/doctor/fixture/uninstall proof.
 
@@ -140,7 +141,7 @@ forge --version
 covenant version --json
 ```
 
-Check the exact pinned version and, where emitted, the release source SHA or schema. Record argv, exit, stdout, stderr, and elapsed milliseconds. Pass a minimal environment containing the temporary install root and platform-required system variables; remove AO/provider token variables.
+Check the exact pinned version and, where emitted, the release source SHA or schema. Record argv, exit, stdout, stderr, and elapsed milliseconds. Pass an allowlisted environment containing only platform-required system variables and a temporary Mission home; do not forward the runner environment.
 
 - [ ] **Step 4: Write failing tests for report validation and reconciliation failures**
 
@@ -166,7 +167,7 @@ Expected: failures because report validation does not exist.
 
 - [ ] **Step 6: Implement the public credential-free smoke and report**
 
-Run component-owned help or validation commands without providers. Build an Atlas terminal index from a pinned public fixture, verify it with Atlas, import it into a temporary Mission home, and read it through Mission and Command. Assert that each readback binds the same canonical index digest while retaining its own state digest. Set provider calls, credentials, publications, deployments, and external mutations to zero in the report and reject any nonzero value.
+Run component-owned help or validation commands without providers. Build an Atlas terminal index from a bounded source-owned fixture, verify it with Atlas, import it into a temporary Mission home, and read Mission's four Command-compatible surfaces. Have AO Command validate a read-only status record for the same Mission identity; Command v0.1.2 does not import terminal indexes. Assert that each Mission readback binds the same canonical index digest while retaining its own state digest. Set provider calls, credentials, publications, deployments, and external mutations to zero in the report and reject any nonzero value.
 
 - [ ] **Step 7: Run all offline tests**
 

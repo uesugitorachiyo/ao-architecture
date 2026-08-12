@@ -21,15 +21,13 @@ import zipfile
 
 
 TARGETS = ("linux-x86_64", "macos-aarch64", "windows-x86_64")
+MAX_ASSET_BYTES = 128 * 1024 * 1024
+MAX_BINARY_BYTES = 128 * 1024 * 1024
 _RAW_BASE = "https://raw.githubusercontent.com/uesugitorachiyo"
 SMOKE_FIXTURES = {
     "workgraph.json": (
         f"{_RAW_BASE}/ao-atlas/2bf243ce8d8c71d845754398238b14d1ab77d0e6/examples/valid/workgraph.json",
         "5c761cd7ef1ed5d648f7b2a4ee0988eef60fb097f73c343a70e0ea81999db4e5",
-    ),
-    "command-status.json": (
-        f"{_RAW_BASE}/ao-command/a728d90077c1340e295468e5017b5e166bc5bc7a/examples/mission/command-status.ready.json",
-        "e542a9925dea18557b95dde0c3569f2382246ef133d7727f605259cc00a529c8",
     ),
     "brief.md": (
         f"{_RAW_BASE}/ao-covenant/2fd72a0426a747868826581612fa1dc9727b53b9/examples/structured-release/brief.md",
@@ -178,11 +176,21 @@ def _safe_name(name):
     return path
 
 
+def copy_bounded(source, destination, limit):
+    total = 0
+    while block := source.read(min(1024 * 1024, limit - total + 1)):
+        total += len(block)
+        if total > limit:
+            raise ValueError(f"content exceeds {limit} bytes")
+        destination.write(block)
+    return total
+
+
 def _copy_binary(source, destination, binary):
     destination.mkdir(parents=True, exist_ok=True)
     output = destination / binary
     with output.open("wb") as handle:
-        shutil.copyfileobj(source, handle)
+        copy_bounded(source, handle, MAX_BINARY_BYTES)
     output.chmod(output.stat().st_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
     return output
 
@@ -207,6 +215,8 @@ def install_asset(asset, archive, destination):
                     continue
                 if not member.isfile():
                     raise ValueError(f"archive entry is not a regular file: {member.name}")
+                if member.size > MAX_BINARY_BYTES:
+                    raise ValueError(f"archive binary exceeds {MAX_BINARY_BYTES} bytes")
                 if name.name == asset.binary:
                     matches.append(member)
             if len(matches) > 1:
@@ -228,6 +238,8 @@ def install_asset(asset, archive, destination):
                     raise ValueError(f"archive link is not allowed: {member.filename}")
                 if member.is_dir():
                     continue
+                if member.file_size > MAX_BINARY_BYTES:
+                    raise ValueError(f"archive binary exceeds {MAX_BINARY_BYTES} bytes")
                 if name.name == asset.binary:
                     matches.append(member)
             if len(matches) > 1:
@@ -316,6 +328,14 @@ def validate_report(report):
         raise ValueError("invalid report schema")
     if report.get("status") != "passed" or report.get("target") not in TARGETS:
         raise ValueError("report must record a passing supported target")
+    runner = report.get("runner", {})
+    expected_runner = {
+        "linux-x86_64": ("Linux", {"x86_64", "AMD64"}),
+        "macos-aarch64": ("Darwin", {"arm64", "aarch64"}),
+        "windows-x86_64": ("Windows", {"AMD64", "x86_64"}),
+    }[report["target"]]
+    if runner.get("system") != expected_runner[0] or runner.get("machine") not in expected_runner[1]:
+        raise ValueError("runner does not match target")
     expected = {
         "ao2": "v0.5.11",
         "ao2-control-plane": "v0.1.19",
@@ -339,6 +359,12 @@ def validate_report(report):
             or item["bytes"] <= 0
         ):
             raise ValueError(f"invalid public component evidence: {item.get('component')}")
+    covenant = next(item for item in components if item["component"] == "ao-covenant")
+    if report["target"] == "macos-aarch64":
+        if covenant.get("execution_mode") != "rosetta-2" or covenant.get("binary_arch") != "amd64":
+            raise ValueError("macOS Covenant translation must be declared")
+    elif any(item.get("execution_mode") != "native" for item in components):
+        raise ValueError("non-macOS components must execute natively")
     commands = report.get("commands", [])
     if not commands or any(command.get("exit_code") != 0 for command in commands):
         raise ValueError("all recorded commands must exit zero")
@@ -358,6 +384,13 @@ def validate_report(report):
     canonical = [view.get("canonical") for view in views.values()]
     if any(value != canonical[0] for value in canonical[1:]):
         raise ValueError("terminal canonical payload disagreement")
+    command_status = report.get("reconciliation", {}).get("command_status", {})
+    if (
+        command_status.get("mission_id") != canonical[0].get("mission_id")
+        or command_status.get("operator_mode") != "read_only"
+        or command_status.get("safe_to_execute") is not False
+    ):
+        raise ValueError("Command status mission disagreement")
 
     for field in (
         "provider_calls",
@@ -468,6 +501,27 @@ def write_terminal_fixture(root):
     return path
 
 
+def write_command_status_fixture(root):
+    path = Path(root) / "command-status.json"
+    _write_json(
+        path,
+        {
+            "schema": "ao.command.mission-status.v0.1",
+            "mission_id": "ao-stack-public-canary-v0.1",
+            "status": "ready",
+            "current_route": "ao-atlas",
+            "current_phase": "terminal_index_reconciled",
+            "operator_mode": "read_only",
+            "safe_to_execute": False,
+            "executes_work": False,
+            "approves_work": False,
+            "mutates_repositories": False,
+            "exact_next_action": "none",
+        },
+    )
+    return path
+
+
 def _identity_arguments(asset, binary):
     suffixes = {
         "ao2": ("version",),
@@ -512,19 +566,24 @@ def assemble_components(assets, download_root, bin_root, env, *, fetch):
                 "sha256": asset.sha256,
                 "bytes": fetched_bytes,
                 "binary": asset.binary,
+                "execution_mode": (
+                    "rosetta-2"
+                    if asset.component == "ao-covenant" and "darwin_amd64" in filename
+                    else "native"
+                ),
+                **(
+                    {"binary_arch": "amd64"}
+                    if asset.component == "ao-covenant" and "darwin_amd64" in filename
+                    else {}
+                ),
             }
         )
     return records, commands, binaries
 
 
 def sanitized_environment(source):
-    sensitive = ("TOKEN", "SECRET", "PASSWORD", "CREDENTIAL", "API_KEY", "AUTH", "PROVIDER")
-    return {
-        key: value
-        for key, value in source.items()
-        if not key.upper().startswith("AO_")
-        and not any(marker in key.upper() for marker in sensitive)
-    }
+    allowed = {"PATH", "PATHEXT", "SYSTEMROOT", "WINDIR", "COMSPEC", "TEMP", "TMP", "TMPDIR", "LANG", "LC_ALL"}
+    return {key: value for key, value in source.items() if key.upper() in allowed}
 
 
 def canary_environment(source, root):
@@ -536,7 +595,10 @@ def canary_environment(source, root):
 def download(url, destination):
     request = Request(url, headers={"User-Agent": "ao-stack-public-canary/0.1"})
     with urlopen(request, timeout=60) as response, Path(destination).open("wb") as output:
-        shutil.copyfileobj(response, output)
+        length = response.headers.get("Content-Length")
+        if length is not None and int(length) > MAX_ASSET_BYTES:
+            raise ValueError(f"download exceeds {MAX_ASSET_BYTES} bytes")
+        copy_bounded(response, output, MAX_ASSET_BYTES)
     return Path(destination).stat().st_size
 
 
@@ -570,6 +632,7 @@ def _run_functional_smokes(binaries, root, env):
         path = fixture_root / name
         download(url, path)
         verify_digest(path, digest)
+    command_status_path = write_command_status_fixture(fixture_root)
     commands = (
         ((binaries["ao2"], "--help"), None),
         ((binaries["ao2-control-plane"], "--help"), None),
@@ -579,7 +642,8 @@ def _run_functional_smokes(binaries, root, env):
         ((binaries["ao-forge"], "--help"), None),
         ((binaries["ao-covenant"], "lint", "--brief", "brief.md", "--json"), fixture_root),
     )
-    return [run_command(command, env=env, expected_exit={0}, cwd=cwd) for command, cwd in commands]
+    results = [run_command(command, env=env, expected_exit={0}, cwd=cwd) for command, cwd in commands]
+    return results, json.loads(results[4].stdout)
 
 
 def _run_terminal_reconciliation(binaries, root, env):
@@ -616,8 +680,12 @@ def run_canary(target, output):
         components, identity_commands, binaries = assemble_components(
             select_assets(target), root / "downloads", root / "bin", environment, fetch=download
         )
-        smoke_commands = _run_functional_smokes(binaries, root, environment)
+        smoke_commands, command_status = _run_functional_smokes(binaries, root, environment)
         reconciliation, reconcile_commands = _run_terminal_reconciliation(binaries, root, environment)
+        reconciliation["command_status"] = {
+            key: command_status[key]
+            for key in ("mission_id", "operator_mode", "safe_to_execute", "current_route", "current_phase")
+        }
         report = {
             "schema": "ao.architecture.public-stack-canary.v0.1",
             "status": "passed",

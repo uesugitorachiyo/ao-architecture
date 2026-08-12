@@ -106,6 +106,11 @@ class SafeInstallTests(unittest.TestCase):
         self.assertEqual((self.destination / "tool",), installed)
         self.assertEqual(b"binary", installed[0].read_bytes())
 
+    def test_bounded_copy_rejects_oversized_content(self):
+        destination = io.BytesIO()
+        with self.assertRaisesRegex(ValueError, "exceeds 4 bytes"):
+            canary.copy_bounded(io.BytesIO(b"12345"), destination, 4)
+
     def test_tar_install_rejects_parent_traversal(self):
         archive = self.make_tar([("../escape", b"bad")])
         with self.assertRaisesRegex(ValueError, "unsafe archive path"):
@@ -239,6 +244,7 @@ class ReportTests(unittest.TestCase):
             "schema": "ao.architecture.public-stack-canary.v0.1",
             "status": "passed",
             "target": "macos-aarch64",
+            "runner": {"system": "Darwin", "machine": "arm64", "python": "3.13.0"},
             "components": [
                 {
                     "component": component,
@@ -246,11 +252,23 @@ class ReportTests(unittest.TestCase):
                     "url": f"https://github.com/uesugitorachiyo/{component}/releases/download/{version}/asset",
                     "sha256": "a" * 64,
                     "bytes": 1,
+                    **(
+                        {"execution_mode": "rosetta-2", "binary_arch": "amd64"}
+                        if component == "ao-covenant"
+                        else {"execution_mode": "native"}
+                    ),
                 }
                 for component, version in components
             ],
             "commands": [{"argv": ["tool"], "exit_code": 0}],
-            "reconciliation": {"views": views},
+            "reconciliation": {
+                "views": views,
+                "command_status": {
+                    "mission_id": "mission-public-stack-canary",
+                    "operator_mode": "read_only",
+                    "safe_to_execute": False,
+                },
+            },
             "provider_calls": 0,
             "credential_uses": 0,
             "publications": 0,
@@ -282,12 +300,35 @@ class ReportTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "index digest disagreement"):
             canary.validate_report(report)
 
+    def test_report_requires_command_status_for_same_mission(self):
+        report = self.valid_report()
+        report["reconciliation"]["command_status"] = {
+            "mission_id": "different-mission",
+            "operator_mode": "read_only",
+            "safe_to_execute": False,
+        }
+        with self.assertRaisesRegex(ValueError, "Command status mission disagreement"):
+            canary.validate_report(report)
+
     def test_report_requires_distinct_surface_state_digests(self):
         report = self.valid_report()
         report["reconciliation"]["views"]["checkpoint"]["state_digest"] = (
             report["reconciliation"]["views"]["inspect"]["state_digest"]
         )
         with self.assertRaisesRegex(ValueError, "state digests must be distinct"):
+            canary.validate_report(report)
+
+    def test_report_rejects_wrong_runner_architecture(self):
+        report = self.valid_report()
+        report["runner"]["machine"] = "x86_64"
+        with self.assertRaisesRegex(ValueError, "runner does not match target"):
+            canary.validate_report(report)
+
+    def test_macos_report_requires_declared_covenant_translation(self):
+        report = self.valid_report()
+        covenant = next(item for item in report["components"] if item["component"] == "ao-covenant")
+        covenant["execution_mode"] = "native"
+        with self.assertRaisesRegex(ValueError, "Covenant translation"):
             canary.validate_report(report)
 
 
@@ -310,6 +351,14 @@ class TerminalFixtureTests(unittest.TestCase):
                     "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest(),
                     artifact["sha256"],
                 )
+
+    def test_command_status_fixture_uses_exact_v01_input_schema(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = canary.write_command_status_fixture(Path(directory))
+            document = json.loads(path.read_text())
+        self.assertEqual("ao.command.mission-status.v0.1", document["schema"])
+        self.assertEqual("ao-stack-public-canary-v0.1", document["mission_id"])
+        self.assertNotIn("command_schema_version", document)
 
 
 class AssemblyTests(unittest.TestCase):
@@ -378,6 +427,9 @@ sys.stdout.write(outputs[name])
                 "OPENAI_API_KEY": "secret",
                 "AO_PROVIDER": "live",
                 "SSH_AUTH_SOCK": "/tmp/socket",
+                "AWS_ACCESS_KEY_ID": "secret",
+                "CI_JOB_JWT": "secret",
+                "HOME": "/private/home",
             }
         )
         self.assertEqual({"PATH": "/bin", "SYSTEMROOT": "C:\\Windows"}, environment)
@@ -396,7 +448,7 @@ class WorkflowTests(unittest.TestCase):
         workflow = (Path(__file__).parents[1] / ".github/workflows/public-stack-canary.yml").read_text()
         for runner, target in (
             ("ubuntu-latest", "linux-x86_64"),
-            ("macos-latest", "macos-aarch64"),
+            ("macos-15", "macos-aarch64"),
             ("windows-latest", "windows-x86_64"),
         ):
             self.assertEqual(1, workflow.count(f"runner: {runner}"))
