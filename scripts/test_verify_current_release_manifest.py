@@ -6,39 +6,42 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from verify_current_release_manifest import validate_manifest, validate_stack_lock_alignment
 
-AO2_VERSION = "v0.5.10"
-AO2_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.10"
-AO2_TAG_TARGET = "9f4f8a8cf596127a982627b4af25c90a9a842095"
-AO2_MAIN_COMMIT = "9f4f8a8cf596127a982627b4af25c90a9a842095"
-AO2_RELEASE_WORKFLOW_RUN = "https://github.com/uesugitorachiyo/ao2/actions/runs/31279647320"
-AO2_POST_RELEASE_WORKFLOW_RUN = "https://github.com/uesugitorachiyo/ao2/actions/runs/31279647320"
-AO2_CONSUMER_SMOKE_WORKFLOW_RUN = "https://github.com/uesugitorachiyo/ao2/actions/runs/31279647320"
-AO2_APPROVED_MANIFEST_DIGEST = "a44bb65d59f46f3c3bf469dc7b26f0688fbf640f4f04ee9932a5a8fe186aeee3"
-AO2_PROMOTION_PLAN_DIGEST = "0e1ae4663eb09c3135b66326177855cb8d93bab84d776b130114c5d2c344dd21"
-AO2_PHYSICAL_WINDOWS_EVIDENCE_DIGEST = "a46f869c2c3512746ae686d65935b1612c1ef1ac0788f16bcd7de0d719268d81"
+AO2_VERSION = "v0.5.11"
+AO2_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.11"
+AO2_TAG_TARGET = "8307795b3434af920f6cef088e56ca8fcc76775b"
+AO2_MAIN_COMMIT = "8307795b3434af920f6cef088e56ca8fcc76775b"
+AO2_RELEASE_WORKFLOW_RUN = "https://github.com/uesugitorachiyo/ao2/actions/runs/31619411288"
+AO2_POST_RELEASE_WORKFLOW_RUN = "https://github.com/uesugitorachiyo/ao2/actions/runs/31622142672"
+AO2_CONSUMER_SMOKE_WORKFLOW_RUN = AO2_POST_RELEASE_WORKFLOW_RUN
+AO2_APPROVED_MANIFEST_DIGEST = "bc4ee1eeb8d920a0633bc6c9bd2b5f8bc5d210f80a9b4f2f10afbe68c377bf46"
+AO2_PROMOTION_PLAN_DIGEST = AO2_APPROVED_MANIFEST_DIGEST
+AO2_PHYSICAL_WINDOWS_EVIDENCE_DIGEST = "d2c05bb81a9d19ffe51e1a1c35e3e44073a5f464d31d1dc1c20f4163d9c5d37d"
 AO2_EVIDENCE_PATH = AO2_POST_RELEASE_WORKFLOW_RUN
 AO2_ASSET_SHA256 = {
-    "ao2-0.5.10-linux-x86_64.tar.gz": "fd1ff2aaa86e72238f8a3d3a9ab7be296aff4bc8017b3ec626b6501fe4e42318",
-    "ao2-0.5.10-macos-aarch64.tar.gz": "e29122f3d330e8b84949c24f65cf50a9b6387e04d902f148897afd283b2af31b",
-    "ao2-0.5.10-windows-x86_64.tar.gz": "37eb8d06a90ad705cffa51ce3d9dc9bce4f0ac162d95b4d524ffc97b8e284d33",
+    "ao2-0.5.11-linux-x86_64.tar.gz": "c62c204d520bf51b4c63caecf2a8f48840e44b2828e1e439c68da4994d1abc07",
+    "ao2-0.5.11-macos-aarch64.tar.gz": "857fbe69e606ab99f07dffd3183e6f2d869b8efd4fc604e37efd16607308e6ab",
+    "ao2-0.5.11-windows-x86_64.tar.gz": "327829e9e3e3edf3eeb3b48d3b1ead46af0fa47a768ee6e1843c285e8b1d2756",
     "promotion-plan.json": AO2_PROMOTION_PLAN_DIGEST,
-    "SHA256SUMS": "6485b289c8ec1aeaf005017313003f6b30ce165922f345b108dca31b3dd1b1af",
+    "SHA256SUMS": "abf0290702cd20b3c971a51e9d6ee16ecc2d4327b692d4ba7447afddc96bc4f2",
 }
 AO2_WINDOWS_SMOKE_JOB = AO2_POST_RELEASE_WORKFLOW_RUN
 CONTROL_PLANE_VERSION = "v0.1.19"
 CONTROL_PLANE_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.19"
 CONTROL_PLANE_TAG_TARGET = "5de3541e9007e12d95b125e7f911c02932e21479"
 CONTROL_PLANE_MAIN_COMMIT = "eb420864794ceb9ebadef8f3f551772095edb758"
-MISSION_TAG_TARGET = "2d4d24e6eb998066b537048516c9fb0c1bbc4f2a"
-MISSION_MAIN_COMMIT = "2d4d24e6eb998066b537048516c9fb0c1bbc4f2a"
-MISSION_RELEASE_WORKFLOW_RUN = "https://github.com/uesugitorachiyo/ao-mission/actions/runs/31280520769"
+MISSION_TAG_TARGET = "cee287597024b5a1e990c6e272518236bc9e32fa"
+MISSION_MAIN_COMMIT = MISSION_TAG_TARGET
+MISSION_RELEASE_WORKFLOW_RUN = "https://github.com/uesugitorachiyo/ao-mission/actions/runs/31630701637"
 MISSION_ASSET_SHA256 = {
-    "ao-mission-0.1.3-linux-x86_64.tar.gz": "ff5f4cf3c5cd1892ae2367cfb624607e0cedea59bf4d5b01e96444b4f8fef65d",
-    "ao-mission-0.1.3-macos-aarch64.tar.gz": "85031d253f12712b715d8f99560fd4237d431bec5367dee825c7928fcf2d7443",
-    "ao-mission-0.1.3-windows-x86_64.zip": "2ac052285126b2737d6d846ebab730f5615ad4baef4cc1a0596dceebf86465cc",
+    "ao-mission-0.1.4-linux-x86_64.tar.gz": "041d4b4ab076601bf6fe15335cb70a5d9f87301beb239e8e106b3ee4fd12f800",
+    "ao-mission-0.1.4-macos-aarch64.tar.gz": "d8b418e42b57306862c75fc10e5c347109c13c144a18e240d2a2edba29c1a34e",
+    "ao-mission-0.1.4-windows-x86_64.zip": "027ceba61e7b1d3655cce63a1ce4269824d7a5e3acf65fef5fabb0b539c53221",
 }
 COMMAND_TAG_TARGET = "a728d90077c1340e295468e5017b5e166bc5bc7a"
 COMMAND_MAIN_COMMIT = "6fc2a26a0a62b4cc9d23ad039ac205f8f11fb3d9"
+ATLAS_TAG_TARGET = "2bf243ce8d8c71d845754398238b14d1ab77d0e6"
+FORGE_TAG_TARGET = "e104b47c2e14b6c0927b885e137907ad227aeb5c"
+COVENANT_TAG_TARGET = "2fd72a0426a747868826581612fa1dc9727b53b9"
 
 
 def ao2_release():
@@ -70,7 +73,7 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
             "schema": "ao.architecture.current-release-manifest.v0.1",
             "status": "current_public_release_pair",
             "generated_at_utc": "2026-07-27T20:00:00Z",
-            "source_of_truth": "public GitHub releases plus AO2 v0.5.10 and Control Plane v0.1.19 publication evidence",
+            "source_of_truth": "public GitHub releases plus AO2 v0.5.11 and Control Plane v0.1.19 publication evidence",
             "ao2": ao2_release(),
             "control_plane": {
                 "repository": "ao2-control-plane",
@@ -87,9 +90,9 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
             "tier1_tools": [
                 {
                     "repository": "ao-mission",
-                    "version": "v0.1.3",
-                    "release_url": "https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.3",
-                    "tag": "v0.1.3",
+                    "version": "v0.1.4",
+                    "release_url": "https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.4",
+                    "tag": "v0.1.4",
                     "tag_target": MISSION_TAG_TARGET,
                     "current_main_commit": MISSION_MAIN_COMMIT,
                     "release_workflow_run": MISSION_RELEASE_WORKFLOW_RUN,
@@ -108,6 +111,29 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
                     "is_draft": False,
                     "is_prerelease": False,
                     "asset_count": 3,
+                },
+            ],
+            "tier2_tools": [
+                {
+                    "repository": "ao-atlas", "version": "v0.2.0",
+                    "release_url": "https://github.com/uesugitorachiyo/ao-atlas/releases/tag/v0.2.0",
+                    "tag": "v0.2.0", "tag_target": ATLAS_TAG_TARGET,
+                    "current_main_commit": ATLAS_TAG_TARGET, "is_draft": False,
+                    "is_prerelease": False, "asset_count": 15,
+                },
+                {
+                    "repository": "ao-forge", "version": "v0.1.4",
+                    "release_url": "https://github.com/uesugitorachiyo/ao-forge/releases/tag/v0.1.4",
+                    "tag": "v0.1.4", "tag_target": FORGE_TAG_TARGET,
+                    "current_main_commit": FORGE_TAG_TARGET, "is_draft": False,
+                    "is_prerelease": False, "asset_count": 16,
+                },
+                {
+                    "repository": "ao-covenant", "version": "v0.1.1",
+                    "release_url": "https://github.com/uesugitorachiyo/ao-covenant/releases/tag/v0.1.1",
+                    "tag": "v0.1.1", "tag_target": COVENANT_TAG_TARGET,
+                    "current_main_commit": COVENANT_TAG_TARGET, "is_draft": False,
+                    "is_prerelease": False, "asset_count": 13,
                 },
             ],
             "pairing": {
@@ -144,7 +170,7 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
                 "release_url": "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.3",
             }
         )
-        self.assertIn("ao2.version must be v0.5.10", validate_manifest(document))
+        self.assertIn("ao2.version must be v0.5.11", validate_manifest(document))
 
     def test_rejects_previous_ao2_v056_as_current_release(self):
         document = {"ao2": ao2_release()}
@@ -155,7 +181,7 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
                 "release_url": "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.6",
             }
         )
-        self.assertIn("ao2.version must be v0.5.10", validate_manifest(document))
+        self.assertIn("ao2.version must be v0.5.11", validate_manifest(document))
 
     def test_requires_exact_ao2_v059_publication_evidence(self):
         exact_fields = {
@@ -178,11 +204,11 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
                     "schema": "ao.architecture.current-release-manifest.v0.1",
                     "status": "current_public_release_pair",
                     "generated_at_utc": "2026-07-27T20:00:00Z",
-                    "source_of_truth": "public GitHub releases plus AO2 v0.5.10 publication evidence",
+                    "source_of_truth": "public GitHub releases plus AO2 v0.5.11 publication evidence",
                     "ao2": ao2_release(),
                 }
                 document["ao2"][field] = {} if isinstance(expected, dict) else "0" * len(expected)
-                self.assertIn(f"ao2.{field} must match the verified v0.5.10 release", validate_manifest(document))
+                self.assertIn(f"ao2.{field} must match the verified v0.5.11 release", validate_manifest(document))
 
     def test_requires_published_tier1_tool_records(self):
         errors = validate_manifest({"tier1_tools": []})
@@ -191,14 +217,20 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
             errors,
         )
 
+    def test_requires_published_tier2_tool_records(self):
+        self.assertIn(
+            "tier2_tools must contain exactly ao-atlas, ao-covenant, and ao-forge",
+            validate_manifest({"tier2_tools": []}),
+        )
+
     def test_rejects_stale_mission_current_main_commit(self):
         document = {
             "tier1_tools": [
                 {
                     "repository": "ao-mission",
-                    "version": "v0.1.3",
-                    "release_url": "https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.3",
-                    "tag": "v0.1.3",
+                    "version": "v0.1.4",
+                    "release_url": "https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.4",
+                    "tag": "v0.1.4",
                     "tag_target": MISSION_TAG_TARGET,
                     "current_main_commit": "0" * 40,
                     "release_workflow_run": MISSION_RELEASE_WORKFLOW_RUN,
@@ -230,9 +262,9 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
             "tier1_tools": [
                 {
                     "repository": "ao-mission",
-                    "version": "v0.1.3",
-                    "release_url": "https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.3",
-                    "tag": "v0.1.3",
+                    "version": "v0.1.4",
+                    "release_url": "https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.4",
+                    "tag": "v0.1.4",
                     "tag_target": MISSION_TAG_TARGET,
                     "current_main_commit": MISSION_MAIN_COMMIT,
                     "release_workflow_run": MISSION_RELEASE_WORKFLOW_RUN,
@@ -255,7 +287,7 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
             ]
         }
         self.assertIn(
-            "ao-mission.asset_sha256 must match the verified v0.1.3 release",
+            "ao-mission.asset_sha256 must match the verified v0.1.4 release",
             validate_manifest(document),
         )
 
@@ -264,7 +296,7 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
             "schema": "ao.architecture.current-release-manifest.v0.1",
             "status": "current_public_release_pair",
             "generated_at_utc": "2026-07-27T20:00:00Z",
-            "source_of_truth": "public GitHub releases plus AO2 v0.5.10 and Control Plane v0.1.19 publication evidence",
+            "source_of_truth": "public GitHub releases plus AO2 v0.5.11 and Control Plane v0.1.19 publication evidence",
             "ao2": ao2_release(),
             "control_plane": {
                 "repository": "ao2-control-plane",
@@ -304,7 +336,7 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
             "schema": "ao.architecture.current-release-manifest.v0.1",
             "status": "current_public_release_pair",
             "generated_at_utc": "2026-07-27T20:00:00Z",
-            "source_of_truth": "public GitHub releases plus AO2 v0.5.10 and Control Plane v0.1.19 publication evidence",
+            "source_of_truth": "public GitHub releases plus AO2 v0.5.11 and Control Plane v0.1.19 publication evidence",
             "ao2": ao2_release(),
             "control_plane": {
                 "repository": "ao2-control-plane",
@@ -371,7 +403,7 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
             "tier1_tools": [
                 {
                     "repository": "ao-mission",
-                    "version": "v0.1.3",
+                    "version": "v0.1.4",
                     "current_main_commit": MISSION_MAIN_COMMIT,
                 },
                 {
@@ -386,7 +418,7 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
                 {
                     "repository": "ao-mission",
                     "commit": MISSION_TAG_TARGET,
-                    "detected_version": "v0.1.3",
+                    "detected_version": "v0.1.4",
                 },
                 {
                     "repository": "ao-command",
