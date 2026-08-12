@@ -10,10 +10,10 @@ from verify_adoption_support_readiness import validate_adoption_support_readines
 VALID_DOC = """
 # AO Stack Adoption Month 5 Support Readiness
 
-Current public pair: AO2 v0.5.10 and AO2 Control Plane v0.1.19.
+Current public pair: AO2 v0.5.11 and AO2 Control Plane v0.1.19.
 The compatibility matrix remains 16 tested edges, 16 canonical vectors, and
-16 consumer tests. All 16 edges are fresh. The native AO2 v0.5.10
-execution-to-observation vector and Control Plane v0.1.19 consumer test bind the current public pair.
+16 consumer tests. All 16 edges are fresh. The unchanged-contract bridge binds AO2 v0.5.11 to the native AO2 v0.5.10
+execution-to-observation vector and Control Plane v0.1.19 consumer test.
 The compatibility gate is ready, not active.
 
 Support readiness states: fresh, stale, blocked, denied, unsupported.

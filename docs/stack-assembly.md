@@ -12,26 +12,25 @@ full release evidence and asset digests are in [Current Public Releases](current
 
 | Package role | Repository | Release | What it provides |
 | --- | --- | --- | --- |
-| Execution | [AO2](https://github.com/uesugitorachiyo/ao2) | [v0.5.10](https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.10) | Bounded local workflows, approvals, verification, and evidence capture |
+| Execution | [AO2](https://github.com/uesugitorachiyo/ao2) | [v0.5.11](https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.11) | Bounded local workflows, approvals, verification, and evidence capture |
 | Observation | [AO2 Control Plane](https://github.com/uesugitorachiyo/ao2-control-plane) | [v0.1.19](https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.19) | Read-only evidence ingest, storage, metrics, and operator readback |
-| Mission control | [AO Mission](https://github.com/uesugitorachiyo/ao-mission) | [v0.1.3](https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.3) | Objective intake, routing, durable lifecycle state, and continuation |
+| Mission control | [AO Mission](https://github.com/uesugitorachiyo/ao-mission) | [v0.1.4](https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.4) | Objective intake, routing, durable lifecycle state, and continuation |
 | Operator status | [AO Command](https://github.com/uesugitorachiyo/ao-command) | [v0.1.2](https://github.com/uesugitorachiyo/ao-command/releases/tag/v0.1.2) | Read-only status and evidence inspection |
+| Workgraph compilation | [AO Atlas](https://github.com/uesugitorachiyo/ao-atlas) | [v0.2.0](https://github.com/uesugitorachiyo/ao-atlas/releases/tag/v0.2.0) | Authorized workgraphs, context packs, and terminal-index reconciliation |
 | Run coordination | [AO Forge](https://github.com/uesugitorachiyo/ao-forge) | [v0.1.4](https://github.com/uesugitorachiyo/ao-forge/releases/tag/v0.1.4) | GoalRun state, factory plans, release gates, and retained run evidence |
 | Policy and trust | [AO Covenant](https://github.com/uesugitorachiyo/ao-covenant) | [v0.1.1](https://github.com/uesugitorachiyo/ao-covenant/releases/tag/v0.1.1) | Policy, approval, side-effect, and evidence-contract gates |
 
-AO Blueprint, AO Atlas, AO Foundry, AO Arena, AO Crucible, AO Sentinel, and AO
+AO Blueprint, AO Foundry, AO Arena, AO Crucible, AO Sentinel, and AO
 Promoter remain maintained source repositories in the stack. They were
 classified `no_release_needed` for this release cycle, so use their verified
 source heads and repository READMEs when assembling development or qualification
 workflows. AO Architecture is the documentation and contract map; it does not
 publish a binary.
 
-The currently tested, unpublished candidate set is AO2 v0.5.11 at
-`8307795b3434af920f6cef088e56ca8fcc76775b`, AO Mission v0.1.4 at
-`a90bfb08683e10fa5d20cbe2c11e670e7a84d93d`, and AO Atlas v0.2.0 at
-`e19acf2619588b6257b37ebd0fcf7219645284f3`, with Control Plane v0.1.19.
-These candidates passed three-platform, publication-disabled rehearsals but are
-not substitutes for the supported public releases above.
+The seven releases above passed the credential-free three-platform public stack
+canary in Architecture run `31647446543`. On macOS arm64, Covenant v0.1.1 runs
+its Darwin amd64 binary through Rosetta 2 because that release has no Darwin
+arm64 asset.
 
 ## Assembly Order
 

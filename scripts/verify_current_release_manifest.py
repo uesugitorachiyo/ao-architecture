@@ -13,42 +13,48 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MANIFEST = ROOT / "stack" / "current-release-manifest.json"
 DEFAULT_LOCK = ROOT / "stack" / "ao-stack.lock.json"
 COMMIT_RE = re.compile(r"^[0-9a-f]{40}$")
-VERIFIED_AO2_V0510 = {
-    "release_url": "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.10",
-    "tag_target": "9f4f8a8cf596127a982627b4af25c90a9a842095",
-    "current_main_commit": "9f4f8a8cf596127a982627b4af25c90a9a842095",
-    "release_workflow_run": "https://github.com/uesugitorachiyo/ao2/actions/runs/31279647320",
-    "post_release_workflow_run": "https://github.com/uesugitorachiyo/ao2/actions/runs/31279647320",
-    "consumer_smoke_workflow_run": "https://github.com/uesugitorachiyo/ao2/actions/runs/31279647320",
-    "approved_manifest_digest": "a44bb65d59f46f3c3bf469dc7b26f0688fbf640f4f04ee9932a5a8fe186aeee3",
-    "promotion_plan_digest": "0e1ae4663eb09c3135b66326177855cb8d93bab84d776b130114c5d2c344dd21",
-    "physical_windows_evidence_digest": "a46f869c2c3512746ae686d65935b1612c1ef1ac0788f16bcd7de0d719268d81",
-    "evidence_path": "https://github.com/uesugitorachiyo/ao2/actions/runs/31279647320",
+VERIFIED_AO2_V0511 = {
+    "release_url": "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.11",
+    "tag_target": "8307795b3434af920f6cef088e56ca8fcc76775b",
+    "current_main_commit": "8307795b3434af920f6cef088e56ca8fcc76775b",
+    "release_workflow_run": "https://github.com/uesugitorachiyo/ao2/actions/runs/31619411288",
+    "post_release_workflow_run": "https://github.com/uesugitorachiyo/ao2/actions/runs/31622142672",
+    "consumer_smoke_workflow_run": "https://github.com/uesugitorachiyo/ao2/actions/runs/31622142672",
+    "approved_manifest_digest": "bc4ee1eeb8d920a0633bc6c9bd2b5f8bc5d210f80a9b4f2f10afbe68c377bf46",
+    "promotion_plan_digest": "bc4ee1eeb8d920a0633bc6c9bd2b5f8bc5d210f80a9b4f2f10afbe68c377bf46",
+    "physical_windows_evidence_digest": "d2c05bb81a9d19ffe51e1a1c35e3e44073a5f464d31d1dc1c20f4163d9c5d37d",
+    "evidence_path": "https://github.com/uesugitorachiyo/ao2/actions/runs/31622142672",
     "asset_sha256": {
-        "ao2-0.5.10-linux-x86_64.tar.gz": "fd1ff2aaa86e72238f8a3d3a9ab7be296aff4bc8017b3ec626b6501fe4e42318",
-        "ao2-0.5.10-macos-aarch64.tar.gz": "e29122f3d330e8b84949c24f65cf50a9b6387e04d902f148897afd283b2af31b",
-        "ao2-0.5.10-windows-x86_64.tar.gz": "37eb8d06a90ad705cffa51ce3d9dc9bce4f0ac162d95b4d524ffc97b8e284d33",
-        "promotion-plan.json": "0e1ae4663eb09c3135b66326177855cb8d93bab84d776b130114c5d2c344dd21",
-        "SHA256SUMS": "6485b289c8ec1aeaf005017313003f6b30ce165922f345b108dca31b3dd1b1af",
+        "ao2-0.5.11-linux-x86_64.tar.gz": "c62c204d520bf51b4c63caecf2a8f48840e44b2828e1e439c68da4994d1abc07",
+        "ao2-0.5.11-macos-aarch64.tar.gz": "857fbe69e606ab99f07dffd3183e6f2d869b8efd4fc604e37efd16607308e6ab",
+        "ao2-0.5.11-windows-x86_64.tar.gz": "327829e9e3e3edf3eeb3b48d3b1ead46af0fa47a768ee6e1843c285e8b1d2756",
+        "promotion-plan.json": "bc4ee1eeb8d920a0633bc6c9bd2b5f8bc5d210f80a9b4f2f10afbe68c377bf46",
+        "SHA256SUMS": "abf0290702cd20b3c971a51e9d6ee16ecc2d4327b692d4ba7447afddc96bc4f2",
     },
-    "windows_smoke_job": "https://github.com/uesugitorachiyo/ao2/actions/runs/31279647320",
+    "windows_smoke_job": "https://github.com/uesugitorachiyo/ao2/actions/runs/31622142672",
 }
 
 VERIFIED_TIER1_CURRENT_MAIN = {
-    "ao-mission": "2d4d24e6eb998066b537048516c9fb0c1bbc4f2a",
+    "ao-mission": "cee287597024b5a1e990c6e272518236bc9e32fa",
     "ao-command": "6fc2a26a0a62b4cc9d23ad039ac205f8f11fb3d9",
 }
 
-VERIFIED_MISSION_V013 = {
-    "release_url": "https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.3",
-    "tag_target": "2d4d24e6eb998066b537048516c9fb0c1bbc4f2a",
-    "current_main_commit": "2d4d24e6eb998066b537048516c9fb0c1bbc4f2a",
-    "release_workflow_run": "https://github.com/uesugitorachiyo/ao-mission/actions/runs/31280520769",
+VERIFIED_MISSION_V014 = {
+    "release_url": "https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.4",
+    "tag_target": "cee287597024b5a1e990c6e272518236bc9e32fa",
+    "current_main_commit": "cee287597024b5a1e990c6e272518236bc9e32fa",
+    "release_workflow_run": "https://github.com/uesugitorachiyo/ao-mission/actions/runs/31630701637",
     "asset_sha256": {
-        "ao-mission-0.1.3-linux-x86_64.tar.gz": "ff5f4cf3c5cd1892ae2367cfb624607e0cedea59bf4d5b01e96444b4f8fef65d",
-        "ao-mission-0.1.3-macos-aarch64.tar.gz": "85031d253f12712b715d8f99560fd4237d431bec5367dee825c7928fcf2d7443",
-        "ao-mission-0.1.3-windows-x86_64.zip": "2ac052285126b2737d6d846ebab730f5615ad4baef4cc1a0596dceebf86465cc",
+        "ao-mission-0.1.4-linux-x86_64.tar.gz": "041d4b4ab076601bf6fe15335cb70a5d9f87301beb239e8e106b3ee4fd12f800",
+        "ao-mission-0.1.4-macos-aarch64.tar.gz": "d8b418e42b57306862c75fc10e5c347109c13c144a18e240d2a2edba29c1a34e",
+        "ao-mission-0.1.4-windows-x86_64.zip": "027ceba61e7b1d3655cce63a1ce4269824d7a5e3acf65fef5fabb0b539c53221",
     },
+}
+
+VERIFIED_TIER2_RELEASES = {
+    "ao-atlas": ("v0.2.0", "2bf243ce8d8c71d845754398238b14d1ab77d0e6", 15),
+    "ao-forge": ("v0.1.4", "e104b47c2e14b6c0927b885e137907ad227aeb5c", 16),
+    "ao-covenant": ("v0.1.1", "2fd72a0426a747868826581612fa1dc9727b53b9", 13),
 }
 
 
@@ -108,12 +114,12 @@ def validate_manifest(document: dict[str, Any]) -> list[str]:
     if source and "public GitHub releases" not in source:
         errors.append("source_of_truth must reference public GitHub releases")
 
-    errors.extend(validate_release_component(document, "ao2", "ao2", "v0.5.10", 5))
+    errors.extend(validate_release_component(document, "ao2", "ao2", "v0.5.11", 5))
     ao2 = document.get("ao2", {})
     if isinstance(ao2, dict):
-        for field, expected in VERIFIED_AO2_V0510.items():
+        for field, expected in VERIFIED_AO2_V0511.items():
             if ao2.get(field) != expected:
-                errors.append(f"ao2.{field} must match the verified v0.5.10 release")
+                errors.append(f"ao2.{field} must match the verified v0.5.11 release")
 
     errors.extend(validate_release_component(document, "control_plane", "ao2-control-plane", "v0.1.19", 7))
     control_plane = document.get("control_plane", {})
@@ -122,7 +128,7 @@ def validate_manifest(document: dict[str, Any]) -> list[str]:
 
     tier1_tools = document.get("tier1_tools")
     expected_tools = {
-        "ao-mission": ("v0.1.3", 3),
+        "ao-mission": ("v0.1.4", 3),
         "ao-command": ("v0.1.2", 3),
     }
     if not isinstance(tier1_tools, list):
@@ -151,9 +157,32 @@ def validate_manifest(document: dict[str, Any]) -> list[str]:
             if entry.get("current_main_commit") != VERIFIED_TIER1_CURRENT_MAIN[repository]:
                 errors.append(f"{repository}.current_main_commit must match the verified {repository.removeprefix('ao-').title()} current main")
             if repository == "ao-mission":
-                for field, expected in VERIFIED_MISSION_V013.items():
+                for field, expected in VERIFIED_MISSION_V014.items():
                     if entry.get(field) != expected:
-                        errors.append(f"ao-mission.{field} must match the verified v0.1.3 release")
+                        errors.append(f"ao-mission.{field} must match the verified v0.1.4 release")
+
+    tier2_tools = document.get("tier2_tools")
+    if not isinstance(tier2_tools, list):
+        errors.append("tier2_tools must be an array")
+    else:
+        by_repository = {
+            entry.get("repository"): entry
+            for entry in tier2_tools
+            if isinstance(entry, dict) and isinstance(entry.get("repository"), str)
+        }
+        if set(by_repository) != set(VERIFIED_TIER2_RELEASES) or len(tier2_tools) != len(VERIFIED_TIER2_RELEASES):
+            errors.append("tier2_tools must contain exactly ao-atlas, ao-covenant, and ao-forge")
+        for repository, (version, tag_target, asset_count) in VERIFIED_TIER2_RELEASES.items():
+            entry = by_repository.get(repository)
+            if entry is None:
+                continue
+            errors.extend(
+                validate_release_component(
+                    {"tier2_tool": entry}, "tier2_tool", repository, version, asset_count
+                )
+            )
+            if entry.get("tag_target") != tag_target:
+                errors.append(f"{repository}.tag_target must match the verified {version} release")
 
     pairing = document.get("pairing")
     if not isinstance(pairing, dict):
