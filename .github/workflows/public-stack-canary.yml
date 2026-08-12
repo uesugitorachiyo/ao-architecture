@@ -27,7 +27,7 @@ jobs:
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Run public binary stack canary
         shell: bash
         run: >-
@@ -35,7 +35,7 @@ jobs:
           --target ${{ matrix.target }}
           --output public-stack-canary-${{ matrix.target }}.json
       - name: Upload canary result
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: public-stack-canary-${{ matrix.target }}
           path: public-stack-canary-${{ matrix.target }}.json
