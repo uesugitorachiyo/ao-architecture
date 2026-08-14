@@ -27,8 +27,8 @@ EXPECTED_EVIDENCE = {
     "consumer_merge_commit": "4e41da173dc9f1ee37f4ae99b85791e5f05ea453",
     "consumer_test_sha256": "d1c7fc2ada7634bb2e98eb4c885fab8d117c4f273793988a848ecba23860b365",
 }
-EXPECTED_GENERATED_AT = "2026-08-12T04:47:25Z"
-EXPECTED_VALID_UNTIL = "2026-08-13T04:47:25Z"
+EXPECTED_GENERATED_AT = "2026-08-14T03:55:26Z"
+EXPECTED_VALID_UNTIL = "2026-08-15T03:55:26Z"
 EXPECTED_FIELDS = {
     "schema", "status", "generated_at", "valid_until", "contract", "evidence", "pairs", "boundaries"
 }
