@@ -1,5 +1,6 @@
 import copy
 import json
+import os
 import sys
 import unittest
 from datetime import datetime, timezone
@@ -11,7 +12,7 @@ from verify_execution_observation_version_skew import read_strict_json, validate
 
 
 ROOT = Path(__file__).resolve().parents[1]
-NOW = datetime(2026, 8, 12, 4, 50, tzinfo=timezone.utc)
+NOW = datetime(2026, 8, 21, 0, 5, tzinfo=timezone.utc)
 
 
 def valid_contract():
@@ -46,7 +47,7 @@ class VersionSkewContractTest(unittest.TestCase):
                 self.assertTrue(validate_contract(candidate, NOW))
 
     def test_rejects_stale_timestamp(self):
-        stale = datetime(2026, 8, 14, tzinfo=timezone.utc)
+        stale = datetime(2026, 8, 22, 0, 1, tzinfo=timezone.utc)
         self.assertIn("compatibility evidence is stale", validate_contract(valid_contract(), stale))
 
     def test_rejects_extended_expiry(self):
@@ -59,13 +60,13 @@ class VersionSkewContractTest(unittest.TestCase):
 
     def test_rejects_future_generation_time(self):
         candidate = valid_contract()
-        candidate["generated_at"] = "2026-08-12T05:00:00Z"
+        candidate["generated_at"] = "2026-08-21T00:30:00Z"
         errors = validate_contract(candidate, NOW)
         self.assertIn("generated_at must match the bound compatibility vector", errors)
         self.assertIn("generated_at cannot be in the future", errors)
 
     def test_expires_at_exact_boundary(self):
-        boundary = datetime(2026, 8, 13, 4, 47, 25, tzinfo=timezone.utc)
+        boundary = datetime(2026, 8, 22, 0, 0, tzinfo=timezone.utc)
         self.assertIn("compatibility evidence is stale", validate_contract(valid_contract(), boundary))
 
     def test_rejects_malformed_and_unknown_fields(self):
@@ -95,7 +96,12 @@ class VersionSkewContractTest(unittest.TestCase):
             target = Path(directory) / "target.json"
             target.write_text("{}")
             link = Path(directory) / "contract.json"
-            link.symlink_to(target)
+            try:
+                link.symlink_to(target)
+            except OSError as exc:
+                if os.name == "nt" and getattr(exc, "winerror", None) == 1314:
+                    self.skipTest("Windows symlink privilege is not held")
+                raise
             with self.assertRaisesRegex(ValueError, "regular non-symlink"):
                 read_strict_json(link)
 
