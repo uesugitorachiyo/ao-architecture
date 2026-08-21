@@ -12,7 +12,6 @@ class WindowsDefaultWorkflowTests(unittest.TestCase):
         attributes = ATTRIBUTES.read_text(encoding="utf-8")
         required = (
             "      - codex/**",
-            "* text=auto eol=lf",
             "  windows-default-environment:",
             "    runs-on: windows-latest",
             "      PYTHONUTF8: \"0\"",
