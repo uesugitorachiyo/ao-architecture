@@ -772,7 +772,7 @@ def fail(message: str) -> None:
 
 def read_text(path: Path) -> str:
     try:
-        return path.read_text()
+        return path.read_text(encoding="utf-8")
     except FileNotFoundError:
         fail(f"missing required file: {path.relative_to(ROOT)}")
 
@@ -844,13 +844,13 @@ def main() -> int:
         first = quality_gate_result["errors"][0]
         fail(f"quality-gate registry invalid: [{first['code']}] {first['message']}")
     try:
-        manifest = json.loads(manifest_path.read_text())
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         fail(f"invalid external-beta tested-stack manifest: {exc}")
     for error in validate_manifest(manifest):
         fail(f"external-beta tested-stack manifest invalid: {error}")
     try:
-        component_release_classification = json.loads(component_release_classification_path.read_text())
+        component_release_classification = json.loads(component_release_classification_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         fail(f"invalid component release classification manifest: {exc}")
     for error in validate_component_release_classification(component_release_classification):
@@ -928,7 +928,7 @@ def main() -> int:
                 fail(f"{md.relative_to(ROOT)} references missing image {target}")
 
     for path in safety_paths:
-        text = path.read_text(errors="ignore")
+        text = path.read_text(encoding="utf-8", errors="ignore")
         for pattern in SAFETY_PATTERNS:
             if re.search(pattern, text):
                 fail(f"public-safety pattern {pattern!r} found in {path.relative_to(ROOT)}")

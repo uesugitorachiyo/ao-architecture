@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - codex/**
   workflow_dispatch:
 
 permissions:
@@ -257,3 +258,59 @@ jobs:
               raise SystemExit(1)
           print(f"public safety scan passed for {len(tracked) - 1} tracked files")
           PY
+
+  windows-default-environment:
+    name: windows-default-environment
+    runs-on: windows-latest
+    permissions:
+      contents: read
+    env:
+      PYTHONUTF8: "0"
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Configure Git newline policy before checkout
+        shell: pwsh
+        run: |
+          git config --global core.autocrlf true
+
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          path: source with spaces
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Verify default Windows environment
+        working-directory: source with spaces
+        run: |
+          $ErrorActionPreference = "Stop"
+          $eol = git ls-files --eol
+          if ($eol -match "w/crlf") { throw "tracked files must remain LF under the default Windows checkout" }
+          if ((git config --get core.autocrlf) -ne "true") { throw "core.autocrlf must be true" }
+          if ($env:PYTHONUTF8 -ne "0") { throw "PYTHONUTF8 must be 0" }
+          if ([IO.File]::ReadAllText("CLAUDE.md", [Text.Encoding]::UTF8) -ne "@AGENTS.md`n") { throw "CLAUDE.md bytes are not canonical" }
+          python factory/windows-remediation/reusable-windows-preflight/windows_preflight.py --profile binary --json --root (Get-Location)
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python scripts/verify_architecture.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Run Windows contract tests
+        working-directory: source with spaces
+        run: |
+          python -m unittest scripts.test_verify_windows_default_workflow
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m unittest scripts.test_verify_architecture_utf8
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m unittest discover -s factory/windows-remediation/reusable-windows-preflight -p test_*.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Validate Windows checkout diff
+        working-directory: source with spaces
+        run: |
+          git diff --check
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
