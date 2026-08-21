@@ -1,0 +1,46 @@
+name: Hosted Clean Windows Gate 4
+
+on:
+  push:
+    branches:
+      - codex/gate4-clean-host
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gate4:
+    name: gate4-clean-windows
+    runs-on: windows-2025
+    timeout-minutes: 45
+    steps:
+      - name: Configure deterministic checkout
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          git config --global core.autocrlf true
+          "PYTHONUTF8=0" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Checkout into a path containing spaces
+        uses: actions/checkout@v7
+        with:
+          path: AO Stack Gate 4
+
+      - name: Run bounded clean-machine journey
+        shell: pwsh
+        working-directory: AO Stack Gate 4
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if ((git status --porcelain).Length -ne 0) { throw 'checkout is not clean' }
+          if ((Get-Location).Path -notmatch ' ') { throw 'workspace path must contain spaces' }
+          python scripts/run_clean_stack_journey.py --output gate4-clean-machine-journey.json
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Upload Gate 4 evidence
+        uses: actions/upload-artifact@v7
+        with:
+          name: gate4-clean-machine-journey
+          path: AO Stack Gate 4/gate4-clean-machine-journey.json
+          if-no-files-found: error
+          retention-days: 30
