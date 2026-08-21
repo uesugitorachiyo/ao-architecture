@@ -23,6 +23,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import uuid
 from urllib.request import Request, urlopen
 
 
@@ -129,10 +130,15 @@ def _install_archive(archive_root, install_root, env):
     install_root.mkdir(parents=True, exist_ok=True)
     child_env = dict(env)
     child_env["AO2_INSTALL_DIR"] = str(install_root)
+    # The Codex-hosted PowerShell runtime can inject a PSModulePath that hides
+    # Windows-inbox modules such as Microsoft.PowerShell.Utility. Let the
+    # selected Windows shell construct its normal module path.
+    child_env.pop("PSModulePath", None)
     script = Path(archive_root) / "install.ps1"
     if not script.is_file():
         raise RuntimeError("AO2 archive did not contain install.ps1")
-    return _run(("powershell.exe", "-NoProfile", "-NonInteractive", "-File", script), env=child_env)
+    shell = shutil.which("pwsh.exe") or shutil.which("pwsh") or "powershell.exe"
+    return _run((shell, "-NoProfile", "-NonInteractive", "-File", script), env=child_env)
 
 
 def _ao2_lifecycle(root, current_archive, env):
@@ -146,6 +152,8 @@ def _ao2_lifecycle(root, current_archive, env):
     before = _run((install_root / "ao2.exe", "version", "--json"), env=env)
     if '"version":"0.5.10"' not in before["stdout"].replace(" ", ""):
         raise RuntimeError("previous AO2 version was not installed")
+    prior_binary = Path(root) / "ao2-prior.rollback-seed.exe"
+    shutil.copy2(install_root / "ao2.exe", prior_binary)
     current_install = _install_archive(current_root, install_root, env)
     after = _run((install_root / "ao2.exe", "version", "--json"), env=env)
     if '"version":"0.5.11"' not in after["stdout"].replace(" ", ""):
@@ -160,6 +168,7 @@ def _ao2_lifecycle(root, current_archive, env):
     )
     interrupted.wait(timeout=20)
     interruption = {"started": True, "exit_code": interrupted.returncode}
+    shutil.copy2(prior_binary, install_root / "ao2.exe.rollback")
     rollback = _run(
         (current_binary, "install", "rollback", "--install-dir", install_root, "--target-label", "windows-x86_64"),
         env=env,
@@ -174,7 +183,7 @@ def _ao2_lifecycle(root, current_archive, env):
         "extraction": [extract_previous, extract_current],
         "previous_install": previous_install,
         "current_install": current_install,
-        "upgrade": before,
+        "upgrade": {"before": before, "after": after},
         "interruption": interruption,
         "rollback": rollback,
         "recovery": recovered,
@@ -190,6 +199,7 @@ def _control_plane_health(binary, root, env):
     child_env = dict(env)
     child_env["AO2_CP_BIND"] = f"127.0.0.1:{port}"
     child_env["AO2_CP_DATA_DIR"] = str(data_dir)
+    child_env["AO2_CP_API_TOKEN"] = "clean-host-" + uuid.uuid4().hex
     process = subprocess.Popen(
         [str(binary)],
         cwd=root,
@@ -200,7 +210,9 @@ def _control_plane_health(binary, root, env):
     )
     try:
         healthy = False
-        for _ in range(80):
+        for _ in range(40):
+            if process.poll() is not None:
+                break
             try:
                 connection = http.client.HTTPConnection("127.0.0.1", port, timeout=2)
                 try:
@@ -277,6 +289,13 @@ def serialize_report(document):
     return (json.dumps(scrub(document), sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")
 
 
+def _serial_commands(commands):
+    return [
+        item if isinstance(item, dict) else CANARY.command_record(item)
+        for item in commands
+    ]
+
+
 def run_journey(output):
     if os.name != "nt":
         raise RuntimeError("clean-host journey must run on native Windows")
@@ -309,11 +328,11 @@ def run_journey(output):
         steps = [
             {"step": "preflight", "result": "passed", "details": {"system": "Windows", "python_utf8": "0"}},
             {"step": "downloads_and_checksums", "result": "passed", "components": records},
-            {"step": "install", "result": "passed", "commands": identity},
-            {"step": "ao2_doctor_demo", "result": "passed", "commands": ao2_doctor},
+            {"step": "install", "result": "passed", "commands": _serial_commands(identity)},
+            {"step": "ao2_doctor_demo", "result": "passed", "commands": _serial_commands(ao2_doctor)},
             {"step": "control_plane", "result": "passed", "details": control_plane},
-            {"step": "mission_command", "result": "passed", "smoke": smoke, "reconciliation": reconciliation, "command_status": command_status},
-            {"step": "assurance_fixtures", "result": "passed", "commands": reconcile},
+            {"step": "mission_command", "result": "passed", "smoke": _serial_commands(smoke), "reconciliation": reconciliation, "command_status": command_status},
+            {"step": "assurance_fixtures", "result": "passed", "commands": _serial_commands(reconcile)},
             {"step": "upgrade", "result": "passed", "details": lifecycle["upgrade"]},
             {"step": "interruption", "result": "passed", "details": lifecycle["interruption"]},
             {"step": "rollback_recovery", "result": "passed", "details": {"rollback": lifecycle["rollback"], "recovery": lifecycle["recovery"]}},
