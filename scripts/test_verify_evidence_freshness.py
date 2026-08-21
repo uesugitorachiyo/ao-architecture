@@ -19,7 +19,7 @@ AO2_COMPATIBILITY_EVIDENCE_VERSION = "v0.5.10"
 AO2_COMPATIBILITY_EVIDENCE_PATH = "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.10.json"
 AO2_COMPATIBILITY_EVIDENCE_COMMIT = "214f0648ec2b15df0729f90b26a4da258882dba1"
 AO2_STALE_REASON_CODE = "AO2_COMPATIBILITY_EVIDENCE_VERSION_STALE"
-NOW = datetime(2026, 8, 12, 4, 50, tzinfo=timezone.utc)
+NOW = datetime(2026, 8, 21, 0, 5, tzinfo=timezone.utc)
 
 
 def valid_manifest():
@@ -217,7 +217,7 @@ class VerifyEvidenceFreshnessTest(unittest.TestCase):
         self.assertEqual(errors, [])
 
     def test_live_readback_rejects_expired_version_skew(self):
-        expired = datetime(2026, 8, 13, 4, 47, 25, tzinfo=timezone.utc)
+        expired = datetime(2026, 8, 22, 0, 1, tzinfo=timezone.utc)
         errors = validate_live_readback(
             valid_readback(),
             valid_manifest(),
