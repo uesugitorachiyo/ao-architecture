@@ -3,13 +3,16 @@ from pathlib import Path
 
 
 WORKFLOW = Path(__file__).resolve().parent.parent / ".github" / "workflows" / "ci.yml"
+ATTRIBUTES = WORKFLOW.parent.parent.parent / ".gitattributes"
 
 
 class WindowsDefaultWorkflowTests(unittest.TestCase):
     def test_candidate_trigger_and_windows_job_contract(self):
         text = WORKFLOW.read_text(encoding="utf-8")
+        attributes = ATTRIBUTES.read_text(encoding="utf-8")
         required = (
             "      - codex/**",
+            "* text=auto eol=lf",
             "  windows-default-environment:",
             "    runs-on: windows-latest",
             "      PYTHONUTF8: \"0\"",
@@ -23,6 +26,7 @@ class WindowsDefaultWorkflowTests(unittest.TestCase):
         )
         for marker in required:
             self.assertIn(marker, text, marker)
+        self.assertIn("* text=auto eol=lf", attributes)
 
     def test_windows_job_is_read_only_and_no_provider_surface(self):
         text = WORKFLOW.read_text(encoding="utf-8")
