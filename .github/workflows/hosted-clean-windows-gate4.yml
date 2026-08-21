@@ -34,13 +34,17 @@ jobs:
           $ErrorActionPreference = 'Stop'
           if ((git status --porcelain).Length -ne 0) { throw 'checkout is not clean' }
           if ((Get-Location).Path -notmatch ' ') { throw 'workspace path must contain spaces' }
-          python scripts/run_clean_stack_journey.py --output gate4-clean-machine-journey.json
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python scripts/run_clean_stack_journey.py --output gate4-clean-machine-journey.json 2>&1 | Tee-Object gate4-run.log
+          $code = $LASTEXITCODE
+          if ($code -ne 0) { exit $code }
 
       - name: Upload Gate 4 evidence
+        if: always()
         uses: actions/upload-artifact@v7
         with:
           name: gate4-clean-machine-journey
-          path: AO Stack Gate 4/gate4-clean-machine-journey.json
+          path: |
+            AO Stack Gate 4/gate4-clean-machine-journey.json
+            AO Stack Gate 4/gate4-run.log
           if-no-files-found: error
           retention-days: 30

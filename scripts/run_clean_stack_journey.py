@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import http.client
 import importlib.util
 import json
 import os
@@ -201,13 +202,23 @@ def _control_plane_health(binary, root, env):
         healthy = False
         for _ in range(80):
             try:
-                with urlopen(f"http://127.0.0.1:{port}/healthz", timeout=2) as response:
+                connection = http.client.HTTPConnection("127.0.0.1", port, timeout=2)
+                try:
+                    connection.request("GET", "/healthz")
+                    response = connection.getresponse()
                     if response.status == 200:
                         healthy = True
                         break
+                finally:
+                    connection.close()
             except Exception:
                 time.sleep(0.25)
         if not healthy:
+            if process.poll() is not None:
+                stderr = (process.stderr.read() if process.stderr else "")[-MAX_OUTPUT:]
+                raise RuntimeError(
+                    f"control plane exited before healthz ({process.returncode}): {stderr}"
+                )
             raise RuntimeError("control plane did not become healthy")
         return {"bind": f"127.0.0.1:{port}", "healthz": "passed"}
     finally:
@@ -278,18 +289,22 @@ def run_journey(output):
         root = Path(temp)
         env = dict(os.environ)
         env["AO_MISSION_HOME"] = str(root / "mission-home")
-        canary_output = root / "public-canary.json"
+        print("phase=downloads_and_checksums", flush=True)
         assets = CANARY.select_assets("windows-x86_64")
         records, identity, binaries = CANARY.assemble_components(
             assets, root / "downloads", root / "bin", env, fetch=CANARY.download
         )
+        print("phase=install_and_smoke", flush=True)
         smoke, command_status = CANARY._run_functional_smokes(binaries, root, env)
         reconciliation, reconcile = CANARY._run_terminal_reconciliation(binaries, root, env)
+        print("phase=ao2_doctor", flush=True)
         ao2_doctor = [
             _run((binaries["ao2"], "adapter", "doctor", "--provider", "scripted"), env=env),
             _run((binaries["ao2"], "provider", "matrix", "--json"), env=env),
         ]
+        print("phase=control_plane", flush=True)
         control_plane = _control_plane_health(binaries["ao2-control-plane"], root, env)
+        print("phase=upgrade_rollback", flush=True)
         lifecycle = _ao2_lifecycle(root, root / "downloads" / "ao2-0.5.11-windows-x86_64.tar.gz", env)
         steps = [
             {"step": "preflight", "result": "passed", "details": {"system": "Windows", "python_utf8": "0"}},
@@ -326,8 +341,19 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args(argv)
-    run_journey(args.output)
-    return 0
+    try:
+        run_journey(args.output)
+        return 0
+    except Exception as error:
+        failure = {
+            "schema": "ao.stack.windows.clean-machine-journey.v1",
+            "status": "failed",
+            "error": _redact(error),
+            "authority": {field: 0 for field in AUTHORITY_FIELDS},
+        }
+        args.output.write_bytes(serialize_report(failure))
+        print(f"clean-host journey failed: {_redact(error)}", file=sys.stderr, flush=True)
+        return 1
 
 
 if __name__ == "__main__":
