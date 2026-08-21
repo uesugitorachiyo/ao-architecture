@@ -4,6 +4,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -46,6 +47,16 @@ class WindowsPreflightTests(unittest.TestCase):
     def test_go_profile_uses_valid_go_version_probe(self):
         result = windows_preflight.run("go-node", Path("C:/AO spaced root"), {**os.environ, "PYTHONUTF8": "0"})
         self.assertNotEqual(result["tools"]["go"]["status"], "unusable")
+
+    def test_windows_store_alias_is_classified_without_execution(self):
+        with mock.patch.object(windows_preflight.shutil, "which", return_value=r"C:\\WindowsApps\\python.exe"):
+            item = windows_preflight._tool("python", {"PATH": ""})
+        self.assertEqual(item["status"], "alias")
+
+    def test_long_path_is_failed_without_writing(self):
+        root = Path("C:/") / ("x" * 250)
+        result = windows_preflight.run("binary", root, {**os.environ, "PYTHONUTF8": "0"})
+        self.assertIn("path_length", result["failed_checks"])
 
 
 if __name__ == "__main__":
