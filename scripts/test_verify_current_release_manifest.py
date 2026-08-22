@@ -29,18 +29,18 @@ CONTROL_PLANE_VERSION = "v0.1.19"
 CONTROL_PLANE_RELEASE_URL = "https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.19"
 CONTROL_PLANE_TAG_TARGET = "5de3541e9007e12d95b125e7f911c02932e21479"
 CONTROL_PLANE_MAIN_COMMIT = "eb420864794ceb9ebadef8f3f551772095edb758"
-MISSION_TAG_TARGET = "cee287597024b5a1e990c6e272518236bc9e32fa"
+MISSION_TAG_TARGET = "5d4562578a4751d56910ef108b930fbb8dc91e7d"
 MISSION_MAIN_COMMIT = MISSION_TAG_TARGET
-MISSION_RELEASE_WORKFLOW_RUN = "https://github.com/uesugitorachiyo/ao-mission/actions/runs/31630701637"
+MISSION_RELEASE_WORKFLOW_RUN = "https://github.com/uesugitorachiyo/ao-mission/actions/runs/32532729277"
 MISSION_ASSET_SHA256 = {
-    "ao-mission-0.1.4-linux-x86_64.tar.gz": "041d4b4ab076601bf6fe15335cb70a5d9f87301beb239e8e106b3ee4fd12f800",
-    "ao-mission-0.1.4-macos-aarch64.tar.gz": "d8b418e42b57306862c75fc10e5c347109c13c144a18e240d2a2edba29c1a34e",
-    "ao-mission-0.1.4-windows-x86_64.zip": "027ceba61e7b1d3655cce63a1ce4269824d7a5e3acf65fef5fabb0b539c53221",
+    "ao-mission-0.1.5-linux-x86_64.tar.gz": "5aed0659e94c35fc1808b16d092c18e5f782f217170844335bedc59337ac3b25",
+    "ao-mission-0.1.5-macos-aarch64.tar.gz": "54ea5fafac4a65fc1bad6c2d8ec079b084c528aee3fe228692d9cc154ff2d037",
+    "ao-mission-0.1.5-windows-x86_64.zip": "c868653395e0ab19d2c95cc0adbb1e8d97bb5ef0002390040748a7f381cb9a43",
 }
-COMMAND_TAG_TARGET = "a728d90077c1340e295468e5017b5e166bc5bc7a"
-COMMAND_MAIN_COMMIT = "6fc2a26a0a62b4cc9d23ad039ac205f8f11fb3d9"
-ATLAS_TAG_TARGET = "2bf243ce8d8c71d845754398238b14d1ab77d0e6"
-FORGE_TAG_TARGET = "e104b47c2e14b6c0927b885e137907ad227aeb5c"
+COMMAND_TAG_TARGET = "ffef6d76306e892c3e7a7f39734433d5a832006a"
+COMMAND_MAIN_COMMIT = "ffef6d76306e892c3e7a7f39734433d5a832006a"
+ATLAS_TAG_TARGET = "3603a2bb8af5adafcd9ff17b807ab89f32283d18"
+FORGE_TAG_TARGET = "d1723769949269dcd0589916d83769dcb7275f98"
 COVENANT_TAG_TARGET = "2fd72a0426a747868826581612fa1dc9727b53b9"
 
 
@@ -90,9 +90,9 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
             "tier1_tools": [
                 {
                     "repository": "ao-mission",
-                    "version": "v0.1.4",
-                    "release_url": "https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.4",
-                    "tag": "v0.1.4",
+                    "version": "v0.1.5",
+                    "release_url": "https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.5",
+                    "tag": "v0.1.5",
                     "tag_target": MISSION_TAG_TARGET,
                     "current_main_commit": MISSION_MAIN_COMMIT,
                     "release_workflow_run": MISSION_RELEASE_WORKFLOW_RUN,
@@ -103,9 +103,9 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
                 },
                 {
                     "repository": "ao-command",
-                    "version": "v0.1.2",
-                    "release_url": "https://github.com/uesugitorachiyo/ao-command/releases/tag/v0.1.2",
-                    "tag": "v0.1.2",
+                    "version": "v0.1.3",
+                    "release_url": "https://github.com/uesugitorachiyo/ao-command/releases/tag/v0.1.3",
+                    "tag": "v0.1.3",
                     "tag_target": COMMAND_TAG_TARGET,
                     "current_main_commit": COMMAND_MAIN_COMMIT,
                     "is_draft": False,
@@ -115,16 +115,16 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
             ],
             "tier2_tools": [
                 {
-                    "repository": "ao-atlas", "version": "v0.2.0",
-                    "release_url": "https://github.com/uesugitorachiyo/ao-atlas/releases/tag/v0.2.0",
-                    "tag": "v0.2.0", "tag_target": ATLAS_TAG_TARGET,
+                    "repository": "ao-atlas", "version": "v0.2.1",
+                    "release_url": "https://github.com/uesugitorachiyo/ao-atlas/releases/tag/v0.2.1",
+                    "tag": "v0.2.1", "tag_target": ATLAS_TAG_TARGET,
                     "current_main_commit": ATLAS_TAG_TARGET, "is_draft": False,
                     "is_prerelease": False, "asset_count": 15,
                 },
                 {
-                    "repository": "ao-forge", "version": "v0.1.4",
-                    "release_url": "https://github.com/uesugitorachiyo/ao-forge/releases/tag/v0.1.4",
-                    "tag": "v0.1.4", "tag_target": FORGE_TAG_TARGET,
+                    "repository": "ao-forge", "version": "v0.1.5",
+                    "release_url": "https://github.com/uesugitorachiyo/ao-forge/releases/tag/v0.1.5",
+                    "tag": "v0.1.5", "tag_target": FORGE_TAG_TARGET,
                     "current_main_commit": FORGE_TAG_TARGET, "is_draft": False,
                     "is_prerelease": False, "asset_count": 16,
                 },
@@ -228,9 +228,9 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
             "tier1_tools": [
                 {
                     "repository": "ao-mission",
-                    "version": "v0.1.4",
-                    "release_url": "https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.4",
-                    "tag": "v0.1.4",
+                    "version": "v0.1.5",
+                    "release_url": "https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.5",
+                    "tag": "v0.1.5",
                     "tag_target": MISSION_TAG_TARGET,
                     "current_main_commit": "0" * 40,
                     "release_workflow_run": MISSION_RELEASE_WORKFLOW_RUN,
@@ -241,9 +241,9 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
                 },
                 {
                     "repository": "ao-command",
-                    "version": "v0.1.2",
-                    "release_url": "https://github.com/uesugitorachiyo/ao-command/releases/tag/v0.1.2",
-                    "tag": "v0.1.2",
+                    "version": "v0.1.3",
+                    "release_url": "https://github.com/uesugitorachiyo/ao-command/releases/tag/v0.1.3",
+                    "tag": "v0.1.3",
                     "tag_target": COMMAND_TAG_TARGET,
                     "current_main_commit": COMMAND_MAIN_COMMIT,
                     "is_draft": False,
@@ -262,9 +262,9 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
             "tier1_tools": [
                 {
                     "repository": "ao-mission",
-                    "version": "v0.1.4",
-                    "release_url": "https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.4",
-                    "tag": "v0.1.4",
+                    "version": "v0.1.5",
+                    "release_url": "https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.5",
+                    "tag": "v0.1.5",
                     "tag_target": MISSION_TAG_TARGET,
                     "current_main_commit": MISSION_MAIN_COMMIT,
                     "release_workflow_run": MISSION_RELEASE_WORKFLOW_RUN,
@@ -275,9 +275,9 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
                 },
                 {
                     "repository": "ao-command",
-                    "version": "v0.1.2",
-                    "release_url": "https://github.com/uesugitorachiyo/ao-command/releases/tag/v0.1.2",
-                    "tag": "v0.1.2",
+                    "version": "v0.1.3",
+                    "release_url": "https://github.com/uesugitorachiyo/ao-command/releases/tag/v0.1.3",
+                    "tag": "v0.1.3",
                     "tag_target": COMMAND_TAG_TARGET,
                     "current_main_commit": COMMAND_MAIN_COMMIT,
                     "is_draft": False,
@@ -287,7 +287,7 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
             ]
         }
         self.assertIn(
-            "ao-mission.asset_sha256 must match the verified v0.1.4 release",
+            "ao-mission.asset_sha256 must match the verified v0.1.5 release",
             validate_manifest(document),
         )
 
@@ -403,12 +403,12 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
             "tier1_tools": [
                 {
                     "repository": "ao-mission",
-                    "version": "v0.1.4",
+                    "version": "v0.1.5",
                     "current_main_commit": MISSION_MAIN_COMMIT,
                 },
                 {
                     "repository": "ao-command",
-                    "version": "v0.1.2",
+                    "version": "v0.1.3",
                     "current_main_commit": COMMAND_MAIN_COMMIT,
                 },
             ]
@@ -418,7 +418,7 @@ class VerifyCurrentReleaseManifestTest(unittest.TestCase):
                 {
                     "repository": "ao-mission",
                     "commit": MISSION_TAG_TARGET,
-                    "detected_version": "v0.1.4",
+                    "detected_version": "v0.1.5",
                 },
                 {
                     "repository": "ao-command",

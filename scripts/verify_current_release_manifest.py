@@ -35,25 +35,25 @@ VERIFIED_AO2_V0511 = {
 }
 
 VERIFIED_TIER1_CURRENT_MAIN = {
-    "ao-mission": "cee287597024b5a1e990c6e272518236bc9e32fa",
-    "ao-command": "6fc2a26a0a62b4cc9d23ad039ac205f8f11fb3d9",
+    "ao-mission": "5d4562578a4751d56910ef108b930fbb8dc91e7d",
+    "ao-command": "ffef6d76306e892c3e7a7f39734433d5a832006a",
 }
 
-VERIFIED_MISSION_V014 = {
-    "release_url": "https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.4",
-    "tag_target": "cee287597024b5a1e990c6e272518236bc9e32fa",
-    "current_main_commit": "cee287597024b5a1e990c6e272518236bc9e32fa",
-    "release_workflow_run": "https://github.com/uesugitorachiyo/ao-mission/actions/runs/31630701637",
+VERIFIED_MISSION_V015 = {
+    "release_url": "https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.5",
+    "tag_target": "5d4562578a4751d56910ef108b930fbb8dc91e7d",
+    "current_main_commit": "5d4562578a4751d56910ef108b930fbb8dc91e7d",
+    "release_workflow_run": "https://github.com/uesugitorachiyo/ao-mission/actions/runs/32532729277",
     "asset_sha256": {
-        "ao-mission-0.1.4-linux-x86_64.tar.gz": "041d4b4ab076601bf6fe15335cb70a5d9f87301beb239e8e106b3ee4fd12f800",
-        "ao-mission-0.1.4-macos-aarch64.tar.gz": "d8b418e42b57306862c75fc10e5c347109c13c144a18e240d2a2edba29c1a34e",
-        "ao-mission-0.1.4-windows-x86_64.zip": "027ceba61e7b1d3655cce63a1ce4269824d7a5e3acf65fef5fabb0b539c53221",
+        "ao-mission-0.1.5-linux-x86_64.tar.gz": "5aed0659e94c35fc1808b16d092c18e5f782f217170844335bedc59337ac3b25",
+        "ao-mission-0.1.5-macos-aarch64.tar.gz": "54ea5fafac4a65fc1bad6c2d8ec079b084c528aee3fe228692d9cc154ff2d037",
+        "ao-mission-0.1.5-windows-x86_64.zip": "c868653395e0ab19d2c95cc0adbb1e8d97bb5ef0002390040748a7f381cb9a43",
     },
 }
 
 VERIFIED_TIER2_RELEASES = {
-    "ao-atlas": ("v0.2.0", "2bf243ce8d8c71d845754398238b14d1ab77d0e6", 15),
-    "ao-forge": ("v0.1.4", "e104b47c2e14b6c0927b885e137907ad227aeb5c", 16),
+    "ao-atlas": ("v0.2.1", "3603a2bb8af5adafcd9ff17b807ab89f32283d18", 15),
+    "ao-forge": ("v0.1.5", "d1723769949269dcd0589916d83769dcb7275f98", 16),
     "ao-covenant": ("v0.1.1", "2fd72a0426a747868826581612fa1dc9727b53b9", 13),
 }
 
@@ -128,8 +128,8 @@ def validate_manifest(document: dict[str, Any]) -> list[str]:
 
     tier1_tools = document.get("tier1_tools")
     expected_tools = {
-        "ao-mission": ("v0.1.4", 3),
-        "ao-command": ("v0.1.2", 3),
+        "ao-mission": ("v0.1.5", 3),
+        "ao-command": ("v0.1.3", 3),
     }
     if not isinstance(tier1_tools, list):
         errors.append("tier1_tools must be an array")
@@ -157,9 +157,9 @@ def validate_manifest(document: dict[str, Any]) -> list[str]:
             if entry.get("current_main_commit") != VERIFIED_TIER1_CURRENT_MAIN[repository]:
                 errors.append(f"{repository}.current_main_commit must match the verified {repository.removeprefix('ao-').title()} current main")
             if repository == "ao-mission":
-                for field, expected in VERIFIED_MISSION_V014.items():
+                for field, expected in VERIFIED_MISSION_V015.items():
                     if entry.get(field) != expected:
-                        errors.append(f"ao-mission.{field} must match the verified v0.1.4 release")
+                        errors.append(f"ao-mission.{field} must match the verified v0.1.5 release")
 
     tier2_tools = document.get("tier2_tools")
     if not isinstance(tier2_tools, list):

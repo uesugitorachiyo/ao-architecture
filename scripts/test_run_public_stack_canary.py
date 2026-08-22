@@ -171,17 +171,17 @@ class CommandTests(unittest.TestCase):
         outputs = {
             "ao2": "ao2 0.5.11\ntarget=macos-aarch64\ngit_commit=8307795b3434af920f6cef088e56ca8fcc76775b\n",
             "ao2-control-plane": "ao2-cp-server 0.1.19\n",
-            "ao-mission": "ao-mission version=0.1.4 source_sha=cee287597024b5a1e990c6e272518236bc9e32fa\n",
-            "ao-atlas": "ao-atlas version=v0.2.0 source_sha=2bf243ce8d8c71d845754398238b14d1ab77d0e6\n",
+            "ao-mission": "ao-mission version=0.1.5 source_sha=5d4562578a4751d56910ef108b930fbb8dc91e7d\n",
+            "ao-atlas": "ao-atlas version=v0.2.1 source_sha=3603a2bb8af5adafcd9ff17b807ab89f32283d18\n",
             "ao-command": json.dumps(
                 {
                     "schema_version": "ao.command.version.v0.1",
-                    "version": "0.1.2",
-                    "source_commit": "a728d90077c1340e295468e5017b5e166bc5bc7a",
+                    "version": "0.1.3",
+                    "source_commit": "ffef6d76306e892c3e7a7f39734433d5a832006a",
                     "provider_calls": False,
                 }
             ),
-            "ao-forge": "ao-forge version=0.1.4 source_sha=e104b47c2e14b6c0927b885e137907ad227aeb5c\n",
+            "ao-forge": "ao-forge version=0.1.5 source_sha=d1723769949269dcd0589916d83769dcb7275f98\n",
             "ao-covenant": json.dumps(
                 {
                     "schema_version": "covenant.version-result.v1",
@@ -224,10 +224,10 @@ class ReportTests(unittest.TestCase):
         components = [
             ("ao2", "v0.5.11"),
             ("ao2-control-plane", "v0.1.19"),
-            ("ao-mission", "v0.1.4"),
-            ("ao-atlas", "v0.2.0"),
-            ("ao-command", "v0.1.2"),
-            ("ao-forge", "v0.1.4"),
+            ("ao-mission", "v0.1.5"),
+            ("ao-atlas", "v0.2.1"),
+            ("ao-command", "v0.1.3"),
+            ("ao-forge", "v0.1.5"),
             ("ao-covenant", "v0.1.1"),
         ]
         views = {
@@ -369,10 +369,10 @@ name = pathlib.Path(sys.argv[0]).name
 outputs = {
   'ao2': 'ao2 0.5.11\\ntarget=macos-aarch64\\ngit_commit=8307795b3434af920f6cef088e56ca8fcc76775b\\n',
   'ao2-cp-server': 'ao2-cp-server 0.1.19\\n',
-  'ao-mission': 'ao-mission version=0.1.4 source_sha=cee287597024b5a1e990c6e272518236bc9e32fa\\n',
-  'ao-atlas': 'ao-atlas version=v0.2.0 source_sha=2bf243ce8d8c71d845754398238b14d1ab77d0e6\\n',
-  'ao-command': json.dumps({'schema_version':'ao.command.version.v0.1','version':'0.1.2','source_commit':'a728d90077c1340e295468e5017b5e166bc5bc7a','provider_calls':False}) + '\\n',
-  'forge': 'ao-forge version=0.1.4 source_sha=e104b47c2e14b6c0927b885e137907ad227aeb5c\\n',
+  'ao-mission': 'ao-mission version=0.1.5 source_sha=5d4562578a4751d56910ef108b930fbb8dc91e7d\\n',
+  'ao-atlas': 'ao-atlas version=v0.2.1 source_sha=3603a2bb8af5adafcd9ff17b807ab89f32283d18\\n',
+  'ao-command': json.dumps({'schema_version':'ao.command.version.v0.1','version':'0.1.3','source_commit':'ffef6d76306e892c3e7a7f39734433d5a832006a','provider_calls':False}) + '\\n',
+  'forge': 'ao-forge version=0.1.5 source_sha=d1723769949269dcd0589916d83769dcb7275f98\\n',
   'covenant': json.dumps({'schema_version':'covenant.version-result.v1','version':'v0.1.1','commit':'2fd72a0426a747868826581612fa1dc9727b53b9','date':'2026-08-05T07:05:07Z','go_version':'go1.26.4','os':'darwin','arch':'amd64'}) + '\\n',
 }
 sys.stdout.write(outputs[name])
@@ -381,10 +381,10 @@ sys.stdout.write(outputs[name])
         specifications = (
             ("ao2", "v0.5.11", "8307795b3434af920f6cef088e56ca8fcc76775b", "ao2"),
             ("ao2-control-plane", "v0.1.19", "5de3541e9007e12d95b125e7f911c02932e21479", "ao2-cp-server"),
-            ("ao-mission", "v0.1.4", "cee287597024b5a1e990c6e272518236bc9e32fa", "ao-mission"),
-            ("ao-atlas", "v0.2.0", "2bf243ce8d8c71d845754398238b14d1ab77d0e6", "ao-atlas"),
-            ("ao-command", "v0.1.2", "a728d90077c1340e295468e5017b5e166bc5bc7a", "ao-command"),
-            ("ao-forge", "v0.1.4", "e104b47c2e14b6c0927b885e137907ad227aeb5c", "forge"),
+            ("ao-mission", "v0.1.5", "5d4562578a4751d56910ef108b930fbb8dc91e7d", "ao-mission"),
+            ("ao-atlas", "v0.2.1", "3603a2bb8af5adafcd9ff17b807ab89f32283d18", "ao-atlas"),
+            ("ao-command", "v0.1.3", "ffef6d76306e892c3e7a7f39734433d5a832006a", "ao-command"),
+            ("ao-forge", "v0.1.5", "d1723769949269dcd0589916d83769dcb7275f98", "forge"),
             ("ao-covenant", "v0.1.1", "2fd72a0426a747868826581612fa1dc9727b53b9", "covenant"),
         )
         assets = tuple(
