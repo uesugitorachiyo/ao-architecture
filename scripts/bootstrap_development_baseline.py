@@ -335,6 +335,11 @@ def _verify_repository(
     ).stdout.strip()
     if not _same_upstream(origin, spec.upstream_url):
         raise BootstrapError(f"repository origin mismatch: {spec.name}")
+    autocrlf = runner.run(
+        ["git", "config", "--get", "core.autocrlf"], cwd=checkout
+    ).stdout.strip()
+    if autocrlf != "false":
+        raise BootstrapError(f"repository core.autocrlf mismatch: {spec.name}")
     status_output = runner.run(
         ["git", "status", "--porcelain=v1", "--untracked-files=all"], cwd=checkout
     ).stdout
@@ -375,6 +380,10 @@ def materialize_repositories(
                 os.fspath(checkout),
             ],
             cwd=target,
+        )
+        runner.run(
+            ["git", "config", "--local", "core.autocrlf", "false"],
+            cwd=checkout,
         )
         runner.run(
             ["git", "checkout", "--detach", spec.commit], cwd=checkout

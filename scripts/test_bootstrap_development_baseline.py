@@ -220,6 +220,10 @@ class RepositoryMaterializationTests(unittest.TestCase):
             )
             self.assertNotEqual(attached.returncode, 0)
             self.assertEqual(records[0]["repository"], spec.name)
+            self.assertEqual(
+                self.git("config", "--get", "core.autocrlf", cwd=checkout).stdout.strip(),
+                "false",
+            )
             verified = bootstrap.verify_repositories(root, [spec], runner)
             self.assertTrue(verified[0]["detached"])
             self.assertTrue(verified[0]["clean"])
@@ -231,11 +235,13 @@ class RepositoryMaterializationTests(unittest.TestCase):
             "dirty": lambda root, spec: (root / spec.path / "untracked.txt").write_text("dirty", encoding="utf-8"),
             "attached": lambda root, spec: self.git("switch", "-c", "local", cwd=root / spec.path),
             "upstream": lambda root, spec: self.git("remote", "set-url", "origin", str(root), cwd=root / spec.path),
+            "autocrlf": lambda root, spec: self.git("config", "core.autocrlf", "true", cwd=root / spec.path),
         }
         expected = {
             "dirty": "repository is dirty",
             "attached": "repository is not detached",
             "upstream": "origin mismatch",
+            "autocrlf": "core.autocrlf mismatch",
         }
         for name, mutate in cases.items():
             with self.subTest(name=name), tempfile.TemporaryDirectory() as directory:
@@ -706,6 +712,12 @@ class WorkflowContractTests(unittest.TestCase):
         self.assertIn("actions/setup-go@v6", workflow)
         self.assertIn("go-version: '1.26.x'", workflow)
         self.assertIn("rehash_development_baseline_results", workflow)
+        self.assertIn("run_development_baseline_gates.py", workflow)
+        self.assertIn("${{ matrix.os }}-${{ github.sha }}-gates", workflow)
+        self.assertIn("pattern: '*-${{ github.sha }}-gates'", workflow)
+        self.assertIn("--gate-dir proof/gates", workflow)
+        upload_gates = workflow.index("Upload gate evidence")
+        self.assertLess(upload_gates, cleanup)
         lowered = workflow.lower()
         for forbidden in (
             "secrets.", "provider_call", "credential_use", "release:",
@@ -748,6 +760,67 @@ class WorkflowContractTests(unittest.TestCase):
             self.assertEqual(len(report["hosts"]), 2)
             self.assertEqual(len(report["cleanups"]), 2)
             self.assertEqual(report["digest_mismatches"], 0)
+
+    def test_rehash_verifies_every_gate_log(self) -> None:
+        source_commit = "a" * 40
+        baseline_identity = "sha256:" + "b" * 64
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            host_dir = root / "host"
+            cleanup_dir = root / "cleanup"
+            gate_dir = root / "gates"
+            host_dir.mkdir()
+            cleanup_dir.mkdir()
+            gate_dir.mkdir()
+            for platform_name in ("macos-26", "windows-2025"):
+                host = {
+                    "controller_source_commit": source_commit,
+                    "baseline_identity": baseline_identity,
+                    "status": "pass",
+                    "repositories": [{}] * 14,
+                    "runtime_assets": [
+                        {"expected_sha256": "c" * 64, "actual_sha256": "c" * 64}
+                    ] * 7,
+                    "authority": {"safe_to_execute": False},
+                }
+                (host_dir / f"{platform_name}-host.json").write_text(json.dumps(host), encoding="utf-8")
+                cleanup = {"source_commit": source_commit, "cleanup_status": "root_absent"}
+                (cleanup_dir / f"{platform_name}-cleanup.json").write_text(json.dumps(cleanup), encoding="utf-8")
+                package = gate_dir / platform_name
+                log = package / "fixture" / "test.stdout.log"
+                log.parent.mkdir(parents=True)
+                log.write_bytes(b"pass\n")
+                empty = package / "fixture" / "test.stderr.log"
+                empty.write_bytes(b"")
+                gate = {
+                    "repository": "fixture",
+                    "gate_id": "test",
+                    "status": "pass",
+                    "stdout_path": "fixture/test.stdout.log",
+                    "stdout_bytes": 5,
+                    "stdout_sha256": "sha256:" + hashlib.sha256(b"pass\n").hexdigest(),
+                    "stderr_path": "fixture/test.stderr.log",
+                    "stderr_bytes": 0,
+                    "stderr_sha256": "sha256:" + hashlib.sha256(b"").hexdigest(),
+                }
+                gate_result = {
+                    "controller_source_commit": source_commit,
+                    "baseline_identity": baseline_identity,
+                    "status": "pass",
+                    "repository_count": 14,
+                    "declared_gate_count": 1,
+                    "completed_gate_count": 1,
+                    "gates": [gate],
+                    "authority": {"safe_to_execute": False},
+                }
+                (package / f"{platform_name}-gates.json").write_text(
+                    json.dumps(gate_result), encoding="utf-8"
+                )
+            report = rehash.build_report(
+                host_dir, cleanup_dir, source_commit, gate_dir=gate_dir
+            )
+            self.assertEqual(len(report["gate_results"]), 2)
+            self.assertEqual(report["gate_log_mismatches"], 0)
 
 
 if __name__ == "__main__":

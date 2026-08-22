@@ -28,6 +28,7 @@ jobs:
           source_commit=$(git rev-parse HEAD)
           echo "root=$root" >> "$GITHUB_OUTPUT"
           echo "host_result=$RUNNER_TEMP/macos-26-$source_commit-host.json" >> "$GITHUB_OUTPUT"
+          echo "gate_result=$RUNNER_TEMP/macos-26-$source_commit-gates.json" >> "$GITHUB_OUTPUT"
           echo "cleanup_result=$RUNNER_TEMP/macos-26-$source_commit-cleanup.json" >> "$GITHUB_OUTPUT"
           echo "source_commit=$source_commit" >> "$GITHUB_OUTPUT"
 
@@ -40,6 +41,7 @@ jobs:
           $sourceCommit = git rev-parse HEAD
           "root=$root" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
           "host_result=$(Join-Path $env:RUNNER_TEMP "windows-2025-$sourceCommit-host.json")" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "gate_result=$(Join-Path $env:RUNNER_TEMP "windows-2025-$sourceCommit-gates.json")" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
           "cleanup_result=$(Join-Path $env:RUNNER_TEMP "windows-2025-$sourceCommit-cleanup.json")" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
           "source_commit=$sourceCommit" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
 
@@ -74,6 +76,42 @@ jobs:
         with:
           name: ${{ matrix.os }}-${{ github.sha }}-host
           path: ${{ runner.os == 'Windows' && steps.paths_windows.outputs.host_result || steps.paths_macos.outputs.host_result }}
+          if-no-files-found: error
+
+      - name: Run repository gates on macOS
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          python3 scripts/run_development_baseline_gates.py \
+            --manifest stack/development-baseline-manifest.json \
+            --schema docs/contracts/development-baseline-manifest-v1.schema.json \
+            --release-manifest stack/current-release-manifest.json \
+            --controller-commit "${{ steps.paths_macos.outputs.source_commit }}" \
+            --root "${{ steps.paths_macos.outputs.root }}" \
+            --output "${{ steps.paths_macos.outputs.root }}/.ao-baseline/gates" \
+            --result "${{ steps.paths_macos.outputs.gate_result }}"
+
+      - name: Run repository gates on Windows
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: |
+          python scripts/run_development_baseline_gates.py `
+            --manifest stack/development-baseline-manifest.json `
+            --schema docs/contracts/development-baseline-manifest-v1.schema.json `
+            --release-manifest stack/current-release-manifest.json `
+            --controller-commit "${{ steps.paths_windows.outputs.source_commit }}" `
+            --root "${{ steps.paths_windows.outputs.root }}" `
+            --output "$(Join-Path '${{ steps.paths_windows.outputs.root }}' '.ao-baseline\gates')" `
+            --result "${{ steps.paths_windows.outputs.gate_result }}"
+
+      - name: Upload gate evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.os }}-${{ github.sha }}-gates
+          path: |
+            ${{ runner.os == 'Windows' && steps.paths_windows.outputs.gate_result || steps.paths_macos.outputs.gate_result }}
+            ${{ runner.os == 'Windows' && steps.paths_windows.outputs.root || steps.paths_macos.outputs.root }}/.ao-baseline/gates
           if-no-files-found: error
 
       - name: Cleanup exact run root
@@ -113,11 +151,15 @@ jobs:
           merge-multiple: true
       - uses: actions/download-artifact@v4
         with:
+          pattern: '*-${{ github.sha }}-gates'
+          path: proof/gates
+      - uses: actions/download-artifact@v4
+        with:
           pattern: '*-${{ github.sha }}-cleanup'
           path: proof/cleanup
           merge-multiple: true
       - name: Independently rehash all results
-        run: python3 scripts/rehash_development_baseline_results.py --host-dir proof/host --cleanup-dir proof/cleanup --source-commit "${{ github.sha }}" --result proof/rehash.json
+        run: python3 scripts/rehash_development_baseline_results.py --host-dir proof/host --cleanup-dir proof/cleanup --gate-dir proof/gates --source-commit "${{ github.sha }}" --result proof/rehash.json
       - uses: actions/upload-artifact@v4
         with:
           name: development-baseline-${{ github.sha }}-rehash

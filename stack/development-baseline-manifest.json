@@ -17,7 +17,39 @@
           "ao-quality-gates.json#levels.full.steps.architecture-verifier",
           "ao-quality-gates.json#levels.full.steps.python-regressions"
         ]
-      }
+      },
+      "development_gates": [
+        {
+          "id": "architecture-verifier",
+          "argv": [
+            "python3",
+            "scripts/verify_architecture.py"
+          ],
+          "timeout_seconds": 300,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "python-regressions",
+          "argv": [
+            "python3",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "scripts",
+            "-p",
+            "test_*.py"
+          ],
+          "timeout_seconds": 1500,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        }
+      ]
     },
     {
       "name": "ao-mission",
@@ -35,7 +67,87 @@
           "AGENTS.md#Verification:3",
           "AGENTS.md#Verification:4"
         ]
-      }
+      },
+      "development_gates": [
+        {
+          "id": "gofmt",
+          "argv": [
+            "gofmt",
+            "-d",
+            "cmd",
+            "internal"
+          ],
+          "timeout_seconds": 300,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "empty"
+        },
+        {
+          "id": "go-tests",
+          "argv": [
+            "go",
+            "test",
+            "./...",
+            "-count=1"
+          ],
+          "timeout_seconds": 1800,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "go-vet",
+          "argv": [
+            "go",
+            "vet",
+            "./..."
+          ],
+          "timeout_seconds": 600,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "go-build",
+          "argv": [
+            "go",
+            "build",
+            "./cmd/ao-mission"
+          ],
+          "timeout_seconds": 600,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "production-readiness",
+          "argv": [
+            "scripts/production-readiness.sh"
+          ],
+          "timeout_seconds": 2400,
+          "shell": "posix-script",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "diff-check",
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "timeout_seconds": 120,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        }
+      ]
     },
     {
       "name": "ao-blueprint",
@@ -50,7 +162,20 @@
         "gate_refs": [
           "ao-quality-gates.json#levels.full.steps.production-readiness"
         ]
-      }
+      },
+      "development_gates": [
+        {
+          "id": "production-readiness",
+          "argv": [
+            "scripts/production-readiness.sh"
+          ],
+          "timeout_seconds": 1800,
+          "shell": "posix-script",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        }
+      ]
     },
     {
       "name": "ao-atlas",
@@ -67,7 +192,51 @@
           "ao-quality-gates.json#levels.full.steps.go-vet",
           "ao-quality-gates.json#levels.full.steps.go-build"
         ]
-      }
+      },
+      "development_gates": [
+        {
+          "id": "go-tests",
+          "argv": [
+            "go",
+            "test",
+            "./...",
+            "-count=1"
+          ],
+          "timeout_seconds": 1200,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "go-vet",
+          "argv": [
+            "go",
+            "vet",
+            "./..."
+          ],
+          "timeout_seconds": 300,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "go-build",
+          "argv": [
+            "go",
+            "build",
+            "-o",
+            "target/quality-gates/atlas",
+            "./cmd/atlas"
+          ],
+          "timeout_seconds": 300,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        }
+      ]
     },
     {
       "name": "ao-foundry",
@@ -83,7 +252,93 @@
           "AGENTS.md#Verification:1",
           "AGENTS.md#Verification:2"
         ]
-      }
+      },
+      "development_gates": [
+        {
+          "id": "gofmt",
+          "argv": [
+            "gofmt",
+            "-d",
+            "cmd",
+            "internal"
+          ],
+          "timeout_seconds": 300,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "empty"
+        },
+        {
+          "id": "go-tests",
+          "argv": [
+            "go",
+            "test",
+            "./...",
+            "-count=1"
+          ],
+          "timeout_seconds": 1200,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "go-vet",
+          "argv": [
+            "go",
+            "vet",
+            "./..."
+          ],
+          "timeout_seconds": 300,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "build-foundry",
+          "argv": [
+            "go",
+            "build",
+            "-o",
+            "bin/foundry",
+            "./cmd/foundry"
+          ],
+          "timeout_seconds": 300,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "build-ao",
+          "argv": [
+            "go",
+            "build",
+            "-o",
+            "bin/ao",
+            "./cmd/ao"
+          ],
+          "timeout_seconds": 300,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "diff-check",
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "timeout_seconds": 120,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        }
+      ]
     },
     {
       "name": "ao-forge",
@@ -101,7 +356,78 @@
           "AGENTS.md#Verification:3",
           "AGENTS.md#Verification:4"
         ]
-      }
+      },
+      "development_gates": [
+        {
+          "id": "gofmt",
+          "argv": [
+            "gofmt",
+            "-d",
+            "cmd",
+            "internal"
+          ],
+          "timeout_seconds": 300,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "empty"
+        },
+        {
+          "id": "go-tests",
+          "argv": [
+            "go",
+            "test",
+            "./...",
+            "-count=1"
+          ],
+          "timeout_seconds": 1200,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "go-vet",
+          "argv": [
+            "go",
+            "vet",
+            "./..."
+          ],
+          "timeout_seconds": 300,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "go-build",
+          "argv": [
+            "go",
+            "build",
+            "-o",
+            "bin/forge",
+            "./cmd/forge"
+          ],
+          "timeout_seconds": 300,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "diff-check",
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "timeout_seconds": 120,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        }
+      ]
     },
     {
       "name": "ao-covenant",
@@ -119,7 +445,103 @@
           "AGENTS.md#Verification:3",
           "AGENTS.md#Verification:4"
         ]
-      }
+      },
+      "development_gates": [
+        {
+          "id": "gofmt",
+          "argv": [
+            "gofmt",
+            "-d",
+            "cmd",
+            "internal",
+            "schemas"
+          ],
+          "timeout_seconds": 300,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "empty"
+        },
+        {
+          "id": "go-tests",
+          "argv": [
+            "go",
+            "test",
+            "./...",
+            "-count=1"
+          ],
+          "timeout_seconds": 1200,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "go-vet",
+          "argv": [
+            "go",
+            "vet",
+            "./..."
+          ],
+          "timeout_seconds": 300,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "go-build",
+          "argv": [
+            "go",
+            "build",
+            "-o",
+            "bin/covenant",
+            "./cmd/covenant"
+          ],
+          "timeout_seconds": 300,
+          "shell": "direct",
+          "required": true,
+          "environment": {
+            "CGO_ENABLED": "0"
+          },
+          "success_stdout": "any"
+        },
+        {
+          "id": "license-policy",
+          "argv": [
+            "scripts/check-license-policy.sh"
+          ],
+          "timeout_seconds": 300,
+          "shell": "posix-script",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "public-policy",
+          "argv": [
+            "scripts/check-public-repo-policy.sh"
+          ],
+          "timeout_seconds": 300,
+          "shell": "posix-script",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "diff-check",
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "timeout_seconds": 120,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        }
+      ]
     },
     {
       "name": "ao2",
@@ -135,7 +557,34 @@
           "ao-quality-gates.json#levels.full.steps.workspace-verification",
           "ao-quality-gates.json#levels.full.steps.rust-architecture"
         ]
-      }
+      },
+      "development_gates": [
+        {
+          "id": "workspace-verification",
+          "argv": [
+            "npm",
+            "run",
+            "verify"
+          ],
+          "timeout_seconds": 2340,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "rust-architecture",
+          "argv": [
+            "python3",
+            "scripts/check-rust-architecture.py"
+          ],
+          "timeout_seconds": 60,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        }
+      ]
     },
     {
       "name": "ao2-control-plane",
@@ -153,7 +602,66 @@
           "AGENTS.md#Verification:3",
           "AGENTS.md#Verification:4"
         ]
-      }
+      },
+      "development_gates": [
+        {
+          "id": "cargo-fmt",
+          "argv": [
+            "cargo",
+            "fmt",
+            "--all",
+            "--",
+            "--check"
+          ],
+          "timeout_seconds": 300,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "workspace-tests",
+          "argv": [
+            "python3",
+            "scripts/run-workspace-tests.py"
+          ],
+          "timeout_seconds": 2400,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "cargo-clippy",
+          "argv": [
+            "cargo",
+            "clippy",
+            "--workspace",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "timeout_seconds": 1800,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "diff-check",
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "timeout_seconds": 120,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        }
+      ]
     },
     {
       "name": "ao-command",
@@ -169,7 +677,78 @@
           "AGENTS.md#Verification:1",
           "AGENTS.md#Verification:2"
         ]
-      }
+      },
+      "development_gates": [
+        {
+          "id": "gofmt",
+          "argv": [
+            "gofmt",
+            "-d",
+            "cmd",
+            "internal"
+          ],
+          "timeout_seconds": 300,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "empty"
+        },
+        {
+          "id": "go-tests",
+          "argv": [
+            "go",
+            "test",
+            "./...",
+            "-count=1"
+          ],
+          "timeout_seconds": 1200,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "go-vet",
+          "argv": [
+            "go",
+            "vet",
+            "./..."
+          ],
+          "timeout_seconds": 300,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "go-build",
+          "argv": [
+            "go",
+            "build",
+            "-o",
+            "bin/ao-command",
+            "./cmd/ao-command"
+          ],
+          "timeout_seconds": 300,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "diff-check",
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "timeout_seconds": 120,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        }
+      ]
     },
     {
       "name": "ao-arena",
@@ -186,7 +765,51 @@
           "ao-quality-gates.json#levels.full.steps.go-vet",
           "ao-quality-gates.json#levels.full.steps.go-build"
         ]
-      }
+      },
+      "development_gates": [
+        {
+          "id": "go-tests",
+          "argv": [
+            "go",
+            "test",
+            "./...",
+            "-count=1"
+          ],
+          "timeout_seconds": 600,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "go-vet",
+          "argv": [
+            "go",
+            "vet",
+            "./..."
+          ],
+          "timeout_seconds": 180,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "go-build",
+          "argv": [
+            "go",
+            "build",
+            "-o",
+            "tmp/quality-gates/arena",
+            "./cmd/arena"
+          ],
+          "timeout_seconds": 120,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        }
+      ]
     },
     {
       "name": "ao-crucible",
@@ -203,7 +826,78 @@
           "AGENTS.md#Verification:2",
           "AGENTS.md#Verification:3"
         ]
-      }
+      },
+      "development_gates": [
+        {
+          "id": "gofmt",
+          "argv": [
+            "gofmt",
+            "-d",
+            "cmd",
+            "internal"
+          ],
+          "timeout_seconds": 300,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "empty"
+        },
+        {
+          "id": "go-tests",
+          "argv": [
+            "go",
+            "test",
+            "./...",
+            "-count=1"
+          ],
+          "timeout_seconds": 1200,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "go-vet",
+          "argv": [
+            "go",
+            "vet",
+            "./..."
+          ],
+          "timeout_seconds": 300,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "go-build",
+          "argv": [
+            "go",
+            "build",
+            "-o",
+            "tmp/bin/crucible",
+            "./cmd/crucible"
+          ],
+          "timeout_seconds": 300,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "diff-check",
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "timeout_seconds": 120,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        }
+      ]
     },
     {
       "name": "ao-sentinel",
@@ -220,7 +914,78 @@
           "AGENTS.md#Verification:2",
           "AGENTS.md#Verification:3"
         ]
-      }
+      },
+      "development_gates": [
+        {
+          "id": "gofmt",
+          "argv": [
+            "gofmt",
+            "-d",
+            "cmd",
+            "internal"
+          ],
+          "timeout_seconds": 300,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "empty"
+        },
+        {
+          "id": "go-tests",
+          "argv": [
+            "go",
+            "test",
+            "./...",
+            "-count=1"
+          ],
+          "timeout_seconds": 1200,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "go-vet",
+          "argv": [
+            "go",
+            "vet",
+            "./..."
+          ],
+          "timeout_seconds": 300,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "go-build",
+          "argv": [
+            "go",
+            "build",
+            "-o",
+            "tmp/bin/sentinel",
+            "./cmd/sentinel"
+          ],
+          "timeout_seconds": 300,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "diff-check",
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "timeout_seconds": 120,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        }
+      ]
     },
     {
       "name": "ao-promoter",
@@ -237,7 +1002,78 @@
           "AGENTS.md#Verification:2",
           "AGENTS.md#Verification:3"
         ]
-      }
+      },
+      "development_gates": [
+        {
+          "id": "gofmt",
+          "argv": [
+            "gofmt",
+            "-d",
+            "cmd",
+            "internal"
+          ],
+          "timeout_seconds": 300,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "empty"
+        },
+        {
+          "id": "go-tests",
+          "argv": [
+            "go",
+            "test",
+            "./...",
+            "-count=1"
+          ],
+          "timeout_seconds": 1200,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "go-vet",
+          "argv": [
+            "go",
+            "vet",
+            "./..."
+          ],
+          "timeout_seconds": 300,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "go-build",
+          "argv": [
+            "go",
+            "build",
+            "-o",
+            "tmp/bin/promoter",
+            "./cmd/promoter"
+          ],
+          "timeout_seconds": 300,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        },
+        {
+          "id": "diff-check",
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "timeout_seconds": 120,
+          "shell": "direct",
+          "required": true,
+          "environment": {},
+          "success_stdout": "any"
+        }
+      ]
     }
   ],
   "release_input": {
@@ -256,9 +1092,27 @@
       "is_prerelease": false,
       "asset_count": 5,
       "assets": [
-        {"platform": "linux", "architecture": "x86_64", "name": "ao2-0.5.11-linux-x86_64.tar.gz", "sha256": "c62c204d520bf51b4c63caecf2a8f48840e44b2828e1e439c68da4994d1abc07", "source": "current-release-manifest"},
-        {"platform": "macos", "architecture": "aarch64", "name": "ao2-0.5.11-macos-aarch64.tar.gz", "sha256": "857fbe69e606ab99f07dffd3183e6f2d869b8efd4fc604e37efd16607308e6ab", "source": "current-release-manifest"},
-        {"platform": "windows", "architecture": "x86_64", "name": "ao2-0.5.11-windows-x86_64.tar.gz", "sha256": "327829e9e3e3edf3eeb3b48d3b1ead46af0fa47a768ee6e1843c285e8b1d2756", "source": "current-release-manifest"}
+        {
+          "platform": "linux",
+          "architecture": "x86_64",
+          "name": "ao2-0.5.11-linux-x86_64.tar.gz",
+          "sha256": "c62c204d520bf51b4c63caecf2a8f48840e44b2828e1e439c68da4994d1abc07",
+          "source": "current-release-manifest"
+        },
+        {
+          "platform": "macos",
+          "architecture": "aarch64",
+          "name": "ao2-0.5.11-macos-aarch64.tar.gz",
+          "sha256": "857fbe69e606ab99f07dffd3183e6f2d869b8efd4fc604e37efd16607308e6ab",
+          "source": "current-release-manifest"
+        },
+        {
+          "platform": "windows",
+          "architecture": "x86_64",
+          "name": "ao2-0.5.11-windows-x86_64.tar.gz",
+          "sha256": "327829e9e3e3edf3eeb3b48d3b1ead46af0fa47a768ee6e1843c285e8b1d2756",
+          "source": "current-release-manifest"
+        }
       ]
     },
     {
@@ -272,9 +1126,27 @@
       "asset_count": 7,
       "supplemental_digest_source": "https://api.github.com/repos/uesugitorachiyo/ao2-control-plane/releases/tags/v0.1.19",
       "assets": [
-        {"platform": "linux", "architecture": "x86_64", "name": "ao2-control-plane-0.1.19-linux-x86_64.tar.gz", "sha256": "588903471152cbc2cae1fc9d514d69b72c153b913a368cb6bf01da09c2789cbf", "source": "github-release-api"},
-        {"platform": "macos", "architecture": "aarch64", "name": "ao2-control-plane-0.1.19-macos-aarch64.tar.gz", "sha256": "06addc587bd282763c47d9ee4e36cb8ebea0c114881296569ef4d0b4dff86972", "source": "github-release-api"},
-        {"platform": "windows", "architecture": "x86_64", "name": "ao2-control-plane-0.1.19-windows-x86_64.tar.gz", "sha256": "c3528322730afd4a0c3988f9b2a23767f67febbf96b62340988546346ad00e05", "source": "github-release-api"}
+        {
+          "platform": "linux",
+          "architecture": "x86_64",
+          "name": "ao2-control-plane-0.1.19-linux-x86_64.tar.gz",
+          "sha256": "588903471152cbc2cae1fc9d514d69b72c153b913a368cb6bf01da09c2789cbf",
+          "source": "github-release-api"
+        },
+        {
+          "platform": "macos",
+          "architecture": "aarch64",
+          "name": "ao2-control-plane-0.1.19-macos-aarch64.tar.gz",
+          "sha256": "06addc587bd282763c47d9ee4e36cb8ebea0c114881296569ef4d0b4dff86972",
+          "source": "github-release-api"
+        },
+        {
+          "platform": "windows",
+          "architecture": "x86_64",
+          "name": "ao2-control-plane-0.1.19-windows-x86_64.tar.gz",
+          "sha256": "c3528322730afd4a0c3988f9b2a23767f67febbf96b62340988546346ad00e05",
+          "source": "github-release-api"
+        }
       ]
     },
     {
@@ -287,9 +1159,27 @@
       "is_prerelease": false,
       "asset_count": 3,
       "assets": [
-        {"platform": "linux", "architecture": "x86_64", "name": "ao-mission-0.1.5-linux-x86_64.tar.gz", "sha256": "5aed0659e94c35fc1808b16d092c18e5f782f217170844335bedc59337ac3b25", "source": "current-release-manifest"},
-        {"platform": "macos", "architecture": "aarch64", "name": "ao-mission-0.1.5-macos-aarch64.tar.gz", "sha256": "54ea5fafac4a65fc1bad6c2d8ec079b084c528aee3fe228692d9cc154ff2d037", "source": "current-release-manifest"},
-        {"platform": "windows", "architecture": "x86_64", "name": "ao-mission-0.1.5-windows-x86_64.zip", "sha256": "c868653395e0ab19d2c95cc0adbb1e8d97bb5ef0002390040748a7f381cb9a43", "source": "current-release-manifest"}
+        {
+          "platform": "linux",
+          "architecture": "x86_64",
+          "name": "ao-mission-0.1.5-linux-x86_64.tar.gz",
+          "sha256": "5aed0659e94c35fc1808b16d092c18e5f782f217170844335bedc59337ac3b25",
+          "source": "current-release-manifest"
+        },
+        {
+          "platform": "macos",
+          "architecture": "aarch64",
+          "name": "ao-mission-0.1.5-macos-aarch64.tar.gz",
+          "sha256": "54ea5fafac4a65fc1bad6c2d8ec079b084c528aee3fe228692d9cc154ff2d037",
+          "source": "current-release-manifest"
+        },
+        {
+          "platform": "windows",
+          "architecture": "x86_64",
+          "name": "ao-mission-0.1.5-windows-x86_64.zip",
+          "sha256": "c868653395e0ab19d2c95cc0adbb1e8d97bb5ef0002390040748a7f381cb9a43",
+          "source": "current-release-manifest"
+        }
       ]
     },
     {
@@ -302,9 +1192,27 @@
       "is_prerelease": false,
       "asset_count": 3,
       "assets": [
-        {"platform": "linux", "architecture": "x86_64", "name": "ao-command-0.1.3-linux-x86_64.tar.gz", "sha256": "bd8b3f24c32b1796d0ebb0270d1447653dbc98ee3d95aaa413be1b08eabcc343", "source": "current-release-manifest"},
-        {"platform": "macos", "architecture": "aarch64", "name": "ao-command-0.1.3-macos-aarch64.tar.gz", "sha256": "e7b83c9431f16178f8d88347a32be952ee8d24bee6829f84e7e5beda4e744143", "source": "current-release-manifest"},
-        {"platform": "windows", "architecture": "x86_64", "name": "ao-command-0.1.3-windows-x86_64.zip", "sha256": "beb260d6f3338785e0c796d2288b4f635eecdd0a0f80393a1c21eb733155b490", "source": "current-release-manifest"}
+        {
+          "platform": "linux",
+          "architecture": "x86_64",
+          "name": "ao-command-0.1.3-linux-x86_64.tar.gz",
+          "sha256": "bd8b3f24c32b1796d0ebb0270d1447653dbc98ee3d95aaa413be1b08eabcc343",
+          "source": "current-release-manifest"
+        },
+        {
+          "platform": "macos",
+          "architecture": "aarch64",
+          "name": "ao-command-0.1.3-macos-aarch64.tar.gz",
+          "sha256": "e7b83c9431f16178f8d88347a32be952ee8d24bee6829f84e7e5beda4e744143",
+          "source": "current-release-manifest"
+        },
+        {
+          "platform": "windows",
+          "architecture": "x86_64",
+          "name": "ao-command-0.1.3-windows-x86_64.zip",
+          "sha256": "beb260d6f3338785e0c796d2288b4f635eecdd0a0f80393a1c21eb733155b490",
+          "source": "current-release-manifest"
+        }
       ]
     },
     {
@@ -317,9 +1225,27 @@
       "is_prerelease": false,
       "asset_count": 15,
       "assets": [
-        {"platform": "linux", "architecture": "x86_64", "name": "ao-atlas-v0.2.1-linux-x86_64.tar.gz", "sha256": "db1fd2a2728a7cab6196284081e543931c088bd5217861fb7699fcc8402162e5", "source": "current-release-manifest"},
-        {"platform": "macos", "architecture": "aarch64", "name": "ao-atlas-v0.2.1-macos-aarch64.tar.gz", "sha256": "1533e7220ce639ca05bb083c755a4e9df20c5f34e8917588d6ed1094fce8454f", "source": "current-release-manifest"},
-        {"platform": "windows", "architecture": "x86_64", "name": "ao-atlas-v0.2.1-windows-x86_64.tar.gz", "sha256": "1f35963a49bb1edcc3e4de1db66035fb9c61000ad7dd0c5fb6125520b7bc3c05", "source": "current-release-manifest"}
+        {
+          "platform": "linux",
+          "architecture": "x86_64",
+          "name": "ao-atlas-v0.2.1-linux-x86_64.tar.gz",
+          "sha256": "db1fd2a2728a7cab6196284081e543931c088bd5217861fb7699fcc8402162e5",
+          "source": "current-release-manifest"
+        },
+        {
+          "platform": "macos",
+          "architecture": "aarch64",
+          "name": "ao-atlas-v0.2.1-macos-aarch64.tar.gz",
+          "sha256": "1533e7220ce639ca05bb083c755a4e9df20c5f34e8917588d6ed1094fce8454f",
+          "source": "current-release-manifest"
+        },
+        {
+          "platform": "windows",
+          "architecture": "x86_64",
+          "name": "ao-atlas-v0.2.1-windows-x86_64.tar.gz",
+          "sha256": "1f35963a49bb1edcc3e4de1db66035fb9c61000ad7dd0c5fb6125520b7bc3c05",
+          "source": "current-release-manifest"
+        }
       ]
     },
     {
@@ -332,9 +1258,27 @@
       "is_prerelease": false,
       "asset_count": 16,
       "assets": [
-        {"platform": "linux", "architecture": "x86_64", "name": "ao-forge_Linux_x86_64.tar.gz", "sha256": "8d691bf9175715e2355b93088dd41a04f67c1793caa795c617fd099396a83637", "source": "current-release-manifest"},
-        {"platform": "macos", "architecture": "aarch64", "name": "ao-forge_Darwin_arm64.tar.gz", "sha256": "97c11d1ffa49e73f7547d8debf152613fb18fd0522b2202c464e32e6ecfff032", "source": "current-release-manifest"},
-        {"platform": "windows", "architecture": "x86_64", "name": "ao-forge_Windows_x86_64.zip", "sha256": "df57365755c233b99704d634baf9283f2ab33507cd4754e04ad6b01f7f0c12d4", "source": "current-release-manifest"}
+        {
+          "platform": "linux",
+          "architecture": "x86_64",
+          "name": "ao-forge_Linux_x86_64.tar.gz",
+          "sha256": "8d691bf9175715e2355b93088dd41a04f67c1793caa795c617fd099396a83637",
+          "source": "current-release-manifest"
+        },
+        {
+          "platform": "macos",
+          "architecture": "aarch64",
+          "name": "ao-forge_Darwin_arm64.tar.gz",
+          "sha256": "97c11d1ffa49e73f7547d8debf152613fb18fd0522b2202c464e32e6ecfff032",
+          "source": "current-release-manifest"
+        },
+        {
+          "platform": "windows",
+          "architecture": "x86_64",
+          "name": "ao-forge_Windows_x86_64.zip",
+          "sha256": "df57365755c233b99704d634baf9283f2ab33507cd4754e04ad6b01f7f0c12d4",
+          "source": "current-release-manifest"
+        }
       ]
     },
     {
@@ -348,29 +1292,162 @@
       "asset_count": 13,
       "supplemental_digest_source": "https://api.github.com/repos/uesugitorachiyo/ao-covenant/releases/tags/v0.1.1",
       "assets": [
-        {"platform": "linux", "architecture": "amd64", "name": "ao-covenant_v0.1.1_linux_amd64", "sha256": "f6820fdc7b99873071e7f68fc50d9bfd922750a2e788d9fca5aa8fb37cc8180b", "source": "github-release-api"},
-        {"platform": "macos", "architecture": "amd64", "name": "ao-covenant_v0.1.1_darwin_amd64", "sha256": "9a5ca7c6920c44b6e120d6c5bd8baf190b66e188d43485639c6fc5355190868e", "source": "github-release-api"},
-        {"platform": "windows", "architecture": "amd64", "name": "ao-covenant_v0.1.1_windows_amd64.exe", "sha256": "fd6e3a0033608d3f47dccb60f48191e4c4b2dc4fdce893c87d8ea96199610c5d", "source": "github-release-api"}
+        {
+          "platform": "linux",
+          "architecture": "amd64",
+          "name": "ao-covenant_v0.1.1_linux_amd64",
+          "sha256": "f6820fdc7b99873071e7f68fc50d9bfd922750a2e788d9fca5aa8fb37cc8180b",
+          "source": "github-release-api"
+        },
+        {
+          "platform": "macos",
+          "architecture": "amd64",
+          "name": "ao-covenant_v0.1.1_darwin_amd64",
+          "sha256": "9a5ca7c6920c44b6e120d6c5bd8baf190b66e188d43485639c6fc5355190868e",
+          "source": "github-release-api"
+        },
+        {
+          "platform": "windows",
+          "architecture": "amd64",
+          "name": "ao-covenant_v0.1.1_windows_amd64.exe",
+          "sha256": "fd6e3a0033608d3f47dccb60f48191e4c4b2dc4fdce893c87d8ea96199610c5d",
+          "source": "github-release-api"
+        }
       ]
     }
   ],
   "toolchains": [
-    {"name": "git", "version_argv": ["git", "--version"], "constraint": {"kind": "minimum", "value": "2.39"}},
-    {"name": "python", "version_argv": ["python3", "--version"], "constraint": {"kind": "minimum", "value": "3.11"}},
-    {"name": "go", "version_argv": ["go", "version"], "constraint": {"kind": "minimum", "value": "1.26"}},
-    {"name": "rust", "version_argv": ["rustc", "--version"], "constraint": {"kind": "minimum", "value": "1.85"}},
-    {"name": "cargo", "version_argv": ["cargo", "--version"], "constraint": {"kind": "minimum", "value": "1.85"}},
-    {"name": "node", "version_argv": ["node", "--version"], "constraint": {"kind": "minimum", "value": "20"}},
-    {"name": "npm", "version_argv": ["npm", "--version"], "constraint": {"kind": "minimum", "value": "10"}},
-    {"name": "powershell", "version_argv": ["pwsh", "--version"], "constraint": {"kind": "minimum", "value": "7"}},
-    {"name": "posix-shell", "version_argv": ["bash", "--version"], "constraint": {"kind": "minimum", "value": "3.2"}}
+    {
+      "name": "git",
+      "version_argv": [
+        "git",
+        "--version"
+      ],
+      "constraint": {
+        "kind": "minimum",
+        "value": "2.39"
+      }
+    },
+    {
+      "name": "python",
+      "version_argv": [
+        "python3",
+        "--version"
+      ],
+      "constraint": {
+        "kind": "minimum",
+        "value": "3.11"
+      }
+    },
+    {
+      "name": "go",
+      "version_argv": [
+        "go",
+        "version"
+      ],
+      "constraint": {
+        "kind": "minimum",
+        "value": "1.26"
+      }
+    },
+    {
+      "name": "rust",
+      "version_argv": [
+        "rustc",
+        "--version"
+      ],
+      "constraint": {
+        "kind": "minimum",
+        "value": "1.85"
+      }
+    },
+    {
+      "name": "cargo",
+      "version_argv": [
+        "cargo",
+        "--version"
+      ],
+      "constraint": {
+        "kind": "minimum",
+        "value": "1.85"
+      }
+    },
+    {
+      "name": "node",
+      "version_argv": [
+        "node",
+        "--version"
+      ],
+      "constraint": {
+        "kind": "minimum",
+        "value": "20"
+      }
+    },
+    {
+      "name": "npm",
+      "version_argv": [
+        "npm",
+        "--version"
+      ],
+      "constraint": {
+        "kind": "minimum",
+        "value": "10"
+      }
+    },
+    {
+      "name": "powershell",
+      "version_argv": [
+        "pwsh",
+        "--version"
+      ],
+      "constraint": {
+        "kind": "minimum",
+        "value": "7"
+      }
+    },
+    {
+      "name": "posix-shell",
+      "version_argv": [
+        "bash",
+        "--version"
+      ],
+      "constraint": {
+        "kind": "minimum",
+        "value": "3.2"
+      }
+    }
   ],
   "platform_overrides": [
-    {"id": "windows-git-bash", "platform": "windows", "repository": "all", "behavior": "Run repository-owned .sh gates with Git for Windows Bash only."},
-    {"id": "windows-powershell-51-parse", "platform": "windows", "repository": "all", "behavior": "Parse declared Windows PowerShell entry points with Windows PowerShell 5.1."},
-    {"id": "covenant-rosetta2", "platform": "macos-arm64", "repository": "ao-covenant", "behavior": "Run the frozen Darwin amd64 Covenant asset through Rosetta 2."},
-    {"id": "windows-native-artifact-selection", "platform": "windows", "repository": "all", "behavior": "Select declared Windows executable suffixes and release archive formats."},
-    {"id": "macos-native-artifact-selection", "platform": "macos-arm64", "repository": "all", "behavior": "Select declared macOS executable suffixes and release archive formats."}
+    {
+      "id": "windows-git-bash",
+      "platform": "windows",
+      "repository": "all",
+      "behavior": "Run repository-owned .sh gates with Git for Windows Bash only."
+    },
+    {
+      "id": "windows-powershell-51-parse",
+      "platform": "windows",
+      "repository": "all",
+      "behavior": "Parse declared Windows PowerShell entry points with Windows PowerShell 5.1."
+    },
+    {
+      "id": "covenant-rosetta2",
+      "platform": "macos-arm64",
+      "repository": "ao-covenant",
+      "behavior": "Run the frozen Darwin amd64 Covenant asset through Rosetta 2."
+    },
+    {
+      "id": "windows-native-artifact-selection",
+      "platform": "windows",
+      "repository": "all",
+      "behavior": "Select declared Windows executable suffixes and release archive formats."
+    },
+    {
+      "id": "macos-native-artifact-selection",
+      "platform": "macos-arm64",
+      "repository": "all",
+      "behavior": "Select declared macOS executable suffixes and release archive formats."
+    }
   ],
   "excluded_repositories": [
     "ao-next"
