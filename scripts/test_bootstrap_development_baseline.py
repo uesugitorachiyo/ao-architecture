@@ -159,6 +159,14 @@ class RootSafetyTests(unittest.TestCase):
 
 
 class RepositoryMaterializationTests(unittest.TestCase):
+    def test_resolves_windows_command_shims_without_a_shell(self) -> None:
+        resolved = bootstrap.resolve_command_argv(
+            ["npm", "--version"],
+            operating_system="nt",
+            which=lambda command: rf"C:\tools\{command}.CMD",
+        )
+        self.assertEqual(resolved, [r"C:\tools\npm.CMD", "--version"])
+
     def make_upstream(self, parent: Path, name: str = "ao-fixture"):
         work = parent / f"{name}-source"
         bare = parent / f"{name}-upstream.git"
