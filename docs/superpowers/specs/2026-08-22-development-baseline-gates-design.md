@@ -18,8 +18,9 @@ Every gate has a unique stable `id`, literal argv array, timeout, shell policy,
 required disposition, and optional fixed environment. Shell policy is one of:
 
 - `direct`: execute argv without a command shell;
-- `posix-script`: execute the declared repository `.sh` through `/bin/sh` on
-  macOS and Git for Windows Bash on Windows.
+- `posix-script`: execute the declared repository `.sh` through Bash on macOS
+  and Git for Windows Bash on Windows. Repository gates use Bash syntax and
+  their declared interpreter must be preserved across native hosts.
 
 There is no arbitrary command string, interpolation, conditional skip, or
 host-specific replacement argv. Conditional release, publication, deployment,
