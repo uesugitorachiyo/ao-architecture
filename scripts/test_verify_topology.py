@@ -1,3 +1,4 @@
+import json
 import sys
 import unittest
 from pathlib import Path
@@ -8,6 +9,11 @@ from verify_topology import validate_document
 
 
 class VerifyTopologyTest(unittest.TestCase):
+    def test_accepts_checked_in_current_inventory(self):
+        inventory = Path(__file__).resolve().parents[1] / "stack" / "authority-inventory.json"
+        document = json.loads(inventory.read_text(encoding="utf-8"))
+        self.assertEqual(validate_document(document), [])
+
     def test_rejects_duplicate_authority_domain_owners(self):
         document = {
             "schema": "ao.architecture.authority-inventory.v0.1",

@@ -16,6 +16,7 @@ AO Architecture is the public documentation, topology, contract-map, and claim-b
 ## Ownership And Boundaries
 
 - Keep public claims, repository links, successors, lifecycle labels, and authority boundaries consistent across the README, component mirrors, topology, and machine-readable contracts.
+- AO Next is an active hosted experimental execution candidate only for the bounded successor-feasibility decision in `docs/adr/2026-08-22-ao-next-bounded-successor-feasibility.md`. Its inventory entry does not authorize succession, migration, providers, release, publication, deployment, promotion, or Mission-state ownership.
 - Treat source repositories as owners of their implementations. A standalone clone must not assume sibling repositories exist; cross-stack commands must require an explicit workspace root.
 - Do not reinterpret historical evidence, release manifests, or result records as current authority. Update them only through their owning contract and verifier.
 - Generate `images/*.svg` with `python3 scripts/generate_architecture_svgs.py`; do not hand-tune generated markup.

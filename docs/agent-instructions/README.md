@@ -19,7 +19,7 @@ executable contracts, schemas, policy, tests, and CI
 
 ## Contract Files
 
-- `layout-v1.json` enumerates all 21 workspace repositories, lifecycle states, remote expectations, required root files, approved nested scopes, the excluded-stub fingerprint, and the pinned heads of the four excluded legacy repositories outside the maintained AO Stack.
+- `layout-v1.json` enumerates all 22 workspace repositories, lifecycle states, remote expectations, required root files, approved nested scopes, the excluded-stub fingerprint, and the pinned heads of the four excluded legacy repositories outside the maintained AO Stack.
 - `layout-v1.schema.json` describes the closed JSON shape.
 - `../../scripts/verify_agent_instruction_layout.py` performs the fail-closed static checks.
 - `../../scripts/test_verify_agent_instruction_layout.py` contains positive and negative fixtures for every rejection class.

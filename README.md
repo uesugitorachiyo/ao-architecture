@@ -40,6 +40,7 @@ with broad authority.
 | [AO Forge](https://github.com/uesugitorachiyo/ao-forge) | GoalRun state, factory plans, and governed run coordination | [AO Forge](ao-forge/README.md) |
 | [AO Covenant](https://github.com/uesugitorachiyo/ao-covenant) | Policy, trust, side-effect, and evidence-contract gates | [AO Covenant](ao-covenant/README.md) |
 | [AO2](https://github.com/uesugitorachiyo/ao2) | Bounded local agent execution and evidence capture | [AO2](ao2/README.md) |
+| [AO Next](https://github.com/uesugitorachiyo/ao-next) | Experimental bounded Windows successor-feasibility execution candidate | [Feasibility decision](docs/adr/2026-08-22-ao-next-bounded-successor-feasibility.md) |
 | [AO2 Control Plane](https://github.com/uesugitorachiyo/ao2-control-plane) | Read-only evidence observation and publication | [AO2 Control Plane](ao2-control-plane/README.md) |
 | [AO Command](https://github.com/uesugitorachiyo/ao-command) | Read-only operator status and command surface | [AO Command](ao-command/README.md) |
 | [AO Arena](https://github.com/uesugitorachiyo/ao-arena) | Deterministic benchmark and comparison evidence | [AO Arena](ao-arena/README.md) |

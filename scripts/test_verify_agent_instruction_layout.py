@@ -34,6 +34,7 @@ REPOSITORIES = [
     ("ao-foundry", "active_hosted", "hosted"),
     ("ao-hardening-runner", "active_local_only", "none"),
     ("ao-mission", "active_hosted", "hosted"),
+    ("ao-next", "active_hosted", "hosted"),
     ("ao-operator", "excluded_legacy_hosted", "hosted"),
     ("ao-promoter", "active_hosted", "hosted"),
     ("ao-runtime", "excluded_legacy_hosted", "hosted"),

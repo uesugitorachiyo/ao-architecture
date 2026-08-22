@@ -1,10 +1,11 @@
 {
   "schema": "ao.architecture.authority-inventory.v0.1",
   "status": "current",
-  "generated_from": "docs/adr/2026-07-10-consolidation-topology.md",
+  "generated_from": "docs/adr/2026-08-22-ao-next-bounded-successor-feasibility.md",
   "repositories": [
     {"repository": "ao-architecture", "current_boundary": "independent_repository", "proposed_boundary": "ao-control", "primary_authority": "architecture_truth", "non_authority": ["execution", "approval", "promotion"], "migration_status": "not_started"},
     {"repository": "ao-mission", "current_boundary": "independent_repository", "proposed_boundary": "ao-control", "primary_authority": "mission_state", "non_authority": ["execution", "approval", "promotion"], "migration_status": "not_started"},
+    {"repository": "ao-next", "current_boundary": "independent_repository", "proposed_boundary": "ao2", "primary_authority": "bounded_windows_execution_candidate", "non_authority": ["mission_state", "approval", "promotion", "release", "publication", "deployment", "provider_calls_without_separate_authority"], "migration_status": "not_started"},
     {"repository": "ao-blueprint", "current_boundary": "independent_repository", "proposed_boundary": "ao-control", "primary_authority": "requirements_authorization", "non_authority": ["execution", "promotion", "provider_calls"], "migration_status": "not_started"},
     {"repository": "ao-atlas", "current_boundary": "independent_repository", "proposed_boundary": "ao-control", "primary_authority": "workgraph_context", "non_authority": ["approval", "execution", "promotion"], "migration_status": "not_started"},
     {"repository": "ao-foundry", "current_boundary": "independent_repository", "proposed_boundary": "ao-control", "primary_authority": "portfolio_scheduling", "non_authority": ["approval", "execution", "promotion"], "migration_status": "not_started"},
@@ -21,6 +22,7 @@
   "authority_domains": [
     {"domain": "architecture_truth", "owner": "ao-architecture"},
     {"domain": "mission_state", "owner": "ao-mission"},
+    {"domain": "bounded_windows_execution_candidate", "owner": "ao-next"},
     {"domain": "requirements_authorization", "owner": "ao-blueprint"},
     {"domain": "workgraph_context", "owner": "ao-atlas"},
     {"domain": "portfolio_scheduling", "owner": "ao-foundry"},

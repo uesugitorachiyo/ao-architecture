@@ -20,6 +20,7 @@ The most important design decision is separation of authority. No single reposit
 | [AO Forge](../ao-forge/README.md) | Trusted factory brain for one governed run | Use this to understand GoalRun, factory plans, and release gates. |
 | [AO Covenant](../ao-covenant/README.md) | Policy, contract, approval, and trust kernel | Use this to understand side-effect approval and evidence-bound trust. |
 | [AO2](../ao2/README.md) | Governed local execution runtime | Use this to understand agent adapters, approvals, artifacts, and closure. |
+| [AO Next](https://github.com/uesugitorachiyo/ao-next) | Experimental bounded Windows successor-feasibility execution candidate | Use the [accepted feasibility decision](../docs/adr/2026-08-22-ao-next-bounded-successor-feasibility.md) for its temporary authority and stop conditions. |
 | [ao2-control-plane](../ao2-control-plane/README.md) | Optional read-only evidence observer | Use this to understand signed ingest, storage, dashboards, and readback. |
 | [AO Arena](../ao-arena/README.md) | Deterministic benchmark scoreboard | Use this to understand fixture-mode scoring and promotion evidence. |
 | [AO Crucible](../ao-crucible/README.md) | Adversarial hardening layer | Use this to understand resilience probes and remediation gates. |
@@ -37,6 +38,7 @@ AO Foundry coordinates the portfolio.
 AO Forge decides the next allowed factory step.
 AO Covenant decides whether declared side effects are trusted.
 AO2 executes governed work and produces evidence.
+AO Next may execute only the separately authorized bounded successor-feasibility slice; it is not the active runtime baseline.
 ao2-control-plane stores and exposes evidence after the fact.
 AO Arena scores whether a candidate beats the baseline.
 AO Crucible tries to break candidates before they are trusted.
