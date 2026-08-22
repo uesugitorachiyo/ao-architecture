@@ -15,6 +15,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-go@v6
+        with:
+          go-version: '1.26.x'
 
       - name: Prepare macOS run paths
         if: runner.os == 'macOS'
@@ -44,7 +47,7 @@ jobs:
         if: runner.os == 'macOS'
         shell: bash
         run: |
-          scripts/bootstrap-development-baseline.sh \
+          sh scripts/bootstrap-development-baseline.sh \
             --mode materialize \
             --manifest stack/development-baseline-manifest.json \
             --schema docs/contracts/development-baseline-manifest-v1.schema.json \
