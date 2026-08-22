@@ -1,0 +1,122 @@
+name: Development baseline bootstrap
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  qualify:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-26, windows-2025]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare macOS run paths
+        if: runner.os == 'macOS'
+        id: paths_macos
+        shell: bash
+        run: |
+          root="$RUNNER_TEMP/ao baseline $GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          source_commit=$(git rev-parse HEAD)
+          echo "root=$root" >> "$GITHUB_OUTPUT"
+          echo "host_result=$RUNNER_TEMP/macos-26-$source_commit-host.json" >> "$GITHUB_OUTPUT"
+          echo "cleanup_result=$RUNNER_TEMP/macos-26-$source_commit-cleanup.json" >> "$GITHUB_OUTPUT"
+          echo "source_commit=$source_commit" >> "$GITHUB_OUTPUT"
+
+      - name: Prepare Windows run paths
+        if: runner.os == 'Windows'
+        id: paths_windows
+        shell: powershell
+        run: |
+          $root = Join-Path $env:RUNNER_TEMP "ao baseline $env:GITHUB_RUN_ID-$env:GITHUB_RUN_ATTEMPT"
+          $sourceCommit = git rev-parse HEAD
+          "root=$root" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "host_result=$(Join-Path $env:RUNNER_TEMP "windows-2025-$sourceCommit-host.json")" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "cleanup_result=$(Join-Path $env:RUNNER_TEMP "windows-2025-$sourceCommit-cleanup.json")" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "source_commit=$sourceCommit" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+
+      - name: Materialize on macOS
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          scripts/bootstrap-development-baseline.sh \
+            --mode materialize \
+            --manifest stack/development-baseline-manifest.json \
+            --schema docs/contracts/development-baseline-manifest-v1.schema.json \
+            --release-manifest stack/current-release-manifest.json \
+            --controller-commit "${{ steps.paths_macos.outputs.source_commit }}" \
+            --root "${{ steps.paths_macos.outputs.root }}" \
+            --result "${{ steps.paths_macos.outputs.host_result }}"
+
+      - name: Materialize on Windows
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: |
+          scripts/bootstrap-development-baseline.ps1 `
+            --mode materialize `
+            --manifest stack/development-baseline-manifest.json `
+            --schema docs/contracts/development-baseline-manifest-v1.schema.json `
+            --release-manifest stack/current-release-manifest.json `
+            --controller-commit "${{ steps.paths_windows.outputs.source_commit }}" `
+            --root "${{ steps.paths_windows.outputs.root }}" `
+            --result "${{ steps.paths_windows.outputs.host_result }}"
+
+      - name: Upload host result
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.os }}-${{ github.sha }}-host
+          path: ${{ runner.os == 'Windows' && steps.paths_windows.outputs.host_result || steps.paths_macos.outputs.host_result }}
+          if-no-files-found: error
+
+      - name: Cleanup exact run root
+        if: ${{ always() }}
+        shell: pwsh
+        env:
+          BASELINE_ROOT: ${{ runner.os == 'Windows' && steps.paths_windows.outputs.root || steps.paths_macos.outputs.root }}
+          CLEANUP_RESULT: ${{ runner.os == 'Windows' && steps.paths_windows.outputs.cleanup_result || steps.paths_macos.outputs.cleanup_result }}
+          SOURCE_COMMIT: ${{ runner.os == 'Windows' && steps.paths_windows.outputs.source_commit || steps.paths_macos.outputs.source_commit }}
+        run: |
+          $runnerRoot = [IO.Path]::GetFullPath($env:RUNNER_TEMP)
+          $target = [IO.Path]::GetFullPath($env:BASELINE_ROOT)
+          if (-not $target.StartsWith($runnerRoot + [IO.Path]::DirectorySeparatorChar)) { throw "cleanup target escaped runner temp" }
+          if ([IO.Path]::GetFileName($target) -notlike "ao baseline *") { throw "cleanup target name mismatch" }
+          if (Test-Path -LiteralPath $target) { Remove-Item -LiteralPath $target -Recurse -Force }
+          if (Test-Path -LiteralPath $target) { throw "cleanup_status is not root_absent" }
+          $record = [ordered]@{ schema = "ao.architecture.development-baseline-cleanup.v1"; cleanup_status = "root_absent"; platform = "${{ matrix.os }}"; source_commit = $env:SOURCE_COMMIT }
+          $record | ConvertTo-Json | Set-Content -LiteralPath $env:CLEANUP_RESULT -Encoding utf8
+
+      - name: Upload cleanup result
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.os }}-${{ github.sha }}-cleanup
+          path: ${{ runner.os == 'Windows' && steps.paths_windows.outputs.cleanup_result || steps.paths_macos.outputs.cleanup_result }}
+          if-no-files-found: error
+
+  rehash:
+    needs: qualify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: '*-${{ github.sha }}-host'
+          path: proof/host
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: '*-${{ github.sha }}-cleanup'
+          path: proof/cleanup
+          merge-multiple: true
+      - name: Independently rehash all results
+        run: python3 scripts/rehash_development_baseline_results.py --host-dir proof/host --cleanup-dir proof/cleanup --source-commit "${{ github.sha }}" --result proof/rehash.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: development-baseline-${{ github.sha }}-rehash
+          path: proof/rehash.json
+          if-no-files-found: error

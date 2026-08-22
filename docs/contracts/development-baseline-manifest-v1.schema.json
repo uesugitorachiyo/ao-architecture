@@ -1,0 +1,395 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/uesugitorachiyo/ao-architecture/docs/contracts/development-baseline-manifest-v1.schema.json",
+  "title": "AO Development Baseline Manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "profile",
+    "source_freeze_utc",
+    "repositories",
+    "release_input",
+    "runtime_releases",
+    "toolchains",
+    "platform_overrides",
+    "excluded_repositories",
+    "authority"
+  ],
+  "properties": {
+    "schema": {
+      "const": "ao.architecture.development-baseline-manifest.v1"
+    },
+    "profile": {
+      "const": "stable"
+    },
+    "source_freeze_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "repositories": {
+      "type": "array",
+      "minItems": 14,
+      "maxItems": 14,
+      "items": {
+        "$ref": "#/$defs/repository"
+      }
+    },
+    "release_input": {
+      "$ref": "#/$defs/releaseInput"
+    },
+    "runtime_releases": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "items": {
+        "$ref": "#/$defs/runtimeRelease"
+      }
+    },
+    "toolchains": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": {
+        "$ref": "#/$defs/toolchain"
+      }
+    },
+    "platform_overrides": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/platformOverride"
+      }
+    },
+    "excluded_repositories": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "const": "ao-next"
+        }
+      ],
+      "items": false,
+      "minItems": 1,
+      "maxItems": 1
+    },
+    "authority": {
+      "$ref": "#/$defs/authority"
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "path",
+        "upstream_url",
+        "commit",
+        "branch_metadata",
+        "source_role",
+        "gate_source"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "upstream_url": {
+          "type": "string",
+          "pattern": "^https://github\\.com/uesugitorachiyo/[a-z0-9-]+\\.git$"
+        },
+        "commit": {
+          "$ref": "#/$defs/commit"
+        },
+        "branch_metadata": {
+          "const": "main"
+        },
+        "source_role": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "gate_source": {
+          "$ref": "#/$defs/gateSource"
+        }
+      }
+    },
+    "gateSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "gate_refs"
+      ],
+      "properties": {
+        "path": {
+          "enum": [
+            "AGENTS.md",
+            "ao-quality-gates.json"
+          ]
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "gate_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^(AGENTS\\.md#Verification:[1-9][0-9]*|ao-quality-gates\\.json#levels\\.full\\.steps\\.[a-z0-9-]+)$"
+          }
+        }
+      }
+    },
+    "releaseInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "schema",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "const": "stack/current-release-manifest.json"
+        },
+        "schema": {
+          "const": "ao.architecture.current-release-manifest.v0.1"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "platform",
+        "architecture",
+        "name",
+        "sha256",
+        "source"
+      ],
+      "properties": {
+        "platform": {
+          "enum": [
+            "linux",
+            "macos",
+            "windows"
+          ]
+        },
+        "architecture": {
+          "enum": [
+            "x86_64",
+            "aarch64",
+            "amd64"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "source": {
+          "enum": [
+            "current-release-manifest",
+            "github-release-api"
+          ]
+        }
+      }
+    },
+    "runtimeRelease": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository",
+        "version",
+        "tag",
+        "tag_target",
+        "release_url",
+        "is_draft",
+        "is_prerelease",
+        "asset_count",
+        "assets"
+      ],
+      "properties": {
+        "repository": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "tag": {
+          "type": "string",
+          "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "tag_target": {
+          "$ref": "#/$defs/commit"
+        },
+        "release_url": {
+          "type": "string",
+          "pattern": "^https://github\\.com/uesugitorachiyo/[a-z0-9-]+/releases/tag/v[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "is_draft": {
+          "const": false
+        },
+        "is_prerelease": {
+          "const": false
+        },
+        "asset_count": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 64
+        },
+        "supplemental_digest_source": {
+          "type": "string",
+          "pattern": "^https://api\\.github\\.com/repos/uesugitorachiyo/(ao2-control-plane|ao-covenant)/releases/tags/v[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "assets": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "$ref": "#/$defs/asset"
+          }
+        }
+      }
+    },
+    "toolchain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "version_argv",
+        "constraint"
+      ],
+      "properties": {
+        "name": {
+          "enum": [
+            "git",
+            "python",
+            "go",
+            "rust",
+            "cargo",
+            "node",
+            "npm",
+            "powershell",
+            "posix-shell"
+          ]
+        },
+        "version_argv": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          }
+        },
+        "constraint": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "value"
+          ],
+          "properties": {
+            "kind": {
+              "enum": [
+                "minimum",
+                "major-set"
+              ]
+            },
+            "value": {
+              "type": "string",
+              "pattern": "^[0-9]+(\\.[0-9]+){0,2}([|][0-9]+(\\.[0-9]+){0,2})*$"
+            }
+          }
+        }
+      }
+    },
+    "platformOverride": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "platform",
+        "repository",
+        "behavior"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "platform": {
+          "enum": [
+            "macos-arm64",
+            "windows"
+          ]
+        },
+        "repository": {
+          "type": "string",
+          "pattern": "^(all|ao-covenant)$"
+        },
+        "behavior": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        }
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "safe_to_execute",
+        "executes_work",
+        "approves_work",
+        "mutates_repositories",
+        "provider_calls",
+        "credential_use",
+        "release",
+        "publication",
+        "deployment",
+        "promotion",
+        "compatibility_activation",
+        "external_beta",
+        "rsi"
+      ],
+      "properties": {
+        "safe_to_execute": { "const": false },
+        "executes_work": { "const": false },
+        "approves_work": { "const": false },
+        "mutates_repositories": { "const": false },
+        "provider_calls": { "const": false },
+        "credential_use": { "const": false },
+        "release": { "const": false },
+        "publication": { "const": false },
+        "deployment": { "const": false },
+        "promotion": { "const": false },
+        "compatibility_activation": { "const": false },
+        "external_beta": { "const": false },
+        "rsi": { "const": false }
+      }
+    }
+  }
+}
