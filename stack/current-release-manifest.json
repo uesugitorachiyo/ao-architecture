@@ -1,8 +1,8 @@
 {
   "schema": "ao.architecture.current-release-manifest.v0.1",
   "status": "current_public_release_pair",
-  "generated_at_utc": "2026-08-22T00:20:00Z",
-  "source_of_truth": "public GitHub releases plus independently downloaded three-platform AO stack canary evidence from run 32540107166",
+  "generated_at_utc": "2026-08-22T00:28:00Z",
+  "source_of_truth": "public GitHub releases plus independently downloaded three-platform AO stack canary evidence from merged-main run 32540433860",
   "ao2": {
     "repository": "ao2", "version": "v0.5.11",
     "release_url": "https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.11",
@@ -102,12 +102,12 @@
     }
   ],
   "public_stack_canary": {
-    "workflow_run": "https://github.com/uesugitorachiyo/ao-architecture/actions/runs/32540107166",
-    "source_head": "7330db5f9851308bd0b53b3282e43cb682a61107",
+    "workflow_run": "https://github.com/uesugitorachiyo/ao-architecture/actions/runs/32540433860",
+    "source_head": "79225ee337bad632b48f9e715eb2d136511245b2",
     "terminal_index_digest": "sha256:431a9ec58bdb47b2c9fcd6cdf8df5c112621ac1183c20e12e68e96916a0ce74d",
-    "linux_artifact_sha256": "cf6c7b0fd1d0514a79c173c0a0fbfabe0534e19383b7899f2b1c2e78a052bb36",
-    "macos_artifact_sha256": "aef15f4c420cdcab73e1016a745c6c65c0f6d2cc4af29aad4540957f2c17b044",
-    "windows_artifact_sha256": "e690b0eca615d2512498698ba6dd1e72649a532d115d19b0a9bbaed73336a127"
+    "linux_artifact_sha256": "35652deb5e14671c8e9838541f5e529cc1919430dfa18ed2b1159e0edf0e0995",
+    "macos_artifact_sha256": "1e77918269a20aa00a70688477fb10f117933137737caea417818f781666dfef",
+    "windows_artifact_sha256": "6ebb61dc243abddc9e91c58f2b9966b8e91effce40af0d531dbc0f82e9b9b6f3"
   },
   "pairing": {
     "status": "current_public_release_pair", "control_plane_update_required": false,

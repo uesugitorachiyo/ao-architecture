@@ -33,7 +33,7 @@ published the signed, rehearsed v0.1.5 draft.
 ## Three-platform public canary
 
 Architecture run
-[`32540107166`](https://github.com/uesugitorachiyo/ao-architecture/actions/runs/32540107166)
+[`32540433860`](https://github.com/uesugitorachiyo/ao-architecture/actions/runs/32540433860)
 installed the seven pinned public releases on Linux x86_64, macOS arm64, and
 Windows x86_64. It ran 21 credential-free commands per platform, reconciled the
 same Mission identity through Atlas, Mission, and Command, and retained zero
@@ -43,9 +43,9 @@ All platforms produced canonical terminal-index digest
 
 Canary artifact SHA-256 values:
 
-- Linux: `cf6c7b0fd1d0514a79c173c0a0fbfabe0534e19383b7899f2b1c2e78a052bb36`
-- macOS: `aef15f4c420cdcab73e1016a745c6c65c0f6d2cc4af29aad4540957f2c17b044`
-- Windows: `e690b0eca615d2512498698ba6dd1e72649a532d115d19b0a9bbaed73336a127`
+- Linux: `35652deb5e14671c8e9838541f5e529cc1919430dfa18ed2b1159e0edf0e0995`
+- macOS: `1e77918269a20aa00a70688477fb10f117933137737caea417818f781666dfef`
+- Windows: `6ebb61dc243abddc9e91c58f2b9966b8e91effce40af0d531dbc0f82e9b9b6f3`
 
 AO Covenant v0.1.1 has no Darwin arm64 asset. The macOS arm64 canary therefore
 ran its Darwin amd64 binary through Rosetta 2; this is an explicit architecture
