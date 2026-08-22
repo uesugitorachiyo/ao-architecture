@@ -7,7 +7,7 @@
       "name": "ao-architecture",
       "path": "ao-architecture",
       "upstream_url": "https://github.com/uesugitorachiyo/ao-architecture.git",
-      "commit": "c0b6f745049bb10034d98946bad4c45174950c0b",
+      "commit": "ef421a4e22a1e5832d58acdca14b46862aa119a3",
       "branch_metadata": "main",
       "source_role": "architecture_truth",
       "gate_source": {
