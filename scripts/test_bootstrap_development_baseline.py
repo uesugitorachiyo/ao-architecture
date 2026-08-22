@@ -648,11 +648,12 @@ class CliAndWrapperTests(unittest.TestCase):
             root.mkdir()
             with self.assertRaisesRegex(bootstrap.BootstrapError, "outside"):
                 bootstrap.validate_result_path(root, root / "result.json", "verify-existing")
-            outside = Path(directory) / "result.json"
-            self.assertEqual(
-                bootstrap.validate_result_path(root, outside, "verify-existing"),
-                outside.resolve(strict=False),
+            outside = root.parent / "result.json"
+            validated_outside = bootstrap.validate_result_path(
+                root, outside, "verify-existing"
             )
+            self.assertEqual(outside.name, validated_outside.name)
+            self.assertTrue(os.path.samefile(root.parent, validated_outside.parent))
 
     def test_manifest_validation_precedes_root_mutation(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
