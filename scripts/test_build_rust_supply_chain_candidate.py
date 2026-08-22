@@ -28,7 +28,7 @@ class BuildRustSupplyChainCandidateTests(unittest.TestCase):
             '[[package]]\nname = "serde"\nversion = "1.0.0"\nsource = "registry+https://github.com/rust-lang/crates.io-index"\n'
             f'checksum = "{"b" * 64}"\n'
         )
-        (self.root / "Cargo.lock").write_text(lock, encoding="utf-8")
+        (self.root / "Cargo.lock").write_bytes(lock.encode("utf-8"))
         self.metadata = {
             "build_profile": "release",
             "cargo_lock_sha256": hashlib.sha256(lock.encode()).hexdigest(),

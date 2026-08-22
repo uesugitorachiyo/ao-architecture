@@ -535,7 +535,7 @@ def _identity_arguments(asset, binary):
     return (str(binary),) + suffixes[asset.component]
 
 
-def assemble_components(assets, download_root, bin_root, env, *, fetch):
+def assemble_components(assets, download_root, bin_root, env, *, fetch, execute=run_command):
     download_root = Path(download_root)
     bin_root = Path(bin_root)
     download_root.mkdir(parents=True, exist_ok=True)
@@ -550,7 +550,7 @@ def assemble_components(assets, download_root, bin_root, env, *, fetch):
             raise ValueError(f"download byte count mismatch: {asset.component}")
         verify_digest(archive, asset.sha256)
         binary = install_asset(asset, archive, bin_root)[0]
-        result = run_command(
+        result = execute(
             _identity_arguments(asset, binary), env=env, expected_exit={0}
         )
         verify_identity(asset, result)

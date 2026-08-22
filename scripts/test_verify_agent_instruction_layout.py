@@ -179,7 +179,12 @@ class AgentInstructionLayoutTests(unittest.TestCase):
     def test_rejects_symlinked_instruction_file(self) -> None:
         path = self.fixture.repo("ao-architecture") / "CLAUDE.md"
         path.unlink()
-        os.symlink("AGENTS.md", path)
+        try:
+            os.symlink("AGENTS.md", path)
+        except OSError as exc:
+            if os.name == "nt" and getattr(exc, "winerror", None) == 1314:
+                self.skipTest("Windows symlink privilege is unavailable")
+            raise
         self.assert_code("INSTRUCTION_SYMLINK")
 
     def test_rejects_empty_instruction_file(self) -> None:

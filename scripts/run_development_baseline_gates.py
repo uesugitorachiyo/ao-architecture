@@ -66,12 +66,13 @@ def resolve_gate_argv(
     script = argv[0]
     if Path(script).is_absolute() or ".." in Path(script).parts or not script.endswith(".sh"):
         raise GateError("POSIX gate script path is unsafe")
+    bash = which("bash")
     if current_os == "nt":
-        bash = which("bash")
         if bash is None or not re.search(r"[\\/]Git[\\/](?:bin|usr[\\/]bin)[\\/]bash\.exe$", bash, re.IGNORECASE):
             raise GateError("Git for Windows Bash is required")
-        return [bash, *argv]
-    return ["/bin/sh", *argv]
+    elif bash is None:
+        raise GateError("Bash is required for POSIX gate scripts")
+    return [bash, *argv]
 
 
 def select_gate(

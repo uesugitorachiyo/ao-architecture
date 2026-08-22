@@ -34,7 +34,7 @@ class VerifyRustSupplyChainPolicyTests(unittest.TestCase):
         marker = PREFIX + json.dumps(metadata, sort_keys=True, separators=(",", ":")).encode("ascii") + b"\x00"
         (self.root / "ao2").write_bytes(b"ELF\x00" + marker + b"tail")
         (self.root / "rust-binary-metadata.json").write_text(json.dumps(metadata), encoding="utf-8")
-        (self.root / "Cargo.lock").write_text(lock, encoding="utf-8")
+        (self.root / "Cargo.lock").write_bytes(lock.encode("utf-8"))
         (self.root / "LICENSE").write_text("license\n", encoding="utf-8")
         command = [
             sys.executable, str(BUILDER), "--workspace-root", str(self.root),

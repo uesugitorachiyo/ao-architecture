@@ -165,7 +165,10 @@ class CommandTests(unittest.TestCase):
                 expected_exit={0},
                 cwd=Path(directory),
             )
-        self.assertEqual(str(Path(directory).resolve()) + "\n", result.stdout)
+            self.assertTrue(
+                os.path.samefile(directory, result.stdout.strip()),
+                (directory, result.stdout),
+            )
 
     def test_identity_accepts_all_pinned_release_shapes(self):
         outputs = {
@@ -404,6 +407,21 @@ sys.stdout.write(outputs[name])
             destination.write_bytes(script)
             return len(script)
 
+        outputs = {
+            "ao2": "ao2 0.5.11\ntarget=macos-aarch64\ngit_commit=8307795b3434af920f6cef088e56ca8fcc76775b\n",
+            "ao2-cp-server": "ao2-cp-server 0.1.19\n",
+            "ao-mission": "ao-mission version=0.1.5 source_sha=5d4562578a4751d56910ef108b930fbb8dc91e7d\n",
+            "ao-atlas": "ao-atlas version=v0.2.1 source_sha=3603a2bb8af5adafcd9ff17b807ab89f32283d18\n",
+            "ao-command": json.dumps({"schema_version": "ao.command.version.v0.1", "version": "0.1.3", "source_commit": "ffef6d76306e892c3e7a7f39734433d5a832006a", "provider_calls": False}) + "\n",
+            "forge": "ao-forge version=0.1.5 source_sha=d1723769949269dcd0589916d83769dcb7275f98\n",
+            "covenant": json.dumps({"schema_version": "covenant.version-result.v1", "version": "v0.1.1", "commit": "2fd72a0426a747868826581612fa1dc9727b53b9", "date": "2026-08-05T07:05:07Z", "go_version": "go1.26.4", "os": "darwin", "arch": "amd64"}) + "\n",
+        }
+
+        def execute(argv, *, env, expected_exit):
+            binary = Path(argv[0])
+            self.assertEqual(script, binary.read_bytes())
+            return canary.CommandResult(tuple(argv), 0, outputs[binary.name], "", 0)
+
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             records, commands, binaries = canary.assemble_components(
@@ -412,6 +430,7 @@ sys.stdout.write(outputs[name])
                 root / "bin",
                 os.environ.copy(),
                 fetch=fetch,
+                execute=execute,
             )
         self.assertEqual(7, len(records))
         self.assertEqual(7, len(commands))

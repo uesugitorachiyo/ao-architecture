@@ -93,8 +93,9 @@ class GateRunnerTests(unittest.TestCase):
         macos_shell = gates.resolve_gate_argv(
             {"argv": ["scripts/check.sh"], "shell": "posix-script"},
             operating_system="posix",
+            which=lambda command: "/bin/bash" if command == "bash" else None,
         )
-        self.assertEqual(macos_shell, ["/bin/sh", "scripts/check.sh"])
+        self.assertEqual(macos_shell, ["/bin/bash", "scripts/check.sh"])
         with self.assertRaisesRegex(gates.GateError, "Git for Windows Bash"):
             gates.resolve_gate_argv(
                 {"argv": ["scripts/check.sh"], "shell": "posix-script"},
