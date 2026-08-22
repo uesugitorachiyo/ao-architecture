@@ -695,6 +695,8 @@ class WorkflowContractTests(unittest.TestCase):
         self.assertIn("cleanup_status", workflow)
         self.assertIn("needs: qualify", workflow)
         self.assertIn("actions/download-artifact@v4", workflow)
+        self.assertIn("actions/setup-go@v6", workflow)
+        self.assertIn("go-version: '1.26.x'", workflow)
         self.assertIn("rehash_development_baseline_results", workflow)
         lowered = workflow.lower()
         for forbidden in (
