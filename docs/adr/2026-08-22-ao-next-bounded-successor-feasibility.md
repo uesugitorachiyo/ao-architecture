@@ -28,6 +28,8 @@ Accept `ao-next` as an `active_hosted` experimental execution candidate. Authori
 
 AO Mission retains durable objective identity, read-only result import, continuation, checkpoints, and operator reconciliation. AO Next does not gain Mission-state, approval, promotion, provider, release, publication, deployment, migration, or production-routing authority.
 
+The authority inventory groups AO Next under the existing proposed `ao2` product boundary while keeping migration `not_started`. That grouping is not a succession verdict and does not displace AO2.
+
 The feasibility slice must stop after recording one of:
 
 - `ADVANCE_SUCCESSOR_ARCHITECTURE`;

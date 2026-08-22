@@ -13,6 +13,7 @@ DEFAULT_INVENTORY = ROOT / "stack" / "authority-inventory.json"
 EXPECTED_REPOSITORIES = {
     "ao-architecture",
     "ao-mission",
+    "ao-next",
     "ao-blueprint",
     "ao-atlas",
     "ao-foundry",
