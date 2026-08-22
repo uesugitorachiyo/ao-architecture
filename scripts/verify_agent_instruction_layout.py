@@ -34,6 +34,7 @@ EXPECTED_REPOSITORIES = {
     "ao-foundry",
     "ao-hardening-runner",
     "ao-mission",
+    "ao-next",
     "ao-operator",
     "ao-promoter",
     "ao-runtime",

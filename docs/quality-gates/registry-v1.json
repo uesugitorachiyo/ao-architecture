@@ -14,6 +14,7 @@
     {"repository":"ao-foundry","lifecycle":"active_hosted","manifest_path":"ao-quality-gates.json","adoption_status":"planned","command_owner":"ao-foundry"},
     {"repository":"ao-hardening-runner","lifecycle":"active_local_only","manifest_path":"ao-quality-gates.json","adoption_status":"planned","command_owner":"ao-hardening-runner"},
     {"repository":"ao-mission","lifecycle":"active_hosted","manifest_path":"ao-quality-gates.json","adoption_status":"planned","command_owner":"ao-mission"},
+    {"repository":"ao-next","lifecycle":"active_hosted","manifest_path":"ao-quality-gates.json","adoption_status":"planned","command_owner":"ao-next"},
     {"repository":"ao-promoter","lifecycle":"active_hosted","manifest_path":"ao-quality-gates.json","adoption_status":"planned","command_owner":"ao-promoter"},
     {"repository":"ao-sentinel","lifecycle":"active_hosted","manifest_path":"ao-quality-gates.json","adoption_status":"planned","command_owner":"ao-sentinel"},
     {"repository":"ao-stack-evaluation","lifecycle":"active_local_only","manifest_path":"ao-quality-gates.json","adoption_status":"planned","command_owner":"ao-stack-evaluation"},

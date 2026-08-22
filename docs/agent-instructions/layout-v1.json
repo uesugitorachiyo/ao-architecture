@@ -139,6 +139,16 @@
     },
     {
       "allowed_nested_scopes": [],
+      "lifecycle": "active_hosted",
+      "name": "ao-next",
+      "remote": "hosted",
+      "required_root_files": [
+        "AGENTS.md",
+        "CLAUDE.md"
+      ]
+    },
+    {
+      "allowed_nested_scopes": [],
       "exclusion_reason": "Deprecated AO Operator legacy repository outside the maintained AO Stack; excluded from this instruction rollout.",
       "expected_head": "b65de9304681c18f504900c6cfc3f98ed2a83403",
       "lifecycle": "excluded_legacy_hosted",
