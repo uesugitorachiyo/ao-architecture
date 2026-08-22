@@ -36,7 +36,7 @@ AO Architecture is the public documentation, topology, contract-map, and claim-b
 - Instruction layout: `python3 -m unittest scripts.test_verify_agent_instruction_layout`, then `python3 scripts/verify_agent_instruction_layout.py --workspace-root .. --repository ao-architecture`.
 - Architecture or public-documentation changes: `python3 scripts/verify_architecture.py`.
 - Contract/schema changes: run the matching `scripts/verify_*.py` and `scripts/test_verify_*.py` pair, then the architecture verifier.
-- Development-baseline changes: `python3 scripts/test_verify_development_baseline.py`, then `python3 scripts/verify_development_baseline.py --manifest stack/development-baseline-manifest.json --controller-commit <exact-architecture-commit>`.
+- Development-baseline changes: `python3 scripts/test_verify_development_baseline.py`, `python3 scripts/test_bootstrap_development_baseline.py`, `powershell.exe -NoProfile -NonInteractive -Command "[void][scriptblock]::Create((Get-Content -Raw scripts/bootstrap-development-baseline.ps1))"`, then `python3 scripts/verify_development_baseline.py --manifest stack/development-baseline-manifest.json --controller-commit <exact-architecture-commit>`.
 - Quality-gate changes: `python3 -m unittest scripts.test_verify_quality_gate_registry`, then `python3 scripts/verify_quality_gate_registry.py --workspace-root .. --repository ao-architecture --repository-root .`.
 - Always run `git diff --check`. Report any skipped, failed, network-dependent, or unavailable check explicitly.
 

@@ -2,8 +2,10 @@
 
 The stable development baseline is a frozen, public-safe input for reproducing
 AO development checks on Windows, macOS, and Linux. It records identities and
-constraints; it does not clone repositories, install tools, execute gates, or
-grant operational authority.
+constraints. The S02 bootstrap may clone the declared repositories and download
+the declared native runtime assets into an operator-selected empty root; it
+does not install system tools, execute repository gates, or grant operational
+authority.
 
 ## Contract Files
 
@@ -67,6 +69,38 @@ Use a lowercase forty-character commit for
 verification prints the controller commit, canonical baseline identity, exact
 repository and release counts, and `errors=0`. Errors are sorted, written to
 standard error, and cause a nonzero exit without modifying files.
+
+## Native Bootstrap
+
+The standard-library controller has two explicit modes. `materialize` requires
+an absent or empty run-owned root, validates all S01 inputs before creating it,
+checks out the fourteen repositories at detached exact commits, downloads and
+hashes the seven native runtime assets, and retains capability evidence under
+`.ao-baseline`. `verify-existing` requires that exact retained root, performs
+read-only identity and hash checks, and writes its new result outside the root.
+
+On Windows, invoke the PowerShell 5.1-compatible wrapper:
+
+```powershell
+$BaselineRoot = Join-Path $env:TEMP "ao baseline"
+$MaterializeResult = Join-Path $env:TEMP "ao-materialize-result.json"
+$VerifyResult = Join-Path $env:TEMP "ao-verify-result.json"
+scripts/bootstrap-development-baseline.ps1 --mode materialize --manifest stack/development-baseline-manifest.json --schema docs/contracts/development-baseline-manifest-v1.schema.json --release-manifest stack/current-release-manifest.json --controller-commit (git rev-parse HEAD) --root $BaselineRoot --result $MaterializeResult
+scripts/bootstrap-development-baseline.ps1 --mode verify-existing --manifest stack/development-baseline-manifest.json --schema docs/contracts/development-baseline-manifest-v1.schema.json --release-manifest stack/current-release-manifest.json --controller-commit (git rev-parse HEAD) --root $BaselineRoot --result $VerifyResult
+```
+
+On macOS or Linux, invoke the POSIX wrapper with the same arguments:
+
+```sh
+scripts/bootstrap-development-baseline.sh --mode materialize --manifest stack/development-baseline-manifest.json --schema docs/contracts/development-baseline-manifest-v1.schema.json --release-manifest stack/current-release-manifest.json --controller-commit "$(git rev-parse HEAD)" --root '/path/with spaces/baseline' --result '/path/with spaces/materialize-result.json'
+scripts/bootstrap-development-baseline.sh --mode verify-existing --manifest stack/development-baseline-manifest.json --schema docs/contracts/development-baseline-manifest-v1.schema.json --release-manifest stack/current-release-manifest.json --controller-commit "$(git rev-parse HEAD)" --root '/path/with spaces/baseline' --result '/path/with spaces/verify-result.json'
+```
+
+The deterministic result binds the controller commit, baseline identity,
+platform, architecture, exact repository commits, asset hashes, toolchain
+probes, retained filesystem capabilities, and all-false authority. Partial
+materialization is deliberately preserved on failure for diagnosis; reuse is
+not allowed, so retry with a new empty root.
 
 ## Authority Boundary
 

@@ -594,5 +594,70 @@ class PreflightAndEvidenceTests(unittest.TestCase):
             self.assertRegex(summary["stderr_sha256"], r"^[0-9a-f]{64}$")
 
 
+class CliAndWrapperTests(unittest.TestCase):
+    def test_cli_requires_every_explicit_input_and_rejects_modes_and_commits(self) -> None:
+        parser = bootstrap.argument_parser()
+        with self.assertRaises(SystemExit):
+            parser.parse_args([])
+        with self.assertRaises(SystemExit):
+            parser.parse_args([
+                "--mode", "unsafe", "--manifest", "m", "--schema", "s",
+                "--release-manifest", "r", "--controller-commit", "a" * 40,
+                "--root", "root", "--result", "result",
+            ])
+        with self.assertRaisesRegex(bootstrap.BootstrapError, "controller commit"):
+            bootstrap.validate_cli_commit("A" * 40)
+
+    def test_verify_result_must_be_outside_root(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "workspace"
+            root.mkdir()
+            with self.assertRaisesRegex(bootstrap.BootstrapError, "outside"):
+                bootstrap.validate_result_path(root, root / "result.json", "verify-existing")
+            outside = Path(directory) / "result.json"
+            self.assertEqual(
+                bootstrap.validate_result_path(root, outside, "verify-existing"),
+                outside.resolve(strict=False),
+            )
+
+    def test_manifest_validation_precedes_root_mutation(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "must-not-exist"
+            with self.assertRaisesRegex(bootstrap.BootstrapError, "manifest invalid"):
+                bootstrap.run_bootstrap(
+                    mode="materialize",
+                    manifest={},
+                    schema={},
+                    release_manifest={},
+                    release_path=Path(directory) / "release.json",
+                    controller_commit="a" * 40,
+                    root=root,
+                    result=Path(directory) / "result.json",
+                    validator=lambda *_args: ["manifest invalid"],
+                )
+            self.assertFalse(root.exists())
+
+    def test_success_lines_are_public_safe_and_count_bound(self) -> None:
+        lines = bootstrap.success_lines(
+            "sha256:" + "a" * 64,
+            "sha256:" + "b" * 64,
+            14,
+            7,
+        )
+        self.assertEqual(lines[-1], "errors=0")
+        self.assertIn("repositories=14", lines)
+        self.assertIn("runtime_releases=7", lines)
+        self.assertNotIn(str(Path.cwd()), "\n".join(lines))
+
+    def test_wrappers_forward_argv_without_command_string_evaluation(self) -> None:
+        scripts = Path(__file__).resolve().parent
+        powershell = (scripts / "bootstrap-development-baseline.ps1").read_text(encoding="utf-8")
+        shell = (scripts / "bootstrap-development-baseline.sh").read_text(encoding="utf-8")
+        self.assertIn("@BootstrapArgs", powershell)
+        self.assertNotIn("Invoke-Expression", powershell)
+        self.assertIn('"$@"', shell)
+        self.assertNotIn("eval", shell)
+
+
 if __name__ == "__main__":
     unittest.main()

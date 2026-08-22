@@ -3,6 +3,8 @@
 
 from __future__ import annotations
 
+import argparse
+import importlib.util
 import json
 import hashlib
 import os
@@ -13,6 +15,7 @@ import re
 import stat
 import subprocess
 import shutil
+import sys
 import tarfile
 import tempfile
 from typing import Any, Iterable, NamedTuple, Sequence
@@ -925,3 +928,253 @@ def build_bootstrap_result(
         "capabilities": dict(capabilities),
         "authority": dict(AUTHORITY),
     }
+
+
+def validate_cli_commit(value: str) -> str:
+    if not re.fullmatch(r"[0-9a-f]{40}", value):
+        raise BootstrapError("controller commit must be lowercase 40-character hex")
+    return value
+
+
+def validate_result_path(
+    root: str | Path, result: str | Path, mode: str
+) -> Path:
+    if mode not in {"materialize", "verify-existing"}:
+        raise BootstrapError("mode must be materialize or verify-existing")
+    workspace = _absolute_without_resolving(root)
+    target = _absolute_without_resolving(result)
+    _require_no_link_ancestors(target.parent)
+    try:
+        within_root = os.path.commonpath((os.fspath(workspace), os.fspath(target))) == os.fspath(
+            workspace
+        )
+    except ValueError:
+        within_root = False
+    if within_root:
+        raise BootstrapError("result must be outside the materialization root")
+    if target.exists() or is_link_or_reparse(target):
+        raise BootstrapError("result already exists")
+    return target.resolve(strict=False)
+
+
+def _load_s01_verifier() -> Any:
+    path = Path(__file__).resolve().with_name("verify_development_baseline.py")
+    spec = importlib.util.spec_from_file_location("ao_development_baseline_verifier", path)
+    if spec is None or spec.loader is None:
+        raise BootstrapError("cannot load development baseline verifier")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def validate_s01_inputs(
+    manifest: Any,
+    schema: Any,
+    release_manifest: Any,
+    release_path: str | Path,
+) -> list[str]:
+    verifier = _load_s01_verifier()
+    errors = verifier.validate_schema_contract(schema)
+    errors.extend(verifier.validate_manifest(manifest, release_manifest, release_path))
+    return sorted(set(errors))
+
+
+def repository_specs(manifest: dict[str, Any]) -> list[RepositorySpec]:
+    return [
+        RepositorySpec(
+            item["name"], item["path"], item["upstream_url"], item["commit"]
+        )
+        for item in manifest["repositories"]
+    ]
+
+
+def _sha256_regular_file(path: Path) -> tuple[str, int]:
+    if is_link_or_reparse(path) or not path.is_file():
+        raise BootstrapError("runtime asset must be a regular non-link file")
+    digest = hashlib.sha256()
+    total = 0
+    with path.open("rb") as source:
+        while True:
+            chunk = source.read(1024 * 1024)
+            if not chunk:
+                break
+            total += len(chunk)
+            if total > MAX_ASSET_BYTES:
+                raise BootstrapError(f"runtime asset exceeds {MAX_ASSET_BYTES} bytes")
+            digest.update(chunk)
+    return digest.hexdigest(), total
+
+
+def verify_runtime_assets(
+    root: str | Path,
+    releases: Sequence[dict[str, Any]],
+    platform_name: str,
+) -> list[dict[str, Any]]:
+    workspace = validate_materialization_root(root, "verify-existing")
+    evidence_root = contained_child(workspace, ".ao-baseline")
+    assets_root = contained_child(evidence_root, "assets")
+    runtime_root = contained_child(evidence_root, "runtime")
+    if any(
+        is_link_or_reparse(path) or not path.is_dir()
+        for path in (evidence_root, assets_root, runtime_root)
+    ):
+        raise BootstrapError("retained runtime evidence is missing or unsafe")
+    selected = select_runtime_assets(releases, platform_name)
+    expected = {asset.repository for asset in selected}
+    for parent in (assets_root, runtime_root):
+        actual = {entry.name for entry in parent.iterdir()}
+        require_unique_casefold(actual)
+        if actual != expected:
+            raise BootstrapError("retained runtime sibling set mismatch")
+    records: list[dict[str, Any]] = []
+    for asset in selected:
+        asset_directory = contained_child(assets_root, asset.repository)
+        runtime_directory = contained_child(runtime_root, asset.repository)
+        archive_path = contained_child(asset_directory, asset.name)
+        if is_link_or_reparse(asset_directory) or {entry.name for entry in asset_directory.iterdir()} != {
+            asset.name
+        }:
+            raise BootstrapError(f"retained runtime asset set mismatch: {asset.repository}")
+        if is_link_or_reparse(runtime_directory) or not runtime_directory.is_dir():
+            raise BootstrapError(f"retained runtime install is unsafe: {asset.repository}")
+        actual, total = _sha256_regular_file(archive_path)
+        if actual != asset.sha256:
+            raise BootstrapError(f"retained runtime asset digest mismatch: {asset.repository}")
+        records.append(
+            {
+                "repository": asset.repository,
+                "platform": asset.platform,
+                "architecture": asset.architecture,
+                "name": asset.name,
+                "expected_sha256": asset.sha256,
+                "actual_sha256": actual,
+                "bytes": total,
+                "install_format": "retained",
+            }
+        )
+    return records
+
+
+def success_lines(
+    result_digest: str,
+    baseline_identity: str,
+    repository_count: int,
+    runtime_count: int,
+) -> list[str]:
+    return [
+        f"result_digest={result_digest}",
+        f"baseline_identity={baseline_identity}",
+        f"repositories={repository_count}",
+        f"runtime_releases={runtime_count}",
+        "errors=0",
+    ]
+
+
+def run_bootstrap(
+    *,
+    mode: str,
+    manifest: Any,
+    schema: Any,
+    release_manifest: Any,
+    release_path: str | Path,
+    controller_commit: str,
+    root: str | Path,
+    result: str | Path,
+    validator=validate_s01_inputs,
+    runner: CommandRunner | None = None,
+    opener=urlopen,
+) -> tuple[dict[str, Any], str]:
+    validate_cli_commit(controller_commit)
+    errors = sorted(set(validator(manifest, schema, release_manifest, release_path)))
+    if errors:
+        raise BootstrapError("; ".join(errors))
+    if not isinstance(manifest, dict):
+        raise BootstrapError("manifest must be an object")
+    output = validate_result_path(root, result, mode)
+    workspace = validate_materialization_root(root, mode)
+    command_runner = runner or CommandRunner()
+    specs = repository_specs(manifest)
+    baseline_identity = "sha256:" + hashlib.sha256(canonical_bytes(manifest)).hexdigest()
+
+    if mode == "materialize":
+        repositories = materialize_repositories(workspace, specs, command_runner)
+        evidence_root = contained_child(workspace, ".ao-baseline")
+        evidence_root.mkdir(exist_ok=False)
+        runtime_assets = materialize_runtime_assets(
+            workspace, manifest["runtime_releases"], native_platform(), opener=opener
+        )
+        capabilities = probe_materialize_capabilities(evidence_root)
+        write_json_exclusive(
+            contained_child(evidence_root, "preflight-capabilities.json"), capabilities
+        )
+    else:
+        repositories = verify_repositories(workspace, specs, command_runner)
+        runtime_assets = verify_runtime_assets(
+            workspace, manifest["runtime_releases"], native_platform()
+        )
+        capabilities = load_retained_capabilities(
+            contained_child(contained_child(workspace, ".ao-baseline"), "preflight-capabilities.json")
+        )
+
+    toolchains = probe_toolchains(manifest["toolchains"], command_runner, workspace)
+    document = build_bootstrap_result(
+        mode=mode,
+        correlation_id="ao-cross-platform-development-baseline-20260822-r2",
+        controller_commit=controller_commit,
+        baseline_identity=baseline_identity,
+        repositories=repositories,
+        runtime_assets=runtime_assets,
+        toolchains=toolchains,
+        capabilities=capabilities,
+        status="pass",
+    )
+    digest = write_json_exclusive(output, document)
+    return document, digest
+
+
+def argument_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        description="Materialize or read-only verify the frozen AO development baseline."
+    )
+    parser.add_argument("--mode", required=True, choices=("materialize", "verify-existing"))
+    parser.add_argument("--manifest", required=True, type=Path)
+    parser.add_argument("--schema", required=True, type=Path)
+    parser.add_argument("--release-manifest", required=True, type=Path)
+    parser.add_argument("--controller-commit", required=True)
+    parser.add_argument("--root", required=True, type=Path)
+    parser.add_argument("--result", required=True, type=Path)
+    return parser
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = argument_parser().parse_args(argv)
+    try:
+        validate_cli_commit(args.controller_commit)
+        manifest = load_json_file(args.manifest, 1024 * 1024)
+        schema = load_json_file(args.schema, 256 * 1024)
+        release_manifest = load_json_file(args.release_manifest, 1024 * 1024)
+        document, digest = run_bootstrap(
+            mode=args.mode,
+            manifest=manifest,
+            schema=schema,
+            release_manifest=release_manifest,
+            release_path=args.release_manifest,
+            controller_commit=args.controller_commit,
+            root=args.root,
+            result=args.result,
+        )
+    except BootstrapError as exc:
+        print(f"error={exc}", file=sys.stderr)
+        return 1
+    for line in success_lines(
+        digest,
+        document["baseline_identity"],
+        len(document["repositories"]),
+        len(document["runtime_assets"]),
+    ):
+        print(line)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
