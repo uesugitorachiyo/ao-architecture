@@ -16,6 +16,7 @@ import unittest
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from verify_development_baseline import (  # noqa: E402
+    EXPECTED_DEVELOPMENT_GATES,
     InputError,
     STABLE_REPOSITORIES,
     canonical_bytes,
@@ -23,6 +24,7 @@ from verify_development_baseline import (  # noqa: E402
     load_json_file,
     sha256_file,
     validate_manifest,
+    validate_development_gates,
     validate_repository_profile,
 )
 
@@ -108,6 +110,7 @@ def valid_repositories() -> list[dict[str, object]]:
                 "branch_metadata": "main",
                 "source_role": role,
                 "gate_source": gate_source,
+                "development_gates": copy.deepcopy(EXPECTED_DEVELOPMENT_GATES[name]),
             }
         )
     return repositories
@@ -217,6 +220,35 @@ class RepositoryProfileTests(unittest.TestCase):
         repositories[0]["gate_source"]["gate_refs"] = ["../README.md"]
         self.assert_profile_error("ao-architecture invalid gate ref: ../README.md", repositories)
 
+    def test_development_gate_contract_is_closed_and_fail_closed(self) -> None:
+        gate = {
+            "id": "unit-tests",
+            "argv": ["go", "test", "./..."],
+            "timeout_seconds": 300,
+            "shell": "direct",
+            "required": True,
+            "environment": {},
+        }
+        self.assertEqual(validate_development_gates("fixture", [gate]), [])
+        duplicate = [copy.deepcopy(gate), copy.deepcopy(gate)]
+        self.assertIn("fixture duplicate development gate: unit-tests", validate_development_gates("fixture", duplicate))
+        cases = (
+            (lambda item: item.update(argv="go test ./..."), "argv is invalid"),
+            (lambda item: item.update(shell="powershell-string"), "shell is invalid"),
+            (lambda item: item.update(timeout_seconds=0), "timeout is invalid"),
+            (lambda item: item.update(required=False), "must be required"),
+            (lambda item: item.update(environment={"TOKEN": "value"}), "environment is unsafe"),
+            (lambda item: item.update(argv=["gh", "release", "create"]), "authority-bearing argv"),
+            (lambda item: item.update(skip="windows"), "unknown property: skip"),
+        )
+        for mutate, expected in cases:
+            candidate = copy.deepcopy(gate)
+            mutate(candidate)
+            self.assertTrue(
+                any(expected in error for error in validate_development_gates("fixture", [candidate])),
+                expected,
+            )
+
     def test_schema_closes_all_contract_objects(self) -> None:
         schema_path = Path(__file__).resolve().parents[1] / "docs" / "contracts" / "development-baseline-manifest-v1.schema.json"
         schema = load_json_file(schema_path, 256 * 1024)
@@ -224,6 +256,7 @@ class RepositoryProfileTests(unittest.TestCase):
         for name in (
             "repository",
             "gateSource",
+            "developmentGate",
             "releaseInput",
             "runtimeRelease",
             "toolchain",

@@ -94,7 +94,8 @@
         "commit",
         "branch_metadata",
         "source_role",
-        "gate_source"
+        "gate_source",
+        "development_gates"
       ],
       "properties": {
         "name": {
@@ -122,6 +123,64 @@
         },
         "gate_source": {
           "$ref": "#/$defs/gateSource"
+        },
+        "development_gates": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/developmentGate"
+          }
+        }
+      }
+    },
+    "developmentGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "argv",
+        "timeout_seconds",
+        "shell",
+        "required",
+        "environment",
+        "success_stdout"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+        },
+        "argv": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          }
+        },
+        "timeout_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3600
+        },
+        "shell": {
+          "enum": ["direct", "posix-script"]
+        },
+        "required": {
+          "const": true
+        },
+        "environment": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "CGO_ENABLED": {
+              "const": "0"
+            }
+          }
+        },
+        "success_stdout": {
+          "enum": ["any", "empty"]
         }
       }
     },

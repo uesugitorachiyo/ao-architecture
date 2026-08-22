@@ -63,6 +63,117 @@ EXPECTED_GATE_SOURCES = {
     "ao-promoter": ("AGENTS.md", "2136efca3d324b5ff748b530c59b4c4bccedbf0c063763544d4d2adcdb4d7c9d", ("1", "2", "3")),
 }
 
+
+def _gate(
+    identifier: str,
+    argv: list[str],
+    timeout: int,
+    *,
+    shell: str = "direct",
+    environment: dict[str, str] | None = None,
+    success_stdout: str = "any",
+) -> dict[str, Any]:
+    return {
+        "id": identifier,
+        "argv": argv,
+        "timeout_seconds": timeout,
+        "shell": shell,
+        "required": True,
+        "environment": environment or {},
+        "success_stdout": success_stdout,
+    }
+
+
+EXPECTED_DEVELOPMENT_GATES = {
+    "ao-architecture": [
+        _gate("architecture-verifier", ["python3", "scripts/verify_architecture.py"], 300),
+        _gate("python-regressions", ["python3", "-m", "unittest", "discover", "-s", "scripts", "-p", "test_*.py"], 1500),
+    ],
+    "ao-mission": [
+        _gate("gofmt", ["gofmt", "-d", "cmd", "internal"], 300, success_stdout="empty"),
+        _gate("go-tests", ["go", "test", "./...", "-count=1"], 1800),
+        _gate("go-vet", ["go", "vet", "./..."], 600),
+        _gate("go-build", ["go", "build", "./cmd/ao-mission"], 600),
+        _gate("production-readiness", ["scripts/production-readiness.sh"], 2400, shell="posix-script"),
+        _gate("diff-check", ["git", "diff", "--check"], 120),
+    ],
+    "ao-blueprint": [
+        _gate("production-readiness", ["scripts/production-readiness.sh"], 1800, shell="posix-script"),
+    ],
+    "ao-atlas": [
+        _gate("go-tests", ["go", "test", "./...", "-count=1"], 1200),
+        _gate("go-vet", ["go", "vet", "./..."], 300),
+        _gate("go-build", ["go", "build", "-o", "target/quality-gates/atlas", "./cmd/atlas"], 300),
+    ],
+    "ao-foundry": [
+        _gate("gofmt", ["gofmt", "-d", "cmd", "internal"], 300, success_stdout="empty"),
+        _gate("go-tests", ["go", "test", "./...", "-count=1"], 1200),
+        _gate("go-vet", ["go", "vet", "./..."], 300),
+        _gate("build-foundry", ["go", "build", "-o", "bin/foundry", "./cmd/foundry"], 300),
+        _gate("build-ao", ["go", "build", "-o", "bin/ao", "./cmd/ao"], 300),
+        _gate("diff-check", ["git", "diff", "--check"], 120),
+    ],
+    "ao-forge": [
+        _gate("gofmt", ["gofmt", "-d", "cmd", "internal"], 300, success_stdout="empty"),
+        _gate("go-tests", ["go", "test", "./...", "-count=1"], 1200),
+        _gate("go-vet", ["go", "vet", "./..."], 300),
+        _gate("go-build", ["go", "build", "-o", "bin/forge", "./cmd/forge"], 300),
+        _gate("diff-check", ["git", "diff", "--check"], 120),
+    ],
+    "ao-covenant": [
+        _gate("gofmt", ["gofmt", "-d", "cmd", "internal", "schemas"], 300, success_stdout="empty"),
+        _gate("go-tests", ["go", "test", "./...", "-count=1"], 1200),
+        _gate("go-vet", ["go", "vet", "./..."], 300),
+        _gate("go-build", ["go", "build", "-o", "bin/covenant", "./cmd/covenant"], 300, environment={"CGO_ENABLED": "0"}),
+        _gate("license-policy", ["scripts/check-license-policy.sh"], 300, shell="posix-script"),
+        _gate("public-policy", ["scripts/check-public-repo-policy.sh"], 300, shell="posix-script"),
+        _gate("diff-check", ["git", "diff", "--check"], 120),
+    ],
+    "ao2": [
+        _gate("workspace-verification", ["npm", "run", "verify"], 2340),
+        _gate("rust-architecture", ["python3", "scripts/check-rust-architecture.py"], 60),
+    ],
+    "ao2-control-plane": [
+        _gate("cargo-fmt", ["cargo", "fmt", "--all", "--", "--check"], 300),
+        _gate("workspace-tests", ["python3", "scripts/run-workspace-tests.py"], 2400),
+        _gate("cargo-clippy", ["cargo", "clippy", "--workspace", "--all-targets", "--", "-D", "warnings"], 1800),
+        _gate("diff-check", ["git", "diff", "--check"], 120),
+    ],
+    "ao-command": [
+        _gate("gofmt", ["gofmt", "-d", "cmd", "internal"], 300, success_stdout="empty"),
+        _gate("go-tests", ["go", "test", "./...", "-count=1"], 1200),
+        _gate("go-vet", ["go", "vet", "./..."], 300),
+        _gate("go-build", ["go", "build", "-o", "bin/ao-command", "./cmd/ao-command"], 300),
+        _gate("diff-check", ["git", "diff", "--check"], 120),
+    ],
+    "ao-arena": [
+        _gate("go-tests", ["go", "test", "./...", "-count=1"], 600),
+        _gate("go-vet", ["go", "vet", "./..."], 180),
+        _gate("go-build", ["go", "build", "-o", "tmp/quality-gates/arena", "./cmd/arena"], 120),
+    ],
+    "ao-crucible": [
+        _gate("gofmt", ["gofmt", "-d", "cmd", "internal"], 300, success_stdout="empty"),
+        _gate("go-tests", ["go", "test", "./...", "-count=1"], 1200),
+        _gate("go-vet", ["go", "vet", "./..."], 300),
+        _gate("go-build", ["go", "build", "-o", "tmp/bin/crucible", "./cmd/crucible"], 300),
+        _gate("diff-check", ["git", "diff", "--check"], 120),
+    ],
+    "ao-sentinel": [
+        _gate("gofmt", ["gofmt", "-d", "cmd", "internal"], 300, success_stdout="empty"),
+        _gate("go-tests", ["go", "test", "./...", "-count=1"], 1200),
+        _gate("go-vet", ["go", "vet", "./..."], 300),
+        _gate("go-build", ["go", "build", "-o", "tmp/bin/sentinel", "./cmd/sentinel"], 300),
+        _gate("diff-check", ["git", "diff", "--check"], 120),
+    ],
+    "ao-promoter": [
+        _gate("gofmt", ["gofmt", "-d", "cmd", "internal"], 300, success_stdout="empty"),
+        _gate("go-tests", ["go", "test", "./...", "-count=1"], 1200),
+        _gate("go-vet", ["go", "vet", "./..."], 300),
+        _gate("go-build", ["go", "build", "-o", "tmp/bin/promoter", "./cmd/promoter"], 300),
+        _gate("diff-check", ["git", "diff", "--check"], 120),
+    ],
+}
+
 REPOSITORY_KEYS = {
     "name",
     "path",
@@ -71,6 +182,7 @@ REPOSITORY_KEYS = {
     "branch_metadata",
     "source_role",
     "gate_source",
+    "development_gates",
 }
 GATE_SOURCE_KEYS = {"path", "sha256", "gate_refs"}
 COMMIT_PATTERN = re.compile(r"^[0-9a-f]{40}$")
@@ -168,6 +280,20 @@ AUTHORITY_KEYS = {
     "rsi",
 }
 
+DEVELOPMENT_GATE_KEYS = {
+    "id",
+    "argv",
+    "timeout_seconds",
+    "shell",
+    "required",
+    "environment",
+    "success_stdout",
+}
+GATE_AUTHORITY_TERMS = re.compile(
+    r"(^|[-_/])(release|publish|deploy|promote|provider|credential|token|rsi|live)([-_/]|$)",
+    re.IGNORECASE,
+)
+
 
 class InputError(ValueError):
     """Raised when a verifier input cannot be consumed safely."""
@@ -232,6 +358,7 @@ def validate_schema_contract(schema: Any) -> list[str]:
         "commit",
         "repository",
         "gateSource",
+        "developmentGate",
         "releaseInput",
         "asset",
         "runtimeRelease",
@@ -281,6 +408,59 @@ def _gate_refs(path: str, identifiers: tuple[str, ...]) -> list[str]:
     if path == "ao-quality-gates.json":
         return [f"{path}#levels.full.steps.{identifier}" for identifier in identifiers]
     return [f"AGENTS.md#Verification:{identifier}" for identifier in identifiers]
+
+
+def validate_development_gates(repository: str, gates: Any) -> list[str]:
+    errors: list[str] = []
+    if not isinstance(gates, list) or not gates:
+        return [f"{repository} development gates must be a non-empty array"]
+    seen: set[str] = set()
+    for index, gate in enumerate(gates):
+        label = f"{repository} development_gates[{index}]"
+        if not isinstance(gate, dict):
+            errors.append(f"{label} must be an object")
+            continue
+        identifier = gate.get("id")
+        gate_label = (
+            f"{repository} development gate {identifier}"
+            if isinstance(identifier, str) and identifier
+            else label
+        )
+        for unknown in sorted(set(gate) - DEVELOPMENT_GATE_KEYS):
+            errors.append(f"{gate_label} unknown property: {unknown}")
+        if not isinstance(identifier, str) or not re.fullmatch(r"[a-z0-9][a-z0-9-]{0,63}", identifier):
+            errors.append(f"{label} id is invalid")
+        elif identifier in seen:
+            errors.append(f"{repository} duplicate development gate: {identifier}")
+        else:
+            seen.add(identifier)
+        argv = gate.get("argv")
+        if not isinstance(argv, list) or not argv or not all(
+            isinstance(argument, str) and argument and len(argument) <= 256
+            for argument in argv
+        ):
+            errors.append(f"{gate_label} argv is invalid")
+        else:
+            if any(re.search(r"[;&|><`$()\r\n]", argument) for argument in argv):
+                errors.append(f"{gate_label} argv contains shell metacharacters")
+            if any(GATE_AUTHORITY_TERMS.search(argument) for argument in argv):
+                errors.append(f"{gate_label} contains authority-bearing argv")
+        timeout = gate.get("timeout_seconds")
+        if not isinstance(timeout, int) or isinstance(timeout, bool) or not 1 <= timeout <= 3600:
+            errors.append(f"{gate_label} timeout is invalid")
+        if gate.get("shell") not in {"direct", "posix-script"}:
+            errors.append(f"{gate_label} shell is invalid")
+        if gate.get("required") is not True:
+            errors.append(f"{gate_label} must be required")
+        environment = gate.get("environment")
+        if not isinstance(environment, dict) or any(
+            key != "CGO_ENABLED" or value != "0"
+            for key, value in environment.items()
+        ):
+            errors.append(f"{gate_label} environment is unsafe")
+        if gate.get("success_stdout", "any") not in {"any", "empty"}:
+            errors.append(f"{gate_label} success stdout policy is invalid")
+    return sorted(set(errors))
 
 
 def validate_repository_profile(repositories: Any) -> list[str]:
@@ -363,6 +543,10 @@ def validate_repository_profile(repositories: Any) -> list[str]:
                 for ref in refs
             ):
                 errors.append(f"{name} gate refs drift")
+        development_gates = repository.get("development_gates")
+        errors.extend(validate_development_gates(name, development_gates))
+        if development_gates != EXPECTED_DEVELOPMENT_GATES[name]:
+            errors.append(f"{name} development gate inventory drift")
     return sorted(set(errors))
 
 
