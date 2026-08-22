@@ -81,22 +81,25 @@ class JSONInputTests(unittest.TestCase):
 class RootSafetyTests(unittest.TestCase):
     def test_materialize_accepts_absent_or_empty_root(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
-            parent = Path(directory)
+            parent = Path(directory).resolve()
             absent = parent / "AO Baseline With Spaces"
-            self.assertEqual(
-                bootstrap.validate_materialization_root(absent, "materialize"),
-                absent.resolve(strict=False),
+            validated_absent = bootstrap.validate_materialization_root(
+                absent, "materialize"
             )
+            self.assertEqual(absent.name, validated_absent.name)
+            self.assertTrue(os.path.samefile(parent, validated_absent.parent))
             empty = parent / "empty"
             empty.mkdir()
-            self.assertEqual(
-                bootstrap.validate_materialization_root(empty, "materialize"),
-                empty.resolve(strict=True),
+            self.assertTrue(
+                os.path.samefile(
+                    empty,
+                    bootstrap.validate_materialization_root(empty, "materialize"),
+                )
             )
 
     def test_materialize_rejects_nonempty_root(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
-            root = Path(directory) / "root"
+            root = Path(directory).resolve() / "root"
             root.mkdir()
             (root / "existing.txt").write_text("do not overwrite", encoding="utf-8")
             with self.assertRaisesRegex(bootstrap.BootstrapError, "materialize root must be empty"):
@@ -104,7 +107,7 @@ class RootSafetyTests(unittest.TestCase):
 
     def test_verify_existing_requires_regular_existing_root(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
-            parent = Path(directory)
+            parent = Path(directory).resolve()
             missing = parent / "missing"
             with self.assertRaisesRegex(bootstrap.BootstrapError, "verify-existing root must exist"):
                 bootstrap.validate_materialization_root(missing, "verify-existing")
@@ -122,7 +125,7 @@ class RootSafetyTests(unittest.TestCase):
 
     def test_rejects_symlink_root_and_ancestor_when_supported(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
-            parent = Path(directory)
+            parent = Path(directory).resolve()
             real = parent / "real"
             real.mkdir()
             link = parent / "link"
@@ -211,7 +214,7 @@ class RepositoryMaterializationTests(unittest.TestCase):
 
     def test_materializes_and_verifies_exact_detached_clean_repository(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
-            parent = Path(directory)
+            parent = Path(directory).resolve()
             spec, root, runner, records = self.materialize_one(parent)
             checkout = root / spec.path
             self.assertEqual(self.git("rev-parse", "HEAD", cwd=checkout).stdout.strip(), spec.commit)
@@ -245,7 +248,7 @@ class RepositoryMaterializationTests(unittest.TestCase):
         }
         for name, mutate in cases.items():
             with self.subTest(name=name), tempfile.TemporaryDirectory() as directory:
-                spec, root, runner, _ = self.materialize_one(Path(directory))
+                spec, root, runner, _ = self.materialize_one(Path(directory).resolve())
                 mutate(root, spec)
                 with self.assertRaisesRegex(bootstrap.BootstrapError, expected[name]):
                     bootstrap.verify_repositories(root, [spec], runner)
@@ -253,7 +256,7 @@ class RepositoryMaterializationTests(unittest.TestCase):
     def test_verify_existing_rejects_missing_and_extra_siblings(self) -> None:
         for name in ("missing", "extra"):
             with self.subTest(name=name), tempfile.TemporaryDirectory() as directory:
-                spec, root, runner, _ = self.materialize_one(Path(directory))
+                spec, root, runner, _ = self.materialize_one(Path(directory).resolve())
                 if name == "missing":
                     os.rename(root / spec.path, root / "moved")
                     expected = "workspace sibling set mismatch"
@@ -265,7 +268,7 @@ class RepositoryMaterializationTests(unittest.TestCase):
 
     def test_verify_existing_changes_no_tracked_or_untracked_bytes(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
-            spec, root, runner, _ = self.materialize_one(Path(directory))
+            spec, root, runner, _ = self.materialize_one(Path(directory).resolve())
             before = self.snapshot(root)
             bootstrap.verify_repositories(root, [spec], runner)
             self.assertEqual(self.snapshot(root), before)
@@ -405,7 +408,10 @@ class RuntimeAssetTests(unittest.TestCase):
             root = Path(directory)
             safe = root / "safe.zip"
             with zipfile.ZipFile(safe, "w") as archive:
-                archive.writestr("bin/tool.exe", b"tool")
+                info = zipfile.ZipInfo("bin/tool.exe")
+                info.create_system = 3
+                info.external_attr = 0o100644 << 16
+                archive.writestr(info, b"tool")
             destination = root / "zip output"
             bootstrap.safe_extract_zip(safe, destination)
             self.assertEqual((destination / "bin" / "tool.exe").read_bytes(), b"tool")
@@ -428,19 +434,25 @@ class RuntimeAssetTests(unittest.TestCase):
             root = Path(directory)
             oversized = root / "oversized.zip"
             with zipfile.ZipFile(oversized, "w") as archive:
-                archive.writestr("tool", b"12345")
+                info = zipfile.ZipInfo("tool")
+                info.create_system = 3
+                info.external_attr = 0o100644 << 16
+                archive.writestr(info, b"12345")
             with self.assertRaisesRegex(bootstrap.BootstrapError, "archive member exceeds 4 bytes"):
                 bootstrap.safe_extract_zip(oversized, root / "oversized-out", maximum_member_bytes=4)
             duplicate = root / "duplicate.zip"
             with zipfile.ZipFile(duplicate, "w") as archive:
-                archive.writestr("Tool", b"one")
-                archive.writestr("tool", b"two")
+                for name, body in (("Tool", b"one"), ("tool", b"two")):
+                    info = zipfile.ZipInfo(name)
+                    info.create_system = 3
+                    info.external_attr = 0o100644 << 16
+                    archive.writestr(info, body)
             with self.assertRaisesRegex(bootstrap.BootstrapError, "archive member name collision"):
                 bootstrap.safe_extract_zip(duplicate, root / "duplicate-out")
 
     def test_installs_plain_covenant_asset_after_digest_check(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
-            root = Path(directory)
+            root = Path(directory).resolve()
             source = root / "ao-covenant.exe"
             source.write_bytes(b"covenant")
             destination = root / "runtime" / "ao-covenant.exe"
@@ -482,7 +494,7 @@ class RuntimeAssetTests(unittest.TestCase):
             return MemoryResponse(bodies[name])
 
         with tempfile.TemporaryDirectory() as directory:
-            root = Path(directory)
+            root = Path(directory).resolve()
             (root / ".ao-baseline").mkdir()
             records = bootstrap.materialize_runtime_assets(
                 root, releases, "windows", opener=opener
@@ -632,7 +644,7 @@ class CliAndWrapperTests(unittest.TestCase):
 
     def test_verify_result_must_be_outside_root(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
-            root = Path(directory) / "workspace"
+            root = Path(directory).resolve() / "workspace"
             root.mkdir()
             with self.assertRaisesRegex(bootstrap.BootstrapError, "outside"):
                 bootstrap.validate_result_path(root, root / "result.json", "verify-existing")

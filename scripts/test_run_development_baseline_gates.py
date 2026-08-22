@@ -29,7 +29,7 @@ class GateRunnerTests(unittest.TestCase):
         return completed.stdout.strip()
 
     def fixture(self, directory: str) -> tuple[Path, list[dict[str, object]]]:
-        root = Path(directory) / "workspace with spaces"
+        root = Path(directory).resolve() / "workspace with spaces"
         checkout = root / "fixture-repo"
         checkout.mkdir(parents=True)
         self.run_git(checkout, "init")
@@ -110,7 +110,7 @@ class GateRunnerTests(unittest.TestCase):
                 self.gate("first", "pass_gate.py"),
                 self.gate("second", "pass_gate.py"),
             ]
-            output = Path(directory) / "gate logs"
+            output = Path(directory).resolve() / "gate logs"
             result = gates.run_gate_inventory(
                 root, repositories, output, max_output_bytes=1024
             )
@@ -127,7 +127,7 @@ class GateRunnerTests(unittest.TestCase):
                 self.gate("fail", "fail_gate.py"),
                 self.gate("never", "pass_gate.py"),
             ]
-            result = gates.run_gate_inventory(root, repositories, Path(directory) / "logs")
+            result = gates.run_gate_inventory(root, repositories, Path(directory).resolve() / "logs")
             self.assertEqual(result["status"], "fail")
             self.assertEqual([item["gate_id"] for item in result["gates"]], ["pass", "fail"])
             self.assertEqual(result["gates"][-1]["exit_status"], 7)
@@ -146,7 +146,7 @@ class GateRunnerTests(unittest.TestCase):
                 result = gates.run_gate_inventory(
                     root,
                     repositories,
-                    Path(directory) / "logs",
+                    Path(directory).resolve() / "logs",
                     max_output_bytes=1024,
                 )
                 self.assertEqual(result["status"], "fail")
@@ -157,7 +157,7 @@ class GateRunnerTests(unittest.TestCase):
         with self.assertRaisesRegex(gates.GateError, "unknown gate"):
             gates.select_gate(repositories, "fixture", "missing")
         with tempfile.TemporaryDirectory() as directory:
-            output = Path(directory) / "logs"
+            output = Path(directory).resolve() / "logs"
             output.mkdir()
             with self.assertRaisesRegex(gates.GateError, "output root must be absent"):
                 gates.prepare_output_root(output)
