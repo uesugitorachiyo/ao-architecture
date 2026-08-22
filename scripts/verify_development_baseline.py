@@ -30,7 +30,7 @@ STABLE_REPOSITORIES = (
 )
 
 FROZEN_REPOSITORIES = {
-    "ao-architecture": ("ef421a4e22a1e5832d58acdca14b46862aa119a3", "architecture_truth"),
+    "ao-architecture": ("fc80f8f2be8ef593523f87f3eb86ed384dd07b13", "architecture_truth"),
     "ao-mission": ("1aeb2cd78c8a7c5df100cdf1bd17d20c478ca47e", "mission_state"),
     "ao-blueprint": ("ec6a80b60b54c0c0ac1822f873c1abf337fe5eb5", "requirements_authorization"),
     "ao-atlas": ("acd162ad1b187a9fe179e36cb0d20be5db874d69", "workgraph_context"),
