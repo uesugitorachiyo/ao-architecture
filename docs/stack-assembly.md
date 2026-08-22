@@ -28,7 +28,7 @@ workflows. AO Architecture is the documentation and contract map; it does not
 publish a binary.
 
 The releases above passed the credential-free three-platform public stack
-canary in Architecture run `32540107166`. On macOS arm64, Covenant v0.1.1 runs
+canary in Architecture merged-main run `32540433860`. On macOS arm64, Covenant v0.1.1 runs
 its Darwin amd64 binary through Rosetta 2 because that release has no Darwin
 arm64 asset.
 
