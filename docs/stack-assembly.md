@@ -27,11 +27,10 @@ source heads and repository READMEs when assembling development or qualification
 workflows. AO Architecture is the documentation and contract map; it does not
 publish a binary.
 
-The previous release set passed Architecture run `31647446543`. The exact
-versions above require the refreshed credential-free three-platform public
-stack canary before the final stability declaration. On macOS arm64, Covenant
-v0.1.1 runs its Darwin amd64 binary through Rosetta 2 because that release has
-no Darwin arm64 asset.
+The releases above passed the credential-free three-platform public stack
+canary in Architecture run `32540107166`. On macOS arm64, Covenant v0.1.1 runs
+its Darwin amd64 binary through Rosetta 2 because that release has no Darwin
+arm64 asset.
 
 ## Assembly Order
 

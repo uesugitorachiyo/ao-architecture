@@ -1,8 +1,6 @@
 # AO Stack Current Public Releases
 
-This is the candidate seven-component public binary stack. Every listed
-release is public; the refreshed three-platform public canary is the terminal
-stability gate for this exact set.
+This is the independently verified seven-component public binary stack.
 
 | Component | Release | Tag target | Public assets |
 | --- | --- | --- | ---: |
@@ -32,12 +30,12 @@ finalizer run
 [`32539072103`](https://github.com/uesugitorachiyo/ao-forge/actions/runs/32539072103)
 published the signed, rehearsed v0.1.5 draft.
 
-## Prior three-platform public canary
+## Three-platform public canary
 
 Architecture run
-[`31647446543`](https://github.com/uesugitorachiyo/ao-architecture/actions/runs/31647446543)
-installed the previous seven pinned public releases on Linux x86_64, macOS
-arm64, and Windows x86_64. It ran 21 credential-free commands per platform, reconciled the
+[`32540107166`](https://github.com/uesugitorachiyo/ao-architecture/actions/runs/32540107166)
+installed the seven pinned public releases on Linux x86_64, macOS arm64, and
+Windows x86_64. It ran 21 credential-free commands per platform, reconciled the
 same Mission identity through Atlas, Mission, and Command, and retained zero
 provider, credential, publication, deployment, or repository-mutation counts.
 All platforms produced canonical terminal-index digest
@@ -45,16 +43,13 @@ All platforms produced canonical terminal-index digest
 
 Canary artifact SHA-256 values:
 
-- Linux: `a246c82378b654c539b1023029a0b9661266a9399faf144a0996523a28ceddf7`
-- macOS: `fbe295e4c4d269a92d4f93a3f4f49914916d119317be0e663c7ca56c6871b2fd`
-- Windows: `b2db6263d1ad184961afdf3bcf83a947ab77cbadc32e77bfd619d7d09138611e`
+- Linux: `cf6c7b0fd1d0514a79c173c0a0fbfabe0534e19383b7899f2b1c2e78a052bb36`
+- macOS: `aef15f4c420cdcab73e1016a745c6c65c0f6d2cc4af29aad4540957f2c17b044`
+- Windows: `e690b0eca615d2512498698ba6dd1e72649a532d115d19b0a9bbaed73336a127`
 
 AO Covenant v0.1.1 has no Darwin arm64 asset. The macOS arm64 canary therefore
 ran its Darwin amd64 binary through Rosetta 2; this is an explicit architecture
 boundary, not a native-arm64 claim.
-
-The current version set must replace this prior canary with a fresh green run
-before Architecture labels the set stable.
 
 ## Compatibility and authority boundaries
 
