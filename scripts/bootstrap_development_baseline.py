@@ -4,17 +4,29 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import os
 from pathlib import Path
+from pathlib import PurePosixPath
 import re
 import stat
 import subprocess
+import tarfile
 from typing import Any, Iterable, NamedTuple, Sequence
+from urllib.parse import quote, urlparse
+from urllib.request import Request, urlopen
+import zipfile
 
 
-SAFE_COMPONENT = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]*$")
+SAFE_COMPONENT = re.compile(
+    r"^(?:[A-Za-z0-9][A-Za-z0-9._-]*|\.[A-Za-z0-9][A-Za-z0-9._-]*)$"
+)
 FILE_ATTRIBUTE_REPARSE_POINT = 0x0400
 MAX_COMMAND_OUTPUT_BYTES = 1024 * 1024
+MAX_ASSET_BYTES = 256 * 1024 * 1024
+MAX_ARCHIVE_MEMBER_BYTES = 256 * 1024 * 1024
+MAX_ARCHIVE_EXPANDED_BYTES = 512 * 1024 * 1024
+MAX_ARCHIVE_MEMBERS = 1024
 
 
 class BootstrapError(ValueError):
@@ -35,6 +47,15 @@ class CommandRecord(NamedTuple):
     returncode: int
     stdout: str
     stderr: str
+
+
+class RuntimeAssetSpec(NamedTuple):
+    repository: str
+    release_url: str
+    platform: str
+    architecture: str
+    name: str
+    sha256: str
 
 
 class CommandRunner:
@@ -339,3 +360,298 @@ def verify_repositories(
             f"missing={sorted(expected - actual)} extra={sorted(actual - expected)}"
         )
     return [_verify_repository(target, spec, runner) for spec in specs]
+
+
+def asset_download_url(release_url: str, name: str) -> str:
+    parsed = urlparse(release_url)
+    marker = "/releases/tag/"
+    if parsed.scheme != "https" or parsed.netloc.lower() != "github.com":
+        raise BootstrapError("release URL must be HTTPS on github.com")
+    if marker not in parsed.path or parsed.query or parsed.fragment:
+        raise BootstrapError("release URL must identify one immutable tag")
+    prefix, tag = parsed.path.split(marker, 1)
+    if not tag or "/" in tag:
+        raise BootstrapError("release URL tag is invalid")
+    if not name or "/" in name or "\\" in name:
+        raise BootstrapError("runtime asset name must be a basename")
+    return f"https://github.com{prefix}/releases/download/{quote(tag, safe='')}/{quote(name, safe='')}"
+
+
+def select_runtime_assets(
+    releases: Sequence[dict[str, Any]], platform_name: str
+) -> list[RuntimeAssetSpec]:
+    if platform_name not in {"linux", "macos", "windows"}:
+        raise BootstrapError(f"unsupported runtime platform: {platform_name}")
+    selected: list[RuntimeAssetSpec] = []
+    seen: set[str] = set()
+    for release in releases:
+        repository = release.get("repository")
+        if not isinstance(repository, str) or not repository or repository in seen:
+            raise BootstrapError("runtime release repository identity is invalid")
+        seen.add(repository)
+        assets = release.get("assets")
+        if not isinstance(assets, list):
+            raise BootstrapError(f"runtime assets must be an array: {repository}")
+        matches = [item for item in assets if isinstance(item, dict) and item.get("platform") == platform_name]
+        if len(matches) != 1:
+            raise BootstrapError(f"runtime release requires one {platform_name} asset: {repository}")
+        asset = matches[0]
+        digest = asset.get("sha256")
+        if not isinstance(digest, str) or not re.fullmatch(r"[0-9a-f]{64}", digest):
+            raise BootstrapError(f"runtime asset digest is invalid: {repository}")
+        selected.append(
+            RuntimeAssetSpec(
+                repository=repository,
+                release_url=release.get("release_url", ""),
+                platform=platform_name,
+                architecture=asset.get("architecture", ""),
+                name=asset.get("name", ""),
+                sha256=digest,
+            )
+        )
+    return selected
+
+
+def download_bounded(
+    url: str,
+    destination: str | Path,
+    expected_sha256: str,
+    *,
+    opener=urlopen,
+    maximum_bytes: int = MAX_ASSET_BYTES,
+) -> dict[str, Any]:
+    if urlparse(url).scheme != "https":
+        raise BootstrapError("download URL must be HTTPS")
+    if not re.fullmatch(r"[0-9a-f]{64}", expected_sha256):
+        raise BootstrapError("download expected digest is invalid")
+    target = Path(destination)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        output = target.open("xb")
+    except FileExistsError as exc:
+        raise BootstrapError(f"download destination already exists: {target.name}") from exc
+    digest = hashlib.sha256()
+    total = 0
+    request = Request(url, headers={"User-Agent": "ao-architecture-baseline-bootstrap/1"})
+    try:
+        with output:
+            with opener(request, timeout=90) as response:
+                declared = response.headers.get("Content-Length")
+                if declared is not None:
+                    try:
+                        declared_bytes = int(declared)
+                    except ValueError as exc:
+                        raise BootstrapError("download Content-Length is invalid") from exc
+                    if declared_bytes < 0 or declared_bytes > maximum_bytes:
+                        raise BootstrapError(f"download exceeds {maximum_bytes} bytes")
+                while True:
+                    chunk = response.read(min(1024 * 1024, maximum_bytes + 1 - total))
+                    if not chunk:
+                        break
+                    total += len(chunk)
+                    if total > maximum_bytes:
+                        raise BootstrapError(f"download exceeds {maximum_bytes} bytes")
+                    digest.update(chunk)
+                    output.write(chunk)
+    except BootstrapError:
+        raise
+    except OSError as exc:
+        raise BootstrapError(f"download failed: {target.name}") from exc
+    actual = digest.hexdigest()
+    if actual != expected_sha256:
+        raise BootstrapError("download digest mismatch")
+    return {"sha256": actual, "bytes": total}
+
+
+def _safe_archive_parts(name: str) -> tuple[str, ...]:
+    if not isinstance(name, str) or not name or "\\" in name or "\x00" in name:
+        raise BootstrapError("archive member name is unsafe")
+    if name.startswith(("/", "//")) or re.match(r"^[A-Za-z]:", name):
+        raise BootstrapError("archive member path is absolute")
+    path = PurePosixPath(name)
+    parts = path.parts
+    if not parts or any(part in {"", ".", ".."} for part in parts):
+        raise BootstrapError("archive member path traverses or is empty")
+    return parts
+
+
+def _archive_output_path(destination: Path, name: str) -> Path:
+    parts = _safe_archive_parts(name)
+    output = destination.joinpath(*parts)
+    try:
+        if os.path.commonpath((os.fspath(destination), os.fspath(output))) != os.fspath(destination):
+            raise BootstrapError("archive member escapes destination")
+    except ValueError as exc:
+        raise BootstrapError("archive member escapes destination") from exc
+    return output
+
+
+def _validate_archive_names(names: Sequence[str], maximum_members: int) -> None:
+    if len(names) > maximum_members:
+        raise BootstrapError(f"archive member count exceeds {maximum_members}")
+    seen: set[str] = set()
+    for name in names:
+        normalized = "/".join(_safe_archive_parts(name.rstrip("/"))).casefold()
+        if normalized in seen:
+            raise BootstrapError("archive member name collision")
+        seen.add(normalized)
+
+
+def safe_extract_tar(
+    archive_path: str | Path,
+    destination: str | Path,
+    *,
+    maximum_members: int = MAX_ARCHIVE_MEMBERS,
+    maximum_member_bytes: int = MAX_ARCHIVE_MEMBER_BYTES,
+    maximum_expanded_bytes: int = MAX_ARCHIVE_EXPANDED_BYTES,
+) -> dict[str, Any]:
+    target = Path(destination)
+    target.mkdir(parents=True, exist_ok=False)
+    total = 0
+    try:
+        with tarfile.open(archive_path, "r:*") as archive:
+            members = archive.getmembers()
+            _validate_archive_names([member.name for member in members], maximum_members)
+            for member in members:
+                if member.mode & (stat.S_ISUID | stat.S_ISGID):
+                    raise BootstrapError("archive member has privileged mode bits")
+                if member.isdir():
+                    _archive_output_path(target, member.name).mkdir(parents=True, exist_ok=True)
+                    continue
+                if not member.isreg():
+                    raise BootstrapError("tar member must be regular or directory")
+                if member.size < 0 or member.size > maximum_member_bytes:
+                    raise BootstrapError(f"archive member exceeds {maximum_member_bytes} bytes")
+                total += member.size
+                if total > maximum_expanded_bytes:
+                    raise BootstrapError(f"archive expanded bytes exceed {maximum_expanded_bytes}")
+                output = _archive_output_path(target, member.name)
+                output.parent.mkdir(parents=True, exist_ok=True)
+                source = archive.extractfile(member)
+                if source is None:
+                    raise BootstrapError("tar member cannot be read")
+                with source, output.open("xb") as destination_file:
+                    body = source.read(maximum_member_bytes + 1)
+                    if len(body) != member.size:
+                        raise BootstrapError("tar member size mismatch")
+                    destination_file.write(body)
+    except (tarfile.TarError, OSError) as exc:
+        if isinstance(exc, BootstrapError):
+            raise
+        raise BootstrapError("tar archive is invalid") from exc
+    return {"members": len(members), "expanded_bytes": total, "format": "tar"}
+
+
+def safe_extract_zip(
+    archive_path: str | Path,
+    destination: str | Path,
+    *,
+    maximum_members: int = MAX_ARCHIVE_MEMBERS,
+    maximum_member_bytes: int = MAX_ARCHIVE_MEMBER_BYTES,
+    maximum_expanded_bytes: int = MAX_ARCHIVE_EXPANDED_BYTES,
+) -> dict[str, Any]:
+    target = Path(destination)
+    target.mkdir(parents=True, exist_ok=False)
+    total = 0
+    try:
+        with zipfile.ZipFile(archive_path) as archive:
+            members = archive.infolist()
+            _validate_archive_names([member.filename for member in members], maximum_members)
+            for member in members:
+                mode = (member.external_attr >> 16) & 0xFFFF
+                if mode & (stat.S_ISUID | stat.S_ISGID):
+                    raise BootstrapError("archive member has privileged mode bits")
+                if member.is_dir():
+                    _archive_output_path(target, member.filename).mkdir(parents=True, exist_ok=True)
+                    continue
+                if member.create_system == 3 and mode and not stat.S_ISREG(mode):
+                    raise BootstrapError("ZIP member must be regular")
+                if member.file_size < 0 or member.file_size > maximum_member_bytes:
+                    raise BootstrapError(f"archive member exceeds {maximum_member_bytes} bytes")
+                total += member.file_size
+                if total > maximum_expanded_bytes:
+                    raise BootstrapError(f"archive expanded bytes exceed {maximum_expanded_bytes}")
+                output = _archive_output_path(target, member.filename)
+                output.parent.mkdir(parents=True, exist_ok=True)
+                with archive.open(member, "r") as source, output.open("xb") as destination_file:
+                    body = source.read(maximum_member_bytes + 1)
+                    if len(body) != member.file_size:
+                        raise BootstrapError("ZIP member size mismatch")
+                    destination_file.write(body)
+    except (zipfile.BadZipFile, OSError) as exc:
+        if isinstance(exc, BootstrapError):
+            raise
+        raise BootstrapError("ZIP archive is invalid") from exc
+    return {"members": len(members), "expanded_bytes": total, "format": "zip"}
+
+
+def install_plain_asset(source: str | Path, destination: str | Path) -> dict[str, Any]:
+    source_path = Path(source)
+    if is_link_or_reparse(source_path) or not source_path.is_file():
+        raise BootstrapError("plain runtime asset must be a regular non-link file")
+    target = Path(destination)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        with source_path.open("rb") as input_file, target.open("xb") as output_file:
+            total = 0
+            while True:
+                chunk = input_file.read(1024 * 1024)
+                if not chunk:
+                    break
+                total += len(chunk)
+                if total > MAX_ASSET_BYTES:
+                    raise BootstrapError(f"plain runtime asset exceeds {MAX_ASSET_BYTES} bytes")
+                output_file.write(chunk)
+    except FileExistsError as exc:
+        raise BootstrapError("plain runtime destination already exists") from exc
+    return {"bytes": total, "format": "plain"}
+
+
+def materialize_runtime_assets(
+    root: str | Path,
+    releases: Sequence[dict[str, Any]],
+    platform_name: str,
+    *,
+    opener=urlopen,
+) -> list[dict[str, Any]]:
+    workspace = validate_materialization_root(root, "verify-existing")
+    evidence_root = contained_child(workspace, ".ao-baseline")
+    if not evidence_root.is_dir() or is_link_or_reparse(evidence_root):
+        raise BootstrapError(".ao-baseline must be a regular non-link directory")
+    assets_root = contained_child(evidence_root, "assets")
+    runtime_root = contained_child(evidence_root, "runtime")
+    assets_root.mkdir(exist_ok=False)
+    runtime_root.mkdir(exist_ok=False)
+    records: list[dict[str, Any]] = []
+    for asset in select_runtime_assets(releases, platform_name):
+        asset_directory = contained_child(assets_root, asset.repository)
+        runtime_directory = contained_child(runtime_root, asset.repository)
+        asset_directory.mkdir(exist_ok=False)
+        archive_path = contained_child(asset_directory, asset.name)
+        url = asset_download_url(asset.release_url, asset.name)
+        downloaded = download_bounded(
+            url, archive_path, asset.sha256, opener=opener
+        )
+        lowered = asset.name.lower()
+        if lowered.endswith(".zip"):
+            installed = safe_extract_zip(archive_path, runtime_directory)
+        elif lowered.endswith((".tar.gz", ".tgz")):
+            installed = safe_extract_tar(archive_path, runtime_directory)
+        else:
+            runtime_directory.mkdir(exist_ok=False)
+            installed = install_plain_asset(
+                archive_path, contained_child(runtime_directory, asset.name)
+            )
+        records.append(
+            {
+                "repository": asset.repository,
+                "platform": asset.platform,
+                "architecture": asset.architecture,
+                "name": asset.name,
+                "expected_sha256": asset.sha256,
+                "actual_sha256": downloaded["sha256"],
+                "bytes": downloaded["bytes"],
+                "install_format": installed["format"],
+            }
+        )
+    return records

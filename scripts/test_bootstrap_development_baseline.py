@@ -4,12 +4,16 @@
 from __future__ import annotations
 
 import importlib.util
+import hashlib
+import io
 import json
 import os
 from pathlib import Path
 import subprocess
+import tarfile
 import tempfile
 import unittest
+import zipfile
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -255,6 +259,216 @@ class RepositoryMaterializationTests(unittest.TestCase):
                 with self.assertRaisesRegex(bootstrap.BootstrapError, "unsafe submodule status"):
                     bootstrap.validate_submodule_status([prefix + "0" * 40 + " dependency"])
         bootstrap.validate_submodule_status([" " + "0" * 40 + " dependency"])
+
+
+class MemoryResponse(io.BytesIO):
+    def __init__(self, body: bytes, declared_length: int | None = None):
+        super().__init__(body)
+        self.headers = {
+            "Content-Length": str(len(body) if declared_length is None else declared_length)
+        }
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *_args):
+        self.close()
+
+
+class RuntimeAssetTests(unittest.TestCase):
+    def test_builds_https_percent_encoded_download_url(self) -> None:
+        self.assertEqual(
+            bootstrap.asset_download_url(
+                "https://github.com/example/tool/releases/tag/v1.0.0",
+                "tool Windows x86_64.zip",
+            ),
+            "https://github.com/example/tool/releases/download/v1.0.0/tool%20Windows%20x86_64.zip",
+        )
+        with self.assertRaisesRegex(bootstrap.BootstrapError, "release URL must be HTTPS"):
+            bootstrap.asset_download_url("http://example.invalid/tag/v1", "tool.zip")
+
+    def test_selects_exact_platform_asset_in_release_order(self) -> None:
+        releases = [
+            {
+                "repository": "one",
+                "release_url": "https://github.com/example/one/releases/tag/v1",
+                "assets": [
+                    {"platform": "macos", "architecture": "aarch64", "name": "one.tgz", "sha256": "a" * 64},
+                    {"platform": "windows", "architecture": "x86_64", "name": "one.zip", "sha256": "b" * 64},
+                ],
+            },
+            {
+                "repository": "two",
+                "release_url": "https://github.com/example/two/releases/tag/v2",
+                "assets": [
+                    {"platform": "macos", "architecture": "amd64", "name": "two", "sha256": "c" * 64},
+                    {"platform": "windows", "architecture": "amd64", "name": "two.exe", "sha256": "d" * 64},
+                ],
+            },
+        ]
+        selected = bootstrap.select_runtime_assets(releases, "windows")
+        self.assertEqual([item.repository for item in selected], ["one", "two"])
+        self.assertEqual([item.name for item in selected], ["one.zip", "two.exe"])
+
+    def test_download_is_bounded_digest_checked_and_exclusive(self) -> None:
+        body = b"bounded public asset"
+        digest = hashlib.sha256(body).hexdigest()
+        with tempfile.TemporaryDirectory() as directory:
+            target = Path(directory) / "asset.bin"
+            result = bootstrap.download_bounded(
+                "https://example.invalid/asset.bin",
+                target,
+                digest,
+                opener=lambda *_args, **_kwargs: MemoryResponse(body),
+                maximum_bytes=64,
+            )
+            self.assertEqual(result["sha256"], digest)
+            self.assertEqual(target.read_bytes(), body)
+            with self.assertRaisesRegex(bootstrap.BootstrapError, "destination already exists"):
+                bootstrap.download_bounded(
+                    "https://example.invalid/asset.bin",
+                    target,
+                    digest,
+                    opener=lambda *_args, **_kwargs: MemoryResponse(body),
+                    maximum_bytes=64,
+                )
+
+    def test_download_rejects_declared_streamed_and_digest_drift(self) -> None:
+        cases = [
+            (MemoryResponse(b"small", declared_length=65), "0" * 64, "download exceeds 64 bytes"),
+            (MemoryResponse(b"x" * 65), "0" * 64, "download exceeds 64 bytes"),
+            (MemoryResponse(b"small"), "0" * 64, "download digest mismatch"),
+        ]
+        for index, (response, digest, expected) in enumerate(cases):
+            with self.subTest(expected=expected), tempfile.TemporaryDirectory() as directory:
+                target = Path(directory) / f"asset-{index}.bin"
+                with self.assertRaisesRegex(bootstrap.BootstrapError, expected):
+                    bootstrap.download_bounded(
+                        "https://example.invalid/asset.bin",
+                        target,
+                        digest,
+                        opener=lambda *_args, response=response, **_kwargs: response,
+                        maximum_bytes=64,
+                    )
+
+    def make_tar(self, path: Path, members: list[tuple[str, bytes, bytes | None]]) -> None:
+        with tarfile.open(path, "w:gz") as archive:
+            for name, body, member_type in members:
+                info = tarfile.TarInfo(name)
+                info.size = len(body)
+                if member_type is not None:
+                    info.type = member_type
+                archive.addfile(info, io.BytesIO(body))
+
+    def test_extracts_safe_tar_and_rejects_traversal_or_link(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            safe = root / "safe.tar.gz"
+            self.make_tar(safe, [("bin/tool", b"tool", None)])
+            destination = root / "safe output"
+            bootstrap.safe_extract_tar(safe, destination)
+            self.assertEqual((destination / "bin" / "tool").read_bytes(), b"tool")
+            for index, member in enumerate(
+                [("../escape", b"bad", None), ("link", b"", tarfile.SYMTYPE)]
+            ):
+                unsafe = root / f"unsafe-{index}.tar.gz"
+                self.make_tar(unsafe, [member])
+                with self.assertRaises(bootstrap.BootstrapError):
+                    bootstrap.safe_extract_tar(unsafe, root / f"out-{index}")
+
+    def test_extracts_safe_zip_and_rejects_traversal_or_symlink(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            safe = root / "safe.zip"
+            with zipfile.ZipFile(safe, "w") as archive:
+                archive.writestr("bin/tool.exe", b"tool")
+            destination = root / "zip output"
+            bootstrap.safe_extract_zip(safe, destination)
+            self.assertEqual((destination / "bin" / "tool.exe").read_bytes(), b"tool")
+            traversal = root / "traversal.zip"
+            with zipfile.ZipFile(traversal, "w") as archive:
+                archive.writestr("../escape", b"bad")
+            with self.assertRaises(bootstrap.BootstrapError):
+                bootstrap.safe_extract_zip(traversal, root / "traversal-out")
+            symlink = root / "symlink.zip"
+            with zipfile.ZipFile(symlink, "w") as archive:
+                info = zipfile.ZipInfo("link")
+                info.create_system = 3
+                info.external_attr = 0o120777 << 16
+                archive.writestr(info, b"target")
+            with self.assertRaisesRegex(bootstrap.BootstrapError, "ZIP member must be regular"):
+                bootstrap.safe_extract_zip(symlink, root / "symlink-out")
+
+    def test_archive_limits_and_duplicate_names_fail_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            oversized = root / "oversized.zip"
+            with zipfile.ZipFile(oversized, "w") as archive:
+                archive.writestr("tool", b"12345")
+            with self.assertRaisesRegex(bootstrap.BootstrapError, "archive member exceeds 4 bytes"):
+                bootstrap.safe_extract_zip(oversized, root / "oversized-out", maximum_member_bytes=4)
+            duplicate = root / "duplicate.zip"
+            with zipfile.ZipFile(duplicate, "w") as archive:
+                archive.writestr("Tool", b"one")
+                archive.writestr("tool", b"two")
+            with self.assertRaisesRegex(bootstrap.BootstrapError, "archive member name collision"):
+                bootstrap.safe_extract_zip(duplicate, root / "duplicate-out")
+
+    def test_installs_plain_covenant_asset_after_digest_check(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "ao-covenant.exe"
+            source.write_bytes(b"covenant")
+            destination = root / "runtime" / "ao-covenant.exe"
+            bootstrap.install_plain_asset(source, destination)
+            self.assertEqual(destination.read_bytes(), b"covenant")
+            self.assertFalse(bootstrap.is_link_or_reparse(destination))
+
+    def test_materializes_selected_assets_under_run_owned_directories(self) -> None:
+        tar_buffer = io.BytesIO()
+        with tarfile.open(fileobj=tar_buffer, mode="w:gz") as archive:
+            info = tarfile.TarInfo("tool")
+            info.size = 4
+            archive.addfile(info, io.BytesIO(b"tool"))
+        bodies = {
+            "tool.tar.gz": tar_buffer.getvalue(),
+            "covenant.exe": b"covenant",
+        }
+        releases = [
+            {
+                "repository": "tool",
+                "release_url": "https://github.com/example/tool/releases/tag/v1",
+                "assets": [{
+                    "platform": "windows", "architecture": "x86_64", "name": "tool.tar.gz",
+                    "sha256": hashlib.sha256(bodies["tool.tar.gz"]).hexdigest(),
+                }],
+            },
+            {
+                "repository": "ao-covenant",
+                "release_url": "https://github.com/example/covenant/releases/tag/v1",
+                "assets": [{
+                    "platform": "windows", "architecture": "amd64", "name": "covenant.exe",
+                    "sha256": hashlib.sha256(bodies["covenant.exe"]).hexdigest(),
+                }],
+            },
+        ]
+
+        def opener(request, **_kwargs):
+            name = request.full_url.rsplit("/", 1)[-1]
+            return MemoryResponse(bodies[name])
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / ".ao-baseline").mkdir()
+            records = bootstrap.materialize_runtime_assets(
+                root, releases, "windows", opener=opener
+            )
+            self.assertEqual([record["repository"] for record in records], ["tool", "ao-covenant"])
+            self.assertEqual((root / ".ao-baseline" / "runtime" / "tool" / "tool").read_bytes(), b"tool")
+            self.assertEqual(
+                (root / ".ao-baseline" / "runtime" / "ao-covenant" / "covenant.exe").read_bytes(),
+                b"covenant",
+            )
 
 
 if __name__ == "__main__":
