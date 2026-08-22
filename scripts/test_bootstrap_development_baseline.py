@@ -220,6 +220,10 @@ class RepositoryMaterializationTests(unittest.TestCase):
             )
             self.assertNotEqual(attached.returncode, 0)
             self.assertEqual(records[0]["repository"], spec.name)
+            self.assertEqual(
+                self.git("config", "--get", "core.autocrlf", cwd=checkout).stdout.strip(),
+                "false",
+            )
             verified = bootstrap.verify_repositories(root, [spec], runner)
             self.assertTrue(verified[0]["detached"])
             self.assertTrue(verified[0]["clean"])
@@ -231,11 +235,13 @@ class RepositoryMaterializationTests(unittest.TestCase):
             "dirty": lambda root, spec: (root / spec.path / "untracked.txt").write_text("dirty", encoding="utf-8"),
             "attached": lambda root, spec: self.git("switch", "-c", "local", cwd=root / spec.path),
             "upstream": lambda root, spec: self.git("remote", "set-url", "origin", str(root), cwd=root / spec.path),
+            "autocrlf": lambda root, spec: self.git("config", "core.autocrlf", "true", cwd=root / spec.path),
         }
         expected = {
             "dirty": "repository is dirty",
             "attached": "repository is not detached",
             "upstream": "origin mismatch",
+            "autocrlf": "core.autocrlf mismatch",
         }
         for name, mutate in cases.items():
             with self.subTest(name=name), tempfile.TemporaryDirectory() as directory:
