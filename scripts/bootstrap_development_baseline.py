@@ -79,6 +79,23 @@ class RuntimeAssetSpec(NamedTuple):
     sha256: str
 
 
+def resolve_command_argv(
+    argv: Sequence[str],
+    *,
+    operating_system: str | None = None,
+    which=shutil.which,
+) -> list[str]:
+    resolved = list(argv)
+    if not resolved:
+        raise BootstrapError("command argv must not be empty")
+    if (operating_system or os.name) == "nt":
+        executable = which(resolved[0])
+        if executable is None:
+            raise BootstrapError(f"command executable was not found: {resolved[0]}")
+        resolved[0] = executable
+    return resolved
+
+
 class CommandRunner:
     def __init__(self) -> None:
         self.records: list[CommandRecord] = []
@@ -100,9 +117,10 @@ class CommandRunner:
             "GIT_OPTIONAL_LOCKS": "0",
         }
         environment.update(overrides)
+        resolved_argv = resolve_command_argv(argv)
         try:
             completed = subprocess.run(
-                list(argv),
+                resolved_argv,
                 cwd=os.fspath(cwd),
                 env=environment,
                 text=True,
