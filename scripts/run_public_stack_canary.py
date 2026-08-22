@@ -26,7 +26,7 @@ MAX_BINARY_BYTES = 128 * 1024 * 1024
 _RAW_BASE = "https://raw.githubusercontent.com/uesugitorachiyo"
 SMOKE_FIXTURES = {
     "workgraph.json": (
-        f"{_RAW_BASE}/ao-atlas/2bf243ce8d8c71d845754398238b14d1ab77d0e6/examples/valid/workgraph.json",
+        f"{_RAW_BASE}/ao-atlas/3603a2bb8af5adafcd9ff17b807ab89f32283d18/examples/valid/workgraph.json",
         "5c761cd7ef1ed5d648f7b2a4ee0988eef60fb097f73c343a70e0ea81999db4e5",
     ),
     "brief.md": (
@@ -93,43 +93,43 @@ _COMPONENTS = {
         },
     ),
     "ao-mission": (
-        "v0.1.4",
-        "cee287597024b5a1e990c6e272518236bc9e32fa",
+        "v0.1.5",
+        "5d4562578a4751d56910ef108b930fbb8dc91e7d",
         "ao-mission",
         {
-            "linux-x86_64": ("ao-mission-0.1.4-linux-x86_64.tar.gz", "041d4b4ab076601bf6fe15335cb70a5d9f87301beb239e8e106b3ee4fd12f800", "tar.gz"),
-            "macos-aarch64": ("ao-mission-0.1.4-macos-aarch64.tar.gz", "d8b418e42b57306862c75fc10e5c347109c13c144a18e240d2a2edba29c1a34e", "tar.gz"),
-            "windows-x86_64": ("ao-mission-0.1.4-windows-x86_64.zip", "027ceba61e7b1d3655cce63a1ce4269824d7a5e3acf65fef5fabb0b539c53221", "zip"),
+            "linux-x86_64": ("ao-mission-0.1.5-linux-x86_64.tar.gz", "5aed0659e94c35fc1808b16d092c18e5f782f217170844335bedc59337ac3b25", "tar.gz"),
+            "macos-aarch64": ("ao-mission-0.1.5-macos-aarch64.tar.gz", "54ea5fafac4a65fc1bad6c2d8ec079b084c528aee3fe228692d9cc154ff2d037", "tar.gz"),
+            "windows-x86_64": ("ao-mission-0.1.5-windows-x86_64.zip", "c868653395e0ab19d2c95cc0adbb1e8d97bb5ef0002390040748a7f381cb9a43", "zip"),
         },
     ),
     "ao-atlas": (
-        "v0.2.0",
-        "2bf243ce8d8c71d845754398238b14d1ab77d0e6",
+        "v0.2.1",
+        "3603a2bb8af5adafcd9ff17b807ab89f32283d18",
         "ao-atlas",
         {
-            "linux-x86_64": ("ao-atlas-v0.2.0-linux-x86_64.tar.gz", "121edad10e6775af809c4003b5b7820a06d3b140ff543a440a66b5c16987ac08", "tar.gz"),
-            "macos-aarch64": ("ao-atlas-v0.2.0-macos-aarch64.tar.gz", "85678feba42d92d866e5f75c80cad80e5aa11dad18cb7292a396b16047b428a5", "tar.gz"),
-            "windows-x86_64": ("ao-atlas-v0.2.0-windows-x86_64.tar.gz", "b53de90d5c2e69511e74e287eabd8437d87128892473843e576e366d1e4e62e7", "tar.gz"),
+            "linux-x86_64": ("ao-atlas-v0.2.1-linux-x86_64.tar.gz", "db1fd2a2728a7cab6196284081e543931c088bd5217861fb7699fcc8402162e5", "tar.gz"),
+            "macos-aarch64": ("ao-atlas-v0.2.1-macos-aarch64.tar.gz", "1533e7220ce639ca05bb083c755a4e9df20c5f34e8917588d6ed1094fce8454f", "tar.gz"),
+            "windows-x86_64": ("ao-atlas-v0.2.1-windows-x86_64.tar.gz", "1f35963a49bb1edcc3e4de1db66035fb9c61000ad7dd0c5fb6125520b7bc3c05", "tar.gz"),
         },
     ),
     "ao-command": (
-        "v0.1.2",
-        "a728d90077c1340e295468e5017b5e166bc5bc7a",
+        "v0.1.3",
+        "ffef6d76306e892c3e7a7f39734433d5a832006a",
         "ao-command",
         {
-            "linux-x86_64": ("ao-command-0.1.2-linux-x86_64.tar.gz", "0d169a2434af12849c8e7865eb4b241651ca2edf34afbd3e4b378d678853c7be", "tar.gz"),
-            "macos-aarch64": ("ao-command-0.1.2-macos-aarch64.tar.gz", "be5c246e73c2eb72a2f665a355e918841ffbbc105568df12c11f7597a538d9df", "tar.gz"),
-            "windows-x86_64": ("ao-command-0.1.2-windows-x86_64.zip", "24ef4d1368a4cfd4754e3bef6ee7e6a3555eb655324efb2279168d1d3fb56414", "zip"),
+            "linux-x86_64": ("ao-command-0.1.3-linux-x86_64.tar.gz", "bd8b3f24c32b1796d0ebb0270d1447653dbc98ee3d95aaa413be1b08eabcc343", "tar.gz"),
+            "macos-aarch64": ("ao-command-0.1.3-macos-aarch64.tar.gz", "e7b83c9431f16178f8d88347a32be952ee8d24bee6829f84e7e5beda4e744143", "tar.gz"),
+            "windows-x86_64": ("ao-command-0.1.3-windows-x86_64.zip", "beb260d6f3338785e0c796d2288b4f635eecdd0a0f80393a1c21eb733155b490", "zip"),
         },
     ),
     "ao-forge": (
-        "v0.1.4",
-        "e104b47c2e14b6c0927b885e137907ad227aeb5c",
+        "v0.1.5",
+        "d1723769949269dcd0589916d83769dcb7275f98",
         "forge",
         {
-            "linux-x86_64": ("ao-forge_Linux_x86_64.tar.gz", "19f15f022eed60f7acd97830835c0cb22eb0fb4df8046e4250e1d99904073ed2", "tar.gz"),
-            "macos-aarch64": ("ao-forge_Darwin_arm64.tar.gz", "50a13927e4f83bbdb600f78a4107e5800e88512f48a7ce9e748ee19a31c2b0f4", "tar.gz"),
-            "windows-x86_64": ("ao-forge_Windows_x86_64.zip", "a6250e975f0f7976bf5268d71c2f1791dd53c4413aebec9dff52b99989c204d5", "zip"),
+            "linux-x86_64": ("ao-forge_Linux_x86_64.tar.gz", "8d691bf9175715e2355b93088dd41a04f67c1793caa795c617fd099396a83637", "tar.gz"),
+            "macos-aarch64": ("ao-forge_Darwin_arm64.tar.gz", "97c11d1ffa49e73f7547d8debf152613fb18fd0522b2202c464e32e6ecfff032", "tar.gz"),
+            "windows-x86_64": ("ao-forge_Windows_x86_64.zip", "df57365755c233b99704d634baf9283f2ab33507cd4754e04ad6b01f7f0c12d4", "zip"),
         },
     ),
     "ao-covenant": (
@@ -339,10 +339,10 @@ def validate_report(report):
     expected = {
         "ao2": "v0.5.11",
         "ao2-control-plane": "v0.1.19",
-        "ao-mission": "v0.1.4",
-        "ao-atlas": "v0.2.0",
-        "ao-command": "v0.1.2",
-        "ao-forge": "v0.1.4",
+        "ao-mission": "v0.1.5",
+        "ao-atlas": "v0.2.1",
+        "ao-command": "v0.1.3",
+        "ao-forge": "v0.1.5",
         "ao-covenant": "v0.1.1",
     }
     components = report.get("components", [])
