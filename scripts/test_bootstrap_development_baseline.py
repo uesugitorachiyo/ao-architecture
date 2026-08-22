@@ -8,8 +8,10 @@ import hashlib
 import io
 import json
 import os
+import platform
 from pathlib import Path
 import subprocess
+import sys
 import tarfile
 import tempfile
 import unittest
@@ -469,6 +471,127 @@ class RuntimeAssetTests(unittest.TestCase):
                 (root / ".ao-baseline" / "runtime" / "ao-covenant" / "covenant.exe").read_bytes(),
                 b"covenant",
             )
+
+
+class PreflightAndEvidenceTests(unittest.TestCase):
+    def test_parses_and_evaluates_version_constraints(self) -> None:
+        self.assertEqual(bootstrap.parse_version("Python 3.12.7"), (3, 12, 7))
+        self.assertEqual(bootstrap.parse_version("git version 2.51.0.windows.1"), (2, 51, 0, 1))
+        self.assertTrue(
+            bootstrap.satisfies_constraint((3, 12, 1), {"kind": "minimum", "value": "3.11"})
+        )
+        self.assertFalse(
+            bootstrap.satisfies_constraint((3, 10, 9), {"kind": "minimum", "value": "3.11"})
+        )
+        self.assertTrue(
+            bootstrap.satisfies_constraint((7, 5, 2), {"kind": "exact_major", "value": "7"})
+        )
+        self.assertFalse(
+            bootstrap.satisfies_constraint((8, 0, 0), {"kind": "exact_major", "value": "7"})
+        )
+
+    def test_probes_real_python_and_rejects_missing_tool(self) -> None:
+        runner = bootstrap.CommandRunner()
+        with tempfile.TemporaryDirectory() as directory:
+            records = bootstrap.probe_toolchains(
+                [{
+                    "name": "python",
+                    "version_argv": [sys.executable, "--version"],
+                    "constraint": {"kind": "minimum", "value": "3.11"},
+                }],
+                runner,
+                Path(directory),
+            )
+            self.assertEqual(records[0]["name"], "python")
+            self.assertTrue(records[0]["constraint_satisfied"])
+            with self.assertRaisesRegex(bootstrap.BootstrapError, "toolchain probe failed: missing"):
+                bootstrap.probe_toolchains(
+                    [{
+                        "name": "missing",
+                        "version_argv": ["ao-tool-that-does-not-exist", "--version"],
+                        "constraint": {"kind": "minimum", "value": "1"},
+                    }],
+                    runner,
+                    Path(directory),
+                )
+
+    def test_materialize_capability_probe_stays_in_run_owned_root(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            evidence_root = Path(directory) / ".ao-baseline"
+            evidence_root.mkdir()
+            before_parent = set(Path(directory).iterdir())
+            capabilities = bootstrap.probe_materialize_capabilities(evidence_root)
+            self.assertEqual(capabilities["platform"], bootstrap.native_platform())
+            self.assertEqual(capabilities["architecture"], platform.machine().lower())
+            self.assertTrue(capabilities["path_with_spaces"])
+            self.assertTrue(capabilities["crlf_round_trip"])
+            self.assertIn("symlink", capabilities)
+            self.assertIn("file_locking", capabilities)
+            self.assertEqual(set(Path(directory).iterdir()), before_parent)
+            retained = evidence_root / "preflight-capabilities.json"
+            bootstrap.write_json_exclusive(retained, capabilities)
+            snapshot = retained.read_bytes()
+            loaded = bootstrap.load_retained_capabilities(retained)
+            self.assertEqual(loaded, capabilities)
+            self.assertEqual(retained.read_bytes(), snapshot)
+
+    def test_builds_deterministic_ordered_all_false_result(self) -> None:
+        repositories = [
+            {"repository": "two", "commit": "2" * 40},
+            {"repository": "one", "commit": "1" * 40},
+        ]
+        assets = [
+            {"repository": "two", "actual_sha256": "b" * 64},
+            {"repository": "one", "actual_sha256": "a" * 64},
+        ]
+        first = bootstrap.build_bootstrap_result(
+            mode="materialize",
+            correlation_id="ao-cross-platform-development-baseline-20260822-r2",
+            controller_commit="1" * 40,
+            baseline_identity="sha256:" + "2" * 64,
+            repositories=repositories,
+            runtime_assets=assets,
+            toolchains=[{"name": "python", "version": "3.12"}],
+            capabilities={"platform": "windows", "architecture": "amd64"},
+            status="pass",
+        )
+        second = bootstrap.build_bootstrap_result(
+            mode="materialize",
+            correlation_id="ao-cross-platform-development-baseline-20260822-r2",
+            controller_commit="1" * 40,
+            baseline_identity="sha256:" + "2" * 64,
+            repositories=list(reversed(repositories)),
+            runtime_assets=list(reversed(assets)),
+            toolchains=[{"name": "python", "version": "3.12"}],
+            capabilities={"architecture": "amd64", "platform": "windows"},
+            status="pass",
+        )
+        self.assertEqual(bootstrap.canonical_bytes(first), bootstrap.canonical_bytes(second))
+        self.assertEqual([item["repository"] for item in first["repositories"]], ["one", "two"])
+        self.assertTrue(all(value is False for value in first["authority"].values()))
+        self.assertNotIn("root", json.dumps(first))
+
+    def test_writes_result_exclusively_and_command_summaries_are_bounded(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            target = Path(directory) / "result.json"
+            document = {"schema": "example.v1", "status": "pass"}
+            digest = bootstrap.write_json_exclusive(target, document)
+            self.assertRegex(digest, r"^sha256:[0-9a-f]{64}$")
+            self.assertEqual(json.loads(target.read_text(encoding="utf-8")), document)
+            with self.assertRaisesRegex(bootstrap.BootstrapError, "result already exists"):
+                bootstrap.write_json_exclusive(target, document)
+            record = bootstrap.CommandRecord(
+                ("git", "--version"),
+                "private cwd",
+                {},
+                0,
+                "stdout",
+                "stderr",
+            )
+            summary = bootstrap.summarize_command(record)
+            self.assertNotIn("cwd", summary)
+            self.assertEqual(summary["stdout_bytes"], 6)
+            self.assertRegex(summary["stderr_sha256"], r"^[0-9a-f]{64}$")
 
 
 if __name__ == "__main__":

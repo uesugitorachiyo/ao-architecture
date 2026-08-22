@@ -6,12 +6,15 @@ from __future__ import annotations
 import json
 import hashlib
 import os
+import platform
 from pathlib import Path
 from pathlib import PurePosixPath
 import re
 import stat
 import subprocess
+import shutil
 import tarfile
+import tempfile
 from typing import Any, Iterable, NamedTuple, Sequence
 from urllib.parse import quote, urlparse
 from urllib.request import Request, urlopen
@@ -27,6 +30,21 @@ MAX_ASSET_BYTES = 256 * 1024 * 1024
 MAX_ARCHIVE_MEMBER_BYTES = 256 * 1024 * 1024
 MAX_ARCHIVE_EXPANDED_BYTES = 512 * 1024 * 1024
 MAX_ARCHIVE_MEMBERS = 1024
+AUTHORITY = {
+    "safe_to_execute": False,
+    "executes_work": False,
+    "approves_work": False,
+    "mutates_repositories": False,
+    "provider_calls": False,
+    "credential_use": False,
+    "release": False,
+    "publication": False,
+    "deployment": False,
+    "promotion": False,
+    "compatibility_activation": False,
+    "external_beta": False,
+    "rsi": False,
+}
 
 
 class BootstrapError(ValueError):
@@ -655,3 +673,255 @@ def materialize_runtime_assets(
             }
         )
     return records
+
+
+def parse_version(output: str) -> tuple[int, ...]:
+    values = tuple(int(value) for value in re.findall(r"\d+", output))
+    if not values:
+        raise BootstrapError("toolchain version output has no numeric version")
+    return values
+
+
+def satisfies_constraint(version: Sequence[int], constraint: dict[str, Any]) -> bool:
+    kind = constraint.get("kind")
+    raw = constraint.get("value")
+    if kind not in {"minimum", "exact_major"} or not isinstance(raw, str):
+        raise BootstrapError("toolchain constraint is invalid")
+    try:
+        required = tuple(int(value) for value in raw.split("."))
+    except ValueError as exc:
+        raise BootstrapError("toolchain constraint value is invalid") from exc
+    if not required:
+        raise BootstrapError("toolchain constraint value is invalid")
+    if kind == "exact_major":
+        return version[0] == required[0]
+    width = max(len(version), len(required))
+    padded_version = tuple(version) + (0,) * (width - len(version))
+    padded_required = required + (0,) * (width - len(required))
+    return padded_version >= padded_required
+
+
+def probe_toolchains(
+    toolchains: Sequence[dict[str, Any]],
+    runner: CommandRunner,
+    cwd: str | Path,
+) -> list[dict[str, Any]]:
+    results: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for toolchain in toolchains:
+        name = toolchain.get("name")
+        argv = toolchain.get("version_argv")
+        constraint = toolchain.get("constraint")
+        if not isinstance(name, str) or not name or name in seen:
+            raise BootstrapError("toolchain name is invalid or duplicate")
+        seen.add(name)
+        if not isinstance(argv, list) or not argv or not all(
+            isinstance(item, str) and item for item in argv
+        ):
+            raise BootstrapError(f"toolchain version argv is invalid: {name}")
+        if not isinstance(constraint, dict):
+            raise BootstrapError(f"toolchain constraint is invalid: {name}")
+        try:
+            record = runner.run(argv, cwd=cwd, timeout=30)
+        except BootstrapError as exc:
+            raise BootstrapError(f"toolchain probe failed: {name}") from exc
+        output = (record.stdout + "\n" + record.stderr).strip()
+        version = parse_version(output)
+        satisfied = satisfies_constraint(version, constraint)
+        if not satisfied:
+            raise BootstrapError(f"toolchain constraint is not satisfied: {name}")
+        results.append(
+            {
+                "name": name,
+                "version": ".".join(str(value) for value in version),
+                "constraint": dict(constraint),
+                "constraint_satisfied": True,
+                "command": summarize_command(record),
+            }
+        )
+    return results
+
+
+def native_platform() -> str:
+    system = platform.system().lower()
+    if system == "darwin":
+        return "macos"
+    if system == "windows":
+        return "windows"
+    if system == "linux":
+        return "linux"
+    raise BootstrapError(f"unsupported host platform: {system}")
+
+
+def _probe_file_locking(path: Path) -> bool:
+    with path.open("w+b") as handle:
+        handle.write(b"0")
+        handle.flush()
+        try:
+            if os.name == "nt":
+                import msvcrt
+
+                handle.seek(0)
+                msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
+                handle.seek(0)
+                msvcrt.locking(handle.fileno(), msvcrt.LK_UNLCK, 1)
+            else:
+                import fcntl
+
+                fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+                fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+        except OSError:
+            return False
+    return True
+
+
+def probe_materialize_capabilities(evidence_root: str | Path) -> dict[str, Any]:
+    root = Path(evidence_root)
+    if not root.is_dir() or is_link_or_reparse(root):
+        raise BootstrapError("capability evidence root must be a regular directory")
+    probes = contained_child(root, "capability-probes")
+    probes.mkdir(exist_ok=False)
+    try:
+        case_file = probes / "case-probe"
+        case_file.write_bytes(b"case")
+        case_sensitive = not (probes / "CASE-PROBE").exists()
+
+        crlf_file = probes / "crlf-probe.txt"
+        crlf_file.write_bytes(b"line\r\n")
+        crlf_round_trip = crlf_file.read_bytes() == b"line\r\n"
+
+        spaces = probes / "path with spaces"
+        spaces.mkdir()
+        path_with_spaces = spaces.is_dir()
+
+        symlink_status = "unavailable"
+        symlink_target = probes / "symlink-target"
+        symlink_link = probes / "symlink-link"
+        symlink_target.write_bytes(b"target")
+        try:
+            symlink_link.symlink_to(symlink_target)
+        except (OSError, NotImplementedError):
+            pass
+        else:
+            symlink_status = "available" if is_link_or_reparse(symlink_link) else "misclassified"
+
+        locking = _probe_file_locking(probes / "locking-probe")
+        capabilities = {
+            "platform": native_platform(),
+            "architecture": platform.machine().lower(),
+            "case_sensitive": case_sensitive,
+            "crlf_round_trip": crlf_round_trip,
+            "path_with_spaces": path_with_spaces,
+            "symlink": symlink_status,
+            "file_locking": locking,
+            "executable_suffix": ".exe" if os.name == "nt" else "",
+            "powershell_51": shutil.which("powershell") is not None,
+            "powershell_7": shutil.which("pwsh") is not None,
+            "git_bash": shutil.which("bash") is not None,
+            "covenant_rosetta_required": native_platform() == "macos"
+            and platform.machine().lower() in {"arm64", "aarch64"},
+        }
+        return capabilities
+    finally:
+        for child in sorted(probes.rglob("*"), key=lambda path: len(path.parts), reverse=True):
+            if child.is_symlink() or child.is_file():
+                child.unlink()
+            elif child.is_dir():
+                child.rmdir()
+        probes.rmdir()
+
+
+def canonical_bytes(document: Any) -> bytes:
+    return json.dumps(
+        document, sort_keys=True, separators=(",", ":"), ensure_ascii=False
+    ).encode("utf-8")
+
+
+def write_json_exclusive(path: str | Path, document: Any) -> str:
+    target = Path(path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    if target.exists() or is_link_or_reparse(target):
+        raise BootstrapError(f"result already exists: {target.name}")
+    body = json.dumps(document, sort_keys=True, indent=2, ensure_ascii=False).encode("utf-8") + b"\n"
+    descriptor, temporary_name = tempfile.mkstemp(
+        prefix=f".{target.name}.", suffix=".tmp", dir=target.parent
+    )
+    temporary = Path(temporary_name)
+    try:
+        with os.fdopen(descriptor, "wb") as output:
+            output.write(body)
+            output.flush()
+            os.fsync(output.fileno())
+        try:
+            os.link(temporary, target)
+        except FileExistsError as exc:
+            raise BootstrapError(f"result already exists: {target.name}") from exc
+    finally:
+        temporary.unlink(missing_ok=True)
+    return "sha256:" + hashlib.sha256(body).hexdigest()
+
+
+def load_retained_capabilities(path: str | Path) -> dict[str, Any]:
+    document = load_json_file(path, 256 * 1024)
+    if not isinstance(document, dict):
+        raise BootstrapError("retained capabilities must be an object")
+    for field in ("platform", "architecture", "symlink", "file_locking"):
+        if field not in document:
+            raise BootstrapError(f"retained capabilities missing field: {field}")
+    return document
+
+
+def summarize_command(record: CommandRecord) -> dict[str, Any]:
+    stdout = record.stdout.encode("utf-8")
+    stderr = record.stderr.encode("utf-8")
+    return {
+        "command": Path(record.argv[0]).name,
+        "argv_count": len(record.argv),
+        "exit_status": record.returncode,
+        "stdout_bytes": len(stdout),
+        "stdout_sha256": hashlib.sha256(stdout).hexdigest(),
+        "stderr_bytes": len(stderr),
+        "stderr_sha256": hashlib.sha256(stderr).hexdigest(),
+    }
+
+
+def build_bootstrap_result(
+    *,
+    mode: str,
+    correlation_id: str,
+    controller_commit: str,
+    baseline_identity: str,
+    repositories: Sequence[dict[str, Any]],
+    runtime_assets: Sequence[dict[str, Any]],
+    toolchains: Sequence[dict[str, Any]],
+    capabilities: dict[str, Any],
+    status: str,
+) -> dict[str, Any]:
+    if mode not in {"materialize", "verify-existing"}:
+        raise BootstrapError("result mode is invalid")
+    if status not in {"pass", "fail"}:
+        raise BootstrapError("result status is invalid")
+    if not re.fullmatch(r"[0-9a-f]{40}", controller_commit):
+        raise BootstrapError("controller commit is invalid")
+    if not re.fullmatch(r"sha256:[0-9a-f]{64}", baseline_identity):
+        raise BootstrapError("baseline identity is invalid")
+    return {
+        "schema": "ao.architecture.development-baseline-bootstrap-result.v1",
+        "correlation_id": correlation_id,
+        "slice": "S02",
+        "mode": mode,
+        "status": status,
+        "controller_source_commit": controller_commit,
+        "baseline_identity": baseline_identity,
+        "platform": capabilities.get("platform"),
+        "architecture": capabilities.get("architecture"),
+        "repositories": sorted(
+            (dict(item) for item in repositories), key=lambda item: item["repository"]
+        ),
+        "runtime_assets": sorted(
+            (dict(item) for item in runtime_assets), key=lambda item: item["repository"]
+        ),
+        "toolchains": [dict(item) for item in toolchains],
+        "capabilities": dict(capabilities),
+        "authority": dict(AUTHORITY),
+    }
