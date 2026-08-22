@@ -41,4 +41,4 @@ Only `ADVANCE_SUCCESSOR_ARCHITECTURE` permits a separately authorized follow-on 
 - AO Next appears in the active hosted instruction layout and quality-gate registry with planned quality-gate adoption.
 - The authority inventory records a bounded Windows execution-candidate domain without displacing AO2.
 - Current public release manifests, tested-stack manifests, compatibility claims, and architecture diagrams remain unchanged because AO Next has not replaced or joined the supported production baseline.
-- Provider calls, credentials, real repository mutation, releases, publication, deployment, promotion, and migration still require separate exact-scope authority.
+- Provider calls, credentials, real engineering-journey target mutation, releases, publication, deployment, promotion, and migration still require separate exact-scope authority.
