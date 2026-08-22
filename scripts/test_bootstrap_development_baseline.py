@@ -25,6 +25,14 @@ if SPEC is None or SPEC.loader is None:
     raise RuntimeError("cannot load bootstrap_development_baseline")
 bootstrap = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(bootstrap)
+REHASH_PATH = ROOT / "scripts" / "rehash_development_baseline_results.py"
+REHASH_SPEC = importlib.util.spec_from_file_location(
+    "rehash_development_baseline_results", REHASH_PATH
+)
+if REHASH_SPEC is None or REHASH_SPEC.loader is None:
+    raise RuntimeError("cannot load rehash_development_baseline_results")
+rehash = importlib.util.module_from_spec(REHASH_SPEC)
+REHASH_SPEC.loader.exec_module(rehash)
 
 
 class JSONInputTests(unittest.TestCase):
@@ -657,6 +665,78 @@ class CliAndWrapperTests(unittest.TestCase):
         self.assertNotIn("Invoke-Expression", powershell)
         self.assertIn('"$@"', shell)
         self.assertNotIn("eval", shell)
+
+
+class WorkflowContractTests(unittest.TestCase):
+    def test_hosted_workflow_is_native_bounded_and_independently_rehashed(self) -> None:
+        workflow = (
+            Path(__file__).resolve().parents[1]
+            / ".github"
+            / "workflows"
+            / "development-baseline-bootstrap.yml"
+        ).read_text(encoding="utf-8")
+        self.assertIn("workflow_dispatch:", workflow)
+        self.assertNotIn("pull_request:", workflow)
+        self.assertNotIn("push:", workflow)
+        self.assertIn("macos-26", workflow)
+        self.assertIn("windows-2025", workflow)
+        self.assertNotIn("self-hosted", workflow)
+        self.assertIn("ao baseline", workflow)
+        self.assertIn("bootstrap-development-baseline.sh", workflow)
+        self.assertIn("bootstrap-development-baseline.ps1", workflow)
+        self.assertIn("git rev-parse HEAD", workflow)
+        self.assertIn("${{ matrix.os }}-${{ github.sha }}-host", workflow)
+        self.assertIn("${{ matrix.os }}-${{ github.sha }}-cleanup", workflow)
+        upload_host = workflow.index("Upload host result")
+        cleanup = workflow.index("Cleanup exact run root")
+        self.assertLess(upload_host, cleanup)
+        self.assertIn("if: ${{ always() }}", workflow)
+        self.assertIn("cleanup_status", workflow)
+        self.assertIn("needs: qualify", workflow)
+        self.assertIn("actions/download-artifact@v4", workflow)
+        self.assertIn("rehash_development_baseline_results", workflow)
+        lowered = workflow.lower()
+        for forbidden in (
+            "secrets.", "provider_call", "credential_use", "release:",
+            "deployment", "publication", "promotion",
+        ):
+            self.assertNotIn(forbidden, lowered)
+
+    def test_rehash_requires_two_bound_hosts_and_cleanup_proofs(self) -> None:
+        source_commit = "a" * 40
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            host_dir = root / "host"
+            cleanup_dir = root / "cleanup"
+            host_dir.mkdir()
+            cleanup_dir.mkdir()
+            for platform_name in ("macos-26", "windows-2025"):
+                host = {
+                    "controller_source_commit": source_commit,
+                    "baseline_identity": "sha256:" + "b" * 64,
+                    "status": "pass",
+                    "repositories": [{"repository": str(index)} for index in range(14)],
+                    "runtime_assets": [
+                        {"expected_sha256": "c" * 64, "actual_sha256": "c" * 64}
+                        for _index in range(7)
+                    ],
+                    "authority": {"safe_to_execute": False},
+                }
+                (host_dir / f"{platform_name}-host.json").write_text(
+                    json.dumps(host), encoding="utf-8"
+                )
+                cleanup = {
+                    "source_commit": source_commit,
+                    "cleanup_status": "root_absent",
+                }
+                (cleanup_dir / f"{platform_name}-cleanup.json").write_text(
+                    json.dumps(cleanup), encoding="utf-8"
+                )
+            report = rehash.build_report(host_dir, cleanup_dir, source_commit)
+            self.assertEqual(report["status"], "pass")
+            self.assertEqual(len(report["hosts"]), 2)
+            self.assertEqual(len(report["cleanups"]), 2)
+            self.assertEqual(report["digest_mismatches"], 0)
 
 
 if __name__ == "__main__":
