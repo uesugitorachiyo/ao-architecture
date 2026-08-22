@@ -683,6 +683,7 @@ class WorkflowContractTests(unittest.TestCase):
         self.assertNotIn("self-hosted", workflow)
         self.assertIn("ao baseline", workflow)
         self.assertIn("bootstrap-development-baseline.sh", workflow)
+        self.assertIn("sh scripts/bootstrap-development-baseline.sh", workflow)
         self.assertIn("bootstrap-development-baseline.ps1", workflow)
         self.assertIn("git rev-parse HEAD", workflow)
         self.assertIn("${{ matrix.os }}-${{ github.sha }}-host", workflow)

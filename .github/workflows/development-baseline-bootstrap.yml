@@ -44,7 +44,7 @@ jobs:
         if: runner.os == 'macOS'
         shell: bash
         run: |
-          scripts/bootstrap-development-baseline.sh \
+          sh scripts/bootstrap-development-baseline.sh \
             --mode materialize \
             --manifest stack/development-baseline-manifest.json \
             --schema docs/contracts/development-baseline-manifest-v1.schema.json \
