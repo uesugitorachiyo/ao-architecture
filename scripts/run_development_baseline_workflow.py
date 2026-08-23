@@ -210,7 +210,7 @@ def _environment(run_root):
         "WINDOWSSDKVERSION", "UNIVERSALCRTSDKDIR", "UCRTVERSION", "DEVENVDIR",
         "FRAMEWORKDIR", "FRAMEWORKVERSION", "FRAMEWORKVERSION64", "PLATFORM",
         "PROCESSOR_ARCHITECTURE", "PROCESSOR_IDENTIFIER", "PROCESSOR_LEVEL",
-        "PROCESSOR_REVISION",
+        "PROCESSOR_REVISION", "PROGRAMFILES", "PROGRAMFILES(X86)", "PROGRAMDATA",
     }
     environment = {key: value for key, value in os.environ.items() if key.upper() in allowed}
     environment["AO_MISSION_HOME"] = str(run_root / "mission-state")
@@ -236,6 +236,52 @@ def _configure_windows_rust_linker(environment, sysroot=None):
     if not linker.is_file() or linker.is_symlink():
         raise ValueError("bundled Windows rust-lld is missing or unsafe")
     environment["CARGO_TARGET_X86_64_PC_WINDOWS_MSVC_LINKER"] = str(linker)
+    return environment
+
+
+def _latest_toolchain_directory(root, required_paths, label):
+    root = Path(root)
+    candidates = [
+        candidate
+        for candidate in root.iterdir()
+        if candidate.is_dir()
+        and not candidate.is_symlink()
+        and all((candidate / relative).is_dir() for relative in required_paths)
+    ] if root.is_dir() and not root.is_symlink() else []
+    if not candidates:
+        raise ValueError(f"cannot resolve installed {label}")
+    return sorted(candidates, key=lambda path: tuple(int(part) for part in re.findall(r"\d+", path.name)))[-1]
+
+
+def _configure_windows_rust_libraries(environment, visual_studio_root=None, windows_kits_lib_root=None):
+    if os.name != "nt" and visual_studio_root is None and windows_kits_lib_root is None:
+        return environment
+    program_files_x86 = os.environ.get("ProgramFiles(x86)")
+    if visual_studio_root is None:
+        if not program_files_x86:
+            raise ValueError("cannot resolve Program Files for MSVC x64 libraries")
+        vswhere = Path(program_files_x86) / "Microsoft Visual Studio" / "Installer" / "vswhere.exe"
+        if not vswhere.is_file() or vswhere.is_symlink():
+            raise ValueError("cannot resolve installed MSVC x64 libraries")
+        completed = subprocess.run(
+            [str(vswhere), "-latest", "-products", "*", "-requires", "Microsoft.VisualStudio.Component.VC.Tools.x86.x64", "-property", "installationPath"],
+            env=environment,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        if completed.returncode or not completed.stdout.strip():
+            raise ValueError("cannot resolve installed MSVC x64 libraries")
+        visual_studio_root = Path(completed.stdout.strip())
+    if windows_kits_lib_root is None:
+        if not program_files_x86:
+            raise ValueError("cannot resolve Program Files for Windows SDK x64 libraries")
+        windows_kits_lib_root = Path(program_files_x86) / "Windows Kits" / "10" / "Lib"
+    msvc = _latest_toolchain_directory(Path(visual_studio_root) / "VC" / "Tools" / "MSVC", (Path("lib/x64"),), "MSVC x64 libraries")
+    sdk = _latest_toolchain_directory(windows_kits_lib_root, (Path("ucrt/x64"), Path("um/x64")), "Windows SDK x64 libraries")
+    paths = [Path(msvc) / "lib" / "x64", Path(sdk) / "ucrt" / "x64", Path(sdk) / "um" / "x64"]
+    retained = [item for item in environment.get("LIB", "").split(os.pathsep) if item]
+    environment["LIB"] = os.pathsep.join(dict.fromkeys(retained + [str(path) for path in paths]))
     return environment
 
 
@@ -279,6 +325,7 @@ def run_workflow(fixture_path, output_path, workspace_root, baseline_manifest):
             environment = _environment(run_root)
             if stage["repository"] in {"ao2", "ao2-control-plane"}:
                 _configure_windows_rust_linker(environment)
+                _configure_windows_rust_libraries(environment)
             prepare_record = {}
             if stage.get("prepare_argv"):
                 prepare_argv = _expand(stage["prepare_argv"], workspace_root, run_root, stage_root, repository)
