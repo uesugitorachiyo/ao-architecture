@@ -132,6 +132,16 @@ class ContractTests(unittest.TestCase):
 
 
 class ResultTests(unittest.TestCase):
+    def test_failure_diagnostic_is_bounded_and_redacted(self):
+        diagnostic = workflow._safe_diagnostic(
+            ("x" * 9000 + "\nfailed under C:/private/workspace\npassword=top-secret\n").encode(),
+            [Path("C:/private/workspace")],
+        )
+        self.assertNotIn("C:/private/workspace", diagnostic)
+        self.assertNotIn("top-secret", diagnostic)
+        self.assertIn("$ROOT", diagnostic)
+        self.assertLessEqual(len(diagnostic.encode("utf-8")), workflow.MAX_DIAGNOSTIC_BYTES)
+
     def test_sanitized_environment_retains_msvc_toolchain_not_credentials(self):
         provider_key_name = "OPENAI_" + "API" + "_KEY"
         source = {"PATH": "tools", "INCLUDE": "headers", "LIB": "libraries", "GITHUB_TOKEN": "secret", provider_key_name: "secret"}
