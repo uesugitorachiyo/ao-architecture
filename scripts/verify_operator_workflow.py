@@ -51,12 +51,12 @@ def validate_operator_workflow(document: str) -> list[str]:
     lower = normalized.lower()
 
     required_phrases = {
-        "document must mention AO2 v0.5.11": "ao2 v0.5.11",
+        "document must mention AO2 v0.5.12": "ao2 v0.5.12",
         "document must mention AO2 Control Plane v0.1.19": "ao2 control plane v0.1.19",
-        "document must mention 16 tested compatibility edges": "16 tested",
+        "document must state the strict public pair has no gaps": "strict public-pair verifier reports no gaps",
+        "document must mention five native compatibility vectors": "five native compatibility vectors",
+        "document must state no Control Plane release is required": "no control plane metadata-only release is required",
         "document must state compatibility gate is ready, not active": "compatibility gate is ready, not active",
-        "document must state all 16 compatibility edges are fresh": "all 16 edges are fresh",
-        "document must state the unchanged bridge binds the current pair": "unchanged-contract bridge binds ao2 v0.5.11 to the native ao2 v0.5.10 execution-to-observation vector and control plane v0.1.19 consumer test",
         "document must state RSI remains denied": "rsi remains denied",
         "document must state live self-modification is denied": "live self-modification is denied",
         "document must state provider pilot did not run": "provider pilot did not run",
