@@ -187,7 +187,12 @@ def _environment(run_root):
         "PATH", "PATHEXT", "SYSTEMROOT", "WINDIR", "COMSPEC", "TEMP", "TMP",
         "TMPDIR", "LANG", "LC_ALL", "HOME", "USERPROFILE", "HOMEDRIVE",
         "HOMEPATH", "LOCALAPPDATA", "APPDATA", "CARGO_HOME", "RUSTUP_HOME",
-        "GOCACHE", "GOMODCACHE",
+        "GOCACHE", "GOMODCACHE", "INCLUDE", "LIB", "LIBPATH", "VSINSTALLDIR",
+        "VCINSTALLDIR", "VCTOOLSINSTALLDIR", "WINDOWSSDKDIR",
+        "WINDOWSSDKVERSION", "UNIVERSALCRTSDKDIR", "UCRTVERSION", "DEVENVDIR",
+        "FRAMEWORKDIR", "FRAMEWORKVERSION", "FRAMEWORKVERSION64", "PLATFORM",
+        "PROCESSOR_ARCHITECTURE", "PROCESSOR_IDENTIFIER", "PROCESSOR_LEVEL",
+        "PROCESSOR_REVISION",
     }
     environment = {key: value for key, value in os.environ.items() if key.upper() in allowed}
     environment["AO_MISSION_HOME"] = str(run_root / "mission-state")
