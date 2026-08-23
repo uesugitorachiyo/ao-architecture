@@ -593,7 +593,7 @@ def _identity_arguments(asset, binary):
 
 def _write_windows_worker_lease(root):
     now = datetime.now(timezone.utc)
-    factory = root / "factory root with spaces"
+    factory = (root / "factory root with spaces").resolve(strict=False)
     lease_id = "public-stack-canary-lease"
     scratch = factory / ".ao2-physical-host-leases" / lease_id
     lease = {
@@ -654,7 +654,8 @@ def run_windows_worker_smoke(archive, root, env, *, execute=run_command):
     except json.JSONDecodeError as error:
         raise ValueError("packaged Windows worker validation output is not JSON") from error
     if validation.get("status") != "accepted":
-        raise ValueError("packaged Windows worker offline lease was not accepted")
+        category = validation.get("error_category", "unknown")
+        raise ValueError(f"packaged Windows worker offline lease was not accepted: {category}")
     return (
         {
             "status": "passed",

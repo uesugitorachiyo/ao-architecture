@@ -159,6 +159,21 @@ class SafeInstallTests(unittest.TestCase):
         )
         self.assertIn(" ", str(package[0].parent))
 
+    def test_windows_worker_lease_binds_the_resolved_factory_root(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            lease_path, lease_digest, factory = canary._write_windows_worker_lease(root)
+            raw = lease_path.read_bytes()
+            lease = json.loads(raw)
+            self.assertEqual(
+                (root / "factory root with spaces").resolve(strict=False), factory
+            )
+            self.assertEqual(
+                str(factory / ".ao2-physical-host-leases" / lease["lease_id"]),
+                lease["scratch_root"],
+            )
+            self.assertEqual(hashlib.sha256(raw).hexdigest(), lease_digest)
+
 
 class CommandTests(unittest.TestCase):
     def result(self, stdout):
