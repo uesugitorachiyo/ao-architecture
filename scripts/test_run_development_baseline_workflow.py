@@ -2,6 +2,7 @@
 import copy
 import importlib.util
 import json
+import os
 from pathlib import Path
 import tempfile
 import unittest
@@ -144,11 +145,12 @@ class ResultTests(unittest.TestCase):
 
     def test_sanitized_environment_retains_msvc_toolchain_not_credentials(self):
         provider_key_name = "OPENAI_" + "API" + "_KEY"
-        source = {"PATH": "tools", "INCLUDE": "headers", "LIB": "libraries", "GITHUB_TOKEN": "secret", provider_key_name: "secret"}
+        source = {"PATH": "tools", "INCLUDE": "headers", "LIB": "libraries", "ProgramData": "inventory", "GITHUB_TOKEN": "secret", provider_key_name: "secret"}
         with mock.patch.dict(workflow.os.environ, source, clear=True):
             environment = workflow._environment(Path("run"))
         self.assertEqual(environment["INCLUDE"], "headers")
         self.assertEqual(environment["LIB"], "libraries")
+        self.assertEqual(environment["PROGRAMDATA"], "inventory")
         self.assertNotIn("GITHUB_TOKEN", environment)
         self.assertNotIn(provider_key_name, environment)
 
@@ -166,6 +168,34 @@ class ResultTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             with self.assertRaisesRegex(ValueError, "rust-lld"):
                 workflow._configure_windows_rust_linker({}, sysroot=Path(directory))
+
+    def test_windows_rust_libraries_are_bound_from_installed_toolchains(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            visual_studio = root / "Visual Studio"
+            msvc_lib = visual_studio / "VC" / "Tools" / "MSVC" / "14.42.0" / "lib" / "x64"
+            kits = root / "Windows Kits" / "10" / "Lib"
+            ucrt_lib = kits / "10.0.26100.0" / "ucrt" / "x64"
+            um_lib = kits / "10.0.26100.0" / "um" / "x64"
+            for path in (msvc_lib, ucrt_lib, um_lib):
+                path.mkdir(parents=True)
+            environment = {"LIB": "retained"}
+            workflow._configure_windows_rust_libraries(
+                environment,
+                visual_studio_root=visual_studio,
+                windows_kits_lib_root=kits,
+            )
+            self.assertEqual(environment["LIB"].split(os.pathsep), ["retained", str(msvc_lib), str(ucrt_lib), str(um_lib)])
+
+    def test_windows_rust_libraries_missing_fail_closed(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            with self.assertRaisesRegex(ValueError, "MSVC x64 libraries"):
+                workflow._configure_windows_rust_libraries(
+                    {},
+                    visual_studio_root=root / "Visual Studio",
+                    windows_kits_lib_root=root / "Windows Kits",
+                )
 
     def test_result_validation_rejects_digest_and_cleanup_drift(self):
         result = {

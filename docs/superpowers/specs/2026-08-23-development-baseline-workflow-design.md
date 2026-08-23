@@ -76,7 +76,10 @@ MSVC and Windows SDK discovery variables required by Cargo. For the AO2 Rust
 stages it binds Cargo directly to the installed toolchain's bundled
 `rust-lld.exe`; this prevents an unrelated `link.exe` earlier on `PATH` from
 receiving MSVC linker arguments without mutating the host or global `PATH`.
-The binding fails closed if the bundled linker is absent or unsafe. Provider tokens,
+It discovers the newest installed MSVC and Windows SDK x64 library directories
+from the platform inventories and exposes only those paths to the child. The
+binding fails closed if the linker or either library inventory is absent or
+unsafe. Provider tokens,
 API keys, and credential variables remain absent. It captures bounded stdout/stderr hashes, not unbounded
 transcripts. Failed stages also retain at most 4 KiB of path-scrubbed,
 credential-redacted stderr so a native failure can be assigned without exposing
