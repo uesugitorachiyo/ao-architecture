@@ -1,0 +1,25 @@
+{
+  "schema": "ao.architecture.development-baseline-normalization.v1",
+  "rules": [
+    "absolute_root",
+    "path_separator",
+    "executable_suffix",
+    "shell_name",
+    "timestamp",
+    "duration",
+    "process_id",
+    "archive_format"
+  ],
+  "duration_fields": [
+    "elapsed_ms",
+    "duration_ms",
+    "duration_seconds",
+    "elapsed_seconds"
+  ],
+  "process_id_fields": [
+    "pid",
+    "process_id",
+    "process_ids"
+  ],
+  "max_evidence_bytes": 1048576
+}

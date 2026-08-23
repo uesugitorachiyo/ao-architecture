@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ao.local/contracts/development-baseline-result-v1.schema.json",
+  "title": "AO Development Baseline Workflow Result v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "status", "correlation_id", "baseline_identity", "normalization", "stages", "authority", "cleanup"],
+  "properties": {
+    "schema": {"const": "ao.architecture.development-baseline-workflow-result.v1"},
+    "status": {"const": "pass"},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "baseline_identity": {"$ref": "#/$defs/digest"},
+    "normalization": {"$ref": "#/$defs/normalization"},
+    "stages": {"type": "array", "minItems": 14, "maxItems": 14, "items": {"$ref": "#/$defs/stage"}},
+    "authority": {"$ref": "#/$defs/authority"},
+    "cleanup": {"$ref": "#/$defs/cleanup"}
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "evidence": {
+      "type": "object", "additionalProperties": false,
+      "required": ["encoding", "bytes", "sha256", "data"],
+      "properties": {
+        "encoding": {"const": "base64"}, "bytes": {"type": "integer", "minimum": 0, "maximum": 1048576},
+        "sha256": {"$ref": "#/$defs/digest"}, "data": {"type": "string", "contentEncoding": "base64"}
+      }
+    },
+    "normalization": {
+      "type": "object", "additionalProperties": false,
+      "required": ["absolute_roots", "path_separator", "executable_suffix", "shell_names", "archive_suffixes"],
+      "properties": {
+        "absolute_roots": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "path_separator": {"enum": ["/", "\\"]}, "executable_suffix": {"enum": ["", ".exe"]},
+        "shell_names": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "archive_suffixes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "stage": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "repository", "source_commit", "status", "outcome", "consumes", "artifact_sha256", "artifact_evidence", "stdout_sha256", "stdout_evidence", "stderr_sha256", "stderr_evidence", "exit_code", "elapsed_ms"],
+      "dependentRequired": {
+        "prepare_exit_code": ["prepare_stdout_sha256", "prepare_stdout_evidence", "prepare_stderr_sha256", "prepare_stderr_evidence"],
+        "prepare_stdout_sha256": ["prepare_exit_code"], "prepare_stdout_evidence": ["prepare_exit_code"],
+        "prepare_stderr_sha256": ["prepare_exit_code"], "prepare_stderr_evidence": ["prepare_exit_code"]
+      },
+      "properties": {
+        "id": {"type": "string", "minLength": 1}, "repository": {"type": "string", "minLength": 1},
+        "source_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"}, "status": {"const": "pass"},
+        "outcome": {"type": "string", "minLength": 1}, "consumes": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "artifact_sha256": {"$ref": "#/$defs/digest"}, "artifact_evidence": {"$ref": "#/$defs/evidence"},
+        "stdout_sha256": {"$ref": "#/$defs/digest"}, "stdout_evidence": {"$ref": "#/$defs/evidence"},
+        "stderr_sha256": {"$ref": "#/$defs/digest"}, "stderr_evidence": {"$ref": "#/$defs/evidence"},
+        "exit_code": {"const": 0}, "elapsed_ms": {"type": "integer", "minimum": 0}, "prepare_exit_code": {"const": 0},
+        "prepare_stdout_sha256": {"$ref": "#/$defs/digest"}, "prepare_stdout_evidence": {"$ref": "#/$defs/evidence"},
+        "prepare_stderr_sha256": {"$ref": "#/$defs/digest"}, "prepare_stderr_evidence": {"$ref": "#/$defs/evidence"}
+      }
+    },
+    "authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["safe_to_execute", "executes_work", "approves_work", "mutates_repositories", "provider_calls", "credential_use", "release", "publication", "deployment", "promotion", "compatibility_activation", "external_beta", "rsi"],
+      "properties": {
+        "safe_to_execute": {"const": false}, "executes_work": {"const": false}, "approves_work": {"const": false}, "mutates_repositories": {"const": false},
+        "provider_calls": {"const": false}, "credential_use": {"const": false}, "release": {"const": false}, "publication": {"const": false},
+        "deployment": {"const": false}, "promotion": {"const": false}, "compatibility_activation": {"const": false}, "external_beta": {"const": false}, "rsi": {"const": false}
+      }
+    },
+    "cleanup": {
+      "type": "object", "additionalProperties": false, "required": ["run_owned_processes", "run_owned_listeners", "temporary_root"],
+      "properties": {"run_owned_processes": {"const": 0}, "run_owned_listeners": {"const": 0}, "temporary_root": {"const": "removed"}}
+    }
+  }
+}
