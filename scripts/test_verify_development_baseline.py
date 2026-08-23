@@ -30,7 +30,7 @@ from verify_development_baseline import (  # noqa: E402
 
 
 REPOSITORY_FIXTURES = [
-    ("ao-architecture", "7574e39f0582ce135b5fd6c7ec75f901b616f2bc", "architecture_truth"),
+    ("ao-architecture", "4b64328f05f2f9a2a267538487553bf2b796e2e2", "architecture_truth"),
     ("ao-mission", "f631893906e3bed6f257ac30bc3d0ad2739fe9df", "mission_state"),
     ("ao-blueprint", "ec6a80b60b54c0c0ac1822f873c1abf337fe5eb5", "requirements_authorization"),
     ("ao-atlas", "3eec009d7541edd29fb5383d209cfdb480e664bc", "workgraph_context"),

@@ -1,13 +1,13 @@
 {
   "schema": "ao.architecture.development-baseline-manifest.v1",
   "profile": "stable",
-  "source_freeze_utc": "2026-08-23T19:48:18Z",
+  "source_freeze_utc": "2026-08-23T20:20:00Z",
   "repositories": [
     {
       "name": "ao-architecture",
       "path": "ao-architecture",
       "upstream_url": "https://github.com/uesugitorachiyo/ao-architecture.git",
-      "commit": "7574e39f0582ce135b5fd6c7ec75f901b616f2bc",
+      "commit": "4b64328f05f2f9a2a267538487553bf2b796e2e2",
       "branch_metadata": "main",
       "source_role": "architecture_truth",
       "gate_source": {

@@ -232,7 +232,10 @@ def _environment(run_root):
         "PROCESSOR_ARCHITECTURE", "PROCESSOR_IDENTIFIER", "PROCESSOR_LEVEL",
         "PROCESSOR_REVISION", "PROGRAMFILES", "PROGRAMFILES(X86)", "PROGRAMDATA",
     }
-    environment = {key: value for key, value in os.environ.items() if key.upper() in allowed}
+    # Windows treats environment keys case-insensitively while POSIX does not.
+    # Canonicalize retained keys so a captured Windows toolchain environment has
+    # the same shape when the workflow tests run on every supported platform.
+    environment = {key.upper(): value for key, value in os.environ.items() if key.upper() in allowed}
     environment["AO_MISSION_HOME"] = str(run_root / "mission-state")
     environment["AO_BASELINE_FIXTURE_MODE"] = "credential-free"
     return environment
