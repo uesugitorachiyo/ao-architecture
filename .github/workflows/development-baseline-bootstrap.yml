@@ -1,6 +1,13 @@
 name: Development baseline bootstrap
 
 on:
+  workflow_call:
+    inputs:
+      qualification_scope:
+        description: Full baseline qualification or bounded S04 workflow retry
+        required: false
+        default: full
+        type: string
   workflow_dispatch:
     inputs:
       qualification_scope:

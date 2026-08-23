@@ -102,6 +102,29 @@ probes, retained filesystem capabilities, and all-false authority. Partial
 materialization is deliberately preserved on failure for diagnosis; reuse is
 not allowed, so retry with a new empty root.
 
+## Final Qualification
+
+`.github/workflows/development-baseline-qualification.yml` is the least-authority
+merged-main qualification entry point. It fixes the bootstrap scope to `full`,
+runs clean `macos-26` and `windows-2025` hosts from paths containing spaces,
+executes every declared repository gate and the credential-free workflow,
+compares the two retained semantic results, proves exact cleanup, and writes a
+relative-path evidence closure.
+
+The comparison policy is independently frozen at
+`stack/development-baseline-normalization-v1.json`; it is not part of the source
+baseline manifest and therefore does not change the qualified baseline identity.
+Offline closure verification is:
+
+```text
+python3 scripts/test_verify_development_baseline_evidence.py
+python3 scripts/verify_development_baseline_evidence.py --root <downloaded-proof-root> --source-commit <merged-main-commit> --baseline-identity sha256:add6f39f28eba107732398b7bf86db44b58f80f4a6cea89ec6b97f3b18ab6429 --output <new-output-path>
+```
+
+The output inventories every retained file by safe relative path, size, and
+SHA-256 and fails closed on missing, extra, drifted, unsafe, residual, or
+over-authority evidence.
+
 ## Authority Boundary
 
 Every authority flag remains false. The baseline grants no execution,
