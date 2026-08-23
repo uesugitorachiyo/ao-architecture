@@ -50,6 +50,11 @@ class ContractTests(unittest.TestCase):
     def test_valid_contract(self):
         workflow.validate_fixture(document())
 
+    def test_mission_qualification_readback_uses_text_contract(self):
+        fixture = json.loads((MODULE_PATH.parents[1] / "stack" / "fixtures" / "development-baseline-v1" / "fixture-manifest.json").read_text(encoding="utf-8"))
+        mission_readback = next(stage for stage in fixture["stages"] if stage["id"] == "mission-readback")
+        self.assertFalse(mission_readback["artifact"]["json"])
+
     def test_missing_producer(self):
         self.assert_invalid(lambda d: d["stages"][1].update(consumes=[]), "producer")
 
