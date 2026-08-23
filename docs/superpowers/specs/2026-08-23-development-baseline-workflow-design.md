@@ -84,6 +84,12 @@ terminal states, zero authority counters, and cleanup disposition. S04 records
 the two raw native results separately. It does not claim semantic parity; S05
 owns normalization and comparison.
 
+The hosted workflow defaults to the full materialization, repository-gate, and
+workflow sequence. A bounded `workflow-only` dispatch is permitted only for an
+S04 repair after S03 is durably checkpointed. It still uses new clean native
+roots, exact materialization, the complete fixture, artifact upload, and exact
+cleanup; it skips only the already-accepted S03 gate rerun and its gate rehash.
+
 ## Review Decision
 
 The operator's standing campaign approval accepts this bounded design for S04.

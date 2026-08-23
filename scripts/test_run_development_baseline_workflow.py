@@ -42,6 +42,13 @@ def document():
 
 
 class ContractTests(unittest.TestCase):
+    def test_hosted_workflow_supports_bounded_workflow_only_retry(self):
+        hosted = (MODULE_PATH.parents[1] / ".github" / "workflows" / "development-baseline-bootstrap.yml").read_text(encoding="utf-8")
+        self.assertIn("qualification_scope:", hosted)
+        self.assertIn("default: full", hosted)
+        self.assertIn("- workflow-only", hosted)
+        self.assertIn("inputs.qualification_scope == 'full'", hosted)
+
     def assert_invalid(self, mutate, message):
         candidate = copy.deepcopy(document())
         mutate(candidate)
