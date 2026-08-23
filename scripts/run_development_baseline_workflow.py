@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import hashlib
 import json
 import os
@@ -50,6 +51,15 @@ MAX_DIAGNOSTIC_BYTES = 4096
 
 def _sha256(data: bytes) -> str:
     return "sha256:" + hashlib.sha256(data).hexdigest()
+
+
+def _retained_evidence(data: bytes):
+    return {
+        "encoding": "base64",
+        "bytes": len(data),
+        "sha256": _sha256(data),
+        "data": base64.b64encode(data).decode("ascii"),
+    }
 
 
 def _safe_diagnostic(data, roots):
@@ -174,6 +184,16 @@ def validate_result(document):
             raise ValueError("artifact digest invalid")
         if stage.get("status") != "pass":
             raise ValueError("result contains nonterminal stage")
+        for name in ("artifact", "stdout", "stderr"):
+            evidence = stage.get(f"{name}_evidence", {})
+            try:
+                decoded = base64.b64decode(evidence.get("data", ""), validate=True)
+            except Exception as error:
+                raise ValueError(f"{name} evidence encoding invalid") from error
+            if evidence.get("encoding") != "base64" or evidence.get("bytes") != len(decoded) or evidence.get("sha256") != _sha256(decoded):
+                raise ValueError(f"{name} evidence digest invalid")
+        if stage["artifact_evidence"]["sha256"] != digest:
+            raise ValueError("artifact evidence digest mismatch")
     cleanup = document.get("cleanup", {})
     if cleanup != {"run_owned_processes": 0, "run_owned_listeners": 0, "temporary_root": "removed"}:
         raise ValueError("cleanup is incomplete")
@@ -333,7 +353,9 @@ def run_workflow(fixture_path, output_path, workspace_root, baseline_manifest):
                 if prepared.returncode:
                     diagnostic = _safe_diagnostic(prepared.stderr[:65536], (workspace_root, run_root, repository))
                     raise RuntimeError(f"stage prepare failed: {stage['id']} exit={prepared.returncode} stderr_sha256={_sha256(prepared.stderr[:65536])} diagnostic={json.dumps(diagnostic)}")
-                prepare_record = {"prepare_exit_code": prepared.returncode, "prepare_stdout_sha256": _sha256(prepared.stdout[:65536]), "prepare_stderr_sha256": _sha256(prepared.stderr[:65536])}
+                prepare_stdout = prepared.stdout[:65536]
+                prepare_stderr = prepared.stderr[:65536]
+                prepare_record = {"prepare_exit_code": prepared.returncode, "prepare_stdout_sha256": _sha256(prepare_stdout), "prepare_stderr_sha256": _sha256(prepare_stderr), "prepare_stdout_evidence": _retained_evidence(prepare_stdout), "prepare_stderr_evidence": _retained_evidence(prepare_stderr)}
             argv = _expand(stage["argv"], workspace_root, run_root, stage_root, repository)
             command_cwd = stage_root if stage.get("working_directory", "repository") == "stage_root" else repository
             started = time.monotonic()
@@ -363,13 +385,20 @@ def run_workflow(fixture_path, output_path, workspace_root, baseline_manifest):
                 raise ValueError(f"stage artifact is empty: {stage['id']}")
             if _head(repository) != stage["source_commit"]:
                 raise ValueError(f"repository source drift: {stage['repository']}")
-            records.append({"id": stage["id"], "repository": stage["repository"], "source_commit": stage["source_commit"], "status": "pass", "outcome": stage["outcome"], "consumes": stage["consumes"], "artifact_sha256": _sha256(artifact), "stdout_sha256": _sha256(stdout), "stderr_sha256": _sha256(stderr), "exit_code": completed.returncode, "elapsed_ms": elapsed_ms, **prepare_record})
+            records.append({"id": stage["id"], "repository": stage["repository"], "source_commit": stage["source_commit"], "status": "pass", "outcome": stage["outcome"], "consumes": stage["consumes"], "artifact_sha256": _sha256(artifact), "artifact_evidence": _retained_evidence(artifact), "stdout_sha256": _sha256(stdout), "stdout_evidence": _retained_evidence(stdout), "stderr_sha256": _sha256(stderr), "stderr_evidence": _retained_evidence(stderr), "exit_code": completed.returncode, "elapsed_ms": elapsed_ms, **prepare_record})
     except Exception as caught:
         status = "fail"
         error = str(caught)
     finally:
         shutil.rmtree(run_root)
-    result = {"schema": RESULT_SCHEMA, "status": status, "correlation_id": fixture["correlation_id"], "baseline_identity": fixture["baseline_identity"], "stages": records, "authority": dict(fixture["authority"]), "cleanup": {"run_owned_processes": 0, "run_owned_listeners": 0, "temporary_root": "removed"}}
+    normalization = {
+        "absolute_roots": [str(workspace_root), str(run_root)],
+        "path_separator": "\\" if os.name == "nt" else "/",
+        "executable_suffix": ".exe" if os.name == "nt" else "",
+        "shell_names": ["pwsh", "powershell", "powershell.exe"] if os.name == "nt" else ["bash", "sh"],
+        "archive_suffixes": [".zip"] if os.name == "nt" else [".tar.gz", ".tar"],
+    }
+    result = {"schema": RESULT_SCHEMA, "status": status, "correlation_id": fixture["correlation_id"], "baseline_identity": fixture["baseline_identity"], "normalization": normalization, "stages": records, "authority": dict(fixture["authority"]), "cleanup": {"run_owned_processes": 0, "run_owned_listeners": 0, "temporary_root": "removed"}}
     if error:
         result["error"] = error
     body = (json.dumps(result, sort_keys=True, separators=(",", ":")) + "\n").encode("utf-8")

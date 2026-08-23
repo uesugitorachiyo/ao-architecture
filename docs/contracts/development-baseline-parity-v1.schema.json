@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ao.local/contracts/development-baseline-parity-v1.schema.json",
+  "title": "AO Development Baseline Parity Verdict v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "parity", "baseline_identity", "correlation_id", "normalization_profile_sha256", "inputs", "normalized_result_sha256", "differences", "authority"],
+  "properties": {
+    "schema": {"const": "ao.architecture.development-baseline-parity.v1"}, "parity": {"const": "pass"},
+    "baseline_identity": {"$ref": "#/$defs/digest"}, "correlation_id": {"type": "string", "minLength": 1},
+    "normalization_profile_sha256": {"$ref": "#/$defs/digest"},
+    "inputs": {"type": "object", "additionalProperties": false, "required": ["macos_sha256", "windows_sha256"], "properties": {"macos_sha256": {"$ref": "#/$defs/digest"}, "windows_sha256": {"$ref": "#/$defs/digest"}}},
+    "normalized_result_sha256": {"$ref": "#/$defs/digest"}, "differences": {"type": "array", "maxItems": 0},
+    "authority": {"$ref": "development-baseline-result-v1.schema.json#/$defs/authority"}
+  },
+  "$defs": {"digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}}
+}

@@ -203,7 +203,8 @@ class ResultTests(unittest.TestCase):
             "status": "pass",
             "correlation_id": document()["correlation_id"],
             "baseline_identity": document()["baseline_identity"],
-            "stages": [{"id": item[0], "status": "pass", "artifact_sha256": "sha256:" + "c" * 64} for item in STAGES],
+            "normalization": {"absolute_roots": ["C:\\root"], "path_separator": "\\", "executable_suffix": ".exe", "shell_names": ["pwsh"], "archive_suffixes": [".zip"]},
+            "stages": [{"id": item[0], "status": "pass", "artifact_sha256": workflow._sha256(b"value"), "artifact_evidence": workflow._retained_evidence(b"value"), "stdout_evidence": workflow._retained_evidence(b""), "stderr_evidence": workflow._retained_evidence(b"")} for item in STAGES],
             "authority": {name: False for name in workflow.AUTHORITY_FIELDS},
             "cleanup": {"run_owned_processes": 0, "run_owned_listeners": 0, "temporary_root": "removed"},
         }
@@ -216,6 +217,11 @@ class ResultTests(unittest.TestCase):
         broken["cleanup"]["temporary_root"] = "present"
         with self.assertRaisesRegex(ValueError, "cleanup"):
             workflow.validate_result(broken)
+
+    def test_retained_evidence_rehashes_and_rejects_drift(self):
+        evidence = workflow._retained_evidence(b"bounded")
+        self.assertEqual(evidence["bytes"], 7)
+        self.assertEqual(evidence["sha256"], workflow._sha256(b"bounded"))
 
 
 if __name__ == "__main__":
