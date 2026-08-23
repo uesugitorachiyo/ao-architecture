@@ -43,14 +43,14 @@ def validate_adoption_support_readiness(document: str) -> list[str]:
     lower = normalized.lower()
 
     required_phrases = {
-        "document must mention AO2 v0.5.11": "ao2 v0.5.11",
+        "document must mention AO2 v0.5.12": "ao2 v0.5.12",
         "document must mention AO2 Control Plane v0.1.19": "ao2 control plane v0.1.19",
         "document must mention 16 tested edges": "16 tested",
         "document must mention 16 canonical vectors": "16 canonical vectors",
         "document must mention 16 consumer tests": "16 consumer tests",
         "document must state compatibility gate is ready, not active": "compatibility gate is ready, not active",
         "document must state all 16 edges are fresh": "all 16 edges are fresh",
-        "document must state the unchanged bridge binds the current pair": "unchanged-contract bridge binds ao2 v0.5.11 to the native ao2 v0.5.10 execution-to-observation vector and control plane v0.1.19 consumer test",
+        "document must state the unchanged bridge binds the current pair": "unchanged-contract bridge binds ao2 v0.5.12 to the native ao2 v0.5.10 execution-to-observation vector and control plane v0.1.19 consumer test",
         "document must state RSI remains denied": "rsi remains denied",
         "document must state live self-modification is denied": "live self-modification is denied",
         "document must state external beta is not launched": "external beta is not launched",

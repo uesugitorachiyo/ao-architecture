@@ -4,9 +4,9 @@ This is the independently verified seven-component public binary stack.
 
 | Component | Release | Tag target | Public assets |
 | --- | --- | --- | ---: |
-| AO2 | [v0.5.11](https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.11) | `8307795b3434af920f6cef088e56ca8fcc76775b` | 5 |
+| AO2 | [v0.5.12](https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.12) | `68cf6914ae51cb4b638a7441ac05c1b4e86ec6d6` | 5 |
 | AO2 Control Plane | [v0.1.19](https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.19) | `5de3541e9007e12d95b125e7f911c02932e21479` | 7 |
-| AO Mission | [v0.1.5](https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.5) | `5d4562578a4751d56910ef108b930fbb8dc91e7d` | 3 |
+| AO Mission | [v0.1.6](https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.6) | `f631893906e3bed6f257ac30bc3d0ad2739fe9df` | 3 |
 | AO Command | [v0.1.3](https://github.com/uesugitorachiyo/ao-command/releases/tag/v0.1.3) | `ffef6d76306e892c3e7a7f39734433d5a832006a` | 3 |
 | AO Atlas | [v0.2.1](https://github.com/uesugitorachiyo/ao-atlas/releases/tag/v0.2.1) | `3603a2bb8af5adafcd9ff17b807ab89f32283d18` | 15 |
 | AO Forge | [v0.1.5](https://github.com/uesugitorachiyo/ao-forge/releases/tag/v0.1.5) | `d1723769949269dcd0589916d83769dcb7275f98` | 16 |
@@ -14,12 +14,12 @@ This is the independently verified seven-component public binary stack.
 
 Exact workflow identities and asset SHA-256 values are recorded in
 `stack/current-release-manifest.json`. AO2 publication run
-[`31619411288`](https://github.com/uesugitorachiyo/ao2/actions/runs/31619411288)
+[`32658699227`](https://github.com/uesugitorachiyo/ao2/actions/runs/32658699227)
 and native public verification run
-[`31622142672`](https://github.com/uesugitorachiyo/ao2/actions/runs/31622142672)
-bind v0.5.11. Mission publication run
-[`32532729277`](https://github.com/uesugitorachiyo/ao-mission/actions/runs/32532729277)
-binds v0.1.5. Command publication and public verification run
+[`32659403123`](https://github.com/uesugitorachiyo/ao2/actions/runs/32659403123)
+bind v0.5.12. Mission publication run
+[`32660778811`](https://github.com/uesugitorachiyo/ao-mission/actions/runs/32660778811)
+binds v0.1.6. Command publication and public verification run
 [`32536659576`](https://github.com/uesugitorachiyo/ao-command/actions/runs/32536659576)
 binds v0.1.3. Atlas publication run
 [`32537720561`](https://github.com/uesugitorachiyo/ao-atlas/actions/runs/32537720561)
@@ -30,11 +30,11 @@ finalizer run
 [`32539072103`](https://github.com/uesugitorachiyo/ao-forge/actions/runs/32539072103)
 published the signed, rehearsed v0.1.5 draft.
 
-## Three-platform public canary
+## Prior three-platform baseline canary
 
 Architecture run
 [`32540433860`](https://github.com/uesugitorachiyo/ao-architecture/actions/runs/32540433860)
-installed the seven pinned public releases on Linux x86_64, macOS arm64, and
+installed the prior seven pinned public releases on Linux x86_64, macOS arm64, and
 Windows x86_64. It ran 21 credential-free commands per platform, reconciled the
 same Mission identity through Atlas, Mission, and Command, and retained zero
 provider, credential, publication, deployment, or repository-mutation counts.
@@ -53,8 +53,9 @@ boundary, not a native-arm64 claim.
 
 ## Compatibility and authority boundaries
 
-The unchanged-contract bridge binds AO2 v0.5.11 to the native v0.5.10
-execution-receipt vector and Control Plane v0.1.19 consumer test. The broader
+The strict public-pair verifier and native compatibility consumers retain AO2
+Control Plane v0.1.19 for AO2 v0.5.12 with no metadata-only Control Plane
+release required. The broader
 compatibility matrix remains `proposed`; `compatibility_gate_complete` remains
 false. These releases and canary results do not activate compatibility,
 external beta, provider execution, promotion, RSI, or any live authority.

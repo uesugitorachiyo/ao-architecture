@@ -3,6 +3,7 @@
 
 from dataclasses import dataclass
 import argparse
+from datetime import datetime, timedelta, timezone
 import hashlib
 import json
 from pathlib import Path, PurePosixPath
@@ -21,6 +22,10 @@ import zipfile
 
 
 TARGETS = ("linux-x86_64", "macos-aarch64", "windows-x86_64")
+WINDOWS_WORKER_FILES = (
+    "ao2-windows-outbound-worker.py",
+    "ao2-windows-worker.cmd",
+)
 MAX_ASSET_BYTES = 128 * 1024 * 1024
 MAX_BINARY_BYTES = 128 * 1024 * 1024
 _RAW_BASE = "https://raw.githubusercontent.com/uesugitorachiyo"
@@ -73,13 +78,13 @@ def _asset(component, version, source_sha, target, filename, sha256, archive, bi
 
 _COMPONENTS = {
     "ao2": (
-        "v0.5.11",
-        "8307795b3434af920f6cef088e56ca8fcc76775b",
+        "v0.5.12",
+        "68cf6914ae51cb4b638a7441ac05c1b4e86ec6d6",
         "ao2",
         {
-            "linux-x86_64": ("ao2-0.5.11-linux-x86_64.tar.gz", "c62c204d520bf51b4c63caecf2a8f48840e44b2828e1e439c68da4994d1abc07", "tar.gz"),
-            "macos-aarch64": ("ao2-0.5.11-macos-aarch64.tar.gz", "857fbe69e606ab99f07dffd3183e6f2d869b8efd4fc604e37efd16607308e6ab", "tar.gz"),
-            "windows-x86_64": ("ao2-0.5.11-windows-x86_64.tar.gz", "327829e9e3e3edf3eeb3b48d3b1ead46af0fa47a768ee6e1843c285e8b1d2756", "tar.gz"),
+            "linux-x86_64": ("ao2-0.5.12-linux-x86_64.tar.gz", "e9de001ed3e23498040ea0ab7c7ab8e26c6312b8ffba1f45284d13b0dc0e30ed", "tar.gz"),
+            "macos-aarch64": ("ao2-0.5.12-macos-aarch64.tar.gz", "83e8dde5ef8426242bb4b8603a9cba4b88b8408fbf8fd834e5e45ae44ded97f6", "tar.gz"),
+            "windows-x86_64": ("ao2-0.5.12-windows-x86_64.tar.gz", "fc96bf33d47f12fc73ad8b529e441e142f81f4f7bc14ff3278f9117756b54982", "tar.gz"),
         },
     ),
     "ao2-control-plane": (
@@ -93,13 +98,13 @@ _COMPONENTS = {
         },
     ),
     "ao-mission": (
-        "v0.1.5",
-        "5d4562578a4751d56910ef108b930fbb8dc91e7d",
+        "v0.1.6",
+        "f631893906e3bed6f257ac30bc3d0ad2739fe9df",
         "ao-mission",
         {
-            "linux-x86_64": ("ao-mission-0.1.5-linux-x86_64.tar.gz", "5aed0659e94c35fc1808b16d092c18e5f782f217170844335bedc59337ac3b25", "tar.gz"),
-            "macos-aarch64": ("ao-mission-0.1.5-macos-aarch64.tar.gz", "54ea5fafac4a65fc1bad6c2d8ec079b084c528aee3fe228692d9cc154ff2d037", "tar.gz"),
-            "windows-x86_64": ("ao-mission-0.1.5-windows-x86_64.zip", "c868653395e0ab19d2c95cc0adbb1e8d97bb5ef0002390040748a7f381cb9a43", "zip"),
+            "linux-x86_64": ("ao-mission-0.1.6-linux-x86_64.tar.gz", "4dee6445ae2ee35e97da5b2a6fb346c8b0bbad4fc993cf966da17038a015c09e", "tar.gz"),
+            "macos-aarch64": ("ao-mission-0.1.6-macos-aarch64.tar.gz", "03a0bc2b0750e56c1c2fee6d977e5e179427255e22c8614dc3317dba7be54035", "tar.gz"),
+            "windows-x86_64": ("ao-mission-0.1.6-windows-x86_64.zip", "ca2d0d2aa7accbea494a325dd5682bbfc55f3b51987f72ff94f80dd798861a1b", "zip"),
         },
     ),
     "ao-atlas": (
@@ -252,6 +257,41 @@ def install_asset(asset, archive, destination):
     raise ValueError(f"unsupported archive type: {asset.archive}")
 
 
+def install_windows_worker_package(archive, destination):
+    destination = Path(destination)
+    destination.mkdir(parents=True, exist_ok=False)
+    matches = {}
+    with tarfile.open(archive, "r:gz") as bundle:
+        for member in bundle.getmembers():
+            name = _safe_name(member.name)
+            if member.issym() or member.islnk():
+                raise ValueError(f"archive link is not allowed: {member.name}")
+            if member.isdir():
+                continue
+            if not member.isfile():
+                raise ValueError(f"archive entry is not a regular file: {member.name}")
+            if member.size > MAX_BINARY_BYTES:
+                raise ValueError(f"archive worker file exceeds {MAX_BINARY_BYTES} bytes")
+            if member.name in WINDOWS_WORKER_FILES:
+                if member.name in matches:
+                    raise ValueError(f"duplicate Windows worker file: {member.name}")
+                matches[member.name] = member
+            elif name.name in WINDOWS_WORKER_FILES:
+                raise ValueError(f"Windows worker file must be at archive root: {member.name}")
+        if set(matches) != set(WINDOWS_WORKER_FILES):
+            raise ValueError("Windows AO2 archive is missing the packaged worker or launcher")
+        outputs = []
+        for filename in WINDOWS_WORKER_FILES:
+            source = bundle.extractfile(matches[filename])
+            if source is None:
+                raise ValueError(f"cannot read Windows worker file: {filename}")
+            output = destination / filename
+            with source, output.open("wb") as handle:
+                copy_bounded(source, handle, MAX_BINARY_BYTES)
+            outputs.append(output)
+    return tuple(outputs)
+
+
 def run_command(argv, *, env, expected_exit, cwd=None):
     command = tuple(str(part) for part in argv)
     started = time.monotonic_ns()
@@ -337,9 +377,9 @@ def validate_report(report):
     if runner.get("system") != expected_runner[0] or runner.get("machine") not in expected_runner[1]:
         raise ValueError("runner does not match target")
     expected = {
-        "ao2": "v0.5.11",
+        "ao2": "v0.5.12",
         "ao2-control-plane": "v0.1.19",
-        "ao-mission": "v0.1.5",
+        "ao-mission": "v0.1.6",
         "ao-atlas": "v0.2.1",
         "ao-command": "v0.1.3",
         "ao-forge": "v0.1.5",
@@ -368,6 +408,22 @@ def validate_report(report):
     commands = report.get("commands", [])
     if not commands or any(command.get("exit_code") != 0 for command in commands):
         raise ValueError("all recorded commands must exit zero")
+
+    worker = report.get("windows_worker")
+    if report["target"] == "windows-x86_64":
+        if worker != {
+            "status": "passed",
+            "launcher": "ao2-windows-worker.cmd",
+            "launcher_path_contains_spaces": True,
+            "python_requirement": ">=3.11",
+            "help": "passed",
+            "offline_lease_validation": "passed",
+            "provider_calls": 0,
+            "credential_uses": 0,
+        }:
+            raise ValueError("Windows worker evidence is missing or invalid")
+    elif worker is not None:
+        raise ValueError("Windows worker must not be exposed on Linux or macOS")
 
     views = report.get("reconciliation", {}).get("views", {})
     expected_views = {"inspect", "checkpoint", "event-index", "command-readback"}
@@ -535,6 +591,86 @@ def _identity_arguments(asset, binary):
     return (str(binary),) + suffixes[asset.component]
 
 
+def _write_windows_worker_lease(root):
+    now = datetime.now(timezone.utc)
+    factory = (root / "factory root with spaces").resolve(strict=False)
+    lease_id = "public-stack-canary-lease"
+    scratch = factory / ".ao2-physical-host-leases" / lease_id
+    lease = {
+        "schema_version": "ao2.physical-host-exclusive-lease.v1",
+        "lease_id": lease_id,
+        "node_id": "windows-public-stack-canary",
+        "purpose": "windows_stack_qualification",
+        "operator_approved": True,
+        "operator_approval_id": "public-stack-canary-approval",
+        "issued_at": (now - timedelta(minutes=1)).isoformat().replace("+00:00", "Z"),
+        "expires_at": (now + timedelta(minutes=10)).isoformat().replace("+00:00", "Z"),
+        "heartbeat_at": now.isoformat().replace("+00:00", "Z"),
+        "exclusive_use_confirmed": True,
+        "interactive_sessions_active": 0,
+        "overlapping_lease_ids": [],
+        "command_profile": "windows_stack_qualification:lifecycle_noop",
+        "scratch_root": str(scratch),
+        "cleanup_roots": [str(scratch)],
+        "natural_completion_only": True,
+        "abort_requested": False,
+        "released": False,
+        "allow_broad_process_termination": False,
+        "allow_graphical_session_mutation": False,
+    }
+    lease_path = root / "offline lease with spaces.json"
+    raw = _write_json(lease_path, lease)
+    return lease_path, hashlib.sha256(raw).hexdigest(), factory
+
+
+def run_windows_worker_smoke(archive, root, env, *, execute=run_command):
+    package_root = root / "AO2 worker package with spaces"
+    worker, launcher = install_windows_worker_package(archive, package_root)
+    if worker.name != WINDOWS_WORKER_FILES[0] or launcher.name != WINDOWS_WORKER_FILES[1]:
+        raise ValueError("Windows worker package inventory order mismatch")
+    help_result = execute((launcher, "--help"), env=env, expected_exit={0})
+    if "usage:" not in help_result.stdout.lower():
+        raise ValueError("packaged Windows worker help output is missing usage")
+    lease_path, lease_digest, factory = _write_windows_worker_lease(root)
+    validation_result = execute(
+        (
+            launcher,
+            "--validate-physical-host-lease",
+            lease_path,
+            "--physical-host-lease-sha256",
+            lease_digest,
+            "--physical-host-lease-profile",
+            "windows_stack_qualification:lifecycle_noop",
+            "--node-id",
+            "windows-public-stack-canary",
+            "--factory-root",
+            factory,
+        ),
+        env=env,
+        expected_exit={0},
+    )
+    try:
+        validation = json.loads(validation_result.stdout)
+    except json.JSONDecodeError as error:
+        raise ValueError("packaged Windows worker validation output is not JSON") from error
+    if validation.get("status") != "accepted":
+        category = validation.get("error_category", "unknown")
+        raise ValueError(f"packaged Windows worker offline lease was not accepted: {category}")
+    return (
+        {
+            "status": "passed",
+            "launcher": launcher.name,
+            "launcher_path_contains_spaces": " " in str(launcher.parent),
+            "python_requirement": ">=3.11",
+            "help": "passed",
+            "offline_lease_validation": "passed",
+            "provider_calls": 0,
+            "credential_uses": 0,
+        },
+        (help_result, validation_result),
+    )
+
+
 def assemble_components(assets, download_root, bin_root, env, *, fetch, execute=run_command):
     download_root = Path(download_root)
     bin_root = Path(bin_root)
@@ -542,6 +678,7 @@ def assemble_components(assets, download_root, bin_root, env, *, fetch, execute=
     records = []
     commands = []
     binaries = {}
+    archives = {}
     for asset in assets:
         filename = PurePosixPath(urlsplit(asset.url).path).name
         archive = download_root / filename
@@ -549,6 +686,7 @@ def assemble_components(assets, download_root, bin_root, env, *, fetch, execute=
         if fetched_bytes != archive.stat().st_size:
             raise ValueError(f"download byte count mismatch: {asset.component}")
         verify_digest(archive, asset.sha256)
+        archives[asset.component] = archive
         binary = install_asset(asset, archive, bin_root)[0]
         result = execute(
             _identity_arguments(asset, binary), env=env, expected_exit={0}
@@ -578,7 +716,7 @@ def assemble_components(assets, download_root, bin_root, env, *, fetch, execute=
                 ),
             }
         )
-    return records, commands, binaries
+    return records, commands, binaries, archives
 
 
 def sanitized_environment(source):
@@ -589,6 +727,8 @@ def sanitized_environment(source):
 def canary_environment(source, root):
     environment = sanitized_environment(source)
     environment["AO_MISSION_HOME"] = str(Path(root) / "mission-home")
+    environment["LOCALAPPDATA"] = str(Path(root) / "local-app-data")
+    environment["USERPROFILE"] = str(Path(root) / "user-profile")
     return environment
 
 
@@ -677,9 +817,15 @@ def run_canary(target, output):
     with tempfile.TemporaryDirectory(prefix="ao-public-stack-canary-") as directory:
         root = Path(directory)
         environment = canary_environment(os.environ, root)
-        components, identity_commands, binaries = assemble_components(
+        components, identity_commands, binaries, archives = assemble_components(
             select_assets(target), root / "downloads", root / "bin", environment, fetch=download
         )
+        worker_evidence = None
+        worker_commands = ()
+        if target == "windows-x86_64":
+            worker_evidence, worker_commands = run_windows_worker_smoke(
+                archives["ao2"], root, environment
+            )
         smoke_commands, command_status = _run_functional_smokes(binaries, root, environment)
         reconciliation, reconcile_commands = _run_terminal_reconciliation(binaries, root, environment)
         reconciliation["command_status"] = {
@@ -692,9 +838,12 @@ def run_canary(target, output):
             "target": target,
             "runner": {"system": platform.system(), "machine": platform.machine(), "python": platform.python_version()},
             "components": components,
-            "commands": [command_record(item) for item in identity_commands + smoke_commands + reconcile_commands],
+            "commands": [
+                command_record(item)
+                for item in identity_commands + list(worker_commands) + smoke_commands + reconcile_commands
+            ],
             "reconciliation": reconciliation,
-            "ao2_native_verification_run": 31622142672,
+            "ao2_native_verification_run": 32659403123,
             "provider_calls": 0,
             "credential_uses": 0,
             "publications": 0,
@@ -702,6 +851,8 @@ def run_canary(target, output):
             "external_mutations": 0,
             "cleanup_succeeded": True,
         }
+        if worker_evidence is not None:
+            report["windows_worker"] = worker_evidence
         validate_report(report)
     output = Path(output)
     output.parent.mkdir(parents=True, exist_ok=True)

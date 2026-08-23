@@ -10,24 +10,26 @@ action readback.
 
 The current public release pair is:
 
-- AO2 v0.5.11, tag target
-  `8307795b3434af920f6cef088e56ca8fcc76775b`.
+- AO2 v0.5.12, tag target
+  `68cf6914ae51cb4b638a7441ac05c1b4e86ec6d6`.
 - AO2 Control Plane v0.1.19, tag target
   `5de3541e9007e12d95b125e7f911c02932e21479`.
+- AO Mission v0.1.6, tag target
+  `f631893906e3bed6f257ac30bc3d0ad2739fe9df`.
 
-The Architecture compatibility matrix records 16 tested edges, 16 canonical
-vectors, and 16 consumer tests. All 16 edges are fresh; the unchanged-contract
-bridge binds AO2 v0.5.11 to the native AO2 v0.5.10 execution-to-observation
-vector and Control Plane v0.1.19 consumer test.
+The strict public-pair verifier reports no gaps for AO2 v0.5.12 and Control
+Plane v0.1.19 on Linux x86_64, macOS arm64, and Windows x86_64. Five native
+compatibility vectors and the public release qualification consumers pass, so
+no Control Plane metadata-only release is required.
 The compatibility gate is ready, not active. No external beta
 launch, promotion, or RSI authority follows from this evidence.
 
-Current tested source heads include AO2 `8fd6d6867e5a29010673c931cb566a84b9c91fb2`,
-Control Plane `247719d219bb797e005358347c0269e69b3ea5d3`, and AO Mission
-`c2dc4791f59173ffc61dca4e4655e0301924406c`. Mission's tested head is the
-unreleased v0.1.4 candidate; its rehearsal and finalize dry run passed, but no
-tag, release, deployment, publication, or public upload was attempted. These
-unreleased deltas do not replace the public versions listed above.
+The Windows AO2 v0.5.12 archive includes the package-root
+`ao2-windows-worker.cmd` launcher and its Python worker. It requires Python
+3.11 or newer and is qualified from a path containing spaces with credential-
+free help and offline lease-validation commands. The launcher is not present
+in Linux or macOS archives, and its availability grants no provider or
+execution authority.
 
 The governed Windows V3 pool consumes this pair at the operator-local root
 `%USERPROFILE%\AI Agent Teams\ao2-public-instances-v3`. Its public worker

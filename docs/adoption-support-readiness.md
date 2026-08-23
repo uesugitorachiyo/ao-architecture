@@ -2,10 +2,10 @@
 
 Status: source of truth for Adoption/Evidence Cycle Month 5 support readiness.
 
-The current public pair is AO2 v0.5.11 and AO2 Control Plane v0.1.19.
+The current public pair is AO2 v0.5.12 and AO2 Control Plane v0.1.19.
 The compatibility matrix remains 16 tested edges, 16 canonical vectors, and
 16 consumer tests. All 16 edges are fresh; the unchanged-contract bridge binds
-AO2 v0.5.11 to the native AO2 v0.5.10 execution-to-observation vector and
+AO2 v0.5.12 to the native AO2 v0.5.10 execution-to-observation vector and
 Control Plane v0.1.19 consumer test.
 The compatibility gate is ready, not active.
 

@@ -30,6 +30,13 @@ class ManifestTests(unittest.TestCase):
                     )
                     self.assertIn("/releases/download/", asset.url)
 
+    def test_refreshed_release_pins_retain_the_qualified_control_plane(self):
+        for target in canary.TARGETS:
+            assets = {asset.component: asset for asset in canary.select_assets(target)}
+            self.assertEqual("v0.5.12", assets["ao2"].version)
+            self.assertEqual("v0.1.19", assets["ao2-control-plane"].version)
+            self.assertEqual("v0.1.6", assets["ao-mission"].version)
+
 
 class SafeInstallTests(unittest.TestCase):
     def setUp(self):
@@ -135,6 +142,38 @@ class SafeInstallTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "link"):
             canary.install_asset(self.asset("tar.gz"), path, self.destination)
 
+    def test_windows_worker_package_extracts_only_the_exact_archive_root_files(self):
+        archive = self.make_tar(
+            [
+                ("ao2", b"binary"),
+                ("ao2-windows-outbound-worker.py", b"worker"),
+                ("ao2-windows-worker.cmd", b"launcher"),
+            ]
+        )
+        package = canary.install_windows_worker_package(
+            archive, self.root / "worker package with spaces"
+        )
+        self.assertEqual(
+            {"ao2-windows-outbound-worker.py", "ao2-windows-worker.cmd"},
+            {path.name for path in package},
+        )
+        self.assertIn(" ", str(package[0].parent))
+
+    def test_windows_worker_lease_binds_the_resolved_factory_root(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            lease_path, lease_digest, factory = canary._write_windows_worker_lease(root)
+            raw = lease_path.read_bytes()
+            lease = json.loads(raw)
+            self.assertEqual(
+                (root / "factory root with spaces").resolve(strict=False), factory
+            )
+            self.assertEqual(
+                str(factory / ".ao2-physical-host-leases" / lease["lease_id"]),
+                lease["scratch_root"],
+            )
+            self.assertEqual(hashlib.sha256(raw).hexdigest(), lease_digest)
+
 
 class CommandTests(unittest.TestCase):
     def result(self, stdout):
@@ -172,9 +211,9 @@ class CommandTests(unittest.TestCase):
 
     def test_identity_accepts_all_pinned_release_shapes(self):
         outputs = {
-            "ao2": "ao2 0.5.11\ntarget=macos-aarch64\ngit_commit=8307795b3434af920f6cef088e56ca8fcc76775b\n",
+            "ao2": "ao2 0.5.12\ntarget=macos-aarch64\ngit_commit=68cf6914ae51cb4b638a7441ac05c1b4e86ec6d6\n",
             "ao2-control-plane": "ao2-cp-server 0.1.19\n",
-            "ao-mission": "ao-mission version=0.1.5 source_sha=5d4562578a4751d56910ef108b930fbb8dc91e7d\n",
+            "ao-mission": "ao-mission version=0.1.6 source_sha=f631893906e3bed6f257ac30bc3d0ad2739fe9df\n",
             "ao-atlas": "ao-atlas version=v0.2.1 source_sha=3603a2bb8af5adafcd9ff17b807ab89f32283d18\n",
             "ao-command": json.dumps(
                 {
@@ -225,9 +264,9 @@ class CommandTests(unittest.TestCase):
 class ReportTests(unittest.TestCase):
     def valid_report(self):
         components = [
-            ("ao2", "v0.5.11"),
+            ("ao2", "v0.5.12"),
             ("ao2-control-plane", "v0.1.19"),
-            ("ao-mission", "v0.1.5"),
+            ("ao-mission", "v0.1.6"),
             ("ao-atlas", "v0.2.1"),
             ("ao-command", "v0.1.3"),
             ("ao-forge", "v0.1.5"),
@@ -282,6 +321,37 @@ class ReportTests(unittest.TestCase):
 
     def test_valid_report_accepts_distinct_surface_state_digests(self):
         canary.validate_report(self.valid_report())
+
+    def test_windows_report_requires_exact_worker_evidence(self):
+        report = self.valid_report()
+        report["target"] = "windows-x86_64"
+        report["runner"] = {"system": "Windows", "machine": "AMD64", "python": "3.13.0"}
+        covenant = next(
+            item for item in report["components"] if item["component"] == "ao-covenant"
+        )
+        covenant["execution_mode"] = "native"
+        del covenant["binary_arch"]
+        report["windows_worker"] = {
+            "status": "passed",
+            "launcher": "ao2-windows-worker.cmd",
+            "launcher_path_contains_spaces": True,
+            "python_requirement": ">=3.11",
+            "help": "passed",
+            "offline_lease_validation": "passed",
+            "provider_calls": 0,
+            "credential_uses": 0,
+        }
+        canary.validate_report(report)
+
+        del report["windows_worker"]
+        with self.assertRaisesRegex(ValueError, "Windows worker evidence"):
+            canary.validate_report(report)
+
+    def test_non_windows_report_rejects_worker_evidence(self):
+        report = self.valid_report()
+        report["windows_worker"] = {}
+        with self.assertRaisesRegex(ValueError, "must not be exposed"):
+            canary.validate_report(report)
 
     def test_report_requires_all_seven_components(self):
         report = self.valid_report()
@@ -370,9 +440,9 @@ class AssemblyTests(unittest.TestCase):
 import json, pathlib, sys
 name = pathlib.Path(sys.argv[0]).name
 outputs = {
-  'ao2': 'ao2 0.5.11\\ntarget=macos-aarch64\\ngit_commit=8307795b3434af920f6cef088e56ca8fcc76775b\\n',
+  'ao2': 'ao2 0.5.12\\ntarget=macos-aarch64\\ngit_commit=68cf6914ae51cb4b638a7441ac05c1b4e86ec6d6\\n',
   'ao2-cp-server': 'ao2-cp-server 0.1.19\\n',
-  'ao-mission': 'ao-mission version=0.1.5 source_sha=5d4562578a4751d56910ef108b930fbb8dc91e7d\\n',
+  'ao-mission': 'ao-mission version=0.1.6 source_sha=f631893906e3bed6f257ac30bc3d0ad2739fe9df\\n',
   'ao-atlas': 'ao-atlas version=v0.2.1 source_sha=3603a2bb8af5adafcd9ff17b807ab89f32283d18\\n',
   'ao-command': json.dumps({'schema_version':'ao.command.version.v0.1','version':'0.1.3','source_commit':'ffef6d76306e892c3e7a7f39734433d5a832006a','provider_calls':False}) + '\\n',
   'forge': 'ao-forge version=0.1.5 source_sha=d1723769949269dcd0589916d83769dcb7275f98\\n',
@@ -382,9 +452,9 @@ sys.stdout.write(outputs[name])
 """
         digest = hashlib.sha256(script).hexdigest()
         specifications = (
-            ("ao2", "v0.5.11", "8307795b3434af920f6cef088e56ca8fcc76775b", "ao2"),
+            ("ao2", "v0.5.12", "68cf6914ae51cb4b638a7441ac05c1b4e86ec6d6", "ao2"),
             ("ao2-control-plane", "v0.1.19", "5de3541e9007e12d95b125e7f911c02932e21479", "ao2-cp-server"),
-            ("ao-mission", "v0.1.5", "5d4562578a4751d56910ef108b930fbb8dc91e7d", "ao-mission"),
+            ("ao-mission", "v0.1.6", "f631893906e3bed6f257ac30bc3d0ad2739fe9df", "ao-mission"),
             ("ao-atlas", "v0.2.1", "3603a2bb8af5adafcd9ff17b807ab89f32283d18", "ao-atlas"),
             ("ao-command", "v0.1.3", "ffef6d76306e892c3e7a7f39734433d5a832006a", "ao-command"),
             ("ao-forge", "v0.1.5", "d1723769949269dcd0589916d83769dcb7275f98", "forge"),
@@ -408,9 +478,9 @@ sys.stdout.write(outputs[name])
             return len(script)
 
         outputs = {
-            "ao2": "ao2 0.5.11\ntarget=macos-aarch64\ngit_commit=8307795b3434af920f6cef088e56ca8fcc76775b\n",
+            "ao2": "ao2 0.5.12\ntarget=macos-aarch64\ngit_commit=68cf6914ae51cb4b638a7441ac05c1b4e86ec6d6\n",
             "ao2-cp-server": "ao2-cp-server 0.1.19\n",
-            "ao-mission": "ao-mission version=0.1.5 source_sha=5d4562578a4751d56910ef108b930fbb8dc91e7d\n",
+            "ao-mission": "ao-mission version=0.1.6 source_sha=f631893906e3bed6f257ac30bc3d0ad2739fe9df\n",
             "ao-atlas": "ao-atlas version=v0.2.1 source_sha=3603a2bb8af5adafcd9ff17b807ab89f32283d18\n",
             "ao-command": json.dumps({"schema_version": "ao.command.version.v0.1", "version": "0.1.3", "source_commit": "ffef6d76306e892c3e7a7f39734433d5a832006a", "provider_calls": False}) + "\n",
             "forge": "ao-forge version=0.1.5 source_sha=d1723769949269dcd0589916d83769dcb7275f98\n",
@@ -424,7 +494,7 @@ sys.stdout.write(outputs[name])
 
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            records, commands, binaries = canary.assemble_components(
+            records, commands, binaries, archives = canary.assemble_components(
                 assets,
                 root / "downloads",
                 root / "bin",
@@ -435,6 +505,7 @@ sys.stdout.write(outputs[name])
         self.assertEqual(7, len(records))
         self.assertEqual(7, len(commands))
         self.assertEqual(set(record["component"] for record in records), set(binaries))
+        self.assertEqual(set(binaries), set(archives))
         self.assertTrue(all(command.exit_code == 0 for command in commands))
 
     def test_sanitized_environment_removes_credentials_and_provider_values(self):
@@ -459,6 +530,8 @@ sys.stdout.write(outputs[name])
         )
         self.assertEqual("/bin", environment["PATH"])
         self.assertEqual(str(Path("temporary/mission-home")), environment["AO_MISSION_HOME"])
+        self.assertEqual(str(Path("temporary/local-app-data")), environment["LOCALAPPDATA"])
+        self.assertEqual(str(Path("temporary/user-profile")), environment["USERPROFILE"])
         self.assertNotIn("GITHUB_TOKEN", environment)
 
 
