@@ -1,19 +1,19 @@
 # AO Cross-Platform Development Baseline Qualification
 
-The AO stable development baseline is qualified for reproducible,
-credential-free development on the supported hosted macOS and Windows
-profiles. This declaration is bounded to the frozen source and runtime inputs
-below. It grants no operational authority and does not begin AO Office Pool.
+The refreshed AO stable development baseline is frozen for reproducible,
+credential-free qualification on the supported hosted macOS and Windows
+profiles. Native qualification is pending from merged `main`. This declaration
+grants no operational authority and does not begin AO Office Pool.
 
-## Qualified Identity
+## Frozen Candidate Identity
 
 - Baseline identity:
-  `sha256:add6f39f28eba107732398b7bf86db44b58f80f4a6cea89ec6b97f3b18ab6429`
+  `sha256:19863fc2888543d815d5ea603fa2fc217c443d0bf323d85a19fafe34738f53f9`
 - Qualification controller commit:
-  `91493c1cf05aa36f5812c48b0a8628a37ca243e3`
+  pending merged-main qualification
 - Qualification workflow:
   `.github/workflows/development-baseline-qualification.yml`
-- Merged-main workflow run: `32625826261`
+- Merged-main workflow run: pending
 - Correlation ID: `ao-cross-platform-development-baseline-20260822-r2`
 
 The baseline identity is the canonical digest of
@@ -21,19 +21,23 @@ The baseline identity is the canonical digest of
 the merged AO Architecture source that performed the final qualification; it
 is deliberately separate from the manifest digest.
 
+The prior qualified baseline is retained as historical evidence: identity
+`sha256:add6f39f28eba107732398b7bf86db44b58f80f4a6cea89ec6b97f3b18ab6429`,
+controller `91493c1cf05aa36f5812c48b0a8628a37ca243e3`, run `32625826261`.
+
 ## Frozen Repositories
 
 | Repository | Commit |
 | --- | --- |
-| ao-architecture | `3788f991c40310e81c5ab17e4b24f04c78515c78` |
-| ao-mission | `1aeb2cd78c8a7c5df100cdf1bd17d20c478ca47e` |
+| ao-architecture | `7574e39f0582ce135b5fd6c7ec75f901b616f2bc` |
+| ao-mission | `f631893906e3bed6f257ac30bc3d0ad2739fe9df` |
 | ao-blueprint | `ec6a80b60b54c0c0ac1822f873c1abf337fe5eb5` |
 | ao-atlas | `3eec009d7541edd29fb5383d209cfdb480e664bc` |
 | ao-foundry | `028ec4d50847247ee48c1d8d4560a4eda3422550` |
 | ao-forge | `b17a6dc58d4938b3dbe10ec949b6b1008b192379` |
 | ao-covenant | `7d2af0d3446757f096ebf3ce51e0918716daf7ff` |
-| ao2 | `880f32ce8d9af5ba6e50aa5885c214c04f23f20d` |
-| ao2-control-plane | `4e41da173dc9f1ee37f4ae99b85791e5f05ea453` |
+| ao2 | `68cf6914ae51cb4b638a7441ac05c1b4e86ec6d6` |
+| ao2-control-plane | `452ba78d0a2075eddb968536a207bed5a6e7e49e` |
 | ao-command | `ffef6d76306e892c3e7a7f39734433d5a832006a` |
 | ao-arena | `88a52d9a42c5bffe998b45c5046f36be0cf5ea43` |
 | ao-crucible | `64227e3ee305cc3399063b567e02a548b5bc1855` |
@@ -46,26 +50,26 @@ AO Next is excluded from this stable profile.
 
 | Repository | Version | Tag target |
 | --- | --- | --- |
-| ao2 | v0.5.11 | `8307795b3434af920f6cef088e56ca8fcc76775b` |
+| ao2 | v0.5.12 | `68cf6914ae51cb4b638a7441ac05c1b4e86ec6d6` |
 | ao2-control-plane | v0.1.19 | `5de3541e9007e12d95b125e7f911c02932e21479` |
-| ao-mission | v0.1.5 | `5d4562578a4751d56910ef108b930fbb8dc91e7d` |
+| ao-mission | v0.1.6 | `f631893906e3bed6f257ac30bc3d0ad2739fe9df` |
 | ao-command | v0.1.3 | `ffef6d76306e892c3e7a7f39734433d5a832006a` |
 | ao-atlas | v0.2.1 | `3603a2bb8af5adafcd9ff17b807ab89f32283d18` |
 | ao-forge | v0.1.5 | `d1723769949269dcd0589916d83769dcb7275f98` |
 | ao-covenant | v0.1.1 | `2fd72a0426a747868826581612fa1dc9727b53b9` |
 
 The exact platform asset names and SHA-256 values are authoritative in the
-manifest. No new runtime release was published by this campaign.
+manifest. This refresh consumes the independently verified AO2 v0.5.12 and AO
+Mission v0.1.6 releases; it publishes no additional runtime release.
 
-## Host Results
+## Required Host Results
 
 The exact supported qualification profiles are GitHub-hosted `macos-26` and
-`windows-2025`. Each host materialized all 14 repositories into a new root,
-verified detached exact commits and runtime assets, completed all 59 declared
-repository gates, and completed all 14 credential-free workflow stages.
-There were zero declared gate skips, zero undeclared differences, and zero
-run-owned residue. Semantic parity passed after applying only the separately
-frozen normalization profile
+`windows-2025`. Each host must materialize all 14 repositories into a new root,
+verify detached exact commits and runtime assets, complete all 59 declared
+repository gates, and complete all 14 credential-free workflow stages with
+zero declared gate skips, undeclared differences, or run-owned residue.
+Semantic parity may apply only the separately frozen normalization profile
 `stack/development-baseline-normalization-v1.json`.
 
 The Windows profile uses Git for Windows Bash for declared POSIX scripts and
@@ -73,9 +77,9 @@ Windows PowerShell 5.1 parsing where source contracts require it. The macOS
 arm64 profile uses Rosetta 2 only for the frozen AO Covenant Darwin amd64
 asset. These are the manifest's declared overrides, not undeclared skips.
 
-## Closed Evidence
+## Prior Closed Evidence (Historical)
 
-The final run uploaded 11 artifacts. Their archives were independently
+The prior baseline's final run uploaded 11 artifacts. Their archives were independently
 downloaded and rehashed against the GitHub artifact API with zero mismatches.
 The reconstructed proof root contained 246 files with no missing, extra,
 size-drifted, or digest-drifted entries.
@@ -107,6 +111,6 @@ is represented in the contract and runtime inventory but was not a terminal
 host profile in this macOS/Windows campaign. The Rosetta 2 Covenant path is not
 a native arm64 claim.
 
-Every authority flag remains false. The qualified dependency foundation is
-ready to be consumed by a later, separately authorized AO Office Pool
-objective. AO Office Pool has not started and has not been qualified here.
+Every authority flag remains false. The refreshed dependency foundation becomes
+qualified only after the pending merged-main evidence closes. AO Office Pool
+has not started and has not been qualified here.

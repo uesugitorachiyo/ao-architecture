@@ -30,15 +30,15 @@ from verify_development_baseline import (  # noqa: E402
 
 
 REPOSITORY_FIXTURES = [
-    ("ao-architecture", "3788f991c40310e81c5ab17e4b24f04c78515c78", "architecture_truth"),
-    ("ao-mission", "1aeb2cd78c8a7c5df100cdf1bd17d20c478ca47e", "mission_state"),
+    ("ao-architecture", "7574e39f0582ce135b5fd6c7ec75f901b616f2bc", "architecture_truth"),
+    ("ao-mission", "f631893906e3bed6f257ac30bc3d0ad2739fe9df", "mission_state"),
     ("ao-blueprint", "ec6a80b60b54c0c0ac1822f873c1abf337fe5eb5", "requirements_authorization"),
     ("ao-atlas", "3eec009d7541edd29fb5383d209cfdb480e664bc", "workgraph_context"),
     ("ao-foundry", "028ec4d50847247ee48c1d8d4560a4eda3422550", "portfolio_scheduling"),
     ("ao-forge", "b17a6dc58d4938b3dbe10ec949b6b1008b192379", "goal_run"),
     ("ao-covenant", "7d2af0d3446757f096ebf3ce51e0918716daf7ff", "policy_contract_authority"),
-    ("ao2", "880f32ce8d9af5ba6e50aa5885c214c04f23f20d", "execution"),
-    ("ao2-control-plane", "4e41da173dc9f1ee37f4ae99b85791e5f05ea453", "evidence_observation"),
+    ("ao2", "68cf6914ae51cb4b638a7441ac05c1b4e86ec6d6", "execution"),
+    ("ao2-control-plane", "452ba78d0a2075eddb968536a207bed5a6e7e49e", "evidence_observation"),
     ("ao-command", "ffef6d76306e892c3e7a7f39734433d5a832006a", "operator_presentation"),
     ("ao-arena", "88a52d9a42c5bffe998b45c5046f36be0cf5ea43", "benchmark"),
     ("ao-crucible", "64227e3ee305cc3399063b567e02a548b5bc1855", "adversarial_assurance"),
@@ -47,7 +47,7 @@ REPOSITORY_FIXTURES = [
 ]
 
 AGENTS_DIGESTS = {
-    "ao-mission": "e85e21a7288e92e98bacb9957ba54c87f6c9678c6e5c3167d65e4992cb4afc45",
+    "ao-mission": "eaf29fcf2bbed4db39a7cf0e2551d0f576f1072e911b20b581b4150d152a2fa7",
     "ao-foundry": "2ada1272eef474cd1d8fe162ea28a0d060211b22ed334b5a1846e57bcc3976c2",
     "ao-forge": "2b4abb5c872797b89f3ec410a3ab654cd9898f21a289d8cc19f9da5f0ab24fb2",
     "ao-covenant": "4be243338aadbdd1f04a124ac95ee51e486a44e8ec8becaed3cb0d8fe8926b7b",
@@ -59,7 +59,7 @@ AGENTS_DIGESTS = {
 }
 
 AGENTS_GATE_COUNTS = {
-    "ao-mission": 4,
+    "ao-mission": 5,
     "ao-foundry": 2,
     "ao-forge": 4,
     "ao-covenant": 4,
@@ -283,7 +283,7 @@ class RuntimeReleaseTests(unittest.TestCase):
     def test_real_release_input_has_frozen_digest(self) -> None:
         self.assertEqual(
             sha256_file(self.release_path),
-            "903061a5983068040d19c05adb5e6d0d29f0bf15a59f1bfbf533ac448f0f4e8d",
+            "d3e35821d456977d85d3a42a39fb41eba7da865bc51b27bb29c49220955d32a3",
         )
 
     def test_exact_manifest_release_binding_is_valid(self) -> None:

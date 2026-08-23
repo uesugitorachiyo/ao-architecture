@@ -30,15 +30,15 @@ STABLE_REPOSITORIES = (
 )
 
 FROZEN_REPOSITORIES = {
-    "ao-architecture": ("3788f991c40310e81c5ab17e4b24f04c78515c78", "architecture_truth"),
-    "ao-mission": ("1aeb2cd78c8a7c5df100cdf1bd17d20c478ca47e", "mission_state"),
+    "ao-architecture": ("7574e39f0582ce135b5fd6c7ec75f901b616f2bc", "architecture_truth"),
+    "ao-mission": ("f631893906e3bed6f257ac30bc3d0ad2739fe9df", "mission_state"),
     "ao-blueprint": ("ec6a80b60b54c0c0ac1822f873c1abf337fe5eb5", "requirements_authorization"),
     "ao-atlas": ("3eec009d7541edd29fb5383d209cfdb480e664bc", "workgraph_context"),
     "ao-foundry": ("028ec4d50847247ee48c1d8d4560a4eda3422550", "portfolio_scheduling"),
     "ao-forge": ("b17a6dc58d4938b3dbe10ec949b6b1008b192379", "goal_run"),
     "ao-covenant": ("7d2af0d3446757f096ebf3ce51e0918716daf7ff", "policy_contract_authority"),
-    "ao2": ("880f32ce8d9af5ba6e50aa5885c214c04f23f20d", "execution"),
-    "ao2-control-plane": ("4e41da173dc9f1ee37f4ae99b85791e5f05ea453", "evidence_observation"),
+    "ao2": ("68cf6914ae51cb4b638a7441ac05c1b4e86ec6d6", "execution"),
+    "ao2-control-plane": ("452ba78d0a2075eddb968536a207bed5a6e7e49e", "evidence_observation"),
     "ao-command": ("ffef6d76306e892c3e7a7f39734433d5a832006a", "operator_presentation"),
     "ao-arena": ("88a52d9a42c5bffe998b45c5046f36be0cf5ea43", "benchmark"),
     "ao-crucible": ("64227e3ee305cc3399063b567e02a548b5bc1855", "adversarial_assurance"),
@@ -48,7 +48,7 @@ FROZEN_REPOSITORIES = {
 
 EXPECTED_GATE_SOURCES = {
     "ao-architecture": ("ao-quality-gates.json", "2f3c727b1e8343cc373c9d561eb5b9ea953f851ac9f767df2e95b9386d83c655", ("architecture-verifier", "python-regressions")),
-    "ao-mission": ("AGENTS.md", "e85e21a7288e92e98bacb9957ba54c87f6c9678c6e5c3167d65e4992cb4afc45", ("1", "2", "3", "4")),
+    "ao-mission": ("AGENTS.md", "eaf29fcf2bbed4db39a7cf0e2551d0f576f1072e911b20b581b4150d152a2fa7", ("1", "2", "3", "4", "5")),
     "ao-blueprint": ("ao-quality-gates.json", "b56d6eb7c0e4636a451b5d3a9139dc992a454967a5adf202273581c236b7eeb8", ("production-readiness",)),
     "ao-atlas": ("ao-quality-gates.json", "5d71e2021944992173e83a1e1c92c1d1eec40a1de85ef0aa3fd072a7feb9a383", ("go-tests", "go-vet", "go-build")),
     "ao-foundry": ("AGENTS.md", "2ada1272eef474cd1d8fe162ea28a0d060211b22ed334b5a1846e57bcc3976c2", ("1", "2")),
@@ -695,7 +695,7 @@ def _validate_policy(document: dict[str, Any]) -> list[str]:
         errors.append("manifest schema drift")
     if document.get("profile") != "stable":
         errors.append("manifest profile must be stable")
-    if document.get("source_freeze_utc") != "2026-08-22T18:00:00Z":
+    if document.get("source_freeze_utc") != "2026-08-23T19:48:18Z":
         errors.append("manifest source freeze drift")
     if document.get("excluded_repositories") != ["ao-next"]:
         errors.append("excluded repositories must contain only ao-next")
