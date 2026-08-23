@@ -181,7 +181,7 @@
       "name": "ao-atlas",
       "path": "ao-atlas",
       "upstream_url": "https://github.com/uesugitorachiyo/ao-atlas.git",
-      "commit": "86150e487d1a5b2f032efb19448c9233ad382b41",
+      "commit": "3eec009d7541edd29fb5383d209cfdb480e664bc",
       "branch_metadata": "main",
       "source_role": "workgraph_context",
       "gate_source": {

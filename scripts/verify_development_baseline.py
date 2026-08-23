@@ -33,7 +33,7 @@ FROZEN_REPOSITORIES = {
     "ao-architecture": ("3788f991c40310e81c5ab17e4b24f04c78515c78", "architecture_truth"),
     "ao-mission": ("1aeb2cd78c8a7c5df100cdf1bd17d20c478ca47e", "mission_state"),
     "ao-blueprint": ("ec6a80b60b54c0c0ac1822f873c1abf337fe5eb5", "requirements_authorization"),
-    "ao-atlas": ("86150e487d1a5b2f032efb19448c9233ad382b41", "workgraph_context"),
+    "ao-atlas": ("3eec009d7541edd29fb5383d209cfdb480e664bc", "workgraph_context"),
     "ao-foundry": ("028ec4d50847247ee48c1d8d4560a4eda3422550", "portfolio_scheduling"),
     "ao-forge": ("b17a6dc58d4938b3dbe10ec949b6b1008b192379", "goal_run"),
     "ao-covenant": ("7d2af0d3446757f096ebf3ce51e0918716daf7ff", "policy_contract_authority"),
