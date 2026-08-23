@@ -218,6 +218,27 @@ def _environment(run_root):
     return environment
 
 
+def _configure_windows_rust_linker(environment, sysroot=None):
+    if os.name != "nt" and sysroot is None:
+        return environment
+    if sysroot is None:
+        completed = subprocess.run(
+            ["rustc", "--print", "sysroot"],
+            env=environment,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        if completed.returncode or not completed.stdout.strip():
+            raise ValueError("cannot resolve the Rust sysroot for rust-lld")
+        sysroot = Path(completed.stdout.strip())
+    linker = Path(sysroot) / "lib" / "rustlib" / "x86_64-pc-windows-msvc" / "bin" / "rust-lld.exe"
+    if not linker.is_file() or linker.is_symlink():
+        raise ValueError("bundled Windows rust-lld is missing or unsafe")
+    environment["CARGO_TARGET_X86_64_PC_WINDOWS_MSVC_LINKER"] = str(linker)
+    return environment
+
+
 def _expand(argv, workspace_root, run_root, stage_root, repository):
     replacements = {"{python}": sys.executable, "{workspace_root}": str(workspace_root), "{run_root}": str(run_root), "{stage_root}": str(stage_root), "{repo_root}": str(repository), "{exe}": ".exe" if os.name == "nt" else ""}
     expanded = []
@@ -256,6 +277,8 @@ def run_workflow(fixture_path, output_path, workspace_root, baseline_manifest):
             stage_root.mkdir()
             (stage_root / "tmp").mkdir()
             environment = _environment(run_root)
+            if stage["repository"] in {"ao2", "ao2-control-plane"}:
+                _configure_windows_rust_linker(environment)
             prepare_record = {}
             if stage.get("prepare_argv"):
                 prepare_argv = _expand(stage["prepare_argv"], workspace_root, run_root, stage_root, repository)

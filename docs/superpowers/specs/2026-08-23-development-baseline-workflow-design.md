@@ -72,7 +72,11 @@ stops the journey while preserving the deterministic partial result.
 The output path must not exist. The runner creates one run-owned directory and
 sanitizes the child environment to platform/toolchain variables plus explicit
 run-local state roots. Native Windows compilation retains only the non-secret
-MSVC and Windows SDK discovery variables required by Cargo; provider tokens,
+MSVC and Windows SDK discovery variables required by Cargo. For the AO2 Rust
+stages it binds Cargo directly to the installed toolchain's bundled
+`rust-lld.exe`; this prevents an unrelated `link.exe` earlier on `PATH` from
+receiving MSVC linker arguments without mutating the host or global `PATH`.
+The binding fails closed if the bundled linker is absent or unsafe. Provider tokens,
 API keys, and credential variables remain absent. It captures bounded stdout/stderr hashes, not unbounded
 transcripts. Failed stages also retain at most 4 KiB of path-scrubbed,
 credential-redacted stderr so a native failure can be assigned without exposing

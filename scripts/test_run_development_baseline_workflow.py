@@ -152,6 +152,21 @@ class ResultTests(unittest.TestCase):
         self.assertNotIn("GITHUB_TOKEN", environment)
         self.assertNotIn(provider_key_name, environment)
 
+    def test_windows_rust_linker_is_bound_to_bundled_lld(self):
+        with tempfile.TemporaryDirectory() as directory:
+            sysroot = Path(directory)
+            linker = sysroot / "lib" / "rustlib" / "x86_64-pc-windows-msvc" / "bin" / "rust-lld.exe"
+            linker.parent.mkdir(parents=True)
+            linker.write_bytes(b"fixture")
+            environment = {}
+            workflow._configure_windows_rust_linker(environment, sysroot=sysroot)
+            self.assertEqual(environment["CARGO_TARGET_X86_64_PC_WINDOWS_MSVC_LINKER"], str(linker))
+
+    def test_windows_rust_linker_missing_fails_closed(self):
+        with tempfile.TemporaryDirectory() as directory:
+            with self.assertRaisesRegex(ValueError, "rust-lld"):
+                workflow._configure_windows_rust_linker({}, sysroot=Path(directory))
+
     def test_result_validation_rejects_digest_and_cleanup_drift(self):
         result = {
             "schema": workflow.RESULT_SCHEMA,
