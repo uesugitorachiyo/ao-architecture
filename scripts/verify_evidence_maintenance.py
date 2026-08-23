@@ -208,11 +208,11 @@ def main() -> int:
         print(f"verify_evidence_maintenance.py: {exc}", file=sys.stderr)
         return 1
     local_paths = {
-        str(path.relative_to(ROOT))
+        path.relative_to(ROOT).as_posix()
         for path in (ROOT / "stack" / "fixtures" / "compatibility").glob("*.json")
     }
     docs = {
-        str(path.relative_to(ROOT))
+        path.relative_to(ROOT).as_posix()
         for path in (ROOT / "docs").glob("*.md")
     }
     errors = validate_report(report, manifest, matrix, freshness, local_paths, docs)

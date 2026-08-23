@@ -1,7 +1,7 @@
 # AO Stack Evidence Freshness And Compatibility Gate Readiness
 
 Status: current operational source of truth; compatibility evidence fresh
-Current public pair: AO2 `v0.5.10` and AO2 Control Plane `v0.1.19`
+Current public pair: AO2 `v0.5.12` and AO2 Control Plane `v0.1.19`
 
 ## Purpose
 
@@ -61,7 +61,7 @@ The current gate state is `ready`, and the evidence freshness status is
 
 Reason code: `AO2_COMPATIBILITY_EVIDENCE_CURRENT`.
 
-AO2 `v0.5.10` uses the native
+The verified unchanged-contract bridge binds AO2 `v0.5.12` to the native
 `tests/fixtures/compatibility/ao2-execution-receipt-v0.5.10.json` from merge
 `214f0648ec2b15df0729f90b26a4da258882dba1`; AO2 Control Plane consumes the
 receipt contract through merge `247719d219bb797e005358347c0269e69b3ea5d3`.
