@@ -8,6 +8,7 @@ import hashlib
 import json
 import os
 from pathlib import Path, PurePosixPath
+import re
 import shutil
 import subprocess
 import sys
@@ -44,10 +45,27 @@ ARTIFACT_KEYS = {"source", "path", "max_bytes", "json"}
 SHELLS = {"sh", "bash", "cmd", "cmd.exe", "powershell", "powershell.exe", "pwsh", "pwsh.exe"}
 FORBIDDEN = {"publish", "publication", "release", "deploy", "deployment", "promote", "promotion", "rsi", "apply"}
 MAX_STAGES = 14
+MAX_DIAGNOSTIC_BYTES = 4096
 
 
 def _sha256(data: bytes) -> str:
     return "sha256:" + hashlib.sha256(data).hexdigest()
+
+
+def _safe_diagnostic(data, roots):
+    text = data.decode("utf-8", errors="replace")
+    for root in roots:
+        value = str(root)
+        text = text.replace(value, "$ROOT").replace(value.replace("\\", "/"), "$ROOT")
+    text = re.sub(
+        r"(?i)(token|secret|password|api[_-]?key|credential)(\s*[=:]\s*)\S+",
+        r"\1\2<redacted>",
+        text,
+    )
+    encoded = text.encode("utf-8")
+    if len(encoded) > MAX_DIAGNOSTIC_BYTES:
+        encoded = encoded[-MAX_DIAGNOSTIC_BYTES:]
+    return encoded.decode("utf-8", errors="ignore")
 
 
 def _strict_keys(document, allowed, label):
@@ -243,7 +261,8 @@ def run_workflow(fixture_path, output_path, workspace_root, baseline_manifest):
                 prepare_argv = _expand(stage["prepare_argv"], workspace_root, run_root, stage_root, repository)
                 prepared = subprocess.run(prepare_argv, cwd=repository, env=environment, capture_output=True, timeout=stage.get("timeout_seconds", 300), check=False)
                 if prepared.returncode:
-                    raise RuntimeError(f"stage prepare failed: {stage['id']} exit={prepared.returncode} stderr_sha256={_sha256(prepared.stderr[:65536])}")
+                    diagnostic = _safe_diagnostic(prepared.stderr[:65536], (workspace_root, run_root, repository))
+                    raise RuntimeError(f"stage prepare failed: {stage['id']} exit={prepared.returncode} stderr_sha256={_sha256(prepared.stderr[:65536])} diagnostic={json.dumps(diagnostic)}")
                 prepare_record = {"prepare_exit_code": prepared.returncode, "prepare_stdout_sha256": _sha256(prepared.stdout[:65536]), "prepare_stderr_sha256": _sha256(prepared.stderr[:65536])}
             argv = _expand(stage["argv"], workspace_root, run_root, stage_root, repository)
             command_cwd = stage_root if stage.get("working_directory", "repository") == "stage_root" else repository
@@ -253,7 +272,8 @@ def run_workflow(fixture_path, output_path, workspace_root, baseline_manifest):
             stdout = completed.stdout[: stage["artifact"]["max_bytes"]]
             stderr = completed.stderr[: 65_536]
             if completed.returncode:
-                raise RuntimeError(f"stage failed: {stage['id']} exit={completed.returncode} stderr_sha256={_sha256(stderr)}")
+                diagnostic = _safe_diagnostic(stderr, (workspace_root, run_root, repository))
+                raise RuntimeError(f"stage failed: {stage['id']} exit={completed.returncode} stderr_sha256={_sha256(stderr)} diagnostic={json.dumps(diagnostic)}")
             if stage["artifact"]["source"] == "stdout":
                 artifact = stdout
             else:
