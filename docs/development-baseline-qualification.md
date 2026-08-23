@@ -8,7 +8,7 @@ grants no operational authority and does not begin AO Office Pool.
 ## Frozen Candidate Identity
 
 - Baseline identity:
-  `sha256:19863fc2888543d815d5ea603fa2fc217c443d0bf323d85a19fafe34738f53f9`
+  `sha256:2045d7aa1f10447fda8c629224ae9645d58205d06803c9378ff785e4cb6eda45`
 - Qualification controller commit:
   pending merged-main qualification
 - Qualification workflow:
@@ -29,7 +29,7 @@ controller `91493c1cf05aa36f5812c48b0a8628a37ca243e3`, run `32625826261`.
 
 | Repository | Commit |
 | --- | --- |
-| ao-architecture | `7574e39f0582ce135b5fd6c7ec75f901b616f2bc` |
+| ao-architecture | `4b64328f05f2f9a2a267538487553bf2b796e2e2` |
 | ao-mission | `f631893906e3bed6f257ac30bc3d0ad2739fe9df` |
 | ao-blueprint | `ec6a80b60b54c0c0ac1822f873c1abf337fe5eb5` |
 | ao-atlas | `3eec009d7541edd29fb5383d209cfdb480e664bc` |

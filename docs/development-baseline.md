@@ -125,7 +125,7 @@ Offline closure verification is:
 
 ```text
 python3 scripts/test_verify_development_baseline_evidence.py
-python3 scripts/verify_development_baseline_evidence.py --root <downloaded-proof-root> --source-commit <merged-main-commit> --baseline-identity sha256:19863fc2888543d815d5ea603fa2fc217c443d0bf323d85a19fafe34738f53f9 --output <new-output-path>
+python3 scripts/verify_development_baseline_evidence.py --root <downloaded-proof-root> --source-commit <merged-main-commit> --baseline-identity sha256:2045d7aa1f10447fda8c629224ae9645d58205d06803c9378ff785e4cb6eda45 --output <new-output-path>
 ```
 
 The output inventories every retained file by safe relative path, size, and

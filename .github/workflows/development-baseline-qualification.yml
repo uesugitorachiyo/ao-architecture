@@ -63,7 +63,7 @@ jobs:
           python3 scripts/verify_development_baseline_evidence.py \
             --root proof \
             --source-commit "${{ github.sha }}" \
-            --baseline-identity sha256:19863fc2888543d815d5ea603fa2fc217c443d0bf323d85a19fafe34738f53f9 \
+            --baseline-identity sha256:2045d7aa1f10447fda8c629224ae9645d58205d06803c9378ff785e4cb6eda45 \
             --output final/evidence-closure.json
       - uses: actions/upload-artifact@v4
         with:
