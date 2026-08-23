@@ -7,7 +7,7 @@
       "name": "ao-architecture",
       "path": "ao-architecture",
       "upstream_url": "https://github.com/uesugitorachiyo/ao-architecture.git",
-      "commit": "fc80f8f2be8ef593523f87f3eb86ed384dd07b13",
+      "commit": "3788f991c40310e81c5ab17e4b24f04c78515c78",
       "branch_metadata": "main",
       "source_role": "architecture_truth",
       "gate_source": {
@@ -181,7 +181,7 @@
       "name": "ao-atlas",
       "path": "ao-atlas",
       "upstream_url": "https://github.com/uesugitorachiyo/ao-atlas.git",
-      "commit": "acd162ad1b187a9fe179e36cb0d20be5db874d69",
+      "commit": "86150e487d1a5b2f032efb19448c9233ad382b41",
       "branch_metadata": "main",
       "source_role": "workgraph_context",
       "gate_source": {
