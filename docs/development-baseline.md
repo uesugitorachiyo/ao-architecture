@@ -104,6 +104,13 @@ not allowed, so retry with a new empty root.
 
 ## Final Qualification
 
+The completed, bounded qualification declaration is recorded in
+`docs/development-baseline-qualification.md`. It binds the exact baseline,
+controller commit, hosted profiles, run, repository and runtime identities,
+evidence digests, limitations, and denied authority. That declaration makes
+the dependency foundation available to a later separately authorized
+objective; it does not begin AO Office Pool.
+
 `.github/workflows/development-baseline-qualification.yml` is the least-authority
 merged-main qualification entry point. It fixes the bootstrap scope to `full`,
 runs clean `macos-26` and `windows-2025` hosts from paths containing spaces,
