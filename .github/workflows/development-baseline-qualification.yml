@@ -1,0 +1,77 @@
+name: Development baseline qualification
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  baseline:
+    uses: ./.github/workflows/development-baseline-bootstrap.yml
+    with:
+      qualification_scope: full
+    permissions:
+      contents: read
+
+  close-evidence:
+    needs: baseline
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: '*-${{ github.sha }}-host'
+          path: proof/host
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: '*-${{ github.sha }}-gates'
+          path: proof/gates
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: '*-${{ github.sha }}-workflow'
+          path: proof/workflow
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: '*-${{ github.sha }}-cleanup'
+          path: proof/cleanup
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: 'development-baseline-${{ github.sha }}-rehash'
+          path: proof/rehash
+          merge-multiple: true
+      - name: Compare native workflow semantics
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t macos < <(find proof/workflow -type f -name 'macos-*-workflow.json')
+          mapfile -t windows < <(find proof/workflow -type f -name 'windows-*-workflow.json')
+          test "${#macos[@]}" -eq 1
+          test "${#windows[@]}" -eq 1
+          mkdir -p proof/parity
+          python3 scripts/compare_development_baseline_results.py \
+            --macos "${macos[0]}" \
+            --windows "${windows[0]}" \
+            --output proof/parity/parity.json
+      - name: Close complete evidence inventory
+        run: |
+          python3 scripts/verify_development_baseline_evidence.py \
+            --root proof \
+            --source-commit "${{ github.sha }}" \
+            --baseline-identity sha256:add6f39f28eba107732398b7bf86db44b58f80f4a6cea89ec6b97f3b18ab6429 \
+            --output final/evidence-closure.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: development-baseline-${{ github.sha }}-parity
+          path: proof/parity/parity.json
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: development-baseline-${{ github.sha }}-evidence-closure
+          path: final/evidence-closure.json
+          if-no-files-found: error
