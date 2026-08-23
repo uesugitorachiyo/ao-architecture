@@ -109,7 +109,7 @@ def verify_evidence(root, source_commit, baseline_identity):
     gates = [path for path in files if path.name.endswith("-gates.json")]
     workflows = [path for path in files if path.name.endswith("-workflow.json")]
     cleanups = [path for path in files if path.name.endswith("-cleanup.json")]
-    rehashes = [path for path in files if path.name.endswith("-rehash.json")]
+    rehashes = [path for path in files if path.name == "rehash.json" or path.name.endswith("-rehash.json")]
     parities = [path for path in files if path.name == "parity.json"]
     classified = set(hosts + gates + workflows + cleanups + rehashes + parities)
     logs = [path for path in files if path.suffix == ".log" and "gates" in path.relative_to(root).parts]
@@ -120,7 +120,7 @@ def verify_evidence(root, source_commit, baseline_identity):
     expected_counts = (len(hosts), len(gates), len(workflows), len(cleanups), len(rehashes), len(parities))
     if expected_counts != (2, 2, 2, 2, 1, 1):
         raise ValueError(f"missing or extra required evidence sets: {expected_counts}")
-    for path in hosts + gates + workflows + cleanups + rehashes:
+    for path in hosts + gates + workflows + cleanups:
         if source_commit not in path.name:
             raise ValueError(f"source identity missing from evidence name: {path.name}")
 

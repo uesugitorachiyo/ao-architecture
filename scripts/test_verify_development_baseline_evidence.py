@@ -42,7 +42,7 @@ def build_fixture(root):
         write_json(workflow, {"schema": "ao.architecture.development-baseline-workflow-result.v1", "status": "pass", "correlation_id": CORRELATION, "baseline_identity": BASELINE, "stages": [{"id": item[0], "repository": item[1], "source_commit": "a" * 40, "status": "pass", "outcome": item[2]} for item in evidence.REQUIRED_STAGES], "authority": AUTHORITY, "cleanup": {"run_owned_processes": 0, "run_owned_listeners": 0, "temporary_root": "removed"}})
         write_json(cleanup, {"schema": "ao.architecture.development-baseline-cleanup.v1", "cleanup_status": "root_absent", "platform": runner, "source_commit": COMMIT})
         paths[platform] = {"host": host, "gate": gate, "workflow": workflow, "cleanup": cleanup}
-    rehash = root / "rehash" / f"development-baseline-{COMMIT}-rehash.json"
+    rehash = root / "rehash" / "rehash.json"
     write_json(rehash, {"schema": "ao.architecture.development-baseline-rehash.v1", "status": "pass", "source_commit": COMMIT, "baseline_identity": BASELINE, "missing": 0, "extra": 0, "size_mismatches": 0, "digest_mismatches": 0, "gate_log_mismatches": 0})
     parity = root / "parity" / "parity.json"
     write_json(parity, {"schema": "ao.architecture.development-baseline-parity.v1", "parity": "pass", "baseline_identity": BASELINE, "correlation_id": CORRELATION, "inputs": {"macos_sha256": "sha256:" + digest(paths["macos"]["workflow"]), "windows_sha256": "sha256:" + digest(paths["windows"]["workflow"])}, "differences": [], "authority": AUTHORITY})
