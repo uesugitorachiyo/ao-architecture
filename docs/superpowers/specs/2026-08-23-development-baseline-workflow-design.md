@@ -71,7 +71,9 @@ stops the journey while preserving the deterministic partial result.
 
 The output path must not exist. The runner creates one run-owned directory and
 sanitizes the child environment to platform/toolchain variables plus explicit
-run-local state roots. It captures bounded stdout/stderr hashes, not unbounded
+run-local state roots. Native Windows compilation retains only the non-secret
+MSVC and Windows SDK discovery variables required by Cargo; provider tokens,
+API keys, and credential variables remain absent. It captures bounded stdout/stderr hashes, not unbounded
 transcripts. Only processes started by a component command may be stopped, and
 only the run-owned temporary directory may be removed. Source checkouts are
 read-only inputs and are checked for source-head drift before and after every

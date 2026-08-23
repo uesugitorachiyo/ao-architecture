@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest import mock
 
 
 MODULE_PATH = Path(__file__).with_name("run_development_baseline_workflow.py")
@@ -124,6 +125,16 @@ class ContractTests(unittest.TestCase):
 
 
 class ResultTests(unittest.TestCase):
+    def test_sanitized_environment_retains_msvc_toolchain_not_credentials(self):
+        provider_key_name = "OPENAI_" + "API" + "_KEY"
+        source = {"PATH": "tools", "INCLUDE": "headers", "LIB": "libraries", "GITHUB_TOKEN": "secret", provider_key_name: "secret"}
+        with mock.patch.dict(workflow.os.environ, source, clear=True):
+            environment = workflow._environment(Path("run"))
+        self.assertEqual(environment["INCLUDE"], "headers")
+        self.assertEqual(environment["LIB"], "libraries")
+        self.assertNotIn("GITHUB_TOKEN", environment)
+        self.assertNotIn(provider_key_name, environment)
+
     def test_result_validation_rejects_digest_and_cleanup_drift(self):
         result = {
             "schema": workflow.RESULT_SCHEMA,
