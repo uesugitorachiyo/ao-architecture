@@ -12,9 +12,9 @@ full release evidence and asset digests are in [Current Public Releases](current
 
 | Package role | Repository | Release | What it provides |
 | --- | --- | --- | --- |
-| Execution | [AO2](https://github.com/uesugitorachiyo/ao2) | [v0.5.11](https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.11) | Bounded local workflows, approvals, verification, and evidence capture |
+| Execution | [AO2](https://github.com/uesugitorachiyo/ao2) | [v0.5.12](https://github.com/uesugitorachiyo/ao2/releases/tag/v0.5.12) | Bounded local workflows, approvals, verification, evidence capture, and the packaged Windows outbound worker |
 | Observation | [AO2 Control Plane](https://github.com/uesugitorachiyo/ao2-control-plane) | [v0.1.19](https://github.com/uesugitorachiyo/ao2-control-plane/releases/tag/v0.1.19) | Read-only evidence ingest, storage, metrics, and operator readback |
-| Mission control | [AO Mission](https://github.com/uesugitorachiyo/ao-mission) | [v0.1.5](https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.5) | Objective intake, routing, durable lifecycle state, and continuation |
+| Mission control | [AO Mission](https://github.com/uesugitorachiyo/ao-mission) | [v0.1.6](https://github.com/uesugitorachiyo/ao-mission/releases/tag/v0.1.6) | Objective intake, routing, durable lifecycle state, candidate readback, and evidence-bound checkpoints |
 | Operator status | [AO Command](https://github.com/uesugitorachiyo/ao-command) | [v0.1.3](https://github.com/uesugitorachiyo/ao-command/releases/tag/v0.1.3) | Read-only status and evidence inspection |
 | Workgraph compilation | [AO Atlas](https://github.com/uesugitorachiyo/ao-atlas) | [v0.2.1](https://github.com/uesugitorachiyo/ao-atlas/releases/tag/v0.2.1) | Authorized workgraphs, context packs, and terminal-index reconciliation |
 | Run coordination | [AO Forge](https://github.com/uesugitorachiyo/ao-forge) | [v0.1.5](https://github.com/uesugitorachiyo/ao-forge/releases/tag/v0.1.5) | GoalRun state, factory plans, release gates, and retained run evidence |
@@ -41,6 +41,11 @@ arm64 asset.
    doctor check, and complete the credential-free fixture demo.
    AO2 does not publish a Linux aarch64 archive. Linux aarch64 hosts may use
    the Linux x86_64 archive only under explicit Docker emulation.
+   On Windows, the verified archive root also contains
+   `ao2-windows-worker.cmd` and `ao2-windows-outbound-worker.py`. Python 3.11
+   or newer is required; run `.\ao2-windows-worker.cmd --help` from the
+   extracted archive before configuring any credentialed Control Plane poll.
+   These files are intentionally absent from Linux and macOS archives.
 3. **Add observation when needed.** Pair AO2 with AO2 Control Plane `v0.1.19`
    when durable evidence ingest, dashboards, or authenticated read-only APIs are
    required. Keep the Control Plane observer-only; it does not approve or apply
