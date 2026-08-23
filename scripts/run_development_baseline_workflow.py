@@ -39,7 +39,7 @@ AUTHORITY_FIELDS = (
     "promotion", "compatibility_activation", "external_beta", "rsi",
 )
 FIXTURE_KEYS = {"schema", "correlation_id", "baseline_identity", "stages", "authority"}
-STAGE_KEYS = {"id", "repository", "source_commit", "consumes", "argv", "artifact", "terminal_status", "outcome", "timeout_seconds"}
+STAGE_KEYS = {"id", "repository", "source_commit", "consumes", "prepare_argv", "argv", "working_directory", "artifact", "terminal_status", "outcome", "timeout_seconds"}
 ARTIFACT_KEYS = {"source", "path", "max_bytes", "json"}
 SHELLS = {"sh", "bash", "cmd", "cmd.exe", "powershell", "powershell.exe", "pwsh", "pwsh.exe"}
 FORBIDDEN = {"publish", "publication", "release", "deploy", "deployment", "promote", "promotion", "rsi", "apply"}
@@ -99,19 +99,23 @@ def validate_fixture(document):
         expected_consumes = [] if index == 0 else [REQUIRED_STAGES[index - 1][0]]
         if stage.get("consumes") != expected_consumes:
             raise ValueError(f"producer binding mismatch for {stage_id}")
-        argv = stage.get("argv")
-        if not isinstance(argv, list) or not argv or any(not isinstance(item, str) or not item for item in argv):
-            raise ValueError(f"argv invalid for {stage_id}")
-        executable = Path(argv[0]).name.lower()
-        lowered = {item.lower() for item in argv}
-        if executable in SHELLS or "-c" in lowered or "-command" in lowered:
-            raise ValueError(f"shell dispatch forbidden for {stage_id}")
-        if "--provider" in lowered:
-            provider_index = [item.lower() for item in argv].index("--provider")
-            if provider_index + 1 >= len(argv) or argv[provider_index + 1].lower() != "scripted":
+        for argv_name, argv, required in (("prepare_argv", stage.get("prepare_argv", []), False), ("argv", stage.get("argv"), True)):
+            if not isinstance(argv, list) or (required and not argv) or any(not isinstance(item, str) or not item for item in argv):
+                raise ValueError(f"{argv_name} invalid for {stage_id}")
+            if not argv:
+                continue
+            executable = Path(argv[0]).name.lower()
+            lowered = {item.lower() for item in argv}
+            if executable in SHELLS or "-c" in lowered or "-command" in lowered:
+                raise ValueError(f"shell dispatch forbidden for {stage_id}")
+            if "--provider" in lowered:
+                provider_index = [item.lower() for item in argv].index("--provider")
+                if provider_index + 1 >= len(argv) or argv[provider_index + 1].lower() != "scripted":
+                    raise ValueError(f"forbidden authority request in {stage_id}")
+            if lowered & FORBIDDEN:
                 raise ValueError(f"forbidden authority request in {stage_id}")
-        if lowered & FORBIDDEN:
-            raise ValueError(f"forbidden authority request in {stage_id}")
+        if stage.get("working_directory", "repository") not in {"repository", "stage_root"}:
+            raise ValueError(f"working directory invalid for {stage_id}")
         artifact = stage.get("artifact")
         if not isinstance(artifact, dict):
             raise ValueError(f"artifact contract invalid for {stage_id}")
@@ -191,9 +195,15 @@ def _environment(run_root):
     return environment
 
 
-def _expand(argv, workspace_root, run_root, stage_root):
-    values = {"{python}": sys.executable, "{workspace_root}": str(workspace_root), "{run_root}": str(run_root), "{stage_root}": str(stage_root)}
-    return [values.get(item, item.replace("{stage_root}", str(stage_root)).replace("{run_root}", str(run_root)).replace("{workspace_root}", str(workspace_root))) for item in argv]
+def _expand(argv, workspace_root, run_root, stage_root, repository):
+    replacements = {"{python}": sys.executable, "{workspace_root}": str(workspace_root), "{run_root}": str(run_root), "{stage_root}": str(stage_root), "{repo_root}": str(repository), "{exe}": ".exe" if os.name == "nt" else ""}
+    expanded = []
+    for item in argv:
+        value = replacements.get(item, item)
+        for marker, replacement in replacements.items():
+            value = value.replace(marker, replacement)
+        expanded.append(value)
+    return expanded
 
 
 def run_workflow(fixture_path, output_path, workspace_root, baseline_manifest):
@@ -221,9 +231,19 @@ def run_workflow(fixture_path, output_path, workspace_root, baseline_manifest):
                 raise ValueError(f"repository source identity mismatch: {stage['repository']}")
             stage_root = run_root / stage["id"]
             stage_root.mkdir()
-            argv = _expand(stage["argv"], workspace_root, run_root, stage_root)
+            (stage_root / "tmp").mkdir()
+            environment = _environment(run_root)
+            prepare_record = {}
+            if stage.get("prepare_argv"):
+                prepare_argv = _expand(stage["prepare_argv"], workspace_root, run_root, stage_root, repository)
+                prepared = subprocess.run(prepare_argv, cwd=repository, env=environment, capture_output=True, timeout=stage.get("timeout_seconds", 300), check=False)
+                if prepared.returncode:
+                    raise RuntimeError(f"stage prepare failed: {stage['id']} exit={prepared.returncode} stderr_sha256={_sha256(prepared.stderr[:65536])}")
+                prepare_record = {"prepare_exit_code": prepared.returncode, "prepare_stdout_sha256": _sha256(prepared.stdout[:65536]), "prepare_stderr_sha256": _sha256(prepared.stderr[:65536])}
+            argv = _expand(stage["argv"], workspace_root, run_root, stage_root, repository)
+            command_cwd = stage_root if stage.get("working_directory", "repository") == "stage_root" else repository
             started = time.monotonic()
-            completed = subprocess.run(argv, cwd=repository, env=_environment(run_root), capture_output=True, timeout=stage.get("timeout_seconds", 300), check=False)
+            completed = subprocess.run(argv, cwd=command_cwd, env=environment, capture_output=True, timeout=stage.get("timeout_seconds", 300), check=False)
             elapsed_ms = int((time.monotonic() - started) * 1000)
             stdout = completed.stdout[: stage["artifact"]["max_bytes"]]
             stderr = completed.stderr[: 65_536]
@@ -248,7 +268,7 @@ def run_workflow(fixture_path, output_path, workspace_root, baseline_manifest):
                 raise ValueError(f"stage artifact is empty: {stage['id']}")
             if _head(repository) != stage["source_commit"]:
                 raise ValueError(f"repository source drift: {stage['repository']}")
-            records.append({"id": stage["id"], "repository": stage["repository"], "source_commit": stage["source_commit"], "status": "pass", "outcome": stage["outcome"], "consumes": stage["consumes"], "artifact_sha256": _sha256(artifact), "stdout_sha256": _sha256(stdout), "stderr_sha256": _sha256(stderr), "exit_code": completed.returncode, "elapsed_ms": elapsed_ms})
+            records.append({"id": stage["id"], "repository": stage["repository"], "source_commit": stage["source_commit"], "status": "pass", "outcome": stage["outcome"], "consumes": stage["consumes"], "artifact_sha256": _sha256(artifact), "stdout_sha256": _sha256(stdout), "stderr_sha256": _sha256(stderr), "exit_code": completed.returncode, "elapsed_ms": elapsed_ms, **prepare_record})
     except Exception as caught:
         status = "fail"
         error = str(caught)

@@ -38,6 +38,12 @@ Arguments are executed directly with `shell=False`. The runner substitutes only
 declared run-root and producer-artifact placeholders; it never interprets shell
 syntax, adds approval flags, or rewrites component output.
 
+When an owning CLI requires outputs beneath its current `tmp` directory, the
+manifest may declare a shell-free source build into the run-owned stage root and
+execute that binary with the stage root as its working directory. This preserves
+the component's output-containment contract without writing generated state into
+the source checkout.
+
 ## Validation
 
 Before execution the runner fails closed on:

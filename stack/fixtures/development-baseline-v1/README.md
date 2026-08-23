@@ -15,6 +15,10 @@ invokes argv without a shell, verifies every repository source head, hashes each
 component-owned output, and removes only its temporary root. Generated results
 remain private beneath `.ao-baseline/` and must not be committed.
 
+Crucible, Sentinel, and Promoter binaries are built into their run-owned stage
+roots and execute there so their repository-owned `tmp` output policy is
+preserved without creating generated files in a source checkout.
+
 The result proves a terminal credential-free fixture path and preserves a
 Promoter `no_promotion` outcome. It grants no execution, approval, repository
 mutation, provider, credential, release, publication, deployment, promotion,
