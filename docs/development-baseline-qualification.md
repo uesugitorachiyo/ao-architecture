@@ -2,7 +2,7 @@
 
 The refreshed AO stable development baseline is frozen for reproducible,
 credential-free qualification on the supported hosted macOS and Windows
-profiles. Native qualification is pending from merged `main`. This declaration
+profiles. Native qualification is closed from merged `main`. This declaration
 grants no operational authority and does not begin AO Office Pool.
 
 ## Frozen Candidate Identity
@@ -10,10 +10,11 @@ grants no operational authority and does not begin AO Office Pool.
 - Baseline identity:
   `sha256:2045d7aa1f10447fda8c629224ae9645d58205d06803c9378ff785e4cb6eda45`
 - Qualification controller commit:
-  pending merged-main qualification
+  `97c632cb0fd6c62271520f5c2147bc28110db84d`
 - Qualification workflow:
   `.github/workflows/development-baseline-qualification.yml`
-- Merged-main workflow run: pending
+- Merged-main workflow run:
+  [32664324625](https://github.com/uesugitorachiyo/ao-architecture/actions/runs/32664324625)
 - Correlation ID: `ao-cross-platform-development-baseline-20260822-r2`
 
 The baseline identity is the canonical digest of
@@ -77,6 +78,32 @@ Windows PowerShell 5.1 parsing where source contracts require it. The macOS
 arm64 profile uses Rosetta 2 only for the frozen AO Covenant Darwin amd64
 asset. These are the manifest's declared overrides, not undeclared skips.
 
+## Closed Evidence
+
+Merged-main run `32664324625` passed both native hosts, the independent rehash,
+semantic parity comparison, cleanup checks, and final evidence closure. Each
+host completed all 59 declared repository gates and all 14 credential-free
+workflow stages. The reconstructed proof root contained 246 files with zero
+missing, extra, size-drifted, or digest-drifted entries.
+
+| Evidence | SHA-256 |
+| --- | --- |
+| macOS host | `sha256:d48bc276df6a4becb535e1f80fd8101a74321210b5b7fa4a173b61c2cd663603` |
+| Windows host | `sha256:3a9caf52986ceaf6fe2e90ae047a907d58fff041b73a973cbcbdb664a6203765` |
+| macOS gates | `sha256:926d3af5c77d1a7e934fb4781953cec29613a91e53e0d8d2b7fcafd3eab68775` |
+| Windows gates | `sha256:240c28427f49a1727af5b18f4b4dcc265378334948f8102ac128edb7c84a7be8` |
+| macOS workflow | `sha256:7d3ac0f6cf68c392162dfb815c024a1be0c41282ee373a388491e46f88649861` |
+| Windows workflow | `sha256:93c7eaa39e08d2986b8602e24da5221e0b8765bbd5563cf4875c4b97525db304` |
+| macOS cleanup | `sha256:0e3a583c7563146d745aa5714581e860bdf8c660a489f64c073504554c04aa99` |
+| Windows cleanup | `sha256:7596a5b50ef5f9b8ff7838083001cce947a789cc42449b1f005d3300723c937f` |
+| rehash | `sha256:f9115e6f39085f22d67e8fcb3fbf14e5d1be5144082dcaf9a44e2153dbc9cdc2` |
+| parity | `sha256:8881e0086f5b00c83cf20e607215445800c3f0ee3c77fb7f85fe0dcd222bc652` |
+| hosted closure | `sha256:63df13f1f84dd6db08e231056970d9de2c14e1976be98ba0848f7a5164d5b367` |
+| independently regenerated closure | `sha256:50883eb724e5bbadac25f79a7f5c68f5861ad0e1a80dfa6a3854fab4fb117c88` |
+
+The hosted and independently regenerated closures are identical as canonical
+JSON; their raw hashes differ only by serialization.
+
 ## Prior Closed Evidence (Historical)
 
 The prior baseline's final run uploaded 11 artifacts. Their archives were independently
@@ -112,5 +139,5 @@ host profile in this macOS/Windows campaign. The Rosetta 2 Covenant path is not
 a native arm64 claim.
 
 Every authority flag remains false. The refreshed dependency foundation becomes
-qualified only after the pending merged-main evidence closes. AO Office Pool
-has not started and has not been qualified here.
+qualified by the closed merged-main evidence above. AO Office Pool has not
+started and has not been qualified here.
