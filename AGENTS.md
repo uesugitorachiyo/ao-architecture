@@ -28,6 +28,7 @@ AO Architecture is the public documentation, topology, contract-map, and claim-b
 - Make the smallest coherent documentation or contract change and update every affected producer/consumer reference in the same pull request.
 - For instruction-layout changes, update the ADR, guide, manifest, schema, validator, and tests together. Add a nested scope only for a materially distinct authority boundary.
 - Keep repository-specific quality commands in each source repository. Architecture validates lifecycle coverage and contract compatibility but does not execute or invent sibling commands.
+- The development-baseline workflow runner may sequence only exact component-owned, manifest-declared argv from an explicit workspace root. Keep it credential-free, shell-free, source-bound, and non-authoritative; raw host results do not establish parity.
 - Preserve fail-closed parsing, deterministic output, read-only validation, the excluded local-repository fingerprint, and the pinned head, tracked-state, and exact-name classification gates for the four excluded legacy-hosted repositories.
 - If durable commands, authority, lifecycle, or architecture guidance changes, update this file in the same pull request.
 
@@ -37,6 +38,7 @@ AO Architecture is the public documentation, topology, contract-map, and claim-b
 - Architecture or public-documentation changes: `python3 scripts/verify_architecture.py`.
 - Contract/schema changes: run the matching `scripts/verify_*.py` and `scripts/test_verify_*.py` pair, then the architecture verifier.
 - Development-baseline changes: `python3 scripts/test_verify_development_baseline.py`, `python3 scripts/test_bootstrap_development_baseline.py`, `powershell.exe -NoProfile -NonInteractive -Command "[void][scriptblock]::Create((Get-Content -Raw scripts/bootstrap-development-baseline.ps1))"`, then `python3 scripts/verify_development_baseline.py --manifest stack/development-baseline-manifest.json --controller-commit <exact-architecture-commit>`.
+- Development-baseline workflow changes: `python3 scripts/test_run_development_baseline_workflow.py`, validate `stack/fixtures/development-baseline-v1/fixture-manifest.json` against the frozen baseline, then run the fixture from a clean exact-commit workspace on each supported native host.
 - Quality-gate changes: `python3 -m unittest scripts.test_verify_quality_gate_registry`, then `python3 scripts/verify_quality_gate_registry.py --workspace-root .. --repository ao-architecture --repository-root .`.
 - Always run `git diff --check`. Report any skipped, failed, network-dependent, or unavailable check explicitly.
 
