@@ -55,6 +55,17 @@ class ContractTests(unittest.TestCase):
         mission_readback = next(stage for stage in fixture["stages"] if stage["id"] == "mission-readback")
         self.assertFalse(mission_readback["artifact"]["json"])
 
+    def test_assurance_outputs_use_run_owned_working_directory(self):
+        fixture = json.loads((MODULE_PATH.parents[1] / "stack" / "fixtures" / "development-baseline-v1" / "fixture-manifest.json").read_text(encoding="utf-8"))
+        for stage_id in ("crucible-assurance", "sentinel-assurance", "promoter-no-promotion"):
+            stage = next(item for item in fixture["stages"] if item["id"] == stage_id)
+            self.assertEqual(stage["working_directory"], "stage_root")
+            self.assertEqual(stage["prepare_argv"][:2], ["go", "build"])
+            self.assertTrue(stage["artifact"]["path"].startswith("tmp/"))
+
+    def test_unknown_working_directory_fails_closed(self):
+        self.assert_invalid(lambda d: d["stages"][0].update(working_directory="workspace"), "working directory")
+
     def test_missing_producer(self):
         self.assert_invalid(lambda d: d["stages"][1].update(consumes=[]), "producer")
 
