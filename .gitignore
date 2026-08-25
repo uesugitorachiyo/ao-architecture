@@ -1,5 +1,7 @@
 .DS_Store
-/docs/superpowers/
+/docs/superpowers/plans/
+/docs/superpowers/specs/*
+!/docs/superpowers/specs/2026-08-01-ao-stack-production-adoption-roadmap.md
 .obsidian/
 CLAUDE.local.md
 .claude/settings.local.json
