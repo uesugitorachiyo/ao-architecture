@@ -827,8 +827,19 @@ def assert_contains(path: Path, needle: str) -> None:
         fail(f"{path.relative_to(ROOT)} missing {needle}")
 
 
+def validate_public_stack_map(path: Path) -> str | None:
+    normalized = read_text(path).casefold()
+    if "ao next" in normalized or "ao-next" in normalized:
+        return (
+            f"{path.name} must not list the independent AO Next successor "
+            "as a current AO Stack component"
+        )
+    return None
+
+
 def main() -> int:
     readme = ROOT / "README.md"
+    overview = ROOT / "overview" / "README.md"
     readiness = ROOT / "overview" / "PRODUCTION-READINESS.md"
     evidence_catalog = ROOT / "overview" / "EVIDENCE-CATALOG.md"
     manifest_path = ROOT / "stack" / "external-beta-tested-stack.json"
@@ -843,6 +854,10 @@ def main() -> int:
     if quality_gate_result["status"] != "passed":
         first = quality_gate_result["errors"][0]
         fail(f"quality-gate registry invalid: [{first['code']}] {first['message']}")
+    for public_stack_map in (readme, overview):
+        error = validate_public_stack_map(public_stack_map)
+        if error:
+            fail(error)
     try:
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:

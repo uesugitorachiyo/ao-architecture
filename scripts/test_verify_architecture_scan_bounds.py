@@ -9,6 +9,18 @@ import verify_architecture
 
 
 class VerifyArchitectureScanBoundsTest(unittest.TestCase):
+    def test_rejects_case_insensitive_ao_next_slug_in_public_stack_map(self):
+        with tempfile.TemporaryDirectory() as root_dir:
+            stack_map = Path(root_dir) / "README.md"
+            stack_map.write_text(
+                "| [ao-next](https://github.com/uesugitorachiyo/ao-next) | successor |\n"
+            )
+
+            self.assertIn(
+                "must not list the independent AO Next successor",
+                verify_architecture.validate_public_stack_map(stack_map),
+            )
+
     def test_rejects_symlinked_public_safety_candidate(self):
         if sys.platform.startswith("win"):
             self.skipTest("symlink creation is privilege-dependent on Windows")
