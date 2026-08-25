@@ -15,20 +15,20 @@ SHA_RE = re.compile(r"^[0-9a-f]{40}$")
 DIGEST_RE = re.compile(r"^[0-9a-f]{64}$")
 EXPECTED_IDS = ["predecessor_public_pair", "current_public_pair", "current_source_candidate"]
 EXPECTED_PAIRS = {
-    "predecessor_public_pair": ("v0.5.1", "80ec5321f42d4bab17d5e64fdae6aa099ba59d4a", "v0.1.16", "f4f5fea9fefa1081cebcbabac550b0e08b9f0e3d", "supported"),
-    "current_public_pair": ("v0.5.10", "9f4f8a8cf596127a982627b4af25c90a9a842095", "v0.1.19", "5de3541e9007e12d95b125e7f911c02932e21479", "supported"),
-    "current_source_candidate": ("v0.5.11", "8307795b3434af920f6cef088e56ca8fcc76775b", "v0.1.19", "4e41da173dc9f1ee37f4ae99b85791e5f05ea453", "supported_by_unchanged_bridge"),
+    "predecessor_public_pair": ("v0.5.11", "8307795b3434af920f6cef088e56ca8fcc76775b", "v0.1.19", "5de3541e9007e12d95b125e7f911c02932e21479", "supported_by_unchanged_bridge"),
+    "current_public_pair": ("v0.5.12", "68cf6914ae51cb4b638a7441ac05c1b4e86ec6d6", "v0.1.19", "5de3541e9007e12d95b125e7f911c02932e21479", "supported_by_unchanged_bridge"),
+    "current_source_candidate": ("v0.5.12", "5a9e47a9046e87140457d011761886f571c9eeb5", "v0.1.19", "452ba78d0a2075eddb968536a207bed5a6e7e49e", "supported_by_unchanged_bridge"),
 }
 EXPECTED_EVIDENCE = {
     "producer_path": "tests/fixtures/compatibility/ao2-execution-receipt-v0.5.10.json",
-    "producer_merge_commit": "8307795b3434af920f6cef088e56ca8fcc76775b",
+    "producer_merge_commit": "214f0648ec2b15df0729f90b26a4da258882dba1",
     "producer_sha256": "fd7260329ea3c436436cd1572cba5abda72f5a9959b1157d5e61f595ae91857e",
     "consumer_test_path": "crates/ao2-cp-server/tests/compatibility_vectors.rs",
-    "consumer_merge_commit": "4e41da173dc9f1ee37f4ae99b85791e5f05ea453",
+    "consumer_merge_commit": "247719d219bb797e005358347c0269e69b3ea5d3",
     "consumer_test_sha256": "d1c7fc2ada7634bb2e98eb4c885fab8d117c4f273793988a848ecba23860b365",
 }
-EXPECTED_GENERATED_AT = "2026-08-23T00:00:00Z"
-EXPECTED_VALID_UNTIL = "2026-08-24T00:00:00Z"
+EXPECTED_GENERATED_AT = "2026-08-25T12:53:50Z"
+EXPECTED_VALID_UNTIL = "2026-08-26T12:53:50Z"
 EXPECTED_FIELDS = {
     "schema", "status", "generated_at", "valid_until", "contract", "evidence", "pairs", "boundaries"
 }

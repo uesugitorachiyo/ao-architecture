@@ -12,7 +12,7 @@ from verify_execution_observation_version_skew import read_strict_json, validate
 
 
 ROOT = Path(__file__).resolve().parents[1]
-NOW = datetime(2026, 8, 23, 0, 5, tzinfo=timezone.utc)
+NOW = datetime(2026, 8, 25, 12, 54, tzinfo=timezone.utc)
 
 
 def valid_contract():
@@ -23,13 +23,41 @@ class VersionSkewContractTest(unittest.TestCase):
     def test_accepts_current_three_pair_contract(self):
         self.assertEqual(validate_contract(valid_contract(), NOW), [])
 
-    def test_binds_final_v0511_candidate_heads(self):
-        candidate = valid_contract()["pairs"][2]
-        self.assertEqual(candidate["ao2_version"], "v0.5.11")
-        self.assertEqual(candidate["ao2_source_sha"], "8307795b3434af920f6cef088e56ca8fcc76775b")
-        self.assertEqual(candidate["control_plane_version"], "v0.1.19")
-        self.assertEqual(candidate["control_plane_source_sha"], "4e41da173dc9f1ee37f4ae99b85791e5f05ea453")
-        self.assertEqual(candidate["status"], "supported_by_unchanged_bridge")
+    def test_binds_current_public_and_source_pairs(self):
+        predecessor, current, candidate = valid_contract()["pairs"]
+        self.assertEqual(
+            predecessor,
+            {
+                "id": "predecessor_public_pair",
+                "ao2_version": "v0.5.11",
+                "ao2_source_sha": "8307795b3434af920f6cef088e56ca8fcc76775b",
+                "control_plane_version": "v0.1.19",
+                "control_plane_source_sha": "5de3541e9007e12d95b125e7f911c02932e21479",
+                "status": "supported_by_unchanged_bridge",
+            },
+        )
+        self.assertEqual(
+            current,
+            {
+                "id": "current_public_pair",
+                "ao2_version": "v0.5.12",
+                "ao2_source_sha": "68cf6914ae51cb4b638a7441ac05c1b4e86ec6d6",
+                "control_plane_version": "v0.1.19",
+                "control_plane_source_sha": "5de3541e9007e12d95b125e7f911c02932e21479",
+                "status": "supported_by_unchanged_bridge",
+            },
+        )
+        self.assertEqual(
+            candidate,
+            {
+                "id": "current_source_candidate",
+                "ao2_version": "v0.5.12",
+                "ao2_source_sha": "5a9e47a9046e87140457d011761886f571c9eeb5",
+                "control_plane_version": "v0.1.19",
+                "control_plane_source_sha": "452ba78d0a2075eddb968536a207bed5a6e7e49e",
+                "status": "supported_by_unchanged_bridge",
+            },
+        )
 
     def test_rejects_required_negative_matrix(self):
         mutations = [
@@ -47,7 +75,7 @@ class VersionSkewContractTest(unittest.TestCase):
                 self.assertTrue(validate_contract(candidate, NOW))
 
     def test_rejects_stale_timestamp(self):
-        stale = datetime(2026, 8, 24, 0, 1, tzinfo=timezone.utc)
+        stale = datetime(2026, 8, 26, 12, 53, 51, tzinfo=timezone.utc)
         self.assertIn("compatibility evidence is stale", validate_contract(valid_contract(), stale))
 
     def test_rejects_extended_expiry(self):
@@ -60,13 +88,13 @@ class VersionSkewContractTest(unittest.TestCase):
 
     def test_rejects_future_generation_time(self):
         candidate = valid_contract()
-        candidate["generated_at"] = "2026-08-23T00:30:00Z"
+        candidate["generated_at"] = "2026-08-25T13:00:00Z"
         errors = validate_contract(candidate, NOW)
         self.assertIn("generated_at must match the bound compatibility vector", errors)
         self.assertIn("generated_at cannot be in the future", errors)
 
     def test_expires_at_exact_boundary(self):
-        boundary = datetime(2026, 8, 24, 0, 0, tzinfo=timezone.utc)
+        boundary = datetime(2026, 8, 26, 12, 53, 50, tzinfo=timezone.utc)
         self.assertIn("compatibility evidence is stale", validate_contract(valid_contract(), boundary))
 
     def test_rejects_malformed_and_unknown_fields(self):
