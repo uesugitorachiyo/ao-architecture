@@ -67,5 +67,4 @@ The operator-fork drafts for
 evidence-only drafts. Their presence does not authorize an upstream pull
 request, issue comment, merge, release, or publication.
 
-For broader adoption context, see the
-[AO Stack production adoption roadmap](superpowers/specs/2026-08-01-ao-stack-production-adoption-roadmap.md).
+For broader stack context, see [Assemble the AO Stack](stack-assembly.md).
