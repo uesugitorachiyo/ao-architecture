@@ -26,6 +26,8 @@ Executable contracts, schemas, policy decisions, tests, approval gates, hooks al
 
 Multi-step, occasional procedures belong in skills or runbooks. Root instructions stay concise. Nested pairs are limited to materially distinct authority scopes and supplement critical boundaries summarized at the root.
 
+AO Next's sole approved nested product instruction scope is `mission/`, where the imported canonical AO Mission retains its distinct product instructions. This layout allowance keeps AO Next independent and excluded from current AO Stack maps and the development baseline. It grants no execution, adoption, release, publication, deployment, migration, or production-routing authority.
+
 ## Lifecycle Treatment
 
 - Active hosted repositories require the root pair, local Claude-state ignores, verified commands, and normal pull-request CI.

@@ -28,6 +28,29 @@
     },
     "repository": {
       "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "name": {
+                "const": "ao-next"
+              }
+            },
+            "required": [
+              "name"
+            ]
+          },
+          "then": {
+            "properties": {
+              "allowed_nested_scopes": {
+                "const": [
+                  "mission"
+                ]
+              }
+            }
+          }
+        }
+      ],
       "oneOf": [
         {
           "not": {

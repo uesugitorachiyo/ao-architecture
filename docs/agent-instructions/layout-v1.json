@@ -138,7 +138,9 @@
       ]
     },
     {
-      "allowed_nested_scopes": [],
+      "allowed_nested_scopes": [
+        "mission"
+      ],
       "lifecycle": "active_hosted",
       "name": "ao-next",
       "remote": "hosted",
