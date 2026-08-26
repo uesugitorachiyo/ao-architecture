@@ -91,6 +91,12 @@ class LayoutFixture:
                     "CLAUDE.local.md\n.claude/settings.local.json\n",
                     encoding="utf-8",
                 )
+                if name == "ao-next":
+                    entry["allowed_nested_scopes"] = ["mission"]
+                    nested = repo / "mission"
+                    nested.mkdir()
+                    (nested / "AGENTS.md").write_text("# Mission Instructions\n", encoding="utf-8")
+                    (nested / "CLAUDE.md").write_bytes(b"@AGENTS.md\n")
             repositories.append(entry)
         self.manifest = {"schema_version": "1.0.0", "repositories": repositories}
         self.write_manifest()
@@ -144,9 +150,25 @@ class AgentInstructionLayoutTests(unittest.TestCase):
         self.assertEqual(statuses["ao-runtime"], "excluded_unchanged")
         self.assertEqual(statuses["ao-operator"], "excluded_unchanged")
 
-    def test_accepts_exact_claude_import_and_allowed_nested_pair(self) -> None:
+    def test_accepts_ao_next_mission_instruction_pair(self) -> None:
+        self.assertEqual(self.codes(repository="ao-next"), set())
+
+    def test_accepts_generic_allowed_nested_pair(self) -> None:
         self.fixture.allow_nested("ao2", "crates/ao2-runtime")
         self.assertEqual(self.codes(repository="ao2"), set())
+
+    def test_rejects_ao_next_without_mission_scope(self) -> None:
+        self.fixture.entry("ao-next")["allowed_nested_scopes"] = []
+        nested = self.fixture.repo("ao-next") / "mission"
+        (nested / "AGENTS.md").unlink()
+        (nested / "CLAUDE.md").unlink()
+        nested.rmdir()
+        self.fixture.write_manifest()
+        self.assertEqual(self.codes(repository="ao-next"), {"MANIFEST_AO_NEXT_SCOPE"})
+
+    def test_rejects_ao_next_extra_scope(self) -> None:
+        self.fixture.allow_nested("ao-next", "extra")
+        self.assertEqual(self.codes(repository="ao-next"), {"MANIFEST_AO_NEXT_SCOPE"})
 
     def test_repository_selector_limits_file_validation(self) -> None:
         (self.fixture.repo("ao-arena") / "AGENTS.md").unlink()

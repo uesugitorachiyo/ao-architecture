@@ -26,6 +26,10 @@ executable contracts, schemas, policy, tests, and CI
 
 The validator uses only the Python standard library. It is read-only, does not call a model or provider, does not access the network, emits deterministic JSON, and returns nonzero for any conflict.
 
+## AO Next Mission Scope
+
+AO Next's sole approved nested product instruction scope is `mission/`. The imported canonical AO Mission is a materially distinct product boundary with its own paired `AGENTS.md` and `CLAUDE.md`. This allowance does not add AO Next to current AO Stack maps or the development baseline and grants no execution, adoption, release, publication, deployment, migration, or production-routing authority.
+
 ## Commands
 
 From an AO workspace whose children are the repository checkouts:

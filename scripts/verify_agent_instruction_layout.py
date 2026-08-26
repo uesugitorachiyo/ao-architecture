@@ -321,6 +321,15 @@ def validate_manifest(document: dict[str, Any]) -> list[dict[str, object]]:
                     )
                 )
 
+        if name == "ao-next" and scopes != ["mission"]:
+            conflicts.append(
+                conflict(
+                    "MANIFEST_AO_NEXT_SCOPE",
+                    "ao-next allowed_nested_scopes must equal ['mission']",
+                    repository=name,
+                )
+            )
+
         if lifecycle in {"excluded_local_stub", "excluded_legacy_hosted"}:
             if not isinstance(entry.get("exclusion_reason"), str) or not entry["exclusion_reason"].strip():
                 conflicts.append(
